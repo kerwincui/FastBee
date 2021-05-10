@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.IotDeviceMapper">
+    
+    <resultMap type="IotDevice" id="IotDeviceResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNum"    column="device_num"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectIotDeviceVo">
+        select device_id, device_num, category_id, device_name, firmware_version, owner_id, create_by, create_time, update_by, update_time, remark from iot_device
+    </sql>
+
+    <select id="selectIotDeviceList" parameterType="IotDevice" resultMap="IotDeviceResult">
+        <include refid="selectIotDeviceVo"/>
+        <where>
+            del_flag= '0'
+            <if test="deviceNum != null  and deviceNum != ''"> and device_num like concat('%', #{deviceNum}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="firmwareVersion != null  and firmwareVersion != ''"> and firmware_version like concat('%', #{firmwareVersion}, '%')</if>
+            <if test="ownerId != null  and ownerId != ''"> and owner_id like concat('%', #{ownerId}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectIotDeviceById" parameterType="Long" resultMap="IotDeviceResult">
+        <include refid="selectIotDeviceVo"/>
+        where device_id = #{deviceId}
+    </select>
+        
+    <insert id="insertIotDevice" parameterType="IotDevice" useGeneratedKeys="true" keyProperty="deviceId">
+        insert into iot_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceNum != null and deviceNum != ''">device_num,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="firmwareVersion != null">firmware_version,</if>
+            <if test="ownerId != null">owner_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceNum != null and deviceNum != ''">#{deviceNum},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="firmwareVersion != null">#{firmwareVersion},</if>
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIotDevice" parameterType="IotDevice">
+        update iot_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceNum != null and deviceNum != ''">device_num = #{deviceNum},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="firmwareVersion != null">firmware_version = #{firmwareVersion},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where device_id = #{deviceId}
+    </update>
+
+    <delete id="deleteIotDeviceById" parameterType="Long">
+        update iot_device set del_flag= '2' where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteIotDeviceByIds" parameterType="String">
+        update iot_device set del_flag= '2' where device_id in
+        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>
