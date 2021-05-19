@@ -35,11 +35,21 @@
    
 <br /><br />  
 
+## 前端
+
+![前端](https://gitee.com/kerwincui/wumei-open/raw/master/document/vue.png)  
+
+## 后端
+![后端](https://gitee.com/kerwincui/wumei-open/raw/master/document/server.png)  
+
+## 安卓APP
+<div align="center">
+<img src="https://gitee.com/kerwincui/wumei-open/raw/master/document/android.png" width = "300"  alt="安卓app" align=center  style="border:1px solid #0064cd;"/>
+</div>
 
 
-
-
-
+## 固件开发
+![固件开发](https://gitee.com/kerwincui/wumei-open/raw/master/document/firmware.png)  
 
 
 
