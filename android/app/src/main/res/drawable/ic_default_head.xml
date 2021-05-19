@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="#707070"
+        android:pathData="M512,0c281.6,0 512,230.4 512,512s-230.4,512 -512,512 -512,-230.4 -512,-512 230.4,-512 512,-512zM627.2,505.6c44.8,-38.4 76.8,-89.6 76.8,-153.6 0,-108.8 -83.2,-192 -192,-192s-192,83.2 -192,192c0,64 32,115.2 76.8,153.6 -102.4,44.8 -172.8,147.2 -172.8,262.4 0,19.2 12.8,32 32,32s32,-12.8 32,-32c0,-121.6 102.4,-224 224,-224s224,102.4 224,224c0,19.2 12.8,32 32,32s32,-12.8 32,-32c0,-115.2 -70.4,-217.6 -172.8,-262.4zM512,480c-70.4,0 -128,-57.6 -128,-128s57.6,-128 128,-128 128,57.6 128,128 -57.6,128 -128,128z" />
+</vector>

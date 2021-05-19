@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xui_config_color_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/add_device_title"
+            style="@style/TextStyle.Title"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="WIFI网络设置"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/config_margin_24dp"
+                android:layout_height="@dimen/config_margin_24dp"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/wifi" />
+
+            <com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner
+                android:id="@+id/ssid_spinner"
+                style="@style/Material.SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
+                android:text="请选择WIFI网络" />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/wifi_password_icon"
+                android:layout_width="@dimen/config_margin_24dp"
+                android:layout_height="@dimen/config_margin_24dp"
+                android:layout_gravity="start|center_vertical"
+                android:tag="show"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/show" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/wifi_password_txt"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginStart="40dp"
+                android:hint="请输入WIFI密码"
+                app:met_clearButton="true"
+                app:met_errorMessage="WIFI密码无效"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="WIFI密码"
+                app:met_passWordButton="true" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextStyle.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="目前仅支持2.4GHz的WIFI网络"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/remember_passord_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:checked="true"
+                android:text="记住密码"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/advance_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                style="@style/TextStyle.Title"
+                android:layout_marginTop="10dp"
+                android:text="选项"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/advance_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="@dimen/config_margin_30dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/down" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/advance_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RadioGroup
+                android:id="@+id/packageModeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/packageBroadcast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/esptouch1_package_broadcast" />
+
+                <RadioButton
+                    android:id="@+id/packageMulticast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/esptouch1_package_multicast" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/messageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/add_device_next_btn"
+            style="@style/SuperButton.Primary.Login"
+            android:layout_marginTop="16dp"
+            android:text="下一步" />
+
+    </LinearLayout>
+</LinearLayout>

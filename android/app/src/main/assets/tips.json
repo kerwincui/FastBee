@@ -1,0 +1,21 @@
+{
+  "Code": 0,
+  "Data": [
+    {
+      "title": "微信公众号",
+      "content": "<a href=\"https://t.1yb.co/71xZ\">获取更多资讯内容，欢迎微信搜索公众号:「我的Android开源之旅」</a>"
+    },
+    {
+      "title": "关于作者",
+      "content": "点击关注作者，了解最新动态！<br /><a href=\"https://github.com/xuexiangjys\"><font color=\"#800080\">Github</font></a><br />\n<a href=\"https://www.zhihu.com/people/xuexiangjys/posts\"><font color=\"#0000FF\">知乎</font></a><br />\n<a href=\"https://juejin.im/user/598feef55188257d592e56ed/posts\"><font color=\"#000000\">掘金</font></a><br /><a href=\"https://www.jianshu.com/u/6bf605575337\"><font color=\"#FF0000\">简书</font></a><br />\n<a href=\"https://segmentfault.com/blog/openAndroidX\"><font color=\"#008000\">思否</font></a><br />\n<a href=\"https://space.bilibili.com/483850585/video\"><font color=\"#FFA500\">哔哩哔哩</font></a><br />\n<a href=\"https://www.toutiao.com/c/user/token/MS4wLjABAAAAqD0Pe01AhT2Hgi3w7HzboVuq57gntoAJJURwAkM3Elv0-EA9WSKUSy1DujIYLAEm/\"><font color=\"#FF0000\">今日头条</font></a>"
+    },
+    {
+      "title": "赞助作者",
+      "content": "你的打赏是我维护的动力，<a href=\"https://gitee.com/xuexiangjys/Resource/blob/master/doc/sponsor.md\"><font color=\"#800080\">点击此处支持我吧！</font></a>"
+    },
+    {
+      "title": "QQ交流群",
+      "content": "<a href=\"https://qm.qq.com/cgi-bin/qm/qr?k=i1rhgvRxlJRlJzigL0QemICtkk0H6g3J\">XUI开源交流1号群</a><br /><a href=\"https://qm.qq.com/cgi-bin/qm/qr?k=_0IhSCvLxdsgxAIBtTXr__bwsxZl4Eva\">XUI开源交流2号群</a><br /><a href=\"https://qm.qq.com/cgi-bin/qm/qr?k=GRVNTA4ehFuIUhQwqiZkjqYeQoxRBqCI\">AndroidGitHub开源交流群</a><br /><a href=\"https://qm.qq.com/cgi-bin/qm/qr?k=0OHp7jgMiF9SsfrzmOaxcauxMP9fZjc3\">XUpdate官方交流群</a>"
+    }
+  ]
+}

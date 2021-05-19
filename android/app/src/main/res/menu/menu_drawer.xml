@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--侧边栏-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/main_tab"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_add_device"
+            android:checkable="false"
+            android:icon="@drawable/mobile_phone"
+            android:title="添加设备" />
+        <item
+            android:id="@+id/nav_share_device"
+            android:checkable="false"
+            android:icon="@drawable/mobile_phone"
+            android:title="分享设备" />
+        <item
+            android:id="@+id/nav_group"
+            android:checkable="false"
+            android:icon="@drawable/group"
+            android:title="分组管理" />
+    </group>
+
+    <group
+        android:id="@+id/setting"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_message"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_notifications"
+            android:title="@string/menu_message" />
+        <item
+            android:id="@+id/nav_settings"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/nav_about"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/menu_about" />
+    </group>
+
+
+</menu>

@@ -1,0 +1,46 @@
+apply plugin: 'com.xuexiang.xaop' //引用XAOP插件
+apply plugin: 'com.xuexiang.xrouter' //引用XRouter-plugin插件实现自动注册
+
+//自动添加依赖
+project.configurations.each { configuration ->
+    if (configuration.name == "implementation") {
+        //为Project加入X-Library依赖
+        //XUI框架
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XUI:1.1.6'))
+        configuration.dependencies.add(getProject().dependencies.create(deps.androidx.appcompat))
+        configuration.dependencies.add(getProject().dependencies.create(deps.androidx.recyclerview))
+        configuration.dependencies.add(getProject().dependencies.create(deps.androidx.design))
+        configuration.dependencies.add(getProject().dependencies.create(deps.glide))
+        //XUtil工具类
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XUtil:xutil-core:2.0.0'))
+        //XAOP切片，版本号前带x的是支持androidx的版本
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XAOP:xaop-runtime:1.1.0'))
+        //XUpdate版本更新
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XUpdate:2.0.7'))
+        //XHttp2
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XHttp2:2.0.2'))
+        configuration.dependencies.add(getProject().dependencies.create(deps.rxjava2))
+        configuration.dependencies.add(getProject().dependencies.create(deps.rxandroid))
+        configuration.dependencies.add(getProject().dependencies.create('com.squareup.okhttp3:okhttp:3.10.0'))
+        configuration.dependencies.add(getProject().dependencies.create(deps.gson))
+        //XPage
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XPage:xpage-lib:3.1.1'))
+        configuration.dependencies.add(getProject().dependencies.create(deps.butterknife.runtime))
+        //页面路由
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XRouter:xrouter-runtime:1.0.1'))
+    }
+
+    if (configuration.name == "annotationProcessor") {
+        //XPage
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XPage:xpage-compiler:3.1.1'))
+        configuration.dependencies.add(getProject().dependencies.create(deps.butterknife.compiler))
+        //页面路由
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys.XRouter:xrouter-compiler:1.0.1'))
+    }
+
+    if (configuration.name == "debugImplementation") {
+        //内存泄漏监测leak
+        configuration.dependencies.add(getProject().dependencies.create('com.squareup.leakcanary:leakcanary-android:2.6'))
+    }
+}
+

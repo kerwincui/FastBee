@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">物美</string>
+    <string name="app_browser_name">通用浏览器</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="menu_device">设备</string>
+    <string name="menu_news">动态</string>
+    <string name="menu_scene">场景</string>
+    <string name="menu_add_device">添加</string>
+    <string name="menu_profile">我的</string>
+    <string name="menu_left_add_device">添加设备</string>
+    <string name="menu_left_share_device">分享设备</string>
+
+    <string name="menu_message">消息</string>
+    <string name="menu_feedback">意见反馈</string>
+    <string name="menu_issues">问题</string>
+    <string name="menu_starred">收藏</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_about">关于</string>
+
+    <string name="about_copyright">© %1$s wumei All rights reserved.</string>
+    <string name="about_item_homepage">访问官网</string>
+    <string name="about_item_author_github">关于作者</string>
+    <string name="about_item_add_qq_group">QQ联系</string>
+    <string name="url_project_github">http://wumei.live</string>
+    <string name="url_author_github">https://gitee.com/kerwincui</string>
+    <string name="url_add_qq_group">http://wpa.qq.com/msgrd?v=3&amp;uin=164770707&amp;site=qq&amp;menu=yes</string>
+
+    <string name="lab_yes">是</string>
+    <string name="lab_no">否</string>
+    <string name="lab_open_third_app">是否允许页面打开第三方应用?</string>
+
+    <!-- 隐私政策弹窗   -->
+    <string name="lab_exit_app">退出应用</string>
+    <string name="lab_agree">同意</string>
+    <string name="lab_disagree">不同意</string>
+    <string name="lab_look_again">再次查看</string>
+    <string name="lab_still_disagree">仍不同意</string>
+    <string name="title_reminder">温馨提示</string>
+    <string name="content_think_about_it_again">要不要再想想</string>
+    <string name="content_privacy_explain_again">我们非常重视对你个人信息的保护，承诺严格按照《%s隐私权政策》保护及处理你的信息。如果你不同意该政策，很遗憾我们将无法为你提供服务</string>
+    <string name="lab_privacy_name">《%s隐私权政策》</string>
+
+    <!-- 登录   -->
+    <string name="title_login_register">登录/注册</string>
+    <string name="action_get_verify_code">获取验证码</string>
+    <string name="title_login">登录</string>
+    <string name="title_login_by_verify_code">验证码登录</string>
+    <string name="title_register">注册</string>
+    <string name="lab_forget_password">忘记密码?</string>
+    <string name="lab_login_by_verify_code">验证码登录</string>
+    <string name="lab_login_by_password">密码登录</string>
+    <string name="tip_please_input_phone_number">请输入手机号码</string>
+    <string name="title_phone_number">手机号码</string>
+    <string name="title_password">密码</string>
+    <string name="title_old_password">旧密码</string>
+    <string name="hint_please_input_verify_code">请输入验证码</string>
+    <string name="lab_verify_code">验证码</string>
+    <string name="tip_password_error">密码必须是8~18位字母和数字的组合！</string>
+    <string name="tip_new_password_error">新密码必须是8~18位字母和数字的组合！</string>
+    <string name="tip_phone_number_error">无效的手机号！</string>
+    <string name="regex_phone_number">^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(16[6])|(17[0,1,3,5-8])|(18[0-9])|(19[8,9]))\\d{8}$</string>
+    <string name="tip_verify_code_error">请输入4位数验证码</string>
+    <string name="regex_verify_code">^\\d{4}$</string>
+    <string name="regex_password">^(?:(?=.*[a-zA-Z])(?=.*[0-9])).{8,18}$</string>
+    <string name="title_forget_password">重置密码</string>
+    <string name="lab_register_account">点击注册即表示同意</string>
+    <string name="lab_service_protocol"><![CDATA[<用户协议>]]></string>
+    <string name="lab_logout_confirm">是否确认退出账号？</string>
+    <string name="title_jump_login">跳过</string>
+    <string name="label_previous">上一条</string>
+    <string name="label_next">下一条</string>
+    <string name="tip_ignore_message">以后不再提示此类信息</string>
+    <string name="tip_title">你知道吗？</string>
+
+    <string name="esptouch_message_permission">需要位置权限来获取 Wi-Fi 信息。 \n点击申请权限</string>
+    <string name="esptouch_message_location">请打开 GPS 以获取 Wi-Fi 信息。</string>
+    <string name="esptouch_message_wifi_connection">请先连上 Wi-Fi</string>
+    <string name="esptouch_message_wifi_frequency">当前连接的是 5G Wi-Fi, 设备仅支持 2.4G Wi-Fi</string>
+
+    <string name="esptouch1_title">EspTouch</string>
+    <string name="esptouch1_about_version">EspTouch 版本: %s</string>
+    <string name="esptouch1_ssid_title">SSID: </string>
+    <string name="esptouch1_bssid_title">BSSID: </string>
+    <string name="esptouch1_password_title">密码: </string>
+    <string name="esptouch1_device_count_title">设备数量: </string>
+    <string name="esptouch1_package_broadcast">广播</string>
+    <string name="esptouch1_package_multicast">组播</string>
+    <string name="esptouch1_confirm">确认</string>
+    <string name="esptouch1_wifi_5g_message">设备不支持 5G Wi-Fi, 请确认当前连接的 Wi-Fi 为 2.4G, 或者您可以尝试选择组播</string>
+    <string name="esptouch1_location_permission_title">⚠️警告️</string>
+    <string name="esptouch1_location_permission_message">在 Android M 及以上版本，如果您禁止授权位置权限，APP将无法获取 Wi-Fi 信息。</string>
+    <string name="esptouch1_configure_wifi_change_message">Wi-Fi 已断开或发生了变化</string>
+    <string name="esptouch1_configuring_message">Esptouch 正在执行配网, 请稍等片刻…</string>
+    <string name="esptouch1_configure_result_failed">EspTouch 配网失败</string>
+    <string name="esptouch1_configure_result_failed_port">建立 EspTouch 任务失败, 端口可能被其他程序占用</string>
+    <string name="esptouch1_configure_result_success">EspTouch 完成</string>
+    <string name="esptouch1_configure_result_success_item">BSSID: %1$s, 地址: %2$s</string>
+
+</resources>
