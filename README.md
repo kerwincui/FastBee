@@ -44,7 +44,7 @@
 
 ## 安卓APP
 <div align="center">
-<img src="https://gitee.com/kerwincui/wumei-open/raw/master/document/android.png" width = "300"  alt="安卓app" align=center  style="border:1px solid #0064cd;"/>
+    <img src="https://gitee.com/kerwincui/wumei-open/raw/master/document/android.png" width = "400"  alt="安卓app" align=center />
 </div>
 
 
