@@ -3,9 +3,14 @@ package com.ruoyi.system.mqtt.config;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.ip.AddressUtils;
+import com.ruoyi.common.utils.ip.IpUtils;
+import com.ruoyi.system.domain.IotCategory;
 import com.ruoyi.system.domain.IotDevice;
 import com.ruoyi.system.domain.IotDeviceSet;
 import com.ruoyi.system.domain.IotDeviceStatus;
+import com.ruoyi.system.service.IIotCategoryService;
 import com.ruoyi.system.service.IIotDeviceService;
 import com.ruoyi.system.service.IIotDeviceSetService;
 import com.ruoyi.system.service.IIotDeviceStatusService;
@@ -30,6 +35,8 @@ public class PushCallback implements MqttCallback {
     private MqttConfig mqttConfig;
     @Autowired
     private IIotDeviceService iotDeviceService;
+    @Autowired
+    private IIotCategoryService iotCategoryService;
     @Autowired
     private IIotDeviceStatusService iotDeviceStatusService;
     @Autowired
@@ -58,33 +65,53 @@ public class PushCallback implements MqttCallback {
         if(topic.equals("device_info")){
             //添加设备信息
             IotDevice device = JSON.parseObject(new String(mqttMessage.getPayload()), IotDevice.class);
-            iotDeviceService.insertIotDevice(device);
-            //获取设备状态
-            mqttPushClient.publish(0,false,"status/new/"+device.getDeviceNum(),"");
+            IotDevice deviceEntity=iotDeviceService.selectIotDeviceByNum(device.getDeviceNum());
+            if(deviceEntity!=null){
+                device.setDeviceId(deviceEntity.getDeviceId());
+                iotDeviceService.updateIotDevice(device);
+            }else {
+                IotCategory categoryEntity=iotCategoryService.selectIotCategoryById(device.getCategoryId());
+                if(device.getDeviceName()==null || device.getDeviceNum().length()==0) {
+                    device.setDeviceName(categoryEntity.getCategoryName());
+                }
+                iotDeviceService.insertIotDevice(device);
+            }
+            //获取设备状态(消息内容不能为空，硬件获取不到数据报错)
+            mqttPushClient.publish(1,false,"status/get/"+device.getDeviceNum(),"wumei.live");
             //获取设备配置
-            mqttPushClient.publish(0,false,"setting/new/"+device.getDeviceNum(),"");
+            mqttPushClient.publish(1,false,"setting/get/"+device.getDeviceNum(),"wumei.live");
         }else if(topic.equals("status")){
             IotDeviceStatus deviceStatus = JSON.parseObject(new String(mqttMessage.getPayload()), IotDeviceStatus.class);
-            IotDevice device=iotDeviceService.selectIotDeviceById(deviceStatus.getDeviceId());
+            IotDevice device=iotDeviceService.selectIotDeviceByNum(deviceStatus.getDeviceNum());
             //添加设备状态
             deviceStatus.setDeviceId(device.getDeviceId());
             iotDeviceStatusService.insertIotDeviceStatus(deviceStatus);
         }else if(topic.equals("setting")){
             IotDeviceSet deviceSet = JSON.parseObject(new String(mqttMessage.getPayload()), IotDeviceSet.class);
-            //更新设备用户
-            IotDevice device=iotDeviceService.selectIotDeviceById(deviceSet.getDeviceId());
-            device.setOwnerId(deviceSet.getOwnerId());
-            iotDeviceService.updateIotDevice(device);
+            // 智能配网时需要获取IP、地址和设备用户
+            IotDevice device=null;
+            if(deviceSet.getIsSmartConfig()==1){
+                final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+                deviceSet.setNetworkIp(ip);
+                deviceSet.setNetworkAddress( AddressUtils.getRealAddressByIP(ip));
+                //更新设备用户
+                device=iotDeviceService.selectIotDeviceByNum(deviceSet.getDeviceNum());
+                device.setOwnerId(deviceSet.getOwnerId());
+                iotDeviceService.updateIotDevice(device);
+            }
             //添加设备配置
             deviceSet.setDeviceId(device.getDeviceId());
             iotDeviceSetService.insertIotDeviceSet(deviceSet);
         }else if(topic.equals("offline")){
-            //离线遗嘱
+            //离线遗嘱 TODO:查询待优化
             IotDeviceStatus deviceStatus = JSON.parseObject(new String(mqttMessage.getPayload()), IotDeviceStatus.class);
-            //添加设备状态
-            IotDeviceStatus newDeviceStatus=iotDeviceStatusService.selectIotDeviceStatusById(deviceStatus.getDeviceStatusId());
-            newDeviceStatus.setIsOnline(0);
-            iotDeviceStatusService.insertIotDeviceStatus(newDeviceStatus);
+            IotDevice device=iotDeviceService.selectIotDeviceByNum(deviceStatus.getDeviceNum());
+            IotDeviceStatus deviceStatusEntity=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(device.getDeviceId());
+            //跟新最近一条设备状态为离线
+            if(deviceStatusEntity!=null) {
+                deviceStatusEntity.setIsOnline(0);
+                iotDeviceStatusService.updateIotDeviceStatus(deviceStatusEntity);
+            }
         }
     }
 

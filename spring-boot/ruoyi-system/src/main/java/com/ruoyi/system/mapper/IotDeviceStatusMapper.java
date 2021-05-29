@@ -28,6 +28,14 @@ public interface IotDeviceStatusMapper
     public IotDeviceStatus selectIotDeviceStatusByDeviceId(Long deviceId);
 
     /**
+     * 根据设备编号查询设备最新状态
+     *
+     * @param deviceNum 设备编号
+     * @return 设备状态
+     */
+    public IotDeviceStatus selectIotDeviceStatusByDeviceNum(String deviceNum);
+
+    /**
      * 查询设备状态列表
      * 
      * @param iotDeviceStatus 设备状态

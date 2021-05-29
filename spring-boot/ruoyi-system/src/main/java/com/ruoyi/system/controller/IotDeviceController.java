@@ -1,6 +1,10 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.vo.IotDeviceListDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +30,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author kerwincui
  * @date 2021-05-06
  */
+@Api(value="设备",tags="设备")
 @RestController
 @RequestMapping("/system/device")
 public class IotDeviceController extends BaseController
@@ -36,31 +41,34 @@ public class IotDeviceController extends BaseController
     /**
      * 查询设备列表
      */
+    @ApiOperation(value = "设备列表", notes = "设备列表")
     @PreAuthorize("@ss.hasPermi('system:device:list')")
     @GetMapping("/list")
     public TableDataInfo list(IotDevice iotDevice)
     {
         startPage();
-        List<IotDevice> list = iotDeviceService.selectIotDeviceList(iotDevice);
+        List<IotDeviceListDto> list = iotDeviceService.selectIotDeviceList(iotDevice);
         return getDataTable(list);
     }
 
     /**
      * 导出设备列表
      */
+    @ApiOperation(value = "导出设备列表", notes = "导出设备列表")
     @PreAuthorize("@ss.hasPermi('system:device:export')")
     @Log(title = "设备", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(IotDevice iotDevice)
     {
-        List<IotDevice> list = iotDeviceService.selectIotDeviceList(iotDevice);
-        ExcelUtil<IotDevice> util = new ExcelUtil<IotDevice>(IotDevice.class);
+        List<IotDeviceListDto> list = iotDeviceService.selectIotDeviceList(iotDevice);
+        ExcelUtil<IotDeviceListDto> util = new ExcelUtil<IotDeviceListDto>(IotDeviceListDto.class);
         return util.exportExcel(list, "device");
     }
 
     /**
      * 获取设备详细信息
      */
+    @ApiOperation(value = "获取设备详情", notes = "获取设备详情")
     @PreAuthorize("@ss.hasPermi('system:device:query')")
     @GetMapping(value = "/{deviceId}")
     public AjaxResult getInfo(@PathVariable("deviceId") Long deviceId)
@@ -69,8 +77,20 @@ public class IotDeviceController extends BaseController
     }
 
     /**
+     * 根据设备编号获取设备详细信息
+     */
+    @ApiOperation(value = "根据设备编号获取设备详情", notes = "根据设备编号获取设备详情")
+    @PreAuthorize("@ss.hasPermi('system:device:query')")
+    @GetMapping(value = "/getByNum/{deviceNum}")
+    public AjaxResult getInfoByNum(@PathVariable("deviceNum") String deviceNum)
+    {
+        return AjaxResult.success(iotDeviceService.selectIotDeviceByNum(deviceNum));
+    }
+
+    /**
      * 新增设备
      */
+    @ApiOperation(value = "新增设备", notes = "新增设备")
     @PreAuthorize("@ss.hasPermi('system:device:add')")
     @Log(title = "设备", businessType = BusinessType.INSERT)
     @PostMapping
@@ -82,6 +102,7 @@ public class IotDeviceController extends BaseController
     /**
      * 修改设备
      */
+    @ApiOperation(value = "修改设备", notes = "修改设备")
     @PreAuthorize("@ss.hasPermi('system:device:edit')")
     @Log(title = "设备", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -93,6 +114,7 @@ public class IotDeviceController extends BaseController
     /**
      * 删除设备
      */
+    @ApiOperation(value = "删除设备", notes = "删除设备")
     @PreAuthorize("@ss.hasPermi('system:device:remove')")
     @Log(title = "设备", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{deviceIds}")

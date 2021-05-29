@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.IotDevice;
+import com.ruoyi.system.domain.vo.IotDeviceListDto;
 
 /**
  * 设备Service接口
@@ -20,12 +21,17 @@ public interface IIotDeviceService
     public IotDevice selectIotDeviceById(Long deviceId);
 
     /**
+     * 根据编号查询设备
+     */
+    public IotDevice selectIotDeviceByNum(String deviceNum);
+
+    /**
      * 查询设备列表
      * 
      * @param iotDevice 设备
      * @return 设备集合
      */
-    public List<IotDevice> selectIotDeviceList(IotDevice iotDevice);
+    public List<IotDeviceListDto> selectIotDeviceList(IotDevice iotDevice);
 
     /**
      * 新增设备

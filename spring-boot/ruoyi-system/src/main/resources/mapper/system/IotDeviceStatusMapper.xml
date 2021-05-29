@@ -12,13 +12,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="lightStatus"    column="light_status"    />
         <result property="isOnline"    column="is_online"    />
         <result property="deviceTemperature"    column="device_temperature"    />
-        <result property="deviceHumidity"    column="device_humidity"    />
+        <result property="rssi"    column="rssi"    />
         <result property="airTemperature"    column="air_temperature"    />
         <result property="airHumidity"    column="air_humidity"    />
         <result property="triggerSource"    column="trigger_source"    />
         <result property="brightness"    column="brightness"    />
         <result property="lightInterval"    column="light_interval"    />
         <result property="lightMode"    column="light_mode"    />
+        <result property="fadeTime"    column="fade_time"    />
         <result property="red"    column="red"    />
         <result property="green"    column="green"    />
         <result property="blue"    column="blue"    />
@@ -30,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectIotDeviceStatusVo">
-        select device_status_id, device_id, device_num, relay_status, light_status, is_online, device_temperature, device_humidity, air_temperature, air_humidity, trigger_source, brightness, light_interval, light_mode, red, green, blue, create_by, create_time, update_by, update_time, remark from iot_device_status
+        select device_status_id, device_id, device_num, relay_status, light_status, is_online, device_temperature, rssi, air_temperature, air_humidity, trigger_source, brightness, light_interval, light_mode,fade_time, red, green, blue, create_by, create_time, update_by, update_time, remark from iot_device_status
     </sql>
 
     <select id="selectIotDeviceStatusList" parameterType="IotDeviceStatus" resultMap="IotDeviceStatusResult">
@@ -45,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="triggerSource != null "> and trigger_source = #{triggerSource}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectIotDeviceStatusById" parameterType="Long" resultMap="IotDeviceStatusResult">
@@ -58,6 +60,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
         limit 1
     </select>
+
+    <select id="selectIotDeviceStatusByDeviceNum" parameterType="String" resultMap="IotDeviceStatusResult">
+        <include refid="selectIotDeviceStatusVo"/>
+        where device_num = #{deviceNum}
+        order by create_time desc
+        limit 1
+    </select>
         
     <insert id="insertIotDeviceStatus" parameterType="IotDeviceStatus" useGeneratedKeys="true" keyProperty="deviceStatusId">
         insert into iot_device_status
@@ -68,13 +77,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lightStatus != null">light_status,</if>
             <if test="isOnline != null">is_online,</if>
             <if test="deviceTemperature != null">device_temperature,</if>
-            <if test="deviceHumidity != null">device_humidity,</if>
+            <if test="rssi != null">rssi,</if>
             <if test="airTemperature != null">air_temperature,</if>
             <if test="airHumidity != null">air_humidity,</if>
             <if test="triggerSource != null">trigger_source,</if>
             <if test="brightness != null">brightness,</if>
             <if test="lightInterval != null">light_interval,</if>
             <if test="lightMode != null">light_mode,</if>
+            <if test="fadeTime != null">fade_time,</if>
             <if test="red != null">red,</if>
             <if test="green != null">green,</if>
             <if test="blue != null">blue,</if>
@@ -91,13 +101,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lightStatus != null">#{lightStatus},</if>
             <if test="isOnline != null">#{isOnline},</if>
             <if test="deviceTemperature != null">#{deviceTemperature},</if>
-            <if test="deviceHumidity != null">#{deviceHumidity},</if>
+            <if test="rssi != null">#{rssi},</if>
             <if test="airTemperature != null">#{airTemperature},</if>
             <if test="airHumidity != null">#{airHumidity},</if>
             <if test="triggerSource != null">#{triggerSource},</if>
             <if test="brightness != null">#{brightness},</if>
             <if test="lightInterval != null">#{lightInterval},</if>
             <if test="lightMode != null">#{lightMode},</if>
+            <if test="fadeTime != null">#{fadeTime},</if>
             <if test="red != null">#{red},</if>
             <if test="green != null">#{green},</if>
             <if test="blue != null">#{blue},</if>
@@ -118,13 +129,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lightStatus != null">light_status = #{lightStatus},</if>
             <if test="isOnline != null">is_online = #{isOnline},</if>
             <if test="deviceTemperature != null">device_temperature = #{deviceTemperature},</if>
-            <if test="deviceHumidity != null">device_humidity = #{deviceHumidity},</if>
+            <if test="rssi != null">rssi = #{rssi},</if>
             <if test="airTemperature != null">air_temperature = #{airTemperature},</if>
             <if test="airHumidity != null">air_humidity = #{airHumidity},</if>
             <if test="triggerSource != null">trigger_source = #{triggerSource},</if>
             <if test="brightness != null">brightness = #{brightness},</if>
             <if test="lightInterval != null">light_interval = #{lightInterval},</if>
             <if test="lightMode != null">light_mode = #{lightMode},</if>
+            <if test="fadeTime != null">fade_time = #{fadeTime},</if>
             <if test="red != null">red = #{red},</if>
             <if test="green != null">green = #{green},</if>
             <if test="blue != null">blue = #{blue},</if>

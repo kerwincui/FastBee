@@ -18,14 +18,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
     </resultMap>
 
+    <resultMap type="IotDeviceListDto" id="IotDeviceListResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNum"    column="device_num"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isAlarm"    column="is_alarm"    />
+        <result property="isRadar"    column="is_radar"    />
+        <result property="isRfControl"    column="is_rf_control"    />
+        <result property="networkAddress"    column="network_address"    />
+        <result property="networkIp"    column="network_ip"    />
+        <result property="relayStatus"    column="relay_status"    />
+        <result property="lightStatus"    column="light_status"    />
+        <result property="isOnline"    column="is_online"    />
+        <result property="deviceTemperature"    column="device_temperature"    />
+        <result property="rssi"    column="rssi"    />
+    </resultMap>
+
     <sql id="selectIotDeviceVo">
         select device_id, device_num, category_id, device_name, firmware_version, owner_id, create_by, create_time, update_by, update_time, remark from iot_device
     </sql>
 
-    <select id="selectIotDeviceList" parameterType="IotDevice" resultMap="IotDeviceResult">
-        <include refid="selectIotDeviceVo"/>
+    <sql id="selectIotDeviceListVo">
+        select d.device_id, d.device_num, d.category_id, d.device_name, d.firmware_version, d.owner_id, d.create_time,
+               s.relay_status,s.light_status,s.is_online,s.rssi,s.device_temperature,
+               t.network_address, t.network_ip,t.is_alarm, t.is_radar,t.is_rf_control,
+               u.nick_name
+        from iot_device d
+                 left join (select * from iot_device_set order by create_time desc limit 1) as t on d.device_id = t.device_id
+                 left join (select * from iot_device_status order by create_time desc limit 1 ) as s on d.device_id=s.device_id
+                 left join sys_user u on d.owner_id=u.user_id
+    </sql>
+
+    <select id="selectIotDeviceList" parameterType="IotDevice" resultMap="IotDeviceListResult">
+        <include refid="selectIotDeviceListVo"/>
         <where>
-            del_flag= '0'
+            d.del_flag= '0'
             <if test="deviceNum != null  and deviceNum != ''"> and device_num like concat('%', #{deviceNum}, '%')</if>
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
             <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
@@ -38,6 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectIotDeviceById" parameterType="Long" resultMap="IotDeviceResult">
         <include refid="selectIotDeviceVo"/>
         where device_id = #{deviceId}
+    </select>
+
+    <select id="selectIotDeviceByNum" parameterType="String" resultMap="IotDeviceResult">
+        <include refid="selectIotDeviceVo"/>
+        where device_num = #{deviceNum}
     </select>
         
     <insert id="insertIotDevice" parameterType="IotDevice" useGeneratedKeys="true" keyProperty="deviceId">

@@ -46,6 +46,18 @@ public class IotDeviceSet extends BaseEntity
     @Excel(name = "打开AP")
     private Integer isAp;
 
+    /** 是否离线使用 */
+    @Excel(name = "是否离线使用")
+    private Integer isWifiOffline;
+
+    /** 是否使用证书 */
+    @Excel(name = "是否使用证书")
+    private Integer isOpenCertifi;
+
+    /** 智能配网 */
+    @Excel(name = "智能配网")
+    private Integer isSmartConfig;
+
     /** 射频遥控 */
     @Excel(name = "射频遥控")
     private Integer isRfControl;
@@ -85,6 +97,10 @@ public class IotDeviceSet extends BaseEntity
     /** 配网IP */
     @Excel(name = "配网IP")
     private String networkIp;
+
+    /** 雷达感应间隔 */
+    @Excel(name = "雷达感应间隔")
+    private Integer radarInterval;
 
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
@@ -152,14 +168,42 @@ public class IotDeviceSet extends BaseEntity
     {
         return isReset;
     }
+
     public void setIsAp(Integer isAp) 
     {
         this.isAp = isAp;
     }
-
     public Integer getIsAp() 
     {
         return isAp;
+    }
+
+    public void setIsWifiOffline(Integer isWifiOffline)
+    {
+        this.isWifiOffline = isWifiOffline;
+    }
+    public Integer getIsWifiOffline()
+    {
+        return isWifiOffline;
+    }
+
+    public void setIsOpenCertifi(Integer isOpenCertifi)
+    {
+        this.isOpenCertifi = isOpenCertifi;
+    }
+    public Integer getIsOpenCertifi()
+    {
+        return isOpenCertifi;
+    }
+
+    public void setIsSmartConfig(Integer isSmartConfig)
+    {
+        this.isSmartConfig = isSmartConfig;
+    }
+
+    public Integer getIsSmartConfig()
+    {
+        return isSmartConfig;
     }
     public void setIsRfControl(Integer isRfControl) 
     {
@@ -256,6 +300,16 @@ public class IotDeviceSet extends BaseEntity
         this.delFlag = delFlag;
     }
 
+    public void setRadarInterval(Integer radarInterval)
+    {
+        this.radarInterval = radarInterval;
+    }
+
+    public Integer getRadarInterval()
+    {
+        return radarInterval;
+    }
+
     public String getDelFlag() 
     {
         return delFlag;
@@ -272,6 +326,7 @@ public class IotDeviceSet extends BaseEntity
             .append("isHost", getIsHost())
             .append("isReset", getIsReset())
             .append("isAp", getIsAp())
+            .append("isSmartConfig", getIsSmartConfig())
             .append("isRfControl", getIsRfControl())
             .append("isRfLearn", getIsRfLearn())
             .append("isRfClear", getIsRfClear())
@@ -282,6 +337,7 @@ public class IotDeviceSet extends BaseEntity
             .append("ownerId", getOwnerId())
             .append("networkAddress", getNetworkAddress())
             .append("networkIp", getNetworkIp())
+            .append("radarInterval", getRadarInterval())
             .append("delFlag", getDelFlag())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())

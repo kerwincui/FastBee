@@ -45,6 +45,18 @@ public class IotDeviceStatusServiceImpl implements IIotDeviceStatusService
     }
 
     /**
+     * 根据设备编号查询最新设备状态
+     *
+     * @param deviceNum 设备编号
+     * @return 设备状态
+     */
+    @Override
+    public IotDeviceStatus selectIotDeviceStatusByDeviceNum(String deviceNum)
+    {
+        return iotDeviceStatusMapper.selectIotDeviceStatusByDeviceNum(deviceNum);
+    }
+
+    /**
      * 查询设备状态列表
      * 
      * @param iotDeviceStatus 设备状态

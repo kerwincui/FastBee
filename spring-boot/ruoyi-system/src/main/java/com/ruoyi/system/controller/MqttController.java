@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * swagger 用户测试方法
+ * mqtt接口
  *
  */
-@Api("mqtt测试")
+@Api(value="mqtt消息发布",tags="mqtt消息发布")
 @RestController
-@RequestMapping("/test/mqtt")
+@RequestMapping("/system/mqtt")
 public class MqttController extends BaseController
 {
     @Autowired
@@ -29,7 +29,7 @@ public class MqttController extends BaseController
     @PostMapping(value = "/updateStatus")
     public AjaxResult updateStatus(@RequestBody IotDeviceStatus iotDeviceStatus){
         String content = JSON.toJSONString(iotDeviceStatus);
-        boolean isSuccess=mqttPushClient.publish(1,false,"status/"+iotDeviceStatus.getDeviceNum(),content);
+        boolean isSuccess=mqttPushClient.publish(1,false,"status/set/"+iotDeviceStatus.getDeviceNum(),content);
         if(isSuccess){return AjaxResult.success();}
         return AjaxResult.error("mqtt 发布失败。");
     }
@@ -37,7 +37,7 @@ public class MqttController extends BaseController
     @ApiOperation(value = "获取设备状态", notes = "获取设备状态")
     @GetMapping(value = "/getStatus/{deviceNum}")
     public AjaxResult getStatus(@PathVariable("deviceNum") String deviceNum){
-        boolean isSuccess=mqttPushClient.publish(0,false,"status/new/"+deviceNum,"");
+        boolean isSuccess=mqttPushClient.publish(0,false,"status/get/"+deviceNum,"wumei.live");
         if(isSuccess){return AjaxResult.success();}
         return AjaxResult.error("mqtt 发布失败。");
     }
@@ -46,7 +46,7 @@ public class MqttController extends BaseController
     @PostMapping(value = "/updateSetting")
     public AjaxResult updateSetting(@RequestBody IotDeviceSet iotDeviceSet){
         String content = JSON.toJSONString(iotDeviceSet);
-        boolean isSuccess=mqttPushClient.publish(0,false,"setting/"+iotDeviceSet.getDeviceNum(),content);
+        boolean isSuccess=mqttPushClient.publish(0,false,"setting/set/"+iotDeviceSet.getDeviceNum(),content);
         if(isSuccess){return AjaxResult.success();}
         return AjaxResult.error("mqtt 发布失败。");
     }
@@ -54,7 +54,7 @@ public class MqttController extends BaseController
     @ApiOperation(value = "获取设备配置", notes = "获取设备配置")
     @GetMapping(value = "/getSetting/{deviceNum}")
     public AjaxResult getSetting(@PathVariable("deviceNum") String deviceNum){
-        boolean isSuccess=mqttPushClient.publish(0,false,"Setting/new/"+deviceNum,"");
+        boolean isSuccess=mqttPushClient.publish(0,false,"setting/get/"+deviceNum,"wumei.lie");
         if(isSuccess){return AjaxResult.success();}
         return AjaxResult.error("mqtt 发布失败。");
     }

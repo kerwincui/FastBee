@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.vo.IotDeviceListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.IotDeviceMapper;
@@ -33,13 +34,25 @@ public class IotDeviceServiceImpl implements IIotDeviceService
     }
 
     /**
+     * 根据编号查询设备
+     *
+     * @param deviceNum 设备编号
+     * @return 设备
+     */
+    @Override
+    public IotDevice selectIotDeviceByNum(String deviceNum)
+    {
+        return iotDeviceMapper.selectIotDeviceByNum(deviceNum);
+    }
+
+    /**
      * 查询设备列表
      * 
      * @param iotDevice 设备
      * @return 设备
      */
     @Override
-    public List<IotDevice> selectIotDeviceList(IotDevice iotDevice)
+    public List<IotDeviceListDto> selectIotDeviceList(IotDevice iotDevice)
     {
         return iotDeviceMapper.selectIotDeviceList(iotDevice);
     }

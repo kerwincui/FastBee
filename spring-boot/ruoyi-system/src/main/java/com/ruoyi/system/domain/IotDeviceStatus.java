@@ -44,8 +44,8 @@ public class IotDeviceStatus extends BaseEntity
     private BigDecimal deviceTemperature;
 
     /** 设备湿度 */
-    @Excel(name = "设备湿度")
-    private BigDecimal deviceHumidity;
+    @Excel(name = "信号")
+    private Integer rssi;
 
     /** 空气温度 */
     @Excel(name = "空气温度")
@@ -70,6 +70,10 @@ public class IotDeviceStatus extends BaseEntity
     /** 彩灯模式 */
     @Excel(name = "彩灯模式")
     private Integer lightMode;
+
+    /** 灯渐变时间 */
+    @Excel(name = "渐变时间")
+    private Integer fadeTime;
 
     /** 红灯 */
     @Excel(name = "红灯")
@@ -149,14 +153,14 @@ public class IotDeviceStatus extends BaseEntity
     {
         return deviceTemperature;
     }
-    public void setDeviceHumidity(BigDecimal deviceHumidity) 
+    public void setRssi(Integer rssi)
     {
-        this.deviceHumidity = deviceHumidity;
+        this.rssi = rssi;
     }
 
-    public BigDecimal getDeviceHumidity() 
+    public Integer getRssi()
     {
-        return deviceHumidity;
+        return rssi;
     }
     public void setAirTemperature(BigDecimal airTemperature) 
     {
@@ -244,6 +248,15 @@ public class IotDeviceStatus extends BaseEntity
         this.delFlag = delFlag;
     }
 
+    public void setFadeTime(Integer fadeTime)
+    {
+        this.fadeTime = fadeTime;
+    }
+    public Integer getFadeTime()
+    {
+        return fadeTime;
+    }
+
     public String getDelFlag() 
     {
         return delFlag;
@@ -259,13 +272,14 @@ public class IotDeviceStatus extends BaseEntity
             .append("lightStatus", getLightStatus())
             .append("isOnline", getIsOnline())
             .append("deviceTemperature", getDeviceTemperature())
-            .append("deviceHumidity", getDeviceHumidity())
+            .append("rssid", getRssi())
             .append("airTemperature", getAirTemperature())
             .append("airHumidity", getAirHumidity())
             .append("triggerSource", getTriggerSource())
             .append("brightness", getBrightness())
             .append("lightInterval", getLightInterval())
             .append("lightMode", getLightMode())
+            .append("fadeTime", getFadeTime())
             .append("red", getRed())
             .append("green", getGreen())
             .append("blue", getBlue())

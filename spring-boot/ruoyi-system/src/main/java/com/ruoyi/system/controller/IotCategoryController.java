@@ -1,6 +1,9 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author kerwincui
  * @date 2021-05-07
  */
+@Api(value="设备分类",tags="设备分类")
 @RestController
 @RequestMapping("/system/category")
 public class IotCategoryController extends BaseController
@@ -36,6 +40,7 @@ public class IotCategoryController extends BaseController
     /**
      * 查询设备分类列表
      */
+    @ApiOperation(value = "分类列表", notes = "分类列表")
     @PreAuthorize("@ss.hasPermi('system:category:list')")
     @GetMapping("/list")
     public TableDataInfo list(IotCategory iotCategory)
@@ -48,6 +53,7 @@ public class IotCategoryController extends BaseController
     /**
      * 导出设备分类列表
      */
+    @ApiOperation(value = "导出分类列表", notes = "导出分类列表")
     @PreAuthorize("@ss.hasPermi('system:category:export')")
     @Log(title = "设备分类", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
@@ -61,6 +67,7 @@ public class IotCategoryController extends BaseController
     /**
      * 获取设备分类详细信息
      */
+    @ApiOperation(value = "获取分类详情", notes = "获取分类详情")
     @PreAuthorize("@ss.hasPermi('system:category:query')")
     @GetMapping(value = "/{categoryId}")
     public AjaxResult getInfo(@PathVariable("categoryId") Long categoryId)
@@ -71,6 +78,7 @@ public class IotCategoryController extends BaseController
     /**
      * 新增设备分类
      */
+    @ApiOperation(value = "新增分类", notes = "新增分类")
     @PreAuthorize("@ss.hasPermi('system:category:add')")
     @Log(title = "设备分类", businessType = BusinessType.INSERT)
     @PostMapping
@@ -82,6 +90,7 @@ public class IotCategoryController extends BaseController
     /**
      * 修改设备分类
      */
+    @ApiOperation(value = "修改分类", notes = "修改分类")
     @PreAuthorize("@ss.hasPermi('system:category:edit')")
     @Log(title = "设备分类", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -93,6 +102,7 @@ public class IotCategoryController extends BaseController
     /**
      * 删除设备分类
      */
+    @ApiOperation(value = "删除分类", notes = "删除分类")
     @PreAuthorize("@ss.hasPermi('system:category:remove')")
     @Log(title = "设备分类", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{categoryIds}")

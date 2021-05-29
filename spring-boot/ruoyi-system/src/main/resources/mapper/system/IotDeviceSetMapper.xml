@@ -13,6 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isHost"    column="is_host"    />
         <result property="isReset"    column="is_reset"    />
         <result property="isAp"    column="is_ap"    />
+        <result property="isWifiOffline"    column="is_wifi_offline"    />
+        <result property="isOpenCertifi"    column="is_open_certifi"    />
+        <result property="isSmartConfig"    column="is_smart_config"    />
         <result property="isRfControl"    column="is_rf_control"    />
         <result property="isRfLearn"    column="is_rf_learn"    />
         <result property="isRfClear"    column="is_rf_clear"    />
@@ -23,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="ownerId"    column="owner_id"    />
         <result property="networkAddress"    column="network_address"    />
         <result property="networkIp"    column="network_ip"    />
+        <result property="radarInterval"    column="radar_interval"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -31,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectIotDeviceSetVo">
-        select device_set_id, device_id, device_num, is_alarm, is_radar, is_host, is_reset, is_ap, is_rf_control, is_rf_learn, is_rf_clear, rf_one_func, rf_two_func, rf_three_func, rf_four_func, owner_id, network_address, network_ip, create_by, create_time, update_by, update_time, remark from iot_device_set
+        select device_set_id, device_id, device_num, is_alarm, is_radar, is_host, is_reset, is_ap, is_wifi_offline, is_open_certifi, is_smart_config, is_rf_control, is_rf_learn, is_rf_clear, rf_one_func, rf_two_func, rf_three_func, rf_four_func, owner_id, network_address, network_ip,radar_interval, create_by, create_time, update_by, update_time, remark from iot_device_set
     </sql>
 
     <select id="selectIotDeviceSetList" parameterType="IotDeviceSet" resultMap="IotDeviceSetResult">
@@ -48,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="networkAddress != null  and networkAddress != ''"> and network_address like concat('%', #{networkAddress}, '%')</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectIotDeviceSetById" parameterType="Long" resultMap="IotDeviceSetResult">
@@ -73,6 +78,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isHost != null">is_host,</if>
             <if test="isReset != null">is_reset,</if>
             <if test="isAp != null">is_ap,</if>
+            <if test="isWifiOffline != null">is_wifi_offline,</if>
+            <if test="isOpenCertifi != null">is_open_certifi,</if>
+            <if test="isSmartConfig != null">is_smart_config,</if>
             <if test="isRfControl != null">is_rf_control,</if>
             <if test="isRfLearn != null">is_rf_learn,</if>
             <if test="isRfClear != null">is_rf_clear,</if>
@@ -83,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ownerId != null">owner_id,</if>
             <if test="networkAddress != null">network_address,</if>
             <if test="networkIp != null">network_ip,</if>
+            <if test="radarInterval != null">radar_interval,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
@@ -98,6 +107,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isHost != null">#{isHost},</if>
             <if test="isReset != null">#{isReset},</if>
             <if test="isAp != null">#{isAp},</if>
+            <if test="isWifiOffline != null">#{isWifiOffline},</if>
+            <if test="isOpenCertifi != null">#{isOpenCertifi},</if>
+            <if test="isSmartConfig != null">#{isSmartConfig},</if>
             <if test="isRfControl != null">#{isRfControl},</if>
             <if test="isRfLearn != null">#{isRfLearn},</if>
             <if test="isRfClear != null">#{isRfClear},</if>
@@ -108,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ownerId != null">#{ownerId},</if>
             <if test="networkAddress != null">#{networkAddress},</if>
             <if test="networkIp != null">#{networkIp},</if>
+            <if test="radarInterval != null">#{radarInterval},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -126,6 +139,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isHost != null">is_host = #{isHost},</if>
             <if test="isReset != null">is_reset = #{isReset},</if>
             <if test="isAp != null">is_ap = #{isAp},</if>
+            <if test="isWifiOffline != null">is_wifi_offline = #{isWifiOffline},</if>
+            <if test="isOpenCertifi != null">is_open_certifi = #{isOpenCertifi},</if>
+            <if test="isSmartConfig != null">is_smart_config = #{isSmartConfig},</if>
             <if test="isRfControl != null">is_rf_control = #{isRfControl},</if>
             <if test="isRfLearn != null">is_rf_learn = #{isRfLearn},</if>
             <if test="isRfClear != null">is_rf_clear = #{isRfClear},</if>
@@ -136,6 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ownerId != null">owner_id = #{ownerId},</if>
             <if test="networkAddress != null">network_address = #{networkAddress},</if>
             <if test="networkIp != null">network_ip = #{networkIp},</if>
+            <if test="radarInterval != null">radar_interval = #{radarInterval},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
