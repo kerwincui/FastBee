@@ -22,7 +22,7 @@
       <el-form-item label="报警" prop="isAlarm">
         <el-select v-model="queryParams.isAlarm" placeholder="请选择报警" clearable size="small">
           <el-option
-            v-for="dict in isAlarmOptions"
+            v-for="dict in isOpenCloseOptions"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -32,7 +32,7 @@
       <el-form-item label="雷达感应" prop="isRadar">
         <el-select v-model="queryParams.isRadar" placeholder="请选择雷达感应" clearable size="small">
           <el-option
-            v-for="dict in isRadarOptions"
+            v-for="dict in isOpenCloseOptions"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -42,7 +42,7 @@
       <el-form-item label="托管" prop="isHost">
         <el-select v-model="queryParams.isHost" placeholder="请选择托管" clearable size="small">
           <el-option
-            v-for="dict in isHostOptions"
+            v-for="dict in isYesNoOptions"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -52,7 +52,7 @@
       <el-form-item label="射频遥控" prop="isRfControl">
         <el-select v-model="queryParams.isRfControl" placeholder="请选择射频遥控" clearable size="small">
           <el-option
-            v-for="dict in isRfControlOptions"
+            v-for="dict in isOpenCloseOptions"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -95,7 +95,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
+    <!-- <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
           type="primary"
@@ -139,18 +139,21 @@
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+    </el-row> -->
 
     <el-table v-loading="loading" :data="setList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <el-table-column label="序号" align="center" prop="deviceSetId" />
       <el-table-column label="设备ID" align="center" prop="deviceId" />
       <el-table-column label="设备编号" align="center" prop="deviceNum" />
       <el-table-column label="报警" align="center" prop="isAlarm"  />
       <el-table-column label="雷达感应" align="center" prop="isRadar" />
-      <el-table-column label="托管" align="center" prop="isHost" />
+      <!-- <el-table-column label="托管" align="center" prop="isHost" /> -->
       <el-table-column label="重启" align="center" prop="isReset"  />
       <el-table-column label="打开AP" align="center" prop="isAp"  />
+      <!-- <el-table-column label="离线模式" align="center" prop="isWifiOffline"  /> -->
+      <!-- <el-table-column label="使用证书" align="center" prop="isOpenCertifi"  /> -->
+      <el-table-column label="智能配网" align="center" prop="isSmartConfig"  />
       <el-table-column label="射频遥控" align="center" prop="isRfControl"  />
       <el-table-column label="遥控配对" align="center" prop="isRfLearn" />
       <el-table-column label="遥控清码" align="center" prop="isRfClear"  />
@@ -161,7 +164,8 @@
       <el-table-column label="用户" align="center" prop="ownerId" />
       <el-table-column label="配网地址" align="center" prop="networkAddress" />
       <el-table-column label="配网IP" align="center" prop="networkIp" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="雷达感应间隔" align="center" prop="radarInterval" />
+      <!-- <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -178,7 +182,7 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:set:remove']"
           >删除</el-button>
-        </template>
+        </template> -->
       </el-table-column>
     </el-table>
     
@@ -202,7 +206,7 @@
         <el-form-item label="报警" prop="isAlarm">
           <el-select v-model="form.isAlarm" placeholder="是否启动报警">
             <el-option
-              v-for="dict in isAlarmOptions"
+              v-for="dict in isOpenCloseOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -212,7 +216,7 @@
         <el-form-item label="雷达感应" prop="isRadar">
           <el-select v-model="form.isRadar" placeholder="是否启动雷达感应">
             <el-option
-              v-for="dict in isRadarOptions"
+              v-for="dict in isOpenCloseOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -222,7 +226,7 @@
         <el-form-item label="托管" prop="isHost">
           <el-select v-model="form.isHost" placeholder="是否托管">
             <el-option
-              v-for="dict in isHostOptions"
+              v-for="dict in isYesNoOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -232,7 +236,7 @@
         <el-form-item label="重启" prop="isReset">
           <el-select v-model="form.isReset" placeholder="是否重启">
             <el-option
-              v-for="dict in isResetOptions"
+              v-for="dict in isYesNoOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -242,7 +246,37 @@
         <el-form-item label="打开AP" prop="isAp">
           <el-select v-model="form.isAp" placeholder="是否打开AP">
             <el-option
-              v-for="dict in isApOptions"
+              v-for="dict in isYesNoOptions"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="离线模式" prop="isWifiOffline">
+          <el-select v-model="form.isWifiOffline" placeholder="离线模式">
+            <el-option
+              v-for="dict in isYesNoOptions"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="使用证书" prop="isOpenCertifi">
+          <el-select v-model="form.isOpenCertifi" placeholder="是否使用证书">
+            <el-option
+              v-for="dict in isYesNoOptions"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="智能配网" prop="isSmartConfig">
+          <el-select v-model="form.isSmartConfig" placeholder="智能配网">
+            <el-option
+              v-for="dict in isYesNoOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -252,7 +286,7 @@
         <el-form-item label="射频遥控" prop="isRfControl">
           <el-select v-model="form.isRfControl" placeholder="是否启动射频遥控">
             <el-option
-              v-for="dict in isRfControlOptions"
+              v-for="dict in isOpenCloseOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -262,7 +296,7 @@
         <el-form-item label="遥控配对" prop="isRfLearn">
           <el-select v-model="form.isRfLearn" placeholder="是否遥控配对">
             <el-option
-              v-for="dict in isRfLearnOptions"
+              v-for="dict in isYesNoOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -272,7 +306,7 @@
         <el-form-item label="遥控清码" prop="isRfClear">
           <el-select v-model="form.isRfClear" placeholder="是否遥控清码">
             <el-option
-              v-for="dict in isRfClearOptions"
+              v-for="dict in isYesNoOptions"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -282,7 +316,7 @@
         <el-form-item label="按键一" prop="rfOneFunc">
           <el-select v-model="form.rfOneFunc" placeholder="请选择按键一">
             <el-option
-              v-for="dict in rfOneFuncOptions"
+              v-for="dict in rfFuncOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
               :value="parseInt(dict.dictValue)"
@@ -292,7 +326,7 @@
         <el-form-item label="按键二" prop="rfTwoFunc">
           <el-select v-model="form.rfTwoFunc" placeholder="请选择按键二">
             <el-option
-              v-for="dict in rfTwoFuncOptions"
+              v-for="dict in rfFuncOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
               :value="parseInt(dict.dictValue)"
@@ -302,7 +336,7 @@
         <el-form-item label="按键三" prop="rfThreeFunc">
           <el-select v-model="form.rfThreeFunc" placeholder="请选择按键三">
             <el-option
-              v-for="dict in rfThreeFuncOptions"
+              v-for="dict in rfFuncOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
               :value="parseInt(dict.dictValue)"
@@ -312,7 +346,7 @@
         <el-form-item label="按键四" prop="rfFourFunc">
           <el-select v-model="form.rfFourFunc" placeholder="请选择按键四">
             <el-option
-              v-for="dict in rfFourFuncOptions"
+              v-for="dict in rfFuncOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
               :value="parseInt(dict.dictValue)"
@@ -327,6 +361,9 @@
         </el-form-item>
         <el-form-item label="配网IP" prop="networkIp">
           <el-input v-model="form.networkIp" placeholder="请输入配网IP" />
+        </el-form-item>
+        <el-form-item label="雷达感应间隔" prop="radarInterval">
+          <el-input v-model="form.radarInterval" placeholder="请输入雷达感应间隔" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
@@ -367,64 +404,16 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 报警字典
-      isAlarmOptions: [{
+      // 打开关闭字典
+      isOpenCloseOptions: [{
         "label": "打开",
         "value": 1
       }, {
         "label": "关闭",
         "value": 0
       }],
-      // 雷达感应字典
-      isRadarOptions: [{
-        "label": "打开",
-        "value": 1
-      }, {
-        "label": "关闭",
-        "value": 0
-      }],
-      // 托管字典
-      isHostOptions: [{
-        "label": "是",
-        "value": 1
-      }, {
-        "label": "否",
-        "value": 0
-      }],
-      // 重启字典
-      isResetOptions: [{
-        "label": "是",
-        "value": 1
-      }, {
-        "label": "否",
-        "value": 0
-      }],
-      // 打开AP字典
-      isApOptions: [{
-        "label": "是",
-        "value": 1
-      }, {
-        "label": "否",
-        "value": 0
-      }],
-      // 射频遥控字典
-      isRfControlOptions: [{
-        "label": "打开",
-        "value": 1
-      }, {
-        "label": "关闭",
-        "value": 0
-      }],
-      // 遥控配对字典
-      isRfLearnOptions: [{
-        "label": "是",
-        "value": 1
-      }, {
-        "label": "否",
-        "value": 0
-      }],
-      // 遥控清码字典
-      isRfClearOptions: [{
+      // 是否字典
+      isYesNoOptions: [{
         "label": "是",
         "value": 1
       }, {
@@ -432,13 +421,7 @@ export default {
         "value": 0
       }],
       // 按键一字典
-      rfOneFuncOptions: [],
-      // 按键二字典
-      rfTwoFuncOptions: [],
-      // 按键三字典
-      rfThreeFuncOptions: [],
-      // 按键四字典
-      rfFourFuncOptions: [],
+      rfFuncOptions: [],
       // 创建时间时间范围
       daterangeCreateTime: [],
       // 查询参数
@@ -468,16 +451,7 @@ export default {
   created() {
     this.getList();
     this.getDicts("rf_function").then(response => {
-      this.rfOneFuncOptions = response.data;
-    });
-    this.getDicts("rf_function").then(response => {
-      this.rfTwoFuncOptions = response.data;
-    });
-    this.getDicts("rf_function").then(response => {
-      this.rfThreeFuncOptions = response.data;
-    });
-    this.getDicts("rf_function").then(response => {
-      this.rfFourFuncOptions = response.data;
+      this.rfFuncOptions = response.data;
     });
   },
   methods: {
@@ -497,19 +471,19 @@ export default {
     },
     // 按键一字典翻译
     rfOneFuncFormat(row, column) {
-      return this.selectDictLabel(this.rfOneFuncOptions, row.rfOneFunc);
+      return this.selectDictLabel(this.rfFuncOptions, row.rfOneFunc);
     },
     // 按键二字典翻译
     rfTwoFuncFormat(row, column) {
-      return this.selectDictLabel(this.rfTwoFuncOptions, row.rfTwoFunc);
+      return this.selectDictLabel(this.rfFuncOptions, row.rfTwoFunc);
     },
     // 按键三字典翻译
     rfThreeFuncFormat(row, column) {
-      return this.selectDictLabel(this.rfThreeFuncOptions, row.rfThreeFunc);
+      return this.selectDictLabel(this.rfFuncOptions, row.rfThreeFunc);
     },
     // 按键四字典翻译
     rfFourFuncFormat(row, column) {
-      return this.selectDictLabel(this.rfFourFuncOptions, row.rfFourFunc);
+      return this.selectDictLabel(this.rfFuncOptions, row.rfFourFunc);
     },
     // 取消按钮
     cancel() {
@@ -527,6 +501,9 @@ export default {
         isHost: null,
         isReset: null,
         isAp: null,
+        isWifiOffline: null,
+        isOpenCertifi: null,
+        isSmartConfig: null,
         isRfControl: null,
         isRfLearn: null,
         isRfClear: null,
@@ -537,6 +514,7 @@ export default {
         ownerId: null,
         networkAddress: null,
         networkIp: null,
+        radarInterval: null,
         createBy: null,
         createTime: null,
         updateBy: null,

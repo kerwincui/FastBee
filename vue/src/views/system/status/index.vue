@@ -78,7 +78,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
+    <!-- <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
           type="primary"
@@ -122,28 +122,29 @@
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+    </el-row> -->
 
     <el-table v-loading="loading" :data="statusList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <el-table-column label="序号" align="center" prop="deviceStatusId" />
       <el-table-column label="设备ID" align="center" prop="deviceId" />
       <el-table-column label="设备编号" align="center" prop="deviceNum" />
       <el-table-column label="继电器" align="center" prop="relayStatus"  />
       <el-table-column label="灯状态" align="center" prop="lightStatus"  />
       <el-table-column label="在线" align="center" prop="isOnline" />
-      <el-table-column label="设备温度" align="center" prop="deviceTemperature" />
-      <el-table-column label="设备湿度" align="center" prop="deviceHumidity" />
+      <el-table-column label="信号" align="center" prop="rssi" />
+      <el-table-column label="设备温度" align="center" prop="deviceTemperature" />      
       <el-table-column label="空气温度" align="center" prop="airTemperature" />
       <el-table-column label="空气湿度" align="center" prop="airHumidity" />
       <el-table-column label="触发源" align="center" prop="triggerSource" :formatter="triggerSourceFormat" />
       <el-table-column label="彩灯亮度" align="center" prop="brightness" />
       <el-table-column label="渐变间隔" align="center" prop="lightInterval" />
       <el-table-column label="彩灯模式" align="center" prop="lightMode" :formatter="lightModeFormat" />
+      <el-table-column label="渐变时间" align="center" prop="fadeTime" />
       <el-table-column label="红灯" align="center" prop="red" />
       <el-table-column label="绿灯" align="center" prop="green" />
       <el-table-column label="蓝灯" align="center" prop="blue" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <!-- <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -160,7 +161,7 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:status:remove']"
           >删除</el-button>
-        </template>
+        </template> -->
       </el-table-column>
     </el-table>
     
@@ -211,11 +212,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="信号" prop="rssi">
+          <el-input v-model="form.rssi" placeholder="请输入信号" />
+        </el-form-item>
         <el-form-item label="设备温度" prop="deviceTemperature">
           <el-input v-model="form.deviceTemperature" placeholder="请输入设备温度" />
-        </el-form-item>
-        <el-form-item label="设备湿度" prop="deviceHumidity">
-          <el-input v-model="form.deviceHumidity" placeholder="请输入设备湿度" />
         </el-form-item>
         <el-form-item label="空气温度" prop="airTemperature">
           <el-input v-model="form.airTemperature" placeholder="请输入空气温度" />
@@ -238,6 +239,9 @@
         </el-form-item>
         <el-form-item label="渐变间隔" prop="lightInterval">
           <el-input v-model="form.lightInterval" placeholder="请输入渐变间隔" />
+        </el-form-item>
+        <el-form-item label="渐变时间" prop="fadeTime">
+          <el-input v-model="form.fadeTime" placeholder="请输入渐变时间" />
         </el-form-item>
         <el-form-item label="彩灯模式" prop="lightMode">
           <el-select v-model="form.lightMode" placeholder="请选择彩灯模式">
@@ -397,12 +401,13 @@ export default {
         lightStatus: null,
         isOnline: null,
         deviceTemperature: null,
-        deviceHumidity: null,
+        rssi: null,
         airTemperature: null,
         airHumidity: null,
         triggerSource: null,
         brightness: null,
         lightInterval: null,
+        fadeTime: null,
         lightMode: null,
         red: null,
         green: null,
