@@ -10,7 +10,7 @@
 
     
 
-    
+![开发板](https://gitee.com/kerwincui/wumei-smart/raw/master/document/2.jpg)     
 
 ![参考设备](https://gitee.com/kerwincui/wumei-smart/raw/master/document/1.jpg)  
   
