@@ -8,7 +8,8 @@
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> <br />
 群号：1073236354<br />
 
-    
+ 
+![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)     
 
 ![开发板](https://gitee.com/kerwincui/wumei-smart/raw/master/document/2.jpg)     
 
