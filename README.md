@@ -51,11 +51,6 @@
 ## 后端
 ![后端](https://gitee.com/kerwincui/wumei-smart/raw/master/document/server.png)  
 
-## 安卓APP
-<div align="center">
-    <img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/android.png" width = "400"  alt="安卓app" align=center />
-</div>
-
 
 ## 固件开发
 ![固件开发](https://gitee.com/kerwincui/wumei-smart/raw/master/document/firmware.png)  
