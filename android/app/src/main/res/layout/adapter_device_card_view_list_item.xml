@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- *************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+************************************************** -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,43 +20,47 @@
         android:id="@+id/device_item_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        app:cardBackgroundColor="@color/xui_config_color_white"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="5dp"
         app:cardElevation="1dp"
         app:cardPreventCornerOverlap="true">
 
 
         <FrameLayout
+            android:id="@+id/device_item_fl_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="5dp"
+            android:background="#C9F3DA">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/device_item_title_icon"
-                android:layout_width="@dimen/config_margin_24dp"
-                android:layout_height="@dimen/config_margin_24dp"
+                android:id="@+id/update_device_temp_icon"
+                android:layout_width="@dimen/config_margin_14dp"
+                android:layout_height="@dimen/config_margin_14dp"
                 android:layout_gravity="start|center_vertical"
-                android:tint="@color/toast_normal_tint_color"
-                app:srcCompat="@drawable/water_valve" />
+                android:layout_marginTop="2dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/title" />
 
             <TextView
                 android:id="@+id/device_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="14dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:paddingTop="3dp"
                 android:singleLine="true"
-                android:text="雷达感应灯08"
+                android:text="智能报警灯"
                 android:textColor="@color/xui_config_color_pure_black"
                 android:textSize="14sp" />
 
@@ -56,41 +70,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="32dp"
             android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="bottom|start|left"
-                android:orientation="vertical"
-                android:paddingBottom="5dp">
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/device_item_time_icon"
-                        android:layout_width="@dimen/config_margin_12dp"
-                        android:layout_height="@dimen/config_margin_12dp"
+                        android:id="@+id/device_item_category_icon"
+                        android:layout_width="@dimen/config_margin_14dp"
+                        android:layout_height="@dimen/config_margin_14dp"
                         android:layout_gravity="bottom"
-                        app:srcCompat="@drawable/time_b" />
+                        android:tint="@color/primary"
+                        app:srcCompat="@drawable/category" />
 
                     <TextView
-                        android:id="@+id/device_item_time"
+                        android:id="@+id/device_item_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/config_margin_14dp"
+                        android:layout_marginStart="@dimen/config_margin_16dp"
                         android:ellipsize="end"
                         android:gravity="start|center_vertical"
-                        android:text="08:45"
+                        android:text="智能灯"
                         android:textColor="@color/xui_config_color_pure_black"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
+
                 </FrameLayout>
 
                 <FrameLayout
@@ -98,90 +114,100 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="12dp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/config_margin_12dp"
-                        android:layout_height="@dimen/config_margin_12dp"
-                        android:layout_gravity="bottom"
-                        android:tint="@color/danger"
-                        app:srcCompat="@drawable/temperature" />
-
-                    <TextView
-                        android:id="@+id/device_item_temperature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/config_margin_14dp"
-                        android:ellipsize="end"
-                        android:gravity="start|center_vertical"
-                        android:text="15℃"
-                        android:textColor="@color/xui_config_color_pure_black"
-                        android:textSize="10sp" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/config_margin_12dp"
-                        android:layout_height="@dimen/config_margin_12dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="45dp"
-                        android:tint="@color/danger"
-                        app:srcCompat="@drawable/humidity" />
-
-                    <TextView
-                        android:id="@+id/device_item_humidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="58dp"
-                        android:ellipsize="end"
-                        android:gravity="start|center_vertical"
-                        android:text="60%"
-                        android:textColor="@color/xui_config_color_pure_black"
-                        android:textSize="10sp" />
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/device_item_wifi_icon"
-                        android:layout_width="@dimen/config_margin_12dp"
-                        android:layout_height="@dimen/config_margin_12dp"
+                        android:layout_width="@dimen/config_margin_14dp"
+                        android:layout_height="@dimen/config_margin_14dp"
                         android:layout_gravity="bottom"
-                        app:srcCompat="@drawable/wifi" />
+                        app:srcCompat="@drawable/wifi_2" />
 
                     <TextView
                         android:id="@+id/device_item_wifi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/config_margin_14dp"
+                        android:layout_marginStart="@dimen/config_margin_16dp"
                         android:ellipsize="end"
                         android:gravity="start|center_vertical"
                         android:text="在线"
                         android:textColor="@color/xui_config_color_pure_black"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/device_item_state_icon"
-                        android:layout_width="@dimen/config_margin_12dp"
-                        android:layout_height="@dimen/config_margin_12dp"
+                        android:id="@+id/device_item_temp_icon"
+                        android:layout_width="@dimen/config_margin_14dp"
+                        android:layout_height="@dimen/config_margin_14dp"
                         android:layout_gravity="bottom"
-                        android:layout_marginStart="45dp"
-                        app:srcCompat="@drawable/state_b" />
+                        android:layout_marginStart="48dp"
+                        android:tint="@color/success"
+                        app:srcCompat="@drawable/temperature" />
 
                     <TextView
-                        android:id="@+id/device_item_state"
+                        android:id="@+id/device_item_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="58dp"
+                        android:layout_marginStart="62dp"
                         android:ellipsize="end"
                         android:gravity="start|center_vertical"
-                        android:text="打开"
+                        android:text="23℃"
                         android:textColor="@color/xui_config_color_pure_black"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="15dp">
+
+                    <com.xuexiang.xui.widget.button.SwitchIconView
+                        android:id="@+id/device_item_radar_icon"
+                        android:layout_width="@dimen/config_margin_14dp"
+                        android:layout_height="@dimen/config_margin_14dp"
+                        android:layout_gravity="bottom"
+                        app:siv_disabled_color="@color/info"
+                        app:siv_no_dash="true"
+                        app:siv_tint_color="@color/danger"
+                        app:srcCompat="@drawable/radar" />
+
+                    <TextView
+                        android:id="@+id/device_item_radar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/config_margin_16dp"
+                        android:ellipsize="end"
+                        android:gravity="start|center_vertical"
+                        android:text="雷达"
+                        android:textColor="@color/xui_config_color_pure_black"
+                        android:textSize="12sp" />
+
+                    <com.xuexiang.xui.widget.button.SwitchIconView
+                        android:id="@+id/device_item_alarm_icon"
+                        android:layout_width="@dimen/config_margin_14dp"
+                        android:layout_height="@dimen/config_margin_14dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="48dp"
+                        app:siv_disabled_color="@color/info"
+                        app:siv_no_dash="true"
+                        app:siv_tint_color="@color/danger"
+                        app:srcCompat="@drawable/alarm" />
+
+                    <TextView
+                        android:id="@+id/device_item_alarm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="62dp"
+                        android:ellipsize="end"
+                        android:gravity="start|center_vertical"
+                        android:text="报警"
+                        android:textColor="@color/xui_config_color_pure_black"
+                        android:textSize="12sp" />
+                </FrameLayout>
+
+
             </LinearLayout>
 
             <RelativeLayout
@@ -189,19 +215,45 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom|right">
 
-                <com.xuexiang.xui.widget.button.SwitchIconView
-                    android:id="@+id/device_item_switch_button"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="bottom|end"
-                    android:padding="8dp"
-                    app:siv_animation_duration="500"
-                    app:siv_disabled_alpha=".5"
-                    app:siv_disabled_color="@color/info"
-                    app:siv_enabled="false"
-                    app:siv_no_dash="true"
-                    app:siv_tint_color="@color/toast_error_color"
-                    app:srcCompat="@drawable/power" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.xuexiang.xui.widget.button.SwitchIconView
+                        android:id="@+id/device_item_light_button"
+                        android:layout_width="40dp"
+                        android:layout_height="53dp"
+                        android:layout_gravity="bottom|end"
+                        android:paddingTop="@dimen/config_padding_12dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="@dimen/config_padding_12dp"
+                        app:siv_animation_duration="500"
+                        app:siv_disabled_alpha=".5"
+                        app:siv_disabled_color="@color/info"
+                        app:siv_enabled="false"
+                        app:siv_no_dash="true"
+                        app:siv_tint_color="@color/danger"
+                        app:srcCompat="@drawable/light_on" />
+
+                    <com.xuexiang.xui.widget.button.SwitchIconView
+                        android:id="@+id/device_item_switch_button"
+                        android:layout_width="40dp"
+                        android:layout_height="53dp"
+                        android:layout_gravity="bottom|end"
+                        android:paddingTop="@dimen/config_padding_16dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="@dimen/config_padding_16dp"
+                        app:siv_animation_duration="500"
+                        app:siv_disabled_alpha=".5"
+                        app:siv_disabled_color="@color/info"
+                        app:siv_enabled="false"
+                        app:siv_no_dash="true"
+                        app:siv_tint_color="@color/danger"
+                        app:srcCompat="@drawable/switch_c" />
+
+                </LinearLayout>
+
             </RelativeLayout>
 
         </LinearLayout>

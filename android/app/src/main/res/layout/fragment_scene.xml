@@ -1,35 +1,235 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- *************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+************************************************** -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xui_config_color_white"
     android:orientation="vertical">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnableAutoLoadMore="true"
-        app:srlEnableLoadMore="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.scwang.smartrefresh.header.MaterialHeader
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/config_margin_10dp"
+            android:background="@color/cardview_light_background"
+            android:orientation="vertical"
+            android:padding="@dimen/config_padding_20dp"
+            android:paddingEnd="@dimen/config_padding_20dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="服务端配置"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/config_margin_18dp"
+                    android:text="地址/域名:" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_serve"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="38dp"
+                    android:hint="请输入服务端地址，例如：192.168.0.100"
+                    android:inputType="text"
+                    app:met_clearButton="true"
+                    app:met_errorMessage="输入的服务地址有误"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="服务端地址" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/config_margin_18dp"
+                    android:text="端口:" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="38dp"
+                    android:hint="请输入端口号，例如：80"
+                    android:inputType="number"
+                    app:met_clearButton="true"
+                    app:met_errorMessage="输入的端口有误"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="服务端口" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/config_margin_18dp"
+                    android:text="使用HTTPS:" />
+
+                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
+                    android:id="@+id/sb_https"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="90dp"
+                    app:swb_textOff="否"
+                    app:swb_textOn="是" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="端口:"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                    android:id="@+id/btn_connect_test"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:text="连接测试"
+                    app:sCornersRadius="5dp"
+                    app:sSolidColor="@color/app_color_theme_2" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                    android:id="@+id/btn_save_serve"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="10dp"
+                    android:text="保存"
+                    app:sCornersRadius="5dp"
+                    app:sSolidColor="@color/colorAccent" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            tools:listitem="@layout/adapter_news_card_view_list_item" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/cardview_light_background"
+            android:orientation="vertical"
+            android:padding="@dimen/config_padding_20dp"
+            android:paddingEnd="@dimen/config_padding_20dp">
 
-        <!--    注意修改包名时，这里也需要修改    -->
-        <com.kerwin.wumei.widget.MaterialFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="AP配置"
+                android:textStyle="bold" />
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="需要设备支持并启动AP，手机连接设备wifi热点"
+                android:textColor="@color/danger"
+                android:textSize="12sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/config_margin_18dp"
+                    android:text="设备AP地址：" />
+
+                <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    android:id="@+id/et_ap_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginEnd="130dp"
+                    android:inputType="text"
+                    app:met_clearButton="true"
+                    app:met_errorMessage="输入有误"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="设备地址"
+                    tools:text="192.168.4.1" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                    android:id="@+id/btn_open_ap"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="42dp"
+                    android:text="打开"
+                    app:sCornersRadius="5dp"
+                    app:sSolidColor="@color/app_color_theme_5" />
+            </FrameLayout>
+        </LinearLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

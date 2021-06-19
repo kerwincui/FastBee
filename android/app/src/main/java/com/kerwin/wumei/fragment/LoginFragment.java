@@ -1,37 +1,47 @@
-/*
- * Copyright (C) 2021 xuexiangjys(xuexiangjys@163.com)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 
 package com.kerwin.wumei.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.kerwin.wumei.activity.LoginActivity;
 import com.kerwin.wumei.activity.MainActivity;
 import com.kerwin.wumei.core.BaseFragment;
 import com.kerwin.wumei.R;
-import com.kerwin.wumei.utils.RandomUtils;
+import com.kerwin.wumei.entity.IotGroup;
+import com.kerwin.wumei.entity.bo.CaptureImage;
+import com.kerwin.wumei.entity.User;
+import com.kerwin.wumei.http.callback.TipRequestCallBack;
+import com.kerwin.wumei.http.request.CaptchaImageApiResult;
+import com.kerwin.wumei.http.request.ListApiResult;
+import com.kerwin.wumei.http.request.TokenApiResult;
+import com.kerwin.wumei.http.request.UserInfoApiResult;
+import com.kerwin.wumei.utils.MMKVUtils;
 import com.kerwin.wumei.utils.SettingUtils;
 import com.kerwin.wumei.utils.TokenUtils;
 import com.kerwin.wumei.utils.Utils;
 import com.kerwin.wumei.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.CallBackProxy;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xui.utils.CountDownButtonHelper;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.ThemeUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
@@ -39,8 +49,14 @@ import com.xuexiang.xui.widget.button.roundbutton.RoundButton;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xutil.app.ActivityUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.kerwin.wumei.utils.TokenUtils.clearToken;
+import static com.kerwin.wumei.utils.TokenUtils.getToken;
+import static com.kerwin.wumei.utils.TokenUtils.hasToken;
 
 
 /**
@@ -54,12 +70,17 @@ public class LoginFragment extends BaseFragment {
 
     @BindView(R.id.et_phone_number)
     MaterialEditText etPhoneNumber;
+    @BindView(R.id.et_password)
+    MaterialEditText etPassword;
     @BindView(R.id.et_verify_code)
     MaterialEditText etVerifyCode;
-    @BindView(R.id.btn_get_verify_code)
-    RoundButton btnGetVerifyCode;
+    @BindView(R.id.iv_code)
+    ImageView imgVertifyCode;
+    @BindView(R.id.btn_clear)
+    RoundButton btnClear;
 
-    private CountDownButtonHelper mCountDownHelper;
+    private String uuid="";
+    private String token="";
 
     @Override
     protected int getLayoutId() {
@@ -77,6 +98,7 @@ public class LoginFragment extends BaseFragment {
         titleBar.addAction(new TitleBar.TextAction(R.string.title_jump_login) {
             @Override
             public void performAction(View view) {
+                clearToken();
                 onLoginSuccess();
             }
         });
@@ -85,87 +107,103 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        mCountDownHelper = new CountDownButtonHelper(btnGetVerifyCode, 60);
-
         //隐私政策弹窗
-        if (!SettingUtils.isAgreePrivacy()) {
-            Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
-                dialog.dismiss();
-                SettingUtils.setIsAgreePrivacy(true);
-            });
-        }
+//        if (!SettingUtils.isAgreePrivacy()) {
+//            Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
+//                dialog.dismiss();
+//                SettingUtils.setIsAgreePrivacy(true);
+//            });
+//        }
+        getCatpureImage();
+        getLocalAccount();
     }
 
     @SingleClick
-    @OnClick({R.id.btn_get_verify_code, R.id.btn_login, R.id.tv_other_login, R.id.tv_forget_password, R.id.tv_user_protocol, R.id.tv_privacy_protocol})
+    @OnClick({ R.id.btn_login,R.id.iv_code,R.id.btn_clear})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_get_verify_code:
-                if (etPhoneNumber.validate()) {
-                    getVerifyCode(etPhoneNumber.getEditValue());
-                }
+            case R.id.btn_clear:
+                SettingUtils.clearPassword();
+                etPassword.clear();
+                break;
+            case R.id.iv_code:
+                getCatpureImage();
                 break;
             case R.id.btn_login:
                 if (etPhoneNumber.validate()) {
                     if (etVerifyCode.validate()) {
-                        loginByVerifyCode(etPhoneNumber.getEditValue(), etVerifyCode.getEditValue());
+                        loginByVerifyCode(etPhoneNumber.getEditValue(), etPassword.getEditValue(), etVerifyCode.getEditValue());
                     }
                 }
-                break;
-            case R.id.tv_other_login:
-                XToastUtils.info("其他登录方式");
-                break;
-            case R.id.tv_forget_password:
-                XToastUtils.info("忘记密码");
-                break;
-            case R.id.tv_user_protocol:
-                XToastUtils.info("用户协议");
-                break;
-            case R.id.tv_privacy_protocol:
-                XToastUtils.info("隐私政策");
                 break;
             default:
                 break;
         }
     }
 
-    /**
-     * 获取验证码
-     */
-    private void getVerifyCode(String phoneNumber) {
-        // TODO: 2020/8/29 这里只是界面演示而已
-        XToastUtils.warning("只是演示，验证码请随便输");
-        mCountDownHelper.start();
-    }
-
-    /**
-     * 根据验证码登录
-     *
-     * @param phoneNumber 手机号
-     * @param verifyCode  验证码
-     */
-    private void loginByVerifyCode(String phoneNumber, String verifyCode) {
-        // TODO: 2020/8/29 这里只是界面演示而已
-        onLoginSuccess();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     /**
      * 登录成功的处理
      */
     private void onLoginSuccess() {
-        String token = RandomUtils.getRandomNumbersAndLetters(16);
-        if (TokenUtils.handleLoginSuccess(token)) {
-            popToBack();
-            ActivityUtils.startActivity(MainActivity.class);
-        }
+        TokenUtils.handleLoginSuccess(token);
+        popToBack();
+        ActivityUtils.startActivity(MainActivity.class);
     }
 
-    @Override
-    public void onDestroyView() {
-        if (mCountDownHelper != null) {
-            mCountDownHelper.recycle();
-        }
-        super.onDestroyView();
+    /**
+     * 获取本地存储的账号
+     */
+    private void getLocalAccount(){
+        etPhoneNumber.setText(SettingUtils.getUserName());
+        etPassword.setText(SettingUtils.getPassword());
     }
+
+    /**
+     * HTTP获取验证码
+     */
+    private void getCatpureImage(){
+        XHttp.get("/prod-api/captchaImage")
+                .execute(new CallBackProxy<CaptchaImageApiResult<CaptureImage>, CaptureImage>(new TipRequestCallBack<CaptureImage>() {
+                    @Override
+                    public void onSuccess(CaptureImage image) throws Throwable {
+                        uuid=image.getUuid();
+                        byte[] decode = Base64.decode(image.getImg(), Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+                        imgVertifyCode.setImageBitmap(bitmap);
+                    }
+                }){});
+    }
+
+    /**
+     * HTTP登录
+     *
+     * @param phoneNumber 手机号
+     * @param verifyCode  验证码
+     */
+    private void loginByVerifyCode(String phoneNumber,String password, String verifyCode) {
+        XHttp.post("/prod-api/login")
+                .upJson("{\"username\":\""+phoneNumber+"\",\"password\":\""+password+"\",\"code\":\""+verifyCode+"\",\"uuid\":\""+uuid+"\"}")
+                .execute(new CallBackProxy<TokenApiResult<String>, String>(new TipRequestCallBack<String>() {
+                    @Override
+                    public void onSuccess(String tokenResult) throws Throwable {
+                        SettingUtils.setAccount(etPhoneNumber.getEditValue(),etPassword.getEditValue());
+                        token=tokenResult;
+                        onLoginSuccess();
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                        clearToken();
+                    }
+                }){});
+    }
+
+
+
+
 }
 

@@ -18,7 +18,7 @@ project.configurations.each { configuration ->
         //XUpdate版本更新
         configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XUpdate:2.0.7'))
         //XHttp2
-        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XHttp2:2.0.2'))
+        configuration.dependencies.add(getProject().dependencies.create('com.github.xuexiangjys:XHttp2:2.0.4'))
         configuration.dependencies.add(getProject().dependencies.create(deps.rxjava2))
         configuration.dependencies.add(getProject().dependencies.create(deps.rxandroid))
         configuration.dependencies.add(getProject().dependencies.create('com.squareup.okhttp3:okhttp:3.10.0'))

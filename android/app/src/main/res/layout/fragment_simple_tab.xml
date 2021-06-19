@@ -29,20 +29,6 @@
             android:scrollbarSize="4dp"
             tools:listitem="@layout/adapter_device_card_view_list_item" />
 
-        <!--    <TextView-->
-        <!--        android:id="@+id/tv_title"-->
-        <!--        style="@style/TextStyle.Title"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        tools:text="这里是xx页面" />-->
-
-        <!--    <TextView-->
-        <!--        android:id="@+id/tv_explain"-->
-        <!--        style="@style/TextStyle.Explain"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="20dp"-->
-        <!--        tools:text="这里是xx页面描述" />-->
 
         <!--    注意修改包名时，这里也需要修改    -->
         <com.kerwin.wumei.widget.MaterialFooter

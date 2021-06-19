@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 
 import com.kerwin.wumei.core.BaseActivity;
 import com.kerwin.wumei.fragment.LoginFragment;
+import com.kerwin.wumei.fragment.device.DeviceDetailFragment;
 import com.xuexiang.xui.utils.KeyboardUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
 import com.xuexiang.xutil.display.Colors;

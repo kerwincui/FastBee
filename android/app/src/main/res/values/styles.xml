@@ -35,10 +35,10 @@
         <item name="xui_config_splash_company_logo">@drawable/begin</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
-        <!--标题栏的背景颜色 没有解决-->
-        <item name="xpage_actionbar_color">@color/colorPrimary</item>
-    </style>
+
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--DialogTheme，用于将Activity作为Dialog的主题-->

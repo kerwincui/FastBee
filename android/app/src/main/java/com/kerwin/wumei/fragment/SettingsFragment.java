@@ -1,27 +1,27 @@
-/*
- * Copyright (C) 2021 xuexiangjys(xuexiangjys@163.com)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 
 package com.kerwin.wumei.fragment;
 
 import com.kerwin.wumei.core.BaseFragment;
 import com.kerwin.wumei.R;
+import com.kerwin.wumei.http.callback.TipRequestCallBack;
+import com.kerwin.wumei.http.request.NoDataApiResult;
+import com.kerwin.wumei.http.request.TokenApiResult;
 import com.kerwin.wumei.utils.TokenUtils;
 import com.kerwin.wumei.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.CallBackProxy;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.widget.dialog.DialogLoader;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -64,6 +64,23 @@ public class SettingsFragment extends BaseFragment implements SuperTextView.OnSu
         menuLogout.setOnSuperTextViewClickListener(this);
     }
 
+    /**
+     * HTTP退出登录
+     */
+    private void logout(){
+        XHttp.post("/prod-api/logout")
+                .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
+                    @Override
+                    public void onSuccess(String tokenResult) throws Throwable {
+                        XToastUtils.success("登出成功" );
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+                }){});
+    }
+
     @SingleClick
     @Override
     public void onClick(SuperTextView superTextView) {
@@ -83,6 +100,7 @@ public class SettingsFragment extends BaseFragment implements SuperTextView.OnSu
                         getString(R.string.lab_logout_confirm),
                         getString(R.string.lab_yes),
                         (dialog, which) -> {
+                            logout();
                             dialog.dismiss();
                             XUtil.getActivityLifecycleHelper().exit();
                             TokenUtils.handleLogoutSuccess();

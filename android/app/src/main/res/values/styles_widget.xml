@@ -94,6 +94,36 @@
         <item name="android:textColor">@color/xui_config_color_white</item>
     </style>
 
+    <style name="SuperButton.Primary.Save">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="sCornersRadius">5dp</item>
+        <item name="sSelectorNormalColor">?attr/colorAccent</item>
+        <item name="sSelectorPressedColor">?attr/colorAccent</item>
+        <item name="android:textColor">@color/xui_config_color_white</item>
+    </style>
+
+    <style name="SuperButton.Primary.Apply">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="sCornersRadius">5dp</item>
+        <item name="sSelectorNormalColor">?attr/colorError</item>
+        <item name="sSelectorPressedColor">?attr/colorError</item>
+        <item name="android:textColor">@color/xui_config_color_white</item>
+    </style>
+
+    <!-- SwitchButton -->
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
     <!--TabLayout-->
     <style name="TabText" parent="TextAppearance.Design.Tab">
         <item name="android:textColor">@color/selector_tab_text_color</item>

@@ -1,29 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- *************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+************************************************** -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xui_config_color_white"
     android:orientation="vertical">
+
+
+    <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animationCache="false"
+            android:background="#FFFFFF">
+
+            <com.xuexiang.xui.widget.progress.CircleProgressView
+                android:id="@+id/progressView_circle_main"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                app:cpv_animate_type="AccelerateDecelerateInterpolator"
+                app:cpv_circle_broken="false"
+                app:cpv_end_color="#80006DFE"
+                app:cpv_end_progress="100"
+                app:cpv_isFilled="false"
+                app:cpv_isGraduated="false"
+                app:cpv_isTracked="true"
+                app:cpv_progress_duration="3000"
+                app:cpv_progress_textColor="#0D006DFE"
+                app:cpv_progress_textSize="48sp"
+                app:cpv_progress_textVisibility="false"
+                app:cpv_progress_width="16dp"
+                app:cpv_scaleZone_width="3dp"
+                app:cpv_start_color="@color/cardview_light_background"
+                app:cpv_start_progress="0"
+                app:cpv_track_color="#FAFAFF"
+                app:cpv_track_width="26dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/progress_text_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="48sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="32sp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
 
         <TextView
-            android:id="@+id/add_device_title"
-            style="@style/TextStyle.Title"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="WIFI网络设置"
-            android:textSize="24sp" />
+            android:id="@+id/txt_config_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal|top"
+            android:text="消息提示"
+            android:textColor="@color/danger" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -43,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="?attr/xui_config_content_spacing_vertical"
+                android:enabled="false"
                 android:text="请选择WIFI网络" />
 
         </FrameLayout>
@@ -85,7 +155,8 @@
                 android:layout_height="42dp"
                 android:gravity="center_vertical"
                 android:inputType="textMultiLine"
-                android:text="目前仅支持2.4GHz的WIFI网络"
+                android:text="提示：目前仅支持2.4GHz的WIFI网络"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -96,7 +167,6 @@
                 android:checked="true"
                 android:text="记住密码"
                 android:textSize="12sp" />
-
 
         </RelativeLayout>
 
@@ -128,7 +198,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_device_num_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="42dp"
+                    android:layout_marginTop="31dp"
+                    android:text="设备数量：" />
+
+                <com.xuexiang.xui.widget.picker.XSeekBar
+                    android:id="@+id/xsb_device_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="115dp"
+                    android:layout_marginTop="0dp"
+                    app:xsb_insideRangeLineColor="@color/colorAccent"
+                    app:xsb_insideRangeLineStrokeWidth="5dp"
+                    app:xsb_isShowBubble="true"
+                    app:xsb_max="32"
+                    app:xsb_min="1"
+                    app:xsb_numberTextColor="#ffffff"
+                    app:xsb_numberTextSize="12sp" />
+
+            </FrameLayout>
 
             <RadioGroup
                 android:id="@+id/packageModeGroup"
@@ -152,21 +250,48 @@
                     android:layout_marginStart="16dp"
                     android:text="@string/esptouch1_package_multicast" />
             </RadioGroup>
+
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/messageView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:textColor="@android:color/holo_red_dark" />
+            android:layout_height="wrap_content">
 
-        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-            android:id="@+id/add_device_next_btn"
-            style="@style/SuperButton.Primary.Login"
-            android:layout_marginTop="16dp"
-            android:text="下一步" />
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/btn_return"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="25dp"
+                android:text="返回"
+                app:sCornersRadius="5dp"
+                app:sSolidColor="@color/app_color_theme_5" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/btn_config_cancle"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="25dp"
+                android:enabled="false"
+                android:text="取消"
+                app:sCornersRadius="5dp"
+                app:sSolidColor="@color/app_color_theme_2" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/btn_begin"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="180dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="100dp"
+                android:text="开始配网"
+                app:sCornersRadius="5dp"
+                app:sSolidColor="@color/colorAccent" />
+        </FrameLayout>
 
     </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

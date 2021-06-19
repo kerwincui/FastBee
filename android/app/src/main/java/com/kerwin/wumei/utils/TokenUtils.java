@@ -34,13 +34,13 @@ public final class TokenUtils {
 
     private static String sToken;
 
-    private static final String KEY_TOKEN = "com.xuexiang.templateproject.utils.KEY_TOKEN";
+    private static final String KEY_TOKEN = "com.kerwin.wumei.utils.KEY_TOKEN";
 
     private TokenUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    private static final String KEY_PROFILE_CHANNEL = "github";
+    private static final String KEY_PROFILE_CHANNEL = "gitee";
 
     /**
      * 初始化Token信息
@@ -80,7 +80,7 @@ public final class TokenUtils {
             setToken(token);
             return true;
         } else {
-            XToastUtils.error("登录失败！");
+//            XToastUtils.error("匿名用户");
             return false;
         }
     }
@@ -92,7 +92,7 @@ public final class TokenUtils {
         MobclickAgent.onProfileSignOff();
         //登出时，清除账号信息
         clearToken();
-        XToastUtils.success("登出成功！");
+//        XToastUtils.success("登出成功！");
         //跳转到登录页
         ActivityUtils.startActivity(LoginActivity.class);
     }

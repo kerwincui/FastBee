@@ -38,15 +38,16 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
      */
     @Override
     protected void onSplashFinished() {
-        if (SettingUtils.isAgreePrivacy()) {
-            loginOrGoMainPage();
-        } else {
-            Utils.showPrivacyDialog(this, (dialog, which) -> {
-                dialog.dismiss();
-                SettingUtils.setIsAgreePrivacy(true);
-                loginOrGoMainPage();
-            });
-        }
+        loginOrGoMainPage();
+//        if (SettingUtils.isAgreePrivacy()) {
+//            loginOrGoMainPage();
+//        } else {
+//            Utils.showPrivacyDialog(this, (dialog, which) -> {
+//                dialog.dismiss();
+//                SettingUtils.setIsAgreePrivacy(true);
+//                loginOrGoMainPage();
+//            });
+//        }
     }
 
     private void loginOrGoMainPage() {

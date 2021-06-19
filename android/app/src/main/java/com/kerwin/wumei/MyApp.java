@@ -14,14 +14,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.multidex.MultiDex;
 
-import com.kerwin.wumei.BuildConfig;
+import com.kerwin.wumei.http.interceptor.CustomLoggingInterceptor;
+import com.kerwin.wumei.utils.SettingSPUtils;
 import com.kerwin.wumei.utils.sdkinit.ANRWatchDogInit;
 import com.kerwin.wumei.utils.sdkinit.UMengInit;
 import com.kerwin.wumei.utils.sdkinit.XBasicLibInit;
 import com.kerwin.wumei.utils.sdkinit.XUpdateInit;
+import com.xuexiang.xhttp2.XHttpSDK;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
 
 /**
  * @author xuexiang
@@ -60,7 +61,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         initLibs();
-
+        initHttp();
         app = this;
         mBroadcastData = new MutableLiveData<>();
         IntentFilter filter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -100,6 +101,16 @@ public class MyApp extends Application {
 
         //ANR监控
         ANRWatchDogInit.init();
+    }
+
+    private void initHttp() {
+        XHttpSDK.init(this);   //初始化网络请求框架，必须首先执行
+        XHttpSDK.setSuccessCode(200);
+        XHttpSDK.debug();  //需要调试的时候执行
+        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
+        XHttpSDK.setBaseUrl(getServeUrl());  //设置网络请求的基础地址
+//        XHttpSDK.addInterceptor(new CustomDynamicInterceptor()); //设置动态参数添加拦截器
+//        XHttpSDK.addInterceptor(new CustomExpiredInterceptor()); //请求失效校验拦截器
     }
 
 

@@ -12,15 +12,10 @@
             android:icon="@drawable/mobile_phone"
             android:title="添加设备" />
         <item
-            android:id="@+id/nav_share_device"
+            android:id="@+id/nav_serve_config"
             android:checkable="false"
-            android:icon="@drawable/mobile_phone"
-            android:title="分享设备" />
-        <item
-            android:id="@+id/nav_group"
-            android:checkable="false"
-            android:icon="@drawable/group"
-            android:title="分组管理" />
+            android:icon="@drawable/set"
+            android:title="服务配置" />
     </group>
 
     <group
@@ -31,11 +26,6 @@
             android:checkable="false"
             android:icon="@drawable/ic_menu_notifications"
             android:title="@string/menu_message" />
-        <item
-            android:id="@+id/nav_settings"
-            android:checkable="false"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="@string/menu_settings" />
         <item
             android:id="@+id/nav_about"
             android:checkable="false"

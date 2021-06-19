@@ -1,13 +1,15 @@
 <resources>
-    <string name="app_name">物美</string>
+    <string name="app_name">物美智能</string>
     <string name="app_browser_name">通用浏览器</string>
+    <string name="service_api_key">service_api_key</string>
+    <string name="default_service_api">http://wumei.live</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_device">设备</string>
-    <string name="menu_news">动态</string>
-    <string name="menu_scene">场景</string>
+    <string name="menu_news">官网</string>
+    <string name="menu_scene">配置</string>
     <string name="menu_add_device">添加</string>
     <string name="menu_profile">我的</string>
     <string name="menu_left_add_device">添加设备</string>
@@ -21,13 +23,13 @@
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
 
-    <string name="about_copyright">© %1$s wumei All rights reserved.</string>
+    <string name="about_copyright">© %1$s wumei-smart All rights reserved.</string>
     <string name="about_item_homepage">访问官网</string>
-    <string name="about_item_author_github">关于作者</string>
-    <string name="about_item_add_qq_group">QQ联系</string>
+    <string name="about_item_author_github">访问源码</string>
+    <string name="about_item_add_qq_group">加入QQ群</string>
     <string name="url_project_github">http://wumei.live</string>
-    <string name="url_author_github">https://gitee.com/kerwincui</string>
-    <string name="url_add_qq_group">http://wpa.qq.com/msgrd?v=3&amp;uin=164770707&amp;site=qq&amp;menu=yes</string>
+    <string name="url_author_github">https://gitee.com/kerwincui/wumei-smart</string>
+    <string name="url_add_qq_group">https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8</string>
 
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>
@@ -95,9 +97,7 @@
     <string name="esptouch1_location_permission_message">在 Android M 及以上版本，如果您禁止授权位置权限，APP将无法获取 Wi-Fi 信息。</string>
     <string name="esptouch1_configure_wifi_change_message">Wi-Fi 已断开或发生了变化</string>
     <string name="esptouch1_configuring_message">Esptouch 正在执行配网, 请稍等片刻…</string>
-    <string name="esptouch1_configure_result_failed">EspTouch 配网失败</string>
-    <string name="esptouch1_configure_result_failed_port">建立 EspTouch 任务失败, 端口可能被其他程序占用</string>
     <string name="esptouch1_configure_result_success">EspTouch 完成</string>
-    <string name="esptouch1_configure_result_success_item">BSSID: %1$s, 地址: %2$s</string>
+
 
 </resources>

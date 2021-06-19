@@ -22,15 +22,15 @@
     <item
         android:id="@+id/nav_device"
         android:icon="@drawable/device"
-        android:title="设备" />
+        android:title="@string/menu_device" />
     <item
         android:id="@+id/nav_scene"
-        android:icon="@drawable/scene"
-        android:title="场景" />
+        android:icon="@drawable/set"
+        android:title="@string/menu_scene" />
     <item
         android:id="@+id/nav_news"
         android:icon="@drawable/ic_menu_news"
-        android:title="动态" />
+        android:title="@string/menu_news" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_menu_person"

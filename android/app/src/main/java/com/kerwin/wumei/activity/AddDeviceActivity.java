@@ -14,6 +14,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -35,9 +36,11 @@ import com.kerwin.wumei.R;
 import com.kerwin.wumei.adapter.entity.EspTouchViewModel;
 import com.kerwin.wumei.core.BaseActivity;
 import com.kerwin.wumei.fragment.LoginFragment;
+import com.kerwin.wumei.fragment.device.AddDeviceFragment;
 import com.kerwin.wumei.utils.NetUtils;
 import com.xuexiang.xui.utils.KeyboardUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
+import com.xuexiang.xui.widget.progress.CircleProgressView;
 import com.xuexiang.xutil.display.Colors;
 
 import java.lang.ref.WeakReference;
@@ -68,6 +71,10 @@ public class AddDeviceActivity extends BaseActivity {
         return mViewModel;
     }
 
+    private AddDeviceFragment addDeviceFragment;
+    private IEsptouchTask mEsptouchTask;
+
+
     public void executeEsptouch() {
         EspTouchViewModel viewModel = mViewModel;
         // byte[] ssid = viewModel.ssidBytes == null ? ByteUtil.getBytesByString(viewModel.ssid): viewModel.ssidBytes;
@@ -77,7 +84,8 @@ public class AddDeviceActivity extends BaseActivity {
         byte[] password = pwdStr == null ? null : ByteUtil.getBytesByString(pwdStr.toString());
         byte[] bssid = TouchNetUtil.parseBssid2bytes(viewModel.bssid);
         byte[] broadcast = {(byte) (mViewModel.packageModeGroup.getCheckedRadioButtonId() == R.id.packageBroadcast? 1 : 0)};
-        byte[] deviceCount = "1".getBytes();
+        int count = mViewModel.xsbDeviceCount.getSelectedNumber();
+        byte[] deviceCount = String.valueOf(count).getBytes();
         if (mTask != null) {
             mTask.cancelEsptouch();
         }
@@ -259,12 +267,19 @@ public class AddDeviceActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public static class EsptouchAsyncTask4 extends AsyncTask<byte[], IEsptouchResult, List<IEsptouchResult>> {
+    /**
+     * 中断配网任务
+     */
+    public void interruptEspTouchTask(){
+        if (mEsptouchTask != null) {
+            mEsptouchTask.interrupt();
+        }
+    }
+
+    public class EsptouchAsyncTask4 extends AsyncTask<byte[], IEsptouchResult, List<IEsptouchResult>> {
         private WeakReference<AddDeviceActivity> mActivity;
         private final Object mLock = new Object();
-        private ProgressDialog mProgressDialog;
-        private AlertDialog mResultDialog;
-        private IEsptouchTask mEsptouchTask;
+
 
         EsptouchAsyncTask4(AddDeviceActivity activity) {
             mActivity = new WeakReference<>(activity);
@@ -272,12 +287,6 @@ public class AddDeviceActivity extends BaseActivity {
 
         public void cancelEsptouch() {
             cancel(true);
-            if (mProgressDialog != null) {
-                mProgressDialog.dismiss();
-            }
-            if (mResultDialog != null) {
-                mResultDialog.dismiss();
-            }
             if (mEsptouchTask != null) {
                 mEsptouchTask.interrupt();
             }
@@ -285,26 +294,8 @@ public class AddDeviceActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-            Activity activity = mActivity.get();
-            mProgressDialog = new ProgressDialog(activity);
-            mProgressDialog.setMessage(activity.getString(R.string.esptouch1_configuring_message));
-            mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressDialog.setOnCancelListener(dialog -> {
-                synchronized (mLock) {
-                    if (mEsptouchTask != null) {
-                        mEsptouchTask.interrupt();
-                    }
-                }
-            });
-            mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, activity.getText(android.R.string.cancel),
-                    (dialog, which) -> {
-                        synchronized (mLock) {
-                            if (mEsptouchTask != null) {
-                                mEsptouchTask.interrupt();
-                            }
-                        }
-                    });
-            mProgressDialog.show();
+            addDeviceFragment = (AddDeviceFragment) getSupportFragmentManager().getFragments().get(0);
+            addDeviceFragment.beginCounter();
         }
 
         @Override
@@ -341,13 +332,9 @@ public class AddDeviceActivity extends BaseActivity {
         protected void onPostExecute(List<IEsptouchResult> result) {
             AddDeviceActivity activity = mActivity.get();
             activity.mTask = null;
-            mProgressDialog.dismiss();
             if (result == null) {
-                mResultDialog = new AlertDialog.Builder(activity)
-                        .setMessage(R.string.esptouch1_configure_result_failed_port)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show();
-                mResultDialog.setCanceledOnTouchOutside(false);
+                addDeviceFragment.showMessage("建立 EspTouch 任务失败, 端口可能被其他程序占用",false);
+                addDeviceFragment.endCounter();
                 return;
             }
 
@@ -356,31 +343,20 @@ public class AddDeviceActivity extends BaseActivity {
             if (firstResult.isCancelled()) {
                 return;
             }
-            // the task received some results including cancelled while
-            // executing before receiving enough results
 
             if (!firstResult.isSuc()) {
-                mResultDialog = new AlertDialog.Builder(activity)
-                        .setMessage(R.string.esptouch1_configure_result_failed)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show();
-                mResultDialog.setCanceledOnTouchOutside(false);
+                addDeviceFragment.showMessage("配网失败",false);
+                addDeviceFragment.endCounter();
                 return;
             }
 
-            ArrayList<CharSequence> resultMsgList = new ArrayList<>(result.size());
+            String message="";
             for (IEsptouchResult touchResult : result) {
-                String message = activity.getString(R.string.esptouch1_configure_result_success_item,
-                        touchResult.getBssid(), touchResult.getInetAddress().getHostAddress());
-                resultMsgList.add(message);
+                message += "BSSID: "+touchResult.getBssid()+", 地址: "+touchResult.getInetAddress().getHostAddress()+"\n";
             }
-            CharSequence[] items = new CharSequence[resultMsgList.size()];
-            mResultDialog = new AlertDialog.Builder(activity)
-                    .setTitle(R.string.esptouch1_configure_result_success)
-                    .setItems(resultMsgList.toArray(items), null)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
-            mResultDialog.setCanceledOnTouchOutside(false);
+
+            addDeviceFragment.endCounter();
+            addDeviceFragment.showMessage("完成配网\n"+message,true);
         }
     }
 
@@ -391,6 +367,8 @@ public class AddDeviceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         mViewModel = new EspTouchViewModel();
+
+
     }
 
     @Override
@@ -407,4 +385,6 @@ public class AddDeviceActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return KeyboardUtils.onDisableBackKeyDown(keyCode) && super.onKeyDown(keyCode, event);
     }
+
+
 }

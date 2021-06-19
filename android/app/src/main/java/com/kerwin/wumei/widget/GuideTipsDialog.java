@@ -99,6 +99,7 @@ public class GuideTipsDialog extends BaseDialog implements View.OnClickListener,
         mTvNext = findViewById(R.id.tv_next);
 
         if (cbIgnore != null) {
+            cbIgnore.setChecked(isIgnoreTips());
             cbIgnore.setOnCheckedChangeListener(this);
         }
         if (ivClose != null) {

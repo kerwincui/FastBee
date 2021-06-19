@@ -29,11 +29,14 @@ public final class SettingUtils {
     private SettingUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
-
     private static final String IS_FIRST_OPEN_KEY = "is_first_open_key";
-
     private static final String IS_AGREE_PRIVACY_KEY = "is_agree_privacy_key";
-
+    private static final String USER_NAME="user_name";
+    private static final String PASSWORD="password";
+    private static final String SERVERIP="serve_ip";
+    private static final String SERVERPORT="serve_port";
+    private static final String ISHTTPS="is_https";
+    private static final String APIP="ap_ip";
     /**
      * 是否是第一次启动
      */
@@ -46,6 +49,100 @@ public final class SettingUtils {
      */
     public static void setIsFirstOpen(boolean isFirstOpen) {
         MMKVUtils.put(IS_FIRST_OPEN_KEY, isFirstOpen);
+    }
+
+    /**
+     * 设置用户名和密码
+     */
+    public static void setAccount(String userName,String password){
+        MMKVUtils.put(USER_NAME,userName);
+        MMKVUtils.put(PASSWORD,password);
+    }
+
+    /**
+     * 设置服务端地址
+     */
+    public static void setServeUrl(String serveIp, String servePort, Boolean isHttps){
+        MMKVUtils.put(SERVERIP,serveIp);
+        MMKVUtils.put(SERVERPORT,servePort);
+        MMKVUtils.put(ISHTTPS,isHttps);
+    }
+
+    /**
+     * 获取服务端地址
+     */
+    public static String getServeUrl(){
+        String address="";
+        if(getIsHttps()){
+            address="https://";
+        }else{
+            address="http://";
+        }
+        address=address+getServerip()+":"+getServerPort();
+        return address;
+    }
+
+    /**
+     * 设置设备AP地址
+     * @return
+     */
+    public static void setApIp(String apIp){
+        MMKVUtils.put(APIP,apIp);
+    }
+
+    /**
+     * 获取设备AP地址
+     * @return
+     */
+    public static String getApIp(){
+        return MMKVUtils.getString(APIP,"192.168.4.1");
+    }
+
+    /**
+     * 获取服务端ip
+     * @return
+     */
+    public static String getServerip(){
+        return MMKVUtils.getString(SERVERIP,"");
+    }
+
+    /**
+     * 获取服务端端口
+     * @return
+     */
+    public static String getServerPort(){
+        return MMKVUtils.getString(SERVERPORT,"");
+    }
+
+    /**
+     * 获取是否使用https
+     * @return
+     */
+    public static Boolean getIsHttps(){
+        return MMKVUtils.getBoolean(ISHTTPS,false);
+    }
+
+    /**
+     * 获取登录用户名
+     * @return
+     */
+    public static String getUserName(){
+        return MMKVUtils.getString(USER_NAME,"");
+    }
+
+    /**
+     * 获取登录密码
+     * @return
+     */
+    public static String getPassword(){
+        return MMKVUtils.getString(PASSWORD,"");
+    }
+
+    /**
+     * 清空登录密码
+     */
+    public static void clearPassword(){
+        MMKVUtils.put(PASSWORD,"");
     }
 
     /**

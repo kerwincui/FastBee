@@ -39,7 +39,7 @@ public class ApiService {
         /**
          * 获得小贴士
          */
-        @GET("/xuexiangjys/Resource/raw/master/jsonapi/tips.json")
+        @GET("http://wumei.live/tips.json")
         Observable<ApiResult<List<TipInfo>>> getTips();
     }
 

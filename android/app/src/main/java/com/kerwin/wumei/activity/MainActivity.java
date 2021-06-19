@@ -51,6 +51,12 @@ import androidx.core.location.LocationManagerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.kerwin.wumei.entity.User;
+import com.kerwin.wumei.fragment.profile.AccountFragment;
+import com.kerwin.wumei.http.callback.TipRequestCallBack;
+import com.kerwin.wumei.http.request.UserInfoApiResult;
+import com.kerwin.wumei.utils.sdkinit.XUpdateInit;
+
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
@@ -70,6 +76,7 @@ import com.kerwin.wumei.fragment.device.AddDeviceFragment;
 import com.kerwin.wumei.fragment.device.GroupFragment;
 import com.kerwin.wumei.fragment.device.SceneFragment;
 import com.kerwin.wumei.fragment.device.ShareDeviceFragment;
+import com.kerwin.wumei.fragment.news.HomePageFragment;
 import com.kerwin.wumei.fragment.news.NewsFragment;
 import com.kerwin.wumei.fragment.profile.ProfileFragment;
 import com.kerwin.wumei.fragment.device.DeviceFragment;
@@ -78,6 +85,9 @@ import com.kerwin.wumei.utils.Utils;
 import com.kerwin.wumei.utils.XToastUtils;
 import com.kerwin.wumei.widget.GuideTipsDialog;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.callback.CallBackProxy;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.adapter.FragmentAdapter;
@@ -98,6 +108,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.kerwin.wumei.utils.TokenUtils.clearToken;
+import static com.kerwin.wumei.utils.TokenUtils.getToken;
+import static com.kerwin.wumei.utils.TokenUtils.hasToken;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener, ClickUtils.OnClick2ExitListener, Toolbar.OnMenuItemClickListener {
 
@@ -129,6 +143,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
+//        initData();
         initListeners();
     }
 
@@ -148,14 +163,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         BaseFragment[] fragments = new BaseFragment[]{
                 new DeviceFragment(),
                 new SceneFragment(),
-                new NewsFragment(),
+                new HomePageFragment(),
                 new ProfileFragment(),
         };
         FragmentAdapter<BaseFragment> adapter = new FragmentAdapter<>(getSupportFragmentManager(), fragments);
         viewPager.setOffscreenPageLimit(mTitles.length - 1);
         viewPager.setAdapter(adapter);
 
+        //显示提示
+//        GuideTipsDialog.showTips(this);
+    }
+
+    private void initData() {
         GuideTipsDialog.showTips(this);
+        XUpdateInit.checkUpdate(this, false);
     }
 
     /**
@@ -183,10 +204,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
 
-        // TODO: 2019-10-09 初始化数据
+        // 绑定数据
         ivAvatar.setImageResource(R.drawable.ic_default_head);
-        tvAvatar.setText("15208747707");
-        tvSign.setText("物美点亮智慧生活...");
+        tvAvatar.setText("匿名用户");
+        tvSign.setText("物美智能点亮智慧生活...");
+        getUserInfo(tvAvatar,tvSign );
         navHeader.setOnClickListener(this);
     }
 
@@ -197,34 +219,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         //侧边栏点击事件
         navView.setNavigationItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_add_device:
-                    PageOption.to(AddDeviceFragment.class) //跳转的fragment
-                            .setAnim(CoreAnim.slide) //页面转场动画
-                            .setRequestCode(100) //请求码，用于返回结果
-                            .setAddToBackStack(true) //是否加入堆栈
-                            .setNewActivity(true,AddDeviceActivity.class) //是否使用新的Activity打开
-                            .open(this); //打开页面进行跳转
-                    break;
-                case R.id.nav_settings:
-                    openNewPage(SettingsFragment.class);
-                    break;
-                case R.id.nav_about:
-                    openNewPage(AboutFragment.class);
-                    break;
-                case R.id.nav_message:
-                    openNewPage(MessageFragment.class);
-                    break;
-                case R.id.nav_share_device:
-                    openNewPage(ShareDeviceFragment.class);
-                    break;
-                case R.id.nav_group:
-                    openNewPage(GroupFragment.class);
-                    break;
-                default:
-                    XToastUtils.toast("点击了:" + menuItem.getTitle());
-                    break;
-            }
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_add_device:
+                        PageOption.to(AddDeviceFragment.class) //跳转的fragment
+                                .setAnim(CoreAnim.slide) //页面转场动画
+                                .setRequestCode(100) //请求码，用于返回结果
+                                .setAddToBackStack(true) //是否加入堆栈
+                                .setNewActivity(true, AddDeviceActivity.class) //是否使用新的Activity打开
+                                .open(this); //打开页面进行跳转
+                        break;
+                    case R.id.nav_about:
+                        openNewPage(AboutFragment.class);
+                        break;
+                    case R.id.nav_serve_config:
+                        drawerLayout.closeDrawers();
+                        toolbar.setTitle(menuItem.getTitle());
+                        viewPager.setCurrentItem(1, false);
+                        break;
+                    case R.id.nav_message:
+                        openNewPage(MessageFragment.class);
+                        break;
+                    default:
+                        XToastUtils.toast("点击了:" + menuItem.getTitle());
+                        break;
+                }
             return true;
         });
 
@@ -258,7 +277,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_header:
-                XToastUtils.toast("功能完善中...");
+                openNewPage(AccountFragment.class);
                 break;
             default:
                 break;
@@ -323,6 +342,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onExit() {
         XUtil.exitApp();
+    }
+
+    /**
+     * HTTP获取用户信息
+     */
+    private void getUserInfo(TextView avatar,TextView sign){
+        if(!hasToken()) return;
+        XHttp.get("/prod-api/getInfo")
+                .headers("Authorization","Bearer "+getToken())
+                .execute(new CallBackProxy<UserInfoApiResult<User>, User>(new TipRequestCallBack<User>() {
+                    @Override
+                    public void onSuccess(User user) throws Throwable {
+                        Log.d("user:",user.getNickName());
+                        if(user.getNickName()!=null && user.getNickName().length()!=0)
+                        {
+                            avatar.setText(user.getNickName());
+                        }else{
+                            avatar.setText(user.getUserName());
+                        }
+                        sign.setText("物美智能开源项目(wumei-smart)");
+                    }
+                    @Override
+                    public void onError(ApiException e) {
+                        if(e.getCode()==401){
+                            XToastUtils.info("匿名登录状态，功能受限");
+                            clearToken();
+                        }else{
+                            XToastUtils.error(e.getMessage());
+                        }
+                    }
+                }){});
     }
 
 

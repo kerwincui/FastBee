@@ -5,12 +5,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.xuexiang.xui.widget.picker.XSeekBar;
 import com.xuexiang.xui.widget.spinner.materialspinner.MaterialSpinner;
 
 public class EspTouchViewModel {
     public MaterialSpinner ssidSpinner;
     public EditText apPasswordEdit;
-    public EditText deviceCountEdit;
+    public XSeekBar xsbDeviceCount;
     public RadioGroup packageModeGroup;
     public TextView messageView;
     public Button confirmBtn;
