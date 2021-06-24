@@ -313,7 +313,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-                android:text="取消"
+                android:text="取 消"
                 app:sCornersRadius="5dp"
                 app:sSolidColor="@color/app_color_theme_2" />
 
@@ -326,7 +326,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="100dp"
-                android:text="应用"
+                android:text="应 用"
                 app:sCornersRadius="5dp"
                 app:sSolidColor="@color/colorAccent" />
         </FrameLayout>

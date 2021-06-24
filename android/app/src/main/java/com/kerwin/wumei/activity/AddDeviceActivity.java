@@ -2,10 +2,7 @@
 package com.kerwin.wumei.activity;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
@@ -14,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -35,12 +31,10 @@ import com.espressif.iot.esptouch.util.TouchNetUtil;
 import com.kerwin.wumei.R;
 import com.kerwin.wumei.adapter.entity.EspTouchViewModel;
 import com.kerwin.wumei.core.BaseActivity;
-import com.kerwin.wumei.fragment.LoginFragment;
 import com.kerwin.wumei.fragment.device.AddDeviceFragment;
 import com.kerwin.wumei.utils.NetUtils;
 import com.xuexiang.xui.utils.KeyboardUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
-import com.xuexiang.xui.widget.progress.CircleProgressView;
 import com.xuexiang.xutil.display.Colors;
 
 import java.lang.ref.WeakReference;
@@ -334,7 +328,7 @@ public class AddDeviceActivity extends BaseActivity {
             activity.mTask = null;
             if (result == null) {
                 addDeviceFragment.showMessage("建立 EspTouch 任务失败, 端口可能被其他程序占用",false);
-                addDeviceFragment.endCounter();
+                addDeviceFragment.cancleCounter();
                 return;
             }
 
@@ -346,16 +340,16 @@ public class AddDeviceActivity extends BaseActivity {
 
             if (!firstResult.isSuc()) {
                 addDeviceFragment.showMessage("配网失败",false);
-                addDeviceFragment.endCounter();
+                addDeviceFragment.cancleCounter();
                 return;
             }
 
             String message="";
             for (IEsptouchResult touchResult : result) {
-                message += "BSSID: "+touchResult.getBssid()+", 地址: "+touchResult.getInetAddress().getHostAddress()+"\n";
+                message += "BSSID: "+touchResult.getBssid()+"\n 地址: "+touchResult.getInetAddress().getHostAddress()+"\n";
             }
 
-            addDeviceFragment.endCounter();
+            addDeviceFragment.completeCounter();
             addDeviceFragment.showMessage("完成配网\n"+message,true);
         }
     }

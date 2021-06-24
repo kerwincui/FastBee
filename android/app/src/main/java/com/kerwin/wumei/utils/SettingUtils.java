@@ -37,6 +37,7 @@ public final class SettingUtils {
     private static final String SERVERPORT="serve_port";
     private static final String ISHTTPS="is_https";
     private static final String APIP="ap_ip";
+    private static final String WIFIPASSWORD="wifi_password";
     /**
      * 是否是第一次启动
      */
@@ -96,6 +97,22 @@ public final class SettingUtils {
      */
     public static String getApIp(){
         return MMKVUtils.getString(APIP,"192.168.4.1");
+    }
+
+    /**
+     * 设置wifi密码
+     * @return
+     */
+    public static void setWifiPassword(String wifiPassword){
+        MMKVUtils.put(WIFIPASSWORD,wifiPassword);
+    }
+
+    /**
+     * 获取wifi密码
+     * @return
+     */
+    public static String getWifiPassword(){
+        return MMKVUtils.getString(WIFIPASSWORD,"");
     }
 
     /**

@@ -126,6 +126,9 @@ dependencies {
     //rxutil2
     implementation deps.rxbinding
     implementation 'com.github.xuexiangjys:rxutil2:1.2.0'
+
+    // circleprogressview 圆形进度动画控件
+    implementation 'com.king.view:circleprogressview:1.1.2'
 }
 //自动添加X-Library依赖
 apply from: 'x-library.gradle'

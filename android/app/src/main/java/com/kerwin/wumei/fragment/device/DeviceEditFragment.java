@@ -34,6 +34,7 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
+import com.xuexiang.xui.widget.toast.XToast;
 import com.xuexiang.xutil.net.JsonUtil;
 
 import java.util.List;
@@ -64,6 +65,8 @@ public class DeviceEditFragment extends BaseFragment {
     SuperButton sp_device_temperature;
     @BindView(R.id.update_device_temp_icon)
     AppCompatImageView update_temp_icon;
+    @BindView(R.id.sp_upgrade)
+    SuperButton sp_upgrade;
 
     private Long deviceId=0L;
     private String deviceNum="";
@@ -100,7 +103,7 @@ public class DeviceEditFragment extends BaseFragment {
     }
 
     @SingleClick
-    @OnClick({ R.id.btn_save,R.id.btn_cancle_edit,R.id.update_device_temp_icon})
+    @OnClick({ R.id.btn_save,R.id.btn_cancle_edit,R.id.update_device_temp_icon,R.id.sp_upgrade})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_save:
@@ -113,6 +116,8 @@ public class DeviceEditFragment extends BaseFragment {
                 getNewStatusData();
                 update_temp_icon.setVisibility(View.GONE);
                 break;
+            case R.id.sp_upgrade:
+                XToastUtils.success("固件已经是最新版本");
             default:
                 break;
         }

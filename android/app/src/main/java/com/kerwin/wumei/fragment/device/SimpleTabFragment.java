@@ -203,27 +203,23 @@ public class SimpleTabFragment extends BaseFragment {
 
                 holder.click(R.id.device_item_light_button, v -> {
                     if(device.getIsOnline()==0) return;
-                    // 更新灯状态
-                    updateDeviceStatus(buildDeviceLightStatus(device.getDeviceId(),
-                            device.getDeviceNum(),
-                            lightIconView.isIconEnabled()==true?0:1));
                     //震动
                     Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
-                    lightIconView.switchState(true);
-
+                    // 更新灯状态
+                    updateDeviceStatus(
+                            buildDeviceLightStatus(device.getDeviceId(), device.getDeviceNum(),lightIconView.isIconEnabled()==true?0:1)
+                            , lightIconView);
                 });
                 holder.click(R.id.device_item_switch_button, v -> {
                     if(device.getIsOnline()==0) return;
-                    // 更新继电器状态
-                    updateDeviceStatus(buildDeviceRelayStatus(device.getDeviceId(),
-                            device.getDeviceNum(),
-                            switchIconView.isIconEnabled()==true?0:1));
                     //震动
                     Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
-                    switchIconView.switchState(true);
-
+                    // 更新继电器状态
+                    updateDeviceStatus(
+                            buildDeviceRelayStatus(device.getDeviceId(),device.getDeviceNum(),switchIconView.isIconEnabled()==true?0:1)
+                            , switchIconView);
                 });
                 holder.click(R.id.device_item_card_view, v -> {
 
@@ -307,7 +303,7 @@ public class SimpleTabFragment extends BaseFragment {
     /**
      * HTTP更新设备状态
      */
-    private void updateDeviceStatus(IotDeviceStatus deviceStatus){
+    private void updateDeviceStatus(IotDeviceStatus deviceStatus,SwitchIconView iconView){
         if(!hasToken()) return;
         XHttp.put("/prod-api/system/status")
                 .upJson(JsonUtil.toJson(deviceStatus))
@@ -316,6 +312,7 @@ public class SimpleTabFragment extends BaseFragment {
                     @Override
                     public void onSuccess(String response) throws Throwable {
                         Log.d("response:",response);
+                        iconView.switchState(true);
                         XToastUtils.success("设备状态更新成功");
                     }
                     @Override

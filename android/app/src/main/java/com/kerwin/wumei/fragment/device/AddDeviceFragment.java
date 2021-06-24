@@ -18,6 +18,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,16 +31,21 @@ import com.kerwin.wumei.activity.AddDeviceActivity;
 import com.kerwin.wumei.adapter.entity.EspTouchViewModel;
 import com.kerwin.wumei.core.BaseFragment;
 import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xui.widget.progress.CircleProgressView;
+import com.king.view.circleprogressview.CircleProgressView;
+
 import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
+
 
 import java.util.List;
 
 import butterknife.BindView;
 
+import static com.kerwin.wumei.utils.SettingUtils.getWifiPassword;
+import static com.kerwin.wumei.utils.SettingUtils.setWifiPassword;
+
 
 @Page(name = "智能配网")
-public class AddDeviceFragment extends BaseFragment implements CircleProgressView.CircleProgressUpdateListener {
+public class AddDeviceFragment extends BaseFragment {
     @BindView(R.id.advance_frame_layout)
     FrameLayout advanceFrameLayout;
     @BindView(R.id.advance_linear_layout)
@@ -48,14 +54,18 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
     AppCompatImageView advanceIcon;
     @BindView(R.id.wifi_password_icon)
     AppCompatImageView wifiPasswordIcon;
-    @BindView(R.id.progressView_circle_main)
-    CircleProgressView progressViewCircleMain;
+//    @BindView(R.id.progressView_circle_main)
+//    CircleProgressView progressViewCircleMain;
     @BindView(R.id.progress_text_main)
     TextView progressTextMain;
     @BindView(R.id.btn_config_cancle)
     SuperButton btnConfigCancle;
     @BindView(R.id.btn_return)
     SuperButton btnReturn;
+    @BindView(R.id.chk_remeber)
+    CheckBox chk_remeber;
+    @BindView(R.id.circleProgressView)
+    CircleProgressView circleProgressView;
 
     private static final String TAG = AddDeviceFragment.class.getSimpleName();
     private static final int REQUEST_PERMISSION = 0x01;
@@ -81,23 +91,32 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
      */
     @Override
     protected void initViews() {
-        progressViewCircleMain.setGraduatedEnabled(true);
-        progressViewCircleMain.setProgressViewUpdateListener(this);
-
         //智能配网
         mViewModel = ((AddDeviceActivity)this.getActivity()).GetMViewModel();
-        mViewModel.ssidSpinner = findViewById(R.id.ssid_spinner);
+
         mViewModel.apPasswordEdit = findViewById(R.id.wifi_password_txt);
+        mViewModel.apPasswordEdit.setText(getWifiPassword());
+
+        mViewModel.ssidSpinner = findViewById(R.id.ssid_spinner);
         mViewModel.packageModeGroup = findViewById(R.id.packageModeGroup);
         mViewModel.messageView = findViewById(R.id.txt_config_message);
         mViewModel.messageView.setText("");
+
         mViewModel.xsbDeviceCount = findViewById(R.id.xsb_device_count);
         mViewModel.xsbDeviceCount.setDefaultValue(1);
+
         mViewModel.confirmBtn = findViewById(R.id.btn_begin);
         mViewModel.confirmBtn.setOnClickListener(v ->
         {
 
              ((AddDeviceActivity)this.getActivity()).executeEsptouch();
+
+             //存储wifi密码
+            if(chk_remeber.isChecked()){
+                setWifiPassword(mViewModel.apPasswordEdit.getText().toString());
+            }else{
+                setWifiPassword("");
+            }
 
 //            PageOption.to(AddDeviceTwoFragment.class) //跳转的fragment
 //                    .setAnim(CoreAnim.slide) //页面转场动画
@@ -128,42 +147,6 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
                 }
             }
         });
-
-    }
-
-
-    /**
-     * 进度条开始更新
-     *
-     * @param view
-     */
-    @Override
-    public void onCircleProgressStart(View view) {
-
-    }
-
-    /**
-     * 进度条更新结束
-     *
-     * @param view
-     */
-    @Override
-    public void onCircleProgressFinished(View view) {
-        progressViewCircleMain.startProgressAnimation();
-    }
-
-
-
-    /**
-     * 进度条更新中
-     *
-     * @param view
-     * @param progress
-     */
-    @Override
-    public void onCircleProgressUpdate(View view, float progress) {
-
-//            progressTextMain.setText("10");
 
     }
 
@@ -205,7 +188,7 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
             @Override
             public void onClick(View view){
                 ((AddDeviceActivity)getActivity()).interruptEspTouchTask();
-                endCounter();
+                cancleCounter();
             }
         });
 
@@ -213,7 +196,7 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
             @Override
             public void onClick(View view){
                 popToBack();
-                endCounter();
+                cancleCounter();
             }
         });
 
@@ -221,7 +204,7 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
 
     @Override
     public void onDestroyView() {
-        endCounter();
+        cancleCounter();
         super.onDestroyView();
     }
 
@@ -229,22 +212,50 @@ public class AddDeviceFragment extends BaseFragment implements CircleProgressVie
      * 打开计时器
      */
     public void beginCounter(){
-        progressViewCircleMain.startProgressAnimation();
-        mHander.post(mCounter);
-        showMessage("配网中...",true);
         mViewModel.confirmBtn.setEnabled(false);
         btnConfigCancle.setEnabled(true);
+        showMessage("配网中...",true);
+        mHander.post(mCounter);
+
+        //显示进度动画，进度，动画时长
+        circleProgressView.showAnimation(100,3000);
+        //设置进度改变监听
+        circleProgressView.setOnChangeListener(new CircleProgressView.OnChangeListener() {
+            @Override
+            public void onProgressChanged(float progress, float max) {
+                if(progress==100){
+                    circleProgressView.setProgress(0);
+                    circleProgressView.showAnimation(100);
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 计时器完成
+     */
+    public void completeCounter(){
+        mCount=0;
+        mHander.removeCallbacks(mCounter);
+        progressTextMain.setText("100");
+        circleProgressView.setOnChangeListener(null);
+        circleProgressView.showAppendAnimation(100);
     }
 
     /**
      * 关闭计时器
      */
-    public void endCounter(){
-        mHander.removeCallbacks(mCounter);
+    public void cancleCounter(){
         mViewModel.confirmBtn.setEnabled(true);
         btnConfigCancle.setEnabled(false);
-        progressViewCircleMain.stopProgressAnimation();
-        progressViewCircleMain.setProgressViewUpdateListener(null);
+        showMessage("",true);
+
+        mCount=0;
+        mHander.removeCallbacks(mCounter);
+        progressTextMain.setText("0");
+        circleProgressView.setOnChangeListener(null);
+        circleProgressView.showAppendAnimation(0);
     }
 
     /**

@@ -34,30 +34,43 @@
             android:animationCache="false"
             android:background="#FFFFFF">
 
-            <com.xuexiang.xui.widget.progress.CircleProgressView
-                android:id="@+id/progressView_circle_main"
-                android:layout_width="220dp"
-                android:layout_height="220dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                app:cpv_animate_type="AccelerateDecelerateInterpolator"
-                app:cpv_circle_broken="false"
-                app:cpv_end_color="#80006DFE"
-                app:cpv_end_progress="100"
-                app:cpv_isFilled="false"
-                app:cpv_isGraduated="false"
-                app:cpv_isTracked="true"
-                app:cpv_progress_duration="3000"
-                app:cpv_progress_textColor="#0D006DFE"
-                app:cpv_progress_textSize="48sp"
-                app:cpv_progress_textVisibility="false"
-                app:cpv_progress_width="16dp"
-                app:cpv_scaleZone_width="3dp"
-                app:cpv_start_color="@color/cardview_light_background"
-                app:cpv_start_progress="0"
-                app:cpv_track_color="#FAFAFF"
-                app:cpv_track_width="26dp" />
+            <com.king.view.circleprogressview.CircleProgressView
+                android:id="@+id/circleProgressView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:cpvBlockAngle="1"
+                app:cpvDuration="300"
+                app:cpvMax="100"
+                app:cpvProgress="0"
+                app:cpvProgressColor="#006DFE"
+                app:cpvShowLabel="false"
+                app:cpvStrokeWidth="12dp"
+                app:cpvTickSplitAngle="5" />
+
+<!--            <com.xuexiang.xui.widget.progress.CircleProgressView-->
+<!--                android:id="@+id/progressView_circle_main"-->
+<!--                android:layout_width="220dp"-->
+<!--                android:layout_height="220dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="0dp"-->
+<!--                android:layout_marginBottom="0dp"-->
+<!--                app:cpv_animate_type="LinearInterpolator"-->
+<!--                app:cpv_circle_broken="false"-->
+<!--                app:cpv_end_color="#006dfe"-->
+<!--                app:cpv_end_progress="98"-->
+<!--                app:cpv_isFilled="false"-->
+<!--                app:cpv_isGraduated="false"-->
+<!--                app:cpv_isTracked="true"-->
+<!--                app:cpv_progress_duration="3000"-->
+<!--                app:cpv_progress_textSize="48sp"-->
+<!--                app:cpv_progress_textVisibility="false"-->
+<!--                app:cpv_progress_width="16dp"-->
+<!--                app:cpv_scaleZone_width="3dp"-->
+<!--                app:cpv_start_color="@color/cardview_light_background"-->
+<!--                app:cpv_start_progress="0"-->
+<!--                app:cpv_track_color="#FAFAFF"-->
+<!--                app:cpv_track_width="26dp" />-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -71,14 +84,14 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="@color/colorAccent"
-                    android:textSize="48sp" />
+                    android:textSize="40dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="%"
                     android:textColor="@color/colorAccent"
-                    android:textSize="32sp" />
+                    android:textSize="28dp" />
             </LinearLayout>
 
         </FrameLayout>
@@ -141,7 +154,7 @@
                 app:met_errorMessage="WIFI密码无效"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="WIFI密码"
-                app:met_passWordButton="true" />
+                app:met_passWordButton="false" />
 
         </FrameLayout>
 
@@ -159,14 +172,13 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp" />
 
-            <RadioButton
-                android:id="@+id/remember_passord_radio"
+            <CheckBox
+                android:id="@+id/chk_remeber"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:checked="true"
-                android:text="记住密码"
-                android:textSize="12sp" />
+                android:text="记住密码" />
 
         </RelativeLayout>
 

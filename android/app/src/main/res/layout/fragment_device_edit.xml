@@ -135,6 +135,18 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="@dimen/config_margin_18dp"
                 android:text="v1.0" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/sp_upgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="18dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="升级"
+                app:sCornersRadius="5dp"
+                app:sSolidColor="@color/app_color_theme_2" />
         </FrameLayout>
 
         <FrameLayout
@@ -202,7 +214,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-                android:text="取消"
+                android:text="返 回"
                 app:sCornersRadius="5dp"
                 app:sSolidColor="@color/app_color_theme_2" />
 
@@ -213,7 +225,7 @@
                 android:layout_marginStart="110dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="100dp"
-                android:text="保存"
+                android:text="保 存"
                 app:sCornersRadius="5dp"
                 app:sSolidColor="@color/colorAccent" />
         </FrameLayout>
