@@ -1,3 +1,13 @@
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 package com.ruoyi.system.controller;
 
 import java.util.List;
@@ -123,12 +133,43 @@ public class IotDeviceStatusController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody IotDeviceStatus iotDeviceStatus)
     {
+        IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceStatus.getDeviceId());
+        if(status.getIsOnline()!=1){return AjaxResult.error("设备已离线，不能更新状态。");}
         // 存储
         iotDeviceStatusService.updateIotDeviceStatus(iotDeviceStatus);
+
         // mqtt发布
-        String content = JSON.toJSONString(iotDeviceStatus);
-        boolean isSuccess=mqttPushClient.publish(1,true,"status/set/"+iotDeviceStatus.getDeviceNum(),content);
+        if(iotDeviceStatus.getRelayStatus()!=null){
+            status.setRelayStatus(iotDeviceStatus.getRelayStatus());
+        }
+        if(iotDeviceStatus.getLightStatus()!=null){
+            status.setLightStatus(iotDeviceStatus.getLightStatus());
+        }
+        if(iotDeviceStatus.getLightMode()!=null){
+            status.setLightMode(iotDeviceStatus.getLightMode());
+        }
+        if(iotDeviceStatus.getLightInterval()!=null){
+            status.setLightInterval(iotDeviceStatus.getLightInterval());
+        }
+        if(iotDeviceStatus.getFadeTime()!=null){
+            status.setFadeTime(iotDeviceStatus.getFadeTime());
+        }
+        if(iotDeviceStatus.getBrightness()!=null){
+            status.setBrightness(iotDeviceStatus.getBrightness());
+        }
+        if(iotDeviceStatus.getRed()!=null){
+            status.setRed(iotDeviceStatus.getRed());
+        }
+        if(iotDeviceStatus.getGreen()!=null){
+            status.setGreen(iotDeviceStatus.getGreen());
+        }
+        if(iotDeviceStatus.getBlue()!=null){
+            status.setBlue(iotDeviceStatus.getBlue());
+        }
+        String content = JSON.toJSONString(status);
+        boolean isSuccess=mqttPushClient.publish(1,true,"status/set/"+status.getDeviceNum(),content);
         if(isSuccess){return AjaxResult.success("mqtt 发布成功");}
+
         return AjaxResult.error("mqtt 发布失败。");
     }
 

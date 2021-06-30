@@ -1,9 +1,21 @@
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 package com.ruoyi.system.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.math.BigDecimal;
 
 /**
  * 设备对象 iot_device
@@ -26,6 +38,14 @@ public class IotDevice extends BaseEntity
     @Excel(name = "分类")
     private Long categoryId;
 
+    /** 分类名称 */
+    @Excel(name = "分类名称")
+    private String categoryName;
+
+    /** 分类名称 */
+    @Excel(name = "分类名称")
+    private BigDecimal deviceTemp;
+
     /** 名称 */
     @Excel(name = "名称")
     private String deviceName;
@@ -38,6 +58,9 @@ public class IotDevice extends BaseEntity
     @Excel(name = "用户")
     private String ownerId;
 
+    /** 分组ID */
+    private Long groupId;
+
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
@@ -45,7 +68,6 @@ public class IotDevice extends BaseEntity
     {
         this.deviceId = deviceId;
     }
-
     public Long getDeviceId() 
     {
         return deviceId;
@@ -54,7 +76,6 @@ public class IotDevice extends BaseEntity
     {
         this.deviceNum = deviceNum;
     }
-
     public String getDeviceNum() 
     {
         return deviceNum;
@@ -63,7 +84,6 @@ public class IotDevice extends BaseEntity
     {
         this.categoryId = categoryId;
     }
-
     public Long getCategoryId() 
     {
         return categoryId;
@@ -72,7 +92,6 @@ public class IotDevice extends BaseEntity
     {
         this.deviceName = deviceName;
     }
-
     public String getDeviceName() 
     {
         return deviceName;
@@ -81,7 +100,6 @@ public class IotDevice extends BaseEntity
     {
         this.firmwareVersion = firmwareVersion;
     }
-
     public String getFirmwareVersion() 
     {
         return firmwareVersion;
@@ -90,7 +108,6 @@ public class IotDevice extends BaseEntity
     {
         this.ownerId = ownerId;
     }
-
     public String getOwnerId() 
     {
         return ownerId;
@@ -99,10 +116,33 @@ public class IotDevice extends BaseEntity
     {
         this.delFlag = delFlag;
     }
-
     public String getDelFlag() 
     {
         return delFlag;
+    }
+    public Long getGroupId()
+    {
+        return groupId;
+    }
+    public void setGroupId(Long groupId)
+    {
+        this.groupId = groupId;
+    }
+    public void setDeviceTemp(BigDecimal deviceTemp)
+    {
+        this.deviceTemp = deviceTemp;
+    }
+    public BigDecimal getDeviceTemp()
+    {
+        return deviceTemp;
+    }
+    public void setCategoryName(String categoryName)
+    {
+        this.categoryName = categoryName;
+    }
+    public String getCategoryName()
+    {
+        return categoryName;
     }
 
     @Override
@@ -110,7 +150,10 @@ public class IotDevice extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("deviceId", getDeviceId())
             .append("deviceNum", getDeviceNum())
+            .append("categoryName", getCategoryName())
+            .append("deviceTemp", getDeviceTemp())
             .append("categoryId", getCategoryId())
+            .append("groupId", getGroupId())
             .append("deviceName", getDeviceName())
             .append("firmwareVersion", getFirmwareVersion())
             .append("ownerId", getOwnerId())

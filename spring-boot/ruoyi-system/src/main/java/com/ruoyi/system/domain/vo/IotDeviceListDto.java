@@ -1,3 +1,13 @@
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 package com.ruoyi.system.domain.vo;
 
 import com.ruoyi.common.annotation.Excel;
@@ -27,6 +37,10 @@ public class IotDeviceListDto extends BaseEntity
     /** 分类 */
     @Excel(name = "分类")
     private Long categoryId;
+
+    /** 分类名称 */
+    @Excel(name = "分类名称")
+    private String categoryName;
 
     /** 名称 */
     @Excel(name = "名称")
@@ -113,6 +127,14 @@ public class IotDeviceListDto extends BaseEntity
     public Long getCategoryId() 
     {
         return categoryId;
+    }
+    public void setCategoryName(String categoryName)
+    {
+        this.categoryName = categoryName;
+    }
+    public String getCategoryName()
+    {
+        return categoryName;
     }
     public void setDeviceName(String deviceName) 
     {
@@ -243,6 +265,7 @@ public class IotDeviceListDto extends BaseEntity
             .append("deviceId", getDeviceId())
             .append("deviceNum", getDeviceNum())
             .append("categoryId", getCategoryId())
+            .append("categoryName", getCategoryName())
             .append("deviceName", getDeviceName())
             .append("firmwareVersion", getFirmwareVersion())
             .append("ownerId", getOwnerId())

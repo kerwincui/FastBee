@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceId"    column="device_id"    />
         <result property="deviceNum"    column="device_num"    />
         <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_Name"    />
+        <result property="deviceTemp"    column="device_temp"    />
         <result property="deviceName"    column="device_name"    />
         <result property="firmwareVersion"    column="firmware_version"    />
         <result property="ownerId"    column="owner_id"    />
@@ -22,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceId"    column="device_id"    />
         <result property="deviceNum"    column="device_num"    />
         <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_Name"    />
         <result property="deviceName"    column="device_name"    />
         <result property="firmwareVersion"    column="firmware_version"    />
         <result property="ownerId"    column="owner_id"    />
@@ -40,41 +43,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectIotDeviceVo">
-        select device_id, device_num, category_id, device_name, firmware_version, owner_id, create_by, create_time, update_by, update_time, remark from iot_device
+        select d.device_id, d.device_num, d.category_id, d.device_name, d.firmware_version, d.owner_id, d.create_by, d.create_time, d.update_by, d.update_time, d.remark,
+               c.category_name,
+               s.device_temperature as device_temp
+        from iot_device d
+                 left join iot_category c on d.category_id=c.category_id
+                 left join (select device_id,device_temperature from iot_device_status
+                                    right join (select max(device_status_id) as status_id from iot_device_status group by device_id) mt
+                                    on mt.status_id=device_status_id ) as s
+                 on d.device_id=s.device_id
     </sql>
 
     <sql id="selectIotDeviceListVo">
         select d.device_id, d.device_num, d.category_id, d.device_name, d.firmware_version, d.owner_id, d.create_time,
                s.relay_status,s.light_status,s.is_online,s.rssi,s.device_temperature,
                t.network_address, t.network_ip,t.is_alarm, t.is_radar,t.is_rf_control,
-               u.nick_name
+               u.nick_name,
+               c.category_name
+               <if test="groupId != null and groupId!=0">,g.group_id </if>
         from iot_device d
-                 left join (select * from iot_device_set order by create_time desc limit 1) as t on d.device_id = t.device_id
-                 left join (select * from iot_device_status order by create_time desc limit 1 ) as s on d.device_id=s.device_id
+                 left join (select * from iot_device_set
+                                right join (select max(device_set_id) as set_id from iot_device_set group by device_id) ms on ms.set_id=device_set_id ) as t
+                      on d.device_id = t.device_id
+                 left join (select * from iot_device_status
+                                right join (select max(device_status_id) as status_id from iot_device_status group by device_id) mt on mt.status_id=device_status_id ) as s
+                       on d.device_id=s.device_id
                  left join sys_user u on d.owner_id=u.user_id
+                 left join iot_category c on d.category_id=c.category_id
+                 <if test="groupId != null and groupId!=0"> left join iot_device_group g on d.device_id=g.device_id </if>
+
     </sql>
 
     <select id="selectIotDeviceList" parameterType="IotDevice" resultMap="IotDeviceListResult">
         <include refid="selectIotDeviceListVo"/>
         <where>
             d.del_flag= '0'
-            <if test="deviceNum != null  and deviceNum != ''"> and device_num like concat('%', #{deviceNum}, '%')</if>
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
-            <if test="firmwareVersion != null  and firmwareVersion != ''"> and firmware_version like concat('%', #{firmwareVersion}, '%')</if>
-            <if test="ownerId != null  and ownerId != ''"> and owner_id like concat('%', #{ownerId}, '%')</if>
+            <if test="deviceNum != null  and deviceNum != ''"> and d.device_num like concat('%', #{deviceNum}, '%')</if>
+            <if test="categoryId != null "> and d.category_id = #{categoryId}</if>
+            <if test="groupId != null and groupId!=0 "> and g.group_id = #{groupId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="firmwareVersion != null  and firmwareVersion != ''"> and d.firmware_version like concat('%', #{firmwareVersion}, '%')</if>
+            <if test="ownerId != null  and ownerId != ''"> and d.owner_id like concat('%', #{ownerId}, '%')</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
     </select>
     
     <select id="selectIotDeviceById" parameterType="Long" resultMap="IotDeviceResult">
         <include refid="selectIotDeviceVo"/>
-        where device_id = #{deviceId}
+        where d.device_id = #{deviceId}
     </select>
 
     <select id="selectIotDeviceByNum" parameterType="String" resultMap="IotDeviceResult">
         <include refid="selectIotDeviceVo"/>
-        where device_num = #{deviceNum}
+        where d.device_num = #{deviceNum}
     </select>
         
     <insert id="insertIotDevice" parameterType="IotDevice" useGeneratedKeys="true" keyProperty="deviceId">

@@ -65,7 +65,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password: 123456
+    password: admin123
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -81,9 +81,9 @@ spring:
 
   mqtt:
     username: admin                           # 账号
-    password: 123456                           # 密码
-    host-url: tcp://localhost:1884        # mqtt连接tcp地址
-    client-id: ${random.value}                # 客户端Id，每个启动的id要不同
+    password: admin                           # 密码
+    host-url: tcp://localhost:1883            # mqtt连接tcp地址
+    client-id: server-${random.value}         # 客户端Id，每个启动的id要不同 随机：${random.value}
     default-topic: test                       # 默认主题
     timeout: 100                              # 超时时间
     keepalive: 100                            # 保持连接数
@@ -94,8 +94,8 @@ token:
     header: Authorization
     # 令牌密钥
     secret: abcdefghijklmnopqrstuvwxyz
-    # 令牌有效期（默认30分钟）
-    expireTime: 30
+    # 令牌有效期（默认30分钟，设置为1周过期）
+    expireTime: 10000
   
 # MyBatis配置
 mybatis:
@@ -109,7 +109,7 @@ mybatis:
 # PageHelper分页插件
 pagehelper: 
   helperDialect: mysql
-  reasonable: true
+  reasonable: false
   supportMethodsArguments: true
   params: count=countSql 
 

@@ -1,9 +1,21 @@
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 package com.ruoyi.system.controller;
 
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.domain.IotDeviceStatus;
 import com.ruoyi.system.mqtt.config.MqttPushClient;
+import com.ruoyi.system.service.IIotDeviceStatusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +50,8 @@ public class IotDeviceSetController extends BaseController
 {
     @Autowired
     private IIotDeviceSetService iotDeviceSetService;
+    @Autowired
+    private IIotDeviceStatusService iotDeviceStatusService;
 
     @Autowired
     private MqttPushClient mqttPushClient;
@@ -112,11 +126,51 @@ public class IotDeviceSetController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody IotDeviceSet iotDeviceSet)
     {
+        IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceSet.getDeviceId());
+        if(status.getIsOnline()!=1){return AjaxResult.error("设备已离线，不能更新配置。");}
         // 存储
         iotDeviceSetService.updateIotDeviceSet(iotDeviceSet);
-        // mqtt发布
-        String content = JSON.toJSONString(iotDeviceSet);
-        boolean isSuccess=mqttPushClient.publish(0,true,"setting/set/"+iotDeviceSet.getDeviceNum(),content);
+
+        //
+        IotDeviceSet set=iotDeviceSetService.selectIotDeviceSetByDeviceId(iotDeviceSet.getDeviceId());
+        if(iotDeviceSet.getIsRadar()!=null){
+            set.setIsRadar(iotDeviceSet.getIsRadar());
+        }
+        if(iotDeviceSet.getIsAlarm()!=null){
+            set.setIsAlarm(iotDeviceSet.getIsAlarm());
+        }
+        if(iotDeviceSet.getRadarInterval()!=null){
+            set.setRadarInterval(iotDeviceSet.getRadarInterval());
+        }
+        if(iotDeviceSet.getIsRfControl()!=null){
+            set.setIsRfControl(iotDeviceSet.getIsRfControl());
+        }
+        if(iotDeviceSet.getRfOneFunc()!=null){
+            set.setRfOneFunc(iotDeviceSet.getRfOneFunc());
+        }
+        if(iotDeviceSet.getRfTwoFunc()!=null){
+            set.setRfTwoFunc(iotDeviceSet.getRfTwoFunc());
+        }
+        if(iotDeviceSet.getRfThreeFunc()!=null){
+            set.setRfThreeFunc(iotDeviceSet.getRfThreeFunc());
+        }
+        if(iotDeviceSet.getRfFourFunc()!=null){
+            set.setRfFourFunc(iotDeviceSet.getRfFourFunc());
+        }
+        if(iotDeviceSet.getIsRfLearn()!=null){
+            set.setIsRfLearn(iotDeviceSet.getIsRfLearn());
+        }
+        if(iotDeviceSet.getIsRfClear()!=null){
+            set.setIsRfClear(iotDeviceSet.getIsRfClear());
+        }
+        if(iotDeviceSet.getIsAp()!=null){
+            set.setIsAp(iotDeviceSet.getIsAp());
+        }
+        if(iotDeviceSet.getIsReset()!=null){
+            set.setIsReset(iotDeviceSet.getIsReset());
+        }
+        String content = JSON.toJSONString(set);
+        boolean isSuccess=mqttPushClient.publish(0,true,"setting/set/"+set.getDeviceNum(),content);
         if(isSuccess){return AjaxResult.success("mqtt 发布成功");}
         return AjaxResult.error("mqtt 发布失败。");
     }
