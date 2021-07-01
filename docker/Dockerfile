@@ -48,8 +48,10 @@ VOLUME /var/wumei-smart
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# 拷贝前后端代码
-#COPY wumei-smart /var/
+# 拷贝前后端压缩文件到容器，容器内解压后删除
+COPY ./wumei-smart.tar /var/
+RUN cd /var && tar -xvf wumei-smart.tar && rm wumei-smart.tar
+
 
 # 映射端口
 EXPOSE 80 3306 1883 18083

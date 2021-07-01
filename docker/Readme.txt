@@ -9,6 +9,12 @@ java -jar /var/wumei-smart/app.jar
 docker build -t wumei-smart:1.0 .
 # 复制文件到容器
 docker cp wumei-smart/* container:/var/wumei-smart/
+# 镜像导出导入
+docker export container| docker import - kerwincui/wumei-smart:1.0
+# 镜像推送
+阿里云镜像：registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
+docker tag wumei-smart kerwincui/wumei-smart:1.0
+docker push kerwinci/wumei-smart:1.0
 
 # 容器运行
 docker run \
@@ -17,20 +23,32 @@ docker run \
 --publish 18083:18083 \
 --publish 1883:1883 \
 --publish 3306:3306 \
+--publish 6379:6379 \
 --restart always \
 --detach \
-wumei-smart:1.0
+kerwincui/wumei-smart:1.0
+
+docker run ^
+--name wumei-smart ^
+--publish 80:80 ^
+--publish 18083:18083 ^
+--publish 1883:1883 ^
+--publish 3306:3306 ^
+--publish 6379:6379 ^
+--restart always ^
+--detach ^
+kerwincui/wumei-smart:1.0
 
 
 
 ########################容器内处理##########################
 # 安装mysql
-# wget http://repo.mysql.com/mysql-apt-config_0.8.13-1_all.deb
-# apt install ./mysql-apt-config_0.8.13-1_all.deb
-# apt update
-# apt install mysql-server -y
-# service mysql start
-# mysql_secure_installation
+### wget http://repo.mysql.com/mysql-apt-config_0.8.13-1_all.deb && \
+	apt install ./mysql-apt-config_0.8.13-1_all.deb && \
+	apt update && \
+	apt install mysql-server -y
+### service mysql start
+### mysql_secure_installation
 # 配置远程访问 
 ### vim /etc/mysql/mysql.conf.d/mysqld.cnf ，注释bind-address
 ### 本地登录mysql并更新用户host，并刷新
@@ -46,11 +64,7 @@ wumei-smart:1.0
 # vim /etc/redis/redis.conf ，取消注释requirepass admin123，注释 bind:127.0.0.1
 
 # 配置docker-entrypoint.sh
-# 启动mysql和java app
-
-# 配置系统时区 
-# ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-# 或者export TZ=Asia/Shanghai
+# vim /docker-entrypoint.sh 启动mysql和java app
 
 # 配置nginx
 # vim /etc/nginx/nginx.conf，nginx服务配置
