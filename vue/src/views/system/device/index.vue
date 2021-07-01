@@ -1,3 +1,13 @@
+/******************************************************************************
+ * 作者：kerwincui
+ * 时间：2021-06-08
+ * 邮箱：164770707@qq.com
+ * 源码地址：https://gitee.com/kerwincui/wumei-smart
+ * author: kerwincui
+ * create: 2021-06-08
+ * email：164770707@qq.com
+ * source:https://github.com/kerwincui/wumei-smart
+ ******************************************************************************/
 <template>
   <div class="app-container">
     <el-form
@@ -222,7 +232,7 @@
         label="操作"
         align="center"
         class-name="small-padding fixed-width"
-        width="80"
+        width="120"
       >
         <template slot-scope="scope">
           <el-button
@@ -248,6 +258,14 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:device:edit']"
             >修改</el-button
+          >
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-cloudy"
+            disabled
+            v-hasPermi="['system:device:edit']"
+            >升级</el-button
           >
         </template>
       </el-table-column>
@@ -304,7 +322,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>        
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -313,14 +331,14 @@
     <el-dialog
       :title="statusTitle"
       :visible.sync="statusOpen"
-      width="620px"
+      width="630px"
       append-to-body
     >
       <el-form
         ref="statusForm"
         :model="statusForm"
         :rules="rules"
-        label-width="100px"
+        label-width="120px"
       >
         <el-row>
           <el-col :span="24">
@@ -329,8 +347,7 @@
                 v-model="statusForm.relayStatus"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 active-color="#13ce66">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -340,8 +357,7 @@
                 v-model="statusForm.lightStatus"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 active-color="#13ce66">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -367,20 +383,20 @@
 
         <el-row>
           <el-col :span="24">
-            <el-form-item label="渐变间隔/毫秒" prop="lightInterval">
+            <el-form-item label="渐变间隔/ms" prop="lightInterval">
               <el-slider
                 v-model="statusForm.lightInterval"
-                :min=100
+                :min=0
                 :max=1500
                 show-input>
               </el-slider>
             </el-form-item>
           </el-col>
           <el-col :span="24" :offset="0">
-            <el-form-item label="渐变时间/毫秒" prop="fadeTime">
+            <el-form-item label="渐变时间/ms" prop="fadeTime">
               <el-slider
                 v-model="statusForm.fadeTime"
-                :min=100
+                :min=0
                 :max=1500
                 show-input>
               </el-slider>
@@ -446,7 +462,8 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="statusSubmitForm">确 定</el-button>
+        <el-button type="primary" @click="statusSubmitForm(false)">确 定</el-button>
+        <el-button type="success" @click="statusSubmitForm(true)">应 用</el-button>
         <el-button @click="statusCancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -455,7 +472,7 @@
     <el-dialog
       :title="setTitle"
       :visible.sync="setOpen"
-      width="620px"
+      width="630px"
       append-to-body
     >
       <el-form ref="setForm" :model="setForm" :rules="rules" label-width="120px">
@@ -464,8 +481,7 @@
                 v-model="setForm.isRadar"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 >
               </el-switch>
         </el-form-item>
 
@@ -474,8 +490,7 @@
                 v-model="setForm.isAlarm"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 >
               </el-switch>
         </el-form-item>
 
@@ -494,8 +509,7 @@
                 v-model="setForm.isRfControl"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 >
               </el-switch>
         </el-form-item>
         <el-form-item label="遥控配对" prop="isRfLearn">
@@ -503,8 +517,7 @@
                 v-model="setForm.isRfLearn"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 >
               </el-switch>
         </el-form-item>
         <el-form-item label="遥控清码" prop="isRfClear">
@@ -512,8 +525,7 @@
                 v-model="setForm.isRfClear"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 >
               </el-switch>
         </el-form-item>
         <el-row>
@@ -573,8 +585,7 @@
                 v-model="setForm.isReset"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 active-color="#f56c6c">
               </el-switch>
         </el-form-item>
         <el-form-item label="打开AP" prop="isAp">
@@ -582,8 +593,7 @@
                 v-model="setForm.isAp"
                 active-text="打开"
                 inactive-text="关闭"
-                active-value="1"
-                inactive-value="0">
+                :active-value=1 :inactive-value=0 active-color="#f56c6c">
               </el-switch>
         </el-form-item>
 
@@ -600,7 +610,8 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setSubmitForm">确 定</el-button>
+        <el-button type="primary" @click="setSubmitForm(false)">确 定</el-button>
+        <el-button type="success" @click="setSubmitForm(true)">应 用</el-button>
         <el-button @click="setCancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -707,18 +718,13 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        groupId:0,
         deviceNum: null,
         categoryId: null,
         deviceName: null,
         firmwareVersion: null,
         ownerId: null,
         createTime: null
-      },
-      // 查询分类参数
-      queryCategoryParams: {
-        pageNum: 1,
-        pageSize: 100,
-        categoryName: null
       },
       // 表单参数
       form: {},
@@ -961,29 +967,33 @@ export default {
         }
       });
     },
-    /** 提交按钮 */
-    statusSubmitForm() {
+    /** 状态提交按钮 */
+    statusSubmitForm(isApply) {
       this.$refs["statusForm"].validate(valid => {
         if (valid) {
           if (this.statusForm.deviceStatusId != null) {
             updateStatus(this.statusForm).then(response => {
               this.msgSuccess("更新成功");
-              this.statusOpen = false;
-              this.getList();
+              if(!isApply){
+                this.statusOpen = false;
+                this.getList();
+              }              
             });
           }
         }
       });
     },
-    /** 提交按钮 */
-    setSubmitForm() {
+    /** 设置提交按钮 */
+    setSubmitForm(isApply) {
       this.$refs["setForm"].validate(valid => {
         if (valid) {
           if (this.setForm.deviceSetId != null) {
             updateSet(this.setForm).then(response => {
-              this.msgSuccess("修改成功");
-              this.setOpen = false;
-              this.getList();
+              this.msgSuccess("更新成功");
+              if(!isApply){
+                this.setOpen = false;
+                this.getList();
+              }              
             });
           }
         }

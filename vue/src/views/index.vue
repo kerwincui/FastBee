@@ -60,14 +60,21 @@
                     <el-col :span="6">
             <h4>安卓端技术</h4>
             <ul>
-              <li>xui</li>
+              <li>Xui</li>
+              <li>Xpage</li>
+              <li>XHttp2</li>
+              <li>XAOP</li>
+              <li>XUtil</li>
+              <li>XUpdate</li>
               <li>...</li>
             </ul>
           </el-col>
                     <el-col :span="6">
             <h4>硬件端技术</h4>
             <ul>
-              <li>esp-idf</li>
+              <li>ESP-IDF</li>
+              <li>Arduino</li>
+              <li>FreeRTOS</li>
               <li>...</li>
             </ul>
           </el-col>
