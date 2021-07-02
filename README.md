@@ -6,13 +6,13 @@
 
 &emsp;&emsp;2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino。软硬件交互基于mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
-![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
+![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 <br />
 
 ### 二、案例
 &emsp;&emsp;目前已经制作了wifi通断器和七彩灯，可以控制2500W以下用电设备的通断，同时支持雷达感应、射频遥控和温湿度监控。
+![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
 
-![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 
 <br />
  
