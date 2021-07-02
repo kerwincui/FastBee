@@ -46,7 +46,9 @@ kerwincui/wumei-smart:1.0
 
 #### 4.硬件代码烧录
 
-&emsp;&emsp;&emsp;&emsp;[详细搭建教程](http://wumei.live/)
+![说明](https://gitee.com/kerwincui/wumei-smart/raw/master/document/desc.png)
+
+&emsp;&emsp;&emsp;&emsp;[进入详细搭建教程](http://wumei.live/)
 
 <br />
 
