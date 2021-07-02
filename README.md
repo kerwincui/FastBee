@@ -7,6 +7,7 @@
 &emsp;&emsp;2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino。软硬件交互基于mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
 ![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
+![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
 <br />
  
 ### 二、技术栈    
