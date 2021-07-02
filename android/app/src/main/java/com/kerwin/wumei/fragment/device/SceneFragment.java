@@ -37,8 +37,10 @@ import butterknife.OnClick;
 
 import static com.kerwin.wumei.utils.SettingUtils.getApIp;
 import static com.kerwin.wumei.utils.SettingUtils.getIsHttps;
+import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
 import static com.kerwin.wumei.utils.SettingUtils.getServerPort;
 import static com.kerwin.wumei.utils.SettingUtils.getServerip;
+import static com.kerwin.wumei.utils.SettingUtils.setAccount;
 import static com.kerwin.wumei.utils.SettingUtils.setApIp;
 import static com.kerwin.wumei.utils.SettingUtils.setServeUrl;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
@@ -108,10 +110,15 @@ public class SceneFragment extends BaseFragment {
             case R.id.btn_save_serve:
                 setServeUrl(et_serve_ip.getEditValue(),et_port.getEditValue(),sb_https.isChecked());
                 clearToken();
+                setAccount("","");
                 showMessage("服务端地址信息存储成功，请重新启动APP！",true);
                 break;
             case R.id.btn_connect_test:
-                getCatpureImage();
+                if(et_serve_ip.getEditValue().length()==0 ||et_port.getEditValue().length()==0) {
+                    showMessage("地址和端口不能为空",false);
+                }else {
+                    getCatpureImage();
+                }
                 break;
             case R.id.btn_open_ap:
                 if(et_ap_address.getEditValue()==null || et_ap_address.getEditValue().length()==0){
@@ -126,11 +133,9 @@ public class SceneFragment extends BaseFragment {
     }
 
     private String buildServeString(){
-        String address="";
+        String address="http://";
         if(sb_https.isChecked()){
             address="https://";
-        }else{
-            address="http://";
         }
         return address+et_serve_ip.getEditValue()+":"+et_port.getEditValue();
     }

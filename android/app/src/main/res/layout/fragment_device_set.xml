@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 app:swb_textOff="关"
-                app:swb_textOn="关开" />
+                app:swb_textOn="开" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
                 app:swb_textOff="关"
-                app:swb_textOn="关开" />
+                app:swb_textOn="开" />
         </FrameLayout>
 
 
@@ -223,7 +223,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="以下是特殊功能，建议独立使用"
-            android:textColor="@color/danger" />
+            android:textColor="@color/colorAccent" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -313,9 +313,9 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-                android:text="取 消"
+                android:text="返 回"
                 app:sCornersRadius="5dp"
-                app:sSolidColor="@color/app_color_theme_2" />
+                app:sSolidColor="@color/app_color_theme_5" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperButton
                 android:id="@+id/btn_apply_set"

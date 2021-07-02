@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +58,6 @@ import me.samlss.broccoli.Broccoli;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
-import static com.xuexiang.xutil.display.DensityUtils.dip2px;
 
 @Page(name = "设备")
 public class SimpleTabFragment extends BaseFragment {
@@ -163,42 +163,43 @@ public class SimpleTabFragment extends BaseFragment {
                 holder.text(R.id.device_item_temp, device.getDeviceTemperature()+"℃");
                 holder.text(R.id.device_item_category, device.getCategoryName());
 
-                //图标设置状态
+                //状态图标
                 SwitchIconView radarView=holder.findViewById(R.id.device_item_radar_icon);
                 SwitchIconView alarmView=holder.findViewById(R.id.device_item_alarm_icon);
                 SwitchIconView switchIconView=holder.findViewById(R.id.device_item_switch_button);
                 SwitchIconView lightIconView=holder.findViewById(R.id.device_item_light_button);
-                if(device.getIsRadar()!=1){ radarView.setIconEnabled(false);}
-                if(device.getIsAlarm()!=1){ alarmView.setIconEnabled(false);}
-                switchIconView.setIconEnabled(device.getRelayStatus()==1?true:false);
-                lightIconView.setIconEnabled(device.getLightStatus()==1?true:false);
-
-                //根据分类显示图标
-                AppCompatImageView stateView=holder.findViewById(R.id.device_item_category_icon);
-                stateView.setImageDrawable(getResources().getDrawable((R.drawable.category)));
+                radarView.setIconEnabled(device.getIsRadar()==1 && device.getIsOnline()==1?true:false);
+                alarmView.setIconEnabled(device.getIsAlarm()==1 && device.getIsOnline()==1?true:false);
+                switchIconView.setIconEnabled(device.getRelayStatus()==1 && device.getIsOnline()==1?true:false);
+                lightIconView.setIconEnabled(device.getLightStatus()==1 && device.getIsOnline()==1?true:false);
 
                 //显示网络信号：wifi信号强度(信号极好4格[-55—— 0]，信号好3格[-70—— -55），信号一般2格[-85—— -70），信号差1格[-100—— -85）)
                 AppCompatImageView wifiView=holder.findViewById(R.id.device_item_wifi_icon);
-                if(device.getRssi()>=-55){
+                if(device.getIsOnline()==1 && device.getRssi()>=-55){
                     wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_4)));
-                }else if(device.getRssi()>=70){
+                }else if(device.getIsOnline()==1 && device.getRssi()>=70){
                     wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_3)));
-                }else if(device.getRssi()>=-85){
+                }else if(device.getIsOnline()==1 && device.getRssi()>=-85){
                     wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_2)));
-                }else if(device.getRssi()>=-100){
+                }else if(device.getIsOnline()==1 && device.getRssi()>=-100){
                     wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_1)));
                 }else{
                     wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_0)));
                 }
 
-                //设置状态
+                //其他文字、标题和图片
                 FrameLayout flTitle=holder.findViewById(R.id.device_item_fl_title);
                 if(device.getIsOnline()==1){
                     holder.text(R.id.device_item_wifi, "在线");
-                    flTitle.setBackgroundColor(Color.argb(255, 201, 243, 218));
+                    flTitle.setBackgroundColor(Color.argb(255, 63, 208, 173));
                 }else{
                     holder.text(R.id.device_item_wifi, "离线");
-                    flTitle.setBackgroundColor(Color.argb(255, 230, 230, 230));
+                    flTitle.setBackgroundColor(Color.argb(255, 220, 220, 220));
+                    //显示图标
+                    AppCompatImageView categoryIcon=holder.findViewById(R.id.device_item_category_icon);
+                    AppCompatImageView temp=holder.findViewById(R.id.device_item_temp_icon);
+                    categoryIcon.setColorFilter(Color.parseColor("#909399"));
+                    temp.setColorFilter(Color.parseColor("#909399"));
                 }
 
                 holder.click(R.id.device_item_light_button, v -> {

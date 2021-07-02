@@ -50,12 +50,12 @@
                     style="@style/InfoItem.Account"
                     app:sLeftTextString="消息" />
 
-
                 <com.xuexiang.xui.widget.grouplist.XUIGroupListView
-                    android:id="@+id/about_list"
+                    android:id="@+id/control_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp" />
+
 
                 <Space
                     android:layout_width="match_parent"

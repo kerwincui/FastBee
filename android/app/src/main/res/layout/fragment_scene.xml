@@ -187,7 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="需要设备支持并启动AP，手机连接设备wifi热点"
-                android:textColor="@color/danger"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp" />
 
             <FrameLayout

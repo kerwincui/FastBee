@@ -267,3 +267,10 @@
 }
 
 -keep class com.xuexiang.xui.widget.edittext.materialedittext.** { *; }
+
+## 接口请求使用了gson序列化的对象
+-keep class com.kerwin.wumei.entity.** { *; }
+-keep class com.kerwin.wumei.entity.vo.** { *; }
+-keep class com.kerwin.wumei.entity.bo.** { *; }
+-keep class com.kerwin.wumei.http.request.** { *; }
+-keep class com.kerwin.wumei.http.** { *; }

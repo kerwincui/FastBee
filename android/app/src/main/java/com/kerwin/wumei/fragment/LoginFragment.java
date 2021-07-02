@@ -54,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -130,11 +131,11 @@ public class LoginFragment extends BaseFragment {
                 getCatpureImage();
                 break;
             case R.id.btn_login:
-                if (etPhoneNumber.validate()) {
-                    if (etVerifyCode.validate()) {
+                    if(etPhoneNumber.getEditValue().length()==0 || etPassword.getEditValue().length()==0 || etVerifyCode.getEditValue().length()==0){
+                        XToastUtils.error("请正确填写账号、密码和验证码");
+                    }else {
                         loginByVerifyCode(etPhoneNumber.getEditValue(), etPassword.getEditValue(), etVerifyCode.getEditValue());
                     }
-                }
                 break;
             default:
                 break;
@@ -176,6 +177,10 @@ public class LoginFragment extends BaseFragment {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
                         imgVertifyCode.setImageBitmap(bitmap);
                     }
+                    @Override
+                    public void onError(ApiException e) {
+                        XToastUtils.error(e.getMessage());
+                    }
                 }){});
     }
 
@@ -198,6 +203,7 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onError(ApiException e) {
                         clearToken();
+                        XToastUtils.error(e.getMessage());
                     }
                 }){});
     }

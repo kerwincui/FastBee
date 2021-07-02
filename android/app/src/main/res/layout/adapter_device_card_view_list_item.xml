@@ -39,14 +39,16 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:background="#C9F3DA">
+            android:background="@color/colorAccent"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/update_device_temp_icon"
                 android:layout_width="@dimen/config_margin_14dp"
                 android:layout_height="@dimen/config_margin_14dp"
                 android:layout_gravity="start|center_vertical"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="0dp"
                 android:tint="@color/white"
                 app:srcCompat="@drawable/title" />
 
@@ -58,10 +60,10 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:paddingTop="3dp"
+                android:paddingTop="0dp"
                 android:singleLine="true"
                 android:text="智能报警灯"
-                android:textColor="@color/xui_config_color_pure_black"
+                android:textColor="@color/toast_default_text_color"
                 android:textSize="14sp" />
 
         </FrameLayout>

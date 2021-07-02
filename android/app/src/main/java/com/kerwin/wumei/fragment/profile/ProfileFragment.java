@@ -45,6 +45,9 @@ import java.util.Locale;
 
 import butterknife.BindView;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPort;
+import static com.kerwin.wumei.utils.SettingUtils.getServerip;
+
 @Page(anim = CoreAnim.none)
 public class ProfileFragment extends BaseFragment implements SuperTextView.OnSuperTextViewClickListener {
     @BindView(R.id.riv_head_pic)
@@ -53,8 +56,8 @@ public class ProfileFragment extends BaseFragment implements SuperTextView.OnSup
     SuperTextView menuMessage;
     @BindView(R.id.menu_logout)
     SuperTextView menuLogout;
-    @BindView(R.id.about_list)
-    XUIGroupListView mAboutGroupListView;
+    @BindView(R.id.control_list)
+    XUIGroupListView mControlGroupListView;
     @BindView(R.id.tv_copyright)
     TextView mCopyrightTextView;
     @BindView(R.id.menu_account)
@@ -83,11 +86,28 @@ public class ProfileFragment extends BaseFragment implements SuperTextView.OnSup
      */
     @Override
     protected void initViews() {
-        XUIGroupListView.newSection(getContext())
-                .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_author_github)), v -> AgentWebActivity.goWeb(getContext(), getString(R.string.url_author_github)))
-                .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_add_qq_group)), v -> AgentWebActivity.goWeb(getContext(), getString(R.string.url_add_qq_group)))
-                .addItemView(mAboutGroupListView.createItemView("版本：v"+AppUtils.getAppVersionName()), v -> XToastUtils.toast("官网下载最新版本"))
-                .addTo(mAboutGroupListView);
+        if(getServerip()!=null && getServerip().length()>0){
+            String address="http://"+getServerip();
+            String control=address;
+            String emqx=address+":18083";
+            if(getServerPort()!=null && getServerPort().length()>0){
+                control=address+":"+getServerPort();
+            }
+
+            String finalControl = control;
+            String finalEmqx=emqx;
+            XUIGroupListView.newSection(getContext())
+                    .addItemView(mControlGroupListView.createItemView("打开管理控制台"), v -> AgentWebActivity.goWeb(getContext(), finalControl))
+                    .addItemView(mControlGroupListView.createItemView("打开EMQX控制台"), v -> AgentWebActivity.goWeb(getContext(), finalEmqx))
+                    .addItemView(mControlGroupListView.createItemView(getResources().getString(R.string.about_item_add_qq_group)), v -> AgentWebActivity.goWeb(getContext(), getString(R.string.url_add_qq_group)))
+                    .addItemView(mControlGroupListView.createItemView("应用版本 - V" + AppUtils.getAppVersionName()), v -> XToastUtils.toast("官网下载最新版本"))
+                    .addTo(mControlGroupListView);
+        }else {
+            XUIGroupListView.newSection(getContext())
+                    .addItemView(mControlGroupListView.createItemView(getResources().getString(R.string.about_item_add_qq_group)), v -> AgentWebActivity.goWeb(getContext(), getString(R.string.url_add_qq_group)))
+                    .addItemView(mControlGroupListView.createItemView("应用版本 - V" + AppUtils.getAppVersionName()), v -> XToastUtils.toast("官网下载最新版本"))
+                    .addTo(mControlGroupListView);
+        }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.CHINA);
         String currentYear = dateFormat.format(new Date());

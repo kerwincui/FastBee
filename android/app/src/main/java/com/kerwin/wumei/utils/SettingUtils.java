@@ -73,11 +73,9 @@ public final class SettingUtils {
      * 获取服务端地址
      */
     public static String getServeUrl(){
-        String address="";
-        if(getIsHttps()){
+        String address="http://";
+        if(getIsHttps()==true){
             address="https://";
-        }else{
-            address="http://";
         }
         address=address+getServerip()+":"+getServerPort();
         return address;
@@ -120,7 +118,7 @@ public final class SettingUtils {
      * @return
      */
     public static String getServerip(){
-        return MMKVUtils.getString(SERVERIP,"");
+        return MMKVUtils.getString(SERVERIP,"wumei.live");
     }
 
     /**
@@ -128,7 +126,7 @@ public final class SettingUtils {
      * @return
      */
     public static String getServerPort(){
-        return MMKVUtils.getString(SERVERPORT,"");
+        return MMKVUtils.getString(SERVERPORT,"88");
     }
 
     /**

@@ -8,7 +8,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_device">设备</string>
-    <string name="menu_news">官网</string>
+    <string name="menu_news">文档</string>
     <string name="menu_scene">配置</string>
     <string name="menu_add_device">添加</string>
     <string name="menu_profile">我的</string>
@@ -26,7 +26,7 @@
     <string name="about_copyright">© %1$s wumei-smart All rights reserved.</string>
     <string name="about_item_homepage">访问官网</string>
     <string name="about_item_author_github">访问源码</string>
-    <string name="about_item_add_qq_group">加入QQ群</string>
+    <string name="about_item_add_qq_group">加入QQ交流群</string>
     <string name="url_project_github">http://wumei.live</string>
     <string name="url_author_github">https://gitee.com/kerwincui/wumei-smart</string>
     <string name="url_add_qq_group">https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8</string>
