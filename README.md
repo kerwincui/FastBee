@@ -6,11 +6,17 @@
 
 &emsp;&emsp;2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino。软硬件交互基于mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
-![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 ![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
 <br />
+
+### 二、案例
+&emsp;&emsp;目前已经制作了wifi通断器和七彩灯，可以控制2500W以下用电设备的通断，同时支持雷达感应、射频遥控和温湿度监控。
+
+![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
+
+<br />
  
-### 二、技术栈    
+### 三、技术栈    
 * 后端
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、Mongodb、Mqtt等
     - 开发工具：IDEA    
@@ -26,7 +32,7 @@
 
 <br />
 
-### 三、快速搭建系统
+### 四、快速搭建系统
 #### 1. 安装docker，[官方下载docker](https://docs.docker.com/get-docker/)
 #### 2. docker安装成功后，打开命令窗口运行如下命令：
 
@@ -51,7 +57,7 @@ kerwincui/wumei-smart:1.0
 
 <br />
 
-### 四、系统部分图片
+### 五、系统部分图片
 ![分类](https://gitee.com/kerwincui/wumei-smart/raw/master/document/a.png)
 ![设备列表](https://gitee.com/kerwincui/wumei-smart/raw/master/document/b.png)
 ![EMQX](https://gitee.com/kerwincui/wumei-smart/raw/master/document/c.png)
@@ -65,7 +71,7 @@ kerwincui/wumei-smart:1.0
 
 <br />
 
-### 五、相关教程
+### 六、相关教程
 
 * [项目运行和使用教程](http://wumei.live/guid.html)，不断完善中
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
