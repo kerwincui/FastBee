@@ -50,7 +50,7 @@ kerwincui/wumei-smart:1.0
 
 <br />
 
-### 四、展示图
+### 四、系统部分图片
 ![分类](https://gitee.com/kerwincui/wumei-smart/raw/master/document/a.png)
 ![设备列表](https://gitee.com/kerwincui/wumei-smart/raw/master/document/b.png)
 ![EMQX](https://gitee.com/kerwincui/wumei-smart/raw/master/document/c.png)
@@ -59,6 +59,6 @@ kerwincui/wumei-smart:1.0
 
 <br />
 
-##### 加入QQ群：1073236354
+##### 加入讨论群：1073236354
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
 
