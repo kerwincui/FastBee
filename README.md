@@ -48,8 +48,6 @@ kerwincui/wumei-smart:1.0
 
 #### 4.硬件代码烧录
 
-&emsp;&emsp;&emsp;&emsp;[进入详细搭建教程](http://wumei.live/)
-
 <br />
 
 ### 四、系统部分图片
@@ -64,3 +62,10 @@ kerwincui/wumei-smart:1.0
 ##### 加入讨论群：1073236354
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
 
+<br />
+### 五、教程
+
+* [项目运行和使用教程(完善中)](http://wumei.live/guid.html)
+* [若依文档(前后端基于若依开发)](http://doc.ruoyi.vip/ruoyi-vue/)
+* [XUI文档(安卓基于XUI开发)](https://gitee.com/xuexiangjys/XUI)
+* [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
