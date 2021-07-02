@@ -21,6 +21,30 @@
 
 <br />
 
+### 快速搭建系统
+* 安装docker
+* 命令窗口运行如下命令，windows容器替换\为^
+
+`
+docker run 
+--name wumei-smart 
+--publish 80:80 
+--publish 18083:18083 
+--publish 1883:1883 
+--publish 3306:3306 
+--publish 6379:6379 
+--restart always 
+--detach 
+kerwincui/wumei-smart:1.0
+`
+* 安装APP
+
+<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
+
+* 烧录硬件
+
+<br />
+
 ### 展示图
 ![分类](https://gitee.com/kerwincui/wumei-smart/raw/master/document/a.png)
 ![设备列表](https://gitee.com/kerwincui/wumei-smart/raw/master/document/b.png)
