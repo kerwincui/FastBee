@@ -46,7 +46,7 @@ kerwincui/wumei-smart:1.0
 
 ##### 4.烧录硬件
 
-##### [详细搭建教程](http://wumei.live/)
+&emsp;&emsp;&emsp;&emsp;[详细搭建教程](http://wumei.live/)
 
 <br />
 
