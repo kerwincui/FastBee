@@ -8,18 +8,18 @@
 <br />
  
 ### 技术栈    
-##### 后端
-* 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、Mongodb、Mqtt等
-* 开发工具：IDEA    
-##### 前端
-* 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
-* 开发工具：Visual Studio Code    
-##### 安卓
-* 相关技术：XUI、XPage、XAop、XHttp2等
-* 开发工具：Android Studio    
-##### 硬件端
-* 相关技术： ESP-IDF、Arduino、FreeRTOS等
-* 开发工具：Visual Studio Code
+* 后端
+    * 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、Mongodb、Mqtt等
+    * 开发工具：IDEA    
+* 前端
+    * 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
+    * 开发工具：Visual Studio Code    
+* 安卓
+    * 相关技术：XUI、XPage、XAop、XHttp2等
+    * 开发工具：Android Studio    
+* 硬件端
+    * 相关技术： ESP-IDF、Arduino、FreeRTOS等
+    * 开发工具：Visual Studio Code
 
 <br />
 
