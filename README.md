@@ -68,5 +68,5 @@ kerwincui/wumei-smart:1.0
 
 * [项目运行和使用教程](http://wumei.live/guid.html)，不断完善中
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
-* [XUI文档(安卓基于XUI开发)](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
+* [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
 * [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
