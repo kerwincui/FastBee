@@ -22,8 +22,8 @@
 <br />
 
 ### 快速搭建系统
-1. 安装docker，docker安装教程
-2. docker安装成功后，Shell命令窗口运行如下命令，windows命令窗口替换\为^
+1. 安装docker，[docker下载](https://docs.docker.com/get-docker/)
+2. docker安装成功后，打开命令窗口运行如下命令：
 
 `
 docker run 
@@ -40,10 +40,11 @@ kerwincui/wumei-smart:1.0
 
 3. 扫码下载APP安装,打开APP配置服务端地址
 
-<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
+&emsp;&emsp;&emsp;&emsp;<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
 
 4. 烧录硬件
-##### [详细教程](http://wumei.live/)
+
+##### [详细搭建教程](http://wumei.live/)
 
 <br />
 
