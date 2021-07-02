@@ -10,7 +10,8 @@
 <br />
 
 ### 二、案例
-&emsp;&emsp;目前已经制作了wifi通断器和七彩灯，可以控制2500W以下用电设备的通断，同时支持雷达感应、射频遥控和温湿度监控。
+&emsp;&emsp;目前已经制作了wifi通断器和七彩灯，可以控制2500W以下用电设备的通断，同时支持雷达感应、射频遥控控制和温湿度监控。
+
 ![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
 
 
