@@ -38,7 +38,7 @@
 
 <br />
 
-### 四、快速搭建系统
+### 四、快速部署系统
 #### 1. 安装docker，[官方下载docker](https://docs.docker.com/get-docker/)
 #### 2. docker安装成功后，打开命令窗口运行如下命令(完成后端、前端、数据库、EMQX安装)：
 
