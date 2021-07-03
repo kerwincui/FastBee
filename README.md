@@ -39,8 +39,8 @@
 <br />
 
 ### 四、快速部署系统
-#### 1. 安装docker，[官方下载docker](https://docs.docker.com/get-docker/)
-#### 2. docker安装成功后，打开命令窗口运行如下命令(完成后端、前端、数据库、EMQX安装)：
+#### 1. 安装docker
+#### 2. 命令窗口运行如下命令(完成后端、前端、数据库、EMQX部署)：
 
 `
 docker run 
@@ -58,6 +58,7 @@ kerwincui/wumei-smart:1.0
 #### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
 
 &emsp;&emsp;&emsp;&emsp;<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
+&emsp;&emsp;&emsp;&emsp;测试账号：wumei admin123；配置成功后默认账号：admin admin123
 
 #### 4. 硬件代码烧录
 
@@ -79,6 +80,7 @@ kerwincui/wumei-smart:1.0
 
 ### 六、相关教程
 
+* [快速部署系统](https://gitee.com/kerwincui/wumei-smart/wikis/%E4%B8%80%E3%80%81%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E7%B3%BB%E7%BB%9F?sort_id=4192742)
 * [项目运行和使用教程](http://wumei.live/guid.html)，不断完善中
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
 * [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
