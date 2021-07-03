@@ -9,10 +9,15 @@
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 <br />
 
-### 二、案例
-&emsp;&emsp;目前已经制作了wifi通断器和七彩灯，可以控制2500W以下用电设备的通断，同时支持雷达感应、射频遥控控制和温湿度监控。
-
-![架构](https://gitee.com/kerwincui/wumei-smart/raw/master/document/t.gif)  
+### 二、参考案例
+1. NodeMCU开发板制作一个智能开关
+![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
+2. Wifi开发板制作一个通断器，可控制2500w一下用电设备
+![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  
+3. Wifi控制器和LED灯板制作七彩智能灯
+![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
+4. 树莓派安装wumei-smart作为服务器，节省成本
+![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case4.gif)  
 
 
 <br />
