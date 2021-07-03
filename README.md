@@ -12,7 +12,7 @@
 ### 二、参考案例
 1. NodeMCU开发板制作一个智能开关
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
-2. Wifi开发板制作一个通断器，可控制2500w一下用电设备
+2. Wifi开发板制作一个通断器，可控制2500w以下用电设备
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  
 3. Wifi控制器和LED灯板制作七彩智能灯
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
