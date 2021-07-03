@@ -73,11 +73,6 @@ kerwincui/wumei-smart:1.0
 
 <br />
 
-##### 加入讨论群：1073236354
-<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
-
-<br />
-
 ### 六、相关教程
 
 * [快速部署系统](https://gitee.com/kerwincui/wumei-smart/wikis/%E4%B8%80%E3%80%81%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E7%B3%BB%E7%BB%9F?sort_id=4192742)
@@ -85,3 +80,8 @@ kerwincui/wumei-smart:1.0
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
 * [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
 * [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
+
+<br />
+
+##### 加入讨论群：1073236354
+<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
