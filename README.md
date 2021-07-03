@@ -42,18 +42,18 @@
 #### 1. 安装docker
 #### 2. 命令窗口运行如下命令(完成后端、前端、数据库、EMQX部署)：
 
-`
-docker run 
---name wumei-smart 
---publish 80:80 
---publish 18083:18083 
---publish 1883:1883 
---publish 3306:3306 
---publish 6379:6379 
---restart always 
---detach 
+```
+docker run \
+--name wumei-smart \
+--publish 80:80 \
+--publish 18083:18083 \
+--publish 1883:1883 \
+--publish 3306:3306 \
+--publish 6379:6379 \
+--restart always \
+--detach \
 kerwincui/wumei-smart:1.0
-`
+```
 
 #### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
 
