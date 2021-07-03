@@ -56,10 +56,9 @@ kerwincui/wumei-smart:1.0
 ```
 
 #### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
+![APP下载](https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png)
 
-&emsp;&emsp;&emsp;&emsp;<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
-
-&emsp;&emsp;&emsp;&emsp;测试账号：wumei admin123；配置成功后默认账号：admin admin123
+&emsp;测试账号：wumei admin123；配置成功后默认账号：admin admin123
 
 #### 4. 硬件代码烧录
 
