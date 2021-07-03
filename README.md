@@ -35,7 +35,7 @@
 
 ### 四、快速搭建系统
 #### 1. 安装docker，[官方下载docker](https://docs.docker.com/get-docker/)
-#### 2. docker安装成功后，打开命令窗口运行如下命令：
+#### 2. docker安装成功后，打开命令窗口运行如下命令(完成后端、前端、数据库、EMQX安装)：
 
 `
 docker run 
@@ -50,7 +50,7 @@ docker run
 kerwincui/wumei-smart:1.0
 `
 
-#### 3. 扫码下载APP安装,打开APP配置服务端地址
+#### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
 
 &emsp;&emsp;&emsp;&emsp;<img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png" />
 
