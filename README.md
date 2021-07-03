@@ -75,8 +75,8 @@ kerwincui/wumei-smart:1.0
 
 ### 六、相关教程
 
-* [快速部署系统](https://gitee.com/kerwincui/wumei-smart/wikis/%E4%B8%80%E3%80%81%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E7%B3%BB%E7%BB%9F?sort_id=4192742)
-* [项目运行和使用教程](http://wumei.live/guid.html)，不断完善中
+* [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
+* [物美智能官网](http://wumei.live)
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
 * [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
 * [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
