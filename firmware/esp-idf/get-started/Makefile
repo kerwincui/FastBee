@@ -1,2 +1,2 @@
-PROJECT_NAME := empty_project
+PROJECT_NAME := demo
 include $(IDF_PATH)/make/project.mk
