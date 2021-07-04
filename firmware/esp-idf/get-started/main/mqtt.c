@@ -25,7 +25,7 @@ static char *get_setting_topic;
 // 发布设备状态
 static void publishStatus(void){
         cJSON *status = cJSON_CreateObject();        
-        cJSON_AddStringToObject(status,"deviceNum","7CDFA1049ADA");
+        cJSON_AddStringToObject(status,"deviceNum",device_num);
         cJSON_AddNumberToObject(status,"relayStatus",1);
         cJSON_AddNumberToObject(status,"lightStatus",1);
         cJSON_AddNumberToObject(status,"isOnline",1);
