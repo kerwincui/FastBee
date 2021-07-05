@@ -86,6 +86,7 @@ kerwincui/wumei-smart:1.0
 
 * [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
 * [硬件接入文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
+* [演示视频](http://wumei.live)，制作中.....
 * [物美智能官网](http://wumei.live)
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
 * [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
