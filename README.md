@@ -9,13 +9,15 @@
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 <br />
 
-3.硬件端提供接入文档，需要支持网络功能，项目里面包含ESP-IDF和Arduino的代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中。
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  
-* 手机、电脑远程控制
-* 遥控配对、清码和控制
-* 空气温湿度监控
-* 雷达感应和报警
-* 220V和5V电压供电，阻性负载2500W，感性负载250W
+3. 硬件端提供接入文档，需要支持网络功能，项目里面包含ESP-IDF和Arduino的代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中。<br />
+![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  <br />
+    * 手机、电脑远程控制
+    * 遥控配对、清码和控制
+    * 空气温湿度监控
+    * 雷达感应和报警
+    * 220V和5V电压供电，阻性负载2500W，感性负载250W
+
+<br />
 
 
 ### 二、参考案例
