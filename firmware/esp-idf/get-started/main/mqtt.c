@@ -8,7 +8,7 @@
 
 
 // 配置连接mqtt的broken
-#define BROKEN_URL               "mqtt://wumei.live:1884"
+#define BROKEN_URL               "mqtt://192.168.0.100:1883"
 #define BROKEN_ADMIN             "admin"
 #define BROKEN_PWD               "admin123"
 
