@@ -1,13 +1,22 @@
 
 ### 一、项目简介
 
-&emsp;&emsp;1. **物美智能([wumei-smart](http://www.wumei.live/introduce.html))]是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。<br />
+1. **物美智能([wumei-smart](http://www.wumei.live/introduce.html))]是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。<br />
 ![说明](https://gitee.com/kerwincui/wumei-smart/raw/master/document/desc.png)<br /><br />
 
-&emsp;&emsp;2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino。软硬件交互基于mqtt协议，使用EMQ代理服务器。系统架构图如下：
+2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino等。软硬件交互基于Mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 <br />
+
+3.硬件端提供接入文档，需要支持网络功能，项目里面有ESP-IDF和Arduino接入的demo。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中。
+
+* 手机、电脑远程控制
+* 遥控配对、清码和控制
+* 空气温湿度监控
+* 雷达感应和报警
+* 220V和5V电压供电，阻性负载2500W，感性负载250W
+
 
 ### 二、参考案例
 1. NodeMCU开发板制作一个智能开关
