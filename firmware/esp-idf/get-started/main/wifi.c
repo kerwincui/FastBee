@@ -10,8 +10,8 @@
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 
-char ssid[33]="tp-six";              // wifi的SSID
-char pwd[65]="clh15108665817";       // wifi的密码
+char ssid[33]="ssid";              // wifi的SSID
+char pwd[65]="password";       // wifi的密码
 
 
 static const char *TAG = "WIFI";
