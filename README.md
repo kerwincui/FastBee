@@ -9,7 +9,7 @@
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 <br />
 
-3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中。<br />
+3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。<br /><br />
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  <br />
     * 手机、电脑远程控制
     * 遥控配对、清码和控制
@@ -23,11 +23,9 @@
 ### 二、参考案例
 1. NodeMCU开发板制作一个智能开关
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
-2. Wifi开发板制作一个通断器，可控制2500w以下用电设备
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  
-3. Wifi控制器和LED灯板制作七彩智能灯
+2. Wifi控制器和LED灯板制作七彩智能灯
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
-4. 树莓派安装wumei-smart作为服务器，节省成本
+3. 树莓派安装wumei-smart作为服务器，节省成本
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case4.gif)  
 
 
@@ -87,6 +85,7 @@ kerwincui/wumei-smart:1.0
 ### 六、相关教程
 
 * [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
+* [硬件接入文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
 * [物美智能官网](http://wumei.live)
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于若依前后端分离框架
 * [XUI](https://gitee.com/xuexiangjys/XUI)，安卓UI使用XUI
