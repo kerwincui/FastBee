@@ -69,7 +69,7 @@ kerwincui/wumei-smart:1.0
 
 测试账号：wumei admin123；配置成功后默认账号：admin admin123
 
-#### 4. 硬件代码烧录
+#### 4. 硬件代码烧录到设备
 
 <br />
 
