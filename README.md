@@ -8,7 +8,6 @@
 <br /><br />
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/directory.png)  
-<br />
 
 3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。<br /><br />
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  <br />
