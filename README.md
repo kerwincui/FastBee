@@ -96,3 +96,6 @@ kerwincui/wumei-smart:1.0
 
 ##### 加入讨论群：1073236354
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
+#### APP和管理端测试账号： wumei admin123
+* APP下载：[https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203153&doc_id=1506495](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203153&doc_id=1506495)
+* 管理端入口：[http://iot.wumei.live/](http://iot.wumei.live/)
