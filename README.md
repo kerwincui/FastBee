@@ -98,6 +98,6 @@ kerwincui/wumei-smart:1.0
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
 <br /><br />
 
-### 八、APP和管理端登录 &emsp;&emsp;测试账号：wumei &emsp;&emsp;密码：admin123
+### 八、APP和管理端登录 &emsp;&emsp;测试账号：wumei &emsp;密码：admin123
 * APP：[进入下载界面>>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203153&doc_id=1506495)
 * 管理端：[进入登录界面>>>](http://iot.wumei.live/)
