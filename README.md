@@ -9,7 +9,7 @@
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/directory.png)  
 
-3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。硬件完整代码采用ESP-IDF框架，基于乐鑫ESP32S2芯片，安信可ESP-12K模组。<br /><br />
+3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。硬件完整示例代码采用ESP-IDF框架4.2版本，基于乐鑫ESP32S2芯片，安信可ESP-12K模组。<br /><br />
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  <br />
     * 手机、电脑远程控制
     * 遥控配对、清码和控制
