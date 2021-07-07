@@ -1,2 +1,3 @@
 ##### 开发中...
+##### 包含 Arduino ESP32和Arduino ESP8266
 ##### [硬件接入文档看这里 >>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
