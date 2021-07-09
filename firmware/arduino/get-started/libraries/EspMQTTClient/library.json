@@ -1,0 +1,25 @@
+{
+  "name":"EspMQTTClient",
+  "description":"A library that provides a wifi and MQTT connection to an ESP8266/ESP32",
+  "keywords":"mqtt,wifi,iot",
+  "authors": [
+    {
+      "name": "Patrick Lapointe",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/plapointe6/EspMQTTClient.git"
+  },
+  "version": "1.11.1",
+  "frameworks": "arduino",
+  "platforms": ["espressif8266", "espressif32"],
+  "dependencies": [
+    {
+      "name": "PubSubClient",
+      "platforms": ["espressif8266", "espressif32"]
+    }
+  ]
+}

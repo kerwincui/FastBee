@@ -1,0 +1,47 @@
+#######################################
+# Syntax Coloring Map For EspMQTTClient
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+EspMQTTClient	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+enableDebuggingMessages KEYWORD2
+enableHTTPWebUpdater    KEYWORD2
+enableHTTPWebUpdater    KEYWORD2
+enableMQTTPersistence   KEYWORD2
+enableLastWillMessage   KEYWORD2
+enableDrasticResetOnConnectionFailures KEYWORD2
+
+loop()                  KEYWORD2
+
+setMaxPacketSize        KEYWORD2
+publish                 KEYWORD2
+subscribe               KEYWORD2
+subscribe               KEYWORD2
+unsubscribe             KEYWORD2
+setKeepAlive            KEYWORD2
+setMqttClientName       KEYWORD2
+
+executeDelayed          KEYWORD2
+
+isConnected             KEYWORD2
+isWifiConnected         KEYWORD2
+isMqttConnected         KEYWORD2
+getConnectionEstablishedCount   KEYWORD2
+  
+getMqttClientName       KEYWORD2
+getMqttServerIp         KEYWORD2
+getMqttServerPort       KEYWORD2
+
+setOnConnectionEstablishedCallback  KEYWORD2
+
+setMqttReconnectionAttemptDelay     KEYWORD2
+
+setWifiReconnectionAttemptDelay     KEYWORD2
