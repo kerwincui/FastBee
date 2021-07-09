@@ -14,7 +14,7 @@ long categoryId=1;                 // 设备分类，后端查看，默认为wif
 EspMQTTClient client(
   "wifi-ssid",                     // WIFI的SSID
   "wifi-password",                 // WIFI的密码
-  "192.168.0.100",                 // MQTT消息服务器地址
+  "192.168.0.100",                 // Mqtt消息服务器地址
   "admin",                         // Mqtt消息服务器账号
   "admin123",                      // Mqtt消息服务器密码
   deviceNum,                       // Mqtt客户端名称
