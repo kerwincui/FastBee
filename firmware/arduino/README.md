@@ -1,9 +1,9 @@
 
 ##### 一、支持 ESP8266和ESP32，使用ESPMQTTClient和ArduinoJson库，用于连接wifi和mqtt，以及JSON的处理
 ##### 二、环境搭建
-1. 安装新版 Arduino IDE开发工具
-2. 打开Arduino，文件 > 首选项
-    * 附加开发板管理网址添加下面地址
+1. 安装新版Arduino开发工具
+2. 安装开发板和库
+    * 文件 > 首选项，附加开发板管理网址添加下面地址
       * ESP8266使用：http://arduino.esp8266.com/stable/package_esp8266com_index.json
       * ESP32使用：https://dl.espressif.com/dl/package_esp32_index.json
     * 重启Arduino，打开工具 > 开发板 > 开发板管理器安装ESP8266或者ESP32
