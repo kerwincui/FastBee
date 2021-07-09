@@ -17,4 +17,4 @@
 ##### 四、后端和硬件交互
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flow.png)  
 
-##### 五、[硬件接入文档看这里 >>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
+##### 五、[硬件通用接入文档看这里 >>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
