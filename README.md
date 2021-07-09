@@ -43,7 +43,7 @@
     - 开发工具：Android Studio    
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS等
-    - 开发工具：Visual Studio Code
+    - 开发工具：Visual Studio Code 和 Arduino
 
 <br />
 
