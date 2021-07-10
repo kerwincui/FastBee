@@ -45,7 +45,7 @@ static void publishStatus(void){
         char *status_msg = cJSON_Print(status);            
         //释放内存
         cJSON_Delete(status);
-        ESP_LOGI(TAG,"public status msg: %s",status_msg);
+        ESP_LOGI(TAG,"publish status msg: %s",status_msg);
         int msg_id=esp_mqtt_client_publish(mqtt_client,"status",status_msg,0,1,0);
         ESP_LOGI(TAG, "sent publish device status, msg_id=%d",msg_id);
 }
