@@ -13,8 +13,10 @@ package com.ruoyi.system.controller;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.domain.IotDevice;
 import com.ruoyi.system.domain.IotDeviceStatus;
 import com.ruoyi.system.mqtt.config.MqttPushClient;
+import com.ruoyi.system.service.IIotDeviceService;
 import com.ruoyi.system.service.IIotDeviceStatusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,6 +54,8 @@ public class IotDeviceSetController extends BaseController
     private IIotDeviceSetService iotDeviceSetService;
     @Autowired
     private IIotDeviceStatusService iotDeviceStatusService;
+    @Autowired
+    private IIotDeviceService iotDeviceService;
 
     @Autowired
     private MqttPushClient mqttPushClient;
@@ -102,7 +106,23 @@ public class IotDeviceSetController extends BaseController
     @GetMapping(value = "/new/{deviceId}")
     public AjaxResult getNewInfo(@PathVariable("deviceId") Long deviceId)
     {
-        return AjaxResult.success(iotDeviceSetService.selectIotDeviceSetByDeviceId(deviceId));
+        IotDeviceSet set=iotDeviceSetService.selectIotDeviceSetByDeviceId(deviceId);
+        if(set==null){
+            // 构建默认数据
+            IotDevice device=iotDeviceService.selectIotDeviceById(deviceId);
+            if(device!=null) {
+                set=new IotDeviceSet();
+                set.setDeviceId(device.getDeviceId());
+                set.setDeviceNum(device.getDeviceNum());
+                set.setOwnerId(device.getOwnerId());
+                set.setRadarInterval(5);
+                set.setRfOneFunc(1);
+                set.setRfTwoFunc(2);
+                set.setRfThreeFunc(3);
+                set.setRfFourFunc(4);
+            }
+        }
+        return AjaxResult.success(set);
     }
 
     /**

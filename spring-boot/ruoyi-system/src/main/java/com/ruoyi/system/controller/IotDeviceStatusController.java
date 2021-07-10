@@ -13,7 +13,9 @@ package com.ruoyi.system.controller;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.domain.IotDevice;
 import com.ruoyi.system.mqtt.config.MqttPushClient;
+import com.ruoyi.system.service.IIotDeviceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,6 +50,8 @@ public class IotDeviceStatusController extends BaseController
 {
     @Autowired
     private IIotDeviceStatusService iotDeviceStatusService;
+    @Autowired
+    private IIotDeviceService iotDeviceService;
 
     @Autowired
     private MqttPushClient mqttPushClient;
@@ -109,7 +113,23 @@ public class IotDeviceStatusController extends BaseController
     @GetMapping(value = "/new/{deviceId}")
     public AjaxResult getNewInfo(@PathVariable("deviceId") Long deviceId)
     {
-        return AjaxResult.success(iotDeviceStatusService.selectIotDeviceStatusByDeviceId(deviceId));
+        IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(deviceId);
+        if(status==null){
+            // 构建默认数据
+            IotDevice device=iotDeviceService.selectIotDeviceById(deviceId);
+            if(device!=null) {
+                status=new IotDeviceStatus();
+                status.setDeviceId(device.getDeviceId());
+                status.setDeviceNum(device.getDeviceNum());
+                status.setBrightness(100);
+                status.setLightInterval(500);
+                status.setFadeTime(300);
+                status.setRed(255L);
+                status.setBlue(255L);
+                status.setGreen(255L);
+            }
+        }
+        return AjaxResult.success(status);
     }
 
     /**

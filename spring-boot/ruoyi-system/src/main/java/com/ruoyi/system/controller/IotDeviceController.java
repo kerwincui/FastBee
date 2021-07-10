@@ -12,11 +12,15 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.system.domain.vo.IotDeviceListDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,6 +61,8 @@ public class IotDeviceController extends BaseController
     public TableDataInfo list(IotDevice iotDevice)
     {
         startPage();
+        LoginUser user=(LoginUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        iotDevice.setOwnerId(user.getUser().getUserId().toString());
         List<IotDeviceListDto> list = iotDeviceService.selectIotDeviceList(iotDevice);
         return getDataTable(list);
     }
