@@ -10,7 +10,7 @@
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 
-char ssid[33]="ssid";              // wifi的SSID
+char ssid[33]="ssid";          // wifi的SSID
 char pwd[65]="password";       // wifi的密码
 
 

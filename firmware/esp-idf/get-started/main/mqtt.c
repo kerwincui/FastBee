@@ -14,6 +14,7 @@
 
 char owner_id[64]="1";               // 用户ID,后端查看，默认为amdin,ID为1
 char device_num[13]="7EAFA1049ADA";  // 设备编号，唯一标识
+long category_id=1;                  // 设备分类ID，后端查看，1-wifi通断器
 
 static const char *TAG = "MQTT";
 static esp_mqtt_client_handle_t mqtt_client=NULL;
@@ -270,7 +271,7 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
             //发布设备信息
             cJSON *device_info = cJSON_CreateObject();
             cJSON_AddStringToObject(device_info,"deviceNum",device_num);
-            cJSON_AddNumberToObject(device_info,"categoryId",1);
+            cJSON_AddNumberToObject(device_info,"categoryId",category_id);
             cJSON_AddStringToObject(device_info,"firmwareVersion","1.0");
             cJSON_AddStringToObject(device_info,"ownerId",owner_id);
             char *device_msg = cJSON_Print(device_info);
