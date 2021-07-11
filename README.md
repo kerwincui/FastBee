@@ -86,7 +86,7 @@ kerwincui/wumei-smart:1.0
 
 * [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
 * [硬件接入文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203154&doc_id=1506495)
-* [演示视频](http://wumei.live)，制作中.....
+* [演示视频](https://space.bilibili.com/471004321)
 * [物美智能官网](http://wumei.live)
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于Ruoyi-Vue，前后端分离权限管理系统
 * [XUI](https://gitee.com/xuexiangjys/XUI)，Android基于XUI开发，是一个简洁而优雅的原生UI框架
