@@ -1,3 +1,7 @@
+##### 文件夹说明
+* get-started：ESP-IDF的接入Demo
+* wumei-smart-firmware:ESP-IDF的完整项目，包含Wifi、Mqtt、Ap配网、智能配网、OTA升级、遥控学习、遥控清吗、七彩灯、雷达感应、雷达报警等。
+
 ##### 一、实现wifi和mqtt功能，对接系统的基本示例。
 * 修改wifi.c文件中的 SSID和密码，连接自己wifi
 * 修改mqtt.c文件中的mqtt信息，连接自己的mqtt代理服务
