@@ -17,8 +17,8 @@
 #include "driver/temp_sensor.h"
 
 
-char ssid[33]="tp-six";            // wifi的SSID
-char pwd[65]="clh15108665817";      // wifi的密码
+char ssid[33]="wifi-ssid";          // wifi的SSID
+char pwd[65]="wifi-password";       // wifi的密码
 char owner_id[64]="1";              // 用户ID
     
 char open_broken_url[128]="";       // 二次开发mqtt服务器地址
@@ -40,13 +40,13 @@ uint8_t rf_two_func=2;              // 第二个遥控按键功能
 uint8_t rf_three_func=3;            // 第三个遥控按键功能
 uint8_t rf_four_func=4;             // 第四个遥控按键功能
     
-uint32_t red=255;                      // 红色值 0-255
-uint32_t gree=255;                     // 绿色值
+uint32_t red=255;                    // 红色值 0-255
+uint32_t gree=255;                   // 绿色值
 uint32_t blue=0;                     // 蓝色值
-uint32_t brightness=100;               // 亮度0-100
-uint32_t light_interval=1000;       // 颜色闪烁间隔
-uint32_t radar_interval=5;          // 雷达开灯持续时间,单位秒
-uint32_t fade_time=100;             // 灯渐变时间
+uint32_t brightness=100;             // 亮度0-100
+uint32_t light_interval=1000;        // 颜色闪烁间隔
+uint32_t radar_interval=5;           // 雷达开灯持续时间,单位秒
+uint32_t fade_time=100;              // 灯渐变时间
     
 // 全局变量-不需要存储
 char device_num[13]="";             // 设备编号，mac地址
