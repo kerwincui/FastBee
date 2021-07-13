@@ -1,0 +1,65 @@
+menu "Configuration"
+
+    config MAX_CPU_FREQ_MHZ
+        int "Maximum CPU frequency"
+        default 80
+        help
+            Maximum CPU frequency 80/160/240.
+
+    config MIN_CPU_FREQ_MHZ
+        int "Minimum CPU frequency"
+        default 10
+        help
+            Minimum CPU frequency 10/13/20/26/40.
+            
+    choice SNTP_TIME_SYNC_METHOD
+        prompt "Time synchronization method"
+        default SNTP_TIME_SYNC_METHOD_IMMED
+        help
+            Time synchronization method.
+
+        config SNTP_TIME_SYNC_METHOD_IMMED
+            bool "update time immediately when received"
+        config SNTP_TIME_SYNC_METHOD_SMOOTH
+            bool "update time with smooth method (adjtime)"
+        config SNTP_TIME_SYNC_METHOD_CUSTOM
+            bool "custom implementation"
+    endchoice
+
+
+    config FIRMWARE_UPG_URL
+        string "Firmware Upgrade URL"
+        default "http://wumei.live/prod-api/common/download/firmware?fileName=wumei-open.bin"
+        help
+            URL of server which hosts the firmware image.
+
+    config SKIP_COMMON_NAME_CHECK
+        bool "Skip server certificate CN fieldcheck"
+        default n
+        help
+            This allows you to skip the validation of OTA server certificate CN field.
+
+    config SKIP_VERSION_CHECK
+        bool "Skip firmware version check"
+        default y
+        help
+            This allows you to skip the firmware version check.
+
+    config GPIO_DIAGNOSTIC
+        int "Number of the GPIO input for diagnostic"
+        range 0 39
+        default 35
+        help
+            Used to demonstrate how a rollback works.
+            The selected GPIO will be configured as an input with internal pull-up enabled.
+            To trigger a rollback, this GPIO must be pulled low while the message
+            `Diagnostics (5 sec)...` which will be on first boot.
+            If GPIO is not pulled low then the operable of the app will be confirmed.
+
+    config OTA_RECV_TIMEOUT
+        int "OTA Receive Timeout"
+        default 5000
+        help
+            Maximum time for reception
+    
+endmenu

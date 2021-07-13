@@ -1,0 +1,103 @@
+<style type="text/css">
+    *{margin: 0;padding: 0;}
+    #all{margin: 20px auto;position: relative;width:320px;text-align:center;}
+    #all #tab li{list-style: none;float: left;width: 94px;line-height: 40px;text-align: center;font-size: 16px;color:#fff;margin-left:10px;}
+    #tab{ height:40px;}
+    #all .con{border:1px solid #aaa;padding:10px;margin:15px 10px;}
+    #list{margin: 20px auto;position:relative;width:300px;text-align:center;}
+    #list table{border-collapse:collapse;border:none;width:300px;}
+    #list table tr td{border:solid#aaa 1px;padding:10px;}
+</style>
+<div style="width:100%;height:60px;font-size:22px;line-height:60px;background:#006DFE;color:#fff;text-align:center;">物美智能设备配置</div>
+<div id="all">
+    <ul id="tab">
+        <li style="background: #888;">服务端</li>
+        <li style="background: #888;">配网</li>
+        <li style="background: #006DFE;">上传证书</li>
+    </ul>
+    <div class="con" style="display:block;">
+        <table class="fixed" border="0">
+            <col width="1000px" /><col width="500px" />
+            <tr><td>
+                <table border="0">
+                    <tr style="height:50px;">
+                        <td>
+                            <input id="newfile" type="file" onchange="setpath()" style="width:100%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <input id="filepath" type="hidden" style="width:100%;">
+                        <td>
+                            <button style="margin:10px 0;padding:6px 14px;background:#f56c6c;color:#fff; border:1px solid #ddd;border-radius:6px;width:270px;" id="upload" type="button" onclick="upload()" style="padding:0 10px;">上传</button>
+                        </td>
+                    </tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+</div>
+<script>
+    window.onload = function(){
+        var tab = document.getElementById("tab");
+        var lis = tab.getElementsByTagName('li');//获得标签li的数组
+        var cons = document.getElementsByClassName('con');//获得下面内容div的数组
+        for(var i=0;i<lis.length;i++){
+            lis[i].num = i;//给对象添加属性，赋值用于标记                
+            lis[i].onclick = function(){
+                if(this.num==0 ){
+                    window.location.href="/?tab=0";
+                }
+                if(this.num==1){
+                    window.location.href="/?tab=1";
+                }
+            }
+        }
+    }
+    function setpath() {
+        var default_path = document.getElementById("newfile").files[0].name;
+        document.getElementById("filepath").value = default_path;
+    }
+    function upload() {
+        var filePath = document.getElementById("filepath").value;
+        var upload_path = "/upload/" + filePath;
+        var fileInput = document.getElementById("newfile").files;
+        /* Max size of an individual file. Make sure this
+        * value is same as that set in file_server.c */
+        var MAX_FILE_SIZE = 200*1024;
+        var MAX_FILE_SIZE_STR = "200KB";
+        if (fileInput.length == 0) {
+            alert("No file selected!");
+        } else if (filePath.length == 0) {
+            alert("File path on server is not set!");
+        } else if (filePath.indexOf(' ') >= 0) {
+            alert("File path on server cannot have spaces!");
+        } else if (filePath[filePath.length-1] == '/') {
+            alert("File name not specified after path!");
+        } else if (fileInput[0].size > 200*1024) {
+            alert("File size must be less than 200KB!");
+        } else {
+            document.getElementById("newfile").disabled = true;
+            document.getElementById("filepath").disabled = true;
+            document.getElementById("upload").disabled = true;
+            var file = fileInput[0];
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4) {
+                    if (xhttp.status == 200) {
+                        document.open();
+                        document.write(xhttp.responseText);
+                        document.close();
+                    } else if (xhttp.status == 0) {
+                        alert("Server closed the connection abruptly!");
+                        location.reload()
+                    } else {
+                        alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                        location.reload()
+                    }
+                }
+            };
+            xhttp.open("POST", upload_path, true);
+            xhttp.send(file);
+        }
+    }
+</script>
