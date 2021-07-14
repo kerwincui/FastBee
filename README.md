@@ -86,7 +86,7 @@ kerwincui/wumei-smart:1.0
 
 * [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
 * [ESP-IDF完整固件代码](https://gitee.com/kerwincui/wumei-smart/tree/master/firmware/esp-idf/wumei-smart-firmware)
-* [演示视频](https://space.bilibili.com/471004321)，快手、抖音搜索【物美智能】
+* [演示视频](https://space.bilibili.com/471004321)
 * [物美智能官网](http://wumei.live)
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于Ruoyi-Vue，前后端分离权限管理系统
 * [XUI](https://gitee.com/xuexiangjys/XUI)，Android基于XUI开发，是一个简洁而优雅的原生UI框架
