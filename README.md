@@ -1,7 +1,7 @@
 
 ### 一、项目简介
 
-1. **物美智能([wumei-smart](http://www.wumei.live/introduce.html))]是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。<br />
+1. **物美智能([wumei-smart](http://www.wumei.live/introduce.html))]是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。[演示视频 >>](https://space.bilibili.com/471004321)<br />
 ![说明](https://gitee.com/kerwincui/wumei-smart/raw/master/document/desc.png)<br /><br />
 
 2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino等。软硬件交互基于Mqtt协议，使用EMQ代理服务器。系统架构图如下：
