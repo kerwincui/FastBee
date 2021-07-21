@@ -201,7 +201,7 @@ public class DeviceEditFragment extends BaseFragment {
                     txt_device_category.setText(device.getCategoryName());
                     txt_firmware_version.setText("v"+device.getFirmwareVersion());
                     txt_create_time.setText(device.getCreateTime());
-                    sp_device_temperature.setText(device.getDeviceTemp()+"℃");
+                    sp_device_temperature.setText(device.getDeviceTemp()==null?0+"℃":device.getDeviceTemp()+"℃");
                 }
                 @Override
                 public void onError(ApiException e) {

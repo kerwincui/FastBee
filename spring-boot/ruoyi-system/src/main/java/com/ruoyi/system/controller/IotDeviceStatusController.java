@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.ruoyi.system.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -121,12 +122,18 @@ public class IotDeviceStatusController extends BaseController
                 status=new IotDeviceStatus();
                 status.setDeviceId(device.getDeviceId());
                 status.setDeviceNum(device.getDeviceNum());
+                status.setRelayStatus(0);
+                status.setLightStatus(0);
+                status.setLightMode(0);
                 status.setBrightness(100);
                 status.setLightInterval(500);
                 status.setFadeTime(300);
                 status.setRed(255L);
                 status.setBlue(255L);
                 status.setGreen(255L);
+                status.setAirTemperature(BigDecimal.valueOf(0));
+                status.setAirHumidity(BigDecimal.valueOf(0));
+                status.setDeviceTemperature(BigDecimal.valueOf(0));
             }
         }
         return AjaxResult.success(status);
@@ -154,7 +161,7 @@ public class IotDeviceStatusController extends BaseController
     public AjaxResult edit(@RequestBody IotDeviceStatus iotDeviceStatus)
     {
         IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceStatus.getDeviceId());
-        if(status.getIsOnline()!=1){return AjaxResult.error("设备已离线，不能更新状态。");}
+        if(status==null || status.getIsOnline()==0){return AjaxResult.error("设备已离线，不能更新状态。");}
         // 存储
         iotDeviceStatusService.updateIotDeviceStatus(iotDeviceStatus);
 

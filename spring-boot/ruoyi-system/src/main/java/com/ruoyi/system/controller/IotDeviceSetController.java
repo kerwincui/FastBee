@@ -115,11 +115,18 @@ public class IotDeviceSetController extends BaseController
                 set.setDeviceId(device.getDeviceId());
                 set.setDeviceNum(device.getDeviceNum());
                 set.setOwnerId(device.getOwnerId());
+                set.setIsRadar(0);
+                set.setIsAlarm(0);
                 set.setRadarInterval(5);
+                set.setIsRfControl(0);
+                set.setIsRfLearn(0);
                 set.setRfOneFunc(1);
                 set.setRfTwoFunc(2);
                 set.setRfThreeFunc(3);
                 set.setRfFourFunc(4);
+                set.setIsRfClear(0);
+                set.setIsAp(0);
+                set.setIsReset(0);
             }
         }
         return AjaxResult.success(set);
@@ -147,11 +154,11 @@ public class IotDeviceSetController extends BaseController
     public AjaxResult edit(@RequestBody IotDeviceSet iotDeviceSet)
     {
         IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceSet.getDeviceId());
-        if(status.getIsOnline()!=1){return AjaxResult.error("设备已离线，不能更新配置。");}
+        if(status==null || status.getIsOnline()==0){return AjaxResult.error("设备已离线，不能更新状态。");}
         // 存储
         iotDeviceSetService.updateIotDeviceSet(iotDeviceSet);
 
-        //
+        //mqtt发布
         IotDeviceSet set=iotDeviceSetService.selectIotDeviceSetByDeviceId(iotDeviceSet.getDeviceId());
         if(iotDeviceSet.getIsRadar()!=null){
             set.setIsRadar(iotDeviceSet.getIsRadar());

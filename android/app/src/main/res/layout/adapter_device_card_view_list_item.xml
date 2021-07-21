@@ -124,7 +124,7 @@
                         android:layout_width="@dimen/config_margin_14dp"
                         android:layout_height="@dimen/config_margin_14dp"
                         android:layout_gravity="bottom"
-                        app:srcCompat="@drawable/wifi_2" />
+                        app:srcCompat="@drawable/wifi_0" />
 
                     <TextView
                         android:id="@+id/device_item_wifi"

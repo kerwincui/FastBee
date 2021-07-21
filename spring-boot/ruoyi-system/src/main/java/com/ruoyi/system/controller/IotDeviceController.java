@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.ruoyi.system.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -112,6 +113,9 @@ public class IotDeviceController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody IotDevice iotDevice)
     {
+        LoginUser user=(LoginUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        iotDevice.setOwnerId(user.getUser().getUserId().toString());
+        iotDevice.setDeviceTemp(BigDecimal.valueOf(0));
         return toAjax(iotDeviceService.insertIotDevice(iotDevice));
     }
 

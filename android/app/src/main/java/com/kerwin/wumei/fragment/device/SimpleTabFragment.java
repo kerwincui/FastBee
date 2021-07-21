@@ -160,7 +160,7 @@ public class SimpleTabFragment extends BaseFragment {
 //                cardViewParams.width=(widthPixels-space)/2;
 
                 holder.text(R.id.device_item_title, device.getDeviceName());
-                holder.text(R.id.device_item_temp, device.getDeviceTemperature()+"℃");
+                holder.text(R.id.device_item_temp, device.getDeviceTemperature()==null? 0+"℃":device.getDeviceTemperature()+"℃");
                 holder.text(R.id.device_item_category, device.getCategoryName());
 
                 //状态图标
@@ -168,28 +168,28 @@ public class SimpleTabFragment extends BaseFragment {
                 SwitchIconView alarmView=holder.findViewById(R.id.device_item_alarm_icon);
                 SwitchIconView switchIconView=holder.findViewById(R.id.device_item_switch_button);
                 SwitchIconView lightIconView=holder.findViewById(R.id.device_item_light_button);
-                radarView.setIconEnabled(device.getIsRadar()==1 && device.getIsOnline()==1?true:false);
-                alarmView.setIconEnabled(device.getIsAlarm()==1 && device.getIsOnline()==1?true:false);
-                switchIconView.setIconEnabled(device.getRelayStatus()==1 && device.getIsOnline()==1?true:false);
-                lightIconView.setIconEnabled(device.getLightStatus()==1 && device.getIsOnline()==1?true:false);
+                radarView.setIconEnabled(device.getIsRadar()!=null && device.getIsRadar()==1 && device.getIsOnline()==1?true:false);
+                alarmView.setIconEnabled(device.getIsAlarm()!=null && device.getIsAlarm()==1 && device.getIsOnline()==1?true:false);
+                switchIconView.setIconEnabled(device.getRelayStatus()!=null && device.getRelayStatus()==1 && device.getIsOnline()==1?true:false);
+                lightIconView.setIconEnabled(device.getLightStatus()!=null && device.getLightStatus()==1 && device.getIsOnline()==1?true:false);
 
                 //显示网络信号：wifi信号强度(信号极好4格[-55—— 0]，信号好3格[-70—— -55），信号一般2格[-85—— -70），信号差1格[-100—— -85）)
                 AppCompatImageView wifiView=holder.findViewById(R.id.device_item_wifi_icon);
-                if(device.getIsOnline()==1 && device.getRssi()>=-55){
-                    wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_4)));
-                }else if(device.getIsOnline()==1 && device.getRssi()>=70){
-                    wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_3)));
-                }else if(device.getIsOnline()==1 && device.getRssi()>=-85){
-                    wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_2)));
-                }else if(device.getIsOnline()==1 && device.getRssi()>=-100){
-                    wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_1)));
-                }else{
-                    wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_0)));
+                if(device.getIsOnline()!=null && device.getRssi()!=null) {
+                    if (device.getIsOnline() == 1 && device.getRssi() >= -55) {
+                        wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_4)));
+                    } else if (device.getIsOnline() == 1 && device.getRssi() >= 70) {
+                        wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_3)));
+                    } else if (device.getIsOnline() == 1 && device.getRssi() >= -85) {
+                        wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_2)));
+                    } else if (device.getIsOnline() == 1 && device.getRssi() >= -100) {
+                        wifiView.setImageDrawable(getResources().getDrawable((R.drawable.wifi_1)));
+                    }
                 }
 
                 //其他文字、标题和图片
                 FrameLayout flTitle=holder.findViewById(R.id.device_item_fl_title);
-                if(device.getIsOnline()==1){
+                if(device.getIsOnline()!=null && device.getIsOnline()==1){
                     holder.text(R.id.device_item_wifi, "在线");
                     flTitle.setBackgroundColor(Color.argb(255, 63, 208, 173));
                 }else{

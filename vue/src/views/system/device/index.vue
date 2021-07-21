@@ -94,7 +94,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- <el-row :gutter="10" class="mb8">
+    <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
           type="primary"
@@ -138,7 +138,7 @@
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row> -->
+    </el-row>
 
     <el-table
       v-loading="loading"
@@ -147,7 +147,7 @@
       border
       :row-class-name="tableRowClassName"
     >
-      <!-- <el-table-column type="selection" width="45" align="center" /> -->
+      <el-table-column type="selection" width="45" align="center" />
       <el-table-column label="序号" width="50" align="center" prop="deviceId" />
       <el-table-column label="编号" align="center" prop="deviceNum" />
       <el-table-column label="名称" align="center" prop="deviceName" />
@@ -286,14 +286,11 @@
           <el-input
             v-model="form.deviceNum"
             placeholder="请输入编号"
-            :disabled="true"
           />
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
           <el-select
             v-model="form.categoryId"
-            placeholder="请选择分类"
-            :disabled="true"
           >
             <el-option
               v-for="category in categoryList"
@@ -307,7 +304,6 @@
           <el-input
             v-model="form.firmwareVersion"
             placeholder="请输入固件版本"
-            :disabled="true"
           />
         </el-form-item>
         <el-form-item label="名称" prop="deviceName">
@@ -541,7 +537,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="11" offset="1">
+          <el-col :span="11" :offset="1">
             <el-form-item label="按键二" prop="rfTwoFunc">
               <el-select v-model="setForm.rfTwoFunc" placeholder="请选择按键二">
                 <el-option
@@ -565,7 +561,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="11" offset="1">
+          <el-col :span="11" :offset="1">
             <el-form-item label="按键四" prop="rfFourFunc">
               <el-select v-model="setForm.rfFourFunc" placeholder="请选择按键四">
                 <el-option
