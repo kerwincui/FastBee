@@ -192,8 +192,8 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:set:remove']"
           >删除</el-button>
-        </template> -->
-      </el-table-column>
+        </template> 
+      </el-table-column>-->
     </el-table>
     
     <pagination
