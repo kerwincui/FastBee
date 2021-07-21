@@ -203,7 +203,7 @@ public class SimpleTabFragment extends BaseFragment {
                 }
 
                 holder.click(R.id.device_item_light_button, v -> {
-                    if(device.getIsOnline()==0) return;
+                    if(device.getIsOnline()==null || device.getIsOnline()==0) return;
                     //震动
                     Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
@@ -213,7 +213,7 @@ public class SimpleTabFragment extends BaseFragment {
                             , lightIconView);
                 });
                 holder.click(R.id.device_item_switch_button, v -> {
-                    if(device.getIsOnline()==0) return;
+                    if(device.getIsOnline()==null || device.getIsOnline()==0) return;
                     //震动
                     Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
