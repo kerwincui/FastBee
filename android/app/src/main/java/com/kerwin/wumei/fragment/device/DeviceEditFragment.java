@@ -199,7 +199,7 @@ public class DeviceEditFragment extends BaseFragment {
                     et_device_remark.setText(device.getRemark());
                     txt_device_num.setText(device.getDeviceNum());
                     txt_device_category.setText(device.getCategoryName());
-                    txt_firmware_version.setText("v"+device.getFirmwareVersion());
+                    txt_firmware_version.setText("v"+(device.getFirmwareVersion()==null || device.getFirmwareVersion().length()==0? "1.0" : device.getFirmwareVersion()));
                     txt_create_time.setText(device.getCreateTime());
                     sp_device_temperature.setText(device.getDeviceTemp()==null?0+"℃":device.getDeviceTemp()+"℃");
                 }

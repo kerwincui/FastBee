@@ -115,7 +115,10 @@ public class IotDeviceController extends BaseController
     {
         LoginUser user=(LoginUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         iotDevice.setOwnerId(user.getUser().getUserId().toString());
-        iotDevice.setDeviceTemp(BigDecimal.valueOf(0));
+        IotDevice device=iotDeviceService.selectIotDeviceByNum(iotDevice.getDeviceNum());
+        if(device!=null){
+            return AjaxResult.error("设备编号已存在，请重新填写");
+        }
         return toAjax(iotDeviceService.insertIotDevice(iotDevice));
     }
 

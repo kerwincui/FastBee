@@ -285,7 +285,7 @@
         <el-form-item label="编号" prop="deviceNum">
           <el-input
             v-model="form.deviceNum"
-            placeholder="请输入编号"
+            placeholder="请输入编号，必须唯一"
           />
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
@@ -303,7 +303,7 @@
         <el-form-item label="固件版本" prop="firmwareVersion">
           <el-input
             v-model="form.firmwareVersion"
-            placeholder="请输入固件版本"
+            placeholder="请输入固件版本,例如1.0"
           />
         </el-form-item>
         <el-form-item label="名称" prop="deviceName">
@@ -733,7 +733,13 @@ export default {
         ],
         deviceName: [
           { required: true, message: "名称不能为空", trigger: "blur" }
-        ]
+        ],
+        categoryId: [
+          {required:true,message:"设备分类不能为空",trigger: "blur"}
+        ],
+        firmwareVersion: [
+          {required:true,message:"版本号不能为空", trigger: "blur"}
+        ],
       }
     };
   },
