@@ -109,6 +109,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -349,7 +350,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void getUserInfo(TextView avatar,TextView sign){
         if(!hasToken()) return;
-        XHttp.get("/prod-api/getInfo")
+        XHttp.get(getServerPath()+"/getInfo")
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<UserInfoApiResult<User>, User>(new TipRequestCallBack<User>() {
                     @Override

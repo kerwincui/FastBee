@@ -49,6 +49,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.google.android.material.tabs.TabLayout.MODE_SCROLLABLE;
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -137,7 +138,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      * HTTP获取分组列表
      */
     private void getGroupList(@NonNull TabLayout.OnTabSelectedListener listener){
-        XHttp.get("/prod-api/system/group/list?pageNum=1&pageSize=100")
+        XHttp.get(getServerPath()+"/system/group/list?pageNum=1&pageSize=100")
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<ListApiResult<List<IotGroup>>, List<IotGroup>>(new TipRequestCallBack<List<IotGroup>>() {
                     @Override
@@ -177,7 +178,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      * HTTP获取触发源字典列表
      */
     private void getTriggerSourceDic(){
-        XHttp.get("/prod-api/system/dict/data/type/iot_trigger_source")
+        XHttp.get(getServerPath()+"/system/dict/data/type/iot_trigger_source")
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new SimpleCallBack<List<DictData>>() {
                     @Override
@@ -203,7 +204,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      */
     private void getGroup(Long groupId){
         if(!hasToken()) return;
-        XHttp.get("/prod-api/system/group/"+groupId)
+        XHttp.get(getServerPath()+"/system/group/"+groupId)
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new SimpleCallBack<IotGroup>(){
                     @Override
@@ -229,7 +230,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      */
     private void addGroup(IotGroup group){
         if(!hasToken()) return;
-        XHttp.post("/prod-api/system/group")
+        XHttp.post(getServerPath()+"/system/group")
                 .upJson(JsonUtil.toJson(group))
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
@@ -256,7 +257,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      */
     private void editGroup(IotGroup group){
         if(!hasToken()) return;
-        XHttp.put("/prod-api/system/group")
+        XHttp.put(getServerPath()+"/system/group")
                 .upJson(JsonUtil.toJson(group))
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
@@ -282,7 +283,7 @@ public class DeviceFragment extends BaseFragment implements TabLayout.OnTabSelec
      */
     private void deleteGroup(Long groupId){
         if(!hasToken()) return;
-        XHttp.delete("/prod-api/system/group/"+groupId)
+        XHttp.delete(getServerPath()+"/system/group/"+groupId)
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
                     @Override

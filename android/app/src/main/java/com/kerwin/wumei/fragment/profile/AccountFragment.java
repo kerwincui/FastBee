@@ -41,10 +41,7 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.kerwin.wumei.utils.SettingUtils.getIsHttps;
-import static com.kerwin.wumei.utils.SettingUtils.getServerPort;
-import static com.kerwin.wumei.utils.SettingUtils.getServerip;
-import static com.kerwin.wumei.utils.SettingUtils.setServeUrl;
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -106,7 +103,7 @@ public class AccountFragment extends BaseFragment {
      */
     private void getUserInfo(){
         if(!hasToken()) return;
-        XHttp.get("/prod-api/getInfo")
+        XHttp.get(getServerPath()+"/getInfo")
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<UserInfoApiResult<User>, User>(new TipRequestCallBack<User>() {
                 @Override

@@ -55,6 +55,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.samlss.broccoli.Broccoli;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -306,7 +307,7 @@ public class SimpleTabFragment extends BaseFragment {
      */
     private void updateDeviceStatus(IotDeviceStatus deviceStatus,SwitchIconView iconView){
         if(!hasToken()) return;
-        XHttp.put("/prod-api/system/status")
+        XHttp.put(getServerPath()+"/system/status")
                 .upJson(JsonUtil.toJson(deviceStatus))
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
@@ -333,7 +334,7 @@ public class SimpleTabFragment extends BaseFragment {
      * HTTP获取设备列表
      */
     private void getDeviceList(){
-        XHttp.get("/prod-api/system/device/list?"+"pageNum="+pageNum+"&pageSize="+pageSize+"&groupId="+groupId)
+        XHttp.get(getServerPath()+"/system/device/list?"+"pageNum="+pageNum+"&pageSize="+pageSize+"&groupId="+groupId)
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<ListApiResult<List<IotDeviceVo>>, List<IotDeviceVo>>(new TipRequestCallBack<List<IotDeviceVo>>() {
                 @Override
@@ -362,7 +363,7 @@ public class SimpleTabFragment extends BaseFragment {
      * HTTP获取分类列表
      */
     private void getCategoryList(){
-        XHttp.get("/prod-api/system/category/list?pageNum=1&pageSize=100")
+        XHttp.get(getServerPath()+"/system/category/list?pageNum=1&pageSize=100")
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<ListApiResult<List<IotCategory>>, List<IotCategory>>(new TipRequestCallBack<List<IotCategory>>() {
                 @Override

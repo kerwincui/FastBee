@@ -47,6 +47,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static android.R.layout.simple_spinner_item;
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -197,7 +198,7 @@ public class DeviceStatusFragment extends BaseFragment implements CompoundButton
      * HTTP获取最新设备信息
      */
     private void getNewStatusData(){
-        XHttp.get("/prod-api/system/status/getStatus/"+deviceNum)
+        XHttp.get(getServerPath()+"/system/status/getStatus/"+deviceNum)
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
                     @Override
@@ -220,7 +221,7 @@ public class DeviceStatusFragment extends BaseFragment implements CompoundButton
      * HTTP获取灯模式字典列表
      */
     private void getLightModeDic(){
-        XHttp.get("/prod-api/system/dict/data/type/light_mode")
+        XHttp.get(getServerPath()+"/system/dict/data/type/light_mode")
             .headers("Authorization","Bearer "+getToken())
             .execute(new SimpleCallBack<List<DictData>>() {
                 @Override
@@ -246,7 +247,7 @@ public class DeviceStatusFragment extends BaseFragment implements CompoundButton
      * HTTP获取设备状态
      */
     private void getDeviceStatus(Long device_id){
-        XHttp.get("/prod-api/system/status/new/"+device_id)
+        XHttp.get(getServerPath()+"/system/status/new/"+device_id)
             .headers("Authorization","Bearer "+getToken())
                 .execute(new SimpleCallBack<IotDeviceStatus>() {
                 @Override
@@ -283,7 +284,7 @@ public class DeviceStatusFragment extends BaseFragment implements CompoundButton
      */
     private void updateDeviceStatus(IotDeviceStatus deviceStatus){
         if(!hasToken()) return;
-        XHttp.put("/prod-api/system/status")
+        XHttp.put(getServerPath()+"/system/status")
             .upJson(JsonUtil.toJson(deviceStatus))
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {

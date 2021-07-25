@@ -39,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -178,7 +179,7 @@ public class DeviceSetFragment extends BaseFragment {
      * HTTP获取遥控按键功能字典列表
      */
     private void getRFFunctionDic(){
-        XHttp.get("/prod-api/system/dict/data/type/rf_function")
+        XHttp.get(getServerPath()+"/system/dict/data/type/rf_function")
             .headers("Authorization","Bearer "+getToken())
             .execute(new SimpleCallBack<List<DictData>>() {
                 @Override
@@ -208,7 +209,7 @@ public class DeviceSetFragment extends BaseFragment {
      * HTTP获取设备配置
      */
     private void getDeviceSet(Long device_id){
-        XHttp.get("/prod-api/system/set/new/"+device_id)
+        XHttp.get(getServerPath()+"/system/set/new/"+device_id)
             .headers("Authorization","Bearer "+getToken())
                 .execute(new SimpleCallBack<IotDeviceSet>() {
                 @Override
@@ -241,7 +242,7 @@ public class DeviceSetFragment extends BaseFragment {
      */
     private void updateDeviceSet(IotDeviceSet deviceSet){
         if(!hasToken()) return;
-        XHttp.put("/prod-api/system/set")
+        XHttp.put(getServerPath()+"/system/set")
             .upJson(JsonUtil.toJson(deviceSet))
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {

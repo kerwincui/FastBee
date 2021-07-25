@@ -29,6 +29,8 @@ import com.xuexiang.xutil.XUtil;
 
 import butterknife.BindView;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
+
 /**
  * @author xuexiang
  * @since 2019-10-15 22:38
@@ -68,7 +70,7 @@ public class SettingsFragment extends BaseFragment implements SuperTextView.OnSu
      * HTTP退出登录
      */
     private void logout(){
-        XHttp.post("/prod-api/logout")
+        XHttp.post(getServerPath()+"/logout")
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
                     @Override
                     public void onSuccess(String tokenResult) throws Throwable {

@@ -42,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 import static com.kerwin.wumei.utils.TokenUtils.getToken;
 import static com.kerwin.wumei.utils.TokenUtils.hasToken;
@@ -140,7 +141,7 @@ public class DeviceEditFragment extends BaseFragment {
      * HTTP获取最新设备信息
      */
     private void getNewStatusData(){
-        XHttp.get("/prod-api/system/status/getStatus/"+deviceNum)
+        XHttp.get(getServerPath()+"/system/status/getStatus/"+deviceNum)
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {
                     @Override
@@ -163,7 +164,7 @@ public class DeviceEditFragment extends BaseFragment {
      * HTTP获取设备状态
      */
     private void getDeviceStatus(Long device_id){
-        XHttp.get("/prod-api/system/status/new/"+device_id)
+        XHttp.get(getServerPath()+"/system/status/new/"+device_id)
                 .headers("Authorization","Bearer "+getToken())
                 .execute(new SimpleCallBack<IotDeviceStatus>() {
                     @Override
@@ -188,7 +189,7 @@ public class DeviceEditFragment extends BaseFragment {
      * HTTP获取设备信息
      */
     private void getDevice(Long device_id){
-        XHttp.get("/prod-api/system/device/"+device_id)
+        XHttp.get(getServerPath()+"/system/device/"+device_id)
             .headers("Authorization","Bearer "+getToken())
             .execute(new SimpleCallBack<IotDevice>() {
                 @Override
@@ -220,7 +221,7 @@ public class DeviceEditFragment extends BaseFragment {
      */
     private void updateDevice(IotDevice device){
         if(!hasToken()) return;
-        XHttp.put("/prod-api/system/device")
+        XHttp.put(getServerPath()+"/system/device")
             .upJson(JsonUtil.toJson(device))
             .headers("Authorization","Bearer "+getToken())
             .execute(new CallBackProxy<NoDataApiResult<String>, String>(new TipRequestCallBack<String>() {

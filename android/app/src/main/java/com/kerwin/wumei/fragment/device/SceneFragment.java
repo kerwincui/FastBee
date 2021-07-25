@@ -11,6 +11,7 @@
 package com.kerwin.wumei.fragment.device;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,13 +37,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.kerwin.wumei.utils.SettingUtils.getApIp;
-import static com.kerwin.wumei.utils.SettingUtils.getIsHttps;
-import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
-import static com.kerwin.wumei.utils.SettingUtils.getServerPort;
-import static com.kerwin.wumei.utils.SettingUtils.getServerip;
+import static com.kerwin.wumei.utils.SettingUtils.getServerAddress;
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.SettingUtils.setAccount;
 import static com.kerwin.wumei.utils.SettingUtils.setApIp;
-import static com.kerwin.wumei.utils.SettingUtils.setServeUrl;
+import static com.kerwin.wumei.utils.SettingUtils.setServeAddress;
+import static com.kerwin.wumei.utils.SettingUtils.setServePath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
 
 
@@ -56,11 +56,9 @@ public class SceneFragment extends BaseFragment {
     @BindView(R.id.txt_message)
     TextView txt_message;
     @BindView(R.id.et_serve)
-    MaterialEditText et_serve_ip;
-    @BindView(R.id.et_port)
-    MaterialEditText et_port;
-    @BindView(R.id.sb_https)
-    SwitchButton sb_https;
+    MaterialEditText et_serve_address;
+    @BindView(R.id.et_path)
+    MaterialEditText et_serve_path;
     @BindView(R.id.et_ap_address)
     MaterialEditText et_ap_address;
 
@@ -87,9 +85,8 @@ public class SceneFragment extends BaseFragment {
      */
     @Override
     protected void initViews() {
-        et_serve_ip.setText(getServerip());
-        et_port.setText(getServerPort());
-        sb_https.setChecked(getIsHttps());
+        et_serve_address.setText(getServerAddress());
+        et_serve_path.setText(getServerPath());
         et_ap_address.setText(getApIp());
     }
 
@@ -99,26 +96,22 @@ public class SceneFragment extends BaseFragment {
     @SingleClick
     @OnClick({ R.id.btn_save_serve,R.id.btn_connect_test,R.id.btn_open_ap})
     public void onViewClicked(View view) {
-        if(!et_port.validate()) return;
-        if(et_serve_ip.getEditValue().length()==0)
+        if(et_serve_address.getEditValue().length()==0)
         {
-            showMessage("服务端地址不能为空",false);
+            showMessage("接口地址不能为空",false);
             return;
         }
 
         switch (view.getId()) {
             case R.id.btn_save_serve:
-                setServeUrl(et_serve_ip.getEditValue(),et_port.getEditValue(),sb_https.isChecked());
+                setServeAddress(et_serve_address.getEditValue());
+                setServePath(et_serve_path.getEditValue());
                 clearToken();
                 setAccount("","");
                 showMessage("服务端地址信息存储成功，请重新启动APP！",true);
                 break;
             case R.id.btn_connect_test:
-                if(et_serve_ip.getEditValue().length()==0 ||et_port.getEditValue().length()==0) {
-                    showMessage("地址和端口不能为空",false);
-                }else {
                     getCatpureImage();
-                }
                 break;
             case R.id.btn_open_ap:
                 if(et_ap_address.getEditValue()==null || et_ap_address.getEditValue().length()==0){
@@ -132,20 +125,22 @@ public class SceneFragment extends BaseFragment {
         }
     }
 
-    private String buildServeString(){
-        String address="http://";
-        if(sb_https.isChecked()){
-            address="https://";
-        }
-        return address+et_serve_ip.getEditValue()+":"+et_port.getEditValue();
-    }
 
 
     /**
      * HTTP获取验证码(用于连接测试)
      */
     private void getCatpureImage(){
-        XHttp.get(buildServeString() + "/prod-api/captchaImage")
+        String address=et_serve_address.getEditValue();
+        String path=et_serve_path.getEditValue();
+        if(path==null || path.length()==0){
+            Log.d("地址", address.substring(address.length()-1));
+            if(address.substring(address.length()-1).equals("/")){
+                address=address.substring(0,address.length()-1);
+            }
+        }
+        String fullPath=address+path;
+        XHttp.get(fullPath+ "/captchaImage")
                 .execute(new CallBackProxy<CaptchaImageApiResult<CaptureImage>, CaptureImage>(new TipRequestCallBack<CaptureImage>() {
                     @Override
                     public void onSuccess(CaptureImage image) throws Throwable {
@@ -154,7 +149,7 @@ public class SceneFragment extends BaseFragment {
                     }
                     @Override
                     public void onError(ApiException e) {
-                        showMessage("服务端连接失败\n"+"连接地址:"+buildServeString()+"\n错误提示："+e.getMessage(),false);
+                        showMessage("服务端连接失败\n"+"地址:"+et_serve_address.getEditValue()+et_serve_path.getEditValue()+"\n错误提示："+e.getMessage(),false);
                     }
                 }){});
     }

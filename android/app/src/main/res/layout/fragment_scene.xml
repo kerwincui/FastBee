@@ -45,6 +45,14 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开发环境路径为dev-api，生产环境为prod-api"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -54,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/config_margin_18dp"
-                    android:text="地址/域名:" />
+                    android:text="接口地址：" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                     android:id="@+id/et_serve"
@@ -62,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="38dp"
-                    android:hint="请输入服务端地址，例如：192.168.0.100"
+                    android:hint="例如：http://wumei.live:88/prod-api"
                     android:inputType="text"
                     app:met_clearButton="true"
                     app:met_errorMessage="输入的服务地址有误"
@@ -75,47 +83,33 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/config_margin_18dp"
-                    android:text="端口:" />
+                    android:text="路径：" />
 
                 <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                    android:id="@+id/et_port"
+                    android:id="@+id/et_path"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="38dp"
-                    android:hint="请输入端口号，例如：80"
-                    android:inputType="number"
+                    android:hint="例如：dev-api"
+                    android:inputType="text"
                     app:met_clearButton="true"
-                    app:met_errorMessage="输入的端口有误"
+                    app:met_errorMessage="输入的服务地址有误"
                     app:met_floatingLabel="normal"
-                    app:met_floatingLabelText="服务端口" />
+                    app:met_floatingLabelText="服务端地址" />
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/config_margin_18dp"
-                    android:text="使用HTTPS:" />
-
-                <com.xuexiang.xui.widget.button.switchbutton.SwitchButton
-                    android:id="@+id/sb_https"
-                    style="@style/SwitchButtonStyle"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="90dp"
-                    app:swb_textOff="否"
-                    app:swb_textOn="是" />
-
-            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <FrameLayout
                 android:layout_width="match_parent"

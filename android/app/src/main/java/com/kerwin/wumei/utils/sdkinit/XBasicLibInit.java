@@ -18,6 +18,7 @@
 package com.kerwin.wumei.utils.sdkinit;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.kerwin.wumei.MyApp;
 import com.kerwin.wumei.core.BaseActivity;
@@ -30,6 +31,8 @@ import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.XUI;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
+
+import static com.kerwin.wumei.utils.SettingUtils.getServerAddress;
 
 /**
  * X系列基础库初始化
@@ -81,13 +84,14 @@ public final class XBasicLibInit {
     private static void initXHttp2(Application application) {
         //初始化网络请求框架，必须首先执行
         XHttpSDK.init(application);
+        XHttpSDK.setSuccessCode(200);
         //需要调试的时候执行
         if (MyApp.isDebug()) {
             XHttpSDK.debug();
         }
 //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
         //设置网络请求的全局基础地址
-        XHttpSDK.setBaseUrl("https://gitee.com/");
+        XHttpSDK.setBaseUrl(getServerAddress());
 //        //设置动态参数添加拦截器
 //        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());
 //        //请求失效校验拦截器

@@ -8,23 +8,17 @@ import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.multidex.MultiDex;
 
-import com.kerwin.wumei.http.interceptor.CustomLoggingInterceptor;
-import com.kerwin.wumei.utils.SettingSPUtils;
-import com.kerwin.wumei.utils.XToastUtils;
 import com.kerwin.wumei.utils.sdkinit.ANRWatchDogInit;
 import com.kerwin.wumei.utils.sdkinit.UMengInit;
 import com.kerwin.wumei.utils.sdkinit.XBasicLibInit;
 import com.kerwin.wumei.utils.sdkinit.XUpdateInit;
-import com.xuexiang.xhttp2.XHttpSDK;
-import com.xuexiang.xrouter.launcher.XRouter;
-
-import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
 
 /**
  * @author xuexiang
@@ -63,7 +57,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         initLibs();
-        initHttp();
         app = this;
         mBroadcastData = new MutableLiveData<>();
         IntentFilter filter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -104,26 +97,11 @@ public class MyApp extends Application {
         //ANR监控
         ANRWatchDogInit.init();
 
-//        initXRouter();
     }
 
-    private void initHttp() {
-        XHttpSDK.init(this);   //初始化网络请求框架，必须首先执行
-        XHttpSDK.setSuccessCode(200);
-//        XHttpSDK.debug();  //需要调试的时候执行
-//        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
-        XHttpSDK.setBaseUrl(getServeUrl());  //设置网络请求的基础地址
-//        XHttpSDK.addInterceptor(new CustomDynamicInterceptor()); //设置动态参数添加拦截器
-//        XHttpSDK.addInterceptor(new CustomExpiredInterceptor()); //请求失效校验拦截器
-    }
 
-    private void initXRouter() {
-        if (BuildConfig.DEBUG) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
-            XRouter.openLog();     // 打印日志
-            XRouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-        }
-        XRouter.init(this);
-    }
+
+
 
 
     /**

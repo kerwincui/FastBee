@@ -54,10 +54,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.kerwin.wumei.utils.SettingUtils.getServeUrl;
+import static com.kerwin.wumei.utils.SettingUtils.getServerPath;
 import static com.kerwin.wumei.utils.TokenUtils.clearToken;
-import static com.kerwin.wumei.utils.TokenUtils.getToken;
-import static com.kerwin.wumei.utils.TokenUtils.hasToken;
 
 
 /**
@@ -168,7 +166,7 @@ public class LoginFragment extends BaseFragment {
      * HTTP获取验证码
      */
     private void getCatpureImage(){
-        XHttp.get("/prod-api/captchaImage")
+        XHttp.get(getServerPath()+"/captchaImage")
                 .execute(new CallBackProxy<CaptchaImageApiResult<CaptureImage>, CaptureImage>(new TipRequestCallBack<CaptureImage>() {
                     @Override
                     public void onSuccess(CaptureImage image) throws Throwable {
@@ -191,7 +189,7 @@ public class LoginFragment extends BaseFragment {
      * @param verifyCode  验证码
      */
     private void loginByVerifyCode(String phoneNumber,String password, String verifyCode) {
-        XHttp.post("/prod-api/login")
+        XHttp.post(getServerPath()+ "/login")
                 .upJson("{\"username\":\""+phoneNumber+"\",\"password\":\""+password+"\",\"code\":\""+verifyCode+"\",\"uuid\":\""+uuid+"\"}")
                 .execute(new CallBackProxy<TokenApiResult<String>, String>(new TipRequestCallBack<String>() {
                     @Override
