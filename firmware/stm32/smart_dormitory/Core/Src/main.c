@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "i2c.h"
 #include "spi.h"
 #include "tim.h"
@@ -104,6 +105,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
@@ -131,19 +133,21 @@ int main(void)
 	oled_show_string(70, 3, "Humi:", 1);
   MX_TIM4_Init();
 
-	if (HAL_OK == HAL_UART_Receive_IT(&huart3, &aRxBuffer, 1))
+	if (HAL_OK == __HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE))  // 使能空闲中断
 	{
 		printf("enable uart3 isr\r\n");
 	}
+	HAL_UART_Receive_DMA(&huart3, ESP8266_Fram_Record_Struct.Data_RX_BUF, RX_BUF_MAX_LEN);  // 启动DMA接收          
+
 	
   if (HAL_OK == HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1))
   {
-	printf("enable time4 pwm output\r\n");
+		printf("enable time4 pwm output\r\n");
   }
 
-  if (HAL_TIM_Base_Start_IT(&htim4))
+  if (HAL_TIM_Base_Start_IT(&htim3))
   {
-	printf("enable time3 base isr\r\n");
+		printf("enable time3 base isr\r\n");
   }
 	ESP8266_STA_MQTTClient_Init();
   printf("ready go into while1\r\n");

@@ -40,14 +40,14 @@ bool ESP8266_Send_AT_Cmd(char *cmd,char *ack1,char *ack2,uint32_t time)
     printf("------ %s", ESP8266_Fram_Record_Struct.Data_RX_BUF);
     if(ack1!=0&&ack2!=0)
     {
-        return ( ( bool ) strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, ack1 ) || 
-                         ( bool ) strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, ack2 ) );
+        return ( ( bool ) strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, ack1 ) || 
+                         ( bool ) strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, ack2 ) );
     }
     else if( ack1 != 0 )  //strstr(s1,s2);检测s2是否为s1的一部分，是返回该位置，否则返回false，它强制转换为bool类型了
-        return ( ( bool ) strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, ack1 ) );
+        return ( ( bool ) strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, ack1 ) );
 
     else
-        return ( ( bool ) strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, ack2 ) );
+        return ( ( bool ) strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, ack2 ) );
 
 }
 

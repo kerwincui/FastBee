@@ -58,7 +58,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern UART_HandleTypeDef huart3;
+extern DMA_HandleTypeDef hdma_usart3_rx;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -200,27 +200,17 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles USART3 global interrupt.
+  * @brief This function handles DMA1 channel3 global interrupt.
   */
-void USART3_IRQHandler(void)
+void DMA1_Channel3_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART3_IRQn 0 */
+  /* USER CODE BEGIN DMA1_Channel3_IRQn 0 */
 
-  /* USER CODE END USART3_IRQn 0 */
-			//空闲中断
-		if(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_IDLE) != RESET)
-		{
-			//一帧数据接收完成
-			ESP8266_Fram_Record_Struct.InfBit.FramFinishFlag = 1;
-			 //由软件序列清除中断标志位（先读USART_SR,然后读USART_DR）
-			__HAL_UART_CLEAR_IDLEFLAG(&huart3);
-			printf("..............\r\n");
-		}else
-		
-			HAL_UART_IRQHandler(&huart3);
-  /* USER CODE BEGIN USART3_IRQn 1 */
+  /* USER CODE END DMA1_Channel3_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart3_rx);
+  /* USER CODE BEGIN DMA1_Channel3_IRQn 1 */
 
-  /* USER CODE END USART3_IRQn 1 */
+  /* USER CODE END DMA1_Channel3_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

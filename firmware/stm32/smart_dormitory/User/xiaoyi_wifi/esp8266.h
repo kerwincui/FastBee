@@ -57,7 +57,7 @@ typedef enum{
 #define RX_BUF_MAX_LEN 1024       //最大字节数
 extern struct STRUCT_USART_Fram   //数据帧结构体
 {
-    char Data_RX_BUF[RX_BUF_MAX_LEN];
+    uint8_t Data_RX_BUF[RX_BUF_MAX_LEN];
     union 
     {
         __IO uint16_t InfAll;
