@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-circle": "@vant/weapp/circle/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-switch": "@vant/weapp/switch/index",
+    "van-slider": "@vant/weapp/slider/index",
+    "van-button": "@vant/weapp/button/index"
+  }
+}

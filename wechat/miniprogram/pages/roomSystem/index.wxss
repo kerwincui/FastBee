@@ -1,0 +1,63 @@
+/* miniprogram/pages/roomSystem/index.wxss */
+.center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.top{
+  display:flex;
+  justify-content:space-around;
+  margin:100rpx 0;
+}
+.power{
+  background-color:#bfbfbf;
+}
+.around{
+  width:300rpx;
+  height:300rpx;
+  border-radius:50%;
+}
+.power_light:active{
+  background-color:#eee;
+}
+.power_light{
+  width:230rpx;
+  height:230rpx;
+  border-radius:50%;
+  background-color:#fff;
+}
+.power_light>image{
+  width:70rpx;
+  height:70rpx;
+  border-radius:50%;
+}
+.temp_text{
+  font-size:46rpx;
+  margin:15rpx 0;
+}
+
+.group{
+  width:90%;
+  margin:30rpx auto;
+}
+.item{
+  margin:25rpx 0;
+  width:100%;
+}
+.choose{
+  margin:15rpx 0;
+}
+.tempZu{
+  width:80%;
+  margin:35rpx auto;
+}
+.slider{
+  margin:70rpx auto;
+}
+.btns{
+  display:flex;
+  justify-content:space-around;
+}
+van-button{
+  width:200rpx;
+}

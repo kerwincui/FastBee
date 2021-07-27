@@ -1,0 +1,33 @@
+/* miniprogram/pages/index/index.wxss */
+.form{
+  width: 90vw;
+  margin: 0 auto;
+}
+.input{
+  margin: 15rpx 0;
+  /* box-shadow: 0 0 5rpx 5rpx #bfbfbf; */
+  border-bottom: 1rpx solid #bfbfbf;
+}
+.cap{
+  display: flex;
+  width: 100%;
+}
+.captcha{
+  flex: 1;
+  margin-right: 30rpx;
+  /* box-shadow: 0 0 5rpx 5rpx #bfbfbf; */
+  border-bottom: 1rpx solid #bfbfbf;
+
+}
+.img{
+  /* box-shadow: 0 0 5rpx 5rpx #bfbfbf; */
+  border-bottom: 1rpx solid #bfbfbf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img image{
+  width: 200rpx;
+  display: inline-block;
+  height: 77rpx;
+}

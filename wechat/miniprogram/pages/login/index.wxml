@@ -1,0 +1,41 @@
+<!--miniprogram/pages/index/index.wxml-->
+<view class="form">
+  <view class="input">
+    <van-field
+      value="{{ username }}"
+      placeholder="请输入用户名"
+      bind:change="inputUsername"
+      label='用户名'
+      title-width='100rpx'
+    />
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ password }}"
+      placeholder="请输入密码"
+      bind:change="inputPassword"
+      label='密码'
+      title-width='100rpx'
+      right-icon=''
+    />
+  </view>
+  <view class="cap">
+  <view class="captcha">
+    <van-field
+      value="{{ value }}"
+      placeholder="请输入计算结果"
+      border="{{ false }}"
+      bind:change="onChange"
+      label='验证码'
+      title-width='100rpx'
+    />
+  </view>
+  <view class="img" bindtap="getCaptchaImage">
+    <image src='data:image/gif;base64,{{ img }}'  />  
+  </view>
+  </view>
+</view>
+
+
+<button bindtap="submit">提交</button>
+<button bindtap="query">查询</button>
