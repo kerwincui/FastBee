@@ -25,7 +25,7 @@
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
 2. Wifi控制器和LED灯板制作七彩智能灯
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
-3.物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
+3. 物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case5.gif)  
 4. 物联网入门学习套件 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case4.gif)  
