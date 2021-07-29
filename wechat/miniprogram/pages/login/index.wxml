@@ -1,4 +1,5 @@
 <!--miniprogram/pages/index/index.wxml-->
+<view class="title">欢迎登录智慧宿舍系统</view>
 <view class="form">
   <view class="input">
     <van-field
@@ -14,6 +15,7 @@
       value="{{ password }}"
       placeholder="请输入密码"
       bind:change="inputPassword"
+      type='password'
       label='密码'
       title-width='100rpx'
       right-icon=''
@@ -34,8 +36,9 @@
     <image src='data:image/gif;base64,{{ img }}'  />  
   </view>
   </view>
+  <view class="btn">
+    <van-button block bind:click="submit" round type="info">登录</van-button>
+  </view>
 </view>
 
 
-<button bindtap="submit">提交</button>
-<button bindtap="query">查询</button>

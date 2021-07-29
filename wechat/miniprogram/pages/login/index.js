@@ -42,7 +42,16 @@ Page({
         username: this.data.username
       },
     })
+    if (res.data.code !== 200) {
+      wx.showToast({
+        title: '登录失败',
+      });
+      return;
+    }
     wx.setStorageSync('token', res.data.token);
+    wx.switchTab({
+      url: '/pages/index/index',
+    })
   },
   
 

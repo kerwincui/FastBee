@@ -2,12 +2,12 @@
 <view class='body'>
   <view class='top'>
     <view class='around center power'>
-      <view class='power_light center' bindtap='lightPower' style='{{ light_power?"box-shadow:0 0 50rpx 20rpx #0023ff":"" }}'>
+      <view class='power_light center' bindtap='lightPower' style='{{ light_power===true?"box-shadow:0 0 50rpx 20rpx #0023ff":"" }}'>
         <image src='{{ light_power?"/images/power_on.png":"/images/power_off.png" }}' />
       </view>
     </view>
     <view class='TH around center'>
-      <van-circle value="{{ nowDeviceData.airTemperature }}" color="{{ gradientColor }}" stroke-width="8" size="165" >
+      <van-circle value="{{ nowDeviceData.deviceTemperature }}" color="{{ gradientColor }}" stroke-width="8" size="165" >
         <slots>  
           <view class='temp_text'>温度：{{ nowDeviceData.deviceTemperature }} ℃</view> 
           <view class='humi_text'>湿度：{{ nowDeviceData.airHumidity }}%</view>
@@ -16,6 +16,12 @@
     </view>
   </view>
   <view class='group'>
+    <view class='door item'>
+      <van-cell title="门的状态" size='large' value="{{ nowDeviceData.remark.doorStatus===1?'开':'关' }}" icon='/images/door.png' />
+    </view>
+    <view class=' item'>
+      <van-cell title="光照强度" size='large' value="{{ nowDeviceData.remark.light }}" icon='/images/light.png' />
+    </view>
     <view class='curtain item'>
       <van-cell title="窗帘" value="{{ curtainAutoChecked?'自动':'手动' }}" size='large' 
       icon='/images/curtain.png' is-link bindtap='showCurtain'
@@ -59,24 +65,26 @@
     <view class='choose'>
       <van-cell size='large' title="自动模式">
         <view slots='value'>
-          <van-switch checked="{{ checked }}" bind:change="onChange" />
+          <van-switch checked="{{ fanAutoChecked }}" bind:change="onAutoFanMode" />
         </view>
       </van-cell>
     </view>
     <view class='choose'>
       <van-cell size='large' title="手动模式">
         <view slots='value'>
-          <van-switch checked="{{ checked }}" bind:change="onChange" />
+          <van-switch checked="{{ fanManvalChecked }}" bind:change="onManvalFanMode" />
         </view>
       </van-cell>
     </view>
-    <view class='curtain_power'>
-      <van-cell title="风扇开关">
-        <view slots='value'>
-          <van-switch checked="{{ checked }}" bind:change="onChange" />
-        </view>
-      </van-cell>
-    </view>
+    <block wx:if='{{ fanManvalChecked }}'>
+      <view class='curtain_power'>
+        <van-cell title="风扇开关" title-style='color:blue;'>
+          <view slots='value'>
+            <van-switch checked="{{ fanManvalChecked && fanPowerChecked }}" bind:change="onChangeFanPower" />
+          </view>
+        </van-cell>
+      </view>
+    </block> 
   </van-popup>
   <van-popup show="{{ tempShow }}" round  position="bottom" bind:close="onClose">
     <view class='tempZu'>设置温度最大值：{{ maxTempValue }}℃</view>

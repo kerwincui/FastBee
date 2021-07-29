@@ -1,8 +1,9 @@
 {
-  "pages": [
-    "pages/index/index",
+  "pages": [  
     "pages/login/index",
-    "pages/roomSystem/index"
+    "pages/index/index",
+    "pages/roomSystem/index",
+    "pages/my/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -10,6 +11,20 @@
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "智慧宿舍",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "icons/home.png",
+      "selectedIconPath": "icons/home_selected.png"
+    },
+    {
+      "pagePath": "pages/my/index",
+      "text": "我的",
+      "iconPath": "icons/user.png",
+      "selectedIconPath": "icons/user_selected.png"
+    }]
   },
   "sitemapLocation": "sitemap.json",
   "permission": {

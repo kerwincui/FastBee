@@ -1,6 +1,13 @@
 /* miniprogram/pages/index/index.wxss */
+.title{
+  display: block;
+  width: 80vw;
+  margin: 60rpx auto;
+  font-size: 40rpx;
+  margin-top: 35%;
+}
 .form{
-  width: 90vw;
+  width: 80vw;
   margin: 0 auto;
 }
 .input{
@@ -30,4 +37,8 @@
   width: 200rpx;
   display: inline-block;
   height: 77rpx;
+}
+.btn{
+  margin: 45rpx auto;
+  width: 40vw;
 }

@@ -1,0 +1,16 @@
+<!--miniprogram/pages/my/index.wxml-->
+<view class="personal_info">
+	<view class="photo_wrap">
+    <open-data type="userAvatarUrl"></open-data>
+	</view>
+	<view class="nickname">
+    <open-data type="userNickName"></open-data>
+	</view>
+</view>
+<view class="wode_item_wrap">
+	<view class="wode_item" wx:for="{{mode}}">
+		{{item}}
+		<span class="arrow_wrap"></span>
+	</view>
+</view>
+<view class="wode_out" bindtap="getOut">退出</view>

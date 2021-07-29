@@ -16,9 +16,12 @@ Page({
     curtainAutoChecked:true,
     curtainManvalChecked:false,
     curtainPowerChecked:false,
+    fanAutoChecked:true,
+    fanManvalChecked:false,
+    fanPowerChecked:false,
     fanShow:false,
     tempShow:false,
-    realMaxTempValue:50,
+    realMaxTempValue:'',
     maxTempValue:0,
     currentValue:0,
     deviceInfo:{},
@@ -32,11 +35,6 @@ Page({
     wx.setNavigationBarTitle({
       title: '智能宿舍系统',
     })
-    this.setData({ 
-      currentValue:this.data.realMaxTempValue,
-      maxTempValue:this.data.realMaxTempValue
-    });  
-
     this.getLastPageData();
     this.query();
   },
@@ -46,14 +44,24 @@ Page({
   async query(){
     const res = await requestApi(`/system/status/newByNum/${this.data.deviceInfo.deviceNum}`,{ method:'GET' });
     let light_power;
+    let relayStatus;
     if (res.data.data.lightStatus === 0) {
       light_power = false;
     }else if (res.data.data.lightStatus === 1) {
       light_power =true;
     }
+    if (res.data.data.relayStatus === 0) {
+      relayStatus = false;
+    }else if (res.data.data.relayStatus === 1) {
+      relayStatus = true;
+    }
     this.setData({ 
       nowDeviceData:res.data.data,
-      light_power
+      light_power,
+      curtainPowerChecked:relayStatus,
+      currentValue:res.data.data.airTemperature,
+      maxTempValue:res.data.data.airTemperature,
+      realMaxTempValue: res.data.data.airTemperature
     })
   },
 
@@ -69,29 +77,11 @@ Page({
 
 
   initParams(){
-    // const params = {
-    //   deviceNum: this.data.deviceInfo.deviceNum,
-    //   relayStatus: this.data.nowDeviceData.relayStatus,
-    //   lightStatus: this.data.nowDeviceData.lightStatus,
-    //   isOnline: this.data.nowDeviceData.isOnline,
-    //   rssi: this.data.nowDeviceData.rssi,
-    //   deviceTemperature: this.data.nowDeviceData.deviceTemperature,
-    //   airTemperature: this.data.nowDeviceData.airTemperature,
-    //   airHumidity: this.data.nowDeviceData.airHumidity,
-    //   triggerSource: this.data.nowDeviceData.triggerSource,
-    //   brightness: this.data.nowDeviceData.brightness,
-    //   lightInterval: this.data.nowDeviceData.lightInterval,
-    //   lightMode: this.data.nowDeviceData.lightMode,
-    //   fadeTime: this.data.nowDeviceData.fadeTime,
-    //   red: this.data.nowDeviceData.red,
-    //   green: this.data.nowDeviceData.green,
-    //   blue: this.data.nowDeviceData.blue,
-    //   other:this.data.nowDeviceData.other
-    //  };
     const params = this.data.nowDeviceData;
     return params;
   },
 
+  //灯开关
   async lightPower(){
     let light_power = this.data.light_power;
     let lightStatus;
@@ -137,10 +127,77 @@ Page({
       curtainManvalChecked:curtainManvalChecked
     })
   },
-  onChangeCurtainPower(){
-    let curtainPowerChecked = this.data.curtainPowerChecked;
-    if (this.data.curtainManvalChecked) {
-      this.setData({ curtainPowerChecked:!curtainPowerChecked })
+
+  //窗帘开关
+  async onChangeCurtainPower(){
+    // let curtainPowerChecked = this.data.curtainPowerChecked;
+    // let relayStatus;
+    // if (curtainPowerChecked === false) {
+    //   relayStatus = 1;
+    // }else if (curtainPowerChecked === true) {
+    //   relayStatus = 0;
+    // }
+    // if (this.data.curtainManvalChecked) {
+    //   let params = this.initParams();
+    //   params.relayStatus = relayStatus;
+    //   const res = await requestApi(`/system/status`,{
+    //     method:'PUT',
+    //     data:params
+    //   });
+    //   console.log('窗帘:',res);
+    //   if (res.data.code !== 200) {
+    //     wx.showToast({
+    //       title: '操作失败',
+    //       icon:'error'
+    //     })
+    //     return;
+    //   }
+    //   this.setData({ curtainPowerChecked:!curtainPowerChecked })
+    // }
+  },
+
+
+
+  onAutoFanMode(){
+    let fanAutoChecked = !this.data.fanAutoChecked;
+    this.setData({
+      fanAutoChecked:fanAutoChecked,
+      fanManvalChecked:!fanAutoChecked
+    })
+  },
+  onManvalFanMode(){
+    let fanManvalChecked = !this.data.fanManvalChecked;
+    this.setData({
+      fanAutoChecked:!fanManvalChecked,
+      fanManvalChecked:fanManvalChecked
+    })
+  },
+
+  //风扇开关
+  async onChangeFanPower(){
+    let fanPowerChecked = this.data.fanPowerChecked;
+    let relayStatus;
+    if (fanPowerChecked === false) {
+      relayStatus = 1;
+    }else if (fanPowerChecked === true) {
+      relayStatus = 0;
+    }
+    if (this.data.fanManvalChecked) {
+      let params = this.initParams();
+      params.relayStatus = relayStatus;
+      const res = await requestApi(`/system/status`,{
+        method:'PUT',
+        data:params
+      });
+      console.log('窗帘:',res);
+      if (res.data.code !== 200) {
+        wx.showToast({
+          title: '操作失败',
+          icon:'error'
+        })
+        return;
+      }
+      this.setData({ fanPowerChecked:!fanPowerChecked })
     }
   },
   
@@ -155,6 +212,7 @@ Page({
     })
   },
   onChangeValue(e){
+
     this.setData({ maxTempValue:e.detail,currentValue:e.detail })
   },
   onDrag(e){
@@ -167,7 +225,20 @@ Page({
       tempShow:false
     })
   },
-  onMakeSure(){
+  async onMakeSure(){
+    const params = this.initParams();
+    params.airTemperature = this.data.maxTempValue;
+    const res = await requestApi('/system/status',{
+      method:'PUT',
+      data:params
+    });
+    if (res.data.code !== 200) {
+      wx.showToast({
+        title: '操作失败',
+        icon:'error'
+      })
+      return;
+    }
     this.setData({ 
       realMaxTempValue:this.data.maxTempValue,
       tempShow:false
