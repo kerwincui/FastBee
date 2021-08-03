@@ -63,7 +63,7 @@ docker run \
 --publish 6379:6379 \
 --restart always \
 --detach \
-kerwincui/wumei-smart:1.0
+registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 ```
 
 #### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
