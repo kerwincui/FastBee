@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <!-- jar部署：pom   war部署：war-->
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <artifactId>ruoyi-admin</artifactId>
 
     <description>
