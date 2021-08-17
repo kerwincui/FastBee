@@ -1,10 +1,13 @@
 /* miniprogram/pages/index/index.wxss */
+.top{
+  margin: 120rpx auto 0;
+}
 .title{
   display: block;
   width: 80vw;
   margin: 60rpx auto;
   font-size: 40rpx;
-  margin-top: 35%;
+  /* margin-top: 35%; */
 }
 .form{
   width: 80vw;

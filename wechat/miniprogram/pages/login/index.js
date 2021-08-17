@@ -23,32 +23,40 @@ Page({
 
   //获取验证码图片和uuid
   async getCaptchaImage(){
-    const res = await loginApi('/captchaImage',{ method:'GET' });
+    const res = await loginApi('/captchaImage',{ method:'get' });
+    const data = JSON.parse(res.result)
     this.setData({
-      img:res.data.img,
-      uuid:res.data.uuid
+      img:data.img,
+      uuid:data.uuid
     })
   },
 
 
   //登录
   async submit(){
-    const res = await loginApi('/login',{
+    wx.showLoading({
+      title: '正在登录',
+    })
+    const res = await loginApi('/login',{      
       method:'POST',
-      data:{
+      body:{
         code:this.data.value,
         uuid:this.data.uuid,
         password: this.data.password,
         username: this.data.username
       },
+      json:true
     })
-    if (res.data.code !== 200) {
+    wx.hideLoading();
+    if (res.result.code !== 200) {
       wx.showToast({
-        title: '登录失败',
+        title: res.result.msg,
+        icon:'error'
       });
+      this.getCaptchaImage();
       return;
     }
-    wx.setStorageSync('token', res.data.token);
+    wx.setStorageSync('token', res.result.token);
     wx.switchTab({
       url: '/pages/index/index',
     })

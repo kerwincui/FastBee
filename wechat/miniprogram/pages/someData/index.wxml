@@ -1,0 +1,112 @@
+<!--miniprogram/pages/someData/index.wxml-->
+<div class="bg"></div>
+<div class="wave-box">
+  <div class="wave-cover" style="top:{{100 - deviceData.airTemperature }}%">
+    <div class="a"></div>
+    <div class="b"></div>
+  </div>
+  <div class="slot">
+    <div class="temp">
+      <div class="temp-title">
+        <image class="big-icon" src="/icons/temp.png" />
+        <text style="font-size:42rpx">空气温度</text>
+      </div>
+      <div class="value">
+        <text style="font-size:86rpx">{{ deviceData.airTemperature }}</text>
+        <text>℃</text>
+      </div> 
+    </div>
+    <div class="hr"></div>
+    <div class="humi">
+      <div class="humi-title">
+        <image class="sm-icon" src="/icons/humi.png" />
+        <text style="font-size:32rpx">空气湿度：</text>
+      </div>
+      <div class="value">
+        <text style="font-size:46rpx">{{ deviceData.airHumidity }}</text>
+        <text>%</text>
+      </div> 
+    </div>
+  </div>
+</div>
+<!-- <div class="info-card">
+  <div class="card-title">其他数据</div>
+  <div class="card-body">
+    <div class="card-item">
+      <div class="item-name">
+        <image class="mid-icon" src="/icons/redline.png" />
+        <text class="item-title">人体红外：</text>
+        <text wx:if="{{ deviceData.remark.isHuman === 1}}" style="color:green">检测到人体</text>
+        <text wx:if="{{ deviceData.remark.isHuman === 0}}" style="color:red">未检测到人体</text>
+      </div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">
+        <image class="mid-icon" src="/icons/device_temp.png" />
+        <text class="item-title">设备温度：</text>
+        <text>{{ deviceData.deviceTemperature||'--' }}</text>
+        <text>℃</text>
+      </div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">
+        <image class="mid-icon" src="/icons/qiya.png" />
+        <text class="item-title">气压：</text>
+        <text>{{ deviceData.remark.pressure||'--' }}</text>
+        <text>Pa</text>
+      </div>
+    </div>
+    <van-divider contentPosition="center" dashed>加速度</van-divider>
+    <div class="card-item">
+      <div class="item-name">
+        <image class="mid-icon" src="/icons/jiasudu.png" />
+        <text class="item-title">加速度</text>
+      </div>
+      <div class="jiasudu">
+        <div class="jiasudu-item"><div class="point"></div> x方向：{{ deviceData.remark.acc_x || '--' }} m/s²</div>
+        <div class="jiasudu-item"><div class="point"></div> y方向：{{ deviceData.remark.acc_y || '--' }} m/s²</div>
+        <div class="jiasudu-item"><div class="point"></div> z方向：{{ deviceData.remark.acc_z ||'--' }} m/s²</div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="data_one">
+  <div class="data-item">
+    <div class="item-name">
+      <image class="mid-icon" src="/icons/device_temp.png" />
+      <text class="item-title">设备温度：</text>
+      <text>{{ deviceData.deviceTemperature||'--' }}</text>
+      <text>℃</text>
+    </div>
+  </div>
+  <div class="data-item">
+    <div class="item-name">
+      <image class="mid-icon" src="/icons/qiya.png" />
+      <text class="item-title">气压：</text>
+      <text>{{ deviceData.remark.pressure||'--' }}</text>
+      <text>Pa</text>
+    </div>
+  </div>
+  <div class="data-item long">
+    <div class="item-name l">
+      <image class="mid-icon" src="/icons/redline.png" />
+      <text class="item-title">人体红外：</text>
+      <text wx:if="{{ deviceData.remark.isHuman === 1}}" style="color:green">检测到人体</text>
+      <text wx:if="{{ deviceData.remark.isHuman === 0}}" style="color:red">未检测到人体</text>
+    </div>
+  </div>
+</div>
+<div class="h">
+  <van-divider contentPosition="center" dashed>加速度</van-divider>
+</div>
+<div class="data_two">
+  <div class="data">
+    <image class="mid-icon" src="/icons/jiasudu.png" />
+    <text class="item-title">加速度</text>
+  </div>
+  <div class="jiasudu">
+    <div class="jiasudu-item"><div class="point"></div> X 方向：{{ deviceData.remark.acc_x || '--' }} m/s²</div>
+    <div class="jiasudu-item"><div class="point"></div> Y 方向：{{ deviceData.remark.acc_y || '--' }} m/s²</div>
+    <div class="jiasudu-item"><div class="point"></div> Z 方向：{{ deviceData.remark.acc_z ||'--' }} m/s²</div>
+  </div>
+</div>

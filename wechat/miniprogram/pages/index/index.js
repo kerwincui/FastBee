@@ -12,7 +12,9 @@ Page({
   data: {
     weather:{}, //天气信息
     products:[],
-    DeviceList:[], 
+    DeviceList:[],
+    onlineList:[],
+    unlineList:[],
     fourGDeviceList:[],
     show: false,
     actions: [
@@ -32,13 +34,26 @@ Page({
     // }, 2000);
   },
 
-
+  //获取设备列表
   async getDevices(){
-    const res = await requestApi('/system/device/list');
-    console.log(res);  
-    this.setData({ DeviceList:res.data.rows })
+    const res = await requestApi('/system/device/list',{ method:'GET' });
+    console.log(res);
+    const result = JSON.parse(res.result);
+    let onlineList = [];
+    let unlineList = [];
+    result.rows.forEach(v=>{
+      if (v.isOnline == 1) {
+        onlineList.push(v)
+      } else if (v.isOnline == 0) {
+        unlineList.push(v);
+      }
+    })
+    this.setData({
+      onlineList,
+      unlineList,
+      DeviceList:result.rows
+    })
   },
-
 
 
 
@@ -61,15 +76,28 @@ Page({
   },
 
   goToDeviceControl(e){
-    if (e.currentTarget.dataset.info.categoryId !== 5) {
-      return;
-    }
-    wx.navigateTo({
-      url: '/pages/roomSystem/index',
-      success:(res)=>{
-        res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.info)
-      }
-    })
+
+    switch (e.currentTarget.dataset.info.categoryId) {
+      case 4:
+        if (e.currentTarget.dataset.info.deviceNum === 'E8DB84933081') {
+          wx.navigateTo({
+            url: '/pages/someData/index',
+            success:(res)=>{
+              res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.info)
+            }
+          })
+        }       
+        break;
+    
+      case 5:
+        wx.navigateTo({
+          url: '/pages/roomSystem/index',
+          success:(res)=>{
+            res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.info)
+          }
+        })
+        break;
+    }  
   },
 
   deviceFail(){

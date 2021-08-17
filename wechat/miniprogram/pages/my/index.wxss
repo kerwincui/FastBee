@@ -1,6 +1,6 @@
 .personal_info {
 	padding: 20px 0;
-	background-color: #FFF;
+	background-color: skyblue;
 }
 .photo_wrap {
   overflow:hidden;  

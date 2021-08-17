@@ -13,10 +13,10 @@
     "miniprogram": {
       "list": [
         {
-          "id": -1,
-          "name": "db guide",
-          "pathName": "pages/databaseGuide/databaseGuide",
-          "query": ""
+          "name": "pages/aboutUs/index",
+          "pathName": "pages/aboutUs/index",
+          "query": "",
+          "scene": null
         },
         {
           "name": "pages/roomSystem/index",
@@ -33,6 +33,18 @@
         {
           "name": "pages/my/index",
           "pathName": "pages/my/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/someData/index",
+          "pathName": "pages/someData/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/PM2.5/index",
+          "pathName": "pages/PM2.5/index",
           "query": "",
           "scene": null
         }

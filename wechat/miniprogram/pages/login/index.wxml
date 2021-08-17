@@ -1,5 +1,8 @@
 <!--miniprogram/pages/index/index.wxml-->
-<view class="title">欢迎登录智慧宿舍系统</view>
+<view class="top">
+  <image src="/images/smart.jpg" />
+</view>
+<view class="title">欢迎登录</view>
 <view class="form">
   <view class="input">
     <van-field

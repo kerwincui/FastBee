@@ -1,0 +1,64 @@
+<!--miniprogram/pages/deviceControl/PM2.5/index.wxml-->
+<view class='body'>
+  <!-- <view class='time'>
+     2021-05-31 13:27
+  </view> -->
+  <view class='outroom'>室外空气：良</view>
+  <view class='airInfo'>
+    <van-circle
+      value="26"
+      layer-color="#fff"
+      color="lightgreen"  
+      size='280'
+      stroke-width='10'
+    >
+      <slots>
+        <view class='title'>PM2.5</view>
+        <view>
+          <text class='num'>26</text>
+          <text class='unit'>μg/m³</text>
+        </view>
+        <view class='degree'>室内：<text style='color:lightgreen'>优</text></view>
+      </slots>
+    </van-circle>
+  </view>
+  <view class='small_info'>
+    <!-- <view class='city'>
+      <image src='/icon/address.png' />
+      <text>南京</text>
+    </view> -->
+    <view class='particle'>
+      <text class='name' decode>PM10 :&nbsp;</text>
+      <text class='index'>32</text>
+      <text class='explain' style='color:lightgreen' >优</text>
+    </view>
+    <view class='particle'>
+      <text class='name' decode>PM1.0 :&nbsp;</text>
+      <text class='index'>21</text>
+      <text class='explain' style='color:lightgreen'>优</text>
+    </view>
+    <!-- <view class='updateTime'>今日 11:55 发布</view> -->
+  </view>
+  <!-- <view class='others'>
+    <van-circle
+      value="{{ value }}"
+      layer-color="#eeeeee"
+      color="#ee0a24"
+      text="PM10"
+      size='125'
+    />
+    <van-circle
+      value="{{ value }}"
+      layer-color="#eeeeee"
+      color="#ee0a24"
+      text="PM1.0"
+      size='125'
+    />
+  </view> -->
+  <view class='bg'></view>
+
+  <view class="container">
+    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+  </view>
+
+</view>
