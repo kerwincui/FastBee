@@ -7,6 +7,7 @@
 2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino等。软硬件交互基于Mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
+![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys2.png)  
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/directory.png)  
 
 3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。硬件完整示例代码采用ESP-IDF框架4.2版本，基于乐鑫ESP32S2芯片，安信可ESP-12K模组。[详情和购买方式 >> ](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)<br /><br />
@@ -25,7 +26,7 @@
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
 2. Wifi控制器和LED灯板制作七彩智能灯
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
-3.物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
+3. 物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case5.gif)  
 4. 物联网入门学习套件 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case4.gif)  
@@ -63,7 +64,7 @@ docker run \
 --publish 6379:6379 \
 --restart always \
 --detach \
-kerwincui/wumei-smart:1.0
+registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 ```
 
 #### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
@@ -96,10 +97,11 @@ kerwincui/wumei-smart:1.0
 * [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于Ruoyi-Vue，前后端分离权限管理系统
 * [XUI](https://gitee.com/xuexiangjys/XUI)，Android基于XUI开发，是一个简洁而优雅的原生UI框架
 * [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
+* [EMQ文档](https://docs.emqx.cn)
 
 <br />
 
-### 七、加入讨论群:1073236354
+### 七、加入互助交流群:1073236354(一群) 252664672(二群)
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
 <br /><br />
 

@@ -108,8 +108,9 @@ dependencies {
     //屏幕适配AutoSize
     implementation 'me.jessyan:autosize:1.1.2'
     //umeng统计
-    implementation 'com.umeng.umsdk:analytics:8.0.2'
-    implementation 'com.umeng.umsdk:common:2.0.2'
+//    implementation 'com.umeng.umsdk:analytics:8.0.2'
+//    implementation 'com.umeng.umsdk:common:2.0.2'
+    implementation group: 'com.umeng.umsdk', name: 'common', version: '9.3.8'
 
     //预加载占位控件
     implementation 'me.samlss:broccoli:1.0.0'

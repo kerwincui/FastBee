@@ -271,42 +271,47 @@ static void radar_sense(void *arg) {
     ESP_LOGI(TAG, "begin radar sense");
     uint16_t num=0;
     while(true){ 
-        // if(is_radar==1 && is_alarm==1){
-        //     if(gpio_get_level(IO_RADAR_OUT)==1){
-        //         if(relay_status==0) { 
-        //             open_relay(); 
-        //             led_rgb_blink(255,0,0,100,0,0,3,1000); //红灯闪烁
-        //         }
-        //     }
-        //     else{
-        //         //超过指定时间后关闭
-        //         if(relay_status==1 && num >5*radar_interval){
-        //             close_relay();
-        //             light_status=0;
-        //             led_status();
-        //             num=0;
-        //         }
-        //         num++;
-        //     }
-        // } else if(is_radar==1) {
-        //     if(gpio_get_level(IO_RADAR_OUT)==1){
-        //         if(relay_status==0) { 
-        //             open_relay(); 
-        //             light_status=1;
-        //             led_status();
-        //         }
-        //     }
-        //     else{
-        //         //超过指定时间后关闭
-        //         if(relay_status==1 && num >5*radar_interval){
-        //             close_relay();
-        //             light_status=0;
-        //             led_status();
-        //             num=0;
-        //         }
-        //         num++;
-        //     }
-        // }
+        if(is_radar==1 && is_alarm==1){
+            if(gpio_get_level(IO_RADAR_OUT)==1){
+                if(relay_status==0) { 
+                    relay_status=1;
+                    open_relay(); 
+                    light_status=1;
+                    led_rgb_blink(255,0,0,100,0,0,3,500); //红灯闪烁
+                }
+            }
+            else{
+                //超过指定时间后关闭
+                if(relay_status==1 && num >5*radar_interval){
+                    relay_status=0;
+                    close_relay();
+                    light_status=0;
+                    led_status();
+                    num=0;
+                }
+                num++;
+            }
+        } else if(is_radar==1) {
+            if(gpio_get_level(IO_RADAR_OUT)==1){
+                if(relay_status==0) { 
+                    relay_status=1;
+                    open_relay(); 
+                    light_status=1;
+                    led_status();
+                }
+            }
+            else{
+                //超过指定时间后关闭
+                if(relay_status==1 && num >5*radar_interval){
+                    relay_status=0;
+                    close_relay();
+                    light_status=0;
+                    led_status();
+                    num=0;
+                }
+                num++;
+            }
+        }
         vTaskDelay(pdMS_TO_TICKS(200));
     }
 
