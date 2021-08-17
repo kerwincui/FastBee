@@ -74,6 +74,24 @@ void delay_ms(int ms)
 {
 	HAL_Delay(ms);
 }
+
+// ESP8266主动下发给MCU数据
+int wifi_data_recv_fun(type_recv_e type, uint8_t *data, int len)
+{
+	switch((int)type)
+	{
+		case TYPE_RECV_DISCONNECT:
+			printf("WIFI DISCONNECT!\r\n");
+		break;
+		case TYPE_RECV_GOT_IP:
+			printf("WIFI GOT IP!\r\n");
+		break;
+		case TYPE_RECV_SUBSCRIBE:
+			printf("recv_fun sucribe data : %s\r\n", data);
+		break;
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -144,11 +162,14 @@ int main(void)
   {
 		printf("enable time4 pwm output\r\n");
   }
+	set_sg90(50);
 
   if (HAL_TIM_Base_Start_IT(&htim3))
   {
 		printf("enable time3 base isr\r\n");
   }
+	
+	ESP8266_Fram_Record_Struct.wifi_data_recv_cb = wifi_data_recv_fun;  // 定义系统回调函数，当有数据下发，会进入这个函数
 	ESP8266_STA_MQTTClient_Init();
   printf("ready go into while1\r\n");
 	

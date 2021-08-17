@@ -21,9 +21,9 @@ char ssid[33]="wifi-ssid";          // wifi的SSID
 char pwd[65]="wifi-password";       // wifi的密码
 char owner_id[64]="1";              // 用户ID
     
-char open_broken_url[128]="";       // 二次开发mqtt服务器地址
-char open_account[64]="";           // 二次开发mqtt账号
-char open_pwd[64]="";               // 二次开发mqtt密码
+// char open_broken_url[128]="wumei.live:1883";  // 二次开发mqtt服务器地址
+// char open_account[64]="admin";               // 二次开发mqtt账号
+// char open_pwd[64]="admin123";                // 二次开发mqtt密码
     
 uint8_t relay_status=0;             // 继电器状态 0-关闭，1-打开
 uint8_t light_status=0;             // 灯的状态 0-关闭 1-打开

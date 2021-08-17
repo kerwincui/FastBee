@@ -8,6 +8,7 @@
         <version>3.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <!-- jar部署：pom   war部署：war-->
     <packaging>jar</packaging>
     <artifactId>ruoyi-admin</artifactId>
 
