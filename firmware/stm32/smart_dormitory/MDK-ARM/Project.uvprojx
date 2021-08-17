@@ -447,11 +447,6 @@
           <GroupName>Application/User/Process</GroupName>
           <Files>
             <File>
-              <FileName>tcp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\xiaoyi_wifi\tcp.c</FilePath>
-            </File>
-            <File>
               <FileName>mqtt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\xiaoyi_wifi\mqtt.c</FilePath>

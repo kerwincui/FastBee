@@ -78,6 +78,22 @@ void ESP8266_AT_Test(void)
     }
 }
 
+//取消回显
+void ESP8266_ATE0(void)
+{
+    char count=0;
+    delay_ms(1000); 
+    while(count < 10)
+    {
+        if(ESP8266_Send_AT_Cmd("ATE0","OK",NULL,500)) 
+        {
+            printf("OK\r\n");
+            return;
+        }
+        ++ count;
+    }
+}
+
 
 //选择ESP8266的工作模式
 // enumMode 模式类型
@@ -231,13 +247,13 @@ uint8_t ESP8266_Get_LinkStatus ( void )
 {
     if (ESP8266_Send_AT_Cmd( "AT+CIPSTATUS", "OK", 0, 500 ) )
     {
-        if ( strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:2\r\n" ) )
+        if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:2\r\n" ) )
             return 2;
 
-        else if ( strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:3\r\n" ) )
+        else if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:3\r\n" ) )
             return 3;
 
-        else if ( strstr ( ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:4\r\n" ) )
+        else if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:4\r\n" ) )
             return 4;       
 
     }
@@ -359,7 +375,7 @@ void USART_printf ( char * Data, ... )
                      Data++;
                      break;
             }        
-        }
+        } 
         else 
 		{
 			HAL_UART_Transmit(&huart3, (uint8_t *)Data, 1, 0xFFFF);
@@ -370,98 +386,4 @@ void USART_printf ( char * Data, ... )
     }
 }
 
-//下面为ESP8266MQTT功能指令
-
-/*
-*MQTT配置用户属性
-*LinkID 连接ID,目前只支持0
-*scheme 连接方式，这里选择MQTT over TCP,这里设置为1
-*client_id MQTTclientID 用于标志client身份
-*username 用于登录 MQTT 服务器 的 username
-*password 用于登录 MQTT 服务器 的 password
-*cert_key_ID 证书 ID, 目前支持一套 cert 证书, 参数为 0
-*CA_ID 目前支持一套 CA 证书, 参数为 0
-*path 资源路径，这里设置为""
-*设置成功返回true 反之false
-*/
-bool ESP8266_MQTTUSERCFG( char * pClient_Id, char * pUserName,char * PassWord)
-{
-    char cCmd [120];
-    sprintf ( cCmd, "AT+MQTTUSERCFG=0,1,\"%s\",\"%s\",\"%s\",0,0,\"\"", pClient_Id,pUserName,PassWord );
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 500 );
-}
-
-
-/*
-*连接指定的MQTT服务器
-*LinkID 连接ID,目前只支持0
-*IP：MQTT服务器上对应的IP地址
-*ComNum MQTT服务器上对应的端口号，一般为1883
-*设置成功返回true 反之false
-*/
-bool ESP8266_MQTTCONN( char * Ip, int  Num)
-{
-    char cCmd [120];
-    sprintf ( cCmd,"AT+MQTTCONN=0,\"%s\",%d,0", Ip,Num);
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 500 );
-}
-
-/*
-*订阅指定连接的 MQTT 主题, 可重复多次订阅不同 topic
-*LinkID 连接ID,目前只支持0
-*Topic 订阅的主题名字，这里设置为Topic
-*Qos值：一般为0，这里设置为1
-*设置成功返回true 反之false
-*/
-bool ESP8266_MQTTSUB(char * Topic)
-{
-    char cCmd [120];
-    sprintf ( cCmd, "AT+MQTTSUB=0,\"%s\",1",Topic );
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 500 );
-}
-
-
-/*
-*在LinkID上通过 topic 发布数据 data, 其中 data 为字符串消息
-*LinkID 连接ID,目前只支持0
-*Topic 订阅的主题名字，这里设置为Topic
-*data：字符串信息
-*设置成功返回true 反之false
-*/
-bool ESP8266_MQTTPUB( char * Topic,char *temp)
-{
-    char cCmd [512];
-    sprintf (cCmd, "AT+MQTTPUB=0,\"%s\",\"%s\",0,0", Topic ,temp);
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 1000 );
-}
-
-/*
-*关闭 MQTT Client 为 LinkID 的连接, 并释放内部占用的资源
-*LinkID 连接ID,目前只支持0
-*Topic 订阅的主题名字，这里设置为Topic
-*data：字符串信息
-*设置成功返回true 反之false
-*/
-bool ESP8266_MQTTCLEAN(void)
-{
-    char cCmd [120];
-    sprintf ( cCmd, "AT+MQTTCLEAN=0");
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 500 );
-}
-
-//ESP8266发送字符串
-//enumEnUnvarnishTx是否使能透传模式
-//pStr字符串
-//ulStrLength字符串长度
-//ucId 连接号
-//设置成功返回true， 反之false
-bool MQTT_SendString(char * pTopic,char *temp2)
-{
-	
-    bool bRet = false;
-    ESP8266_MQTTPUB(pTopic,temp2);
-	  delay_ms(1000);
-    bRet = true;
-    return bRet;
-}
-
+ 

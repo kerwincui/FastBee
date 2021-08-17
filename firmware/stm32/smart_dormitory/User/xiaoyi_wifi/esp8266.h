@@ -24,6 +24,7 @@ typedef enum{
      enumTCP,
      enumUDP,
 } ENUM_NetPro_TypeDef;
+
 //连接号，指定为该连接号可以防止其他计算机访问同一端口而发生错误
 typedef enum{
     Multiple_ID_0 = 0,
@@ -33,6 +34,26 @@ typedef enum{
     Multiple_ID_4 = 4,
     Single_ID_0 = 5,
 } ENUM_ID_NO_TypeDef;
+
+
+//ESP8266网络状态
+typedef enum{
+	NET_STATUS_INIT = 0,
+	NET_STATUS_WIFI_CONNECTING,
+	NET_STATUS_WIFI_CONNECTED,
+	NET_STATUS_WIFI_FAILED,
+	NET_STATUS_CLOUD_SUCCESS,
+	NET_STATUS_CLOUD_FAIL,
+}connect_status_e;
+
+//ESP8266网络状态
+typedef enum{
+	TYPE_RECV_CONNECT = 0,
+	TYPE_RECV_DISCONNECT,
+	TYPE_RECV_GOT_IP,
+	TYPE_RECV_SUBSCRIBE,  // 接收MQTT下发订阅消息
+	TYPE_RECV_NONE,
+}type_recv_e;
 
 #define ESP8266_RST_Pin          GPIO_PIN_4    //复位管脚
 #define ESP8266_RST_Pin_Port     GPIOA    //复位 
@@ -55,6 +76,10 @@ typedef enum{
 
 
 #define RX_BUF_MAX_LEN 1024       //最大字节数
+
+typedef int (*wifi_data_arrvied)(type_recv_e type, uint8_t *data, int len);  // 函数指针，接收WIFI发来的数据
+
+
 extern struct STRUCT_USART_Fram   //数据帧结构体
 {
     uint8_t Data_RX_BUF[RX_BUF_MAX_LEN];
@@ -67,13 +92,16 @@ extern struct STRUCT_USART_Fram   //数据帧结构体
             __IO uint16_t FramFinishFlag   :1;                                // 15 
         }InfBit;
     }; 
+		wifi_data_arrvied wifi_data_recv_cb;
 	
 }ESP8266_Fram_Record_Struct;
+
 
 
 //初始化和TCP功能函数
 void ESP8266_Init(uint32_t bound);
 void ESP8266_AT_Test(void);
+void ESP8266_ATE0(void);
 bool ESP8266_Send_AT_Cmd(char *cmd,char *ack1,char *ack2,uint32_t time);
 void ESP8266_Rst(void);
 bool ESP8266_Net_Mode_Choose(ENUM_Net_ModeTypeDef enumMode);
