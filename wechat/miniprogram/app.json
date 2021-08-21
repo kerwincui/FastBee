@@ -1,12 +1,16 @@
 {
   "pages": [
-    "pages/login/index",
     "pages/index/index",
+    "pages/login/index",
     "pages/roomSystem/index",
     "pages/my/index",
     "pages/someData/index",
     "pages/aboutUs/index",
-    "pages/PM2.5/index"
+    "pages/PM2.5/index",
+    "pages/add/index",
+    "pages/4Gswitch/index",
+    "pages/add4G/index",
+    "pages/addWiFi/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -16,12 +20,21 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "selectedColor": "#0000ff",
+    "color": "#000000",
+    "backgroundColor": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
         "iconPath": "icons/home.png",
         "selectedIconPath": "icons/home_selected.png"
+      },
+      {
+        "pagePath": "pages/add/index",
+        "text": "添加",
+        "iconPath": "icons/add_0.png",
+        "selectedIconPath": "icons/add.png"
       },
       {
         "pagePath": "pages/my/index",

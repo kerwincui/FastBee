@@ -36,6 +36,10 @@ Page({
 
   //获取设备列表
   async getDevices(){
+    wx.showLoading({
+      title: '获取设备',
+      mask: true
+    })
     const res = await requestApi('/system/device/list',{ method:'GET' });
     console.log(res);
     const result = JSON.parse(res.result);
@@ -53,6 +57,7 @@ Page({
       unlineList,
       DeviceList:result.rows
     })
+    wx.hideLoading()
   },
 
 
@@ -78,15 +83,21 @@ Page({
   goToDeviceControl(e){
 
     switch (e.currentTarget.dataset.info.categoryId) {
+      case 1:
+        wx.navigateTo({
+          url: '/pages/4Gswitch/index',
+          success:(res)=>{
+            res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.info)
+          }
+        })
+        break;
       case 4:
-        if (e.currentTarget.dataset.info.deviceNum === 'E8DB84933081') {
           wx.navigateTo({
             url: '/pages/someData/index',
             success:(res)=>{
               res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.info)
             }
-          })
-        }       
+          })     
         break;
     
       case 5:
@@ -137,12 +148,7 @@ Page({
    */
   onShow: function () {
     this.getWeather();
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({
-        homeSelected:true,
-        userSelected:false //这个数字是当前页面在tabBar中list数组的索引
-      })
-    }
+
   },
 
   /**
@@ -164,6 +170,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.onLoad();
+    wx.stopPullDownRefresh();
   },
 
   /**

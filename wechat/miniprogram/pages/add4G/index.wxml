@@ -1,0 +1,17 @@
+<!--miniprogram/pages/add4G/index.wxml-->
+<view class="top">
+  <image src="/icons/Internet.png"></image>
+</view>
+<view>
+  <view class="title">添加4G设备</view>
+  <label class='account'>
+    <text>IMEI：</text>
+    <input type='text' bind:input='inputIMEI' value='{{ imei }}' placeholder='请输入设备IMEI' />
+  </label>
+  <view class="btn">
+    <van-button block color="linear-gradient(to right, #4bb0ff, #6149f6)" round>
+      提 交
+    </van-button>
+  </view>
+
+</view>

@@ -3,5 +3,6 @@
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-tabs": "@vant/weapp/tabs/index"
-  }
+  },
+  "enablePullDownRefresh":true
 }

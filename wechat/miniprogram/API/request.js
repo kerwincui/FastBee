@@ -2,9 +2,10 @@
 // const baseURL = 'http://106.38.203.210:81/prod-api';
 const baseURL = 'http://106.12.9.213:80/prod-api';
 
-const token = wx.getStorageSync('token') || '';
+
 
 const requestApi = ( url, params={} ) => {
+  const token = wx.getStorageSync('token');
     return new Promise((resolve,reject) => {
       wx.cloud.callFunction({
         name: 'wumeiRequest',

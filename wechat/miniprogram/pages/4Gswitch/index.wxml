@@ -1,0 +1,28 @@
+<!--miniprogram/pages/4Gswitch/index.wxml-->
+<view class="name">
+  {{ deviceInfo.deviceName }}
+</view>
+<view>
+  <view class="outside">
+    <view class="inside" bindtap="lightPower">
+      <image wx:if="{{ power === 0 }}" class="switch" src="/icons/switch_off.png"></image>
+      <image wx:if="{{ power === 1 }}" class="switch" src="/icons/switch_on.png"></image>
+    </view>
+  </view>
+  <view class="power">
+    <text>开关状态：</text>
+    <text wx:if="{{ power === 1 }}" style="color:#0000ff">开</text>
+    <text wx:if="{{ power === 0 }}" style="color:#ff0000">关</text>
+  </view>
+</view>
+<view class="bottom">
+  <view class="bottom-item">
+    <image src="/icons/share.png"></image>
+    <text>分享</text>
+    <button class="share" open-type="share" data-info = "{{ deviceInfo }}"></button>
+  </view>
+  <view class="bottom-item" bindtap="lookDetail" data-info="{{ deviceInfo }}">
+    <image src="/icons/detail.png"></image>
+    <text>详情</text>
+  </view>
+</view>

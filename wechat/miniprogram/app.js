@@ -2,23 +2,8 @@
 import { request } from "./utils/request.js";
 
 App({
-  onLaunch:async function () {
-
-  // const res =await request('ag-api.ctwing.cn/aep_product_management/products','GET',20190507004824,
-  // {
-  //   'searchValue':'',
-  //   'pageSize':'',
-  //   'pageNow':''
-  // });
-  // const res = await request('ag-api.ctwing.cn/aep_device_management/device','PUT',20181031202122,
-  // {'MasterKey':'f9ceed06f3374bb28cfc0083e2899bac',
-  //  'deviceId':'15058943ssdhhsnfvvf23'
-  // },
-  // {
-  //   "deviceName": "ssd",
-  //   "operator": "qll",
-  //   "productId": 15058943
-  // })
+  onLaunch:async function (options) {
+    const token = wx.getStorageSync('token')
 
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -32,7 +17,14 @@ App({
         traceUser: true,
       })
     }
+    if(!token){
+      setTimeout(() => {
+        wx.reLaunch({
+          url: '/pages/login/index',
+        })
+      }, 0);
 
+    }
     this.globalData = {}
   }
 })

@@ -47,6 +47,29 @@
           "pathName": "pages/PM2.5/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/4Gswitch/index",
+          "pathName": "pages/4Gswitch/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/deviceDetail/index",
+          "pathName": "pages/deviceDetail/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/add/index",
+          "pathName": "pages/add/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/add4G/index",
+          "pathName": "pages/add4G/index",
+          "scene": null
         }
       ]
     }
