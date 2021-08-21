@@ -1,5 +1,5 @@
-#ifndef __ESP8266_H
-#define __ESP8266_H 
+#ifndef __ESP8266_H__
+#define __ESP8266_H__
 
 #include "main.h"
 
@@ -7,9 +7,30 @@
 #include <string.h>
 #include <stdbool.h>
 
-#if defined ( __CC_ARM   )
-#pragma anon_unions
-#endif
+#define ESP8266_RST_Pin          GPIO_PIN_4    //复位管脚
+#define ESP8266_RST_Pin_Port     GPIOA    //复位 
+
+#define ESP8266_CH_PD_Pin     	 GPIO_PIN_5   //使能管脚
+#define ESP8266_CH_PD_Pin_Port   GPIOA   //使能端口
+
+
+#define ESP8266_RST_Pin_SetH     HAL_GPIO_WritePin(ESP8266_RST_Pin_Port, ESP8266_RST_Pin, GPIO_PIN_SET)
+#define ESP8266_RST_Pin_SetL     HAL_GPIO_WritePin(ESP8266_RST_Pin_Port, ESP8266_RST_Pin, GPIO_PIN_RESET)
+
+
+#define ESP8266_CH_PD_Pin_SetH     HAL_GPIO_WritePin(ESP8266_CH_PD_Pin_Port,ESP8266_CH_PD_Pin, GPIO_PIN_SET)
+#define ESP8266_CH_PD_Pin_SetL     HAL_GPIO_WritePin(ESP8266_CH_PD_Pin_Port,ESP8266_CH_PD_Pin, GPIO_PIN_RESET)
+
+
+#define ESP8266_USART(fmt, ...)  USART_printf (fmt, ##__VA_ARGS__)    
+#define PC_USART(fmt, ...)       printf(fmt, ##__VA_ARGS__)       //这是串口打印函数，串口1，执行printf后会自动执行fput函数，重定向了printf。
+
+
+#define RX_BUF_MAX_LEN 1024       //最大字节数
+
+#define User_SSID     "brown1"    //wifi名
+#define User_PWD      "123456789a"      //wifi密码
+
 
 //ESP8266模式选择
 typedef enum
@@ -55,32 +76,10 @@ typedef enum{
 	TYPE_RECV_NONE,
 }type_recv_e;
 
-#define ESP8266_RST_Pin          GPIO_PIN_4    //复位管脚
-#define ESP8266_RST_Pin_Port     GPIOA    //复位 
-
-#define ESP8266_CH_PD_Pin     	 GPIO_PIN_5   //使能管脚
-#define ESP8266_CH_PD_Pin_Port   GPIOA   //使能端口
-
-
-#define ESP8266_RST_Pin_SetH     HAL_GPIO_WritePin(ESP8266_RST_Pin_Port, ESP8266_RST_Pin, GPIO_PIN_SET)
-#define ESP8266_RST_Pin_SetL     HAL_GPIO_WritePin(ESP8266_RST_Pin_Port, ESP8266_RST_Pin, GPIO_PIN_RESET)
-
-
-#define ESP8266_CH_PD_Pin_SetH     HAL_GPIO_WritePin(ESP8266_CH_PD_Pin_Port,ESP8266_CH_PD_Pin, GPIO_PIN_SET)
-#define ESP8266_CH_PD_Pin_SetL     HAL_GPIO_WritePin(ESP8266_CH_PD_Pin_Port,ESP8266_CH_PD_Pin, GPIO_PIN_RESET)
-
-
-#define ESP8266_USART(fmt, ...)  USART_printf (fmt, ##__VA_ARGS__)    
-#define PC_USART(fmt, ...)       printf(fmt, ##__VA_ARGS__)       //这是串口打印函数，串口1，执行printf后会自动执行fput函数，重定向了printf。
-
-
-
-#define RX_BUF_MAX_LEN 1024       //最大字节数
-
 typedef int (*wifi_data_arrvied)(type_recv_e type, uint8_t *data, int len);  // 函数指针，接收WIFI发来的数据
 
-
-extern struct STRUCT_USART_Fram   //数据帧结构体
+#pragma anon_unions
+typedef struct STRUCT_USART_Fram   //数据帧结构体
 {
     uint8_t Data_RX_BUF[RX_BUF_MAX_LEN];
     union 
@@ -92,18 +91,17 @@ extern struct STRUCT_USART_Fram   //数据帧结构体
             __IO uint16_t FramFinishFlag   :1;                                // 15 
         }InfBit;
     }; 
-		wifi_data_arrvied wifi_data_recv_cb;
+	wifi_data_arrvied wifi_data_recv_cb;
 	
-}ESP8266_Fram_Record_Struct;
-
-
+}STRUCT_USART_Fram_t;
+extern STRUCT_USART_Fram_t ESP8266_Fram_Record_Struct;
 
 //初始化和TCP功能函数
 void ESP8266_Init(uint32_t bound);
 void ESP8266_AT_Test(void);
 void ESP8266_ATE0(void);
 bool ESP8266_Send_AT_Cmd(char *cmd,char *ack1,char *ack2,uint32_t time);
-void ESP8266_Rst(void);
+char ESP8266_Rst(void);
 bool ESP8266_Net_Mode_Choose(ENUM_Net_ModeTypeDef enumMode);
 bool ESP8266_JoinAP( char * pSSID, char * pPassWord );
 bool ESP8266_Enable_MultipleId ( FunctionalState enumEnUnvarnishTx );
@@ -112,15 +110,8 @@ bool ESP8266_SendString(FunctionalState enumEnUnvarnishTx, char * pStr, uint32_t
 bool ESP8266_UnvarnishSend ( void );
 void ESP8266_ExitUnvarnishSend ( void );
 uint8_t ESP8266_Get_LinkStatus ( void );
-void USART_printf( char * Data, ... );
-
-//MQTT功能函数
-bool ESP8266_MQTTUSERCFG( char * pClient_Id, char * pUserName,char * PassWord);
-bool ESP8266_MQTTCONN( char * Ip, int Num);
-bool ESP8266_MQTTSUB(char * Topic);
-bool ESP8266_MQTTPUB( char * Topic,char *temp);
-bool ESP8266_MQTTCLEAN(void);
-bool MQTT_SendString(char * pTopic,char *temp2);
+void hal_AT_printf( char * Data, ... );
+char WiFi_Connect_IoTServer(void);
 
 #endif
 

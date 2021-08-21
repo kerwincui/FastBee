@@ -29,14 +29,15 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "esp8266.h"
+#include "mqtt.h"
 #include "oled.h"
 #include "dht11.h"
 #include "flash.h"
-#include "esp8266.h"
 #include "sensor_light.h"
 #include "rc522.h"
 #include "process.h"
-#include "mqtt.h"
+
 
 /* USER CODE END Includes */
 
@@ -170,7 +171,7 @@ int main(void)
   }
 	
 	ESP8266_Fram_Record_Struct.wifi_data_recv_cb = wifi_data_recv_fun;  // 定义系统回调函数，当有数据下发，会进入这个函数
-	ESP8266_STA_MQTTClient_Init();
+
   printf("ready go into while1\r\n");
 	
   /* USER CODE END 2 */

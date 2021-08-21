@@ -1,13 +1,5 @@
 #include "mqtt.h"
-
-#define MQTT_NAME				"n87ieud/my_board2"
-#define MQTT_PW					"k4e9trh5qjwjhc2q"
-#define MQTT_CLIENT_ID			"my_board2"
-
-#define MQTT_TOPIC_UPDATE 				"$baidu/iot/shadow/my_board2/update"
-#define MQTT_TOPIC_DELTA				"$baidu/iot/shadow/my_board2/delta"
-#define MQTT_TOPIC_SNAPSHOT				"$baidu/iot/shadow/my_board2/update/snapshot"
-
+#include "usart.h"
 
 char str[] = "{\"deviceNum\": \"E8DB84933089\",\"relayStatus\": 0,\"lightStatus\": 0,\"isOnline\": 1,\"rssi\": -54,\"deviceTemperature\": 38}";
 
@@ -16,7 +8,7 @@ static int mqtt_send(uint8_t head, uint32_t vlen, uint8_t *vhead,
 {
 	int32_t tmp_encode, tmp_x;
 	uint32_t i = 0;
-	uint8_t msg[RX_BUFF_LEN];
+	uint8_t msg[RX_BUF_MAX_LEN];
 	msg[i++] = head;
 
 	tmp_x = vlen + pay_len;
@@ -37,10 +29,13 @@ static int mqtt_send(uint8_t head, uint32_t vlen, uint8_t *vhead,
 		memcpy(&msg[i], payload, pay_len);
 		i = i + pay_len;
 	}
-	esp8266_send(msg, i);
+	ESP8266_Fram_Record_Struct.InfBit.FramFinishFlag = 0;
+	ESP8266_Fram_Record_Struct.InfBit.FramLength = 0;
+	HAL_UART_Transmit(&huart3, msg, i, 0xFFFF);
 
 	return 0;
 }
+
 static int mqtt_str_fill(uint8_t *outbuff, char *instr)
 {
 	uint8_t *p_tmp;
@@ -53,17 +48,20 @@ static int mqtt_str_fill(uint8_t *outbuff, char *instr)
 
 static int mqtt_recv(uint8_t *ackbuff, uint16_t *ack_len, int timeout)
 {
-
 	do {
-		if (esp8266_recv(ackbuff, &ack_len) == 0) {
+		if(1 == ESP8266_Fram_Record_Struct.InfBit.FramFinishFlag)
+		{
+			memcpy(ackbuff, ESP8266_Fram_Record_Struct.Data_RX_BUF, ESP8266_Fram_Record_Struct.InfBit.FramLength);
+			*ack_len = ESP8266_Fram_Record_Struct.InfBit.FramLength;
+			ESP8266_Fram_Record_Struct.InfBit.FramFinishFlag = 0;
 			return 0;
 		}
+		
 		if (timeout > 0) {
 			HAL_Delay(100);
 		} else {
 			return -1;
 		}
-
 	} while (timeout--);
 	return -1;
 }
@@ -71,7 +69,7 @@ static int mqtt_recv(uint8_t *ackbuff, uint16_t *ack_len, int timeout)
 static int mqtt_ack_check(uint8_t head, int timeout, uint16_t msg_id)
 {
 	uint8_t recv_head;
-	uint8_t recv_buff[RX_BUFF_LEN];
+	uint8_t recv_buff[RX_BUF_MAX_LEN];
 	uint16_t recv_len;
 
 	if (mqtt_recv(recv_buff, &recv_len, timeout) != 0) {
@@ -95,6 +93,20 @@ static int mqtt_ack_check(uint8_t head, int timeout, uint16_t msg_id)
 		return -1;
 	}
 	return -1;
+}
+
+/*-------------------------------------------------*/
+/*函数名：连接TCP服务器                            */
+/*参  数：timeout： 超时时间（100ms的倍数）        */
+/*返回值：True：正确  False：错误                      */
+/*-------------------------------------------------*/
+char mqtt_tcp_connect(int timeout)
+{
+    char cCmd [120];
+	
+    sprintf (cCmd, "AT+CIPSTART=\"TCP\",\"%s\",%d\r\n", User_MQTTServer_IP, User_MQTTServer_PORT);
+	
+	return ESP8266_Send_AT_Cmd ( cCmd, "OK", "WIFI GOT IP", timeout); 
 }
 
 static int mqtt_connect(char *name, char *pwd, char *client_id)
@@ -251,8 +263,9 @@ static int mqtt_publish_from_cloud(uint8_t *ackbuff, uint16_t ack_len)
 	payload_len = remain_len - vhead_len - 4;
 
 	memcpy(payload, &ackbuff[i], payload_len);
-	if (strcmp((char*) topic, MQTT_TOPIC_DELTA) == 0) {
-		sensor_data_set(payload);
+	if (strcmp((char*) topic, User_MQTTServer_Topic_SUB) == 0) {
+		// sensor_data_set(payload);
+		;
 	}
 	mqtt_publish_ack(msg_id);
 	return 0;
@@ -268,7 +281,7 @@ int mqtt_beat(void)
 	uint32_t i = 0, j = 0;
 	mqtt_send(head, i, vhead, j, payload);
 	if (mqtt_ack_check(MQTT_PINGRESP, 100, 0) != 0) {
-		if (mqtt_connect(MQTT_NAME, MQTT_PW, MQTT_CLIENT_ID) != 0) {
+		if (mqtt_connect(User_Username, User_Password, User_Client_ID) != 0) {
 			return -1;
 		}else{
 			return 0;
@@ -280,7 +293,7 @@ int mqtt_beat(void)
 int mqtt_handle(void)
 {
 	uint8_t recv_head;
-	uint8_t recv_buff[RX_BUFF_LEN];
+	uint8_t recv_buff[RX_BUF_MAX_LEN];
 	uint16_t recv_len;
 
 	if (mqtt_recv(recv_buff, &recv_len, 0) != 0) {
@@ -299,7 +312,7 @@ int mqtt_handle(void)
 
 int mqtt_publish_update(uint8_t *msg, uint16_t msg_len)
 {
-	if (mqtt_publish(MQTT_TOPIC_UPDATE, msg, msg_len, msg_id++) != 0) {
+	if (mqtt_publish(User_MQTTServer_Topic_PUB, msg, msg_len, msg_id++) != 0) {
 		return -1;
 	}
 	return 0;
@@ -307,17 +320,20 @@ int mqtt_publish_update(uint8_t *msg, uint16_t msg_len)
 
 int mqtt_init(void)
 {
-	if (mqtt_connect(MQTT_NAME, MQTT_PW, MQTT_CLIENT_ID) != 0) {
-		mqtt_disconnect();
-		esp8266_init();
-		HAL_Delay(100);
-		if (mqtt_connect(MQTT_NAME, MQTT_PW, MQTT_CLIENT_ID) != 0) {
-			return -1;
-		}
+	if (mqtt_connect(User_Username, User_Password, User_Client_ID) != 0) {
+		printf("MQTT handshake error\r\n");
+		return -1;
+	}else
+	{
+		printf("MQTT handshake success\r\n");
 	}
 
-	if (mqtt_subscriber(MQTT_TOPIC_DELTA, msg_id++) != 0) {
+	if (mqtt_subscriber(User_MQTTServer_Topic_SUB, msg_id++) != 0) {
+		printf("subscribe error\r\n");
 		return -1;
+	}else
+	{
+		printf("subscribe success\r\n");
 	}
 	return 0;
 }

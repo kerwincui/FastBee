@@ -1,8 +1,9 @@
 #include "esp8266.h"
-#include "usart.h"
 
+extern UART_HandleTypeDef huart3;
 
-struct STRUCT_USART_Fram ESP8266_Fram_Record_Struct= { 0 };  //定义了一个数据帧结构体
+STRUCT_USART_Fram_t ESP8266_Fram_Record_Struct;
+
 void ESP8266_Init(uint32_t bound)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -17,7 +18,7 @@ void ESP8266_Init(uint32_t bound)
 //    GPIO_InitStructure.Pin = ESP8266_CH_PD_Pin;               
 //    HAL_GPIO_Init(ESP8266_CH_PD_Pin_Port, &GPIO_InitStructure);
 //	
-	ESP8266_Rst();
+//	ESP8266_Rst();
 }
 
 //对ESP8266模块发送AT指令
@@ -27,8 +28,11 @@ void ESP8266_Init(uint32_t bound)
 //返回1发送成功， 0失败
 bool ESP8266_Send_AT_Cmd(char *cmd,char *ack1,char *ack2,uint32_t time)
 { 
-    ESP8266_Fram_Record_Struct.InfBit .FramLength = 0; //重新接收新的数据包
-    ESP8266_USART("%s\r\n", cmd);
+    ESP8266_Fram_Record_Struct.InfBit.FramLength = 0; //重新接收新的数据包
+	ESP8266_Fram_Record_Struct.InfBit.FramFinishFlag = 0;
+	memset(ESP8266_Fram_Record_Struct.Data_RX_BUF, 0x00, sizeof(ESP8266_Fram_Record_Struct.Data_RX_BUF));
+	
+    hal_AT_printf("%s\r\n", cmd);
     if(ack1==0&&ack2==0)     //不需要接收数据
     {
 			return true;
@@ -51,16 +55,16 @@ bool ESP8266_Send_AT_Cmd(char *cmd,char *ack1,char *ack2,uint32_t time)
 
 }
 
+/*-------------------------------------------------*/
+/*函数名：WiFi复位                                 */
+/*参  数：timeout：超时时间（100ms的倍数）          */
+/*返回值：0：正确   其他：错误                      */
+/*-------------------------------------------------*/
 
-//复位重启
-void ESP8266_Rst(void)
+char ESP8266_Rst(void)
 {
-//    ESP8266_RST_Pin_SetL;
-//    delay_ms(500); 
-//    ESP8266_RST_Pin_SetH;
-	;
+	return ESP8266_Send_AT_Cmd ( "AT+RST\r\n", "OK", 0, 5000 );
 }
-
 
 //发送恢复出厂默认设置指令将模块恢复成出厂设置
 void ESP8266_AT_Test(void)
@@ -85,15 +89,14 @@ void ESP8266_ATE0(void)
     delay_ms(1000); 
     while(count < 10)
     {
-        if(ESP8266_Send_AT_Cmd("ATE0","OK",NULL,500)) 
+        if(ESP8266_Send_AT_Cmd("ATE0","OK",NULL,1000)) 
         {
-            printf("OK\r\n");
+            printf("ATE0 OK\r\n");
             return;
         }
         ++ count;
     }
 }
-
 
 //选择ESP8266的工作模式
 // enumMode 模式类型
@@ -116,7 +119,6 @@ bool ESP8266_Net_Mode_Choose(ENUM_Net_ModeTypeDef enumMode)
     }       
 }
 
-
 //ESP8266连接外部的WIFI
 //pSSID WiFi帐号
 //pPassWord WiFi密码
@@ -126,7 +128,7 @@ bool ESP8266_JoinAP( char * pSSID, char * pPassWord)
     char cCmd [120];
 	
     sprintf ( cCmd, "AT+CWJAP=\"%s\",\"%s\"", pSSID, pPassWord );
-    return ESP8266_Send_AT_Cmd( cCmd, "OK", NULL, 5000 );
+    return ESP8266_Send_AT_Cmd( cCmd, "OK", "WIFI CONNECTED", 5000 );
 }
 
 //ESP8266 透传使能
@@ -142,6 +144,18 @@ bool ESP8266_Enable_MultipleId (FunctionalState enumEnUnvarnishTx )
 
 }
 
+//ESP8266 使能自动重连
+//enumEnUnvarnishTx  是否多连接，bool类型
+//设置成功返回true，反之false
+bool ESP8266_Enable_AutoConnect (int enable )
+{
+    char cStr [20];
+
+    sprintf ( cStr, "AT+CWAUTOCONN=%d", enable );
+
+    return ESP8266_Send_AT_Cmd ( cStr, "OK", 0, 500 );
+
+}
 
 //ESP8266 连接服务器
 //enumE  网络类型
@@ -187,7 +201,6 @@ bool ESP8266_UnvarnishSend ( void )
 
     return 
         ESP8266_Send_AT_Cmd( "AT+CIPSEND", "OK", ">", 500 );
-
 }
 
 
@@ -202,15 +215,12 @@ bool ESP8266_SendString(FunctionalState enumEnUnvarnishTx, char * pStr, uint32_t
     char cStr [20];
     bool bRet = false;
 
-
     if ( enumEnUnvarnishTx )
     {
-        ESP8266_USART ( "%s", pStr );
+        hal_AT_printf ( "%s", pStr );
 
         bRet = true;
-
     }
-
     else
     {
         if ( ucId < 5 )
@@ -222,10 +232,8 @@ bool ESP8266_SendString(FunctionalState enumEnUnvarnishTx, char * pStr, uint32_t
         ESP8266_Send_AT_Cmd ( cStr, "> ", 0, 1000 );
 
         bRet = ESP8266_Send_AT_Cmd ( pStr, "SEND OK", 0, 1000 );
-  }
-
+    }
     return bRet;
-
 }
 
 
@@ -233,7 +241,7 @@ bool ESP8266_SendString(FunctionalState enumEnUnvarnishTx, char * pStr, uint32_t
 void ESP8266_ExitUnvarnishSend ( void )
 {
     delay_ms(1000);
-    ESP8266_USART( "+++" );
+    hal_AT_printf( "+++" );
     delay_ms( 500 );    
 }
 
@@ -249,17 +257,86 @@ uint8_t ESP8266_Get_LinkStatus ( void )
     {
         if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:2\r\n" ) )
             return 2;
-
         else if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:3\r\n" ) )
             return 3;
-
         else if ( strstr ( (char *)ESP8266_Fram_Record_Struct.Data_RX_BUF, "STATUS:4\r\n" ) )
             return 4;       
-
     }
-
     return 0;
 }
+
+
+
+extern char mqtt_tcp_connect(int timeout);
+
+/*-------------------------------------------------*/
+/*函数名：WiFi连接服务器                           */
+/*参  数：无                                       */
+/*返回值：0：正确   其他：错误                     */
+/*-------------------------------------------------*/
+char WiFi_Connect_IoTServer(void)
+{	
+//	printf("准备复位模块\r\n");                   //串口提示数据
+//	ESP8266_Rst();
+
+	// 取消回显
+	ESP8266_ATE0();
+	
+	printf("ready to set STA mode\r\n");
+	// 设置STA模式
+	if (ESP8266_Net_Mode_Choose(STA))
+	{
+		printf("Set STA mode\r\n");
+	}
+
+	// 准备关闭多路连接
+	if (ESP8266_Enable_MultipleId(DISABLE))
+	{
+		printf("close multipled ID success\r\n");
+	}else
+	{
+		printf("close multipled ID error\r\n");
+	}
+	// 取消自动重连
+	if(ESP8266_Enable_AutoConnect(0))		 //取消自动连接，100ms超时单位，总计5s超时时间
+	{       
+		printf("取消自动连接成功\r\n");        //串口提示数据
+	}else 
+	{
+		printf("取消自动连接失败，准备重启\r\n"); //返回非0值，进入if，串口提示数据
+		return 3;       
+	}
+			
+
+	// 连接路由器
+	if(ESP8266_JoinAP(User_SSID, User_PWD))
+	{
+		printf("connect to router success\r\n");
+	}else
+	{
+		printf("connect to router failed\r\n");
+		return 9;
+	}
+	
+	// 连接服务器
+	if(mqtt_tcp_connect(500))      				 //连接服务器，100ms超时单位，总计10s超时时间
+	{            
+		printf("connect to server success\r\n");    //返回非0值，进入if，串口提示数据
+		                                 //返回10
+	}else 
+	{
+		printf("connect to server failed\r\n");            //串口提示数据	
+		return 10;  
+	}
+	
+	// 进入透传模式
+	if (ESP8266_UnvarnishSend() )
+	{
+		printf("go into unvarnishSend mode\r\n");
+	}
+	return 0;                                        //正确返回0
+}
+
 
 static char *itoa( int value, char *string, int radix )
 {
@@ -311,7 +388,7 @@ static char *itoa( int value, char *string, int radix )
 } /* NCL_Itoa */
 
 
-void USART_printf ( char * Data, ... )
+void hal_AT_printf ( char * Data, ... )
 {
     const char *s;
     int d;   
@@ -382,7 +459,6 @@ void USART_printf ( char * Data, ... )
 			Data++;
 			while( __HAL_UART_GET_FLAG(&huart3, UART_FLAG_TXE) == false);
 		}
-
     }
 }
 
