@@ -1,0 +1,4835 @@
+{
+  "name": "wumei2",
+  "describe": "wumei2",
+  "avatar": "",
+  "version": "3.1.0",
+  "createdTime": "2021-8-9 13:22:37",
+  "updatedTime": "2021-8-13 02:26:17",
+  "dbConns": [],
+  "profile": {
+    "default": {
+      "db": "MYSQL",
+      "dbConn": "3520C00F-5509-4B9C-AD9A-41147CA9BC88",
+      "entityInitFields": [
+        {
+          "defKey": "REVISION",
+          "defName": "乐观锁",
+          "comment": "",
+          "domain": "Int",
+          "type": "INT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "CREATED_BY",
+          "defName": "创建人",
+          "comment": "",
+          "domain": "IdOrKey",
+          "type": "VARCHAR",
+          "len": 2,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "CREATED_TIME",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "DateTime",
+          "type": "DATETIME",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "UPDATED_BY",
+          "defName": "更新人",
+          "comment": "",
+          "domain": "IdOrKey",
+          "type": "VARCHAR",
+          "len": 2,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "UPDATED_TIME",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "DateTime",
+          "type": "DATETIME",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "entityInitProperties": {}
+    },
+    "javaHome": "",
+    "sql": {
+      "delimiter": ""
+    },
+    "dataTypeSupports": [
+      "MYSQL",
+      "ORACLE",
+      "SQLServer",
+      "PostgreSQL",
+      "JAVA"
+    ],
+    "codeTemplates": [
+      {
+        "type": "dbDDL",
+        "applyFor": "MYSQL",
+        "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.autoIncrement ? 'AUTO_INCREMENT' : '' }} {{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }} COMMENT '{{=it.func.join(field.defName,field.comment,';')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  COMMENT = '{{=it.func.join(it.entity.defName,it.entity.comment,';') }}'{{=it.separator}}\n$blankline",
+        "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON TABLE {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}"
+      },
+      {
+        "applyFor": "ORACLE",
+        "referURL": "",
+        "type": "dbDDL",
+        "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' AUTO_INCREMENT' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n){{=it.separator}}\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defName}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
+        "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON TABLE {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}"
+      },
+      {
+        "applyFor": "SQLServer",
+        "referURL": "",
+        "type": "dbDDL",
+        "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' AUTO_INCREMENT' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n){{=it.separator}}\n$blankline\n{{? it.entity.defKey || it.entity.defName}}EXEC sp_addextendedproperty 'MS_Description', '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}', 'SCHEMA', dbo, 'table', {{=it.entity.defKey}}, null, null;{{?}}\n{{~it.entity.fields:field:index}}\nEXEC sp_addextendedproperty 'MS_Description', '{{=it.func.join(field.defName,field.comment,';')}}', 'SCHEMA', dbo, 'table', {{=it.entity.defKey}}, 'column', {{=field.defKey}};\n{{~}}",
+        "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON TABLE {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}"
+      },
+      {
+        "applyFor": "PostgreSQL",
+        "referURL": "",
+        "type": "dbDDL",
+        "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' AUTO_INCREMENT' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n){{=it.separator}}\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defName}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
+        "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON TABLE {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}"
+      },
+      {
+        "type": "appCode",
+        "applyFor": "JAVA",
+        "content": "package pro.chiner.entity;\n$blankline\nimport javax.persistence.*;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n /**\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\n@Table(name=\"{{=it.entity.defKey}}\")\npublic class {{=it.func.camel(it.entity.defKey,true) }} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    {{? field.primaryKey }}\n    @Id\n    @GeneratedValue\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}"
+      }
+    ],
+    "generatorDoc": {
+      "docTemplate": ""
+    },
+    "uiHint": [
+      {
+        "defKey": "Input",
+        "defName": "普通输入框"
+      },
+      {
+        "defKey": "Select",
+        "defName": "下拉输入框"
+      },
+      {
+        "data": [
+          "",
+          ""
+        ],
+        "defKey": "CheckBox",
+        "defName": "复选框"
+      },
+      {
+        "data": [
+          "",
+          ""
+        ],
+        "defKey": "RadioBox",
+        "defName": "单选框"
+      },
+      {
+        "data": [
+          "",
+          ""
+        ],
+        "defKey": "Double",
+        "defName": "小数输入"
+      },
+      {
+        "defKey": "Integer",
+        "defName": "整数输入"
+      },
+      {
+        "defKey": "Money",
+        "defName": "金额输入"
+      },
+      {
+        "defKey": "Date",
+        "defName": "日期输入"
+      },
+      {
+        "defKey": "DataYearMonth",
+        "defName": "年月输入"
+      },
+      {
+        "data": [
+          "",
+          ""
+        ],
+        "defKey": "Text",
+        "defName": "长文本输入"
+      },
+      {
+        "data": [
+          "",
+          ""
+        ],
+        "defKey": "RichText",
+        "defName": "富文本输入"
+      }
+    ]
+  },
+  "entities": [
+    {
+      "rowNo": 0,
+      "defKey": "iot_product",
+      "defName": "产品",
+      "comment": "",
+      "properties": {},
+      "fields": [
+        {
+          "rowNo": 1,
+          "defKey": "product_id",
+          "defName": "产品ID",
+          "comment": "产品ID",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "√",
+          "notNullName": "√",
+          "autoIncrementName": "√",
+          "refDict": ""
+        },
+        {
+          "rowNo": 2,
+          "defKey": "product_name",
+          "defName": "产品名称",
+          "comment": "产品名称",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(100)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "defKey": "device_type",
+          "defName": "设备类型(1-直连设备，2-网关子设备，3-网关设备)",
+          "comment": "设备类型(1-直连设备，2-网关子设备，3-网关设备)",
+          "type": "TINYINT",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "connect_type",
+          "defName": "联网方式(1-wifi,2-蜂窝，3-以太网，4-LoRaWAN，5-其他)",
+          "comment": "联网方式(1-wifi,2-蜂窝，3-以太网，4-LoRaWAN，5-其他)",
+          "type": "TINYINT",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "vertificate",
+          "defName": "认证方式(1-账号密码，2-证书)",
+          "comment": "认证方式(1-账号密码，2-证书)",
+          "type": "TINYINT",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "rowNo": 3,
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "domain": "",
+          "type": "CHAR",
+          "len": 1,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true,
+          "typeFullName": "CHAR(1)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 4,
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 5,
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": true,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 6,
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 7,
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": true,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 8,
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(500)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        }
+      ],
+      "indexes": [],
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": []
+    },
+    {
+      "rowNo": 0,
+      "defKey": "iot_device",
+      "defName": "设备",
+      "comment": "",
+      "properties": {},
+      "fields": [
+        {
+          "rowNo": 1,
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "√",
+          "notNullName": "√",
+          "autoIncrementName": "√",
+          "refDict": ""
+        },
+        {
+          "rowNo": 3,
+          "defKey": "product_id",
+          "defName": "产品ID",
+          "comment": "产品ID",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 2,
+          "defKey": "device_num",
+          "defName": "设备编号",
+          "comment": "设备编号",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 4,
+          "defKey": "device_name",
+          "defName": "设备名称",
+          "comment": "设备名称",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 5,
+          "defKey": "firmware_version",
+          "defName": "固件版本",
+          "comment": "固件版本",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 32,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(32)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "defKey": "ip_address",
+          "defName": "连接的IP地址",
+          "comment": "连接的IP地址",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "address",
+          "defName": "IP地址所在的地区",
+          "comment": "IP地址所在的地区",
+          "type": "VARCHAR",
+          "len": 150,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "longitude",
+          "defName": "经度",
+          "comment": "经度",
+          "type": "FLOAT",
+          "len": 6,
+          "scale": 2,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "latitude",
+          "defName": "纬度",
+          "comment": "纬度",
+          "type": "FLOAT",
+          "len": 6,
+          "scale": 2,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "rowNo": 7,
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "domain": "",
+          "type": "CHAR",
+          "len": 1,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true,
+          "typeFullName": "CHAR(1)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 8,
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 9,
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": true,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 10,
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 11,
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": true,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 12,
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(500)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        }
+      ],
+      "indexes": [],
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "product_id",
+          "refEntity": "iot_product",
+          "refField": "product_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ]
+    },
+    {
+      "rowNo": 0,
+      "defKey": "iot_device_group",
+      "defName": "设备分组",
+      "comment": "",
+      "properties": {},
+      "fields": [
+        {
+          "rowNo": 2,
+          "defKey": "group_id",
+          "defName": "分组ID",
+          "comment": "",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 3,
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 4,
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": true,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        }
+      ],
+      "indexes": [],
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "group_id",
+          "refEntity": "iot_group",
+          "refField": "group_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ]
+    },
+    {
+      "rowNo": 0,
+      "defKey": "iot_group",
+      "defName": "分组",
+      "comment": "",
+      "properties": {},
+      "fields": [
+        {
+          "rowNo": 1,
+          "defKey": "group_id",
+          "defName": "设备分组ID",
+          "comment": "设备分组ID",
+          "domain": "",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": null,
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "√",
+          "notNullName": "√",
+          "autoIncrementName": "√",
+          "refDict": ""
+        },
+        {
+          "rowNo": 2,
+          "defKey": "user_id",
+          "defName": "用户ID",
+          "comment": "用户ID",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "BIGINT(20)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 3,
+          "defKey": "group_name",
+          "defName": "设备分组名称",
+          "comment": "设备分组名称",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(100)",
+          "primaryKeyName": "",
+          "notNullName": "√",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 4,
+          "defKey": "group_order",
+          "defName": "分组的排序",
+          "comment": "分组的排序",
+          "domain": "",
+          "type": "INT",
+          "len": 6,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "'00000'",
+          "hideInGraph": false,
+          "typeFullName": "SMALLINT UNSIGNED(6)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 5,
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "domain": "",
+          "type": "CHAR",
+          "len": 1,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": false,
+          "typeFullName": "CHAR(1)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 6,
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 7,
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 8,
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(64)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 9,
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "DATETIME(19)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        },
+        {
+          "rowNo": 10,
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "domain": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": null,
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": null,
+          "hideInGraph": false,
+          "typeFullName": "VARCHAR(500)",
+          "primaryKeyName": "",
+          "notNullName": "",
+          "autoIncrementName": "",
+          "refDict": ""
+        }
+      ],
+      "indexes": [],
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": []
+    },
+    {
+      "defKey": "iot_device_attribute_value",
+      "defName": "产品扩展属性值",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "device_attribute_value_id",
+          "defName": "设备扩展字段值ID",
+          "comment": "固件ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "产品ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "attribute_field_id",
+          "defName": "扩展字段ID",
+          "comment": "产品名称",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "attribute_field_name",
+          "defName": "扩展字段名称",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "value",
+          "defName": "值",
+          "comment": "值",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "category",
+          "defName": "分类（1-属性、2-服务、3-事件）",
+          "comment": "",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "attribute_field_id",
+          "refEntity": "iot_attribute_field",
+          "refField": "attribute_field_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_attribute_field",
+      "defName": "扩展属性字段",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "attribute_field_id",
+          "defName": "属性字段ID",
+          "comment": "属性字段ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "name",
+          "defName": "扩展字段名称",
+          "comment": "扩展字段名称",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "title",
+          "defName": "名称的中文",
+          "comment": "名称的中文",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "control_type",
+          "defName": "控件类型",
+          "comment": "控件类型",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "field_type",
+          "defName": "字段类型（1-数字，2-字符串，3-boolean，4-字典）",
+          "comment": "字段类型（1-数字，2-字符串，3-boolan）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "category",
+          "defName": "字段分类（1-属性、2-服务、3-事件）",
+          "comment": "字段分类（1-属性、2-服务、3-事件）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "field_length",
+          "defName": "字段长度",
+          "comment": "字段长度",
+          "type": "INT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "Int"
+        },
+        {
+          "defKey": "default_value",
+          "defName": "默认值",
+          "comment": "默认值",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "field_order",
+          "defName": "字段排序",
+          "comment": "字段排序(排序靠前的显示在列表)",
+          "type": "INT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_sence",
+      "defName": "场景",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "sence_id",
+          "defName": "场景ID",
+          "comment": "场景ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "sence_name",
+          "defName": "场景名称",
+          "comment": "场景名称",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "status",
+          "defName": "状态(1-启用，2-禁用)",
+          "comment": "状态",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "user_id",
+          "defName": "用户ID",
+          "comment": "用户ID",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_firmware",
+      "defName": "固件",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "firmware_id",
+          "defName": "固件ID",
+          "comment": "固件ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "product_id",
+          "defName": "产品ID",
+          "comment": "产品ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "firmware_name",
+          "defName": "固件名称",
+          "comment": "产品名称",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "firmware_version",
+          "defName": "固件版本",
+          "comment": "固件版本",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "signature",
+          "defName": "签名算法（1-MD5，2-SHA256）",
+          "comment": "签名算法（1-MD5，2-SHA256）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "firmware_file",
+          "defName": "固件文件",
+          "comment": "固件文件",
+          "type": "VARCHAR",
+          "len": 150,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "product_id",
+          "refEntity": "iot_product",
+          "refField": "product_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_device_alarm",
+      "defName": "设备告警",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "device_alarm_id",
+          "defName": "设备告警ID",
+          "comment": "设备告警ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "product_id",
+          "defName": "产品ID",
+          "comment": "产品ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "product_name",
+          "defName": "产品名称",
+          "comment": "产品名称",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "device_name",
+          "defName": "设备名称",
+          "comment": "设备名称",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "alarm_name",
+          "defName": "告警名称",
+          "comment": "告警名称",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "alarm_description",
+          "defName": "告警描述",
+          "comment": "告警描述",
+          "type": "VARCHAR",
+          "len": 150,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "level",
+          "defName": "告警级别（1-提示，2-警告，3-重要，4-紧急）",
+          "comment": "告警级别（1-提示，2-警告，3-重要，4-紧急）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "handle",
+          "defName": "告警处理",
+          "comment": "告警处理",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "status",
+          "defName": "处理状态（1-未处理，2-已处理）",
+          "comment": "处理状态",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_device_log",
+      "defName": "设备日志",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "device_log_id",
+          "defName": "设备日志ID",
+          "comment": "产品ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "产品名称",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "log_content",
+          "defName": "日志内容",
+          "comment": "日志内容",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_device_sence",
+      "defName": "设备场景",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "device_id",
+          "defName": "场景ID",
+          "comment": "",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "sence_id",
+          "defName": "设备ID",
+          "comment": "",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "sence_id",
+          "refEntity": "iot_sence",
+          "refField": "sence_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_product_attribute_field",
+      "defName": "产品扩展属性",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "product_id",
+          "defName": "场景ID",
+          "comment": "",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "attribute_field_id",
+          "defName": "设备ID",
+          "comment": "",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "product_id",
+          "refEntity": "iot_product",
+          "refField": "product_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "attribute_field_id",
+          "refEntity": "iot_attribute_field",
+          "refField": "attribute_field_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_action",
+      "defName": "动作",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "action_id",
+          "defName": "动作ID",
+          "comment": "动作ID",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "sence_id",
+          "defName": "场景ID",
+          "comment": "场景ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "action_type",
+          "defName": "动作类型（1-消息通知，2-设备输出）",
+          "comment": "动作类型（1-消息通知，2-设备输出）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "device_name",
+          "defName": "设备名称",
+          "comment": "设备名称",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_attribute_field",
+          "defName": "设备扩展字段",
+          "comment": "设备扩展字段",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_attribute_value",
+          "defName": "设备扩展字段值",
+          "comment": "设备扩展字段值",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "action_id",
+          "refEntity": "iot_sence",
+          "refField": "sence_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_trigger",
+      "defName": "触发器",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "trigger_id",
+          "defName": "触发器ID",
+          "comment": "触发器ID",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "sence_id",
+          "defName": "场景ID",
+          "comment": "场景ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "trigger_type",
+          "defName": "触发类型（1-手动，2-定时，3-设备，4-场景）",
+          "comment": "触发类型（1-手动，2-定时，3-设备，4-场景）",
+          "type": "TINYINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "corn_express",
+          "defName": "corn表达式",
+          "comment": "corn表达式",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "device_name",
+          "defName": "设备名称",
+          "comment": "设备名称",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_type",
+          "defName": "设备类型（1-上线、2-离线、3-属性、4-事件、5-功能）",
+          "comment": "设备类型（1-上线、2-离线、3-属性、4-事件、5-功能）",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_attribute_field",
+          "defName": "设备扩展属性",
+          "comment": "设备扩展属性",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_attribute_operator",
+          "defName": "设备属性操作符",
+          "comment": "设备属性操作符",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "device_attribute_value",
+          "defName": "设备属性过滤值",
+          "comment": "设备属性过滤值",
+          "type": "FLOAT",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "sence_id",
+          "refEntity": "iot_sence",
+          "refField": "sence_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_firmware_log",
+      "defName": "固件日志",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "firmware_log_id",
+          "defName": "固件日志ID",
+          "comment": "固件日志ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "firmware_id",
+          "defName": "固件ID",
+          "comment": "固件ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "product_id",
+          "defName": "产品ID",
+          "comment": "产品ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "type": "BIGINT",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "device_name",
+          "defName": "设备名称",
+          "comment": "设备名称",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "firmware_name",
+          "defName": "固件名称",
+          "comment": "固件名称",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "firmware_version",
+          "defName": "固件版本",
+          "comment": "固件版本",
+          "type": "VARCHAR",
+          "len": "60",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": "DefaultString"
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "firmware_log_id",
+          "refEntity": "iot_firmware",
+          "refField": "firmware_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "defKey": "iot_device_user",
+      "defName": "设备用户表",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "device_user_id",
+          "defName": "设备用户ID",
+          "comment": "设备用户ID",
+          "type": "BIGINT",
+          "len": 20,
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": true,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "device_id",
+          "defName": "设备ID",
+          "comment": "设备ID",
+          "type": "BIGINT",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        },
+        {
+          "defKey": "user_id",
+          "defName": "用户ID",
+          "comment": "用户ID",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "domain": ""
+        },
+        {
+          "defKey": "is_owner",
+          "defName": "是否设备所有者",
+          "comment": "是否设备所有者",
+          "type": "VARCHAR",
+          "len": "1",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "YesNo"
+        },
+        {
+          "defKey": "parent_user_id",
+          "defName": "父级用户ID",
+          "comment": "父级用户ID",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": ""
+        },
+        {
+          "defKey": "del_flag",
+          "defName": "删除标志",
+          "comment": "0代表存在 2代表删除）",
+          "type": "CHAR",
+          "len": 1,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "'0'",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_by",
+          "defName": "创建者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "create_time",
+          "defName": "创建时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_by",
+          "defName": "更新者",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 64,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "update_time",
+          "defName": "更新时间",
+          "comment": "",
+          "type": "DATETIME",
+          "len": 0,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true
+        },
+        {
+          "defKey": "remark",
+          "defName": "备注",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 500,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false
+        }
+      ],
+      "correlations": [
+        {
+          "myField": "device_id",
+          "refEntity": "iot_device",
+          "refField": "device_id",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
+      "indexes": []
+    }
+  ],
+  "views": [],
+  "dicts": [],
+  "viewGroups": [],
+  "dataTypeMapping": {
+    "referURL": "",
+    "mappings": [
+      {
+        "defKey": "string",
+        "defName": "字串",
+        "JAVA": "String",
+        "ORACLE": "VARCHAR2",
+        "MYSQL": "VARCHAR"
+      },
+      {
+        "defKey": "double",
+        "defName": "小数",
+        "JAVA": "Double",
+        "ORACLE": "DECIMAL",
+        "MYSQL": "NUMBER"
+      },
+      {
+        "defKey": "int",
+        "defName": "整数",
+        "JAVA": "Double",
+        "ORACLE": "INT",
+        "MYSQL": "INT"
+      },
+      {
+        "defKey": "date",
+        "defName": "日期",
+        "JAVA": "Date",
+        "ORACLE": "DATE",
+        "MYSQL": "DATETIME"
+      },
+      {
+        "defKey": "bytes",
+        "defName": "二进制",
+        "JAVA": "byte[]",
+        "ORACLE": "BLOB",
+        "MYSQL": "BLOB"
+      },
+      {
+        "defKey": "largeText",
+        "defName": "大文本",
+        "JAVA": "String",
+        "ORACLE": "CLOB",
+        "MYSQL": "TEXT"
+      }
+    ]
+  },
+  "domains": [
+    {
+      "defKey": "DefaultString",
+      "defName": "默认字串",
+      "applyFor": "string",
+      "len": "60",
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "IdOrKey",
+      "defName": "主键标识",
+      "applyFor": "string",
+      "len": 32,
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "Name",
+      "defName": "名称",
+      "applyFor": "string",
+      "len": 90,
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "Int",
+      "defName": "整数",
+      "applyFor": "int",
+      "len": "",
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "Double",
+      "defName": "小数",
+      "applyFor": "double",
+      "len": "32",
+      "scale": "8",
+      "uiHint": {}
+    },
+    {
+      "defKey": "Money",
+      "defName": "金额",
+      "applyFor": "double",
+      "len": 32,
+      "scale": 8,
+      "uiHint": {}
+    },
+    {
+      "defKey": "DateTime",
+      "defName": "日期时间",
+      "applyFor": "date",
+      "len": "",
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "YesNo",
+      "defName": "是否",
+      "applyFor": "string",
+      "len": "1",
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "Dict",
+      "defName": "数据字典",
+      "applyFor": "string",
+      "len": "32",
+      "scale": "",
+      "uiHint": {}
+    },
+    {
+      "defKey": "DescText",
+      "defName": "描述文本",
+      "applyFor": "string",
+      "len": "900",
+      "scale": "",
+      "uiHint": {}
+    }
+  ],
+  "dbConn": [
+    {
+      "defKey": "3520C00F-5509-4B9C-AD9A-41147CA9BC88",
+      "defName": "wumei.live",
+      "type": "",
+      "properties": {
+        "driver_class_name": "com.mysql.cj.jdbc.Driver",
+        "url": "jdbc:mysql://wumei.live:3306/wumei?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC",
+        "password": "1a2b3c4D",
+        "username": "admin"
+      }
+    }
+  ],
+  "diagrams": [
+    {
+      "defKey": "wumei",
+      "defName": "",
+      "canvasData": {
+        "cells": [
+          {
+            "id": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea",
+            "shape": "group",
+            "position": {
+              "x": -680.0000000000057,
+              "y": -189.99999999999636
+            },
+            "label": "普通用户可访问",
+            "fillColor": "#ebfcea",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0",
+            "size": {
+              "width": 1280,
+              "height": 1140
+            },
+            "children": [
+              "972a4bdc-29f0-4fed-99f8-61bbc18f3f04",
+              "74efdf52-305c-4b08-996d-4d0075be47ae",
+              "1412dde2-315a-46b0-a274-af831cef39aa",
+              "63ff6a13-b08d-47dc-a69e-1d7a16e49d01",
+              "f0ae0950-c959-45c4-8b2f-061b99eb8f93",
+              "5e541000-4023-4344-a95f-23f5a7fb6b74",
+              "fe307763-23fd-44a7-a4b6-fc202c226813",
+              "6d5d10aa-d596-439e-8b5d-39bd99b88ec3",
+              "a961ecfc-098c-4f99-9664-45b7e15edc0c",
+              "cf9472e2-4c13-4ca4-8c15-7a3c9a314a60",
+              "cfc666e7-59ab-4b91-a685-1d40274d158c",
+              "d9d5a02f-1587-4e65-ae8a-771226e5ebfe",
+              "2557036e-e20c-4736-8db0-299a45f4a5d7",
+              "4f1a284d-25e6-496e-9b9a-97cdd293363b",
+              "27fbc35a-e02e-4d46-8918-f233e2cd1514"
+            ]
+          },
+          {
+            "id": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0",
+            "shape": "group",
+            "position": {
+              "x": 599.9999999999955,
+              "y": -189.9999999999942
+            },
+            "label": "管理员",
+            "fillColor": "#fdf9ed",
+            "size": {
+              "width": 1280,
+              "height": 1140
+            },
+            "children": [
+              "ae5c3791-b251-4b5f-bb5e-b2704838c5ea",
+              "f94bd94a-f45e-48e8-aecd-85d1345093fa",
+              "bc2553ce-0846-4803-90bf-7ee655926f4e",
+              "5af40281-7035-43cb-ad49-8c839e3918a8",
+              "f001128e-b7ef-4a9b-a91c-1ab60029fd1f",
+              "5f66985d-1447-4603-a223-212466989582",
+              "b7701535-c746-420f-a358-c385a14d80dd",
+              "5bffd8cc-64c9-46d2-a733-41b540b7852a"
+            ]
+          },
+          {
+            "id": "f94bd94a-f45e-48e8-aecd-85d1345093fa",
+            "shape": "table",
+            "position": {
+              "x": 1344.0000000000005,
+              "y": -105.50000000000693
+            },
+            "count": 0,
+            "originKey": "iot_product_attribute_field",
+            "fillColor": "#cb99c5",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "5c05eb7a-2b74-48b2-8f9c-863b3ae4079c",
+            "shape": "table",
+            "position": {
+              "x": 1308,
+              "y": 348.9999999999877
+            },
+            "count": 0,
+            "originKey": "iot_firmware",
+            "fillColor": "#cb99c5",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "45c4ff4a-2ade-42d2-beb9-d6c50593b54d",
+            "shape": "table",
+            "position": {
+              "x": 680,
+              "y": -125.50000000000614
+            },
+            "count": 0,
+            "originKey": "iot_product",
+            "fillColor": "#cb99c5",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "bc2553ce-0846-4803-90bf-7ee655926f4e",
+            "shape": "table",
+            "position": {
+              "x": 690.0000000000006,
+              "y": 136.00000000000625
+            },
+            "count": 0,
+            "originKey": "iot_device_attribute_value",
+            "fillColor": "#cb99c5",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "d6679f3d-aa12-4ef5-a92f-4a762340ee53",
+            "shape": "table",
+            "position": {
+              "x": 1308,
+              "y": 20.499999999986812
+            },
+            "count": 0,
+            "originKey": "iot_attribute_field",
+            "fillColor": "#cb99c5",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "8a52b2d0-068e-47b9-8aa1-78f80d906671",
+            "shape": "table",
+            "position": {
+              "x": 1302,
+              "y": 587.9999999999939
+            },
+            "count": 0,
+            "originKey": "iot_firmware_log",
+            "fillColor": "#cb99c5"
+          },
+          {
+            "id": "5af40281-7035-43cb-ad49-8c839e3918a8",
+            "shape": "table",
+            "position": {
+              "x": 690.0000000000006,
+              "y": 423.0000000000001
+            },
+            "count": 0,
+            "originKey": "iot_device_log",
+            "fillColor": "#cb99c5",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "f001128e-b7ef-4a9b-a91c-1ab60029fd1f",
+            "shape": "table",
+            "position": {
+              "x": 690.0000000000006,
+              "y": 580.0000000000015
+            },
+            "count": 0,
+            "originKey": "iot_device_alarm",
+            "fillColor": "#cb99c5",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "74efdf52-305c-4b08-996d-4d0075be47ae",
+            "shape": "table",
+            "position": {
+              "x": -267.99999999999943,
+              "y": -95.50000000000693
+            },
+            "count": 0,
+            "originKey": "iot_device_user",
+            "fontColor": "#0d0d0d",
+            "fillColor": "#136534",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "972a4bdc-29f0-4fed-99f8-61bbc18f3f04",
+            "shape": "table",
+            "position": {
+              "x": -309.99999999999943,
+              "y": 117.99999999998693
+            },
+            "count": 0,
+            "originKey": "iot_group",
+            "fontColor": "#0d0d0d",
+            "fillColor": "#136534",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "1412dde2-315a-46b0-a274-af831cef39aa",
+            "shape": "table",
+            "position": {
+              "x": 170.50000000000057,
+              "y": -105.50000000000693
+            },
+            "count": 0,
+            "originKey": "iot_device",
+            "fontColor": "#0d0d0d",
+            "fillColor": "#136534",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "f0ae0950-c959-45c4-8b2f-061b99eb8f93",
+            "shape": "table",
+            "position": {
+              "x": 200.5000000000005,
+              "y": 251.00000000000625
+            },
+            "count": 0,
+            "originKey": "iot_device_group",
+            "fillColor": "#9acc98",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "a961ecfc-098c-4f99-9664-45b7e15edc0c",
+            "shape": "table",
+            "position": {
+              "x": -285.99999999999943,
+              "y": 411.5000000000001
+            },
+            "count": 0,
+            "originKey": "iot_sence",
+            "fontColor": "#0d0d0d",
+            "fillColor": "#136534",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "cfc666e7-59ab-4b91-a685-1d40274d158c",
+            "shape": "table",
+            "position": {
+              "x": 30.50000000000057,
+              "y": 629.9999999999992
+            },
+            "count": 0,
+            "originKey": "iot_action",
+            "fillColor": "#9acc98",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "cf9472e2-4c13-4ca4-8c15-7a3c9a314a60",
+            "shape": "table",
+            "position": {
+              "x": -629.9999999999994,
+              "y": 629.9999999999992
+            },
+            "count": 0,
+            "originKey": "iot_trigger",
+            "fillColor": "#9acc98",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "2557036e-e20c-4736-8db0-299a45f4a5d7",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "a961ecfc-098c-4f99-9664-45b7e15edc0c",
+              "port": "sence_id%in"
+            },
+            "target": {
+              "cell": "cf9472e2-4c13-4ca4-8c15-7a3c9a314a60",
+              "port": "sence_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": -650,
+                "y": 630
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "4f1a284d-25e6-496e-9b9a-97cdd293363b",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "a961ecfc-098c-4f99-9664-45b7e15edc0c",
+              "port": "sence_id%out"
+            },
+            "target": {
+              "cell": "fe307763-23fd-44a7-a4b6-fc202c226813",
+              "port": "sence_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "63ff6a13-b08d-47dc-a69e-1d7a16e49d01",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%in"
+            },
+            "target": {
+              "cell": "74efdf52-305c-4b08-996d-4d0075be47ae",
+              "port": "device_id%out"
+            },
+            "relation": "1:n",
+            "vertices": [],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "5f66985d-1447-4603-a223-212466989582",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "bc2553ce-0846-4803-90bf-7ee655926f4e",
+              "port": "device_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 640.0000000000006,
+                "y": 198.9999999999992
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "b7701535-c746-420f-a358-c385a14d80dd",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "5af40281-7035-43cb-ad49-8c839e3918a8",
+              "port": "device_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 640.0000000000006,
+                "y": -60.500000000000796
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "d9d5a02f-1587-4e65-ae8a-771226e5ebfe",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "972a4bdc-29f0-4fed-99f8-61bbc18f3f04",
+              "port": "group_id%out"
+            },
+            "target": {
+              "cell": "f0ae0950-c959-45c4-8b2f-061b99eb8f93",
+              "port": "group_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 110.00000000000057,
+                "y": 290.9999999999992
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "d9d4da01-2e73-4484-9f56-bd0d72067810",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "45c4ff4a-2ade-42d2-beb9-d6c50593b54d",
+              "port": "product_id%out"
+            },
+            "target": {
+              "cell": "f94bd94a-f45e-48e8-aecd-85d1345093fa",
+              "port": "product_id%in"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "5e541000-4023-4344-a95f-23f5a7fb6b74",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "f0ae0950-c959-45c4-8b2f-061b99eb8f93",
+              "port": "device_id%out"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 580.0000000000006,
+                "y": -30.000000000000796
+              },
+              {
+                "x": 540.0000000000006,
+                "y": 313.9999999999992
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "6d5d10aa-d596-439e-8b5d-39bd99b88ec3",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "fe307763-23fd-44a7-a4b6-fc202c226813",
+              "port": "device_id%out"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 580.0000000000006,
+                "y": 418.9999999999992
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "5bffd8cc-64c9-46d2-a733-41b540b7852a",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "f001128e-b7ef-4a9b-a91c-1ab60029fd1f",
+              "port": "device_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 640.0000000000006,
+                "y": 688.9999999999992
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "6dc159e5-86c8-427c-b31d-be0d68f2f6c0"
+          },
+          {
+            "id": "5c0d6714-4aa6-43f6-9397-e6c9d1b0279f",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "45c4ff4a-2ade-42d2-beb9-d6c50593b54d",
+              "port": "product_id%out"
+            },
+            "target": {
+              "cell": "5c05eb7a-2b74-48b2-8f9c-863b3ae4079c",
+              "port": "product_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [],
+            "fillColor": "#ACDAFC",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "9ed54dd8-d270-41f2-8b84-304f3ddb45b5",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "d6679f3d-aa12-4ef5-a92f-4a762340ee53",
+              "port": "attribute_field_id%in"
+            },
+            "target": {
+              "cell": "bc2553ce-0846-4803-90bf-7ee655926f4e",
+              "port": "attribute_field_id%out"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 1260,
+                "y": 202
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "f61dde9a-400a-471d-b39c-ed99d114b2a3",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "d6679f3d-aa12-4ef5-a92f-4a762340ee53",
+              "port": "attribute_field_id%out"
+            },
+            "target": {
+              "cell": "f94bd94a-f45e-48e8-aecd-85d1345093fa",
+              "port": "attribute_field_id%out"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "ac03bc2b-b78c-41ad-8519-5f3d1bd20797",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "5c05eb7a-2b74-48b2-8f9c-863b3ae4079c",
+              "port": "firmware_id%out"
+            },
+            "target": {
+              "cell": "8a52b2d0-068e-47b9-8aa1-78f80d906671",
+              "port": "firmware_log_id%out"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 1810,
+                "y": 389
+              }
+            ],
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "375039b5-b7ce-407d-883b-0bc89a6dec41",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "45c4ff4a-2ade-42d2-beb9-d6c50593b54d",
+              "port": "product_id%in"
+            },
+            "target": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "product_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 660,
+                "y": -140
+              }
+            ],
+            "fillColor": "#ACDAFC",
+            "parent": "83f1c992-b4bb-4971-b9bf-06af077d6a53"
+          },
+          {
+            "id": "27fbc35a-e02e-4d46-8918-f233e2cd1514",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "a961ecfc-098c-4f99-9664-45b7e15edc0c",
+              "port": "sence_id%in"
+            },
+            "target": {
+              "cell": "cfc666e7-59ab-4b91-a685-1d40274d158c",
+              "port": "action_id%in"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          },
+          {
+            "id": "411c3693-b56e-4ff1-8754-f0c672c512b6",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "1412dde2-315a-46b0-a274-af831cef39aa",
+              "port": "device_id%out"
+            },
+            "target": {
+              "cell": "8a52b2d0-068e-47b9-8aa1-78f80d906671",
+              "port": "device_id%in"
+            },
+            "relation": "1:n",
+            "vertices": [
+              {
+                "x": 640,
+                "y": 370
+              },
+              {
+                "x": 1260,
+                "y": 697
+              }
+            ],
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "fe307763-23fd-44a7-a4b6-fc202c226813",
+            "shape": "table",
+            "position": {
+              "x": 200.5000000000005,
+              "y": 378.9999999999869
+            },
+            "count": 0,
+            "originKey": "iot_device_sence",
+            "fillColor": "#9acc98",
+            "parent": "ae5c3791-b251-4b5f-bb5e-b2704838c5ea"
+          }
+        ]
+      }
+    }
+  ]
+}
