@@ -25,23 +25,29 @@
     />
   </view>
   <view class="cap">
-  <view class="captcha">
-    <van-field
-      value="{{ value }}"
-      placeholder="请输入计算结果"
-      border="{{ false }}"
-      bind:change="onChange"
-      label='验证码'
-      title-width='100rpx'
-    />
+    <view class="captcha">
+      <van-field
+        value="{{ value }}"
+        placeholder="请输入计算结果"
+        border="{{ false }}"
+        bind:change="onChange"
+        label='验证码'
+        title-width='100rpx'
+      />
+    </view>
+    <view class="img" bindtap="getCaptchaImage">
+      <image src='data:image/gif;base64,{{ img }}'  />  
+    </view>
   </view>
-  <view class="img" bindtap="getCaptchaImage">
-    <image src='data:image/gif;base64,{{ img }}'  />  
+  <view class="btns">
+    <view class="btn">
+      <van-button block bind:click="submit" round type="info">登 录</van-button>
+    </view>
+    <view class="btn">
+      <van-button block bind:click="register" round type="default">注 册</van-button>
+    </view>
   </view>
-  </view>
-  <view class="btn">
-    <van-button block bind:click="submit" round type="info">登录</van-button>
-  </view>
+
 </view>
 
 

@@ -22,46 +22,81 @@ Page({
   },
 
   //获取验证码图片和uuid
-  async getCaptchaImage(){
-    const res = await loginApi('/captchaImage',{ method:'get' });
-    const data = JSON.parse(res.result)
-    this.setData({
-      img:data.img,
-      uuid:data.uuid
+  // async getCaptchaImage(){
+  //   const res = await loginApi('/captchaImage',{ method:'get' });
+  //   const data = JSON.parse(res.result)
+  //   this.setData({
+  //     img:data.img,
+  //     uuid:data.uuid
+  //   })
+  // },
+  
+  //测试接口
+  getCaptchaImage(){
+    const that = this;
+    wx.request({
+      url: 'http://localhost/dev-api/captchaImage',
+      success(res){
+        that.setData({
+          img:res.data.img,
+          uuid:res.data.uuid
+        })
+        console.log(res);
+      }
     })
   },
 
-
   //登录
   async submit(){
-    wx.showLoading({
-      title: '正在登录',
-    })
-    const res = await loginApi('/login',{      
+    // wx.showLoading({
+    //   title: '正在登录',
+    // })
+    // const res = await loginApi('/login',{      
+    //   method:'POST',
+    //   body:{
+    //     code:this.data.value,
+    //     uuid:this.data.uuid,
+    //     password: this.data.password,
+    //     username: this.data.username
+    //   },
+    //   json:true
+    // })
+    // wx.hideLoading();
+    // if (res.result.code !== 200) {
+    //   wx.showToast({
+    //     title: res.result.msg,
+    //     icon:'error'
+    //   });
+    //   this.getCaptchaImage();
+    //   return;
+    // }
+    // wx.setStorageSync('token', res.result.token);
+    // wx.switchTab({
+    //   url: '/pages/index/index',
+    // })
+
+    wx.request({
+      url: 'http://localhost/dev-api/login',
       method:'POST',
-      body:{
+      data:{
         code:this.data.value,
         uuid:this.data.uuid,
         password: this.data.password,
         username: this.data.username
       },
-      json:true
-    })
-    wx.hideLoading();
-    if (res.result.code !== 200) {
-      wx.showToast({
-        title: res.result.msg,
-        icon:'error'
-      });
-      this.getCaptchaImage();
-      return;
-    }
-    wx.setStorageSync('token', res.result.token);
-    wx.switchTab({
-      url: '/pages/index/index',
+      success(res){
+        console.log(res);
+        wx.setStorageSync('token', res.data.token);
+      }
     })
   },
   
+  //
+  register(){
+    wx.navigateTo({
+      url: '/pages/register/index',
+    })
+  },
 
   inputUsername(e){
     this.setData({  username:e.detail });

@@ -1,0 +1,38 @@
+/* miniprogram/pages/register/index.wxss */
+.form{
+  width: 80vw;
+  margin: 50rpx auto;
+  padding: 30rpx;
+  box-shadow: 0 0 5rpx 3rpx rgb(202, 202, 202);
+}
+.title{
+  margin: 15rpx auto 30rpx;
+  font-size: 40rpx;
+  display: flex;
+  align-items: center;
+}
+.title>image{
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 15rpx;
+}
+.input{
+  margin: 15rpx 0;
+  /* box-shadow: 0 0 5rpx 5rpx #bfbfbf; */
+  border-bottom: 1rpx solid #bfbfbf;
+}
+.btn{
+  margin: 45rpx auto;
+  width: 40vw;
+}
+.checkbox{
+  display: flex;
+  margin: 15rpx 0;
+  padding: 15rpx 0;
+}
+.check_title{
+  /* font-size: 26rpx; */
+  width: 120rpx;
+  padding: 0 30rpx;
+  color: rgba(0, 0, 0, .6);
+}

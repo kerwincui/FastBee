@@ -69,6 +69,12 @@
         {
           "name": "pages/add4G/index",
           "pathName": "pages/add4G/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/register/index",
+          "pathName": "pages/register/index",
           "scene": null
         }
       ]

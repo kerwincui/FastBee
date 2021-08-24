@@ -1,0 +1,87 @@
+<!--miniprogram/pages/register/index.wxml-->
+<view class="form">
+  <view class="title">
+    <image src="/icons/user.png"></image>
+    <text>账号注册</text>
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ nickName }}"
+      placeholder="请输入用户昵称"
+      bind:blur="endInputNick"
+      label='用户昵称'
+      title-width='120rpx'
+      error-message='{{ nickError }}'
+      required
+    />
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ username }}"
+      placeholder="请输入用户账号"
+      bind:blur="endInputName"
+      label='用户账号'
+      title-width='120rpx'
+      error-message='{{ nameError }}'
+      required
+    />
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ password }}"
+      placeholder="请输入密码"
+      bind:change="inputPassword"
+      bind:blur="endInputPwd"
+      error-message='{{ pwdError }}'
+      label='密码'
+      title-width='120rpx'
+      type='password'
+      required
+    />
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ pwdAgain }}"
+      placeholder="再次输入密码"
+      bind:blur="endInputPwdAgain"
+      error-message='{{ pwdAgainError }}'
+      label='确认密码'
+      title-width='120rpx'
+      type='password'
+      required
+    />
+  </view>
+  <view class="checkbox">
+    <view class="check_title">性别 ：</view>
+    <van-radio-group value="{{ radio }}" bind:change="onChooseSex" direction="horizontal">
+      <van-radio name="0" icon-size="38rpx">男</van-radio>
+      <van-radio name="1" icon-size="38rpx">女</van-radio>
+    </van-radio-group>
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ phoneNumber }}"
+      placeholder="请输入手机号"
+      bind:change="inputPhoneNumber"
+      bind:blur="endInputPhone"
+      label='手机号'
+      title-width='120rpx'
+      type='number'
+      error-message='{{ phoneError }}'
+    />
+  </view>
+  <view class="input">
+    <van-field
+      value="{{ email }}"
+      placeholder="请输入邮箱"
+      bind:change="inputEmail"
+      bind:blur="endInputEmail"
+      label='邮箱'
+      error-message='{{ emailError }}'
+      title-width='120rpx'
+    />
+  </view>
+  <view class="btn">
+    <van-button block bind:click="register" round type="info">注 册</van-button>
+  </view>
+</view>

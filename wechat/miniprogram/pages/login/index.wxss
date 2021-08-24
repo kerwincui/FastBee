@@ -41,7 +41,12 @@
   display: inline-block;
   height: 77rpx;
 }
+.btns{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 30rpx 0;
+}
 .btn{
-  margin: 45rpx auto;
-  width: 40vw;
+  width: 30vw;
 }

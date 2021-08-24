@@ -27,8 +27,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // this.getProducts();
-    // this.query();
     // timer = setInterval(() => {
       this.getDevices();
     // }, 2000);
@@ -41,8 +39,18 @@ Page({
       mask: true
     })
     const res = await requestApi('/system/device/list',{ method:'GET' });
-    console.log(res);
+    wx.hideLoading();
     const result = JSON.parse(res.result);
+    if (result.code !== 200) {
+      wx.showToast({
+        title: '请求失败',
+        icon:'error'
+      });
+      return;
+    }
+    wx.showToast({
+      title: '请求成功',
+    });
     let onlineList = [];
     let unlineList = [];
     result.rows.forEach(v=>{
@@ -57,9 +65,7 @@ Page({
       unlineList,
       DeviceList:result.rows
     })
-    wx.hideLoading()
   },
-
 
 
   //获取天气
