@@ -101,7 +101,7 @@ registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 
 <br />
 
-### 七、加入互助交流群:1073236354(一群) 252664672(二群)
+### 七、加入互助交流群:1073236354
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
 <br /><br />
 
