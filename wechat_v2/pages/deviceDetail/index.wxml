@@ -1,0 +1,62 @@
+<!--miniprogram/pages/deviceDetail/index.wxml-->
+<van-cell-group title='设备信息'>
+  <van-field
+    label="设备编号"
+    value="{{ info.deviceNum }}"
+    readonly
+  />
+  <van-field
+    label="设备分类"
+    value="{{ info.categoryName }}"
+    readonly
+  />
+  <van-field
+    label="固件版本"
+    value="{{ info.firmwareVersion }}"
+    readonly
+  />
+</van-cell-group>
+<van-cell-group title='自定义信息'>
+  <van-field
+    label="设备名称"
+    value="{{ info.deviceName }}"
+    bind:change="changeName"
+  />
+  <van-field
+    label="备注"
+    value="{{ info.remark }}"
+    type='textarea'
+    bind:change="changeRemark"
+  />
+</van-cell-group>
+
+<view class="btn">
+  <van-button block round color="linear-gradient(to right, #4bb0ff, #6149f6)" bindtap="showDialog">
+    提交修改
+  </van-button>
+</view>
+<view class="btn">
+  <van-button block round type='danger' bindtap="showDeleteDialog">
+    解除绑定
+  </van-button>
+</view>
+
+<van-dialog
+  message='您确定要提交您所做的修改吗？'
+  show="{{ show }}"
+  show-cancel-button
+  bind:close="onClose"
+  bind:confirm="onConfirm"
+  bind:cancel='onCancel'
+>
+</van-dialog>
+
+<van-dialog
+  message='您确定要解除这个设备吗？'
+  show="{{ deleteShow }}"
+  show-cancel-button
+  bind:close="onCloseDelete"
+  bind:confirm="onConfirmDelete"
+  bind:cancel='onCancelDelete'
+>
+</van-dialog>

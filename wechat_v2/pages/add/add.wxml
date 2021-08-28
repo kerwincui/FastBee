@@ -1,0 +1,37 @@
+<!--miniprogram/pages/add/index.wxml-->
+<view class="top">
+  <image src="/icons/Internet.png" />
+</view>
+<view class="title">添加设备</view>
+<view class="main">
+  <view class="name">设备分类 >>></view>
+  <view class="content">
+    <view class="item">
+      <view class="type">
+        <image src="/icons/4g.png"></image>
+        <text>4G开关</text>
+      </view>
+      <view class="add" bindtap="addFourG">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view>
+    <!-- <view class="item">
+      <view class="type">
+        <image src="/icons/room.png"></image>
+        <text>智慧宿舍</text>
+      </view>
+      <view class="add">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view> -->
+    <view class="item">
+      <view class="type">
+        <image src="/icons/wifi1.png"></image>
+        <text>WiFi空气盒子</text>
+      </view>
+      <view class="add" bindtap="addWifi">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view>
+  </view>
+</view>

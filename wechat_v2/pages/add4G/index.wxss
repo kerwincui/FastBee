@@ -1,0 +1,83 @@
+/* miniprogram/pages/add4G/index.wxss */
+ .top{
+  margin: 60rpx auto 0rpx;
+}
+.title{
+  height: 270rpx;
+  font-size: 42rpx;
+  text-align: center;
+  margin-bottom: 45rpx;
+  background-image: linear-gradient(120deg,#58bcff ,#2b63ff);
+  color: #ffffff;
+  padding:30rpx 0;
+  box-shadow: 0 3rpx 10rpx #bfbfbf;
+  line-height: 120rpx;
+}
+.btn {
+  margin: 60rpx auto;
+  width: 50vw;
+} 
+
+
+.biaodan{
+  width: 90vw;
+  margin: -200rpx auto 0;
+  padding: 15rpx;
+  background-color: #ffffff;
+  box-shadow: 0 0 10rpx #bfbfbf;
+  border-radius: 15rpx;
+}
+.item{
+  display: flex;
+  align-items: center;
+  margin: 30rpx auto;
+}
+.name{
+  width: 166rpx;
+  text-align: end;
+}
+.flag{
+  /* display:inline-block; */
+  color:red;
+  /* width:32rpx;
+  text-align: center; */
+}
+.input{
+  border: 2rpx solid #acacac;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.input>input{
+  padding: 15rpx 30rpx;
+  flex: 1;
+}
+
+.input>image{
+  width: 60rpx;
+  height: 60rpx;
+  transition:transform 0.3s;
+}
+input:hover{
+  box-shadow: 0 0 10rpx rgb(24, 120, 245);
+}
+.select_box{
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 0 3rpx 2rpx #bfbfbf;
+  transition:height 0.3s;
+  box-sizing: border-box;
+  height: 0;
+  overflow-y: auto;
+  z-index: 99;
+}
+.select_item{
+  padding: 15rpx 30rpx;
+  /* box-shadow: 0 0 3rpx 2rpx #bfbfbf; */
+}
+.select_img_rotate{
+  transform:rotate(180deg); 
+}
