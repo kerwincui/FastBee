@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "van-circle": "@vant/weapp/circle/index",
-    "ec-canvas": "../../ec-canvas/ec-canvas"
-  },
-  "disableScroll": true 
-}
