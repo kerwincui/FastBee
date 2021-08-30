@@ -20,7 +20,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "dma.h"
 #include "i2c.h"
 #include "spi.h"
 #include "tim.h"
@@ -29,15 +28,14 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "esp8266.h"
-#include "mqtt.h"
 #include "oled.h"
 #include "dht11.h"
 #include "flash.h"
+#include "esp8266.h"
 #include "sensor_light.h"
 #include "rc522.h"
 #include "process.h"
-
+#include "mqtt.h"
 
 /* USER CODE END Includes */
 
@@ -75,24 +73,6 @@ void delay_ms(int ms)
 {
 	HAL_Delay(ms);
 }
-
-// ESP8266主动下发给MCU数据
-int wifi_data_recv_fun(type_recv_e type, uint8_t *data, int len)
-{
-	switch((int)type)
-	{
-		case TYPE_RECV_DISCONNECT:
-			printf("WIFI DISCONNECT!\r\n");
-		break;
-		case TYPE_RECV_GOT_IP:
-			printf("WIFI GOT IP!\r\n");
-		break;
-		case TYPE_RECV_SUBSCRIBE:
-			printf("recv_fun sucribe data : %s\r\n", data);
-		break;
-	}
-}
-
 /* USER CODE END 0 */
 
 /**
@@ -124,7 +104,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
@@ -137,11 +116,11 @@ int main(void)
   stop_buzz();
   dht11_init();
   oled_init();
-  macRC522_Reset_Disable();
-  macRC522_CS_Disable();
+//  macRC522_Reset_Disable();
+//  macRC522_CS_Disable();
 
-  PcdReset();//RC522复位
-  M500PcdConfigISOType ( 'A' );//设置工作方式	 
+//  PcdReset();//RC522复位
+//  M500PcdConfigISOType ( 'A' );//设置工作方式	 
 
   delay_ms(1000);
   oled_fill(0xFF);//全屏点亮
@@ -152,26 +131,21 @@ int main(void)
 	oled_show_string(70, 3, "Humi:", 1);
   MX_TIM4_Init();
 
-	if (HAL_OK == __HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE))  // 使能空闲中断
+	if (HAL_OK == HAL_UART_Receive_IT(&huart3, &aRxBuffer, 1))
 	{
 		printf("enable uart3 isr\r\n");
 	}
-	HAL_UART_Receive_DMA(&huart3, ESP8266_Fram_Record_Struct.Data_RX_BUF, RX_BUF_MAX_LEN);  // 启动DMA接收          
-
 	
   if (HAL_OK == HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1))
   {
-		printf("enable time4 pwm output\r\n");
+	printf("enable time4 pwm output\r\n");
   }
-	set_sg90(50);
 
-  if (HAL_TIM_Base_Start_IT(&htim3))
+  if (HAL_TIM_Base_Start_IT(&htim4))
   {
-		printf("enable time3 base isr\r\n");
+	printf("enable time3 base isr\r\n");
   }
-	
-	ESP8266_Fram_Record_Struct.wifi_data_recv_cb = wifi_data_recv_fun;  // 定义系统回调函数，当有数据下发，会进入这个函数
-
+	ESP8266_STA_MQTTClient_Init();
   printf("ready go into while1\r\n");
 	
   /* USER CODE END 2 */

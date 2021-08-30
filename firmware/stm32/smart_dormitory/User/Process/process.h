@@ -21,8 +21,6 @@ void start_buzz(void);
 
 void stop_buzz(void);
 
-void set_sg90(int value);
-
 void process_local_handle(uint16_t value_humi);
 
 void process_report_data(void);
