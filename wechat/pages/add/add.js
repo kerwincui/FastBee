@@ -20,9 +20,12 @@ Page({
     })
   },
   addWifi(){
-    wx.showToast({
-      title: '暂不支持',
-      icon:'error'
+    // wx.showToast({
+    //   title: '暂不支持',
+    //   icon:'error'
+    // })
+    wx.navigateTo({
+      url: '/pages/addWiFi/index',
     })
   },
 })

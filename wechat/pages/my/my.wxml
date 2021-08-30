@@ -30,5 +30,8 @@
     <van-cell title="公司简介" size="large" icon='/icons/jianjie.png' is-link/>
     <van-cell title="关于我们" size="large" icon='/icons/about.png' is-link/>
     <van-cell title="加入我们" size="large" icon='/icons/join.png' is-link/>
+    <van-cell title="意见反馈" size="large" icon='/icons/suggest.png' is-link 
+      url='/pages/feedBack/feedBack' link-type='navigateTo'
+    />
   </van-cell-group>
 </view>

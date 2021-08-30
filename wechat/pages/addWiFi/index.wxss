@@ -1,0 +1,52 @@
+/* pages/index/index.wxss */
+.form{
+   width:80vw;
+   margin:0 auto;
+}
+.title{
+  font-size:38rpx;
+}
+label{
+  display:flex;
+  align-items:center;
+  padding:35rpx 0;
+  border-bottom:2rpx solid #bfbfbf;
+}
+.icon{
+  width:40rpx;
+  height:40rpx;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+input{
+  padding:15rpx 30rpx;
+  flex:1
+}
+.btn{
+  width:80%;
+  margin:30rpx auto;
+}
+.teach{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin:0 0 30rpx 0;
+}
+.step{
+  margin:30rpx auto ;
+  width:50%;
+}
+.item{
+  display:flex;
+  align-items:center;
+  margin:15rpx 0;
+}
+.item>image{
+  width:48rpx;
+  height:48rpx;
+  border-radius:50%;
+}
+.desc{
+  padding:0 15rpx;
+}

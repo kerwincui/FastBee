@@ -32,6 +32,11 @@
           "referrerInfo": {
             "appId": "xxx"
           }
+        },
+        {
+          "name": "pages/feedBack/feedBack",
+          "pathName": "pages/feedBack/feedBack",
+          "scene": null
         }
       ]
     }

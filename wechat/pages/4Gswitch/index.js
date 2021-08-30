@@ -17,13 +17,10 @@ Page({
    */
   onLoad: function (options) {
     this.setNavigate();    
-    try {
+    if (getCurrentPages().length > 1) {
       this.getLastPageData();
-    } catch (error) {
-      console.log(error);
     }
     this.isShared(options);
-
   },
 
   checkLogin(){
@@ -85,7 +82,7 @@ Page({
   getLastPageData(){
     const eventChannel = this.getOpenerEventChannel();
     const that = this;
-    eventChannel.on('getDeviceInfo',async (data)=>{
+    eventChannel.on('getDeviceInfo',(data)=>{
       that.setData({
         deviceId:data
       })
@@ -95,6 +92,7 @@ Page({
 
   async getDeviceDetail(){
     let deviceId = this.data.deviceId;
+    console.log(deviceId);
     const res = await request(`system/device/getDeviceInfoByDeviceId?deviceId=${deviceId}`,'get');
     console.log(res);
     if (res.code === 200) {
@@ -166,7 +164,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getDeviceDetail();
+    setTimeout(()=>{
+      this.getDeviceDetail();
+    },0)
+    
   },
 
   /**
@@ -183,7 +184,7 @@ Page({
     return {
       title:"我分享了一个设备。",
       path:`/pages/4Gswitch/index?deviceInfo=${JSON.stringify(e.target.dataset.info)}&&isShare=1`,
-      imageUrl:'/icons/smart.jpg'
+      imageUrl:'/icons/light.png'
     }
   }
 })

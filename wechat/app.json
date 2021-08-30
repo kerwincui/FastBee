@@ -5,7 +5,9 @@
     "pages/my/my",
     "pages/add4G/index",
     "pages/4Gswitch/index",
-    "pages/deviceDetail/index"
+    "pages/addWiFi/index",
+    "pages/deviceDetail/index",
+    "pages/feedBack/feedBack"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -52,6 +54,8 @@
     "van-tag": "@vant/weapp/tag/index",
     "van-button": "@vant/weapp/button/index",
     "van-cell": "@vant/weapp/cell/index",
-    "van-cell-group": "@vant/weapp/cell-group/index"
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
   }
 }
