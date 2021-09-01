@@ -3,7 +3,10 @@
 
 #include "stm32f10x.h"
 
-#define Device_LCD  1
+#define Device_LCD    1
+
+#define MQTT_SCode    1
+#define MQTT_AT       1
 
 extern uint8_t  UART1ReadBuf[100];
 extern uint16_t UART1ReadFlag;

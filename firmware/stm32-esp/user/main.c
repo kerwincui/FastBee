@@ -19,8 +19,7 @@ int main()
     
     // LCD
     #ifdef Device_LCD
-    Delay_ms(500);
-    
+    Delay_ms(1000);   
     SimLCD_Init();
 
     DevParam.AirInforGetTime   = 3000;
@@ -54,7 +53,7 @@ int main()
         {
             // 显示部分，侧边跳动
             Show_BroadSideBeat();
-            
+//            
             // PMD4，获取空气信息
             PMD4_GetAirInfor();
         }
