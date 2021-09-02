@@ -8,17 +8,15 @@ import com.ruoyi.common.core.controller.BaseController;
 
 /**
  * swagger 接口
- * 
+ *
  * @author ruoyi
  */
 @Controller
 @RequestMapping("/tool/swagger")
-public class SwaggerController extends BaseController
-{
+public class SwaggerController extends BaseController {
     @PreAuthorize("@ss.hasPermi('tool:swagger:view')")
     @GetMapping()
-    public String index()
-    {
+    public String index() {
         return redirect("/swagger-ui.html");
     }
 }

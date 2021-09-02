@@ -1,19 +1,21 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.IotDeviceSet;
+import org.springframework.stereotype.Repository;
 
 /**
  * 设备配置Mapper接口
- * 
+ *
  * @author kerwincui
  * @date 2021-05-06
  */
-public interface IotDeviceSetMapper 
-{
+@Repository
+public interface IotDeviceSetMapper {
     /**
      * 查询设备配置
-     * 
+     *
      * @param deviceSetId 设备配置ID
      * @return 设备配置
      */
@@ -29,7 +31,7 @@ public interface IotDeviceSetMapper
 
     /**
      * 查询设备配置列表
-     * 
+     *
      * @param iotDeviceSet 设备配置
      * @return 设备配置集合
      */
@@ -37,7 +39,7 @@ public interface IotDeviceSetMapper
 
     /**
      * 新增设备配置
-     * 
+     *
      * @param iotDeviceSet 设备配置
      * @return 结果
      */
@@ -45,7 +47,7 @@ public interface IotDeviceSetMapper
 
     /**
      * 修改设备配置
-     * 
+     *
      * @param iotDeviceSet 设备配置
      * @return 结果
      */
@@ -53,7 +55,7 @@ public interface IotDeviceSetMapper
 
     /**
      * 删除设备配置
-     * 
+     *
      * @param deviceConfigId 设备配置ID
      * @return 结果
      */
@@ -61,7 +63,7 @@ public interface IotDeviceSetMapper
 
     /**
      * 批量删除设备配置
-     * 
+     *
      * @param deviceConfigIds 需要删除的数据ID
      * @return 结果
      */
