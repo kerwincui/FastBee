@@ -24,7 +24,7 @@
 ### 二、相关开发板
 1. NodeMCU开发板制作一个智能开关
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
-2. Wifi控制器和LED灯板制作七彩智能灯
+2. 七彩智能灯 [灯控板和灯板的PCB文件以及Bom清单，免费赠送，可用于自己制作硬件部分](https://gitee.com/kerwincui/wumei-smart/tree/master/document/%E6%99%BA%E8%83%BD%E4%B8%83%E5%BD%A9%E7%81%AF)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
 3. 物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
 ![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case5.gif)  
