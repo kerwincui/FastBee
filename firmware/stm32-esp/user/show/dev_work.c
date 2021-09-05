@@ -1,7 +1,6 @@
 #include "dev_work.h"
 
-void Dev_ScanExtIndicate(void)
-{
+void Dev_ScanExtIndicate(void) {
     /*开机检测*/
     if(DevParam.RunPhase==0)
     {

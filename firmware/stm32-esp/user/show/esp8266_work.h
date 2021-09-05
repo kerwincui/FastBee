@@ -5,11 +5,15 @@
 
 #include "esp8266_uart2.h"
 
+#include "stdio.h"
+
+#include "string.h"
+
+#include "stdarg.h"
+
 #include "cJSON.h"
 
-#include "MQTTPacket.h"
-
-#include "MQTTConnect.h"
+#include "mqtt.h"
 
 void ESP8266_NetWorkFlow(void);
 void ESP8266_NetReceiveInfor(void);

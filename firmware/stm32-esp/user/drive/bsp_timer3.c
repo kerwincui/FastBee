@@ -72,8 +72,8 @@ void TIM3_IRQHandler(void)   //TIM3中断服务程序
                 if(UART3Count == UART3ReadFlag)
                 {
                     UART3ReadFlag |= (1 << 15);
-                    UART3Count = 0;
-                    UART3RecTime  = 0;     
+                    UART3Count   = 0;
+                    UART3RecTime = 0;     
                 }
                 else
                 {
@@ -101,7 +101,10 @@ void TIM3_IRQHandler(void)   //TIM3中断服务程序
             DevParam.ServerUpdateTime++;       
         // 发送时间
         if(DevParam.ESP8266SendTime<65000)
-            DevParam.ESP8266SendTime++;         
+            DevParam.ESP8266SendTime++;   
+        // 发送时间
+        if(DevParam.MQTTSendTime<65000)
+            DevParam.MQTTSendTime++;         
     }	
 }
 

@@ -13,6 +13,7 @@
 #define UDP_Mode 1
 
 uint8_t ESP8266_SendStr(char* fmt,...);
+uint8_t ESP8266_SendCMD(uint8_t *cmd,uint8_t *ack,uint16_t waittime);
 uint8_t ESP8266_SendData(uint8_t *tbuf, uint16_t len);
 uint8_t ESP8266_APInit(char *name, char *password);
 uint8_t ESP8266_STAInit(void);

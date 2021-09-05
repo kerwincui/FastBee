@@ -1,24 +1,27 @@
 #include "bsp_uart2.h"
 
 // 串口2 PA2 TX  PA3 RX
-void Dev_UART2SendStr(char* fmt,...){  
-    uint8_t  tbuf[200] = {0};
+void Dev_UART2SendStr(uint8_t* tbuf, uint16_t tlen, uint8_t tByte){  
 	uint16_t i = 0,j = 0;
-    
-    va_list ap;
-	va_start(ap,fmt);
-	vsprintf((char*)tbuf, fmt, ap);
-	va_end(ap);
-	
-    j = strlen((const char*)tbuf);
+
+    if(tlen > 0)
+        j =  tlen;
+    else
+        j = strlen((const char*)tbuf);
 	
     for( i = 0; i < j; i++)
 	{
+        if((tByte>0)&&(i==2))
+        {
+            while(USART_GetFlagStatus(USART2, USART_FLAG_TC)==RESET){};
+            USART_SendData(USART2, tByte);
+        }
 		while(USART_GetFlagStatus(USART2, USART_FLAG_TC)==RESET){};
         USART_SendData(USART2, tbuf[i]);
 	}
 	while(USART_GetFlagStatus(USART2, USART_FLAG_TC)==RESET);   
 }
+
 // 发送数据
 void Dev_UART2SendData(uint8_t *ch,uint16_t len){  
     uint16_t i = 0;
@@ -80,10 +83,10 @@ void USART2_IRQHandler(void)
 		res = USART_ReceiveData(USART2);
 
 		// 是否存在数据没有处理
-		if( (UART2ReadFlag&0x8000)==0 )
+		if((UART2ReadFlag&0x8000)==0)
 		{
 			UART2ReadBuf[UART2ReadFlag++] = res;
-			if(UART2ReadFlag>=90)
+			if(UART2ReadFlag>=480)
 			{
 				UART2ReadFlag |= (1 << 15);
 			}

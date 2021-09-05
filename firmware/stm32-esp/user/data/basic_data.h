@@ -6,15 +6,15 @@
 #define Device_LCD    1
 
 #define MQTT_SCode    1
-#define MQTT_AT       1
+//#define MQTT_AT       1
 
-extern uint8_t  UART1ReadBuf[100];
+extern uint8_t  UART1ReadBuf[500];
 extern uint16_t UART1ReadFlag;
 
-extern uint8_t  UART2ReadBuf[100];
+extern uint8_t  UART2ReadBuf[500];
 extern uint16_t UART2ReadFlag;
 
-extern uint8_t  UART3ReadBuf[100];
+extern uint8_t  UART3ReadBuf[500];
 extern uint16_t UART3ReadFlag;
 
 typedef enum
@@ -39,7 +39,11 @@ typedef struct
     
     uint16_t AirInforGetTime;   // 空气信息获取时间
     
+    uint8_t  ServerRelay;       // 服务器继电器
+    uint8_t  ServerRed;
+
     uint16_t ESP8266SendTime;
+    uint16_t MQTTSendTime;
     
     // 运行阶段
     RunPhase_E RunPhase;
@@ -58,6 +62,8 @@ typedef struct
     uint16_t PM1_0;
     uint16_t PM2_5;
     uint16_t PM10;
+    
+    uint16_t tes;
 }DevParam_t;
 extern DevParam_t DevParam;
 

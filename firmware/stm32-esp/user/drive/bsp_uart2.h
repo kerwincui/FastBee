@@ -12,7 +12,7 @@
 
 #include "basic_data.h"
 
-void Dev_UART2SendStr(char* fmt,...);
+void Dev_UART2SendStr(uint8_t* tbuf, uint16_t tlen, uint8_t tByte);
 void Dev_UART2SendData(uint8_t *ch, uint16_t len);
 void BSP_UART2Init(uint32_t bound);
 
