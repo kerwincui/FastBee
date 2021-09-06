@@ -19,263 +19,316 @@ import java.math.BigDecimal;
 
 /**
  * 设备对象 iot_device
- * 
+ *
  * @author kerwincui
  * @date 2021-05-06
  */
-public class IotDeviceListDto extends BaseEntity
-{
+public class IotDeviceListDto extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 序号 */
+    /**
+     * 序号
+     */
     private Long deviceId;
 
-    /** 编号 */
+    /**
+     * 编号
+     */
     @Excel(name = "编号")
     private String deviceNum;
 
-    /** 分类 */
+    /**
+     * 分类
+     */
     @Excel(name = "分类")
     private Long categoryId;
 
-    /** 分类名称 */
+    /**
+     * 分类名称
+     */
     @Excel(name = "分类名称")
     private String categoryName;
 
-    /** 名称 */
+    /**
+     * 名称
+     */
     @Excel(name = "名称")
     private String deviceName;
 
-    /** 固件版本 */
+    /**
+     * 固件版本
+     */
     @Excel(name = "固件版本")
     private String firmwareVersion;
 
-    /** 用户 */
+    /**
+     * 用户
+     */
     @Excel(name = "用户")
     private String ownerId;
 
-    @Excel(name="用户昵称")
+    @Excel(name = "设备状态")
+    private String status;
+
+    @Excel(name = "用户昵称")
     private String nickName;
 
-    /** 删除标志（0代表存在 2代表删除） */
+    /**
+     * 删除标志（0代表存在 2代表删除）
+     */
     private String delFlag;
 
 
-    /** 报警 */
+    /**
+     * 报警
+     */
     @Excel(name = "报警")
     private Integer isAlarm;
 
-    /** 雷达感应 */
+    /**
+     * 雷达感应
+     */
     @Excel(name = "雷达感应")
     private Integer isRadar;
 
-    /** 射频遥控 */
+    /**
+     * 射频遥控
+     */
     @Excel(name = "射频遥控")
     private Integer isRfControl;
 
-    /** 配网地址 */
+    /**
+     * 配网地址
+     */
     @Excel(name = "配网地址")
     private String networkAddress;
 
-    /** 配网IP */
+    /**
+     * 配网IP
+     */
     @Excel(name = "配网IP")
     private String networkIp;
 
 
-    /** 继电器 */
+    /**
+     * 继电器
+     */
     @Excel(name = "继电器")
     private Integer relayStatus;
 
-    /** 灯状态 */
+    /**
+     * 灯状态
+     */
     @Excel(name = "灯状态")
     private Integer lightStatus;
 
-    /** 在线 */
+    /**
+     * 在线
+     */
     @Excel(name = "在线")
     private Integer isOnline;
 
-    /** 设备温度 */
+    /**
+     * 设备温度
+     */
     @Excel(name = "设备温度")
     private BigDecimal deviceTemperature;
 
-    /** 设备湿度 */
+    /**
+     * 设备湿度
+     */
     @Excel(name = "信号")
     private Integer rssi;
 
+    @Excel(name = "备注")
+    private String  remark;
 
 
-    public void setDeviceId(Long deviceId) 
-    {
+    public void setDeviceId(Long deviceId) {
         this.deviceId = deviceId;
     }
-    public Long getDeviceId() 
-    {
+
+    public Long getDeviceId() {
         return deviceId;
     }
-    public void setDeviceNum(String deviceNum) 
-    {
+
+    public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
     }
-    public String getDeviceNum() 
-    {
+
+    public String getDeviceNum() {
         return deviceNum;
     }
-    public void setCategoryId(Long categoryId) 
-    {
+
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
-    public Long getCategoryId() 
-    {
+
+    public Long getCategoryId() {
         return categoryId;
     }
-    public void setCategoryName(String categoryName)
-    {
+
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-    public String getCategoryName()
-    {
+
+    public String getCategoryName() {
         return categoryName;
     }
-    public void setDeviceName(String deviceName) 
-    {
+
+    public void setDeviceName(String deviceName) {
         this.deviceName = deviceName;
     }
-    public String getDeviceName() 
-    {
+
+    public String getDeviceName() {
         return deviceName;
     }
-    public void setFirmwareVersion(String firmwareVersion) 
-    {
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
     }
-    public String getFirmwareVersion() 
-    {
+
+    public String getFirmwareVersion() {
         return firmwareVersion;
     }
-    public void setOwnerId(String ownerId) 
-    {
+
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
-    public String getOwnerId() 
-    {
+
+    public String getOwnerId() {
         return ownerId;
     }
-    public void setNickName(String nickName)
-    {
+
+    public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-    public String getNickName()
-    {
+
+    public String getNickName() {
         return nickName;
     }
-    public void setDelFlag(String delFlag)
-    {
+
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
-    public String getDelFlag()
-    {
+
+    public String getDelFlag() {
         return delFlag;
     }
 
-    public void setIsAlarm(Integer isAlarm)
-    {
+    public void setIsAlarm(Integer isAlarm) {
         this.isAlarm = isAlarm;
     }
-    public Integer getIsAlarm()
-    {
+
+    public Integer getIsAlarm() {
         return isAlarm;
     }
-    public void setIsRadar(Integer isRadar)
-    {
+
+    public void setIsRadar(Integer isRadar) {
         this.isRadar = isRadar;
     }
-    public Integer getIsRadar()
-    {
+
+    public Integer getIsRadar() {
         return isRadar;
     }
-    public void setIsRfControl(Integer isRfControl)
-    {
+
+    public void setIsRfControl(Integer isRfControl) {
         this.isRfControl = isRfControl;
     }
-    public Integer getIsRfControl()
-    {
+
+    public Integer getIsRfControl() {
         return isRfControl;
     }
-    public void setNetworkAddress(String networkAddress)
-    {
+
+    public void setNetworkAddress(String networkAddress) {
         this.networkAddress = networkAddress;
     }
-    public String getNetworkAddress()
-    {
+
+    public String getNetworkAddress() {
         return networkAddress;
     }
-    public void setNetworkIp(String networkIp)
-    {
+
+    public void setNetworkIp(String networkIp) {
         this.networkIp = networkIp;
     }
-    public String getNetworkIp()
-    {
+
+    public String getNetworkIp() {
         return networkIp;
     }
 
-    public void setRelayStatus(Integer relayStatus)
-    {
+    public void setRelayStatus(Integer relayStatus) {
         this.relayStatus = relayStatus;
     }
-    public Integer getRelayStatus()
-    {
+
+    public Integer getRelayStatus() {
         return relayStatus;
     }
-    public void setLightStatus(Integer lightStatus)
-    {
+
+    public void setLightStatus(Integer lightStatus) {
         this.lightStatus = lightStatus;
     }
-    public Integer getLightStatus()
-    {
+
+    public Integer getLightStatus() {
         return lightStatus;
     }
-    public void setIsOnline(Integer isOnline)
-    {
+
+    public void setIsOnline(Integer isOnline) {
         this.isOnline = isOnline;
     }
-    public Integer getIsOnline()
-    {
+
+    public Integer getIsOnline() {
         return isOnline;
     }
-    public void setDeviceTemperature(BigDecimal deviceTemperature)
-    {
+
+    public void setDeviceTemperature(BigDecimal deviceTemperature) {
         this.deviceTemperature = deviceTemperature;
     }
-    public BigDecimal getDeviceTemperature()
-    {
+
+    public BigDecimal getDeviceTemperature() {
         return deviceTemperature;
     }
-    public void setRssi(Integer rssi)
-    {
+
+    public void setRssi(Integer rssi) {
         this.rssi = rssi;
     }
-    public Integer getRssi()
-    {
+
+    public Integer getRssi() {
         return rssi;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("deviceId", getDeviceId())
-            .append("deviceNum", getDeviceNum())
-            .append("categoryId", getCategoryId())
-            .append("categoryName", getCategoryName())
-            .append("deviceName", getDeviceName())
-            .append("firmwareVersion", getFirmwareVersion())
-            .append("ownerId", getOwnerId())
-            .append("nickName", getNickName())
-            .append("delFlag", getDelFlag())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("deviceId", getDeviceId())
+                .append("deviceNum", getDeviceNum())
+                .append("categoryId", getCategoryId())
+                .append("categoryName", getCategoryName())
+                .append("deviceName", getDeviceName())
+                .append("firmwareVersion", getFirmwareVersion())
+                .append("ownerId", getOwnerId())
+                .append("nickName", getNickName())
+                .append("delFlag", getDelFlag())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
                 .append("isAlarm", getIsAlarm())
                 .append("isRadar", getIsRadar())
                 .append("isRfControl", getIsRfControl())
@@ -286,6 +339,6 @@ public class IotDeviceListDto extends BaseEntity
                 .append("isOnline", getIsOnline())
                 .append("deviceTemperature", getDeviceTemperature())
                 .append("rssid", getRssi())
-            .toString();
+                .toString();
     }
 }

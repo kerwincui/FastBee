@@ -35,15 +35,14 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 分组Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-05-18
  */
-@Api(value="设备分组",tags="设备分组")
+@Api(value = "设备分组", tags = "设备分组")
 @RestController
 @RequestMapping("/system/group")
-public class IotGroupController extends BaseController
-{
+public class IotGroupController extends BaseController {
     @Autowired
     private IIotGroupService iotGroupService;
 
@@ -53,8 +52,7 @@ public class IotGroupController extends BaseController
     @ApiOperation(value = "分组列表", notes = "分组列表")
     @PreAuthorize("@ss.hasPermi('system:group:list')")
     @GetMapping("/list")
-    public TableDataInfo list(IotGroup iotGroup)
-    {
+    public TableDataInfo list(IotGroup iotGroup) {
         startPage();
         List<IotGroup> list = iotGroupService.selectIotGroupList(iotGroup);
         return getDataTable(list);
@@ -67,8 +65,7 @@ public class IotGroupController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:group:export')")
     @Log(title = "分组", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(IotGroup iotGroup)
-    {
+    public AjaxResult export(IotGroup iotGroup) {
         List<IotGroup> list = iotGroupService.selectIotGroupList(iotGroup);
         ExcelUtil<IotGroup> util = new ExcelUtil<IotGroup>(IotGroup.class);
         return util.exportExcel(list, "group");
@@ -80,8 +77,7 @@ public class IotGroupController extends BaseController
     @ApiOperation(value = "获取分组详情", notes = "获取分组详情")
     @PreAuthorize("@ss.hasPermi('system:group:query')")
     @GetMapping(value = "/{groupId}")
-    public AjaxResult getInfo(@PathVariable("groupId") Long groupId)
-    {
+    public AjaxResult getInfo(@PathVariable("groupId") Long groupId) {
         return AjaxResult.success(iotGroupService.selectIotGroupById(groupId));
     }
 
@@ -92,8 +88,7 @@ public class IotGroupController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:group:add')")
     @Log(title = "分组", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody IotGroup iotGroup)
-    {
+    public AjaxResult add(@RequestBody IotGroup iotGroup) {
         return toAjax(iotGroupService.insertIotGroup(iotGroup));
     }
 
@@ -104,8 +99,7 @@ public class IotGroupController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:group:edit')")
     @Log(title = "分组", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody IotGroup iotGroup)
-    {
+    public AjaxResult edit(@RequestBody IotGroup iotGroup) {
         return toAjax(iotGroupService.updateIotGroup(iotGroup));
     }
 
@@ -115,9 +109,8 @@ public class IotGroupController extends BaseController
     @ApiOperation(value = "删除分组", notes = "删除分组")
     @PreAuthorize("@ss.hasPermi('system:group:remove')")
     @Log(title = "分组", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{groupIds}")
-    public AjaxResult remove(@PathVariable Long[] groupIds)
-    {
+    @DeleteMapping("/{groupIds}")
+    public AjaxResult remove(@PathVariable Long[] groupIds) {
         return toAjax(iotGroupService.deleteIotGroupByIds(groupIds));
     }
 }

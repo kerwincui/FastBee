@@ -18,7 +18,7 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8080
+  port: 9160
   servlet:
     # 应用的访问路径
     context-path: /
@@ -42,15 +42,15 @@ spring:
   messages:
     # 国际化资源文件路径
     basename: i18n/messages
-  profiles: 
+  profiles:
     active: druid
   # 文件上传
   servlet:
-     multipart:
-       # 单个文件大小
-       max-file-size:  10MB
-       # 设置总上传的文件大小
-       max-request-size:  20MB
+    multipart:
+      # 单个文件大小
+      max-file-size:  10MB
+      # 设置总上传的文件大小
+      max-request-size:  20MB
   # 服务模块
   devtools:
     restart:
@@ -82,36 +82,36 @@ spring:
   mqtt:
     username: admin                           # 账号
     password: admin                           # 密码
-    host-url: tcp://localhost:1883            # mqtt连接tcp地址
-    client-id: server-${random.value}         # 客户端Id，每个启动的id要不同 随机：${random.value}
+    host-url: tcp://host:1883            # mqtt连接tcp地址
+    client-id: server-xiaoyi-${random.value}         # 客户端Id，每个启动的id要不同 随机：${random.value}
     default-topic: test                       # 默认主题
     timeout: 100                              # 超时时间
     keepalive: 100                            # 保持连接数
 
 # token配置
 token:
-    # 令牌自定义标识
-    header: Authorization
-    # 令牌密钥
-    secret: abcdefghijklmnopqrstuvwxyz
-    # 令牌有效期（默认30分钟，设置为1周过期）
-    expireTime: 10000
-  
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟，设置为1周过期）
+  expireTime: 10000
+
 # MyBatis配置
 mybatis:
-    # 搜索指定包别名
-    typeAliasesPackage: com.ruoyi.**.domain
-    # 配置mapper的扫描，找到所有的mapper.xml映射文件
-    mapperLocations: classpath*:mapper/**/*Mapper.xml
-    # 加载全局的配置文件
-    configLocation: classpath:mybatis/mybatis-config.xml
+  # 搜索指定包别名
+  typeAliasesPackage: com.ruoyi.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
 
 # PageHelper分页插件
-pagehelper: 
+pagehelper:
   helperDialect: mysql
   reasonable: false
   supportMethodsArguments: true
-  params: count=countSql 
+  params: count=countSql
 
 # Swagger配置
 swagger:
@@ -121,10 +121,26 @@ swagger:
   pathMapping: /dev-api
 
 # 防止XSS攻击
-xss: 
+xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
   excludes: /system/notice/*
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# 公众号配置(必填)
+wx:
+  miniapp:
+    appid: appid #  #
+    appSecret: appSecret # #
+    config-storage:
+      type: Memory                     # 配置类型: Memory(默认), Jedis, RedisTemplate
+      key-prefix: wa                 # 相关redis前缀配置: wa(默认)
+      redis:
+        host: 127.0.0.1
+        port: 6379
+        passowrd:
+      # http客户端配置
+      http-client-type: HttpClient      # http客户端类型: HttpClient(默认), OkHttp, JoddHttp
+

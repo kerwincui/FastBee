@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,20 +18,18 @@ import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 缓存监控
- * 
+ *
  * @author ruoyi
  */
 @RestController
 @RequestMapping("/monitor/cache")
-public class CacheController
-{
+public class CacheController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping()
-    public AjaxResult getInfo() throws Exception
-    {
+    public AjaxResult getInfo() throws Exception {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());

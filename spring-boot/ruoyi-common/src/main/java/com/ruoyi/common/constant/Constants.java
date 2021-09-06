@@ -2,11 +2,10 @@ package com.ruoyi.common.constant;
 
 /**
  * 通用常量信息
- * 
+ *
  * @author ruoyi
  */
-public class Constants
-{
+public class Constants {
     /**
      * UTF-8 字符集
      */
@@ -61,7 +60,7 @@ public class Constants
      * 登录用户 redis key
      */
     public static final String LOGIN_TOKEN_KEY = "login_tokens:";
-    
+
     /**
      * 防重提交 redis key
      */
@@ -126,4 +125,8 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+    public static final String DEFAULT_AVATAR = "https://c-ssl.duitang.com/uploads/item/201912/27/20191227145714_rtHRc.thumb.1000_0.jpeg";
+
+    public static String wxAppId = "wx00e680cbf69d159c";
+    public static String wxAppSecret = "4902e0e4470663112f505f498b036c55";
 }

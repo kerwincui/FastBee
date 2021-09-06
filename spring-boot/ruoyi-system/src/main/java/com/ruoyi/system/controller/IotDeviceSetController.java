@@ -41,15 +41,14 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 设备配置Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-05-06
  */
-@Api(value="设备配置",tags="设备配置")
+@Api(value = "设备配置", tags = "设备配置")
 @RestController
 @RequestMapping("/system/set")
-public class IotDeviceSetController extends BaseController
-{
+public class IotDeviceSetController extends BaseController {
     @Autowired
     private IIotDeviceSetService iotDeviceSetService;
     @Autowired
@@ -66,8 +65,7 @@ public class IotDeviceSetController extends BaseController
     @ApiOperation(value = "查询设备配置列表", notes = "查询设备配置列表")
     @PreAuthorize("@ss.hasPermi('system:set:list')")
     @GetMapping("/list")
-    public TableDataInfo list(IotDeviceSet iotDeviceSet)
-    {
+    public TableDataInfo list(IotDeviceSet iotDeviceSet) {
         startPage();
         List<IotDeviceSet> list = iotDeviceSetService.selectIotDeviceSetList(iotDeviceSet);
         return getDataTable(list);
@@ -80,8 +78,7 @@ public class IotDeviceSetController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:set:export')")
     @Log(title = "设备配置", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(IotDeviceSet iotDeviceSet)
-    {
+    public AjaxResult export(IotDeviceSet iotDeviceSet) {
         List<IotDeviceSet> list = iotDeviceSetService.selectIotDeviceSetList(iotDeviceSet);
         ExcelUtil<IotDeviceSet> util = new ExcelUtil<IotDeviceSet>(IotDeviceSet.class);
         return util.exportExcel(list, "set");
@@ -93,8 +90,7 @@ public class IotDeviceSetController extends BaseController
     @ApiOperation(value = "获取设备配置详情", notes = "获取设备配置详情")
     @PreAuthorize("@ss.hasPermi('system:set:query')")
     @GetMapping(value = "/{deviceSetId}")
-    public AjaxResult getInfo(@PathVariable("deviceSetId") Long deviceSetId)
-    {
+    public AjaxResult getInfo(@PathVariable("deviceSetId") Long deviceSetId) {
         return AjaxResult.success(iotDeviceSetService.selectIotDeviceSetById(deviceSetId));
     }
 
@@ -104,14 +100,13 @@ public class IotDeviceSetController extends BaseController
     @ApiOperation(value = "获取最新设备配置详情", notes = "获取最新设备配置详情")
     @PreAuthorize("@ss.hasPermi('system:set:query')")
     @GetMapping(value = "/new/{deviceId}")
-    public AjaxResult getNewInfo(@PathVariable("deviceId") Long deviceId)
-    {
-        IotDeviceSet set=iotDeviceSetService.selectIotDeviceSetByDeviceId(deviceId);
-        if(set==null){
+    public AjaxResult getNewInfo(@PathVariable("deviceId") Long deviceId) {
+        IotDeviceSet set = iotDeviceSetService.selectIotDeviceSetByDeviceId(deviceId);
+        if (set == null) {
             // 构建默认数据
-            IotDevice device=iotDeviceService.selectIotDeviceById(deviceId);
-            if(device!=null) {
-                set=new IotDeviceSet();
+            IotDevice device = iotDeviceService.selectIotDeviceById(deviceId);
+            if (device != null) {
+                set = new IotDeviceSet();
                 set.setDeviceId(device.getDeviceId());
                 set.setDeviceNum(device.getDeviceNum());
                 set.setOwnerId(device.getOwnerId());
@@ -139,8 +134,7 @@ public class IotDeviceSetController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:set:add')")
     @Log(title = "设备配置", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody IotDeviceSet iotDeviceSet)
-    {
+    public AjaxResult add(@RequestBody IotDeviceSet iotDeviceSet) {
         return toAjax(iotDeviceSetService.insertIotDeviceSet(iotDeviceSet));
     }
 
@@ -151,62 +145,67 @@ public class IotDeviceSetController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:set:edit')")
     @Log(title = "设备配置", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody IotDeviceSet iotDeviceSet)
-    {
-        IotDeviceStatus status=iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceSet.getDeviceId());
-        if(status==null || status.getIsOnline()==0){return AjaxResult.error("设备已离线，不能更新状态。");}
+    public AjaxResult edit(@RequestBody IotDeviceSet iotDeviceSet) {
+        IotDeviceStatus status = iotDeviceStatusService.selectIotDeviceStatusByDeviceId(iotDeviceSet.getDeviceId());
+        if (status == null || status.getIsOnline() == 0) {
+            return AjaxResult.error("设备已离线，不能更新状态。");
+        }
         // 存储
         iotDeviceSetService.updateIotDeviceSet(iotDeviceSet);
 
         //mqtt发布
-        IotDeviceSet set=iotDeviceSetService.selectIotDeviceSetByDeviceId(iotDeviceSet.getDeviceId());
-        if(iotDeviceSet.getIsRadar()!=null){
+        IotDeviceSet set = iotDeviceSetService.selectIotDeviceSetByDeviceId(iotDeviceSet.getDeviceId());
+        if (iotDeviceSet.getIsRadar() != null) {
             set.setIsRadar(iotDeviceSet.getIsRadar());
         }
-        if(iotDeviceSet.getIsAlarm()!=null){
+        if (iotDeviceSet.getIsAlarm() != null) {
             set.setIsAlarm(iotDeviceSet.getIsAlarm());
         }
-        if(iotDeviceSet.getRadarInterval()!=null){
+        if (iotDeviceSet.getRadarInterval() != null) {
             set.setRadarInterval(iotDeviceSet.getRadarInterval());
         }
-        if(iotDeviceSet.getIsRfControl()!=null){
+        if (iotDeviceSet.getIsRfControl() != null) {
             set.setIsRfControl(iotDeviceSet.getIsRfControl());
         }
-        if(iotDeviceSet.getRfOneFunc()!=null){
+        if (iotDeviceSet.getRfOneFunc() != null) {
             set.setRfOneFunc(iotDeviceSet.getRfOneFunc());
         }
-        if(iotDeviceSet.getRfTwoFunc()!=null){
+        if (iotDeviceSet.getRfTwoFunc() != null) {
             set.setRfTwoFunc(iotDeviceSet.getRfTwoFunc());
         }
-        if(iotDeviceSet.getRfThreeFunc()!=null){
+        if (iotDeviceSet.getRfThreeFunc() != null) {
             set.setRfThreeFunc(iotDeviceSet.getRfThreeFunc());
         }
-        if(iotDeviceSet.getRfFourFunc()!=null){
+        if (iotDeviceSet.getRfFourFunc() != null) {
             set.setRfFourFunc(iotDeviceSet.getRfFourFunc());
         }
-        if(iotDeviceSet.getIsRfLearn()!=null){
+        if (iotDeviceSet.getIsRfLearn() != null) {
             set.setIsRfLearn(iotDeviceSet.getIsRfLearn());
         }
-        if(iotDeviceSet.getIsRfClear()!=null){
+        if (iotDeviceSet.getIsRfClear() != null) {
             set.setIsRfClear(iotDeviceSet.getIsRfClear());
         }
-        if(iotDeviceSet.getIsAp()!=null){
+        if (iotDeviceSet.getIsAp() != null) {
             set.setIsAp(iotDeviceSet.getIsAp());
         }
-        if(iotDeviceSet.getIsReset()!=null){
+        if (iotDeviceSet.getIsReset() != null) {
             set.setIsReset(iotDeviceSet.getIsReset());
         }
         String content = JSON.toJSONString(set);
-        boolean isSuccess=mqttPushClient.publish(0,true,"setting/set/"+set.getDeviceNum(),content);
-        if(isSuccess){return AjaxResult.success("mqtt 发布成功");}
+        boolean isSuccess = mqttPushClient.publish(0, true, "setting/set/" + set.getDeviceNum(), content);
+        if (isSuccess) {
+            return AjaxResult.success("mqtt 发布成功");
+        }
         return AjaxResult.error("mqtt 发布失败。");
     }
 
     @ApiOperation(value = "mqtt获取设备配置", notes = "mqtt获取设备配置")
     @GetMapping(value = "/getSetting/{deviceNum}")
-    public AjaxResult getSetting(@PathVariable("deviceNum") String deviceNum){
-        boolean isSuccess=mqttPushClient.publish(0,true,"setting/get/"+deviceNum,"wumei.live");
-        if(isSuccess){return AjaxResult.success("mqtt 发布成功");}
+    public AjaxResult getSetting(@PathVariable("deviceNum") String deviceNum) {
+        boolean isSuccess = mqttPushClient.publish(0, true, "setting/get/" + deviceNum, "wumei.live");
+        if (isSuccess) {
+            return AjaxResult.success("mqtt 发布成功");
+        }
         return AjaxResult.error("mqtt 发布失败。");
     }
 
@@ -216,9 +215,8 @@ public class IotDeviceSetController extends BaseController
     @ApiOperation(value = "删除设备配置", notes = "删除设备配置")
     @PreAuthorize("@ss.hasPermi('system:set:remove')")
     @Log(title = "设备配置", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{deviceSetIds}")
-    public AjaxResult remove(@PathVariable Long[] deviceSetIds)
-    {
+    @DeleteMapping("/{deviceSetIds}")
+    public AjaxResult remove(@PathVariable Long[] deviceSetIds) {
         return toAjax(iotDeviceSetService.deleteIotDeviceSetByIds(deviceSetIds));
     }
 }

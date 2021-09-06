@@ -19,20 +19,18 @@ import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 全局异常处理器
- * 
+ *
  * @author ruoyi
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler
-{
+public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 基础异常
      */
     @ExceptionHandler(BaseException.class)
-    public AjaxResult baseException(BaseException e)
-    {
+    public AjaxResult baseException(BaseException e) {
         return AjaxResult.error(e.getMessage());
     }
 
@@ -40,46 +38,39 @@ public class GlobalExceptionHandler
      * 业务异常
      */
     @ExceptionHandler(CustomException.class)
-    public AjaxResult businessException(CustomException e)
-    {
-        if (StringUtils.isNull(e.getCode()))
-        {
+    public AjaxResult businessException(CustomException e) {
+        if (StringUtils.isNull(e.getCode())) {
             return AjaxResult.error(e.getMessage());
         }
         return AjaxResult.error(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public AjaxResult handlerNoFoundException(Exception e)
-    {
+    public AjaxResult handlerNoFoundException(Exception e) {
         log.error(e.getMessage(), e);
         return AjaxResult.error(HttpStatus.NOT_FOUND, "路径不存在，请检查路径是否正确");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public AjaxResult handleAuthorizationException(AccessDeniedException e)
-    {
+    public AjaxResult handleAuthorizationException(AccessDeniedException e) {
         log.error(e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权");
     }
 
     @ExceptionHandler(AccountExpiredException.class)
-    public AjaxResult handleAccountExpiredException(AccountExpiredException e)
-    {
+    public AjaxResult handleAccountExpiredException(AccountExpiredException e) {
         log.error(e.getMessage(), e);
         return AjaxResult.error(e.getMessage());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public AjaxResult handleUsernameNotFoundException(UsernameNotFoundException e)
-    {
+    public AjaxResult handleUsernameNotFoundException(UsernameNotFoundException e) {
         log.error(e.getMessage(), e);
         return AjaxResult.error(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public AjaxResult handleException(Exception e)
-    {
+    public AjaxResult handleException(Exception e) {
         log.error(e.getMessage(), e);
         return AjaxResult.error(e.getMessage());
     }
@@ -88,8 +79,7 @@ public class GlobalExceptionHandler
      * 自定义验证异常
      */
     @ExceptionHandler(BindException.class)
-    public AjaxResult validatedBindException(BindException e)
-    {
+    public AjaxResult validatedBindException(BindException e) {
         log.error(e.getMessage(), e);
         String message = e.getAllErrors().get(0).getDefaultMessage();
         return AjaxResult.error(message);
@@ -99,8 +89,7 @@ public class GlobalExceptionHandler
      * 自定义验证异常
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Object validExceptionHandler(MethodArgumentNotValidException e)
-    {
+    public Object validExceptionHandler(MethodArgumentNotValidException e) {
         log.error(e.getMessage(), e);
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
@@ -110,8 +99,7 @@ public class GlobalExceptionHandler
      * 演示模式异常
      */
     @ExceptionHandler(DemoModeException.class)
-    public AjaxResult demoModeException(DemoModeException e)
-    {
+    public AjaxResult demoModeException(DemoModeException e) {
         return AjaxResult.error("演示模式，不允许操作");
     }
 }

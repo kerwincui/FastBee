@@ -8,6 +8,7 @@
     <artifactId>ruoyi</artifactId>
     <version>3.4.0</version>
 
+
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依管理系统</description>
@@ -193,7 +194,12 @@
                 <artifactId>ruoyi-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>3.2.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -204,6 +210,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>xiaoyi-mpgb</module>
     </modules>
     <packaging>pom</packaging>
 
