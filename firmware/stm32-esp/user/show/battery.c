@@ -15,8 +15,7 @@ void Bat_GetWorkInfor(void)
             DevParam.BatCheck++;
         /***获取电池电压***/
         DevParam.BatVoltage  = ADC_GetSimpleData();
-        if(DevParam.BatVoltage >= 3.58)        
-        {
+        if(DevParam.BatVoltage >= 3.58)                {
             /***转换电池容量***/
             if(DevParam.BatVoltage>=4.16)
                 DevParam.ShortBatSOC = 100;
@@ -66,7 +65,7 @@ void Show_BatIconShapeRefresh(void)
 /*显示部分，电池图标刷新*/
 void Show_BatIconRefresh(void)
 {
-    if((DevParam.BatIconRefreshTime>=500)&&(DevParam.BatCheck>=2))
+    if((DevParam.BatIconRefreshTime>=500)&&(DevParam.BatCheck>=2)&&(DevParam.RunPhase!=0))
     {
         #ifdef Device_LCD 
         uint8_t  i = 0;

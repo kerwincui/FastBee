@@ -67,8 +67,6 @@ void BSP_UART3Init(uint32_t bound){
 }
 
 // 读取USARTx->SR能避免莫名其妙的错误  	
-uint8_t  Usart3ReadBuf[60] = {0};
-uint16_t Usart3ReadFlag = 0;
 void USART3_IRQHandler(void)
 {
 	uint8_t res = 0;
@@ -77,13 +75,12 @@ void USART3_IRQHandler(void)
 		res = USART_ReceiveData(USART3);
 
 		// 是否存在数据没有处理
-		if( (Usart3ReadFlag&0x8000)==0 )
+		if( (UART3ReadFlag&0x8000)==0 )
 		{
-			Usart3ReadBuf[Usart3ReadFlag] = res;
-			Usart3ReadFlag++;
-			if(Usart3ReadFlag>=59)
+			UART3ReadBuf[UART3ReadFlag++] = res;
+			if(UART3ReadFlag>=59)
 			{
-				Usart3ReadFlag |= (1 << 15);
+				UART3ReadFlag |= (1 << 15);
 			}
 		}           
 	}

@@ -184,18 +184,13 @@ uint8_t ESP8266_STAConnect(char *name, char *password){
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPSTART=\"TCP\",\"192.168.0.102\",8086\r\n",(uint8_t *)"OK",200)); 
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPMODE=1\r\n",(uint8_t *)"OK",200));
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPSEND\r\n",(uint8_t *)"OK",20));
-            UART2ReadFlag = 0;
-            memset((void *)UART2ReadBuf, 0, sizeof(UART2ReadBuf));  
-            return 0;
         #elif UDP_Mode
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPMUX=0\r\n",(uint8_t *)"OK",200));
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPSTART=\"UDP\",\"192.168.1.6\",8086,8086,0\r\n",(uint8_t *)"OK",200)); 
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPMODE=1\r\n",(uint8_t *)"OK",200));
             while(ESP8266_SendCMD((uint8_t *)"AT+CIPSEND\r\n",(uint8_t *)"OK",20));
-            UART2ReadFlag = 0;
-            memset((void *)UART2ReadBuf, 0, sizeof(UART2ReadBuf));  
-            return 0;
-        #endif           
+        #endif
+        
         UART2ReadFlag = 0;
         memset((void *)UART2ReadBuf, 0, sizeof(UART2ReadBuf));  
         return 0;

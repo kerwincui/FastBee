@@ -21,10 +21,13 @@ uint8_t PMD4_CheckSum(uint8_t *data) {
 }
 // PM 初始化
 void PMD4_Init(void) {
+    Power_PMD4(1);
+    
+    Delay_ms(200);
+    
     BSP_UART3Init(9600);
     
-    Power_PMD4(1);
-    Delay_ms(20);
+    Delay_ms(200);
 }
 
 // 请求获取空气信息
@@ -71,7 +74,7 @@ void PMD4_GetAirInfor(void)
 	}    
     if(DevParam.AirInforGetTime >= 2000)
     {
-        PMD4_ReqGetAirInfor(0xE2);
+        //PMD4_ReqGetAirInfor(0xE2);
         DevParam.AirInforGetTime = 0;
     }
     /**********显示实时空气信息*****************/
@@ -133,8 +136,7 @@ void PMD4_GetAirInfor(void)
     #endif
 }
 /*显示部分，基础外形刷新*/
-void Show_BasicShapeRefresh(void)
-{
+void Show_BasicShapeRefresh(void) {
     #ifdef Device_LCD
     uint16_t x = 0, y = 0;
     

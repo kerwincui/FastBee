@@ -34,7 +34,7 @@ int main()
     while(1)
     {
         // 网络配网部分
-        ESP8266_NetWorkFlow();
+        //ESP8266_NetWorkFlow();
             
         // 网络数据接收处理
         ESP8266_NetReceiveInfor();

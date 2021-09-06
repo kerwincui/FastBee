@@ -26,6 +26,7 @@ uint8_t  NetWorkFlow = 1;
 uint8_t  Wssid[20]     = "";
 uint8_t  Wpassword[20] = "";
 
+#ifdef MQTT_SCode
 char MQTT_ServerIP[20] = "106.12.9.213";
 uint32_t MQTT_ServerPort = 1883;
 
@@ -33,6 +34,15 @@ static char MQTT_DeviceID[20]  = "E8DB84933299";
 static char MQTT_ClientID[100] = "user";
 static char MQTT_Username[20]  = "test";
 static char MQTT_Password[20]  = "123456";
+#elif MQTT_AT
+char MQTT_ServerIP[20] = "106.12.9.213";
+uint32_t MQTT_ServerPort = 1883;
+
+static char MQTT_DeviceID[20]  = "E8DB84933299";
+static char MQTT_ClientID[100] = "user";
+static char MQTT_Username[20]  = "test";
+static char MQTT_Password[20]  = "123456";
+#endif
 
 uint8_t PublishData[500] = {0};
 int len = 0;
@@ -173,8 +183,7 @@ void ESP8266_NetWorkFlow(void)  {
         /********************************/
         /********************************/        
         #ifdef MQTT_AT
-        if(DevParam.MQTTSendTime >= 5000)
-        {
+        if(DevParam.MQTTSendTime >= 5000)        {
             // 定时发布设备状态
             memset((void *)PublishData, 0, sizeof(PublishData));
             sprintf((char *)PublishData,"AT+MQTTPUB=0,\"%s\",\"{\\\"deviceNum\\\":\\\"%s\\\"\\,\\\"isOnline\\\":1\\,\\\"rssi\\\":-73\\,\\\"airTemperature\\\":%d\\,\\\"remark\\\":\\\"\\\"}\",0,0\r\n",\
