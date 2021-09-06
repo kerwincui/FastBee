@@ -5,6 +5,8 @@
   box-shadow: 0 0 12rpx #bfbfbf;
   margin: 30rpx auto 15rpx;
   background-color: #ffffff;
+  border-radius: 15rpx;
+
 }
 .title{
   color: #9e9e9e;
@@ -24,6 +26,8 @@
   box-shadow: 0 0 12rpx #bfbfbf;
   margin: 15rpx auto;
   background-color: #ffffff;
+  border-radius: 15rpx;
+
 }
 .main{
   box-shadow: 0 0 5rpx #bfbfbf;
@@ -39,6 +43,8 @@ textarea{
   box-shadow: 0 0 12rpx #bfbfbf;
   margin: 15rpx auto;
   background-color: #ffffff;
+  border-radius: 15rpx;
+
 }
 .inputPhone{
   display: flex;

@@ -9,7 +9,7 @@ Page({
   data: {
     weather:{}, //天气信息
     products:[],
-    DeviceList:null,
+    DeviceList:[],
     onlineList:[],
     unlineList:[]
   },
@@ -59,7 +59,7 @@ Page({
           }
         })
         break;
-      case 2:
+      case 4:
         wx.navigateTo({
           url: '/pages/4Gswitch/index',
           success:(res)=>{
@@ -67,14 +67,14 @@ Page({
           }
         })
         break;
-      case 4:
-          wx.navigateTo({
-            url: '/pages/someData/index',
-            success:(res)=>{
-              res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.deviceId)
-            }
-          })     
-        break;
+      // case 4:
+      //     wx.navigateTo({
+      //       url: '/pages/someData/index',
+      //       success:(res)=>{
+      //         res.eventChannel.emit('getDeviceInfo',e.currentTarget.dataset.deviceId)
+      //       }
+      //     })     
+      //   break;
     
       case 5:
         wx.navigateTo({

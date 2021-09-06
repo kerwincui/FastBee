@@ -55,5 +55,5 @@
 </view>
 
 <view class="btn">
-  <van-button block color='#58bcff' round bindtap="submit">默认按钮</van-button>
+  <van-button block color='#58bcff' round bindtap="submit">提 交</van-button>
 </view>

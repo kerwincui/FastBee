@@ -2,7 +2,12 @@
 Page({
   data: {
     userInfo:{},
-    isLogin:false
+    isLogin:false,
+    items:[
+      { flag:'info',name:'公司简介',icon:'/icons/jianjie.png' },
+      { flag:'join',name:'加入我们',icon:'/icons/join.png' },
+      { flag:'address',name:'联系方式',icon:'/icons/about.png' }  
+    ]
   },
 
   getUserInfo(){
@@ -38,6 +43,16 @@ Page({
   getPhoneNumber(e){
     console.log('===========');
     console.log(e);
+  },
+
+  lookMore(e){
+    console.log(e);
+    wx.navigateTo({
+      url: '/pages/aboutUs/index',
+      success(res){
+        res.eventChannel.emit('getInfo',e.currentTarget.dataset.info)
+      }
+    })
   },
 
   /**

@@ -8,8 +8,8 @@ Page({
    */
   data: {
     deviceInfo:{},
-    deviceId:null,
-    lightStatus:null
+    deviceId:'',
+    lightStatus:false
   },
 
   /**
@@ -98,7 +98,7 @@ Page({
     if (res.code === 200) {
       this.setData({
         deviceInfo:res.data,
-        lightStatus:res.data.lightStatus
+        lightStatus:res.data.relayStatus
       })
     }
   },
@@ -146,7 +146,7 @@ Page({
       });
       const result = await request(`system/status/new/${deviceInfo.deviceId}`,'GET');
       this.setData({
-        power:result.data.lightStatus,
+        power:result.data.relayStatus,
         isOnline:result.data.isOnline
       });
     }
@@ -166,7 +166,7 @@ Page({
   onShow: function () {
     setTimeout(()=>{
       this.getDeviceDetail();
-    },0)
+    },100)
     
   },
 
