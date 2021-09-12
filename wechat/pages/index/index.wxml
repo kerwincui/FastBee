@@ -1,0 +1,144 @@
+<!--miniprogram/pages/myDevice/index.wxml-->
+<view class='body'>
+  <view class='top'>
+    <view class='top_left'>
+      <view class='top_big_info'>
+        <text class='temperature'>{{ weather.temperature.data }}℃</text>
+        <text class='city'>城市: {{ weather.city.data }}</text>
+      </view>
+      <view class='top_small_info'>
+        <view>
+          <text class='humidity'>湿度: {{ weather.humidity.data }}</text>
+          <text class='weather'>天气: {{ weather.weather.data }}</text>
+        </view>
+        <text class='winddirection'>风向: {{ weather.winddirection.data }}</text>
+        <text class='windpower'>风力: {{ weather.windpower.data }}</text>
+      </view>
+    </view>
+    <view class='top_right'>
+      <view class='start'>
+        <image src='/icons/start.png' />
+      </view>
+    </view>
+  </view>
+  <view class='devices'>
+    <view class='devices_tab'>全部 ({{ DeviceList.length }})</view>
+    <!-- <van-tabs swipeable animated>
+      <van-tab title="在线设备({{ onlineList.length }})"> -->
+    <scroll-view scroll-y>
+      <view class="devices_list">
+        <block wx:if="{{ DeviceList.length !== 0 }}">
+          <view wx:for='{{ onlineList }}' wx:key='index' class='border'>
+            <block wx:if="{{ item.isOnline === 1 }}">
+              <view class='devices_item' bindtap='goToDeviceControl' data-info='{{item}}'>
+                <view class="info">
+                  <view class='img'>
+                    <image src='/icons/4g.png' />
+                  </view>
+                  <view class="_right">
+                    <view style="color:green" class="status">在线</view>
+                    <view style="font-size:24rpx;color:#666">{{ item.categoryName }}</view>
+                  </view>
+                </view>
+                <view class='name'>
+                  <view>
+                    {{ item.deviceName }}
+                  </view>
+                  <view>
+                    <text style="color:#ff0000;font-size:24rpx;font-weight:600">NO.</text>
+                    <text style="color:#ff0000;font-size:22rpx;">{{ item.deviceNum }}</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+            <block wx:if="{{ item.isOnline === 0 }}">
+              <view style="background-color:rgba(0,0,0,.05)" class='devices_item' bindtap='goToDeviceControl'
+                data-info='{{item}}'>
+                <view class="info">
+                  <view class='img'>
+                    <image src='/icons/4g.png' />
+                  </view>
+                  <view class="_right">
+                    <view style="color:#ff0000" class="status">离线</view>
+                    <view style="font-size:24rpx;color:#666">{{ item.categoryName }}</view>
+                  </view>
+                </view>
+                <view class='name'>
+                  <view>
+                    {{ item.deviceName }}
+                  </view>
+                  <view>
+                    <text style="color:#ff0000;font-size:24rpx; font-weight:600">NO.</text>
+                    <text style="color:#ff0000;font-size:22rpx;">{{ item.deviceNum }}</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+          </view>
+        </block>
+        <block wx:elif='{{ DeviceList.length === 0 }}'>
+          <view class='noDevice'> 暂无设备，请添加。 </view>
+        </block>
+      </view>
+    </scroll-view>
+    <!-- </van-tab> -->
+    <!-- <van-tab title="离线设备({{ unlineList.length }})">
+        <scroll-view scroll-y>
+          <view class="devices_list">
+            <block wx:if="{{ unlineList.length !== 0 }}">
+              <view wx:for='{{ unlineList }}' wx:key='index' class='border'>
+                <block wx:if="{{ item.isOnline === 1 }}">
+                  <view class='devices_item' bindtap='goToDeviceControl' data-info='{{item}}'>
+                    <view class="info">
+                      <view class='img'>
+                        <image src='/icons/4g2.png' />
+                      </view>
+                      <view class="_right">
+                        <view style="color:green" class="status">在线</view>
+                        <view style="font-size:24rpx;color:#666">{{ item.categoryName }}</view>
+                      </view>
+                    </view>
+                    <view class='name'>
+                      <view>
+                        {{ item.deviceName }}
+                      </view>
+                      <view>
+                        <text  style="color:#ff0000;font-size:24rpx;font-weight:600">NO.</text>
+                        <text style="color:#ff0000;font-size:22rpx;">{{ item.deviceNum }}</text>
+                      </view>
+                    </view>
+                  </view>       
+                </block>
+                <block wx:if="{{ item.isOnline === 0 }}">
+                  <view style="background-color:rgba(0,0,0,.05)" class='devices_item' bindtap='goToDeviceControl' data-info='{{item}}'>
+                    <view class="info">
+                      <view class='img'>
+                        <image src='/icons/4g2.png' />
+                      </view>
+                      <view class="_right">
+                        <view style="color:#ff0000" class="status">离线</view>
+                        <view style="font-size:24rpx;color:#666">{{ item.categoryName }}</view>
+                      </view>
+                    </view>
+                    <view class='name'>
+                      <view>
+                        {{ item.deviceName }}
+                      </view>
+                      <view>
+                        <text  style="color:#ff0000;font-size:24rpx;font-weight:600">NO.</text>
+                        <text style="color:#ff0000;font-size:22rpx;">{{ item.deviceNum }}</text>
+                      </view>
+                    </view>
+                  </view>       
+                </block>
+              </view>
+            </block>
+            <block wx:elif='{{ unlineList.length === 0 }}'>
+              <view class='noDevice'> 暂无设备，请添加。 </view>
+            </block> 
+          </view>
+        </scroll-view>
+      </van-tab>
+    </van-tabs> -->
+  </view>
+</view>

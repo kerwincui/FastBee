@@ -55,47 +55,61 @@ public class MqttConfig {
     private int keepalive;
 
 
-    public String getusername()
-    {
+    public String getusername() {
         return username;
     }
-    public void setusername(String username) {this.username = username;}
 
-    public String getpassword()
-    {
+    public void setusername(String username) {
+        this.username = username;
+    }
+
+    public String getpassword() {
         return password;
     }
-    public void setpassword(String password) {this.password = password;}
 
-    public String gethostUrl()
-    {
+    public void setpassword(String password) {
+        this.password = password;
+    }
+
+    public String gethostUrl() {
         return hostUrl;
     }
-    public void sethostUrl(String hostUrl) {this.hostUrl = hostUrl;}
 
-    public String getclientId()
-    {
+    public void sethostUrl(String hostUrl) {
+        this.hostUrl = hostUrl;
+    }
+
+    public String getclientId() {
         return clientId;
     }
-    public void setclientId(String clientId) {this.clientId = clientId;}
 
-    public String getdefaultTopic()
-    {
+    public void setclientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getdefaultTopic() {
         return defaultTopic;
     }
-    public void setdefaultTopic(String defaultTopic) {this.defaultTopic = defaultTopic;}
 
-    public int gettimeout()
-    {
+    public void setdefaultTopic(String defaultTopic) {
+        this.defaultTopic = defaultTopic;
+    }
+
+    public int gettimeout() {
         return timeout;
     }
-    public void settimeout(int timeout) {this.timeout = timeout;}
 
-    public int getkeepalive()
-    {
+    public void settimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public int getkeepalive() {
         return keepalive;
     }
-    public void setkeepalive(int keepalive) {this.keepalive = keepalive;}
+
+    public void setkeepalive(int keepalive) {
+        this.keepalive = keepalive;
+    }
 
     @Bean
     public MqttPushClient getMqttPushClient() {

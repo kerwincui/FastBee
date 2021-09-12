@@ -35,15 +35,14 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 设备分类Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-05-07
  */
-@Api(value="设备分类",tags="设备分类")
+@Api(value = "设备分类", tags = "设备分类")
 @RestController
 @RequestMapping("/system/category")
-public class IotCategoryController extends BaseController
-{
+public class IotCategoryController extends BaseController {
     @Autowired
     private IIotCategoryService iotCategoryService;
 
@@ -53,8 +52,7 @@ public class IotCategoryController extends BaseController
     @ApiOperation(value = "分类列表", notes = "分类列表")
     @PreAuthorize("@ss.hasPermi('system:category:list')")
     @GetMapping("/list")
-    public TableDataInfo list(IotCategory iotCategory)
-    {
+    public TableDataInfo list(IotCategory iotCategory) {
         startPage();
         List<IotCategory> list = iotCategoryService.selectIotCategoryList(iotCategory);
         return getDataTable(list);
@@ -67,8 +65,7 @@ public class IotCategoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:category:export')")
     @Log(title = "设备分类", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(IotCategory iotCategory)
-    {
+    public AjaxResult export(IotCategory iotCategory) {
         List<IotCategory> list = iotCategoryService.selectIotCategoryList(iotCategory);
         ExcelUtil<IotCategory> util = new ExcelUtil<IotCategory>(IotCategory.class);
         return util.exportExcel(list, "category");
@@ -80,8 +77,7 @@ public class IotCategoryController extends BaseController
     @ApiOperation(value = "获取分类详情", notes = "获取分类详情")
     @PreAuthorize("@ss.hasPermi('system:category:query')")
     @GetMapping(value = "/{categoryId}")
-    public AjaxResult getInfo(@PathVariable("categoryId") Long categoryId)
-    {
+    public AjaxResult getInfo(@PathVariable("categoryId") Long categoryId) {
         return AjaxResult.success(iotCategoryService.selectIotCategoryById(categoryId));
     }
 
@@ -92,8 +88,7 @@ public class IotCategoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:category:add')")
     @Log(title = "设备分类", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody IotCategory iotCategory)
-    {
+    public AjaxResult add(@RequestBody IotCategory iotCategory) {
         return toAjax(iotCategoryService.insertIotCategory(iotCategory));
     }
 
@@ -104,8 +99,7 @@ public class IotCategoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:category:edit')")
     @Log(title = "设备分类", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody IotCategory iotCategory)
-    {
+    public AjaxResult edit(@RequestBody IotCategory iotCategory) {
         return toAjax(iotCategoryService.updateIotCategory(iotCategory));
     }
 
@@ -115,9 +109,8 @@ public class IotCategoryController extends BaseController
     @ApiOperation(value = "删除分类", notes = "删除分类")
     @PreAuthorize("@ss.hasPermi('system:category:remove')")
     @Log(title = "设备分类", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{categoryIds}")
-    public AjaxResult remove(@PathVariable Long[] categoryIds)
-    {
+    @DeleteMapping("/{categoryIds}")
+    public AjaxResult remove(@PathVariable Long[] categoryIds) {
         return toAjax(iotCategoryService.deleteIotCategoryByIds(categoryIds));
     }
 }

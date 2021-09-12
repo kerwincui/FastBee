@@ -1,0 +1,62 @@
+<!--miniprogram/pages/add/index.wxml-->
+<view class="top">
+  <image src="/icons/keji.jpeg" />
+</view>
+<!-- <view class="title">添加设备</view> -->
+<view class="content">
+  <view class="title">添加设备 >>></view>
+  <view class="main">
+    <!-- <view class="item">
+      <view class="type">
+        <image src="/icons/4g.png"></image>
+        <text>4G开关</text>
+      </view>
+      <view class="add" bindtap="addFourG">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view> -->
+    <!-- <view class="item">
+      <view class="type">
+        <image src="/icons/room.png"></image>
+        <text>智慧宿舍</text>
+      </view>
+      <view class="add">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view> -->
+    <!-- <view class="item">
+      <view class="type">
+        <image src="/icons/wifi1.png"></image>
+        <text>WiFi空气盒子</text>
+      </view>
+      <view class="add" bindtap="addWifi">
+        <image src="/icons/add_1.png" />
+      </view>
+    </view> -->
+    <view class='left'>
+      <view class='tabs'>
+        <view class='tabs_item' wx:for='{{ list }}' wx:key='index' bindtap='changeTab' data-index='{{index}}'>
+          <text class='{{ index===activeKey?"active":"none" }}'>{{ item.name }}</text>
+        </view>
+      </view>
+    </view>
+    <view class='right'>
+      <scroll-view scroll-y scroll-with-animation enhanced scroll-into-view='main-{{ elementId }}' bindscroll='scroll' >
+        <view class='products' id='main-{{ index }}' wx:for='{{ list }}' wx:key='index'>
+          <view class='title'>
+          {{ item.name }}
+          </view>
+          <view class='products_item' wx:for='{{ item.devices }}' wx:for-index='index1'  wx:for-item='item1' wx:key='index1' bindtap='goToBindDevice' data-type="{{ item.id }}" >
+            <view class='icon'>
+              <image src='{{ item1.url }}' />
+            </view>
+            <view class='info'>
+              <view class='name'>{{ item1.name }}</view>
+              <view class='describe'>{{ item1.des }}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

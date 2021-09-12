@@ -1,0 +1,30 @@
+<wxs src="../wxs/utils.wxs" module="utils" />
+<wxs src="../wxs/style.wxs" module="style" />
+
+<view
+  class="custom-class {{ utils.bem('slider', { disabled }) }}"
+  style="{{ style({ background: inactiveColor, height: utils.addUnit(barHeight) }) }}"
+  bind:tap="onClick"
+>
+  <view
+    class="{{ utils.bem('slider__bar') }}"
+    style="{{ barStyle }}; {{ style({ backgroundColor: activeColor }) }}"
+  >
+    <view
+      class="{{ utils.bem('slider__button-wrapper') }}"
+      bind:touchstart="onTouchStart"
+      catch:touchmove="onTouchMove"
+      bind:touchend="onTouchEnd"
+      bind:touchcancel="onTouchEnd"
+    >
+      <slot
+        wx:if="{{ useButtonSlot }}"
+        name="button"
+      />
+      <view
+        wx:else
+        class="{{ utils.bem('slider__button') }}"
+      />
+    </view>
+  </view>
+</view>

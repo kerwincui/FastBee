@@ -15,6 +15,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
  * @Description mqtt推送客户端
  */
 @Component
+@Primary
 public class MqttPushClient {
     private static final Logger logger = LoggerFactory.getLogger(MqttPushClient.class);
 
@@ -40,6 +42,7 @@ public class MqttPushClient {
 
     /**
      * 客户端连接
+     *
      * @param host      ip+端口
      * @param clientID  客户端Id
      * @param username  用户名
@@ -61,6 +64,7 @@ public class MqttPushClient {
             try {
                 client.setCallback(pushCallback);
                 client.connect(options);
+                System.out.println("MQTT Server Connected ...");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,6 +75,7 @@ public class MqttPushClient {
 
     /**
      * 发布
+     *
      * @param qos         连接方式
      * @param retained    是否保留
      * @param topic       主题
@@ -101,6 +106,7 @@ public class MqttPushClient {
 
     /**
      * 订阅某个主题
+     *
      * @param topic 主题
      * @param qos   连接方式
      */

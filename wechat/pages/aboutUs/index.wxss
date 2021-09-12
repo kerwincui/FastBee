@@ -1,0 +1,39 @@
+/* miniprogram/components/aboutUs/index.wxss */
+/* .name{
+font-size: 42rpx;
+text-align: center;
+margin: 15rpx auto;
+} */
+.card{
+  position: relative;
+  width: 100%;
+  height: 270rpx;
+  background-image: linear-gradient(120deg,#58bcff ,#2b63ff);
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+}
+.title{
+  position: absolute;
+  top: 30%;
+  width: 50%;
+  font-size: 38rpx;
+  padding: 15rpx 0;
+  border-bottom: 2rpx solid #bfbfbf;
+  color: #ffffff;
+  text-align: center;
+}
+.content{
+  position: absolute;
+  top: 70%;
+  width: 80%;
+  box-shadow: 0 0 12rpx #bfbfbf;
+  background-color: #ffffff;
+  padding: 30rpx;
+  border-radius: 15rpx;
+}
+text{
+  line-height: 52rpx;
+  user-select: auto;
+}

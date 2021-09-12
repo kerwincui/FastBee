@@ -1,0 +1,59 @@
+<!--pages/feedBack/feedBack.wxml-->
+<view class="checkbox">
+  <view class="title">选择反馈类型</view>
+  <van-radio-group
+    value="{{ radio }}"
+    bind:change="onChange"
+    direction="horizontal"
+    bind:change="checkOne"
+  >
+    <van-radio wx:for="{{ selectData }}" name="{{ item.id }}" >{{ item.text }}</van-radio>
+  </van-radio-group>
+</view>
+
+<view class="input">
+  <view class="main">
+    <textarea placeholder="请输入15~200字的问题描述" 
+      value="{{ value }}" maxlength='{{ maxlength }}'
+      bindinput="inputDetail">
+    </textarea>
+
+    <view class="addImage">
+      <view class="add">
+        <image bindtap="chooseImage" src="/icons/add_1.png" />
+      </view>
+      <view class="imgs">
+        <view class="item" wx:for="{{ tempFilePaths }}" wx:key='index'>
+          <image bindtap="previewImage" data-index='{{ index }}' src="{{ item }}" />
+          <view class="delete">
+            <image src="/icons/delete.png" bindtap="deleteImage" data-index="{{ index }}" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="length">
+    <text>{{ value.length }}</text>
+    <text>/</text>
+    <text>{{ maxlength }}</text>
+  </view>
+  <view wx:if="{{ lengthErr }}" class="errMsg {{ lengthErr && 'Vibration' }}">
+    <text style="color:#ff0000;">请至少输入15个字符！</text>
+  </view>
+</view>
+
+<view class="phone">
+  <view class="title">联系方式（选填）</view>
+  <view class="inputPhone">
+    <view class="icon">
+      <image src="/icons/phone.png" />
+    </view>
+    <input type="number" placeholder="请输入手机号" value="{{ phoneNum }}" bindtap="inputNum" />
+  </view>
+
+</view>
+
+<view class="btn">
+  <van-button block color='#58bcff' round bindtap="submit">提 交</van-button>
+</view>

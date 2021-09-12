@@ -22,16 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-
 /**
  * mqtt接口
- *
  */
-@Api(value="mqtt消息发布",tags="mqtt消息发布")
+@Api(value = "mqtt消息发布", tags = "mqtt消息发布")
 @RestController
 @RequestMapping("/system/mqtt")
-public class MqttController extends BaseController
-{
+public class MqttController extends BaseController {
 //    @Autowired
 //    private MqttPushClient mqttPushClient;
 //

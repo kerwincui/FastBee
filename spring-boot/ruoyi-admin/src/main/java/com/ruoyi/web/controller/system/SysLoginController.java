@@ -1,7 +1,11 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import com.ruoyi.common.core.domain.model.MpLoginBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +25,11 @@ import com.ruoyi.system.service.ISysMenuService;
 
 /**
  * 登录验证
- * 
+ *
  * @author ruoyi
  */
 @RestController
-public class SysLoginController
-{
+public class SysLoginController {
     @Autowired
     private SysLoginService loginService;
 
@@ -41,13 +44,12 @@ public class SysLoginController
 
     /**
      * 登录方法
-     * 
+     *
      * @param loginBody 登录信息
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBody loginBody)
-    {
+    public AjaxResult login(@RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
@@ -57,13 +59,30 @@ public class SysLoginController
     }
 
     /**
+     * @return
+     * @Method 微信小程序用户登录
+     * @Description TODO
+     * @Param null
+     * @date 2021-08-26,0026 11:47
+     * @author admin
+     */
+    @PostMapping("/wxLogin")
+    public AjaxResult wxLogin(@RequestBody MpLoginBody loginBody) {
+        AjaxResult ajax = AjaxResult.success();
+        // 生成令牌
+        String token = loginService.mpLlogin(loginBody);
+        ajax.put(Constants.TOKEN, token);
+
+        return ajax;
+    }
+
+    /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
-    public AjaxResult getInfo()
-    {
+    public AjaxResult getInfo() {
         LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
         SysUser user = loginUser.getUser();
         // 角色集合
@@ -79,12 +98,11 @@ public class SysLoginController
 
     /**
      * 获取路由信息
-     * 
+     *
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters()
-    {
+    public AjaxResult getRouters() {
         LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
         // 用户信息
         SysUser user = loginUser.getUser();

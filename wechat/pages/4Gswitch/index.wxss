@@ -1,0 +1,77 @@
+/* miniprogram/pages/4Gswitch/index.wxss */
+page{
+  background-color: #ffffff;
+}
+.name{
+  width: 60%;
+  margin: 15vh auto 30rpx;
+  text-align: center;
+  font-size: 42rpx;
+}
+.outside{
+  margin: 50rpx auto;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1rpx solid #666; */
+}
+.inside{
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 8rpx #bfbfbf;
+}
+.inside:active{
+  transform: translateY(5rpx);
+}
+.switch{
+  width: 25%;
+  height: 25%;
+}
+.power{
+  width: 60%;
+  margin: 30rpx auto;
+  text-align: center;
+  font-size: larger;
+}
+.bottom{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100rpx;
+  display: flex;
+}
+.bottom-item{
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #4271f1;
+  border: 1rpx solid #bfbfbf;
+  color: #ffffff;
+}
+.bottom-item>image{
+  width: 44rpx;
+  height: 44rpx;
+  margin: 0 10rpx;
+}
+.bottom-item:active{
+  background-color: #0044ff;
+}
+.share{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}

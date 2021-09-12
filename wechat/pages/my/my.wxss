@@ -1,0 +1,52 @@
+/* pages/my/my.wxss */
+.top{
+  position: relative;
+  width: 100%;
+  height: 270rpx;
+  background-image: linear-gradient(120deg,#58bcff ,#2b63ff);
+  display: flex;
+  justify-content: center;
+}
+.userInfo{
+  width: 85%;
+  height: 200rpx;
+  position: absolute;
+  top: 50%;
+  background-color: #ffffff;
+  border-radius: 15rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 10rpx #47b6ff;
+
+}
+.picture{
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  margin: 0 60rpx;
+  box-shadow: 0 0 10rpx #a0a0a0;
+  background-color: #6fc5ff;
+}
+.picture>image{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.other{
+  flex: 1;
+  height: 160rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.username{
+  font-size: 42rpx;
+}
+.phone{
+  display: flex;
+  align-items: center;
+}
+
+.tips{
+  margin: 95rpx 0;
+}

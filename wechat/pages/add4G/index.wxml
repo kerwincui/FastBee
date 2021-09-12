@@ -1,0 +1,67 @@
+<!--miniprogram/pages/add4G/index.wxml-->
+<!-- <view class="top">
+  <image src="/icons/Internet.png"></image>
+</view> -->
+<view class="title">添加4G设备</view>
+<view class="biaodan">
+
+  <view class="item">
+    <view class="name">
+      <text class="flag">*</text>
+      <text>IMEI：</text>
+    </view>
+    <view class="input">
+      <input value="{{ imei }}" bindinput='inputImei' placeholder="请输入设备IMEI" />
+      <image src="/icons/scand.png" catchtap="scand"></image>
+    </view>
+  </view>
+  <view class="item">
+    <view class="name">
+      <text class="flag">*</text>
+      <text>设备名称：</text>
+    </view>
+    <view class="input">
+      <input value="{{ deviceName }}" type="text" bind:input="inputDeviceName" placeholder="请输入设备名称" />
+    </view>
+  </view>
+  <view class="item">
+    <view class="name">
+      <text>固件版本：</text>
+    </view>
+    <view>{{ firmwareVersion }}</view>
+  </view>
+  <view class="item">
+    <view class="name">
+      <text class="flag">*</text>
+      <text>设备分类：</text>
+    </view>
+    <view class="input" catchtap='selectTap'> 
+      <input placeholder="请选择" value='{{ selectData[selectedIndex].categoryName }}' disabled="true" />
+      <image src="/icons/down.png" class="{{ show && 'select_img_rotate' }}"></image>
+      <view class="select_box" style="height:{{ show?selectData.length*68:0 }}rpx">
+        <view class="select_item" 
+          wx:for="{{ selectData }}" wx:key='this' 
+          data-index='{{ index }}'
+          style='{{selectedIndex===index&&"background-color:skyblue;color:#fff"}}'
+          catchtap='optionTap'
+        >
+          {{ item.categoryName }}
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="item">
+    <view class="name">
+      <text>备注：</text>
+    </view>
+    <view class="input">
+      <input value="{{ remark }}" bindinput="inputRemark"/>
+    </view>
+  </view>
+
+  <view class="btn">
+    <van-button catchtap="submit" block color="linear-gradient(to right, #4bb0ff, #6149f6)" round>
+      提 交
+    </van-button>
+  </view>
+</view>

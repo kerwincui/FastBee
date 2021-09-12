@@ -1,0 +1,35 @@
+<!--miniprogram/components/aboutUs/index.wxml-->
+<!-- <view class="name">小驿物联</view> -->
+<view class="card" wx:if="{{ info.flag==='info' }}">
+  <view class="title">公司简介</view>
+  <view class="content">
+    <text>
+      南京小驿物联科技技术有限公司专注做开源智能硬件，为用户提供完整的基于微信小程序的物联网解决方案，用户可以在开源产品基础上定制自己产品，快速提高用户开发智能硬件产品效率，我们的使命是加速更多物联网创意产品的起航，让技术不再是阻碍！
+    </text>
+  </view>
+</view>
+<view class="card" wx:if="{{ info.flag==='join' }}">
+  <view class="title">加入我们</view>
+  <view class="content">
+    <text>
+      网络已深刻改变着人们的生活，本地化生活服务市场前景巨大，生活半径团队坚信本地化生活服务与互联网的结合将会成就一家梦幻的公司，我们脚踏实地的相信梦想，我们相信你的加入会让生活半径更可能成为那家梦幻公司！生活半径人有梦想，有魄力，强执行力，但是要实现这个伟大的梦想，需要更多的有创业精神的你一路前行。公司将提供有竞争力的薪酬、完善的福利（五险一金）、期权、广阔的上升空间。只要你有能力、有激情、有梦想，愿意付出，愿意与公司共同成长，请加入我们！
+    </text>
+    <text>
+      请发送您的简历到：libo@xiaoyiiot.com，我们会在第一时间联系您！
+    </text>
+  </view>
+</view>
+<view class="card" wx:if="{{ info.flag==='address' }}">
+  <view class="title">联系方式</view>
+  <view class="content">
+    <text>
+      地址：南京市建邺区建邺区平良大街89号韶华工坊
+    </text>
+    <text>
+      邮编：210019
+    </text>
+    <text>
+      电话：14751686604
+    </text> 
+  </view>
+</view>

@@ -1,0 +1,35 @@
+<!--pages/my/my.wxml-->
+<view class="top">
+  <view class="userInfo">
+    <view class="picture">
+      <image wx:if="{{ isLogin === true }}" src="{{ userInfo.avatarUrl }}" />
+      <image wx:if="{{ isLogin === false }}" src="/icons/notlogin.png"></image>
+    </view>
+    <view wx:if="{{ isLogin === true }}" class="other">
+      <view class="username">{{ userInfo.nickName }}</view>
+      <!-- <view class="phone">
+        <van-button color="linear-gradient(to right, #4bb0ff, #6149f6)" 
+        open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'
+        round size="small">
+          绑定手机
+        </van-button>
+      </view> -->
+      <!-- <view class="phone">
+        <van-tag type="success">手机</van-tag>
+        <text>12345678900</text>
+      </view> -->
+    </view>
+    <view wx:if="{{ isLogin === false }}">
+      <van-button round color="linear-gradient(to right, #4bb0ff, #6149f6)" bindtap="getUserInfo">登录授权</van-button>
+    </view>
+  </view>
+</view>
+
+<view class="tips">
+  <van-cell-group inset>
+    <van-cell wx:for="{{ items }}" title="{{item.name}}" size="large" icon='{{ item.icon }}' bindtap="lookMore" data-info='{{ item }}' is-link/>
+    <van-cell title="意见反馈" size="large" icon='/icons/suggest.png' is-link 
+      url='/pages/feedBack/feedBack' link-type='navigateTo'
+    />
+  </van-cell-group>
+</view>

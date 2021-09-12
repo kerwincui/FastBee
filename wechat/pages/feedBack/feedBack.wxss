@@ -1,0 +1,144 @@
+/* pages/feedBack/feedBack.wxss */
+.checkbox{
+  width: calc(100vw - 120rpx);
+  padding: 30rpx;
+  box-shadow: 0 0 12rpx #bfbfbf;
+  margin: 30rpx auto 15rpx;
+  background-color: #ffffff;
+  border-radius: 15rpx;
+
+}
+.title{
+  color: #9e9e9e;
+  padding-bottom: 15rpx;
+}
+.van-radio{
+  margin: 15rpx 0;
+}
+.length{
+  color: #9e9e9e;
+  float: right;
+}
+
+.input{
+  width: calc(100vw - 120rpx);
+  padding: 30rpx;
+  box-shadow: 0 0 12rpx #bfbfbf;
+  margin: 15rpx auto;
+  background-color: #ffffff;
+  border-radius: 15rpx;
+
+}
+.main{
+  box-shadow: 0 0 5rpx #bfbfbf;
+}
+textarea{
+  padding:15rpx;
+  height: 150rpx;
+  width: calc(100% - 30rpx);
+}
+.phone{
+  width: calc(100vw - 120rpx);
+  padding: 15rpx 30rpx;
+  box-shadow: 0 0 12rpx #bfbfbf;
+  margin: 15rpx auto;
+  background-color: #ffffff;
+  border-radius: 15rpx;
+
+}
+.inputPhone{
+  display: flex;
+  align-items: center;
+}
+.inputPhone>input{
+  padding: 10rpx 30rpx;
+  border-bottom: 2rpx solid #bfbfbf;
+  margin: 0 30rpx;
+}
+
+.addImage{
+  display: flex;
+}
+.add{
+  width: 100rpx;
+  height: 100rpx;
+  border: 4rpx dashed #aaaaaa;
+  margin: 15rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add>image{
+  width: 50%;
+  height: 50%;
+}
+.add>image:active{
+  width: 45%;
+  height: 45%;
+}
+.imgs{
+  display: flex;
+  flex-wrap: wrap;
+}
+.item{
+  width: 100rpx;
+  height: 100rpx;
+  border: 2rpx solid #8a8a8a;
+  margin: 15rpx;
+  position: relative;
+}
+.item>image{
+  width: 100%;
+  height: 100%;
+}
+.delete{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff1515;
+  transform: translate(50%,-50%);
+  border:1rpx solid #666;
+}
+.delete>image{
+  width: 100%;
+  height: 100%;
+}
+
+.icon{
+  width: 50rpx;
+  height: 50rpx;
+}
+.icon>image{
+  width: 100%;
+  height: 100%;
+}
+.btn{
+  width: calc(100vw - 60rpx);
+  padding: 30rpx;
+}
+.Vibration{
+  animation: Vibration 0.3s 1;
+}
+@keyframes Vibration{
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10rpx);
+  }
+  50% {
+    transform: translateX(10rpx);
+  }
+  75% {
+    transform: translateX(10rpx);
+  }
+  100% {
+    transform: translateX(-10rpx);
+  }
+}

@@ -17,91 +17,94 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 分组对象 iot_group
- * 
+ *
  * @author kerwincui
  * @date 2021-05-18
  */
-public class IotGroup extends BaseEntity
-{
+public class IotGroup extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 设备分组 */
+    /**
+     * 设备分组
+     */
     private Long groupId;
 
-    /** 用户 */
+    /**
+     * 用户
+     */
     @Excel(name = "用户")
     private Long userId;
 
-    /** 分组名称 */
+    /**
+     * 分组名称
+     */
     @Excel(name = "分组名称")
     private String groupName;
 
-    /** 排序 */
+    /**
+     * 排序
+     */
     @Excel(name = "排序")
     private Integer groupOrder;
 
-    /** 删除标志（0代表存在 2代表删除） */
+    /**
+     * 删除标志（0代表存在 2代表删除）
+     */
     private String delFlag;
 
-    public void setGroupId(Long groupId) 
-    {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
-    public Long getGroupId() 
-    {
+    public Long getGroupId() {
         return groupId;
     }
-    public void setUserId(Long userId) 
-    {
+
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Long getUserId() 
-    {
+    public Long getUserId() {
         return userId;
     }
-    public void setGroupName(String groupName) 
-    {
+
+    public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
-    public String getGroupName() 
-    {
+    public String getGroupName() {
         return groupName;
     }
-    public void setGroupOrder(Integer groupOrder) 
-    {
+
+    public void setGroupOrder(Integer groupOrder) {
         this.groupOrder = groupOrder;
     }
 
-    public Integer getGroupOrder() 
-    {
+    public Integer getGroupOrder() {
         return groupOrder;
     }
-    public void setDelFlag(String delFlag) 
-    {
+
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
-    public String getDelFlag() 
-    {
+    public String getDelFlag() {
         return delFlag;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("groupId", getGroupId())
-            .append("userId", getUserId())
-            .append("groupName", getGroupName())
-            .append("groupOrder", getGroupOrder())
-            .append("delFlag", getDelFlag())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("groupId", getGroupId())
+                .append("userId", getUserId())
+                .append("groupName", getGroupName())
+                .append("groupOrder", getGroupOrder())
+                .append("delFlag", getDelFlag())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .toString();
     }
 }

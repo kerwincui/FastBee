@@ -1,0 +1,32 @@
+<!--miniprogram/pages/4Gswitch/index.wxml-->
+<view class="name">
+  <text style="margin-right:15rpx">{{ deviceInfo.deviceName }}</text>
+  <view>
+    <van-tag mark type="success">{{ deviceInfo.categoryName }}</van-tag>
+  </view>
+  
+</view>
+<view>
+  <view class="outside" style="{{(lightStatus == true) ?'background-image: radial-gradient(#6149f6 10%,#b0e6ff 100%)':'background-color: #dadada;'}}">
+    <view class="inside" bindtap="lightPower">
+      <image wx:if="{{ lightStatus == false }}" class="switch" src="/icons/switch_off.png"></image>
+      <image wx:if="{{ lightStatus == true }}" class="switch" src="/icons/switch_on.png"></image>
+    </view>
+  </view>
+  <view class="power">
+    <text>开关状态：</text>
+    <text wx:if="{{ lightStatus == true }}" style="color:#0000ff">开</text>
+    <text wx:if="{{ lightStatus == false }}" style="color:#ff0000">关</text>
+  </view>
+</view>
+<view class="bottom">
+  <view class="bottom-item">
+    <image src="/icons/share.png"></image>
+    <text>分享</text>
+    <button class="share" open-type="share" data-info = "{{ deviceInfo }}"></button>
+  </view>
+  <view class="bottom-item" bindtap="lookDetail" data-info="{{ deviceInfo }}">
+    <image src="/icons/detail.png"></image>
+    <text>详情</text>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+/* miniprogram/pages/deviceDetail/index.wxss */
+
+.btn{
+  width:80vw;
+  margin:30rpx auto;
+}

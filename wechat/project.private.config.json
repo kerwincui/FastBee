@@ -1,0 +1,50 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/my/my",
+          "pathName": "pages/my/my",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/4Gswitch/index",
+          "pathName": "pages/4Gswitch/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "分享",
+          "pathName": "pages/4Gswitch/index",
+          "query": "deviceInfo={\"searchValue\":null,\"createBy\":null,\"createTime\":\"2021-05-23 14:26:38\",\"updateBy\":null,\"updateTime\":null,\"remark\":\"122345678\",\"params\":{},\"deviceId\":1,\"deviceNum\":\"7CDFA1049ADA\",\"categoryId\":2,\"categoryName\":\"智能灯\",\"deviceName\":\"阿拉丁神灯\",\"firmwareVersion\":\"1.0\",\"ownerId\":null,\"status\":\"未激活\",\"nickName\":\"微信注册用户\",\"delFlag\":null,\"isAlarm\":1,\"isRadar\":1,\"isRfControl\":1,\"networkAddress\":\"内网\",\"networkIp\":\"127.0.0.1\",\"relayStatus\":1,\"lightStatus\":1,\"isOnline\":1,\"deviceTemperature\":36.52,\"rssi\":-80}",
+          "scene": 1036,
+          "referrerInfo": {
+            "appId": "xxx"
+          }
+        },
+        {
+          "name": "pages/feedBack/feedBack",
+          "pathName": "pages/feedBack/feedBack",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/add/add",
+          "pathName": "pages/add/add",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

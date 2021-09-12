@@ -1,0 +1,70 @@
+
+<van-steps steps="{{ stepsTop }}" active="{{ activeTop }}" />
+<view class='teach'>
+  <image src='/icons/route.png' />
+  <view class=''>第一步，输入家庭WiFi信息</view>
+  <view class=''>第二步，连接设备热点</view>
+  <view class=''>第三步，重新连接家庭WiFi</view>
+</view>
+<br />
+<br />
+<block wx:if='{{ activeTop === 0 }}'>
+  <view class='form'>
+    <view class='title'>
+      输入家庭WiFi信息
+    </view>
+    <label class='account'>
+      <image class='icon' src='/icons/wifi.png' />
+      <input type='text' bind:input='inputAcc' value='{{ ssid }}' placeholder='请输入WiFi名称' />
+    </label>
+    <label class='password'>
+      <image class='icon' src='/icons/pwd.png' />
+      <input  wx:if='{{ pwdHide === true }}' bind:input='inputPwd' value='{{ password }}' type='password' placeholder='请输入密码' />
+      <input  wx:if='{{ pwdHide === false }}' bind:input='inputPwd' value='{{ password }}' type='text' placeholder='请输入密码' />
+      <view class='icon' bindtap='lookPwd'>
+        <image wx:if='{{ pwdHide === true }}' class='icon' src='/icons/close.png' />
+        <image wx:if='{{ pwdHide === false }}' class='icon' src='/icons/open.png' />
+      </view>
+    </label>
+    <view class='btn'>
+      <van-button block round color="linear-gradient(to right, #4bb0ff, #6149f6)" bind:click='onConfirm'>
+        下一步
+      </van-button>
+    </view>
+  </view>
+</block>
+<block wx:if='{{ activeTop === 1 }}'>
+    <view class='form'>
+    <view class='title'>
+      连接设备热点
+    </view>
+    <label class='account'>
+      <image class='icon' src='/icons/acc.png' />
+      <input type='text' disabled bind:input='inputDeviceSSID' value='{{ deviceSSID }}' placeholder='请输入设备热点名称' />
+    </label>
+    <label class='password'>
+      <image class='icon' src='/icons/pwd.png' />
+      <input  wx:if='{{ pwdHide === true }}' disabled bind:input='inputDevicePWD' value='{{ devicePWD }}' type='password' placeholder='请输入密码' />
+      <input  wx:if='{{ pwdHide === false }}' disabled bind:input='inputDevicePWD' value='{{ devicePWD }}' type='text' placeholder='请输入密码' />
+      <view class='icon' bindtap='lookPwd'>
+        <image wx:if='{{ pwdHide === true }}' class='icon' src='/icons/close.png' />
+        <image wx:if='{{ pwdHide === false }}' class='icon' src='/icons/open.png' />
+      </view>
+    </label>
+    <view class='btn'>
+      <van-button block round color="linear-gradient(to right, #4bb0ff, #6149f6)" bind:click='onConnect'>
+        连接
+      </van-button>
+    </view>
+  </view>
+</block>
+<block wx:if='{{ activeTop === 2 }}'>
+  <view class='step'>
+    <view class='item' wx:for='{{ steps }}'>
+      <van-loading wx:if='{{ item.success === false }}' type="spinner" />
+      <image wx:if='{{ item.success === true }}' src='/icons/yes.png' />
+      <text class='desc'>{{ item.text }}</text>
+    </view>
+  </view>
+  <button bindtap='closeUDP'>关闭</button>
+</block>
