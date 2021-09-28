@@ -73,7 +73,7 @@
         <if test="openId != null and openId != ''">
             AND u.open_id = #{openId}
         </if>
-        ,        <if test="phonenumber != null and phonenumber != ''">
+        <if test="phonenumber != null and phonenumber != ''">
             AND u.phonenumber like concat('%', #{phonenumber}, '%')
         </if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
