@@ -122,6 +122,8 @@ public class MqttConfig {
         mqttPushClient.subscribe("setting", 1);
         // 订阅设备离线遗嘱
         mqttPushClient.subscribe("offline", 1);
+        // 订阅CMD指令消息
+        mqttPushClient.subscribe("cmd", 1);
         return mqttPushClient;
     }
 }

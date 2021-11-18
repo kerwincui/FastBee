@@ -209,11 +209,11 @@
     </update>
 
     <delete id="deleteIotDeviceById" parameterType="Long">
-        update iot_device set del_flag= '2' where device_id = #{deviceId}
+        delete from iot_device where device_id = #{deviceId}
     </delete>
 
     <delete id="deleteIotDeviceByIds" parameterType="String">
-        update iot_device set del_flag= '2' where device_id in
+        delete from iot_device where device_id in
         <foreach item="deviceId" collection="array" open="(" separator="," close=")">
             #{deviceId}
         </foreach>
@@ -259,8 +259,10 @@
 
     <select id="getDeviceInfoByDeviceId" parameterType="IotDevice" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
+        t2.device_status_id as deviceStatusId,
         t3.device_name AS deviceName,
         t3.remark,
+        t2.remark as statusRemark,
         t1.device_id AS deviceId,
         t1.device_num AS deviceNum,
         t2.is_online AS isOnline,

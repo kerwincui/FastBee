@@ -102,6 +102,7 @@ public class IotDeviceUserRelationServiceImpl implements IIotDeviceUserRelationS
     public IotDeviceUserRelation selectIotDeviceUserRelationByDeviceIdAndUserId(Long deviceId, Long userId) {
         IotDeviceUserRelation iotDeviceUserRelation = new IotDeviceUserRelation();
         iotDeviceUserRelation.setUserId(userId);
+        iotDeviceUserRelation.setDeviceId(deviceId);
         List<IotDeviceUserRelation> iotDeviceUserRelations = iotDeviceUserRelationMapper.selectIotDeviceUserRelationList(iotDeviceUserRelation);
         if(iotDeviceUserRelations==null || iotDeviceUserRelations.size()==0)
         {

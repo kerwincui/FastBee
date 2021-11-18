@@ -18,10 +18,7 @@ import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ip.AddressUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
-import com.ruoyi.system.domain.IotCategory;
-import com.ruoyi.system.domain.IotDevice;
-import com.ruoyi.system.domain.IotDeviceSet;
-import com.ruoyi.system.domain.IotDeviceStatus;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.IIotCategoryService;
 import com.ruoyi.system.service.IIotDeviceService;
 import com.ruoyi.system.service.IIotDeviceSetService;
@@ -130,6 +127,15 @@ public class PushCallback implements MqttCallback {
                 deviceStatusEntity.setIsOnline(0);
                 iotDeviceStatusService.insertIotDeviceStatus(deviceStatusEntity);
             }
+        } else if (topic.equals("cmd")) {
+            IotDeviceCmd deviceSet = JSON.parseObject(new String(mqttMessage.getPayload()), IotDeviceCmd.class);
+            // 智能配网时需要获取IP、地址和设备用户
+            IotDevice device = iotDeviceService.selectIotDeviceByNum(deviceSet.getDeviceNum());
+
+            String cmdJson = JSONObject.toJSONString(deviceSet);
+            //向设备发送指令
+            mqttPushClient.publish(1, false, "cmd/get/" + device.getDeviceNum(), cmdJson);
+
         }
     }
 

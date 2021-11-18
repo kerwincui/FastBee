@@ -109,6 +109,7 @@ public class IotDeviceController extends BaseController {
     public AjaxResult add(@RequestBody IotDevice iotDevice) {
         LoginUser user = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         iotDevice.setOwnerId(user.getUser().getUserId().toString());
+        iotDevice.setStatus("未绑定");
         IotDevice device = iotDeviceService.selectIotDeviceByNum(iotDevice.getDeviceNum());
         if (device != null) {
             return AjaxResult.error("设备编号已存在，请重新填写");
@@ -168,6 +169,8 @@ public class IotDeviceController extends BaseController {
         }
         return toAjax(iotDeviceService.controlDeviceByNum(deviceNum,cmd));
     }
+
+
 
     @ApiOperation(value = "小程序设备列表", notes = "小程序设备列表")
     @PreAuthorize("@ss.hasPermi('system:device:list')")
