@@ -18,7 +18,7 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 9160
+  port: 8080
   servlet:
     # 应用的访问路径
     context-path: /
@@ -82,8 +82,8 @@ spring:
   mqtt:
     username: admin                           # 账号
     password: admin                           # 密码
-    host-url: tcp://host:1883            # mqtt连接tcp地址
-    client-id: server-xiaoyi-${random.value}         # 客户端Id，每个启动的id要不同 随机：${random.value}
+    host-url: tcp://localhost:1883            # mqtt连接tcp地址
+    client-id: server-wumei-${random.value}         # 客户端Id，每个启动的id要不同 随机：${random.value}
     default-topic: test                       # 默认主题
     timeout: 100                              # 超时时间
     keepalive: 100                            # 保持连接数
