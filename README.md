@@ -7,7 +7,6 @@
 2. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino等。软硬件交互基于Mqtt协议，使用EMQ代理服务器。系统架构图如下：
 <br /><br />
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
-![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys2.png)  
 ![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/directory.png)  
 
 3. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。硬件完整示例代码采用ESP-IDF框架4.2版本，基于乐鑫ESP32S2芯片，安信可ESP-12K模组。[详情和购买方式 >> ](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)<br /><br />
