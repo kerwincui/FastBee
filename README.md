@@ -46,6 +46,8 @@
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS等
     - 开发工具：Visual Studio Code 和 Arduino
+* 小程序
+    - [小驿物联](https://gitee.com/iot-xiaoyi) 完成，非常感谢
 
 <br />
 
