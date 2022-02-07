@@ -108,6 +108,6 @@ registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 <br />
 
 
-### 八、APP和管理端登录 &emsp;&emsp;测试账号：wumei &emsp;密码：admin123
+### 八、APP和管理端登录 &emsp;&emsp;
 * APP：[进入下载界面>>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203153&doc_id=1506495)
-* 管理端：[进入登录界面>>>](http://iot.wumei.live/)
+* 管理端：[进入登录界面>>>](https://iot.wumei.live/)
