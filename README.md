@@ -1,7 +1,7 @@
 
 ### 一、项目简介
 
-1. [新版本开发中，详情 >>](https://github.com/kerwincui/wumei-smart)
+1. [新版本开发中，详情 >>](http://wumei.live)
 
 2. **wumei-smart是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。[演示视频 >>](https://space.bilibili.com/471004321)<br />
 ![说明](https://gitee.com/kerwincui/wumei-smart/raw/master/document/desc.png)<br /><br />
