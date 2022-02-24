@@ -94,6 +94,7 @@ registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 
 * [官网](http://wumei.live)
 * [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
+* [小驿物联提供的视频教程](https://space.bilibili.com/478765633)
 * [ESP-IDF完整固件代码](https://gitee.com/kerwincui/wumei-smart/tree/master/firmware/esp-idf/wumei-smart-firmware)
 * [演示视频](https://space.bilibili.com/471004321)
 * [硬件详情和购买方式](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
