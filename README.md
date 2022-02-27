@@ -70,8 +70,8 @@ docker run \
 registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
 ```
 
-#### 3. 扫码下载APP安装,打开APP，跳过登录，配置服务端地址
-![APP下载](https://gitee.com/kerwincui/wumei-smart/raw/master/document/download.png)
+#### 3. 下载APP安装,打开APP，跳过登录，配置服务端地址
+[https://gitee.com/kerwincui/wumei-smart/raw/master/document/wumei-smart.apk](https://gitee.com/kerwincui/wumei-smart/raw/master/document/wumei-smart.apk)
 
 测试账号：wumei admin123；配置成功后默认账号：admin admin123
 
