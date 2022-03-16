@@ -1,115 +1,96 @@
 
-### 一、项目简介
+### 一、项目简介（[查看旧版本>>](https://github.com/kerwincui/wumei-iot)）
 
-1. [新版本开发中，详情 >>](http://wumei.live)
+1. 物美智能 [wumei-smart](http://wumei.live/) 是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。
 
-2. **wumei-smart是一套开源的软硬件系统，可用于二次开发和学习，快速搭建自己的智能家居系统。** 硬件工程师可以把自己的设备集成到系统；软件工程师可以使用项目中的设备熟悉软硬件交互。[演示视频 >>](https://space.bilibili.com/471004321)<br />
-![说明](https://gitee.com/kerwincui/wumei-smart/raw/master/document/desc.png)<br /><br />
+2. 设备接入使用EMQX消息服务器，认证采用EMQX内置的Http插件对称加密认证。后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、Redis和TDengine；设备端支持硬件SDK生成，例如ESP32、ESP8266、树莓派等；设备模拟器采用Android和WPF框架，不仅能模拟硬件设备，还可以控制和监测电脑、手机。
 
-3. 服务端使用spring boot、数据库mysql和redis、前端vue、移动端android、硬件端ESP-IDF和Arduino等。软硬件交互基于Mqtt协议，使用EMQ代理服务器。系统架构图如下：
-<br /><br />
-![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)  
-![图片](https://gitee.com/kerwincui/wumei-smart/raw/master/document/directory.png)  
-
-4. 硬件端提供接入文档，需要设备支持网络功能，项目里面包含ESP-IDF和Arduino的硬件代码和接入示例。同时制作了智能开关（wifi通断器）板子，可用于学习和生活中，控制2500W以下的用电设备。硬件完整示例代码采用ESP-IDF框架4.2版本，基于乐鑫ESP32S2芯片，安信可ESP-12K模组。[详情和购买方式 >> ](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)<br /><br />
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case2.gif)  <br />
-    * 手机、电脑远程控制
-    * 遥控配对、清码和控制
-    * 空气温湿度监控
-    * 雷达感应和报警
-    * 220V和5V电压供电，阻性负载2500W，感性负载250W
-
-<br />
+3. 系统架构图
+![系统架构图](https://github.com/kerwincui/wumei-smart/blob/master/document/sys.png?raw=true)
+4. 使用流程
+![使用流程图](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/process.png)
 
 
-### 二、相关开发板
-1. NodeMCU开发板制作一个智能开关
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case1.gif)  
-2. 七彩智能灯 [灯控板和灯板的PCB文件以及Bom清单，免费赠送，用于自己制作硬件](https://gitee.com/kerwincui/wumei-smart/tree/master/document/%E6%99%BA%E8%83%BD%E4%B8%83%E5%BD%A9%E7%81%AF)
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case3.gif)  
-3. 物联网开发板 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case5.gif)  
-4. 物联网入门学习套件 [详情和购买方式 >>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
-![案例](https://gitee.com/kerwincui/wumei-smart/raw/master/document/case4.gif)  
+### 二、功能
+- 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
+- 系统监控： 操作日志、登录日志、系统日志、在线用户、服务监控、连接池监控、缓存监控等
+- 产品管理： 产品、产品物模型、产品分类、产品固件等
+- 设备管理： 控制、分组、定时、日志、统计、定位、OTA升级、影子模式、实时监测、加密认证等
+- EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理
+- 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报监测数据、AES加密、NTP时间等
+- 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
 
+### 三、开发中功能
+- 设备分享、设备告警、场景联动（进度50%）
+- 智能音箱、多租户、APP界面自定义（进度40%）
+- 时序数据库、分布式集群部署、Granfa监控（进度30%）
+- 视频流处理（进度0%）
+- 桌面端模拟器/监控（进度5%）
+- 安卓端模拟器/监控（进度0%）
+- App和小程序（正在开发中......）
 
-<br />
- 
-### 三、技术栈    
-* 后端
-    - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、Mongodb、Mqtt等
+### 四、技术栈    
+* 服务端
+    - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Mqtt等
     - 开发工具：IDEA    
-* 前端
+* Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
     - 开发工具：Visual Studio Code    
-* 安卓
-    - 相关技术：XUI、XPage、XAop、XHttp2等
-    - 开发工具：Android Studio    
+* 移动端（android / ios / 微信小程序）
+    - 相关技术：uniapp、smartconfig
+    - 开发工具：HBuilder
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS等
     - 开发工具：Visual Studio Code 和 Arduino
-* 小程序
-    - [小驿物联](https://gitee.com/iot-xiaoyi) 完成，非常感谢
+* 安卓端模拟器/监控
+    - 相关技术：android
+    - 开发工具：Android Studio
+* 电脑端模拟器/监控
+    - 相关技术：WPF
+    - 开发工具：Visual Studio
 
-<br />
+### 五、硬件接入（具体参考文档，项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发）
+1. 设备认证
+    * 加密认证（推荐）
+    * 简单认证
+    * EMQX支持的其他认证方式 
+2. 设备交互
+    * 发布物模型、设备信息、时钟同步相关Mqtt主题
+    * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
-### 四、快速部署系统
-#### 1. 安装docker
-#### 2. 命令窗口运行如下命令(完成后端、前端、数据库、EMQX部署)：
-
-```
-docker run \
---name wumei-smart \
---publish 80:80 \
---publish 18083:18083 \
---publish 1883:1883 \
---publish 3306:3306 \
---publish 6379:6379 \
---restart always \
---detach \
-registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
-```
-
-#### 3. 下载APP安装,打开APP，跳过登录，配置服务端地址
-[https://gitee.com/kerwincui/wumei-smart/raw/master/document/wumei-smart.apk](https://gitee.com/kerwincui/wumei-smart/raw/master/document/wumei-smart.apk)
-
-测试账号：wumei admin123；配置成功后默认账号：admin admin123
-
-#### 4. 硬件代码烧录到设备
-* [Arduino接入Demo](https://gitee.com/kerwincui/wumei-smart/tree/master/firmware/arduino)
-* [ESP-IDF接入Demo](https://gitee.com/kerwincui/wumei-smart/tree/master/firmware/esp-idf)
-
-<br />
-
-### 五、系统部分图片
-![分类](https://gitee.com/kerwincui/wumei-smart/raw/master/document/a.png)
-![设备列表](https://gitee.com/kerwincui/wumei-smart/raw/master/document/b.png)
-![EMQX](https://gitee.com/kerwincui/wumei-smart/raw/master/document/c.png)
-![设备详情](https://gitee.com/kerwincui/wumei-smart/raw/master/document/d.png)
-![配置](https://gitee.com/kerwincui/wumei-smart/raw/master/document/e.png) 
-
-<br />
-
-### 六、相关教程
-
-* [官网](http://wumei.live)
-* [项目文档](https://gitee.com/kerwincui/wumei-smart/wikis/pages)
-* [小驿物联提供的视频教程](https://space.bilibili.com/478765633)
-* [ESP-IDF完整固件代码](https://gitee.com/kerwincui/wumei-smart/tree/master/firmware/esp-idf/wumei-smart-firmware)
-* [演示视频](https://space.bilibili.com/471004321)
-* [硬件详情和购买方式](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4233922&doc_id=1506495)
-* [若依文档](http://doc.ruoyi.vip/ruoyi-vue/)，前端和后端基于Ruoyi-Vue，前后端分离权限管理系统
-* [XUI](https://gitee.com/xuexiangjys/XUI)，Android基于XUI开发，是一个简洁而优雅的原生UI框架
-* [ESP-IDF编程指南](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/index.html)
-* [EMQX文档](https://docs.emqx.cn)
-
-<br />
-
-### 七、加入互助交流群:1073236354
-<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P_oc91N6KC39zp2PEV_-BY3xMnAokeZ8&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="物美智能wumeismart" title="物美智能wumeismart"></a> 
-<br />
+### 六、项目目录
+&nbsp;&nbsp;&nbsp;&nbsp; spring-boot ---------------------------------------------------- 后端<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; vue ------------------------------------------------------------- 前端<br />
+&nbsp;&nbsp;&nbsp;&nbsp; docker ---------------------------------------------------------- docker部署文件<br />
+&nbsp;&nbsp;&nbsp;&nbsp; sdk ------------------------------------------------------------- 硬件SDK<br />
+&nbsp;&nbsp;&nbsp;&nbsp; download ------------------------------------------------------- 工具下载<br />
 
 
-### 八、APP和演示地址 &emsp;&emsp;
-* APP：[进入下载界面>>>](https://gitee.com/kerwincui/wumei-smart/wikis/pages?sort_id=4203153&doc_id=1506495)
-* 新版本演示地址：[进入登录界面>>>](https://iot.wumei.live/)
+### 七、相关文档
+##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
+* [项目文档(编写中...)](http://wumei.live/kerwincui/document/wiki/)
+* [物美智能官网](http://wumei.live/)
+* [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
+* [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
+* [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
+
+
+### 八、其他
+* 互助交流群：1073236354
+* [演示地址>>](https://iot.wumei.live/)
+
+
+### 九、界面图片
+* web端
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/01.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/02.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/03.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/04.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/05.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/06.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/07.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/08.png)
+![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/09.png)
+
+
+
