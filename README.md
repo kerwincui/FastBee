@@ -1,5 +1,5 @@
 
-### 一、项目简介（[查看旧版本>>](https://github.com/kerwincui/wumei-iot)）
+### 一、项目简介
 
 1. 物美智能 [wumei-smart](http://wumei.live/) 是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。
 
@@ -82,15 +82,7 @@
 
 ### 九、界面图片
 * web端
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/01.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/02.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/03.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/04.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/05.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/06.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/07.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/08.png)
-![图片一](https://raw.githubusercontent.com/kerwincui/wumei-smart/master/document/09.png)
+
 
 
 
