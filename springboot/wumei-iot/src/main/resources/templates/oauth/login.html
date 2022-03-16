@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wumei-smart oauth</title>
+    <link href="/oauth/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color:#36424a;margin:0;">
+
+<div>
+    <div style="height: 64px;background-color: #fff;text-align: center;line-height: 64px;font-size: 24px;margin-bottom:150px;font-weight:600">
+        <span>wumei-smart oauth 授权 </span>
+    </div>
+</div>
+
+<div style="width: 360px;text-align: center;margin: 0 auto;border: 2px solid #fff;padding: 30px;border-radius: 10px">
+        <p style="font-size:16px;color:#fff;">请输入您的账号</p>
+    <form name="oauth" th:action="@{/oauth/login}" method="post">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                <input type="text" class="form-control" placeholder="用户名" name="username">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+                <input type="password" class="form-control" placeholder="密码" name="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success" type="submit" style="width:100%">登 录</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

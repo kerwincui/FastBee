@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.iot.mapper.DeviceLogMapper">
+    
+    <resultMap type="com.ruoyi.iot.model.MonitorModel" id="MonitorResult">
+        <result property="value"    column="log_value"    />
+        <result property="time"    column="create_time"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.iot.domain.DeviceLog" id="DeviceLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="logType"    column="log_type"    />
+        <result property="logValue"    column="log_value"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="identity"    column="identity"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="isMonitor"    column="is_monitor"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDeviceLogVo">
+        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor, create_time, remark from iot_device_log
+    </sql>
+
+    <select id="selectMonitorList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="MonitorResult">
+        select log_value, create_time from iot_device_log
+        where device_id = #{deviceId} and identity = #{identity} and is_monitor=1
+        order by create_time desc
+        limit 2000
+    </select>
+
+    <select id="selectDeviceLogList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="DeviceLogResult">
+        <include refid="selectDeviceLogVo"/>
+        <where>
+            <if test="1==1"> and device_id = #{deviceId} and is_monitor !=1</if>
+            <if test="logType != null "> and log_type = #{logType}</if>
+            <if test="identity != null  and identity != ''"> and identity like concat('%', #{identity}, '%')</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectDeviceLogByLogId" parameterType="Long" resultMap="DeviceLogResult">
+        <include refid="selectDeviceLogVo"/>
+        where log_id = #{logId}
+    </select>
+        
+    <insert id="insertDeviceLog" parameterType="com.ruoyi.iot.domain.DeviceLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into iot_device_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logType != null">log_type,</if>
+            <if test="logValue != null">log_value,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="identity != null">identity,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="isMonitor != null">is_monitor,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logType != null">#{logType},</if>
+            <if test="logValue != null">#{logValue},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+            <if test="identity != null">#{identity},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="isMonitor != null">#{isMonitor},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceLog" parameterType="com.ruoyi.iot.domain.DeviceLog">
+        update iot_device_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logType != null">log_type = #{logType},</if>
+            <if test="logValue != null">log_value = #{logValue},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="identity != null">identity = #{identity},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deleteDeviceLogByLogId" parameterType="Long">
+        delete from iot_device_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteDeviceLogByLogIds" parameterType="String">
+        delete from iot_device_log where log_id in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteDeviceLogByDeviceIds" parameterType="String">
+        delete from iot_device_log where device_id in
+        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wumei-smart-oauth-confirm</title>
+    <link href="/oauth/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color:#36424a;margin:0;">
+<div>
+    <div style="height: 64px;background-color: #fff;text-align: center;line-height: 64px;font-size: 24px;margin-bottom:150px;font-weight:600">
+        <span>wumei-smart oauth 授权 </span>
+    </div>
+</div>
+
+<div style="width: 360px;text-align: center;margin: 0 auto;border: 2px solid #fff;padding: 30px;border-radius: 10px">
+    <form name="accessConfirm" th:action="@{/oauth/authorize}" method="post">
+        <p style="font-size:16px;color:#fff;">选择用户授权</p>
+        <div class="input-group" th:each="scope:${scopes}" style="margin-bottom:20px;">
+            <input type="text" class="form-control" disabled th:value="${scope.key}">
+            <span class="input-group-addon">
+                                <label class="form-checkbox form-icon active">
+                                    <input type="checkbox" th:name="${scope.key}">
+                                </label>
+                        </span>
+        </div>
+        <div class="form-group" style="text-align:left;">
+            <label class="control-label" style="color:#fff;width:266px;">同意勾选的授权:</label>
+                <label class="form-checkbox form-icon active">
+                    <input type="checkbox" th:name="user_oauth_approval" th:checked="false">
+                </label>
+        </div>
+        <button class="btn btn-success" type="submit" style="width:100%">确 认</button>
+    </form>
+</div>
+</body>
+</html>

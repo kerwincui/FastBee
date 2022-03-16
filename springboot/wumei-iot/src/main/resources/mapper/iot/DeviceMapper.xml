@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.iot.mapper.DeviceMapper">
+    
+    <resultMap type="com.ruoyi.iot.domain.Device" id="DeviceResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="status"    column="status"    />
+        <result property="rssi"    column="rssi"    />
+        <result property="isShadow"    column="is_shadow"    />
+        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="thingsModelValue"    column="things_model_value"    />
+        <result property="networkAddress"    column="network_address"    />
+        <result property="networkIp"    column="network_ip"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.iot.model.DeviceShortOutput" id="DeviceShortResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="status"    column="status"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="rssi"    column="rssi"    />
+        <result property="isShadow"    column="is_shadow"    />
+        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="thingsModelValue"    column="things_model_value"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.iot.model.DeviceAllShortOutput" id="DeviceAllShortResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="productName"    column="product_name"    />
+        <result property="userName"    column="user_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="status"    column="status"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="rssi"    column="rssi"    />
+        <result property="isShadow"    column="is_shadow"    />
+        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="networkAddress"    column="network_address"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.iot.model.DeviceAuthenticateModel" id="DeviceAuthenticateResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="status"    column="status"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productStatus"    column="product_status"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="mqttAccount"    column="mqtt_account"    />
+        <result property="mqttPassword"    column="mqtt_password"    />
+        <result property="mqttSecret"    column="mqtt_secret"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.iot.model.ThingsModels.ThingsModelValuesOutput" id="DeviceThingsValueResult">
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="status"    column="status"    />
+        <result property="isShadow"    column="is_shadow"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="thingsModelValue"    column="things_model_value"    />
+    </resultMap>
+
+    <sql id="selectDeviceVo">
+        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status, rssi,is_shadow ,is_custom_location,things_model_value,network_address, network_ip, longitude, latitude, active_time, create_time, update_time, img_url,remark from iot_device
+    </sql>
+
+    <sql id="selectDeviceShortVo">
+        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status,rssi,is_shadow ,is_custom_location,things_model_value, active_time,img_url from iot_device
+    </sql>
+
+    <sql id="selectWebhookDeviceVo">
+        select device_id, device_name,product_id, serial_number, status,is_shadow ,is_custom_location,things_model_value, active_time from iot_device
+    </sql>
+
+    <select id="selectDeviceList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        <where>  
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="networkAddress != null  and networkAddress != ''"> and network_address like concat('%', #{networkAddress}, '%')</if>
+            <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectAllDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceAllShortResult">
+        select device_id, device_name, product_name, user_name, serial_number, firmware_version, status,rssi,is_shadow ,
+               is_custom_location, active_time,network_address,longitude,latitude from iot_device
+    </select>
+
+    <select id="selectDeviceThingsModelValueBySerialNumber" parameterType="String" resultMap="DeviceThingsValueResult">
+        select product_id,product_name,device_id,device_name,serial_number,is_shadow,status,things_model_value from iot_device where serial_number = #{serialNumber}
+    </select>
+
+    <update id="updateDeviceThingsModelValue" parameterType="com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput">
+        update iot_device set things_model_value=#{stringValue} where device_id = #{deviceId}
+    </update>
+
+    <select id="selectDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceShortResult">
+        <include refid="selectDeviceShortVo"/>
+        <where>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectDeviceByDeviceId" parameterType="Long" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        where device_id = #{deviceId}
+    </select>
+
+    <select id="selectDeviceAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">
+        SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.product_id,d.product_name,d.serial_number
+        FROM iot_product p
+                LEFT JOIN ( SELECT device_id, device_name, STATUS, product_id, product_name, serial_number
+                FROM iot_device
+                WHERE serial_number = #{serialNumber} ) AS d ON d.product_id = p.product_id
+        WHERE
+            p.product_id = #{productId}
+    </select>
+
+    <select id="selectDeviceBySerialNumber" parameterType="String" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        where serial_number = #{serialNumber}
+    </select>
+
+    <select id="selectShortDeviceBySerialNumber" parameterType="String" resultMap="DeviceResult">
+        <include refid="selectWebhookDeviceVo"/>
+        where serial_number = #{serialNumber}
+    </select>
+
+    <select id="selectDeviceRunningStatusByDeviceId" parameterType="Long" resultMap="DeviceShortResult">
+        <include refid="selectDeviceShortVo"/>
+        where device_id = #{deviceId}
+    </select>
+        
+    <insert id="insertDevice" parameterType="com.ruoyi.iot.domain.Device" useGeneratedKeys="true" keyProperty="deviceId">
+        insert into iot_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="firmwareVersion != null">firmware_version,</if>
+            <if test="status != null">status,</if>
+            <if test="rssi != null">rssi,</if>
+            <if test="isShadow != null">is_shadow,</if>
+            <if test="isCustomLocation != null">is_custom_location,</if>
+            <if test="thingsModelValue != null">things_model_value,</if>
+            <if test="networkAddress != null">network_address,</if>
+            <if test="networkIp != null">network_ip,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="activeTime != null">active_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="imgUrl != null">img_url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
+            <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+            <if test="firmwareVersion != null">#{firmwareVersion},</if>
+            <if test="status != null">#{status},</if>
+            <if test="rssi != null">#{rssi},</if>
+            <if test="isShadow != null">#{isShadow},</if>
+            <if test="isCustomLocation != null">#{isCustomLocation},</if>
+            <if test="thingsModelValue != null">#{thingsModelValue},</if>
+            <if test="networkAddress != null">#{networkAddress},</if>
+            <if test="networkIp != null">#{networkIp},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="activeTime != null">#{activeTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDevice" parameterType="com.ruoyi.iot.domain.Device">
+        update iot_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="firmwareVersion != null">firmware_version = #{firmwareVersion},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="rssi != null">rssi = #{rssi},</if>
+            <if test="isShadow != null">is_shadow = #{isShadow},</if>
+            <if test="isCustomLocation != null">is_custom_location = #{isCustomLocation},</if>
+            <if test="thingsModelValue != null">things_model_value = #{thingsModelValue},</if>
+            <if test="networkAddress != null">network_address = #{networkAddress},</if>
+            <if test="networkIp != null">network_ip = #{networkIp},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="activeTime != null">active_time = #{activeTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+        </trim>
+        where device_id = #{deviceId}
+    </update>
+
+    <update id="updateDeviceStatus" parameterType="com.ruoyi.iot.domain.Device">
+        update iot_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="networkAddress != null">network_address = #{networkAddress},</if>
+            <if test="networkIp != null">network_ip = #{networkIp},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="activeTime != null">active_time = #{activeTime},</if>
+        </trim>
+        where serial_number = #{serialNumber}
+    </update>
+
+    <update id="updateDeviceBySerialNumber" parameterType="com.ruoyi.iot.domain.Device">
+        update iot_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="firmwareVersion != null">firmware_version = #{firmwareVersion},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="rssi != null">rssi = #{rssi},</if>
+            <if test="isShadow != null">is_shadow = #{isShadow},</if>
+            <if test="isCustomLocation != null">is_custom_location = #{isCustomLocation},</if>
+            <if test="thingsModelValue != null">things_model_value = #{thingsModelValue},</if>
+            <if test="networkAddress != null">network_address = #{networkAddress},</if>
+            <if test="networkIp != null">network_ip = #{networkIp},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="activeTime != null">active_time = #{activeTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+        </trim>
+        where serial_number = #{serialNumber}
+    </update>
+
+    <delete id="deleteDeviceByDeviceId" parameterType="Long">
+        delete from iot_device where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteDeviceByDeviceIds" parameterType="String">
+        delete from iot_device where device_id in 
+        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+
+    <select id="getDeviceNumCount" parameterType="String" resultType="int">
+        select count(*) from iot_device where serial_number = #{deviceNum}
+    </select>
+
+    <delete id="deleteDeviceGroupByDeviceIds" parameterType="String">
+        delete from iot_device_group where device_id in
+        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>
