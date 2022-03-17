@@ -9,6 +9,8 @@
 ![系统架构图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)
 4. 使用流程
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/process.png)
+5. 设备烧录代码示例
+![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flash.png)
 
 
 ### 二、功能
