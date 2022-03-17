@@ -6,7 +6,6 @@
 2. 设备接入使用EMQX消息服务器，认证采用EMQX内置的Http插件对称加密认证。后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、Redis和TDengine；设备端支持硬件SDK生成，例如ESP32、ESP8266、树莓派等；设备模拟器采用Android和WPF框架，不仅能模拟硬件设备，还可以控制和监测电脑、手机。
 
 3. 系统架构图
-
 ![系统架构图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)
 4. 使用流程
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/process.png)
@@ -60,11 +59,11 @@
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
 ### 六、项目目录
-&nbsp;&nbsp;&nbsp;&nbsp; spring-boot ---------------------------------------------------- 后端<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; spring-boot ----------------------------------------------------- 后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue ------------------------------------------------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker ---------------------------------------------------------- docker部署文件<br />
-&nbsp;&nbsp;&nbsp;&nbsp; sdk ------------------------------------------------------------- 硬件SDK<br />
-&nbsp;&nbsp;&nbsp;&nbsp; download ------------------------------------------------------- 工具下载<br />
+&nbsp;&nbsp;&nbsp;&nbsp; sdk -------------------------------------------------------------- 硬件SDK<br />
+&nbsp;&nbsp;&nbsp;&nbsp; download -------------------------------------------------------- 工具下载<br />
 
 
 ### 七、相关文档
@@ -81,8 +80,7 @@
 * [演示地址>>](https://iot.wumei.live/)
 
 
-### 九、界面图片
-* web端
+### 九、部分图片
 <table>
     <tr>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/index.png"/></td>
