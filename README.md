@@ -96,6 +96,7 @@
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device.png"/></td>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/monitor.png"/></td>
     </tr>
+        <tr>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-detail.png"/></td>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-status.png"/></td>
     </tr>	 
@@ -103,6 +104,7 @@
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-timer.png"/></td>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-log.png"/></td>
     </tr>
+        <tr>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-statistic.png"/></td>
         <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/group.png"/></td>
     </tr>
