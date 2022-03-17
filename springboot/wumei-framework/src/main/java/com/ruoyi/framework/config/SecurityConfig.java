@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
                 // 认证失败处理类 TODO 启用自定义认证会导致oauth授权地址不能访问
-                //.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求

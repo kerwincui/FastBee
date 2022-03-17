@@ -27,8 +27,18 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException
     {
-        int code = HttpStatus.UNAUTHORIZED;
-        String msg = StringUtils.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
-        ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(code, msg)));
+        if (isAjaxRequest(request)){
+            int code = HttpStatus.UNAUTHORIZED;
+            String msg = StringUtils.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
+            ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(code, msg)));
+        }else {
+            response.sendRedirect("/oauth/login");
+        }
+    }
+
+
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        String ajaxFlag = request.getHeader("X-Requested-With");
+        return ajaxFlag != null && "XMLHttpRequest".equals(ajaxFlag);
     }
 }
