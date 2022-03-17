@@ -1,7 +1,7 @@
 
 ### 一、项目简介
 
-1. 物美智能 [wumei-smart](http://wumei.live/) 是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。使用流程:新建产品、定义产品的物模型然后发布；新建设备，下载sdk，配置设备信息，完成具体功能，烧录代码到设备；设备通电后连接云平台，设备自动激活。
+1. 物美智能 [wumei-smart](http://wumei.live/) 是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。使用流程：新建产品、定义产品的物模型然后发布；新建设备，下载sdk，配置设备信息，完成具体功能，烧录代码到设备；设备通电后连接云平台，设备自动激活。
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/process.png)
 
 2. 设备接入使用EMQX消息服务器，认证采用EMQX内置的Http插件对称加密认证。后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、Redis和TDengine；设备端支持硬件SDK生成，例如ESP32、ESP8266、树莓派等；设备模拟器采用Android和WPF框架，不仅能模拟硬件设备，还可以控制和监测电脑、手机。系统架构图如下：
