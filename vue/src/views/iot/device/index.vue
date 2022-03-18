@@ -82,19 +82,19 @@
                     <el-descriptions :column="2" border size="mini" style="height:82px;margin-top:10px;overflow:hidden;">
                         <el-descriptions-item v-for="subItem in item.readOnlyList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <span style="white-space: nowrap;text-overflow: ellipsis;width:40px;overflow:hidden;height:40px;">{{subItem.name}}</span>
+                                <span style="white-space: nowrap;text-overflow: ellipsis;min-width:48px;overflow:hidden;height:40px;">{{subItem.name}}</span>
                             </template>
                             <el-link type="primary" :underline="false" style="white-space: nowrap;">{{subItem.shadow==""?"0":subItem.shadow}} {{subItem.unit==null?"":subItem.unit}}</el-link>
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.boolList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-switch v-model="subItem.shadow" @change="publishThingsModel(item,subItem)" :active-value="'1'" :inactive-value="'0'" :disabled="shadowUnEnable(item)" />
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.enumList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-select v-model="subItem.shadow" placeholder="请选择" @change="publishThingsModel(item,subItem)" clearable size="mini" :title="subItem.name" :disabled="shadowUnEnable(item)">
                                 <el-option v-for="children in subItem.enumList" :key="children.value" :label="children.text" :value="children.value" />
@@ -102,7 +102,7 @@
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.decimalList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-input v-model="subItem.shadow" :placeholder="'小数：'+subItem.name" size="mini" :title="'小数：'+subItem.name" :disabled="shadowUnEnable(item)">
                                 <el-button slot="append" icon="el-icon-s-promotion" @click="publishThingsModel(item,subItem)" style="font-size:16px;padding:10px;" title="指令发送"></el-button>
@@ -110,7 +110,7 @@
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.integerList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-input v-model="subItem.shadow" :placeholder="'整数：'+subItem.name" :title="'整数：'+subItem.name" size="mini" :disabled="shadowUnEnable(item)">
                                 <el-button slot="append" icon="el-icon-s-promotion" @click="publishThingsModel(item,subItem)" style="font-size:16px;padding:10px;" title="指令发送"></el-button>
@@ -118,7 +118,7 @@
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.arrayList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-input v-model="subItem.shadow" :placeholder="'数组：'+subItem.name" :title="'数组：'+subItem.name" size="mini" :disabled="shadowUnEnable(item)">
                                 <el-button slot="append" icon="el-icon-s-promotion" @click="publishThingsModel(item,subItem)" style="font-size:16px;padding:10px;" title="指令发送"></el-button>
@@ -126,7 +126,7 @@
                         </el-descriptions-item>
                         <el-descriptions-item v-for="subItem in item.stringList" :key="subItem.id" :contentStyle="{height:'40px'}">
                             <template slot="label">
-                                <div style="white-space: nowrap;text-overflow:ellipsis;width:40px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
+                                <div style="white-space: nowrap;text-overflow:ellipsis;min-width:48px;overflow:hidden;" :title="subItem.name">{{subItem.name}}</div>
                             </template>
                             <el-input v-model="subItem.shadow" :placeholder="'字符串：'+subItem.name" :title="'字符串：'+subItem.name" size="mini" :disabled="shadowUnEnable(item)">
                                 <el-button slot="append" icon="el-icon-s-promotion" @click="publishThingsModel(item,subItem)" style="font-size:16px;padding:10px;" title="指令发送"></el-button>

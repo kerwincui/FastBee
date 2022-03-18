@@ -27,7 +27,7 @@ public class MqttClientConnectModel
     private Integer proto_ver;
 
     /** 时间戳(秒) **/
-    private Integer connected_at;
+    private Long connected_at;
 
     /** 错误原因 **/
     private String reason;
@@ -80,11 +80,11 @@ public class MqttClientConnectModel
         this.proto_ver = proto_ver;
     }
 
-    public Integer getConnected_at() {
+    public Long getConnected_at() {
         return connected_at;
     }
 
-    public void setConnected_at(Integer connected_at) {
+    public void setConnected_at(Long connected_at) {
         this.connected_at = connected_at;
     }
 

@@ -242,8 +242,8 @@ public class DeviceServiceImpl implements IDeviceService {
             JSONObject thingsModelObject = JSONObject.parseObject(thingsModelService.getCacheThingsModelByProductId(deviceList.get(i).getProductId()));
             JSONArray properties = thingsModelObject.getJSONArray("properties");
             JSONArray functions = thingsModelObject.getJSONArray("functions");
-            // 物模型转换为对象中的不同类别集合
-            convertJsonToCategoryList(properties, deviceList.get(i), true, true);
+            // 物模型转换为对象中的不同类别集合,isOnlyRead忘了干啥用的，暂时保留吧
+            convertJsonToCategoryList(properties, deviceList.get(i), true, false);
             convertJsonToCategoryList(functions, deviceList.get(i), true, false);
             deviceList.get(i).setThingsModelValue("");
         }
