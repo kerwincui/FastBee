@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @Description 消费监听类
  */
 @Component
-public class EmqxCallback implements MqttCallback {
+public class EmqxCallback implements MqttCallbackExtended {
     private static final Logger logger = LoggerFactory.getLogger(EmqxCallback.class);
 
     @Autowired
@@ -24,17 +24,9 @@ public class EmqxCallback implements MqttCallback {
     @Override
     public void connectionLost(Throwable throwable) {
         try {
-            // 重连mqtt
-            while(true) {
-                logger.info("mqtt连接断开，重新连接中...");
-                EmqxClient.client.reconnect();
-                Thread.sleep(10000);
-                if(EmqxClient.client.isConnected()){
-                    logger.info("mqtt已经重新连接");
-                    break;
-                }
-            }
-        } catch (MqttException | InterruptedException e) {
+            logger.info("mqtt断开连接--");
+            //EmqxService.client 添加配置 options.setAutomaticReconnect(true);会自动重连
+        } catch (Exception e) {
             // e.printStackTrace();
             logger.error("发生错误："+e.getMessage());
         }
@@ -47,8 +39,23 @@ public class EmqxCallback implements MqttCallback {
         emqxService.subscribeCallback(topic,mqttMessage);
     }
 
+    /**
+     * 发布消息后，到达MQTT服务器，服务器回调消息接收
+     * @param iMqttDeliveryToken
+     */
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
         // 消息到达 MQTT 代理时触发的事件
+    }
+
+    /**
+     * 监听mqtt连接消息
+     * @param reconnect
+     * @param serverURI
+     */
+    @Override
+    public void connectComplete(boolean reconnect, String serverURI) {
+        logger.info("mqtt已经重新连接！！");
+        //连接后，可以在此做初始化事件，或订阅
     }
 }

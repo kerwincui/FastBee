@@ -118,12 +118,16 @@ public class EmqxService {
      * @param message
      */
     private void reportProperty(Long productId,String deviceNum,String message,boolean isShadow){
-        List<ThingsModelValueRemarkItem> thingsModelValueRemarkItems=JSON.parseArray(message, ThingsModelValueRemarkItem.class);
-        ThingsModelValuesInput input=new ThingsModelValuesInput();
-        input.setProductId(productId);
-        input.setDeviceNumber(deviceNum);
-        input.setThingsModelValueRemarkItem(thingsModelValueRemarkItems);
-        deviceService.reportDeviceThingsModelValue(input,1,isShadow);
+        try {
+            List<ThingsModelValueRemarkItem> thingsModelValueRemarkItems=JSON.parseArray(message, ThingsModelValueRemarkItem.class);
+            ThingsModelValuesInput input=new ThingsModelValuesInput();
+            input.setProductId(productId);
+            input.setDeviceNumber(deviceNum);
+            input.setThingsModelValueRemarkItem(thingsModelValueRemarkItems);
+            deviceService.reportDeviceThingsModelValue(input,1,isShadow);
+        }catch (Exception e){
+            logger.error("接收属性数据，解析数据时异常 message={}",e.getMessage());
+        }
     }
 
     /**

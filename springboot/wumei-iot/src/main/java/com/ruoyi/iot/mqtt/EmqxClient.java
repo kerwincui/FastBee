@@ -43,6 +43,11 @@ public class EmqxClient {
             options.setPassword(password.toCharArray());
             options.setConnectionTimeout(timeout);
             options.setKeepAliveInterval(keepalive);
+            //设置自动重新连接
+            options.setAutomaticReconnect(true);
+            /*设置为false，断开连接后，不清除session，重连后仍然是之前的session，
+            保留订阅的主题，能接受到离线期间的消息*/
+            options.setCleanSession(false);
             EmqxClient.client=client;
             client.setCallback(emqxCallback);
             clientConnect(options,client);
