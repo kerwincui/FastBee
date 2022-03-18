@@ -7,7 +7,6 @@
 ![系统架构图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/sys.png)
 
 
-
 ### 二、功能
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
 - 系统监控： 操作日志、登录日志、系统日志、在线用户、服务监控、连接池监控、缓存监控等
@@ -46,7 +45,7 @@
     - 相关技术：WPF
     - 开发工具：Visual Studio
 
-### 五、硬件接入（具体参考文档，项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发）
+### 五、硬件接入
 1. 设备认证
     * 加密认证（推荐）
     * 简单认证
@@ -55,8 +54,9 @@
     * 发布物模型、设备信息、时钟同步相关Mqtt主题
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
+3. 具体参考文档，项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发。设备烧录使用串口模块，例如Ch340。接线图如下：
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flash.png)
-<br />设备烧录代码示例，常见串口模块如：CH340
+
 
 ### 六、项目目录
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot ---------------------------------------------------- 后端<br/>
