@@ -56,7 +56,7 @@
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flash.png)
-设备烧录代码示例，常见串口模块如：CH340
+<br />设备烧录代码示例，常见串口模块如：CH340
 
 ### 六、项目目录
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot ---------------------------------------------------- 后端<br/>
