@@ -54,7 +54,7 @@
     * 发布物模型、设备信息、时钟同步相关Mqtt主题
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
-3. 具体参考文档，项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发。设备烧录使用串口模块，例如Ch340。接线图如下：
+###### 项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发。设备烧录使用串口模块，例如Ch340，接线图如下：
 ![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flash.png)
 
 
