@@ -8,7 +8,7 @@
         <version>3.8.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <artifactId>wumei-admin</artifactId>
 
     <description>
