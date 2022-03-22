@@ -87,6 +87,16 @@ spring:
     default-topic: test                       # 默认主题
     timeout: 60000                           # 超时时间
     keepalive: 30                            # 保持连接
+    clearSession: false
+    isShared: false
+    isSharedGroup: false
+  task:
+    execution:
+      pool:
+        core-size: 10 #最小连接数
+        max-size: 20   #最大连接数
+        queue-capacity: 25 #设置队列容量为2000个
+
 
 # token配置
 token:

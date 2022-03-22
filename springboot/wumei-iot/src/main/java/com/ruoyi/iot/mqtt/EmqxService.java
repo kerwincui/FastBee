@@ -10,12 +10,14 @@ import com.ruoyi.iot.model.ThingsModels.ThingsModelValueRemarkItem;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput;
 import com.ruoyi.iot.service.IDeviceLogService;
 import com.ruoyi.iot.service.IDeviceService;
+import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +55,7 @@ public class EmqxService {
     String pPropertyTopic = "/property/get";
     String pFunctionTopic = "/function/get";
 
-    public void subscribe(MqttClient client) throws MqttException {
+    public void subscribe(MqttAsyncClient client) throws MqttException {
         // 订阅设备信息
         client.subscribe(sInfoTopic, 1);
         // 订阅时钟同步
@@ -71,7 +73,18 @@ public class EmqxService {
         logger.info("mqtt订阅了设备信息和物模型主题");
     }
 
-    public void subscribeCallback(String topic, MqttMessage mqttMessage) {
+    /**
+     * 消息回调方法
+     * @param topic  主题
+     * @param mqttMessage 消息体
+     */
+    @Async
+    public void subscribeCallback(String topic, MqttMessage mqttMessage) throws InterruptedException {
+
+        /**测试线程池使用*/
+        logger.info("====>>>>线程名--{}",Thread.currentThread().getName());
+        /**模拟耗时操作*/
+        Thread.sleep(1000);
         // subscribe后得到的消息会执行到这里面
         String message = new String(mqttMessage.getPayload());
         logger.info("接收消息主题 : " + topic);

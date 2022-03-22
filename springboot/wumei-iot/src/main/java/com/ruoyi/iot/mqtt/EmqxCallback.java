@@ -5,6 +5,7 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,20 +17,16 @@ public class EmqxCallback implements MqttCallbackExtended {
     private static final Logger logger = LoggerFactory.getLogger(EmqxCallback.class);
 
     @Autowired
-    private MqttConfig mqttConfig;
+    private EmqxClient emqxClient;
 
+    @Lazy
     @Autowired
     private EmqxService emqxService;
 
     @Override
     public void connectionLost(Throwable throwable) {
-        try {
             logger.info("mqtt断开连接--");
-            //EmqxService.client 添加配置 options.setAutomaticReconnect(true);会自动重连
-        } catch (Exception e) {
-            // e.printStackTrace();
-            logger.error("发生错误："+e.getMessage());
-        }
+
     }
 
 
@@ -55,7 +52,12 @@ public class EmqxCallback implements MqttCallbackExtended {
      */
     @Override
     public void connectComplete(boolean reconnect, String serverURI) {
-        logger.info("mqtt已经重新连接！！");
+        logger.info("mqtt已经连接！！");
         //连接后，可以在此做初始化事件，或订阅
+        try {
+            emqxService.subscribe(EmqxClient.client);
+        } catch (MqttException e) {
+            logger.error("======>>>>>订阅主题失败 error={}",e.getMessage());
+        }
     }
 }
