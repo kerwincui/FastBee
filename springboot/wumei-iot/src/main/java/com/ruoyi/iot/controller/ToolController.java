@@ -133,7 +133,9 @@ public class ToolController extends BaseController {
                 String[] clientInfo = clientid.split("&");
                 if (clientInfo.length != 2) {
                     // 设备未加密认证
-                    if (mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
+                    String deviceNum = clientInfo[0];
+                    Device device = deviceService.selectShortDeviceBySerialNumber(deviceNum);
+                    if (device !=null && mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
                         System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
                         return ResponseEntity.ok().body("ok");
                     }
@@ -204,12 +206,12 @@ public class ToolController extends BaseController {
 
     @ApiOperation("mqtt钩子处理")
     @PostMapping("/mqtt/webhook")
-    public AjaxResult webHookProcess(@RequestBody MqttClientConnectModel model) {
+    public void webHookProcess(@RequestBody MqttClientConnectModel model) {
         try {
             System.out.println("webhook:" + model.getAction());
             // 过滤服务端、web端和手机端
             if (model.getClientid().startsWith("server") || model.getClientid().startsWith("web") || model.getClientid().startsWith("phone")) {
-                return AjaxResult.success();
+                return;
             }
             String[] clientInfo = model.getClientid().split("&");
             String deviceNum = clientInfo[0];
@@ -243,7 +245,6 @@ public class ToolController extends BaseController {
             ex.printStackTrace();
             log.error("发生错误：" + ex.getMessage());
         }
-        return AjaxResult.success();
     }
 
 
