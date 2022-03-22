@@ -19,66 +19,30 @@ docker push kerwinci/wumei-smart:1.0
 # 容器运行
 docker run \
 --name wumei-smart \
+--env DB_HOST=wumei.live:3306 \
+--env DB_NAME=wumei-smart \
+--env DB_USER=root \
+--env DB_PASSWORD=wumei-smart \
 --publish 80:80 \
---publish 18083:18083 \
 --publish 1883:1883 \
---publish 3306:3306 \
---publish 6379:6379 \
---restart always \
+--publish 8083:8083 \
+--volume /var/wumei-smart/java/uploadPath:/var/wumei-smart/java/uploadPath \
+--restart unless-stopped \
 --detach \
-kerwincui/wumei-smart:1.0
+kerwincui/wumei-smart:1.1
 
-docker run ^
---name wumei-smart ^
---publish 80:80 ^
---publish 18083:18083 ^
---publish 1883:1883 ^
---publish 3306:3306 ^
---publish 6379:6379 ^
---restart always ^
---detach ^
-kerwincui/wumei-smart:1.0
+--publish 18083:18083 \
+--publish 8084:8084 \
+--publish 8883:8883 \
+--publish 8081:8081 \
+--publish 6379:6379 \
+--publish 8080:8080 \
 
+--volume /var/wumei-smart/java/logs:/var/wumei-smart/java/logs \
+--volume /var/wumei-smart/nginx/nginx.conf:/etc/nginx/nginx.conf \
+--volume /var/wumei-smart/nginx/error.log:/var/log/nginx/error.log \
+--volume /var/wumei-smart/redis/redis.conf:/etc/redis/redis.conf \
+--volume /var/wumei-smart/redis/redis-server.log:/var/log/redis/redis-server.log \
+--volume /var/wumei-smart/emqx/emqx.conf:/etc/emqx/emqx.conf  \
+--volume /var/wumei-smart/emqx/log:/var/log/emqx  \
 
-
-########################容器内处理##########################
-
-# 配置redis
-# vim /etc/redis/redis.conf ，取消注释requirepass admin123，注释 bind:127.0.0.1
-
-# 配置docker-entrypoint.sh
-# vim /docker-entrypoint.sh 启动mysql和java app
-
-# 配置nginx
-# vim /etc/nginx/nginx.conf，nginx服务配置
-
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    sendfile        on;
-    keepalive_timeout  65;
-
-    server {
-        listen       80;
-        server_name  localhost;
-
-         location / {
-            root   /var/wumei-smart/vue;
-            try_files $uri $uri/ /index.html;
-            index  index.html index.htm;
-        }
-		
-         location /prod-api/{
-             proxy_set_header Host $http_host;
-             proxy_set_header X-Real-IP $remote_addr;
-             proxy_set_header REMOTE-HOST $remote_addr;
-             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-             proxy_pass http://localhost:8080/;
-          }
-
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
-    }
-}
