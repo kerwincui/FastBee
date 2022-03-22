@@ -43,8 +43,8 @@ spring:
                 allow:
                 url-pattern: /druid/*
                 # 控制台管理用户名和密码
-                login-username: admin
-                login-password: admin123
+                login-username: wumei-smart
+                login-password: wumei-smart
             filter:
                 stat:
                     enabled: true

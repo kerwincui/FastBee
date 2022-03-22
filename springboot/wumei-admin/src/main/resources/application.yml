@@ -8,8 +8,8 @@ ruoyi:
   copyrightYear: 2021
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/wumei/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:\project\github\wumei-smart\springboot\uploadpath
+  # 文件路径 示例（ Windows配置D:/wumei-smart/uploadPath，Linux配置 /var/wumei-smart/java/uploadPath）
+  profile: /var/wumei-smart/java/uploadPath
   # 获取ip地址开关
   addressEnabled: true
   # 验证码类型 math 数组计算 char 字符验证
@@ -87,16 +87,6 @@ spring:
     default-topic: test                       # 默认主题
     timeout: 60000                           # 超时时间
     keepalive: 30                            # 保持连接
-    clearSession: false
-    isShared: false
-    isSharedGroup: false
-  task:
-    execution:
-      pool:
-        core-size: 10 #最小连接数
-        max-size: 20   #最大连接数
-        queue-capacity: 25 #设置队列容量为2000个
-
 
 # token配置
 token:

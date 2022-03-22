@@ -571,7 +571,7 @@ export default {
                         name: this.monitorThings[i].name,
                         type: 'line',
                         showSymbol: false,
-                        data: this.dataList[i].data
+                        data: []
                     }]
                 };
                 option && this.chart[i].setOption(option);
