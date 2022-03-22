@@ -63,7 +63,7 @@ spring:
     # 端口，默认为6379
     port: 6379
     # 数据库索引
-    database: 0
+    database: 1
     # 密码
     password: admin
     # 连接超时时间
@@ -80,13 +80,13 @@ spring:
         max-wait: -1ms
   # mqtt 配置  
   mqtt:
-    username: wumei-smart                      # 账号
-    password: wumei-smart                      # 密码
-    host-url: tcp://localhost:1883             # mqtt连接tcp地址
-    client-id: ${random.value}                 # 客户端Id，不能相同，采用随机数 ${random.value}
-    default-topic: test                        # 默认主题
-    timeout: 30000                             # 超时时间
-    keepalive: 30                              # 保持连接
+    username: wumei-smart                           # 账号
+    password: wumei-smart                        # 密码
+    host-url: tcp://localhost:1883           # mqtt连接tcp地址
+    client-id: ${random.value}                # 客户端Id，不能相同，采用随机数 ${random.value}
+    default-topic: test                       # 默认主题
+    timeout: 60000                           # 超时时间
+    keepalive: 30                            # 保持连接
 
 # token配置
 token:

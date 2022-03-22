@@ -18,9 +18,6 @@ public class MqttConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(MqttConfig.class);
 
-    @Autowired
-    private EmqxClient emqxClient;
-
     /**
      * 用户名
      */
@@ -49,6 +46,13 @@ public class MqttConfig {
      * 保持连接数
      */
     private int keepalive;
+
+    /**是否清除session*/
+    private boolean clearSession;
+    /**是否共享订阅*/
+    private boolean isShared;
+    /**分组共享订阅*/
+    private boolean isSharedGroup;
 
 
     public String getusername()
@@ -93,9 +97,27 @@ public class MqttConfig {
     }
     public void setkeepalive(int keepalive) {this.keepalive = keepalive;}
 
-    // @Bean
-    public void EmqxClientStart() {
-        logger.info("mqtt启动中...");
-        emqxClient.connect(gethostUrl(), getclientId(), getusername(), getpassword(), gettimeout(), getkeepalive());
+    public boolean isClearSession() {
+        return clearSession;
+    }
+
+    public void setClearSession(boolean clearSession) {
+        this.clearSession = clearSession;
+    }
+
+    public boolean isShared() {
+        return isShared;
+    }
+
+    public void setShared(boolean shared) {
+        isShared = shared;
+    }
+
+    public boolean isSharedGroup() {
+        return isSharedGroup;
+    }
+
+    public void setSharedGroup(boolean sharedGroup) {
+        isSharedGroup = sharedGroup;
     }
 }

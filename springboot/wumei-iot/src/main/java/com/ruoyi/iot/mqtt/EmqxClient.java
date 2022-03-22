@@ -1,5 +1,6 @@
 package com.ruoyi.iot.mqtt;
 
+import com.ruoyi.common.exception.ServiceException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @Classname EmqxClient
  * @Description mqtt推送客户端
  */
-@Component
+//@Component
 public class EmqxClient {
     private static final Logger logger = LoggerFactory.getLogger(EmqxClient.class);
 
@@ -21,60 +22,136 @@ public class EmqxClient {
     @Autowired
     private EmqxService emqxService;
 
-    public static MqttClient client;
+    /**MQTT异步客户端*/
+    public static MqttAsyncClient client;
+
+    /**连接配置*/
+    private MqttConnectOptions options;
+
+    /**服务器地址url*/
+    private String hostname;
+
+    /**超时时间*/
+    private int timeout;
+
+    /**包活时间*/
+    private int keepalive;
+
+    /**客户端唯一ID*/
+    private String clientId;
+
+    /**用户名*/
+    private String username;
+
+    /**密码*/
+    private String password;
+
+    /**是否清除会话*/
+    private boolean clearSession;
+
+    public EmqxClient(String clientId,String username,String password,String hostname,
+                      int timeout,int keepalive,boolean clearSession){
+        this.clientId = clientId;
+        this.username = username;
+        this.password = password;
+        this.hostname = hostname;
+        this.timeout = timeout;
+        this.keepalive = keepalive;
+        this.clearSession = clearSession;
+    }
+
 
     /**
-     * 客户端连接
-     *
-     * @param host      ip+端口
-     * @param clientID  客户端Id
-     * @param username  用户名
-     * @param password  密码
-     * @param timeout   超时时间
-     * @param keepalive 保留数
+     * 连接MQTT服务器
      */
-    public void connect(String host, String clientID, String username, String password, int timeout, int keepalive) {
-        MqttClient client;
-        try {
-            client = new MqttClient(host, clientID, new MemoryPersistence());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setCleanSession(true);
-            options.setUserName(username);
-            options.setPassword(password.toCharArray());
-            options.setConnectionTimeout(timeout);
-            options.setKeepAliveInterval(keepalive);
-            //设置自动重新连接
-            options.setAutomaticReconnect(true);
-            /*设置为false，断开连接后，不清除session，重连后仍然是之前的session，
-            保留订阅的主题，能接受到离线期间的消息*/
-            options.setCleanSession(false);
-            EmqxClient.client=client;
-            client.setCallback(emqxCallback);
-            clientConnect(options,client);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public synchronized void connect(){
+
+        /*设置配置*/
+        if (options == null){
+            setOptions();
+        }
+        if (client == null){
+            createClient();
+        }
+        while (!client.isConnected()){
+            try {
+                IMqttToken token = client.connect(options);
+                token.waitForCompletion();
+            }catch (Exception e){
+                logger.error("=====>>>>>mqtt连接失败 message={}",e.getMessage());
+                throw new ServiceException("mqtt客户端连接错误"+e.getMessage());
+            }
         }
     }
 
     /**
-     * 10秒重连一次
-     * @param options
-     * @param client
-     * @throws InterruptedException
+     * 创建客户端
      */
-    public void clientConnect(MqttConnectOptions options, MqttClient client) throws InterruptedException {
-        try {
-            client.connect(options);
-            logger.info("mqtt连接成功");
-            // 订阅主题
-            emqxService.subscribe(client);
-        } catch (Exception e) {
-            logger.error("mqtt连接失败,"+e.getMessage());
-            //发生错误后重新连接
-            Thread.sleep(10000);
-            clientConnect(options,client);
+    private void createClient(){
+        if (client == null){
+            try {
+              /*host为主机名，clientId是连接MQTT的客户端ID，MemoryPersistence设置clientId的保存方式
+                默认是以内存方式保存*/
+                client = new MqttAsyncClient(hostname,clientId,new MemoryPersistence());
+                //设置回调函数
+                client.setCallback(emqxCallback);
+                logger.debug("====>>>mqtt客户端启动成功");
+            }catch (MqttException e){
+                logger.error("mqtt客户端连接错误 error={}",e.getMessage());
+                throw new ServiceException("mqtt客户端连接错误"+e.getMessage());
+            }
         }
     }
+
+    /**
+     * 设置连接属性
+     */
+    private void setOptions(){
+        if (options != null){
+            options = null;
+        }
+        options = new MqttConnectOptions();
+        options.setUserName(username);
+        options.setPassword(password.toCharArray());
+        options.setConnectionTimeout(timeout);
+        options.setKeepAliveInterval(keepalive);
+        //设置自动重新连接
+        options.setAutomaticReconnect(true);
+            /*设置为false，断开连接，不清除session，重连后还是原来的session
+              保留订阅的主题，能接收离线期间的消息*/
+        options.setCleanSession(clearSession);
+        logger.debug("====>>>>设置mqtt参数成功");
+    }
+
+    /**
+     * 断开与mqtt的连接
+     */
+    public synchronized void disconnect(){
+        //判断客户端是否null 是否连接
+        if (client != null && client.isConnected()){
+            try {
+                IMqttToken token = client.disconnect();
+                token.waitForCompletion();
+            }catch (MqttException e){
+                logger.error("====>>>>断开mqtt连接发生错误 message={}",e.getMessage());
+                throw new ServiceException("断开mqtt连接发生错误" + e.getMessage());
+            }
+        }
+        client = null;
+    }
+
+    /**
+     * 重新连接MQTT
+     */
+    public synchronized void refresh(){
+        disconnect();
+        setOptions();
+        createClient();
+        connect();
+    }
+
+
+
 
     /**
      * 发布
@@ -89,32 +166,39 @@ public class EmqxClient {
         message.setQos(qos);
         message.setRetained(retained);
         message.setPayload(pushMessage.getBytes());
-        MqttTopic mTopic = EmqxClient.client.getTopic(topic);
-        if (null == mTopic) {
-            logger.error("topic not exist");
-        }
-        MqttDeliveryToken token;
+
         try {
-            token = mTopic.publish(message);
+            IMqttDeliveryToken token = client.publish(topic,message);
             token.waitForCompletion();
         } catch (MqttPersistenceException e) {
             e.printStackTrace();
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("=======>>>>>发布主题时发生错误 topic={},message={}",topic,e.getMessage());
         }
     }
 
     /**
      * 订阅某个主题
      * @param topic 主题
-     * @param qos   连接方式
+     * @param qos   消息质量
+     *              Qos1：消息发送一次，不确保
+     *              Qos2：至少分发一次，服务器确保接收消息进行确认
+     *              Qos3：只分发一次，确保消息送达和只传递一次
      */
-    public void subscribe(String topic, int qos) {
-        logger.info("订阅主题" + topic);
+    public void subscribe(String topic, int qos){
+        logger.info("=======>>>>>订阅了主题 topic={}",topic);
         try {
-            EmqxClient.client.subscribe(topic, qos);
-        } catch (MqttException e) {
-            e.printStackTrace();
+            IMqttToken token = client.subscribe(topic, qos);
+            token.waitForCompletion();
+        }catch (MqttException e){
+            logger.error("=======>>>>>订阅主题 topic={} 失败 message={}",topic,e.getMessage());
         }
     }
+
+    /**是否处于连接状态*/
+    public boolean isConnected(){
+        return client != null && client.isConnected();
+    }
+
+    public String getClientId() {return  clientId;};
 }
