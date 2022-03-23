@@ -82,11 +82,18 @@ spring:
   mqtt:
     username: wumei-smart                           # 账号
     password: wumei-smart                        # 密码
-    host-url: tcp://localhost:1883           # mqtt连接tcp地址
+    host-url: tcp://120.25.241.144:1883           # mqtt连接tcp地址
     client-id: ${random.value}                # 客户端Id，不能相同，采用随机数 ${random.value}
     default-topic: test                       # 默认主题
     timeout: 60000                           # 超时时间
     keepalive: 30                            # 保持连接
+  task:
+    execution:
+      pool:
+        core-size: 10   #最小连接数
+        max-size: 30    #最大连接数
+        queue-capacity: 3000  #最大容量
+
 
 # token配置
 token:
