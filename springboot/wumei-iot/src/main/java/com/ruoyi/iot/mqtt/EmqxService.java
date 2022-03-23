@@ -84,7 +84,7 @@ public class EmqxService {
         /**测试线程池使用*/
         logger.info("====>>>>线程名--{}",Thread.currentThread().getName());
         /**模拟耗时操作*/
-        Thread.sleep(1000);
+        // Thread.sleep(1000);
         // subscribe后得到的消息会执行到这里面
         String message = new String(mqttMessage.getPayload());
         logger.info("接收消息主题 : " + topic);
