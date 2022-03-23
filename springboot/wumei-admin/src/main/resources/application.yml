@@ -83,7 +83,7 @@ spring:
     username: wumei-smart                      # 账号
     password: wumei-smart                      # 密码
     host-url: tcp://localhost:1883             # mqtt连接tcp地址
-    client-id: ${random.value}                 # 客户端Id，不能相同，采用随机数 ${random.value}
+    client-id: ${random.int}                 # 客户端Id，不能相同，采用随机数 ${random.value}
     default-topic: test                        # 默认主题
     timeout: 30000                             # 超时时间
     keepalive: 30                              # 保持连接
