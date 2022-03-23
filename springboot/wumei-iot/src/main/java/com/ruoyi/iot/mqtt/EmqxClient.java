@@ -117,8 +117,6 @@ public class EmqxClient {
         options.setKeepAliveInterval(keepalive);
         //设置自动重新连接
         options.setAutomaticReconnect(true);
-            /*设置为false，断开连接，不清除session，重连后还是原来的session
-              保留订阅的主题，能接收离线期间的消息*/
         options.setCleanSession(clearSession);
         logger.debug("====>>>>设置mqtt参数成功");
     }
