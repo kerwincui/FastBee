@@ -20,9 +20,7 @@
 - 设备分享、设备告警、场景联动（进度50%）
 - 智能音箱、多租户、APP界面自定义（进度40%）
 - 时序数据库、分布式集群部署、Granfa监控（进度30%）
-- 视频流处理（进度0%）
-- 桌面端模拟器/监控（进度5%）
-- 安卓端模拟器/监控（进度0%）
+- 视频流处理、桌面端模拟器/监控、安卓端模拟器/监控（进度0%）
 - App和小程序（正在开发中......）
 
 ### 四、技术栈    
@@ -73,6 +71,24 @@
 * [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
 * [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
+##### Docker快速安装
+* Mysql中创建wumei-smart数据库，[导入Sql脚本](https://gitee.com/kerwincui/wumei-smart/tree/master/springboot/sql)
+* 修改命令中的Mysql配置，并执行
+```
+docker run \
+--name wumei-smart \
+--env DB_HOST=wumei.live:3306 \
+--env DB_NAME=wumei-smart \
+--env DB_USER=root \
+--env DB_PASSWORD=wumei-smart \
+--publish 80:80 \
+--publish 1883:1883 \
+--publish 8083:8083 \
+--volume /var/wumei-smart/java/uploadPath:/var/wumei-smart/java/uploadPath \
+--restart unless-stopped \
+--detach \
+kerwincui/wumei-smart:1.1
+```
 
 
 ### 八、其他
