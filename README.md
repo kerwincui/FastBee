@@ -77,7 +77,7 @@
 ```
 docker run \
 --name wumei-smart \
---env DB_HOST=wumei.live:3306 \
+--env DB_HOST=localhost:3306 \
 --env DB_NAME=wumei-smart \
 --env DB_USER=root \
 --env DB_PASSWORD=wumei-smart \
@@ -94,6 +94,14 @@ kerwincui/wumei-smart:1.1
 ### 八、其他
 * 互助交流群：1073236354
 * [演示地址>>](https://iot.wumei.live/)
+
+##### 参与项目贡献用户 (描述如果有误，请联系作者)
+|                    用户                       |                   介绍                       |
+|  ---------------------------------------      | -----------------------------------------   |
+| [小驿物联](https://gitee.com/iot-xiaoyi)       | 熟悉ESP8266、RTL8710、W600、BK7231等WIFI模块 |
+| [guanshubiao](https://gitee.com/guanshubiao)  | 熟悉Java和物联网开发                          |
+| [crazyDull](https://gitee.com/crazyDull)      | 熟悉Java后端开发                             |
+| [kami0314](https://github.com/kami0314)       | 熟悉Java后端开发                             |
 
 
 ### 九、部分图片
