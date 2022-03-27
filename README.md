@@ -53,7 +53,7 @@
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
 ###### 项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发。设备烧录使用串口模块，例如Ch340，接线图如下：
-![使用流程图](https://gitee.com/kerwincui/wumei-smart/raw/master/document/flash.png)
+![烧录代码](https://oscimg.oschina.net/oscnet/up-ed61da9a62390de451715686d6a6b37c190.png)
 
 
 ### 六、项目目录
@@ -107,31 +107,31 @@ kerwincui/wumei-smart:1.1
 ### 九、部分图片
 <table>
     <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/index.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/model.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-d9dd014cec34b6424eb6d768e362356a622.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/product.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/product-detail.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-cefbaf28d2ea5438b17dbad53638852519b.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-20672c691106771f3a38168c0f6c6a7bf20.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/monitor.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-75e099216e1fa33f5e83989838ffd1b16fa.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-51d2ae913a83a542fc2c3b6f802dc34369f.png"/></td>
     </tr>
         <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-detail.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-status.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-287864587ec8116ee8be115a94d1d6f9302.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-2b0a744a83f939b6694dc33c7b80193029b.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-timer.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-log.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-c8c388b20e70f6a668749aab94d214b8270.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-cc512e6367b55a3afa78bee7e1cd8c8cab9.png"/></td>
     </tr>
         <tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/device-statistic.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/group.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-457424f66db64e5e66d200d94a0d42358ad.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-bf47113b636fa96ceaf9607df795f8b3a17.png"/></td>
     </tr>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/emqx-client.png"/></td>
-        <td><img src="https://gitee.com/kerwincui/wumei-smart/raw/master/document/emqx-plugin.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-e05690366e11fb173cebafcba57b5567e38.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-f7856cca6a3dd60afafd1cb0e1ae67c596e.png"/></td>
     </tr>
 </table>
 
