@@ -9,10 +9,10 @@
 ##### 3.案例展示
 |  设备                  | 描述
 |  ----  | ---------------------  |
-| <img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png" width="300" height="100"/>  | 【小驿物联-Wifi通断器】支持手机、电脑远程控制；遥控配对、清码和控制；空气温湿度实时监测；雷达感应和报警；220V和5V电压供电，控制阻性负载2500W，感性负载250W的家用设备开关。 |
-| <img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png" width="200" height="100"/> | 【信息牌】待定 |
-| <img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png" width="200" height="100"/> | 【桌面小电视】待定 |
-| <img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png" width="200" height="100"/> | 【ESP8266开发板】 |
+| <img src="http://wumei.live/kerwincui/document/raw/branch/master/product1.png" width="300" height="100"/>  | 【小驿物联-Wifi通断器】支持手机、电脑远程控制；遥控配对、清码和控制；空气温湿度实时监测；雷达感应和报警；220V和5V电压供电，控制阻性负载2500W，感性负载250W的家用设备开关。 |
+| <img src="http://wumei.live/kerwincui/document/raw/branch/master/product2.png" width="200" height="100"/> | 【信息牌】待定 |
+| <img src="http://wumei.live/kerwincui/document/raw/branch/master/product3.png" width="200" height="100"/> | 【桌面小电视】待定 |
+| <img src="http://wumei.live/kerwincui/document/raw/branch/master/product4.png" width="200" height="100"/> | 【ESP8266开发板】 |
 
 
 ### 二、功能
