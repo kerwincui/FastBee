@@ -40,7 +40,7 @@ module.exports = {
         }
       },
       ['/api/v4']: {
-        target: process.env.VUE_APP_EMQX_URL,
+        target: `http://localhost:8081`,
         changeOrigin: true,
         // logLevel: 'debug',
       },

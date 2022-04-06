@@ -52,7 +52,11 @@ export default {
                 clientId: 'web-' + Math.random().toString(16).substr(2),
                 connectTimeout: 60000
             }
-            this.client = mqtt.connect(process.env.VUE_APP_BROKEN_URL, options);
+            // 配置Mqtt地址
+            // let ssl_url = "wss://domain.com/mqtt"
+            let url = "ws://" + window.location.hostname + ":8083/mqtt";
+            console.log("mqtt地址：", url);
+            this.client = mqtt.connect(url, options);
             this.client.on("connect", (e) => {
                 console.log("成功连接服务器:", e);
                 // 订阅主题
