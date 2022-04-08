@@ -120,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //                .antMatchers("/oauth/logout/**","/oauth/css/**","/oauth/fonts/**").permitAll()
 //                // 智能音箱控制器由资源服务器管理
 //                .antMatchers("/oauth/speaker/**").permitAll()
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
 //                .and()
 //                .formLogin()
 //                .loginPage("/oauth/login")
