@@ -27,13 +27,13 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException
     {
-        if (isAjaxRequest(request)){
+//        if (isAjaxRequest(request)){
             int code = HttpStatus.UNAUTHORIZED;
             String msg = StringUtils.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
             ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(code, msg)));
-        }else {
-            response.sendRedirect("/oauth/login");
-        }
+//        }else {
+//            response.sendRedirect("/oauth/login");
+//        }
     }
 
 

@@ -99,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/register", "/captchaImage","/iot/tool/register","/iot/tool/ntp",
+                .antMatchers("/login", "/register", "/captchaImage","/iot/tool/register","/iot/tool/ntp","/iot/tool/download",
                         "/iot/tool/mqtt/auth","/iot/tool/mqtt/webhook").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
@@ -116,18 +116,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/*/api-docs").anonymous()
                 .antMatchers("/druid/**").anonymous()
                 /************ oauth ************************/
-                // 静态资源文件
-                .antMatchers("/oauth/logout/**","/oauth/css/**","/oauth/fonts/**").permitAll()
-                // 智能音箱控制器由资源服务器管理
-                .antMatchers("/oauth/speaker/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/oauth/login")
-                .permitAll()
-                .and()
-                .logout().logoutUrl("/oauth/logout")
-                .permitAll()
+//                // 静态资源文件
+//                .antMatchers("/oauth/logout/**","/oauth/css/**","/oauth/fonts/**").permitAll()
+//                // 智能音箱控制器由资源服务器管理
+//                .antMatchers("/oauth/speaker/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/oauth/login")
+//                .permitAll()
+//                .and()
+//                .logout().logoutUrl("/oauth/logout")
+//                .permitAll()
                 /************* oauth **************************/
                 .and()
                 .headers().frameOptions().disable();
