@@ -110,6 +110,8 @@ kerwincui/wumei-smart:1.1
 
 
 ### 九、部分图片
+<img src="https://oscimg.oschina.net/oscnet/up-a6e2f49e9886cd9d4ee72449f148beabe9e.png"/><br />
+
 <table>
     <tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-60ff517f5362f4c7b98bb4cb3df543e4ecb.png"/></td>
