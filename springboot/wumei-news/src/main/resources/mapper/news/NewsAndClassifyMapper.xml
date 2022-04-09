@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.news.mapper.NewsAndClassifyMapper">
+    
+    <resultMap type="NewsAndClassify" id="NewsAndClassifyResult">
+        <result property="newId"    column="new_id"    />
+        <result property="classifyId"    column="classify_id"    />
+    </resultMap>
+
+    <sql id="selectNewsAndClassifyVo">
+        select new_id, classify_id from news_and_classify
+    </sql>
+
+    <select id="selectNewsAndClassifyList" parameterType="NewsAndClassify" resultMap="NewsAndClassifyResult">
+        <include refid="selectNewsAndClassifyVo"/>
+        <where>  
+            <if test="newId != null "> and new_id = #{newId}</if>
+            <if test="classifyId != null "> and classify_id = #{classifyId}</if>
+        </where>
+    </select>
+    <select id="selectNewsAndClassifysByNewId" parameterType="Long" resultMap="NewsAndClassifyResult">
+        <include refid="selectNewsAndClassifyVo"/>
+        where new_id = #{newId}
+    </select>
+    
+    <select id="selectNewsAndClassifyByNewId" parameterType="Long" resultMap="NewsAndClassifyResult">
+        <include refid="selectNewsAndClassifyVo"/>
+        where new_id = #{newId}
+    </select>
+
+    <select id="selectNewsAndClassifyByClassifyId" parameterType="Long" resultMap="NewsAndClassifyResult">
+        <include refid="selectNewsAndClassifyVo"/>
+        where classify_id = #{classifyId}
+    </select>
+        
+    <insert id="insertNewsAndClassify" parameterType="NewsAndClassify">
+        insert into news_and_classify
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newId != null">new_id,</if>
+            <if test="classifyId != null">classify_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newId != null">#{newId},</if>
+            <if test="classifyId != null">#{classifyId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNewsAndClassify" parameterType="NewsAndClassify">
+        update news_and_classify
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classifyId != null">classify_id = #{classifyId},</if>
+        </trim>
+        where new_id = #{newId}
+    </update>
+
+    <delete id="deleteNewsAndClassifyByNewId" parameterType="Long">
+        delete from news_and_classify where new_id = #{newId}
+    </delete>
+
+    <delete id="deleteNewsAndClassifyByNewIds" parameterType="String">
+        delete from news_and_classify where new_id in 
+        <foreach item="newId" collection="array" open="(" separator="," close=")">
+            #{newId}
+        </foreach>
+    </delete>
+</mapper>
