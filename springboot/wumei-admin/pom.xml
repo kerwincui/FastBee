@@ -66,6 +66,11 @@
             <groupId>com.wumei</groupId>
             <artifactId>wumei-iot</artifactId>
         </dependency>
+		<!-- 新闻模块-->
+        <dependency>
+            <groupId>com.wumei</groupId>
+            <artifactId>wumei-news</artifactId>
+        </dependency>
 
     </dependencies>
 
