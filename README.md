@@ -63,11 +63,11 @@
 
 
 ### 六、项目目录
-&nbsp;&nbsp;&nbsp;&nbsp; spring-boot ----------------------- 后端<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; vue ------------------------------- 前端<br />
-&nbsp;&nbsp;&nbsp;&nbsp; docker ---------------------------- docker部署文件<br />
-&nbsp;&nbsp;&nbsp;&nbsp; sdk ------------------------------- 硬件SDK<br />
-&nbsp;&nbsp;&nbsp;&nbsp; app ------------------------------- 演示APP下载<br />
+&nbsp;&nbsp;&nbsp;&nbsp; spring-boot --------------- 后端<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
+&nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
+&nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK<br />
+&nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 演示APP下载<br />
 
 
 ### 七、相关文档
