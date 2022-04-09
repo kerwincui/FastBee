@@ -205,12 +205,6 @@
                 <artifactId>wumei-iot</artifactId>
                 <version>${wumei.version}</version>
             </dependency>
-			 <!-- 新闻模块-->
-            <dependency>
-                <groupId>com.wumei</groupId>
-                <artifactId>wumei-news</artifactId>
-                <version>${wumei.version}</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -223,7 +217,6 @@
         <module>wumei-generator</module>
         <module>wumei-common</module>
         <module>wumei-iot</module>
-		<module>wumei-news</module>
     </modules>
     <packaging>pom</packaging>
 

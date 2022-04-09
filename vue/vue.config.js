@@ -8,7 +8,6 @@ function resolve(dir) {
 const name = process.env.VUE_APP_TITLE || '物美智能系统' // 网页标题
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
-const webpack = require('webpack')
 
 // vue.config.js 配置说明
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
@@ -55,13 +54,6 @@ module.exports = {
         '@': resolve('src')
       }
     },
-
-    plugins: [
-      new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
-        Quill: 'quill/dist/quill.js'
-      })
-    ]
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
