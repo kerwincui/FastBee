@@ -108,13 +108,9 @@ kerwincui/wumei-smart:1.1
 * 互助交流群：1073236354
 * [演示地址>>](https://iot.wumei.live/)
 
-##### 项目贡献者 (描述如果有误，请联系作者)
-|                    用户                       |                   介绍                                       |
-|  ---------------------------------------      | ----------------------------------------------------------   |
-| [小驿物联](https://gitee.com/iot-xiaoyi)       | 专注做开源智能硬件，为用户提供完整的基于微信小程序的物联网解决方案 |
-| [guanshubiao](https://gitee.com/guanshubiao)  | 熟悉Java和物联网开发                                           |
-| [crazyDull](https://gitee.com/crazyDull)      | 熟悉Java后端开发                                              |
-| [kami0314](https://github.com/kami0314)       | 熟悉Java后端开发                                              |
+##### 项目贡献者 
+|[小驿物联](https://gitee.com/iot-xiaoyi) |[guanshubiao](https://gitee.com/guanshubiao)|[crazyDull](https://gitee.com/crazyDull) |[kami0314](https://github.com/kami0314)| [sxh](https://gitee.com/sixiaohu)
+|--|--|--|--|--|
 
 
 ### 九、部分图片
