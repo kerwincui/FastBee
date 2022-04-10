@@ -14,7 +14,6 @@
 
 #### 4. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/tree/master/app)
 
-<br />
 
 ### 二、功能
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
@@ -72,11 +71,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK<br />
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- [获取App源码](https://gitee.com/kerwincui/wumei-smart/tree/master/app)<br />
 
+###### 移动端适配多端
 |安卓|IOS|微信小程序|支付宝小程序|百度小程序|字节小程序|QQ小程序|快应用|
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 |√|√|√|未测试|未测试|未测试|未测试|未测试|
 
-<br />
 
 ### 七、相关文档
 ##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
