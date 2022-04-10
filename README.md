@@ -70,7 +70,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK<br />
-&nbsp;&nbsp;&nbsp;&nbsp; [app](https://gitee.com/kerwincui/wumei-smart/tree/master/app) ----------------------- 演示APP下载<br />
+&nbsp;&nbsp;&nbsp;&nbsp; [app](https://gitee.com/kerwincui/wumei-smart/tree/master/app) ----------------------- 获取App源码<br />
 
 
 ### 七、相关文档
