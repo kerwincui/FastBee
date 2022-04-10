@@ -12,7 +12,7 @@
 | ![](https://oscimg.oschina.net/oscnet/up-91921ed009aed9b70e99e6216a3ffb5c707.png)  | ![](https://oscimg.oschina.net/oscnet/up-b25dde78b0127e0ec08db4496fcf777069d.png) | ![](https://oscimg.oschina.net/oscnet/up-9c53911f42386189b943ce753abed5346f7.png) | ![](https://oscimg.oschina.net/oscnet/up-072a5880eaf5ea502dc265bc208902b8529.png)
 | 【小驿物联】<br /> 1. 手机、电脑远程控制<br /> 2. 遥控配对、清码和控制<br /> 3. 空气温湿度实时监测<br />4. 雷达感应和报警<br /> 5. 供电电压220V和5V<br /> 6. 控制阻性负载2500W，感性负载250W家用设备开关。 | 【更多设备等您加入】<br />待定 | 【更多设备等您加入】<br />待定 | 【小驿物联】<br />1. PM2.5雾霾监测<br />2. PM10粉尘监测<br /> 3. 空气质量监测 <br />4. TFT彩色屏幕
 
-#### 4. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/tree/master/app)
+#### 4. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/blob/master/app/README.md)
 
 
 ### 二、功能
