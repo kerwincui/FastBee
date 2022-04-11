@@ -18,11 +18,7 @@
 
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-            <el-input-number v-model="createNum" controls-position="" size="mini" :min="1" :max="100" label="新增个数">
-            </el-input-number>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">新增</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">新增授权码</el-button>
         </el-col>
         <el-col :span="1.5">
             <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:authorize:edit']">修改</el-button>
@@ -37,11 +33,17 @@
     </el-row>
 
     <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick">
-        <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
-        <el-table-column label="ID" width="55" align="center" prop="authorizeId" />
+        <el-table-column type="selection" :selectable="selectable" width="55" align="center"/>
+        <el-table-column label="ID"  width="55" align="center" prop="authorizeId" />
+        <el-table-column label="状态" align="center" prop="active" width="80">
+            <template slot-scope="scope">
+                <el-tag type="success" v-if="scope.row.deviceId">已使用</el-tag>
+                <el-tag type="info" v-else>未使用</el-tag>
+            </template>
+        </el-table-column>
         <el-table-column label="授权码" width="300" align="center" prop="authorizeCode" />
         <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
-        <el-table-column label="设备编号" align="center" prop="serialNumber" />
+        <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
         <el-table-column label="用户ID" width="75" align="center" prop="userId" />
         <el-table-column label="用户名称" align="center" prop="userName" />
         <el-table-column label="更新时间" align="center" prop="updateTime" width="180">
@@ -88,8 +90,11 @@
 </template>
 
 <style>
-.specsColor {
-    background-color: #fcfcfc;
+.createNum{
+    width: 300px;
+}
+.createNum input{
+    width: 130px;
 }
 </style>
 
@@ -143,7 +148,7 @@ export default {
             // 是否显示弹出层
             open: false,
             // 新增个数
-            createNum: 0,
+            createNum: 1,
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -218,17 +223,33 @@ export default {
         },
         /** 批量新增按钮操作 */
         handleAdd() {
-            if (this.queryParams.productId != null) {
-                let _addData = {
-                    productId: this.queryParams.productId,
-                    createNum: this.createNum
+            this.$prompt('输入新增授权码数量', '提示', {
+              customClass: 'createNum',
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              inputPattern: /[0-9\-]/,
+              inputErrorMessage: '数量内容不正确',
+              inputType: 'number',
+              inputValue: this.createNum
+            }).then(({ value }) => {
+                this.createNum = value
+                if (this.queryParams.productId != null) {
+                    let _addData = {
+                        productId : this.queryParams.productId,
+                        createNum : this.createNum
+                    }
+                    addProductAuthorizeByNum(_addData).then(response => {
+                        this.$modal.msgSuccess("新增授权码成功");
+                        this.getList();
+                        this.createNum = 1;
+                    });
                 }
-                addProductAuthorizeByNum(_addData).then(response => {
-                    this.$modal.msgSuccess("新增成功");
-                    this.getList();
-                    this.createNum = 1;
-                });
-            }
+            }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '取消新增'
+                });       
+            });
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
