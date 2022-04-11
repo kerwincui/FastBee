@@ -72,8 +72,13 @@
         </el-tab-pane>
 
         <el-tab-pane label="" name="things" :disabled="form.productId==0">
-            <span slot="label">* 定义物模型</span>
+            <span slot="label">* 物模型</span>
             <product-things-model ref="productThingsModel" :product="form" />
+        </el-tab-pane>
+
+        <el-tab-pane label="" name="productAuthorize" :disabled="form.isAuthorize==0">
+            <span slot="label">授权码</span>
+            <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 
         <el-tab-pane label="" name="alert" disabled>
@@ -84,11 +89,6 @@
         <el-tab-pane label="" name="productApp" disabled>
             <span slot="label">自定义APP</span>
             <product-app ref="productApp" :product="form" />
-        </el-tab-pane>
-
-        <el-tab-pane label="" name="productAuthorize" :disabled="form.isAuthorize==0">
-            <span slot="label">授权码</span>
-            <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 
         <el-tab-pane label="" disabled name="product01" />
@@ -243,11 +243,11 @@ export default {
         },
         /** 更新产品状态 */
         changeProductStatus(status) {
-            let message="发生错误了";
-            if(status==2){
-                message="产品发布后不能再更改产品内容和对应物模型 ！";
-            }else if(status==1){
-                message="产品下不能有已经创建的设备，才能取消发布哦 ！"
+            let message = "发生错误了";
+            if (status == 2) {
+                message = "产品发布后不能再更改产品内容和对应物模型 ！";
+            } else if (status == 1) {
+                message = "产品下不能有已经创建的设备，才能取消发布哦 ！"
             }
             this.$confirm(message, '提示', {
                 confirmButtonText: '确定',
@@ -260,10 +260,10 @@ export default {
                 changeProductStatus(data).then(response => {
                     this.$modal.alertSuccess(response.msg);
                     this.goBack();
-                }).catch(()=>{
-                    if(status==2){
-                    this.activeName = "things";
-                    }else{
+                }).catch(() => {
+                    if (status == 2) {
+                        this.activeName = "things";
+                    } else {
                         this.goBack();
                     }
                 });
@@ -298,7 +298,7 @@ export default {
         changeIsAuthorize() {
             let text = this.form.isAuthorize === "1" ? "启用" : "停用";
             let _this = this;
-            this.$modal.confirm('确认要[' + text + ']' + this.form.productName + '授权码吗？').then(function() {
+            this.$modal.confirm('确认要[' + text + ']' + this.form.productName + '授权码吗？').then(function () {
                 _this.submitForm();
             }).catch(() => {
                 this.form.isAuthorize = 0;
