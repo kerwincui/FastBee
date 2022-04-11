@@ -39,6 +39,8 @@ import DictData from '@/components/DictData'
 import echarts from 'echarts'
 // mqtt组件
 import mqttClient from './views/iot/device/mqtt-client.vue'
+// 一键复制粘贴板组件
+import VueClipboard from 'vue-clipboard2'
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -60,7 +62,7 @@ Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('mqtt-client',mqttClient)
-
+Vue.use(VueClipboard)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
