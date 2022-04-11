@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tenantId"    column="tenant_id"    />
         <result property="tenantName"    column="tenant_name"    />
         <result property="isSys"    column="is_sys"    />
+        <result property="isAuthorize"    column="is_authorize"    />
         <result property="mqttAccount"    column="mqtt_account"    />
         <result property="mqttPassword"    column="mqtt_password"    />
         <result property="mqttSecret"    column="mqtt_secret"    />
@@ -31,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProductVo">
-        select product_id, product_name, category_id, category_name, tenant_id, tenant_name, is_sys,mqtt_account,mqtt_password,mqtt_secret ,status, device_type, network_method, vertificate_method, create_time, update_time, img_url,remark from iot_product
+        select product_id, product_name, category_id, category_name, tenant_id, tenant_name, is_sys, is_authorize, mqtt_account,mqtt_password,mqtt_secret ,status, device_type, network_method, vertificate_method, create_time, update_time, img_url,remark from iot_product
     </sql>
 
     <select id="selectProductList" parameterType="com.ruoyi.iot.domain.Product" resultMap="ProductResult">
@@ -43,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
             <if test="isSys != null "> and is_sys = #{isSys}</if>
+            <if test="isAuthorize != null "> and is_authorize = #{isAuthorize}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="deviceType != null "> and device_type = #{deviceType}</if>
             <if test="networkMethod != null "> and network_method = #{networkMethod}</if>
@@ -70,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tenantId != null">tenant_id,</if>
             <if test="tenantName != null and tenantName != ''">tenant_name,</if>
             <if test="isSys != null">is_sys,</if>
+            <if test="isAuthorize != null">is_authorize,</if>
             <if test="mqttAccount != null and mqttAccount != ''">mqtt_account,</if>
             <if test="mqttPassword != null and mqttPassword != ''">mqtt_password,</if>
             <if test="mqttSecret != null and mqttSecret != ''">mqtt_secret,</if>
@@ -92,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tenantId != null">#{tenantId},</if>
             <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
             <if test="isSys != null">#{isSys},</if>
+            <if test="isAuthorize != null">#{isAuthorize},</if>
             <if test="mqttAccount != null and mqttAccount != ''">#{mqttAccount},</if>
             <if test="mqttPassword != null and mqttPassword != ''">#{mqttPassword},</if>
             <if test="mqttSecret != null and mqttSecret != ''">#{mqttSecret},</if>
@@ -118,6 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tenantId != null">tenant_id = #{tenantId},</if>
             <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
             <if test="isSys != null">is_sys = #{isSys},</if>
+            <if test="isAuthorize != null">is_authorize = #{isAuthorize},</if>
             <if test="mqttAccount != null and mqttAccount != ''">mqtt_account = #{mqttAccount},</if>
             <if test="mqttPassword != null and mqttPassword != ''">mqtt_password = #{mqttPassword},</if>
             <if test="mqttSecret != null and mqttSecret != ''">mqtt_secret = #{mqttSecret},</if>

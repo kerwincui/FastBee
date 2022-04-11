@@ -42,6 +42,10 @@ public class Product extends BaseEntity
     @Excel(name = "是否系统通用", readConverterExp = "0=-否，1-是")
     private Integer isSys;
 
+    /** 是否启用授权码（0-否，1-是） */
+    @Excel(name = "是否启用授权码", readConverterExp = "0=-否，1-是")
+    private Integer isAuthorize;
+
     /** mqtt账号 */
     private String mqttAccount;
 
@@ -164,6 +168,9 @@ public class Product extends BaseEntity
         return isSys;
     }
 
+    public void setIsAuthorize(Integer isAuthorize) {this.isAuthorize = isAuthorize;}
+    public Integer getIsAuthorize() {return isAuthorize;}
+
     public void setMqttAccount(String mqttAccount)
     {
         this.mqttAccount = mqttAccount;
@@ -238,6 +245,7 @@ public class Product extends BaseEntity
             .append("tenantId", getTenantId())
             .append("tenantName", getTenantName())
             .append("isSys", getIsSys())
+            .append("isAuthorize", getIsAuthorize())
             .append("status", getStatus())
             .append("deviceType", getDeviceType())
             .append("networkMethod", getNetworkMethod())

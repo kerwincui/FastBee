@@ -19,6 +19,9 @@
                                 <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
+                        <el-form-item label="授权码开关" prop="networkMethod">
+                            <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" />
+                        </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
                             <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="7" />
                         </el-form-item>
@@ -83,6 +86,11 @@
             <product-app ref="productApp" :product="form" />
         </el-tab-pane>
 
+        <el-tab-pane label="" name="productAuthorize" :disabled="form.isAuthorize==0">
+            <span slot="label">授权码</span>
+            <product-authorize ref="productAuthorize" :product="form" />
+        </el-tab-pane>
+
         <el-tab-pane label="" disabled name="product01" />
         <el-tab-pane label="" disabled name="product02" />
         <el-tab-pane label="" disabled name="product03" />
@@ -110,6 +118,7 @@
 import productThingsModel from "./product-things-model";
 import productApp from "./product-app"
 import productAlert from "./product-alert"
+import productAuthorize from "./product-authorize"
 import imageUpload from "../../../components/ImageUpload/index"
 import {
     listShortCategory
@@ -128,6 +137,7 @@ export default {
         productThingsModel,
         productApp,
         productAlert,
+        productAuthorize,
         imageUpload,
     },
     data() {
@@ -202,6 +212,7 @@ export default {
                 categoryName: null,
                 status: 0,
                 tslJson: null,
+                isAuthorize: 0,
                 deviceType: 1,
                 networkMethod: 1,
                 vertificateMethod: 3,
@@ -282,6 +293,16 @@ export default {
             } else if (name == "password") {
                 this.passwordInputType = this.passwordInputType == "password" ? "text" : "password";
             }
+        },
+        // 授权码状态修改
+        changeIsAuthorize() {
+            let text = this.form.isAuthorize === "1" ? "启用" : "停用";
+            let _this = this;
+            this.$modal.confirm('确认要[' + text + ']' + this.form.productName + '授权码吗？').then(function() {
+                _this.submitForm();
+            }).catch(() => {
+                this.form.isAuthorize = 0;
+            });
         }
     }
 };
