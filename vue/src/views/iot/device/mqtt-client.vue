@@ -53,8 +53,8 @@ export default {
                 connectTimeout: 60000
             }
             // 配置Mqtt地址
-            let url = "wss://iot.wumei.live/mqtt"
-            // let url = "ws://" + window.location.hostname + ":8083/mqtt";
+            // let url = "wss://iot.wumei.live/mqtt"
+            let url = "ws://" + window.location.hostname + ":8083/mqtt";
             console.log("mqtt地址：", url);
             this.client = mqtt.connect(url, options);
             this.client.on("connect", (e) => {
