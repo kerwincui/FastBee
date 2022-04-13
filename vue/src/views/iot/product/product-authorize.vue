@@ -18,7 +18,7 @@
 
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">新增授权码</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">生成授权码</el-button>
         </el-col>
         <el-col :span="1.5">
             <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:authorize:edit']">修改</el-button>
@@ -94,7 +94,7 @@
     width: 300px;
 }
 .createNum input{
-    width: 130px;
+    width: 260px;
 }
 </style>
 
@@ -223,7 +223,7 @@ export default {
         },
         /** 批量新增按钮操作 */
         handleAdd() {
-            this.$prompt('输入新增授权码数量', '提示', {
+            this.$prompt('', '输入新增授权码数量', {
               customClass: 'createNum',
               confirmButtonText: '确定',
               cancelButtonText: '取消',

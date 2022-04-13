@@ -296,10 +296,8 @@ export default {
         },
         // 授权码状态修改
         changeIsAuthorize() {
-            let text = this.form.isAuthorize === "1" ? "启用" : "停用";
-            let _this = this;
-            this.$modal.confirm('确认要[' + text + ']' + this.form.productName + '授权码吗？').then(function () {
-                _this.submitForm();
+            let text = this.form.isAuthorize == "1" ? "启用" : "停用";
+            this.$modal.confirm('确认要' + text + '授权码吗？').then(function () {
             }).catch(() => {
                 this.form.isAuthorize = 0;
             });

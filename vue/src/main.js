@@ -37,8 +37,6 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 // Echart
 import echarts from 'echarts'
-// mqtt组件
-import mqttClient from './views/iot/device/mqtt-client.vue'
 // 一键复制粘贴板组件
 import VueClipboard from 'vue-clipboard2'
 
@@ -61,7 +59,6 @@ Vue.component('RightToolbar', RightToolbar)
 Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
-Vue.component('mqtt-client',mqttClient)
 Vue.use(VueClipboard)
 Vue.use(directive)
 Vue.use(plugins)

@@ -178,13 +178,14 @@
         </el-dialog>
 
         <!-- Mqtt通讯 -->
-        <mqtt-client ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
+        <mqttClient ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
     </el-card>
 </div>
 </template>
 
 <script>
 import * as echarts from 'echarts';
+import mqttClient from './mqtt-client.vue'
 import {
     listDeviceShort,
     delDevice,
@@ -196,6 +197,7 @@ import {
 export default {
     name: "Device",
     dicts: ['iot_device_status', 'iot_is_enable'],
+    components: {mqttClient},
     data() {
         return {
             // 实时监测间隔

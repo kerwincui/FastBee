@@ -176,10 +176,12 @@ import {
     cacheJsonThingsModel
 } from "@/api/iot/model";
 import * as echarts from 'echarts';
+import mqttClient from './mqtt-client.vue'
 
 export default {
     name: "running-status",
     dicts: ['iot_yes_no'],
+    components: {mqttClient},
     props: {
         device: {
             type: Object,
