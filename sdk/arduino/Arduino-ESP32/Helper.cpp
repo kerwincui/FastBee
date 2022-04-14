@@ -18,8 +18,8 @@ long monitorInterval = 1000;
 
 //==================================== 这是需要配置的项 ===============================
 // Wifi配置
-char *wifiSsid = "tp-six";
-char *wifiPwd = "clh15108665817";
+char *wifiSsid = "wifi-ssid";
+char *wifiPwd = "wifi-password";
 
 // 设备信息配置
 String deviceNum = "D6329VL54419L1Y0";
