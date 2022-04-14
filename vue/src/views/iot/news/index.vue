@@ -1,24 +1,25 @@
 <template>
 <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="60px">
         <el-form-item label="标题" prop="title">
             <el-input v-model="queryParams.title" placeholder="请输入标题" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="置顶" prop="isTop">
-            <el-select v-model="queryParams.isTop" placeholder="请选择置顶" clearable size="small">
-                <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
-            </el-select>
-        </el-form-item>
-        <el-form-item label="广告" prop="isBanner">
-            <el-select v-model="queryParams.isBanner" placeholder="请选择广告" clearable size="small">
-                <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
-            </el-select>
-        </el-form-item>
-        <el-form-item label="分类名称" prop="categoryName">
+        <el-form-item label="分类" prop="categoryName">
             <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
+        <el-form-item label="置顶" prop="isTop">
+            <el-select v-model="queryParams.isTop" placeholder="是否置顶" clearable size="small" style="width:100px;">
+                <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
+            </el-select>
+        </el-form-item>
+        <el-form-item label="轮播" prop="isBanner">
+            <el-select v-model="queryParams.isBanner" placeholder="是否轮播" clearable size="small" style="width:100px;">
+                <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
+            </el-select>
+        </el-form-item>
+
         <el-form-item label="发布" prop="status">
-            <el-select v-model="queryParams.status" placeholder="请选择发布" clearable size="small">
+            <el-select v-model="queryParams.status" placeholder="选择状态" clearable size="small" style="width:100px;">
                 <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>
         </el-form-item>
@@ -46,7 +47,7 @@
 
     <el-table v-loading="loading" :data="newsList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="图片" align="center" prop="imgUrl">
+        <el-table-column label="图片" align="center" prop="imgUrl" width="140px;">
             <template slot-scope="scope">
                 <el-image style="border-radius:5px;height:60px;width:120px;margin-bottom:-5px;" lazy :preview-src-list="[baseUrl+scope.row.imgUrl]" :src="baseUrl+scope.row.imgUrl" fit="cover"></el-image>
             </template>
@@ -63,7 +64,7 @@
                 <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isTop" />
             </template>
         </el-table-column>
-        <el-table-column label="广告" align="center" prop="isBanner">
+        <el-table-column label="轮播" align="center" prop="isBanner">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isBanner" />
             </template>
@@ -309,7 +310,7 @@ export default {
         /** 提交按钮 */
         submitForm() {
             console.log(this.form);
-            if(this.form.imgUrl==null || this.form.imgUrl==""){
+            if (this.form.imgUrl == null || this.form.imgUrl == "") {
                 this.$modal.msgError("请上传图片");
                 return;
             }
@@ -359,5 +360,3 @@ export default {
     }
 };
 </script>
-
-<style src="@wangeditor/editor/dist/css/style.css"></style>
