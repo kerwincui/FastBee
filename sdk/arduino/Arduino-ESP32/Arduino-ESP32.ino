@@ -3,7 +3,7 @@
  * create: 2022-04-14
  * email：rememberyousaid@163.com
  * source:https://github.com/kerwincui/wumei-smart
- * board:esp32 1.0.6
+ * board:esp32 版本 1.0.6
  ***********************************************************/
 
 #include "Helper.h"
