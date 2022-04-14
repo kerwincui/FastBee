@@ -1,7 +1,12 @@
 package com.ruoyi.iot.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.iot.mapper.NewsCategoryMapper;
+import com.ruoyi.iot.model.CategoryNews;
+import com.ruoyi.iot.model.IdAndName;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.iot.mapper.NewsMapper;
@@ -42,6 +47,36 @@ public class NewsServiceImpl implements INewsService
     public List<News> selectNewsList(News news)
     {
         return newsMapper.selectNewsList(news);
+    }
+
+    /**
+     * 查询置顶新闻资讯列表
+     *
+     * @return 新闻资讯
+     */
+    @Override
+    public List<CategoryNews> selectTopNewsList()
+    {
+        List<CategoryNews> categoryNewsList =new ArrayList<>();
+        List<News> newsList=newsMapper.selectTopNewsList();
+        for(int i=0;i<newsList.size();i++){
+            boolean isAdd=false;
+            for(int j=0;j<categoryNewsList.size();j++){
+                if(newsList.get(i).getCategoryId().longValue()==categoryNewsList.get(j).getCategoryId().longValue()){
+                    categoryNewsList.get(j).getNewsList().add(newsList.get(i));
+                    isAdd=true;
+                    break;
+                }
+            }
+            if(!isAdd) {
+                CategoryNews categoryNews = new CategoryNews();
+                categoryNews.setCategoryId(newsList.get(i).getCategoryId());
+                categoryNews.setCategoryName(newsList.get(i).getCategoryName());
+                categoryNews.getNewsList().add(newsList.get(i));
+                categoryNewsList.add(categoryNews);
+            }
+        }
+        return categoryNewsList;
     }
 
     /**

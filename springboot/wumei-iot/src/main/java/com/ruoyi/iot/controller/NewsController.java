@@ -3,6 +3,7 @@ package com.ruoyi.iot.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.iot.model.CategoryNews;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,6 +50,33 @@ public class NewsController extends BaseController
         startPage();
         List<News> list = newsService.selectNewsList(news);
         return getDataTable(list);
+    }
+
+    /**
+     * 查询轮播的新闻资讯
+     */
+    @PreAuthorize("@ss.hasPermi('iot:news:list')")
+    @GetMapping("/bannerList")
+    @ApiOperation("轮播新闻列表")
+    public AjaxResult bannerList()
+    {
+        News news=new News();
+        news.setIsBanner(1);
+        news.setStatus(1);
+        List<News> list = newsService.selectNewsList(news);
+        return AjaxResult.success(list);
+    }
+
+    /**
+     * 查询置顶的新闻资讯
+     */
+    @PreAuthorize("@ss.hasPermi('iot:news:list')")
+    @GetMapping("/topList")
+    @ApiOperation("置顶新闻列表")
+    public AjaxResult topList()
+    {
+        List<CategoryNews> list = newsService.selectTopNewsList();
+        return AjaxResult.success(list);
     }
 
     /**

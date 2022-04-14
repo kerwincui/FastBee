@@ -2,6 +2,7 @@ package com.ruoyi.iot.service;
 
 import java.util.List;
 import com.ruoyi.iot.domain.News;
+import com.ruoyi.iot.model.CategoryNews;
 
 /**
  * 新闻资讯Service接口
@@ -26,6 +27,13 @@ public interface INewsService
      * @return 新闻资讯集合
      */
     public List<News> selectNewsList(News news);
+
+    /**
+     * 查询置顶新闻资讯列表
+     *
+     * @return 新闻资讯集合
+     */
+    public List<CategoryNews> selectTopNewsList();
 
     /**
      * 新增新闻资讯

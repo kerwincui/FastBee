@@ -93,4 +93,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{categoryId}
         </foreach>
     </delete>
+
+    <select id="newsCountInCategorys" parameterType="String" resultType="int">
+        select count(*) from news where category_id in
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </select>
 </mapper>

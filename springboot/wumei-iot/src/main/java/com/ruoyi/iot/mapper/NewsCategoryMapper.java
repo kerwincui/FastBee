@@ -66,4 +66,12 @@ public interface NewsCategoryMapper
      * @return 结果
      */
     public int deleteNewsCategoryByCategoryIds(Long[] categoryIds);
+
+    /**
+     * 分类下的新闻数量
+     *
+     * @param categoryIds 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int newsCountInCategorys(Long[] categoryIds);
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.iot.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.iot.domain.NewsCategory;
 import com.ruoyi.iot.model.IdAndName;
 
@@ -57,7 +59,7 @@ public interface INewsCategoryService
      * @param categoryIds 需要删除的新闻分类主键集合
      * @return 结果
      */
-    public int deleteNewsCategoryByCategoryIds(Long[] categoryIds);
+    public AjaxResult deleteNewsCategoryByCategoryIds(Long[] categoryIds);
 
     /**
      * 删除新闻分类信息

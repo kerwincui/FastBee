@@ -28,6 +28,13 @@ public interface NewsMapper
     public List<News> selectNewsList(News news);
 
     /**
+     * 查询置顶新闻资讯列表
+     *
+     * @return 新闻资讯集合
+     */
+    public List<News> selectTopNewsList();
+
+    /**
      * 新增新闻资讯
      * 
      * @param news 新闻资讯

@@ -121,6 +121,6 @@ public class NewsCategoryController extends BaseController
     @ApiOperation("删除新闻分类")
     public AjaxResult remove(@PathVariable Long[] categoryIds)
     {
-        return toAjax(newsCategoryService.deleteNewsCategoryByCategoryIds(categoryIds));
+        return newsCategoryService.deleteNewsCategoryByCategoryIds(categoryIds);
     }
 }

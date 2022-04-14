@@ -1,6 +1,8 @@
 package com.ruoyi.iot.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.model.IdAndName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +91,16 @@ public class NewsCategoryServiceImpl implements INewsCategoryService
      * @return 结果
      */
     @Override
-    public int deleteNewsCategoryByCategoryIds(Long[] categoryIds)
+    public AjaxResult deleteNewsCategoryByCategoryIds(Long[] categoryIds)
     {
-        return newsCategoryMapper.deleteNewsCategoryByCategoryIds(categoryIds);
+        int productCount=newsCategoryMapper.newsCountInCategorys(categoryIds);
+        if(productCount>0){
+            return AjaxResult.error("删除失败，请先删除对应分类下的新闻资讯");
+        }
+        if(newsCategoryMapper.deleteNewsCategoryByCategoryIds(categoryIds)>0){
+            return AjaxResult.success("删除成功");
+        }
+        return AjaxResult.error("删除失败");
     }
 
     /**
