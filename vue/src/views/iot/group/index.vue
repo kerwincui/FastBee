@@ -158,6 +158,11 @@ export default {
         /** 查询设备分组列表 */
         getList() {
             this.loading = true;
+             // 设置用户的角色 用以区分自己创建的设备
+            // 由于admin可以看所有数据所以判断
+            if (this.$store.state.user.roles !=="admin"){
+              this.queryParams.userName = this.$store.state.user.name
+            }
             listGroup(this.queryParams).then(response => {
                 this.groupList = response.rows;
                 this.total = response.total;

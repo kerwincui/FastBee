@@ -534,6 +534,12 @@ public class DeviceServiceImpl implements IDeviceService {
         return "";
     }
 
+    @Override
+    public List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName) {
+        return deviceMapper.selectAllDeviceShortList1(userName);
+    }
+
+
     /**
      *
      * @param device 设备

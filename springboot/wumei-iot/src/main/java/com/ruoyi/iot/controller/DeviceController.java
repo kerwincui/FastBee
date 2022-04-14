@@ -66,9 +66,9 @@ public class DeviceController extends BaseController
     @PreAuthorize("@ss.hasPermi('iot:device:list')")
     @GetMapping("/all")
     @ApiOperation("查询所有设备简短列表")
-    public TableDataInfo allShortList()
+    public TableDataInfo allShortList(Device device)
     {
-        List<DeviceAllShortOutput> list = deviceService.selectAllDeviceShortList();
+        List<DeviceAllShortOutput> list = deviceService.selectAllDeviceShortList1(device.getUserName());
         return getDataTable(list);
     }
 

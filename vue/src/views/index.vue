@@ -97,7 +97,7 @@
         </el-col>
 
     </el-row>
-
+  <div v-show="isAdmin">
     <el-row :gutter="40" style="margin-top:80px;">
         <el-col :span="1">
             <el-card style="margin:-10px;height:218px;margin-right:-31px;padding-top:35px;text-align:center;font-weight:bold;" shadow="none">
@@ -144,7 +144,7 @@
             </el-card>
         </el-col>
     </el-row>
-
+   </div>
     <div style="margin:-21px;margin-top:100px;bottom:0;border:1px solid #ccc;padding:10px;margin-bottom:-21px;">
         <div>
             <el-link href="http://wumei.live" target="_blank" type="primary" style="margin-left:20px;">开源生活物联网平台 >></el-link>
@@ -175,6 +175,7 @@ import {
 } from "@/api/iot/emqx";
 import {
     listAllDeviceShort,
+    listAllDeviceShort2
 } from "@/api/iot/device";
 
 export default {
@@ -184,6 +185,11 @@ export default {
     },
     data() {
         return {
+            // 控制是否显示服务器状态栏
+            isAdmin:true,
+            queryParams:{
+              userName: ''
+            },
             // 设备列表
             deviceList: [],
             // 设备总数
@@ -220,61 +226,24 @@ export default {
         };
     },
     created() {
-        // this.deviceList = [{
-        //         id: 21,
-        //         name: '海门',
-        //         value: 9,
-        //         long: 121.15,
-        //         lat: 31.89,
-        //         address: "海门",
-        //         product: "测试产品",
-        //         version: 1.0,
-        //         status: 1,
-        //     },
-        //     {
-        //         id: 21,
-        //         name: '鄂尔多斯',
-        //         value: 12,
-        //         long: 109.781327,
-        //         lat: 39.608266,
-        //         address: "海门",
-        //         product: "测试产品",
-        //         version: 2.0,
-        //         status: 2
-        //     },
-        //     {
-        //         id: 21,
-        //         name: '招远',
-        //         value: 12,
-        //         long: 120.38,
-        //         lat: 37.35,
-        //         address: "海门",
-        //         product: "测试产品",
-        //         version: 1.0,
-        //         status: 3
-        //     },
-        //     {
-        //         id: 21,
-        //         name: '海口',
-        //         value: 12,
-        //         long: 110.38,
-        //         lat: 20.35,
-        //         address: "测试",
-        //         product: "测试产品",
-        //         version: 1.0,
-        //         status: 4
-        //     }
-        // ];
+        this.init();
         this.getAllDevice();
         this.getServer();
         this.getMqttStats();
         this.statisticMqtt();
-
     },
     methods: {
+        init(){
+          // 设置用户的角色 用以区分自己创建的设备
+          // 由于admin可以看所有数据所以判断
+          if (this.$store.state.user.roles !="admin"){
+            this.isAdmin = false
+            this.queryParams.userName = this.$store.state.user.name
+          }
+        },
         /**查询所有设备 */
         getAllDevice() {
-            listAllDeviceShort().then(response => {
+            listAllDeviceShort2(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.deviceCount=response.total;
                 this.$nextTick(() => {

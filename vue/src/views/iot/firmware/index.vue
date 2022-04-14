@@ -58,7 +58,7 @@
                 <template slot-scope="scope">
                     <el-button size="small" type="info" style="padding:5px;" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" :disabled="scope.row.isSys == '1' ? (canEdit ? false : true) : false">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -88,7 +88,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">确 定</el-button>
+                <el-button type="primary" @click="submitForm" :disabled="form.isSys == '1' ? (canEdit ? false : true) : false">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -124,6 +124,8 @@ export default {
     },
     data() {
         return {
+            // 判断是否有修改权限
+            canEdit:false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -217,10 +219,19 @@ export default {
     created() {
         this.getList();
         this.getProductShortList();
+        this.init();
     },
     methods: {
+     init(){
+        if (this.$store.state.user.roles =="admin"){
+            this.canEdit = true
+          }
+        },
         /** 查询产品固件列表 */
         getList() {
+            if (this.$store.state.user.roles !="admin"){
+              this.queryParams.tenantName = this.$store.state.user.name
+            }
             this.loading = true;
             listFirmware(this.queryParams).then(response => {
                 this.firmwareList = response.rows;
