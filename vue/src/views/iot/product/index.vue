@@ -22,10 +22,10 @@
             </el-form-item>
         </el-form>
     </el-card>
-
     <el-card style="padding-bottom:100px;">
         <el-row :gutter="30" v-loading="loading" >
-            <el-col :span="6" v-for="(item,index) in productList" :key="index" style="margin-bottom:30px;text-align:center;">
+            <el-col :span="6" v-for="(item,index) in productList" :key="index" style="margin-bottom:30px;text-align:center;"  v-show="(item.isSys == 1) || (userName == item.tenantName)">
+                <div>
                 <el-card :body-style="{ padding: '20px'}" shadow="always">
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">
@@ -80,6 +80,7 @@
                         <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['tool:gen:edit']">查看设备</el-button>
                     </el-button-group>
                 </el-card>
+             </div>
             </el-col>
         </el-row>
 
@@ -117,6 +118,9 @@ export default {
     dicts: ['iot_yes_no', 'iot_product_status', 'iot_device_type', 'iot_network_method', 'iot_vertificate_method', 'iot_device_chip'],
     data() {
         return {
+            userName:'',
+            // 判断用户是否是管理员
+            isAdmin:false,
             // 遮罩层
             loading: true,
             // 总条数
@@ -148,6 +152,7 @@ export default {
     },
     created() {
         this.getList();
+        this.init();
     },
     activated() {
         const time = this.$route.query.t;
@@ -158,6 +163,17 @@ export default {
         }
     },
     methods: {
+        init(){
+        if (this.$store.state.user.roles =="admin"){
+            this.isAdmin = true
+            // 显示全部的情况 = 角色是管理员admin
+            // 显示系统定义和自己 = 角色是租户
+            // 都会显示 = 系统定义
+            // 条件： isSys = '1' || this.$store.state.user.name == item.tenantName
+          }
+          this.userName = this.$store.state.user.name 
+          console.log(this.userName)
+        },
         /** 查询产品列表 */
         getList() {
             this.loading = true;

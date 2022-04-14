@@ -76,7 +76,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" :disabled="scope.row.isSys == '1' ? (canEdit ? false : true) : false">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -184,7 +184,7 @@
             </el-form>
 
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">确 定</el-button>
+                <el-button type="primary" @click="submitForm" :disabled="form.isSys == '1' ? (canEdit ? false : true) : false">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -212,6 +212,8 @@ export default {
     dicts: ["iot_things_type", "iot_data_type", "iot_yes_no"],
     data() {
         return {
+            // 是否具有修改权限 admin可以修改系统定义的通用物 其他不可以
+            canEdit: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -271,8 +273,14 @@ export default {
     },
     created() {
         this.getList();
+        this.init();
     },
     methods: {
+        init(){
+        if (this.$store.state.user.roles =="admin"){
+            this.canEdit = true
+          }
+        },
         /** 查询通用物模型列表 */
         getList() {
             this.loading = true;

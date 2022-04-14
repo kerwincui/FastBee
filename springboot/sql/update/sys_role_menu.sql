@@ -1,0 +1,304 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 阿里云
+ Source Server Type    : MySQL
+ Source Server Version : 50726
+ Source Host           : 114.55.33.198:3306
+ Source Schema         : wumei-smart
+
+ Target Server Type    : MySQL
+ Target Server Version : 50726
+ File Encoding         : 65001
+
+ Date: 14/04/2022 23:28:40
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for sys_role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu`  (
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
+  PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
+INSERT INTO `sys_role_menu` VALUES (2, 108);
+INSERT INTO `sys_role_menu` VALUES (2, 112);
+INSERT INTO `sys_role_menu` VALUES (2, 2000);
+INSERT INTO `sys_role_menu` VALUES (2, 2001);
+INSERT INTO `sys_role_menu` VALUES (2, 2002);
+INSERT INTO `sys_role_menu` VALUES (2, 2003);
+INSERT INTO `sys_role_menu` VALUES (2, 2004);
+INSERT INTO `sys_role_menu` VALUES (2, 2005);
+INSERT INTO `sys_role_menu` VALUES (2, 2006);
+INSERT INTO `sys_role_menu` VALUES (2, 2007);
+INSERT INTO `sys_role_menu` VALUES (2, 2008);
+INSERT INTO `sys_role_menu` VALUES (2, 2009);
+INSERT INTO `sys_role_menu` VALUES (2, 2010);
+INSERT INTO `sys_role_menu` VALUES (2, 2011);
+INSERT INTO `sys_role_menu` VALUES (2, 2012);
+INSERT INTO `sys_role_menu` VALUES (2, 2013);
+INSERT INTO `sys_role_menu` VALUES (2, 2014);
+INSERT INTO `sys_role_menu` VALUES (2, 2015);
+INSERT INTO `sys_role_menu` VALUES (2, 2016);
+INSERT INTO `sys_role_menu` VALUES (2, 2017);
+INSERT INTO `sys_role_menu` VALUES (2, 2018);
+INSERT INTO `sys_role_menu` VALUES (2, 2019);
+INSERT INTO `sys_role_menu` VALUES (2, 2020);
+INSERT INTO `sys_role_menu` VALUES (2, 2021);
+INSERT INTO `sys_role_menu` VALUES (2, 2022);
+INSERT INTO `sys_role_menu` VALUES (2, 2023);
+INSERT INTO `sys_role_menu` VALUES (2, 2024);
+INSERT INTO `sys_role_menu` VALUES (2, 2031);
+INSERT INTO `sys_role_menu` VALUES (2, 2032);
+INSERT INTO `sys_role_menu` VALUES (2, 2033);
+INSERT INTO `sys_role_menu` VALUES (2, 2034);
+INSERT INTO `sys_role_menu` VALUES (2, 2035);
+INSERT INTO `sys_role_menu` VALUES (2, 2036);
+INSERT INTO `sys_role_menu` VALUES (2, 2043);
+INSERT INTO `sys_role_menu` VALUES (2, 2044);
+INSERT INTO `sys_role_menu` VALUES (2, 2045);
+INSERT INTO `sys_role_menu` VALUES (2, 2046);
+INSERT INTO `sys_role_menu` VALUES (2, 2047);
+INSERT INTO `sys_role_menu` VALUES (2, 2048);
+INSERT INTO `sys_role_menu` VALUES (2, 2049);
+INSERT INTO `sys_role_menu` VALUES (2, 2050);
+INSERT INTO `sys_role_menu` VALUES (2, 2051);
+INSERT INTO `sys_role_menu` VALUES (2, 2052);
+INSERT INTO `sys_role_menu` VALUES (2, 2053);
+INSERT INTO `sys_role_menu` VALUES (2, 2054);
+INSERT INTO `sys_role_menu` VALUES (2, 2067);
+INSERT INTO `sys_role_menu` VALUES (2, 2068);
+INSERT INTO `sys_role_menu` VALUES (2, 2069);
+INSERT INTO `sys_role_menu` VALUES (2, 2070);
+INSERT INTO `sys_role_menu` VALUES (2, 2071);
+INSERT INTO `sys_role_menu` VALUES (2, 2072);
+INSERT INTO `sys_role_menu` VALUES (2, 2085);
+INSERT INTO `sys_role_menu` VALUES (2, 2086);
+INSERT INTO `sys_role_menu` VALUES (2, 2087);
+INSERT INTO `sys_role_menu` VALUES (2, 2088);
+INSERT INTO `sys_role_menu` VALUES (2, 2089);
+INSERT INTO `sys_role_menu` VALUES (2, 2090);
+INSERT INTO `sys_role_menu` VALUES (3, 108);
+INSERT INTO `sys_role_menu` VALUES (3, 112);
+INSERT INTO `sys_role_menu` VALUES (3, 2000);
+INSERT INTO `sys_role_menu` VALUES (3, 2002);
+INSERT INTO `sys_role_menu` VALUES (3, 2007);
+INSERT INTO `sys_role_menu` VALUES (3, 2008);
+INSERT INTO `sys_role_menu` VALUES (3, 2009);
+INSERT INTO `sys_role_menu` VALUES (3, 2010);
+INSERT INTO `sys_role_menu` VALUES (3, 2011);
+INSERT INTO `sys_role_menu` VALUES (3, 2012);
+INSERT INTO `sys_role_menu` VALUES (3, 2019);
+INSERT INTO `sys_role_menu` VALUES (3, 2020);
+INSERT INTO `sys_role_menu` VALUES (3, 2021);
+INSERT INTO `sys_role_menu` VALUES (3, 2022);
+INSERT INTO `sys_role_menu` VALUES (3, 2023);
+INSERT INTO `sys_role_menu` VALUES (3, 2024);
+INSERT INTO `sys_role_menu` VALUES (3, 2031);
+INSERT INTO `sys_role_menu` VALUES (3, 2032);
+INSERT INTO `sys_role_menu` VALUES (3, 2033);
+INSERT INTO `sys_role_menu` VALUES (3, 2034);
+INSERT INTO `sys_role_menu` VALUES (3, 2035);
+INSERT INTO `sys_role_menu` VALUES (3, 2036);
+INSERT INTO `sys_role_menu` VALUES (3, 2043);
+INSERT INTO `sys_role_menu` VALUES (3, 2044);
+INSERT INTO `sys_role_menu` VALUES (3, 2061);
+INSERT INTO `sys_role_menu` VALUES (3, 2062);
+INSERT INTO `sys_role_menu` VALUES (3, 2063);
+INSERT INTO `sys_role_menu` VALUES (3, 2064);
+INSERT INTO `sys_role_menu` VALUES (3, 2065);
+INSERT INTO `sys_role_menu` VALUES (3, 2066);
+INSERT INTO `sys_role_menu` VALUES (3, 2067);
+INSERT INTO `sys_role_menu` VALUES (3, 2068);
+INSERT INTO `sys_role_menu` VALUES (3, 2069);
+INSERT INTO `sys_role_menu` VALUES (3, 2070);
+INSERT INTO `sys_role_menu` VALUES (3, 2071);
+INSERT INTO `sys_role_menu` VALUES (3, 2072);
+INSERT INTO `sys_role_menu` VALUES (3, 2085);
+INSERT INTO `sys_role_menu` VALUES (3, 2086);
+INSERT INTO `sys_role_menu` VALUES (3, 2087);
+INSERT INTO `sys_role_menu` VALUES (3, 2088);
+INSERT INTO `sys_role_menu` VALUES (3, 2089);
+INSERT INTO `sys_role_menu` VALUES (3, 2090);
+INSERT INTO `sys_role_menu` VALUES (4, 1);
+INSERT INTO `sys_role_menu` VALUES (4, 2);
+INSERT INTO `sys_role_menu` VALUES (4, 3);
+INSERT INTO `sys_role_menu` VALUES (4, 4);
+INSERT INTO `sys_role_menu` VALUES (4, 100);
+INSERT INTO `sys_role_menu` VALUES (4, 101);
+INSERT INTO `sys_role_menu` VALUES (4, 102);
+INSERT INTO `sys_role_menu` VALUES (4, 103);
+INSERT INTO `sys_role_menu` VALUES (4, 104);
+INSERT INTO `sys_role_menu` VALUES (4, 105);
+INSERT INTO `sys_role_menu` VALUES (4, 106);
+INSERT INTO `sys_role_menu` VALUES (4, 107);
+INSERT INTO `sys_role_menu` VALUES (4, 108);
+INSERT INTO `sys_role_menu` VALUES (4, 109);
+INSERT INTO `sys_role_menu` VALUES (4, 110);
+INSERT INTO `sys_role_menu` VALUES (4, 111);
+INSERT INTO `sys_role_menu` VALUES (4, 112);
+INSERT INTO `sys_role_menu` VALUES (4, 113);
+INSERT INTO `sys_role_menu` VALUES (4, 114);
+INSERT INTO `sys_role_menu` VALUES (4, 115);
+INSERT INTO `sys_role_menu` VALUES (4, 116);
+INSERT INTO `sys_role_menu` VALUES (4, 500);
+INSERT INTO `sys_role_menu` VALUES (4, 501);
+INSERT INTO `sys_role_menu` VALUES (4, 1001);
+INSERT INTO `sys_role_menu` VALUES (4, 1008);
+INSERT INTO `sys_role_menu` VALUES (4, 1013);
+INSERT INTO `sys_role_menu` VALUES (4, 1017);
+INSERT INTO `sys_role_menu` VALUES (4, 1021);
+INSERT INTO `sys_role_menu` VALUES (4, 1026);
+INSERT INTO `sys_role_menu` VALUES (4, 1031);
+INSERT INTO `sys_role_menu` VALUES (4, 1036);
+INSERT INTO `sys_role_menu` VALUES (4, 1040);
+INSERT INTO `sys_role_menu` VALUES (4, 1043);
+INSERT INTO `sys_role_menu` VALUES (4, 1046);
+INSERT INTO `sys_role_menu` VALUES (4, 1049);
+INSERT INTO `sys_role_menu` VALUES (4, 1055);
+INSERT INTO `sys_role_menu` VALUES (4, 2000);
+INSERT INTO `sys_role_menu` VALUES (4, 2001);
+INSERT INTO `sys_role_menu` VALUES (4, 2002);
+INSERT INTO `sys_role_menu` VALUES (4, 2003);
+INSERT INTO `sys_role_menu` VALUES (4, 2004);
+INSERT INTO `sys_role_menu` VALUES (4, 2007);
+INSERT INTO `sys_role_menu` VALUES (4, 2008);
+INSERT INTO `sys_role_menu` VALUES (4, 2009);
+INSERT INTO `sys_role_menu` VALUES (4, 2010);
+INSERT INTO `sys_role_menu` VALUES (4, 2013);
+INSERT INTO `sys_role_menu` VALUES (4, 2014);
+INSERT INTO `sys_role_menu` VALUES (4, 2015);
+INSERT INTO `sys_role_menu` VALUES (4, 2016);
+INSERT INTO `sys_role_menu` VALUES (4, 2019);
+INSERT INTO `sys_role_menu` VALUES (4, 2020);
+INSERT INTO `sys_role_menu` VALUES (4, 2021);
+INSERT INTO `sys_role_menu` VALUES (4, 2022);
+INSERT INTO `sys_role_menu` VALUES (4, 2043);
+INSERT INTO `sys_role_menu` VALUES (4, 2044);
+INSERT INTO `sys_role_menu` VALUES (4, 2045);
+INSERT INTO `sys_role_menu` VALUES (4, 2046);
+INSERT INTO `sys_role_menu` VALUES (4, 2049);
+INSERT INTO `sys_role_menu` VALUES (4, 2050);
+INSERT INTO `sys_role_menu` VALUES (4, 2051);
+INSERT INTO `sys_role_menu` VALUES (4, 2052);
+INSERT INTO `sys_role_menu` VALUES (4, 2067);
+INSERT INTO `sys_role_menu` VALUES (4, 2068);
+INSERT INTO `sys_role_menu` VALUES (4, 2069);
+INSERT INTO `sys_role_menu` VALUES (4, 2070);
+INSERT INTO `sys_role_menu` VALUES (4, 2085);
+INSERT INTO `sys_role_menu` VALUES (4, 2086);
+INSERT INTO `sys_role_menu` VALUES (4, 2087);
+INSERT INTO `sys_role_menu` VALUES (4, 2088);
+INSERT INTO `sys_role_menu` VALUES (4, 2098);
+INSERT INTO `sys_role_menu` VALUES (4, 2099);
+INSERT INTO `sys_role_menu` VALUES (4, 2100);
+INSERT INTO `sys_role_menu` VALUES (4, 2101);
+INSERT INTO `sys_role_menu` VALUES (4, 2104);
+INSERT INTO `sys_role_menu` VALUES (4, 2105);
+INSERT INTO `sys_role_menu` VALUES (4, 2106);
+INSERT INTO `sys_role_menu` VALUES (4, 2107);
+INSERT INTO `sys_role_menu` VALUES (4, 2108);
+INSERT INTO `sys_role_menu` VALUES (4, 2109);
+INSERT INTO `sys_role_menu` VALUES (100, 2000);
+INSERT INTO `sys_role_menu` VALUES (100, 2001);
+INSERT INTO `sys_role_menu` VALUES (100, 2002);
+INSERT INTO `sys_role_menu` VALUES (100, 2003);
+INSERT INTO `sys_role_menu` VALUES (100, 2004);
+INSERT INTO `sys_role_menu` VALUES (100, 2005);
+INSERT INTO `sys_role_menu` VALUES (100, 2006);
+INSERT INTO `sys_role_menu` VALUES (100, 2007);
+INSERT INTO `sys_role_menu` VALUES (100, 2008);
+INSERT INTO `sys_role_menu` VALUES (100, 2009);
+INSERT INTO `sys_role_menu` VALUES (100, 2010);
+INSERT INTO `sys_role_menu` VALUES (100, 2011);
+INSERT INTO `sys_role_menu` VALUES (100, 2012);
+INSERT INTO `sys_role_menu` VALUES (100, 2013);
+INSERT INTO `sys_role_menu` VALUES (100, 2014);
+INSERT INTO `sys_role_menu` VALUES (100, 2015);
+INSERT INTO `sys_role_menu` VALUES (100, 2016);
+INSERT INTO `sys_role_menu` VALUES (100, 2017);
+INSERT INTO `sys_role_menu` VALUES (100, 2018);
+INSERT INTO `sys_role_menu` VALUES (100, 2019);
+INSERT INTO `sys_role_menu` VALUES (100, 2020);
+INSERT INTO `sys_role_menu` VALUES (100, 2021);
+INSERT INTO `sys_role_menu` VALUES (100, 2022);
+INSERT INTO `sys_role_menu` VALUES (100, 2023);
+INSERT INTO `sys_role_menu` VALUES (100, 2024);
+INSERT INTO `sys_role_menu` VALUES (100, 2031);
+INSERT INTO `sys_role_menu` VALUES (100, 2032);
+INSERT INTO `sys_role_menu` VALUES (100, 2033);
+INSERT INTO `sys_role_menu` VALUES (100, 2034);
+INSERT INTO `sys_role_menu` VALUES (100, 2035);
+INSERT INTO `sys_role_menu` VALUES (100, 2036);
+INSERT INTO `sys_role_menu` VALUES (100, 2037);
+INSERT INTO `sys_role_menu` VALUES (100, 2038);
+INSERT INTO `sys_role_menu` VALUES (100, 2039);
+INSERT INTO `sys_role_menu` VALUES (100, 2040);
+INSERT INTO `sys_role_menu` VALUES (100, 2041);
+INSERT INTO `sys_role_menu` VALUES (100, 2042);
+INSERT INTO `sys_role_menu` VALUES (100, 2043);
+INSERT INTO `sys_role_menu` VALUES (100, 2044);
+INSERT INTO `sys_role_menu` VALUES (100, 2045);
+INSERT INTO `sys_role_menu` VALUES (100, 2046);
+INSERT INTO `sys_role_menu` VALUES (100, 2047);
+INSERT INTO `sys_role_menu` VALUES (100, 2048);
+INSERT INTO `sys_role_menu` VALUES (100, 2049);
+INSERT INTO `sys_role_menu` VALUES (100, 2050);
+INSERT INTO `sys_role_menu` VALUES (100, 2051);
+INSERT INTO `sys_role_menu` VALUES (100, 2052);
+INSERT INTO `sys_role_menu` VALUES (100, 2053);
+INSERT INTO `sys_role_menu` VALUES (100, 2054);
+INSERT INTO `sys_role_menu` VALUES (100, 2061);
+INSERT INTO `sys_role_menu` VALUES (100, 2062);
+INSERT INTO `sys_role_menu` VALUES (100, 2063);
+INSERT INTO `sys_role_menu` VALUES (100, 2064);
+INSERT INTO `sys_role_menu` VALUES (100, 2065);
+INSERT INTO `sys_role_menu` VALUES (100, 2066);
+INSERT INTO `sys_role_menu` VALUES (101, 1);
+INSERT INTO `sys_role_menu` VALUES (101, 2);
+INSERT INTO `sys_role_menu` VALUES (101, 100);
+INSERT INTO `sys_role_menu` VALUES (101, 101);
+INSERT INTO `sys_role_menu` VALUES (101, 102);
+INSERT INTO `sys_role_menu` VALUES (101, 103);
+INSERT INTO `sys_role_menu` VALUES (101, 104);
+INSERT INTO `sys_role_menu` VALUES (101, 107);
+INSERT INTO `sys_role_menu` VALUES (101, 109);
+INSERT INTO `sys_role_menu` VALUES (101, 110);
+INSERT INTO `sys_role_menu` VALUES (101, 1001);
+INSERT INTO `sys_role_menu` VALUES (101, 1008);
+INSERT INTO `sys_role_menu` VALUES (101, 1013);
+INSERT INTO `sys_role_menu` VALUES (101, 1017);
+INSERT INTO `sys_role_menu` VALUES (101, 1021);
+INSERT INTO `sys_role_menu` VALUES (101, 1036);
+INSERT INTO `sys_role_menu` VALUES (101, 1046);
+INSERT INTO `sys_role_menu` VALUES (101, 1049);
+INSERT INTO `sys_role_menu` VALUES (101, 2000);
+INSERT INTO `sys_role_menu` VALUES (101, 2001);
+INSERT INTO `sys_role_menu` VALUES (101, 2002);
+INSERT INTO `sys_role_menu` VALUES (101, 2007);
+INSERT INTO `sys_role_menu` VALUES (101, 2008);
+INSERT INTO `sys_role_menu` VALUES (101, 2013);
+INSERT INTO `sys_role_menu` VALUES (101, 2014);
+INSERT INTO `sys_role_menu` VALUES (101, 2019);
+INSERT INTO `sys_role_menu` VALUES (101, 2020);
+INSERT INTO `sys_role_menu` VALUES (101, 2031);
+INSERT INTO `sys_role_menu` VALUES (101, 2032);
+INSERT INTO `sys_role_menu` VALUES (101, 2037);
+INSERT INTO `sys_role_menu` VALUES (101, 2038);
+INSERT INTO `sys_role_menu` VALUES (101, 2043);
+INSERT INTO `sys_role_menu` VALUES (101, 2044);
+INSERT INTO `sys_role_menu` VALUES (101, 2049);
+INSERT INTO `sys_role_menu` VALUES (101, 2050);
+INSERT INTO `sys_role_menu` VALUES (101, 2061);
+INSERT INTO `sys_role_menu` VALUES (101, 2062);
+
+SET FOREIGN_KEY_CHECKS = 1;

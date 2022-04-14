@@ -30,8 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
             <if test="isSys != null "> and is_sys = #{isSys}</if>
+            <if test="isSys == null "> and is_sys = 1</if>
         </where>
-        order by create_time desc
+       order by create_time desc
     </select>
     
     <select id="selectFirmwareByFirmwareId" parameterType="Long" resultMap="FirmwareResult">

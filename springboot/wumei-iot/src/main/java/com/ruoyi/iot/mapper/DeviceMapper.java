@@ -161,4 +161,6 @@ public interface DeviceMapper
      * @return
      */
     public int deleteDeviceGroupByDeviceIds(Long[] deviceIds);
+//    查询简短设备列表
+    List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName);
 }

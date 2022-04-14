@@ -151,4 +151,7 @@ public interface IDeviceService
      * @return 结果
      */
     public String generationDeviceNum();
+
+    //    获取所有简短设备列表
+    List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName);
 }
