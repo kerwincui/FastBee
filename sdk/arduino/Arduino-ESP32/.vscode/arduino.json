@@ -1,0 +1,7 @@
+{
+    "port": "COM3",
+    "configuration": "FlashFreq=80,UploadSpeed=921600",
+    "board": "esp32:esp32:nano32",
+    "output": "./build",
+    "sketch": "Arduino-Esp32.ino"
+}

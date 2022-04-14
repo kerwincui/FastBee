@@ -1,13 +1,14 @@
 /***********************************************************
- * author: kerwincui [物美智能 wumei-smart]
- * create: 2022-02-20
- * email：164770707@qq.com
+ * author: LaoHuang
+ * create: 2022-04-14
+ * email：rememberyousaid@163.com
  * source:https://github.com/kerwincui/wumei-smart
- * board:esp8266 core for arduino v3.0.2
+ * board:esp32
  ***********************************************************/
 
 #include "Helper.h"
 
+String g_time;
 WiFiClient wifiClient;
 PubSubClient mqttClient;
 float rssi = 0;
@@ -17,8 +18,8 @@ long monitorInterval = 1000;
 
 //==================================== 这是需要配置的项 ===============================
 // Wifi配置
-char *wifiSsid = "wifi账号";
-char *wifiPwd = "wifi密码";
+char *wifiSsid = "tp-six";
+char *wifiPwd = "clh15108665817";
 
 // 设备信息配置
 String deviceNum = "D6329VL54419L1Y0";
@@ -59,7 +60,8 @@ void processProperty(String payload)
 {
   StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, payload);
-  if (error) {
+  if (error)
+  {
     Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
     return;
@@ -67,8 +69,8 @@ void processProperty(String payload)
   for (JsonObject object : doc.as<JsonArray>())
   {
     // 匹配云端定义的属性（不包含属性中的监测数据）
-    const char* id = object["id"];
-    const char* value = object["value"];
+    const char *id = object["id"];
+    const char *value = object["value"];
     printMsg((String)id + "：" + (String)value);
   }
   // 最后发布属性，服务端订阅存储（重要）
@@ -80,7 +82,8 @@ void processFunction(String payload)
 {
   StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, payload);
-  if (error) {
+  if (error)
+  {
     Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
     return;
@@ -88,11 +91,11 @@ void processFunction(String payload)
   for (JsonObject object : doc.as<JsonArray>())
   {
     // 匹配云端定义的功能
-    const char* id = object["id"];
-    const char* value = object["value"];
+    const char *id = object["id"];
+    const char *value = object["value"];
     if (strcmp(id, "switch") == 0)
     {
-      printMsg("开关 switch：" + (String) value);
+      printMsg("开关 switch：" + (String)value);
     }
     else if (strcmp(id, "gear") == 0)
     {
@@ -105,8 +108,10 @@ void processFunction(String payload)
     else if (strcmp(id, "message") == 0)
     {
       printMsg("屏显消息 message：" + (String)value);
-    }else if(strcmp(id,"report_monitor")==0){
-      String msg=randomPropertyData();
+    }
+    else if (strcmp(id, "report_monitor") == 0)
+    {
+      String msg = randomPropertyData();
       printMsg("订阅到上报监测数据指令，上报数据：");
       printMsg(msg);
       publishProperty(msg);
@@ -143,7 +148,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Serial.println(error.f_str());
       return;
     }
-    // 计算设备当前时间：(${serverRecvTime} + ${serverSendTime} + ${deviceRecvTime} - ${deviceSendTime}) / 2
+
     float deviceSendTime = doc["deviceSendTime"];
     float serverSendTime = doc["serverSendTime"];
     float serverRecvTime = doc["serverRecvTime"];
@@ -174,7 +179,7 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     monitorCount = doc["count"];
     monitorInterval = doc["interval"];
-  }  
+  }
 }
 
 // 连接wifi
@@ -202,6 +207,7 @@ void connectMqtt()
   String password = generationPwd();
   String encryptPassword = encrypt(password, mqttSecret, wumei_iv);
   printMsg("密码(已加密)：" + encryptPassword);
+
   mqttClient.setClient(wifiClient);
   mqttClient.setServer(mqttHost, mqttPort);
   mqttClient.setCallback(callback);
@@ -306,28 +312,29 @@ void publishEvent()
 // 6.发布实时监测数据
 void publishMonitor()
 {
-  String msg=randomPropertyData();
+  String msg = randomPropertyData();
   // 发布为实时监测数据，不会存储
-  printMsg("发布实时监测数据:"+msg);
+  printMsg("发布实时监测数据:" + msg);
   mqttClient.publish(pMonitorTopic.c_str(), msg.c_str());
 }
 
 // 随机生成监测值
-String randomPropertyData(){
+String randomPropertyData()
+{
   // 匹配云端定义的监测数据，随机数代替监测结果
   float randFloat = 0;
-  int randInt=0;
+  int randInt = 0;
   StaticJsonDocument<1024> doc;
   JsonObject objTmeperature = doc.createNestedObject();
   objTmeperature["id"] = "temperature";
-  randFloat = random(1000, 3000) ;
-  objTmeperature["value"] = (String)(randFloat/100);
+  randFloat = random(1000, 3000);
+  objTmeperature["value"] = (String)(randFloat / 100);
   objTmeperature["remark"] = (String)millis();
 
-  JsonObject objHumidity   = doc.createNestedObject();
+  JsonObject objHumidity = doc.createNestedObject();
   objHumidity["id"] = "humidity";
   randFloat = random(3000, 6000);
-  objHumidity["value"] = (String)(randFloat/100);
+  objHumidity["value"] = (String)(randFloat / 100);
   objHumidity["remark"] = (String)millis();
 
   JsonObject objCo2 = doc.createNestedObject();
@@ -353,6 +360,8 @@ String randomPropertyData(){
 String generationPwd()
 {
   String jsonTime = getTime();
+  printMsg("getTime()= " + jsonTime);
+
   // 128字节内存池容量
   StaticJsonDocument<128> doc;
   // 解析JSON
@@ -369,10 +378,12 @@ String generationPwd()
   float serverRecvTime = doc["serverRecvTime"];
   float deviceRecvTime = millis();
   float now = (serverSendTime + serverRecvTime + deviceRecvTime - deviceSendTime) / 2;
+
   // 过期时间 = 当前时间 + 1小时
   float expireTime = now + 1 * 60 * 60 * 1000;
   String password = (String)mqttPwd + "&" + userId + "&" + String(expireTime, 0);
   printMsg("密码(未加密):" + password);
+
   return password;
 }
 
@@ -383,6 +394,7 @@ String getTime()
   {
     HTTPClient http;
     printMsg("获取时间...");
+
     if (http.begin(wifiClient, (ntpServer + (String)millis()).c_str()))
     {
       // 发送请求
@@ -391,9 +403,10 @@ String getTime()
       {
         if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
         {
+          g_time = http.getString();
           printMsg("获取时间成功，data:");
-          Serial.print(http.getString());
-          return http.getString();
+          Serial.print(g_time);
+          return g_time;
         }
       }
       else
@@ -440,6 +453,7 @@ String encrypt(String plain_data, char *wumei_key, char *wumei_iv)
   int i;
   // pkcs7padding填充 Block Size : 16
   int len = plain_data.length();
+
   int n_blocks = len / 16 + 1;
   uint8_t n_padding = n_blocks * 16 - len;
   uint8_t data[n_blocks * 16];
@@ -449,16 +463,24 @@ String encrypt(String plain_data, char *wumei_key, char *wumei_iv)
     data[i] = n_padding;
   }
   uint8_t key[16], iv[16];
+  uint8_t crypt_data[3 * 16] = {0};
+
   memcpy(key, wumei_key, 16);
   memcpy(iv, wumei_iv, 16);
-  // 加密
-  br_aes_big_cbcenc_keys encCtx;
-  br_aes_big_cbcenc_init(&encCtx, key, 16);
-  br_aes_big_cbcenc_run(&encCtx, iv, data, n_blocks * 16);
-  // Base64编码
+
+  memset(crypt_data, 0, 48);
+
   len = n_blocks * 16;
+  // 加密
+  mbedtls_aes_context aes_ctx;
+  mbedtls_aes_init(&aes_ctx);
+  mbedtls_aes_setkey_enc(&aes_ctx, key, 128);
+  mbedtls_aes_crypt_cbc(&aes_ctx, MBEDTLS_AES_ENCRYPT, len, iv, data, crypt_data);
+  
+  // Base64编码
   char encoded_data[base64_enc_len(len)];
-  base64_encode(encoded_data, (char *)data, len);
+  base64_encode(encoded_data, (char *)crypt_data, len);
+
   return String(encoded_data);
 }
 
@@ -474,14 +496,20 @@ String decrypt(String encoded_data_str, char *wumei_key, char *wumei_iv)
   memcpy(key, wumei_key, 16);
   memcpy(iv, wumei_iv, 16);
   int n_blocks = len / 16;
-  br_aes_big_cbcdec_keys decCtx;
-  br_aes_big_cbcdec_init(&decCtx, key, 16);
-  br_aes_big_cbcdec_run(&decCtx, iv, data, n_blocks * 16);
-  // PKCS#7 Padding 填充
+
   uint8_t n_padding = data[n_blocks * 16 - 1];
   len = n_blocks * 16 - n_padding;
   char plain_data[len + 1];
-  memcpy(plain_data, data, len);
+
+  //密文空间
+  mbedtls_aes_context aes_ctx;
+  mbedtls_aes_init(&aes_ctx);
+
+  //设置解密密钥
+  mbedtls_aes_setkey_dec(&aes_ctx, key, 128);
+  mbedtls_aes_crypt_cbc(&aes_ctx, MBEDTLS_AES_DECRYPT, 48, iv, (unsigned char *)encoded_data, (unsigned char *)plain_data);
+  mbedtls_aes_free(&aes_ctx);
+  // PKCS#7 Padding 填充
   plain_data[len] = '\0';
   return String(plain_data);
 }
