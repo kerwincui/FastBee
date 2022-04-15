@@ -1,5 +1,6 @@
 package com.ruoyi.iot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,7 +50,16 @@ public class GroupController extends BaseController
     public TableDataInfo list(Group group)
     {
         startPage();
-        List<Group> list = groupService.selectGroupList(group);
+        List<Group> list = new ArrayList<>();
+        if(group.getUserName() == null || group.getUserName() == "")
+        {
+//            搜索查询 ,mapper使用的是模糊查询
+            list = groupService.selectGroupList(group);
+
+        }else {
+//            精准查询
+            list = groupService.selectGroupList1(group);
+        }
         return getDataTable(list);
     }
 

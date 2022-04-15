@@ -77,4 +77,8 @@ public interface CategoryMapper
      * @return 结果
      */
     public int productCountInCategorys(Long[] categoryIds);
+    //    精准查询
+    List<Category> selectCategoryList1(Category category);
+
+    List<IdAndName> selectCategoryShortList1(Category category);
 }

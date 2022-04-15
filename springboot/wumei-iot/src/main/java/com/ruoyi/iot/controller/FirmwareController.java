@@ -59,6 +59,7 @@ public class FirmwareController extends BaseController
     public TableDataInfo list(Firmware firmware)
     {
         startPage();
+        System.out.print("租户名称"+firmware.getTenantName()+"hs");
         List<Firmware> list = firmwareService.selectFirmwareList(firmware);
         return getDataTable(list);
     }

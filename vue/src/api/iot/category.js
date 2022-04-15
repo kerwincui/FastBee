@@ -16,6 +16,14 @@ export function listShortCategory() {
     method: 'get',
   })
 }
+// 查询产品简短分类列表
+export function listShortCategory1(query) {
+  return request({
+    url: '/iot/category/shortlist',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询产品分类详细
 export function getCategory(categoryId) {

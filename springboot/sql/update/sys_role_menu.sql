@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 14/04/2022 23:28:40
+ Date: 15/04/2022 23:33:21
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,6 @@ CREATE TABLE `sys_role_menu`  (
 -- Records of sys_role_menu
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (2, 108);
-INSERT INTO `sys_role_menu` VALUES (2, 112);
 INSERT INTO `sys_role_menu` VALUES (2, 2000);
 INSERT INTO `sys_role_menu` VALUES (2, 2001);
 INSERT INTO `sys_role_menu` VALUES (2, 2002);

@@ -121,7 +121,8 @@ import productAlert from "./product-alert"
 import productAuthorize from "./product-authorize"
 import imageUpload from "../../../components/ImageUpload/index"
 import {
-    listShortCategory
+    listShortCategory,
+    listShortCategory1
 } from "@/api/iot/category";
 import {
     getProduct,
@@ -169,6 +170,10 @@ export default {
                     trigger: "blur"
                 }]
             },
+                // 查询参数
+                queryParams: {
+                  tenantName: null,
+                },
 
         };
     },
@@ -179,12 +184,18 @@ export default {
         if (this.form.productId != 0) {
             this.getProduct();
         }
-        // 获取简短分类列表
-        listShortCategory().then(response => {
-            this.categoryShortList = response.data;
-        })
+        this.init();
     },
     methods: {
+      init(){
+        if (this.$store.state.user.roles.indexOf("admin") === -1){
+          this.queryParams.tenantName = this.$store.state.user.name
+        }
+        // 获取简短分类列表
+        listShortCategory1(this.queryParams).then(response => {
+          this.categoryShortList = response.data;
+        })
+      },
         /** 返回按钮 */
         goBack() {
             const obj = {

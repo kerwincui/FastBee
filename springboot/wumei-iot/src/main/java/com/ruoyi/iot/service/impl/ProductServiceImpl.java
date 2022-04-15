@@ -180,6 +180,7 @@ public class ProductServiceImpl implements IProductService
         return AjaxResult.error("删除失败");
     }
 
+
     /**
      * 删除产品信息
      * 
@@ -192,5 +193,10 @@ public class ProductServiceImpl implements IProductService
         // 删除物模型JSON缓存
         redisCache.deleteObject(tslPreKey+productId);
         return productMapper.deleteProductByProductId(productId);
+    }
+    //    精准查询
+    @Override
+    public List<Product> selectProductList1(Product product) {
+        return productMapper.selectProductList1(product);
     }
 }

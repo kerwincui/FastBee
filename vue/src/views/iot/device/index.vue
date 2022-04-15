@@ -294,7 +294,7 @@ export default {
                 }
             })
         },
-        /** 
+        /**
          * Mqtt发布消息
          * @type 类型(1=属性，2=功能，3=OTA升级，4=实时监测)
          * @device 设备
@@ -443,16 +443,15 @@ export default {
             model.value = 0;
             this.mqttPublish(4, this.monitorDevice, model);
         },
-        /** 查询设备列表 */
+        /** 查询所有简短设备列表 */
         getList() {
             this.loading = true;
             if (null != this.daterangeActiveTime && '' != this.daterangeActiveTime) {
                 this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
-           // 设置用户的角色 用以区分自己创建的设备
-          // 由于admin可以看所有数据所以判断
-          if (this.$store.state.user.roles !=="admin"){
+          // 判断是否是admin角色
+          if (this.$store.state.user.roles.indexOf("admin") === -1){
             this.queryParams.userName = this.$store.state.user.name
           }
             listDeviceShort(this.queryParams).then(response => {

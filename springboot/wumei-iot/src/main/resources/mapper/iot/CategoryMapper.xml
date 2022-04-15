@@ -34,10 +34,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by order_num
     </select>
-
+    <select id="selectCategoryList1" parameterType="com.ruoyi.iot.domain.Category" resultMap="CategoryResult">
+        <include refid="selectCategoryVo"/>
+        <where>
+            <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name = #{tenantName} or is_sys = 1</if>
+            <if test="isSys != null "> and is_sys = #{isSys}</if>
+        </where>
+        order by order_num
+    </select>
     <select id="selectCategoryShortList"  resultMap="CategoryShortResult">
         select category_id, category_name
         from iot_category
+        order by order_num
+    </select>
+    <select id="selectCategoryShortList1"  resultMap="CategoryShortResult">
+        select category_id, category_name
+        from iot_category
+        <where>
+            <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name = #{tenantName} or is_sys = 1</if>
+            <if test="isSys != null "> and is_sys = #{isSys}</if>
+        </where>
         order by order_num
     </select>
     

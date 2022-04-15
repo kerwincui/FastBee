@@ -58,13 +58,12 @@
                 <template slot-scope="scope">
                     <el-button size="small" type="info" style="padding:5px;" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" :disabled="scope.row.isSys == '1' ? (canEdit ? false : true) : false">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-
         <!-- 添加或修改产品固件对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -88,7 +87,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled="form.isSys == '1' ? (canEdit ? false : true) : false">确 定</el-button>
+                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -222,11 +221,11 @@ export default {
         this.init();
     },
     methods: {
-     init(){
-        if (this.$store.state.user.roles =="admin"){
-            this.canEdit = true
-          }
-        },
+      init(){
+        if (this.$store.state.user.roles.indexOf("admin") !== -1){
+          this.canEdit = true
+        }
+      },
         /** 查询产品固件列表 */
         getList() {
             if (this.$store.state.user.roles !="admin"){

@@ -23,7 +23,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select firmware_id, firmware_name, product_id, product_name, tenant_id, tenant_name, is_sys, version, file_path, create_time,  update_time, remark from iot_firmware
     </sql>
 
-    
     <select id="selectFirmwareList" parameterType="com.ruoyi.iot.domain.Firmware" resultMap="FirmwareResult">
         <include refid="selectFirmwareVo"/>
         <where>

@@ -95,6 +95,10 @@ export default {
         /** 查询产品列表 */
         getList() {
             this.loading = true;
+          // 判断是否是admin角色
+          if (this.$store.state.user.roles.indexOf("admin") === -1){
+            this.queryParams.tenantName = this.$store.state.user.name
+          }
             listProduct(this.queryParams).then(response => {
                 this.productList = response.rows;
                 this.total = response.total;
@@ -125,7 +129,7 @@ export default {
         setRadioSelected(productId) {
             for (let i = 0; i < this.productList.length; i++) {
                 if (this.productList[i].productId == productId) {
-                    this.productList[i].isSelect = true;                    
+                    this.productList[i].isSelect = true;
                 } else {
                     this.productList[i].isSelect = false;
                 }
