@@ -48,7 +48,7 @@ public class ProductController extends BaseController
         {
             list = productService.selectProductList(product);
         }else {
-            list = productService.selectProductList1(product);
+            list = productService.selectProductListAccurate(product);
         }
         return getDataTable(list);
     }

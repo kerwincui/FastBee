@@ -96,9 +96,9 @@ export default {
         getList() {
             this.loading = true;
           // 判断是否是admin角色
-          if (this.$store.state.user.roles.indexOf("admin") === -1){
-            this.queryParams.tenantName = this.$store.state.user.name
-          }
+            if (this.$store.state.user.roles.indexOf("admin") === -1){
+              this.queryParams.tenantName = this.$store.state.user.name
+            }
             listProduct(this.queryParams).then(response => {
                 this.productList = response.rows;
                 this.total = response.total;

@@ -58,7 +58,7 @@ public class GroupController extends BaseController
 
         }else {
 //            精准查询
-            list = groupService.selectGroupList1(group);
+            list = groupService.selectGroupListAccurate(group);
         }
         return getDataTable(list);
     }

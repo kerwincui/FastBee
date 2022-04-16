@@ -85,5 +85,5 @@ public interface GroupMapper
     public int deleteDeviceGroupByGroupIds(Long[] groupIds);
 
 //    精准查询所有
-    List<Group> selectGroupList1(Group group);
+    List<Group> selectGroupListAccurate(Group group);
 }

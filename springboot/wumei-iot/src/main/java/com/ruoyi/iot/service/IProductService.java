@@ -79,5 +79,5 @@ public interface IProductService
     public int deleteProductByProductId(Long productId);
 
 //    精准查询
-    List<Product> selectProductList1(Product product);
+    List<Product> selectProductListAccurate(Product product);
 }

@@ -252,8 +252,8 @@ public class DeviceServiceImpl implements IDeviceService {
 
 //    精准查询所有条件的设备
     @Override
-    public List<DeviceShortOutput> selectDeviceShortList1(Device device) {
-        return deviceMapper.selectDeviceShortList1(device);
+    public List<DeviceShortOutput> selectDeviceShortListAccurate(Device device) {
+        return deviceMapper.selectDeviceShortListAccurate(device);
     }
 
     /**
@@ -541,13 +541,13 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     @Override
-    public List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName) {
-        return deviceMapper.selectAllDeviceShortList1(userName);
+    public List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName) {
+        return deviceMapper.selectAllDeviceShortListAccurate(userName);
     }
 //    精准查询
     @Override
-    public List<Device> selectDeviceList1(Device device) {
-        return deviceMapper.selectDeviceList1(device);
+    public List<Device> selectDeviceListAccurate(Device device) {
+        return deviceMapper.selectDeviceListAccurate(device);
     }
 
 

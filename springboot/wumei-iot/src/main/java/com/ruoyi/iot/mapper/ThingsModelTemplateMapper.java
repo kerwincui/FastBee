@@ -69,5 +69,5 @@ public interface ThingsModelTemplateMapper
      */
     public int deleteThingsModelTemplateByTemplateIds(Long[] templateIds);
     //    精准查询
-    List<ThingsModelTemplate> selectThingsModelTemplateList1(ThingsModelTemplate thingsModelTemplate);
+    List<ThingsModelTemplate> selectThingsModelTemplateListAccurate(ThingsModelTemplate thingsModelTemplate);
 }

@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by order_num
     </select>
-    <select id="selectCategoryList1" parameterType="com.ruoyi.iot.domain.Category" resultMap="CategoryResult">
+    <select id="selectCategoryListAccurate" parameterType="com.ruoyi.iot.domain.Category" resultMap="CategoryResult">
         <include refid="selectCategoryVo"/>
         <where>
             <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from iot_category
         order by order_num
     </select>
-    <select id="selectCategoryShortList1"  resultMap="CategoryShortResult">
+    <select id="selectCategoryShortListAccurate"  resultMap="CategoryShortResult">
         select category_id, category_name
         from iot_category
         <where>

@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by create_time desc
     </select>
-    <select id="selectProductList1" parameterType="com.ruoyi.iot.domain.Product" resultMap="ProductResult">
+    <select id="selectProductListAccurate" parameterType="com.ruoyi.iot.domain.Product" resultMap="ProductResult">
         <include refid="selectProductVo"/>
         <where>
             <if test="productName != null  and productName != ''"> and product_name=#{productName}</if>
