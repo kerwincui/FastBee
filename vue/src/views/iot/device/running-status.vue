@@ -109,7 +109,7 @@
                         <i class="el-icon-s-unfold"></i>
                         {{item.name}}
                     </template>
-                    <el-select v-model="item.value" placeholder="请选择" clearable size="mini" disabled >
+                    <el-select v-model="item.value" placeholder="请选择" clearable size="mini" disabled>
                         <el-option v-for="subItem in item.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
                     </el-select>
                 </el-descriptions-item>
@@ -181,7 +181,9 @@ import mqttClient from './mqtt-client.vue'
 export default {
     name: "running-status",
     dicts: ['iot_yes_no'],
-    components: {mqttClient},
+    components: {
+        mqttClient
+    },
     props: {
         device: {
             type: Object,
@@ -302,10 +304,8 @@ export default {
                 // 发布
                 this.publish = {
                     topic: topic,
-                    message: message
-                }
-                if (model) {
-                    this.$modal.notifySuccess("[ " + model.name + " ] 指令发送成功");
+                    message: message,
+                    name: model.name
                 }
             }
         },

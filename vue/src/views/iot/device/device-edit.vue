@@ -80,7 +80,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="8">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <div style="border:1px solid #dfe4ed;border-radius:5px;padding:5px;text-align:center;line-height:400px;">
                             <div id="map" style="height:435px;width:100%;">地图展示区域，新增后显示</div>
                         </div>

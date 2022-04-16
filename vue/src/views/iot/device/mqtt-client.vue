@@ -5,9 +5,6 @@
 <script>
 import mqtt from 'mqtt'
 import {
-    cacheJsonThingsModel
-} from "@/api/iot/model";
-import {
     getToken
 } from "@/utils/auth";
 
@@ -26,7 +23,7 @@ export default {
     watch: {
         // 获取到父组件传递的值
         publish: function (val, oldVal) {
-            this.mqttPublish(val.topic, val.message);
+            this.mqttPublish(val.topic, val.message,val.name);
         },
         subscribes: function (val, oldVal) {
             this.connectMqtt(val);
@@ -80,9 +77,10 @@ export default {
         },
 
         /** 发布消息 */
-        mqttPublish(topic, message) {
+        mqttPublish(topic, message, name) {
             if (!this.client.connected) {
                 console.log('客户端未连接')
+                this.$modal.notifyError("Mqtt客户端未连接");
                 return
             }
             this.client.publish(topic, message, {
@@ -91,6 +89,7 @@ export default {
                 if (!err) {
                     console.log('成功发布主题：' + topic)
                     console.log('主题内容：' + message);
+                    this.$modal.notifySuccess("[ " + name + " ] 指令发送成功");
                 }
             })
         },
@@ -110,7 +109,8 @@ export default {
         mqttError() {
             this.client.on('error', (error) => {
                 console.log('连接失败：', error)
-                this.client.end()
+                this.$modal.notifyError("Mqtt客户端连接失败");
+                this.client.end();
             })
         },
         /** 取消订阅 */
@@ -123,7 +123,8 @@ export default {
         unconnectMqtt() {
             this.client.end()
             this.client = null
-            console.log('服务器已断开连接！')
+            console.log('服务器已断开连接！');
+            this.$modal.notifyError("Mqtt服务器已断开连接！");
         },
         /** 监听服务器重新连接 */
         reconnectMqtt() {

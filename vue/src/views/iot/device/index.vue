@@ -197,7 +197,9 @@ import {
 export default {
     name: "Device",
     dicts: ['iot_device_status', 'iot_is_enable'],
-    components: {mqttClient},
+    components: {
+        mqttClient
+    },
     data() {
         return {
             // 实时监测间隔
@@ -337,11 +339,9 @@ export default {
                 // 发布
                 this.publish = {
                     topic: topic,
-                    message: message
+                    message: message,
+                    name: model.name
                 };
-                if (model.name != "") {
-                    this.$modal.notifySuccess("[ " + model.name + " ] 指令发送成功");
-                }
             }
         },
         /** 接收到Mqtt回调 */
@@ -450,10 +450,10 @@ export default {
                 this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
-          // 判断是否是admin角色
-          if (this.$store.state.user.roles.indexOf("admin") === -1){
-            this.queryParams.userName = this.$store.state.user.name
-          }
+            // 判断是否是admin角色
+            if (this.$store.state.user.roles.indexOf("admin") === -1) {
+                this.queryParams.userName = this.$store.state.user.name
+            }
             listDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.total = response.total;
