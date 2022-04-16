@@ -154,6 +154,20 @@ public class DeviceController extends BaseController
     }
 
     /**
+     * 重置设备状态
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:edit')")
+    @Log(title = "设备", businessType = BusinessType.UPDATE)
+    @PutMapping("/reset/{serialNumber}")
+    @ApiOperation("重置设备设备")
+    public AjaxResult resetDeviceStatus(@PathVariable String serialNumber)
+    {
+        Device device=new Device();
+        device.setSerialNumber(serialNumber);
+        return toAjax(deviceService.resetDeviceStatus(device.getSerialNumber()));
+    }
+
+    /**
      * 删除设备
      */
     @PreAuthorize("@ss.hasPermi('iot:device:remove')")

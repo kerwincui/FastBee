@@ -161,9 +161,23 @@ public interface DeviceMapper
      * @return
      */
     public int deleteDeviceGroupByDeviceIds(Long[] deviceIds);
-//    查询所有简短设备列表
+
+    /**
+     * 重置设备状态
+     * @return 结果
+     */
+    public int resetDeviceStatus(String deviceNum);
+
+    /**
+     * 查询所有简短设备列表
+     * @return 结果
+     */
     List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
-//精准查询
+
+    /**
+     * 精准查询
+     * @return 结果
+     */
     List<Device> selectDeviceListAccurate(Device device);
 
     List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);

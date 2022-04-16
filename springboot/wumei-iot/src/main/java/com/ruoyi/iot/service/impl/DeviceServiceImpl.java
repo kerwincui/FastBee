@@ -659,6 +659,15 @@ public class DeviceServiceImpl implements IDeviceService {
         return result;
     }
 
+    /**
+     * 重置设备状态
+     * @return 结果
+     */
+    @Override
+    public int resetDeviceStatus(String deviceNum) {
+        int result=deviceMapper.resetDeviceStatus(deviceNum);
+        return result;
+    }
 
     /**
      * 批量删除设备

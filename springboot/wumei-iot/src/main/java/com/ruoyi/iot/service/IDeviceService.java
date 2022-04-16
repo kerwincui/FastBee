@@ -152,12 +152,30 @@ public interface IDeviceService
      */
     public String generationDeviceNum();
 
-    //    获取所有简短设备列表
+    /**
+     * 重置设备状态
+     * @return 结果
+     */
+    public int resetDeviceStatus(String deviceNum);
+
+    /**
+     * 获取所有简短设备列表
+     * @param userName
+     * @return
+     */
     List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
 
-//    精准查询
+    /**
+     * 精准查询
+     * @param device
+     * @return
+     */
     List<Device> selectDeviceListAccurate(Device device);
 
-//    精准查询所有条件设备的简短信息
+    /**
+     * 精准查询所有条件设备的简短信息
+     * @param device
+     * @return
+     */
     List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);
 }

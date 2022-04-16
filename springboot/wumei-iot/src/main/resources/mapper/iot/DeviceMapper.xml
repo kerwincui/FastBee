@@ -329,6 +329,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where serial_number = #{serialNumber}
     </update>
 
+    <update id="resetDeviceStatus" parameterType="String">
+        -- 设备状态（1-未激活，2-禁用，3-在线，4-离线）
+        update iot_device set status=4
+        where serial_number = #{serialNumber} and status = 3
+    </update>
+
     <update id="updateDeviceBySerialNumber" parameterType="com.ruoyi.iot.domain.Device">
         update iot_device
         <trim prefix="SET" suffixOverrides=",">
