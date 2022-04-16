@@ -331,7 +331,7 @@ export default {
         /** 更新设备状态 */
         updateDeviceStatus(device) {
             if (device.status == 3) {
-                this.statusColor.background = '#67C23A';
+                this.statusColor.background = '#12d09f';
                 this.title = "设备控制（在线）";
             } else {
                 if (device.isShadow == 1) {
@@ -385,7 +385,7 @@ export default {
                                 width: 8,
                                 color: [
                                     [0.2, '#409EFF'], // 0~20% 
-                                    [0.8, '#67C23A'], // 40~60%
+                                    [0.8, '#12d09f'], // 40~60%
                                     [1, '#F56C6C'], // 80~100%
                                 ],
                                 opacity: 0.3
