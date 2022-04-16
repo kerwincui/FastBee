@@ -132,7 +132,7 @@ import {
 } from "@/api/iot/product";
 
 export default {
-    name: "Product-edit",
+    name: "ProductEdit",
     dicts: ['iot_device_type', 'iot_network_method', 'iot_vertificate_method'],
     components: {
         productThingsModel,

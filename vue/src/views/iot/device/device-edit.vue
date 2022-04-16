@@ -163,7 +163,7 @@ import {
 } from "@/api/iot/device";
 
 export default {
-    name: "device-edit",
+    name: "DeviceEdit",
     dicts: ['iot_device_status'],
     components: {
         deviceLog,
