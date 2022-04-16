@@ -107,6 +107,9 @@ export default {
                 this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
+            if (this.$store.state.user.roles.indexOf("admin") === -1){
+              this.queryParams.userName=this.$store.state.user.name;
+            }
             listDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.total = response.total;
