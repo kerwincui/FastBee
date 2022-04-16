@@ -52,7 +52,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" :disabled="scope.row.isSys == '1' ? (canEdit ? false : true) : false">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -73,7 +73,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled="form.isSys == '1' ? (canEdit ? false : true) : false">确 定</el-button>
+                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -156,14 +156,17 @@ export default {
         this.init();
     },
     methods: {
-        init(){
-        if (this.$store.state.user.roles =="admin"){
-            this.canEdit = true
-          }
-        },
+      init(){
+        if (this.$store.state.user.roles.indexOf("admin") !== -1){
+          this.canEdit = true
+        }
+      },
         /** 查询产品分类列表 */
         getList() {
             this.loading = true;
+            if (this.$store.state.user.roles.indexOf("admin") === -1){
+              this.queryParams.tenantName = this.$store.state.user.name
+            }
             listCategory(this.queryParams).then(response => {
                 this.categoryList = response.rows;
                 this.total = response.total;

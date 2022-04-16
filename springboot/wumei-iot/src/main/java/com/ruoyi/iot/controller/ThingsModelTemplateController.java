@@ -1,5 +1,6 @@
 package com.ruoyi.iot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,8 +48,14 @@ public class ThingsModelTemplateController extends BaseController
     public TableDataInfo list(ThingsModelTemplate thingsModelTemplate)
     {
         startPage();
-        List<ThingsModelTemplate> list = thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate);
-        return getDataTable(list);
+        List<ThingsModelTemplate> list = new ArrayList<>();
+        if (thingsModelTemplate.getTenantName() == ""|| thingsModelTemplate.getTenantName() == null){
+            list = thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate);
+        }else{
+//            精准查询
+            list = thingsModelTemplateService.selectThingsModelTemplateList1(thingsModelTemplate);
+        }
+               return getDataTable(list);
     }
 
     /**

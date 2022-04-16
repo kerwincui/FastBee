@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,16 @@ public class DeviceController extends BaseController
     public TableDataInfo list(Device device)
     {
         startPage();
-        List<Device> list = deviceService.selectDeviceList(device);
+        List<Device> list = new ArrayList<>();
+        if(device.getUserName()==null || device.getUserName()=="" )
+        {
+            list = deviceService.selectDeviceList(device);
+            System.out.print("进入模糊查询");
+        }else {
+            //            精确查询
+            System.out.print("进入精准查询"+device.getUserName());
+            list = deviceService.selectDeviceList1(device);
+        }
         return getDataTable(list);
     }
 
@@ -56,7 +66,14 @@ public class DeviceController extends BaseController
     public TableDataInfo shortList(Device device)
     {
         startPage();
-        List<DeviceShortOutput> list = deviceService.selectDeviceShortList(device);
+        List<DeviceShortOutput> list = new ArrayList<>();
+        if(device.getUserName()==null || device.getUserName()=="" )
+        {
+            list = deviceService.selectDeviceShortList(device);
+        }else {
+            //            精确查询
+            list = deviceService.selectDeviceShortList1(device);
+        }
         return getDataTable(list);
     }
 

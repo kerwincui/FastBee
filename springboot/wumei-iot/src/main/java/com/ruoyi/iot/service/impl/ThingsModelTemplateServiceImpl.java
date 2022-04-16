@@ -108,4 +108,9 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
     {
         return thingsModelTemplateMapper.deleteThingsModelTemplateByTemplateId(templateId);
     }
+    //    精准查询
+    @Override
+    public List<ThingsModelTemplate> selectThingsModelTemplateList1(ThingsModelTemplate thingsModelTemplate) {
+        return thingsModelTemplateMapper.selectThingsModelTemplateList1(thingsModelTemplate);
+    }
 }

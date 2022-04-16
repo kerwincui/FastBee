@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,13 @@ public class ProductController extends BaseController
     public TableDataInfo list(Product product)
     {
         startPage();
-        List<Product> list = productService.selectProductList(product);
+        List<Product> list = new ArrayList<>();
+        if(product.getTenantName()=="" ||product.getTenantName()==null)
+        {
+            list = productService.selectProductList(product);
+        }else {
+            list = productService.selectProductList1(product);
+        }
         return getDataTable(list);
     }
 
@@ -52,9 +59,10 @@ public class ProductController extends BaseController
     @PreAuthorize("@ss.hasPermi('iot:product:list')")
     @GetMapping("/shortList")
     @ApiOperation("产品简短列表")
-    public AjaxResult shortList()
+    public AjaxResult shortList(Product product)
     {
-        List<IdAndName> list = productService.selectProductShortList();
+
+        List<IdAndName>  list = productService.selectProductShortList();
         return AjaxResult.success(list);
     }
 

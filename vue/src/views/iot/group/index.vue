@@ -160,7 +160,7 @@ export default {
             this.loading = true;
              // 设置用户的角色 用以区分自己创建的设备
             // 由于admin可以看所有数据所以判断
-            if (this.$store.state.user.roles !=="admin"){
+            if (this.$store.state.user.roles.indexOf("admin") === -1){
               this.queryParams.userName = this.$store.state.user.name
             }
             listGroup(this.queryParams).then(response => {

@@ -8,8 +8,8 @@ spring:
             master:
                 url: jdbc:mysql://localhost/wumei-smart?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-#                password: wumei-smart
-                password: 123456
+                password: wumei-smart
+#                password: 123456
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭

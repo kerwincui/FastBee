@@ -139,4 +139,10 @@ public class GroupServiceImpl implements IGroupService
 
         return groupMapper.deleteGroupByGroupId(groupId);
     }
+
+//    精准查询所有
+    @Override
+    public List<Group> selectGroupList1(Group group) {
+        return groupMapper.selectGroupList1(group);
+    }
 }

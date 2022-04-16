@@ -97,6 +97,11 @@ public class CategoryServiceImpl implements ICategoryService
         return categoryMapper.updateCategory(category);
     }
 
+    @Override
+    public List<IdAndName> selectCategoryShortList1(Category category) {
+        return categoryMapper.selectCategoryShortList1(category);
+    }
+
     /**
      * 批量删除产品分类
      * 
@@ -126,5 +131,10 @@ public class CategoryServiceImpl implements ICategoryService
     public int deleteCategoryByCategoryId(Long categoryId)
     {
         return categoryMapper.deleteCategoryByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<Category> selectCategoryList1(Category category) {
+        return categoryMapper.selectCategoryList1(category);
     }
 }

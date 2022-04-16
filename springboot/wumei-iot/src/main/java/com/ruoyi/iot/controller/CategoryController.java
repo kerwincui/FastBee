@@ -1,5 +1,6 @@
 package com.ruoyi.iot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,7 +49,14 @@ public class CategoryController extends BaseController
     public TableDataInfo list(Category category)
     {
         startPage();
-        List<Category> list = categoryService.selectCategoryList(category);
+        List<Category> list = new ArrayList<>();
+        if(category.getTenantName()== null || category.getTenantName()=="")
+        {
+            list = categoryService.selectCategoryList(category);
+        }else {
+            list = categoryService.selectCategoryList1(category);
+        }
+
         return getDataTable(list);
     }
 
@@ -58,9 +66,15 @@ public class CategoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('iot:category:list')")
     @GetMapping("/shortlist")
     @ApiOperation("分类简短列表")
-    public AjaxResult shortlist()
+    public AjaxResult shortlist(Category category)
     {
-        List<IdAndName> list = categoryService.selectCategoryShortList();
+        List<IdAndName> list = new ArrayList<>();
+        if(category.getTenantName()==""||category.getTenantName()==null)
+        {
+            list = categoryService.selectCategoryShortList();
+        }else {
+            list = categoryService.selectCategoryShortList1(category);
+        }
         return AjaxResult.success(list);
     }
 

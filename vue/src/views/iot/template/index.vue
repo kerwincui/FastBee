@@ -75,8 +75,8 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" :disabled="scope.row.isSys == '1' ? (canEdit ? false : true) : false">删除</el-button>
+                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']" >修改</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -184,7 +184,7 @@
             </el-form>
 
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled="form.isSys == '1' ? (canEdit ? false : true) : false">确 定</el-button>
+                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -238,6 +238,8 @@ export default {
                 pageSize: 10,
                 templateName: null,
                 type: null,
+                // 增加属性
+                tenantName: ''
             },
             // 表单参数
             form: {},
@@ -277,13 +279,16 @@ export default {
     },
     methods: {
         init(){
-        if (this.$store.state.user.roles =="admin"){
+        if (this.$store.state.user.roles.indexOf("admin") !== -1){
             this.canEdit = true
           }
         },
         /** 查询通用物模型列表 */
         getList() {
             this.loading = true;
+          if (this.$store.state.user.roles.indexOf("admin") === -1){
+            this.queryParams.tenantName = this.$store.state.user.name
+          }
             listTemplate(this.queryParams).then((response) => {
                 this.templateList = response.rows;
                 this.total = response.total;
@@ -372,6 +377,8 @@ export default {
                             this.form.isMonitor = 0;
                             this.form.isTop = 0;
                         }
+                      // 添加通用物模型的修改者
+                      this.form.updateBy = this.$store.state.user.name
                         updateTemplate(this.form).then((response) => {
                             this.$modal.msgSuccess("修改成功");
                             this.open = false;
@@ -386,6 +393,8 @@ export default {
                             this.form.isMonitor = 0;
                             this.form.isTop = 0;
                         }
+                        // 添加通用物模型的创造者
+                        this.form.createBy = this.$store.state.user.name
                         addTemplate(this.form).then((response) => {
                             this.$modal.msgSuccess("新增成功");
                             this.open = false;

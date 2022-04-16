@@ -77,4 +77,7 @@ public interface IProductService
      * @return 结果
      */
     public int deleteProductByProductId(Long productId);
+
+//    精准查询
+    List<Product> selectProductList1(Product product);
 }

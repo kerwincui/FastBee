@@ -97,7 +97,7 @@
         </el-col>
 
     </el-row>
-  <div v-show="isAdmin">
+  <div v-if="isAdmin">
     <el-row :gutter="40" style="margin-top:80px;">
         <el-col :span="1">
             <el-card style="margin:-10px;height:218px;margin-right:-31px;padding-top:35px;text-align:center;font-weight:bold;" shadow="none">
@@ -236,7 +236,7 @@ export default {
         init(){
           // 设置用户的角色 用以区分自己创建的设备
           // 由于admin可以看所有数据所以判断
-          if (this.$store.state.user.roles !="admin"){
+          if (this.$store.state.user.roles.indexOf("admin") === -1){
             this.isAdmin = false
             this.queryParams.userName = this.$store.state.user.name
           }
