@@ -6,12 +6,14 @@
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="login-top">
                     <h1>物美智能 - 开源生活物联网平台</h1>
-                    <h2>wumei smart open source iot platform</h2>
+                    <h2>wumei smart open source living iot platform</h2>
                 </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" style="z-index:1000">
-                    <h3 class="title">账号登录</h3>
+                    <h3 class="title">账号登录
+                        <span style="font-size:16px;color:#eee">（ 演示账号：wumei<span style="margin:0 10px;">123456 ）</span></span>
+                    </h3>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -36,10 +38,24 @@
                             <span v-if="!loading">登 录</span>
                             <span v-else>登 录 中...</span>
                         </el-button>
+                        <div style="margin-top:10px;">
+                            <span style="color:#fff;margin-right:10px;">第三方登录</span>
+
+                            <el-button type="success" circle title="微信登录" size="small" @click="authLogin">
+                                <svg-icon icon-class="wechat" />
+                            </el-button>
+
+                            <el-button type="danger" circle title="QQ登录" size="small" @click="authLogin">
+                                <svg-icon icon-class="qq" />
+                            </el-button>
+                            <el-button type="primary" circle title="支付宝登录" size="small" @click="authLogin">
+                                <svg-icon icon-class="zhifubao"/>
+                            </el-button>
+                        </div>
                         <div style="float: right;margin-top:10px;" v-if="register">
-                            <span style="margin-right:20px; color:#eee">演示账号：wumei<span style="margin:0 10px;">123456</span></span>
+
                             <a style="margin-right:20px;color:#222" target="_blank" href="http://wumei.live">返回官网</a>
-                            <router-link style="color:#fff;font-size:16px;display:none;" :to="'/register'" >立即注册 >></router-link>
+                            <router-link style="color:#fff;font-size:16px;" :to="'/register'">立即注册 >></router-link>
                         </div>
                     </el-form-item>
                 </el-form>
@@ -132,6 +148,29 @@ export default {
                 rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
             };
         },
+        weixinLogin() {
+            this.$alert('微信登录正在集成中...', '提示消息', {
+                confirmButtonText: '确定',
+                callback: action => {
+                    this.$message({
+                        type: 'info',
+                        message: `action: ${ action }`
+                    });
+                }
+            });
+        },
+        authLogin() {
+            
+            this.$alert('第三方登录正在集成中...', '提示消息', {
+                confirmButtonText: '确定',
+                callback: action => {
+                    // this.$message({
+                    //     type: 'info',
+                    //     message: `action: ${ action }`
+                    // });
+                }
+            });
+        },
         handleLogin() {
             this.$refs.loginForm.validate(valid => {
                 if (valid) {
@@ -179,7 +218,7 @@ export default {
 
 .title {
     margin: 0px auto 30px auto;
-    text-align: center;
+    text-align: left;
     color: #333;
     font-size: 24px;
 }
@@ -195,7 +234,7 @@ export default {
     }
 
     h2 {
-        font-size: 24px;
+        font-size: 21px;
         margin-top: -12px;
     }
 }

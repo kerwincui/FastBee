@@ -6,13 +6,12 @@
         <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <div class="login-top">
                 <h1>物美智能 - 开源生活物联网平台</h1>
-                <h2>wumei smart open source iot platform</h2>
+                <h2>wumei smart open source living iot platform</h2>
             </div>
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form" style="z-index:1000">
                 <h3 class="title">注册账号</h3>
-                <p style="text-align:center">账号可以用于学习和测试，请勿用于商业用途</p>
                 <el-form-item prop="username">
                     <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
                         <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -206,7 +205,7 @@ export default {
     }
 
     h2 {
-        font-size: 24px;
+        font-size: 21px;
         margin-top: -12px;
     }
 }
