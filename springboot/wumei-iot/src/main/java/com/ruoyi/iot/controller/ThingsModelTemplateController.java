@@ -53,7 +53,7 @@ public class ThingsModelTemplateController extends BaseController
             list = thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate);
         }else{
 //            精准查询
-            list = thingsModelTemplateService.selectThingsModelTemplateList1(thingsModelTemplate);
+            list = thingsModelTemplateService.selectThingsModelTemplateListAccurate(thingsModelTemplate);
         }
                return getDataTable(list);
     }

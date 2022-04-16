@@ -75,5 +75,5 @@ public interface IGroupService
     public int deleteGroupByGroupId(Long groupId);
 
 //    精准查询
-    List<Group> selectGroupList1(Group group);
+    List<Group> selectGroupListAccurate(Group group);
 }

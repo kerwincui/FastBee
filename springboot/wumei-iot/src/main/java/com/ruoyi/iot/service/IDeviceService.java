@@ -153,11 +153,11 @@ public interface IDeviceService
     public String generationDeviceNum();
 
     //    获取所有简短设备列表
-    List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName);
+    List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
 
 //    精准查询
-    List<Device> selectDeviceList1(Device device);
+    List<Device> selectDeviceListAccurate(Device device);
 
 //    精准查询所有条件设备的简短信息
-    List<DeviceShortOutput> selectDeviceShortList1(Device device);
+    List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);
 }

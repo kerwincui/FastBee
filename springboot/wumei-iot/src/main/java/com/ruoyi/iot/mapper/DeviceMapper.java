@@ -162,9 +162,9 @@ public interface DeviceMapper
      */
     public int deleteDeviceGroupByDeviceIds(Long[] deviceIds);
 //    查询所有简短设备列表
-    List<DeviceAllShortOutput> selectAllDeviceShortList1(String userName);
+    List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
 //精准查询
-    List<Device> selectDeviceList1(Device device);
+    List<Device> selectDeviceListAccurate(Device device);
 
-    List<DeviceShortOutput> selectDeviceShortList1(Device device);
+    List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);
 }

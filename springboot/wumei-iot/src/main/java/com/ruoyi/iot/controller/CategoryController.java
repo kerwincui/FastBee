@@ -54,7 +54,7 @@ public class CategoryController extends BaseController
         {
             list = categoryService.selectCategoryList(category);
         }else {
-            list = categoryService.selectCategoryList1(category);
+            list = categoryService.selectCategoryListAccurate(category);
         }
 
         return getDataTable(list);
@@ -73,7 +73,7 @@ public class CategoryController extends BaseController
         {
             list = categoryService.selectCategoryShortList();
         }else {
-            list = categoryService.selectCategoryShortList1(category);
+            list = categoryService.selectCategoryShortListAccurate(category);
         }
         return AjaxResult.success(list);
     }

@@ -48,11 +48,9 @@ public class DeviceController extends BaseController
         if(device.getUserName()==null || device.getUserName()=="" )
         {
             list = deviceService.selectDeviceList(device);
-            System.out.print("进入模糊查询");
         }else {
             //            精确查询
-            System.out.print("进入精准查询"+device.getUserName());
-            list = deviceService.selectDeviceList1(device);
+            list = deviceService.selectDeviceListAccurate(device);
         }
         return getDataTable(list);
     }
@@ -72,7 +70,7 @@ public class DeviceController extends BaseController
             list = deviceService.selectDeviceShortList(device);
         }else {
             //            精确查询
-            list = deviceService.selectDeviceShortList1(device);
+            list = deviceService.selectDeviceShortListAccurate(device);
         }
         return getDataTable(list);
     }
@@ -85,7 +83,13 @@ public class DeviceController extends BaseController
     @ApiOperation("查询所有设备简短列表")
     public TableDataInfo allShortList(Device device)
     {
-        List<DeviceAllShortOutput> list = deviceService.selectAllDeviceShortList1(device.getUserName());
+        List<DeviceAllShortOutput> list = new ArrayList<>();
+        if(device.getUserName()==null || device.getUserName() == "")
+        {
+            list = deviceService.selectAllDeviceShortList();
+        }else {
+            list = deviceService.selectAllDeviceShortListAccurate(device.getUserName());
+        }
         return getDataTable(list);
     }
 

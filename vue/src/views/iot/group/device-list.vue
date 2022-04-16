@@ -88,7 +88,7 @@ export default {
             immediate: true
         }
     },
-    created() {  
+    created() {
 
     },
     methods: {
@@ -102,7 +102,7 @@ export default {
         /** 查询设备列表 */
         getList() {
             this.loading = true;
-            this.queryParams.params = {};            
+            this.queryParams.params = {};
             if (null != this.daterangeActiveTime && '' != this.daterangeActiveTime) {
                 this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];

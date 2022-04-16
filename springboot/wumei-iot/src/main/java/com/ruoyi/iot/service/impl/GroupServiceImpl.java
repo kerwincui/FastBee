@@ -142,7 +142,7 @@ public class GroupServiceImpl implements IGroupService
 
 //    精准查询所有
     @Override
-    public List<Group> selectGroupList1(Group group) {
-        return groupMapper.selectGroupList1(group);
+    public List<Group> selectGroupListAccurate(Group group) {
+        return groupMapper.selectGroupListAccurate(group);
     }
 }

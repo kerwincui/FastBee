@@ -60,5 +60,5 @@ public interface IThingsModelTemplateService
     public int deleteThingsModelTemplateByTemplateId(Long templateId);
 
 //    精准查询
-    List<ThingsModelTemplate> selectThingsModelTemplateList1(ThingsModelTemplate thingsModelTemplate);
+    List<ThingsModelTemplate> selectThingsModelTemplateListAccurate(ThingsModelTemplate thingsModelTemplate);
 }

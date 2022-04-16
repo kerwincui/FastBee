@@ -70,7 +70,7 @@ public interface ICategoryService
     public int deleteCategoryByCategoryId(Long categoryId);
 
 //    精准查询
-    List<Category> selectCategoryList1(Category category);
+    List<Category> selectCategoryListAccurate(Category category);
 
-    List<IdAndName> selectCategoryShortList1(Category category);
+    List<IdAndName> selectCategoryShortListAccurate(Category category);
 }

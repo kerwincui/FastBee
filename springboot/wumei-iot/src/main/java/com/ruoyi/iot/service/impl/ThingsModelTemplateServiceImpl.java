@@ -110,7 +110,7 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
     }
     //    精准查询
     @Override
-    public List<ThingsModelTemplate> selectThingsModelTemplateList1(ThingsModelTemplate thingsModelTemplate) {
-        return thingsModelTemplateMapper.selectThingsModelTemplateList1(thingsModelTemplate);
+    public List<ThingsModelTemplate> selectThingsModelTemplateListAccurate(ThingsModelTemplate thingsModelTemplate) {
+        return thingsModelTemplateMapper.selectThingsModelTemplateListAccurate(thingsModelTemplate);
     }
 }

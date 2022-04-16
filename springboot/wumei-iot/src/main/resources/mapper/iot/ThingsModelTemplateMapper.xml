@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by create_time desc
     </select>
-    <select id="selectThingsModelTemplateList1" parameterType="com.ruoyi.iot.domain.ThingsModelTemplate" resultMap="ThingsModelTemplateResult">
+    <select id="selectThingsModelTemplateListAccurate" parameterType="com.ruoyi.iot.domain.ThingsModelTemplate" resultMap="ThingsModelTemplateResult">
         <include refid="selectThingsModelTemplateVo"/>
         <where>
             <if test="templateName != null  and templateName != ''"> and template_name = #{templateName}</if>

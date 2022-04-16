@@ -98,8 +98,8 @@ public class CategoryServiceImpl implements ICategoryService
     }
 
     @Override
-    public List<IdAndName> selectCategoryShortList1(Category category) {
-        return categoryMapper.selectCategoryShortList1(category);
+    public List<IdAndName> selectCategoryShortListAccurate(Category category) {
+        return categoryMapper.selectCategoryShortListAccurate(category);
     }
 
     /**
@@ -134,7 +134,7 @@ public class CategoryServiceImpl implements ICategoryService
     }
 
     @Override
-    public List<Category> selectCategoryList1(Category category) {
-        return categoryMapper.selectCategoryList1(category);
+    public List<Category> selectCategoryListAccurate(Category category) {
+        return categoryMapper.selectCategoryListAccurate(category);
     }
 }

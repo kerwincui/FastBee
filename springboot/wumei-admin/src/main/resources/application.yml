@@ -65,7 +65,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password: wumei-smart
+#    password: wumei-smart
 #    password: 123456
     # 连接超时时间
     timeout: 10s

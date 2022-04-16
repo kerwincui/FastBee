@@ -196,7 +196,7 @@ public class ProductServiceImpl implements IProductService
     }
     //    精准查询
     @Override
-    public List<Product> selectProductList1(Product product) {
-        return productMapper.selectProductList1(product);
+    public List<Product> selectProductListAccurate(Product product) {
+        return productMapper.selectProductListAccurate(product);
     }
 }
