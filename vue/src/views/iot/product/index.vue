@@ -24,7 +24,7 @@
     </el-card>
     <el-card style="padding-bottom:100px;">
         <el-row :gutter="30" v-loading="loading" >
-            <el-col :span="6" v-for="(item,index) in productList" :key="index" style="margin-bottom:30px;text-align:center;">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item,index) in productList" :key="index" style="margin-bottom:30px;text-align:center;">
                 <el-card :body-style="{ padding: '20px'}" shadow="always">
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">

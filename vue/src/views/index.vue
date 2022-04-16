@@ -1,13 +1,13 @@
 <template>
 <div class="app-container home">
-    <el-row :gutter="40">
-        <el-col :span="14">
+    <el-row :gutter="40" style="margin-bottom:80px;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#F8F8F8;">
                 <div ref="map" style="height:650px;margin:-10px;margin-top:-5px;"></div>
             </el-card>
         </el-col>
 
-        <el-col :span="10">
+        <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
             <el-card style="margin:-10px;" shadow="hover">
                 <h3 style="font-weight:bold">Mqtt 统计指标</h3>
                 <el-row :gutter="40" class="panel-group">
@@ -97,54 +97,50 @@
         </el-col>
 
     </el-row>
-  <div v-if="isAdmin">
-    <el-row :gutter="40" style="margin-top:80px;">
-        <el-col :span="1">
-            <el-card style="margin:-10px;height:218px;margin-right:-31px;padding-top:35px;text-align:center;font-weight:bold;" shadow="none">
-                服<br />务<br />器<br />状<br />态
-            </el-card>
-        </el-col>
-        <el-col :span="5">
-            <el-card style="margin:-10px;height:218px;" shadow="hover">
-                <el-descriptions :column="1">
-                    <el-descriptions-item label="服务器名称"><strong>{{server.sys.computerName}}</strong></el-descriptions-item>
-                    <el-descriptions-item label="服务器IP"><strong>{{server.sys.computerIp}}</strong></el-descriptions-item>
-                    <el-descriptions-item label="操作系统"><strong>{{server.sys.osName}}</strong></el-descriptions-item>
-                    <el-descriptions-item label="系统架构"><strong>{{server.sys.osArch}}</strong></el-descriptions-item>
-                    <el-descriptions-item label="CPU核心"><strong>{{server.cpu.cpuNum}}核</strong></el-descriptions-item>
-                    <el-descriptions-item label="总内存"><strong>{{server.mem.total}}G</strong></el-descriptions-item>
-                </el-descriptions>
-            </el-card>
-        </el-col>
-        <el-col :span="4">
-            <el-card style="margin:-10px;" shadow="hover">
-                <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :span="4">
-            <el-card style="margin:-10px;" shadow="hover">
-                <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :span="4">
-            <el-card style="margin:-10px;" shadow="hover">
-                <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :span="6">
-            <el-card style="margin:-10px;height:218px;" shadow="hover">
-                <el-descriptions :column="1">
-                    <el-descriptions-item label="Java名称"><strong>{{server.jvm.name}}</strong></el-descriptions-item>
-                    <el-descriptions-item label="启动时间"><strong>{{ server.jvm.startTime }}</strong></el-descriptions-item>
-                    <el-descriptions-item label="Java版本"><strong>{{ server.jvm.version }}</strong></el-descriptions-item>
-                    <el-descriptions-item label="运行时长"><strong>{{ server.jvm.runTime }}</strong></el-descriptions-item>
-                    <el-descriptions-item label="占用内存"><strong>{{server.jvm.used}}M</strong></el-descriptions-item>
-                    <el-descriptions-item label="JVM总内存"><strong>{{server.jvm.total}}M</strong></el-descriptions-item>
-                </el-descriptions>
-            </el-card>
-        </el-col>
-    </el-row>
-   </div>
+    <div v-if="isAdmin">
+        <h2><i class="el-icon-s-data"> 服务器状态</i></h2>
+        <el-row :gutter="40">
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="6">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                    <el-descriptions :column="1">
+                        <el-descriptions-item label="服务器名称"><strong>{{server.sys.computerName}}</strong></el-descriptions-item>
+                        <el-descriptions-item label="服务器IP"><strong>{{server.sys.computerIp}}</strong></el-descriptions-item>
+                        <el-descriptions-item label="操作系统"><strong>{{server.sys.osName}}</strong></el-descriptions-item>
+                        <el-descriptions-item label="系统架构"><strong>{{server.sys.osArch}}</strong></el-descriptions-item>
+                        <el-descriptions-item label="CPU核心"><strong>{{server.cpu.cpuNum}}核</strong></el-descriptions-item>
+                        <el-descriptions-item label="总内存"><strong>{{server.mem.total}}G</strong></el-descriptions-item>
+                    </el-descriptions>
+                </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                    <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
+                </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                    <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
+                </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                    <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
+                </el-card>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="6">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                    <el-descriptions :column="1">
+                        <el-descriptions-item label="Java名称"><strong>{{server.jvm.name}}</strong></el-descriptions-item>
+                        <el-descriptions-item label="启动时间"><strong>{{ server.jvm.startTime }}</strong></el-descriptions-item>
+                        <el-descriptions-item label="Java版本"><strong>{{ server.jvm.version }}</strong></el-descriptions-item>
+                        <el-descriptions-item label="运行时长"><strong>{{ server.jvm.runTime }}</strong></el-descriptions-item>
+                        <el-descriptions-item label="占用内存"><strong>{{server.jvm.used}}M</strong></el-descriptions-item>
+                        <el-descriptions-item label="JVM总内存"><strong>{{server.jvm.total}}M</strong></el-descriptions-item>
+                    </el-descriptions>
+                </el-card>
+            </el-col>
+        </el-row>
+    </div>
     <div style="margin:-21px;margin-top:100px;bottom:0;border:1px solid #ccc;padding:10px;margin-bottom:-21px;">
         <div>
             <el-link href="http://wumei.live" target="_blank" type="primary" style="margin-left:20px;">开源生活物联网平台 >></el-link>
@@ -186,14 +182,14 @@ export default {
     data() {
         return {
             // 控制是否显示服务器状态栏
-            isAdmin:true,
-            queryParams:{
-              userName: ''
+            isAdmin: true,
+            queryParams: {
+                userName: ''
             },
             // 设备列表
             deviceList: [],
             // 设备总数
-            deviceCount:0,
+            deviceCount: 0,
             // emqx状态数据
             stats: {},
             // emqx统计信息
@@ -233,19 +229,19 @@ export default {
         this.statisticMqtt();
     },
     methods: {
-        init(){
-          // 设置用户的角色 用以区分自己创建的设备
-          // 由于admin可以看所有数据所以判断
-          if (this.$store.state.user.roles.indexOf("admin") === -1){
-            this.isAdmin = false
-            this.queryParams.userName = this.$store.state.user.name
-          }
+        init() {
+            // 设置用户的角色 用以区分自己创建的设备
+            // 由于admin可以看所有数据所以判断
+            if (this.$store.state.user.roles.indexOf("admin") === -1) {
+                this.isAdmin = false
+                this.queryParams.userName = this.$store.state.user.name
+            }
         },
         /**查询所有设备 */
         getAllDevice() {
             listAllDeviceShort2(this.queryParams).then(response => {
                 this.deviceList = response.rows;
-                this.deviceCount=response.total;
+                this.deviceCount = response.total;
                 this.$nextTick(() => {
                     loadBMap().then(() => {
                         this.getmap();
@@ -306,7 +302,7 @@ export default {
             };
             option = {
                 title: {
-                    text: '设备分布和状态（数量 '+this.deviceCount+'）',
+                    text: '设备分布和状态（数量 ' + this.deviceCount + '）',
                     subtext: 'wumei-smart open source living iot platform',
                     sublink: 'https://iot.wumei.live',
                     target: "_blank",

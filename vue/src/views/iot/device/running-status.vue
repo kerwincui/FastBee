@@ -1,7 +1,7 @@
 <template>
 <div style="padding-left:20px;">
     <el-row :gutter="80">
-        <el-col :span="9">
+        <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
             <el-descriptions :column="1" border :title="title">
                 <!-- 设备升级-->
                 <el-descriptions-item :labelStyle="statusColor">
@@ -155,9 +155,9 @@
             <mqtt-client ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
         </el-col>
 
-        <el-col :span="14" :offset="1">
+        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-row :gutter="20" style="background-color:#F5F7FA;padding:20px;padding-left:10px;">
-                <el-col :span="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index" style="margin-bottom:20px;">
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index" style="margin-bottom:20px;">
                     <el-card shadow="hover" style="border-radius:30px;">
                         <div ref="map" style="height:230px;width:180px;margin:0 auto;margin-top:-10px;"></div>
                     </el-card>

@@ -5,7 +5,7 @@
             <span slot="label"> * 基本信息</span>
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                 <el-row :gutter="100">
-                    <el-col :span="7">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品名称" prop="productName">
                             <el-input v-model="form.productName" placeholder="请输入产品名称" />
                         </el-form-item>
@@ -23,10 +23,10 @@
                             <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" />
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="7" />
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
                         </el-form-item>
                     </el-col>
-                    <el-col :span="7">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="设备类型" prop="deviceType">
                             <el-select v-model="form.deviceType" placeholder="请选择设备类型" disabled style="width:100%">
                                 <el-option v-for="dict in dict.type.iot_device_type" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
@@ -56,7 +56,7 @@
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品图片">
                             <imageUpload ref="image-upload" :value="form.imgUrl" :limit="1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
                         </el-form-item>

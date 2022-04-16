@@ -5,7 +5,7 @@
             <span slot="label"> * 基本信息</span>
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                 <el-row :gutter="100">
-                    <el-col :span="7">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="设备名称" prop="deviceName">
                             <el-input v-model="form.deviceName" placeholder="请输入设备名称" />
                         </el-form-item>
@@ -39,10 +39,10 @@
                             </el-switch>
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="4" />
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
                         </el-form-item>
                     </el-col>
-                    <el-col :span="7">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <!--
                         <el-form-item label="设备图片" prop="imageUrl">
                             <el-image style="height:225px;border:1px solid #dee4ed;border-radius:5px;padding:5px;" :src="imageUrl" :preview-src-list="[imageUrl]" fit="cover"></el-image>
@@ -80,7 +80,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="10">
+                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="8">
                         <div style="border:1px solid #dfe4ed;border-radius:5px;padding:5px;text-align:center;line-height:400px;">
                             <div id="map" style="height:435px;width:100%;">地图展示区域，新增后显示</div>
                         </div>
