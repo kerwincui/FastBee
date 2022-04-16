@@ -100,7 +100,7 @@
     <div v-if="isAdmin">
         <h2><i class="el-icon-s-data"> 服务器状态</i></h2>
         <el-row :gutter="40">
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="6">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
                 <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
                     <el-descriptions :column="1">
                         <el-descriptions-item label="服务器名称"><strong>{{server.sys.computerName}}</strong></el-descriptions-item>
@@ -112,22 +112,22 @@
                     </el-descriptions>
                 </el-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
                 <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
                     <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
                 <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
                     <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="4">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
                 <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
                     <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="6">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
                 <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
                     <el-descriptions :column="1">
                         <el-descriptions-item label="Java名称"><strong>{{server.jvm.name}}</strong></el-descriptions-item>
