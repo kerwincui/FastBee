@@ -39,7 +39,7 @@
                 <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
             </template>
         </el-table-column>
-        <el-table-column label="数据定义" align="left" prop="specs" min-width="150" class-name="specsColor">
+        <el-table-column label="数据定义" align="left" header-align="center" prop="specs" min-width="150" class-name="specsColor">
             <template slot-scope="scope">
                 <div v-html="formatSpecsDisplay(scope.row.specs)"></div>
             </template>
@@ -355,6 +355,7 @@ export default {
             this.form.datatype = "integer"
             this.form.specs = {
                 enumList: [],
+                arrayType: "int"
             };
         },
         /** 修改按钮操作 */
@@ -543,8 +544,6 @@ export default {
                     value: "",
                     text: ""
                 }];
-            } else if (val == "array") {
-                this.form.specs.arrayType = "int";
             }
         },
         /** 添加枚举项 */
