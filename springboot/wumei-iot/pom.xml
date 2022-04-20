@@ -74,6 +74,19 @@
             <version>3.8.0</version>
         </dependency>
 
+        <!--第三方登录通用接口-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <!--            <version>1.16.5</version>-->
+        </dependency>
+
+        <!--通用http接口-->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+        </dependency>
+
 
     </dependencies>
 
