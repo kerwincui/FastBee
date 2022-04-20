@@ -208,19 +208,7 @@
                 <version>${wumei.version}</version>
             </dependency>
 
-            <!-- 第三方登录模块-->
-            <dependency>
-                <groupId>me.zhyd.oauth</groupId>
-                <artifactId>JustAuth</artifactId>
-                <version>${justAuth.version}</version>
-            </dependency>
 
-            <!-- 通用http接口模块-->
-            <dependency>
-                <groupId>com.dtflys.forest</groupId>
-                <artifactId>forest-spring-boot-starter</artifactId>
-                <version>${forest.version}</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>
