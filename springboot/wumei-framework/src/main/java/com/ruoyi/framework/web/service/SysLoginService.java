@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -47,6 +48,9 @@ public class SysLoginService
     @Autowired
     private ISysConfigService configService;
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+
     /**
      * 登录验证
      * 
@@ -64,6 +68,16 @@ public class SysLoginService
         {
             validateCaptcha(username, code, uuid);
         }
+        return socialLogin(username,password);
+    }
+
+    /**
+     * 第三方验证后，调用登录方法
+     * @param username 用户名
+     * @param password 密码
+     * @return token
+     */
+    public String socialLogin(String username, String password){
         // 用户验证
         Authentication authentication = null;
         try
@@ -90,6 +104,25 @@ public class SysLoginService
         recordLoginInfo(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
+    }
+
+    /**
+     * 跳转登录认证接口
+     * @param username
+     * @param encodePwd
+     * @return
+     */
+    public String redirectLogin(String username,String encodePwd){
+        UserDetails userDetails=userDetailsServiceImpl.loadUserByUsername(username);
+        if(!userDetails.getPassword().equals(encodePwd)){
+            throw new UserPasswordNotMatchException();
+        }
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        LoginUser loginUser = (LoginUser) userDetails;
+        recordLoginInfo(loginUser.getUserId());
+        // 生成token
+        return tokenService.createToken(loginUser);
+
     }
 
     /**

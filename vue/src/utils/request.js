@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { Notification, MessageBox, Message, Loading } from 'element-ui'
+import {Loading, Message, MessageBox, Notification} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
-import { tansParams, blobValidate } from "@/utils/ruoyi";
-import { saveAs } from 'file-saver'
+import {blobValidate, tansParams} from "@/utils/ruoyi";
+import {saveAs} from 'file-saver'
 
 let downloadLoadingInstance;
 
@@ -65,6 +65,8 @@ service.interceptors.response.use(res => {
         type: 'error'
       })
       return Promise.reject(new Error(msg))
+    } else if (code === 502) {
+      return Promise.reject('error')
     } else if (code !== 200) {
       Notification.error({
         title: msg
