@@ -40,7 +40,7 @@ module.exports = {
         }
       },
       ['/api/v4']: {
-        target: `http://localhost:18083`,
+        target: `http://wumei.live:8081`,
         changeOrigin: true,
         // logLevel: 'debug',
       },
