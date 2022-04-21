@@ -145,8 +145,12 @@
           </div>
           <el-table :data="form.actions">
             <el-table-column label="类型" align="center" prop="name" />
-            <el-table-column label="参数" align="center" prop="params" />
-            <el-table-column label="命中速度" align="center">
+            <el-table-column label="参数" align="center" prop="params">
+              <template slot-scope="scope">
+                {{scope.row.params}}
+              </template>
+            </el-table-column>
+            <el-table-column label="度量指标" align="center">
               <template slot-scope="scope">
                 <el-tag type="success">{{ scope.row.metrics[0].node }}</el-tag
                 ><br />
@@ -166,7 +170,7 @@
       </div>
     </el-dialog>
 
-    <!-- 添加资源 -->
+    <!-- 添加规则引擎 -->
     <el-dialog
       title="资源管理"
       :visible.sync="openAddView"
@@ -372,7 +376,7 @@
       </div>
     </el-dialog>
 
-    <!-- 添加资源 -->
+    <!-- 添加响应动作 -->
     <el-dialog
       title="响应动作"
       :visible.sync="openAddActionView"
