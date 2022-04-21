@@ -57,3 +57,58 @@ export function getCodeImg() {
     timeout: 20000
   })
 }
+
+//查看是否存在bindId
+export function checkBindId(bindId) {
+  return request({
+    url: '/auth/checkBindId/' + bindId,
+    method: 'get',
+  })
+}
+
+//查看是否存在errorId
+export function getErrorMsg(errorId) {
+  return request({
+    url: '/auth/getErrorMsg/' + errorId,
+    method: 'get',
+  })
+}
+
+// 登录方法
+export function bindLogin(username, password, code, uuid, bindId) {
+  const data = {
+    username,
+    password,
+    code,
+    uuid,
+    bindId
+  }
+  return request({
+    url: '/auth/bind/login',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
+
+// 注册方法
+export function bindRegister(data) {
+  return request({
+    url: '/auth/bind/register',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
+
+//跳转登录
+export function redirectLogin(loginId) {
+  return request({
+    url: '/auth/login/' + loginId,
+    method: 'get',
+  })
+}

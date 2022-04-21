@@ -63,7 +63,7 @@
                     <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
                 </template>
             </el-table-column>
-            <el-table-column label="数据定义" align="left" prop="specs" min-width="150" class-name="specsColor">
+            <el-table-column label="数据定义" align="left" header-align="center" prop="specs" min-width="150" class-name="specsColor">
                 <template slot-scope="scope">
                     <div v-html="formatSpecsDisplay(scope.row.specs)"></div>
                 </template>
@@ -75,8 +75,8 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']" >修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']">修改</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -278,17 +278,17 @@ export default {
         this.init();
     },
     methods: {
-        init(){
-        if (this.$store.state.user.roles.indexOf("admin") !== -1){
-            this.canEdit = true
-          }
+        init() {
+            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
+                this.canEdit = true
+            }
         },
         /** 查询通用物模型列表 */
         getList() {
             this.loading = true;
-          if (this.$store.state.user.roles.indexOf("admin") === -1){
-            this.queryParams.tenantName = this.$store.state.user.name
-          }
+            if (this.$store.state.user.roles.indexOf("admin") === -1) {
+                this.queryParams.tenantName = this.$store.state.user.name
+            }
             listTemplate(this.queryParams).then((response) => {
                 this.templateList = response.rows;
                 this.total = response.total;
@@ -350,6 +350,7 @@ export default {
             this.form.datatype = "integer"
             this.form.specs = {
                 enumList: [],
+                arrayType: "int"
             };
         },
         /** 修改按钮操作 */
@@ -377,8 +378,8 @@ export default {
                             this.form.isMonitor = 0;
                             this.form.isTop = 0;
                         }
-                      // 添加通用物模型的修改者
-                      this.form.updateBy = this.$store.state.user.name
+                        // 添加通用物模型的修改者
+                        this.form.updateBy = this.$store.state.user.name
                         updateTemplate(this.form).then((response) => {
                             this.$modal.msgSuccess("修改成功");
                             this.open = false;
@@ -428,15 +429,15 @@ export default {
             );
         },
         // 类型改变
-        typeChange(label){
-            if(label==2 || label==3){
-                this.form.isMonitor=0;
+        typeChange(label) {
+            if (label == 2 || label == 3) {
+                this.form.isMonitor = 0;
             }
         },
         // 实时监测改变
-        changeMonitor(isMonitor){
-            if(isMonitor==1 && this.form.datatype!="integer" && this.form.datatype!="decimal"){
-                this.form.datatype="integer";
+        changeMonitor(isMonitor) {
+            if (isMonitor == 1 && this.form.datatype != "integer" && this.form.datatype != "decimal") {
+                this.form.datatype = "integer";
             }
         },
         // 格式化物模型
@@ -467,8 +468,6 @@ export default {
                     value: "",
                     text: ""
                 }];
-            } else if (val == "array") {
-                this.form.specs.arrayType = "int";
             }
         },
         /** 添加枚举项 */

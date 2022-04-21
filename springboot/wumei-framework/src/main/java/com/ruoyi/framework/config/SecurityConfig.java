@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 .antMatchers("/login", "/register", "/captchaImage","/iot/tool/register","/iot/tool/ntp","/iot/tool/download",
-                        "/iot/tool/mqtt/auth","/iot/tool/mqtt/webhook").anonymous()
+                        "/iot/tool/mqtt/auth","/iot/tool/mqtt/webhook","/auth/**/**").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
