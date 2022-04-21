@@ -9,7 +9,7 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/wumei-smart/uploadPath，Linux配置 /var/wumei-smart/java/uploadPath）
-  profile: /var/wumei-smart/java/uploadPath
+  profile: D:/wumei-smart/uploadPath
   # 获取ip地址开关
   addressEnabled: true
   # 验证码类型 math 数组计算 char 字符验证
