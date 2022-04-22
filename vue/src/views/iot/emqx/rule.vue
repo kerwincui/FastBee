@@ -107,7 +107,7 @@
     </el-dialog>
 
     <!-- 添加规则引擎 -->
-    <el-dialog title="资源管理" :visible.sync="openAddView" width="1000px" append-to-body :before-close="cancel">
+    <el-dialog title="资源管理" :visible.sync="openAddView" width="60%" append-to-body :before-close="cancel">
         <el-form ref="form" :model="form" label-width="180px">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -155,7 +155,7 @@
                             </el-form-item>
                             <el-form-item prop="test_columns.payload" v-if="form.test_columns">
                                 <span slot="label"> payload： </span>
-                                <CodeMirrorEditor :value="form.test_columns.payload" myMode="application/json" height="150" />
+                                <CodeMirrorEditor :value="form.test_columns.payload !==''?form.test_columns.payload: ''" myMode="application/json" height="150" />
                             </el-form-item>
                             <el-form-item v-if="form.test_columns">
                                 <el-button @click="testConnect" type="success" size="mini">测 试</el-button>
@@ -254,7 +254,7 @@
     </el-dialog>
 
     <!-- 添加响应动作 -->
-    <el-dialog title="响应动作" :visible.sync="openAddActionView" width="700px" append-to-body :before-close="cancelAction">
+    <el-dialog title="响应动作" :visible.sync="openAddActionView" width="40%" append-to-body :before-close="cancelAction">
         <el-form ref="actionForm" :model="actionForm" label-width="180px" v-if="actionForm.actions" :rules="ruleActions">
             <el-row>
                 <el-col :span="20">
@@ -318,7 +318,7 @@
                   ) in data_to_mqtt_broker_Form.resources" :key="index" :label="resource.id" :value="resource.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="params.payload_tmpl.default">
+                    <el-form-item prop="params.payload_tmpl.default" v-if="data_to_mqtt_broker_Form.params.payload_tmpl">
                         <span slot="label">
                             消息内容模板：
                             <el-tooltip :content="
@@ -342,7 +342,7 @@
                             <el-option v-for="(resource, index) in data_to_webserver_Form.resources" :key="index" :label="resource.id" :value="resource.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="params.payload_tmpl.default">
+                    <el-form-item prop="params.payload_tmpl.default" v-if="data_to_webserver_Form.params.payload_tmpl">
                         <span slot="label">
                             消息内容模板：
                             <el-tooltip :content="
@@ -486,7 +486,8 @@ export default {
             //检查 (调试)表单参数
             inspectForm: {},
             //消息重新发布表单参数
-            republishForm: {},
+            republishForm: {
+            },
             //桥接数据到 MQTT Broker表单参数
             data_to_mqtt_broker_Form: {
                 resources: [],
@@ -643,7 +644,7 @@ export default {
             const param = {};
             if ("do_nothing_Form" === formName) {
                 action.name = this.do_nothing_Form.name;
-                action.param = {};
+                action.params = {};
                 this.actions.push(action);
                 this.cancelAction();
             } else if ("republishForm" === formName) {
@@ -654,7 +655,7 @@ export default {
                         param.target_topic = this.republishForm.params.target_topic.default;
                         param.target_qos = this.republishForm.params.target_qos.default;
                         action.name = this.republishForm.name;
-                        action.param = param;
+                        action.params = param;
                         this.actions.push(action);
                         this.cancelAction();
                     } else {
@@ -663,7 +664,7 @@ export default {
                 });
             } else if ("inspectForm" === formName) {
                 action.name = this.inspectForm.name;
-                action.param = {};
+                action.params = {};
                 this.actions.push(action);
                 this.cancelAction();
             } else if ("data_to_mqtt_broker_Form" === formName) {
@@ -671,9 +672,11 @@ export default {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         param.$resource = this.data_to_mqtt_broker_Form.resourceId;
-                        param.payload_tmpl =
+                        if(this.data_to_mqtt_broker_Form.params.payload_tmpl != null){
+                            param.payload_tmpl =
                             this.data_to_mqtt_broker_Form.params.payload_tmpl.default;
-                        action.param = param;
+                        }
+                        action.params = param;
                         action.name = this.data_to_mqtt_broker_Form.name;
                         this.actions.push(action);
                         this.cancelAction();
@@ -686,9 +689,11 @@ export default {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         param.$resource = this.data_to_webserver_Form.resourceId;
-                        param.payload_tmpl =
+                        if(this.data_to_webserver_Form.params.payload_tmpl != null){
+                            param.payload_tmpl =
                             this.data_to_webserver_Form.params.payload_tmpl.default;
-                        action.param = param;
+                        }
+                        action.params = param;
                         action.name = this.data_to_webserver_Form.name;
                         this.actions.push(action);
                         this.cancelAction();

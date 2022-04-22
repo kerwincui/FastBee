@@ -53,78 +53,53 @@
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams._page" :limit.sync="queryParams._limit" @pagination="getList" />
 
         <!-- MQTT客户端详细 -->
-        <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+        <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
             <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
                 <el-tab-pane name="basic">
                     <span slot="label">基本信息</span>
                     <el-form ref="form" :model="form" label-width="120px" size="mini">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="节点：">{{form.node }}</el-form-item>
-                                <el-form-item label="客户端ID：">{{form.clientid}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="Clean Session:">{{form.clean_start}}</el-form-item>
-                                <el-form-item label="会话过期间隔(秒)：">{{form.expiry_interval}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="用户名:">{{form.username}}</el-form-item>
-                                <el-form-item label="协议类型：">{{form.proto_ver}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="会话创建时间:">{{form.created_at}}</el-form-item>
-                                <el-form-item label="订阅数量：">{{ form.subscriptions_cnt }}/{{form.max_subscriptions}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="IP地址:">{{form.ip_address }}</el-form-item>
-                                <el-form-item label="端口：">{{ form.port }}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最大订阅数量:">{{ form.max_subscriptions}}</el-form-item>
-                                <el-form-item label="飞行窗口：">{{ form.inflight }}/{{ form.max_inflight }}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="心跳(秒):">{{ form.keepalive }}</el-form-item>
-                                <el-form-item label="是否为桥接：">{{ form.is_bridge }}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最大飞行窗口:">{{ form.max_inflight }}</el-form-item>
-                                <el-form-item label="消息队列:">{{ form.mqueue_len }}/{{ form.max_mqueue }}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="连接时间:">{{ form.connected_at}}</el-form-item>
-                                <el-form-item label="连接状态:">
-                                    <div v-if="form.connected == true" style="color: green">
+
+                        <el-descriptions class="margin-top" title="基本信息" :column="4" direction="vertical">
+                        <el-descriptions-item label="节点">{{form.node }}</el-descriptions-item>
+                        <el-descriptions-item label="客户端ID">{{form.clientid}}</el-descriptions-item>
+                        <el-descriptions-item label="Clean Session">{{form.clean_start}}</el-descriptions-item>
+                        <el-descriptions-item label="会话过期间隔(秒)">{{form.expiry_interval}}</el-descriptions-item>
+                        <el-descriptions-item label="用户名">{{form.username}}</el-descriptions-item>
+                        <el-descriptions-item label="协议类型">{{form.proto_ver}}</el-descriptions-item>
+                        <el-descriptions-item label="会话创建时间">{{form.created_at}}</el-descriptions-item>
+                        <el-descriptions-item label="订阅数量">{{ form.subscriptions_cnt }}/{{form.max_subscriptions}}</el-descriptions-item>
+                        <el-descriptions-item label="IP地址">{{form.ip_address}}</el-descriptions-item>
+                        <el-descriptions-item label="端口">{{form.port}}</el-descriptions-item>
+                        <el-descriptions-item label="最大订阅数量">{{form.max_subscriptions}}</el-descriptions-item>
+                        <el-descriptions-item label="飞行窗口">{{ form.inflight }}/{{ form.max_inflight }}</el-descriptions-item>
+                        <el-descriptions-item label="心跳(秒)">{{form.keepalive}}</el-descriptions-item>
+                        <el-descriptions-item label="是否为桥接">{{form.is_bridge}}</el-descriptions-item>
+                        <el-descriptions-item label="最大飞行窗口">{{form.max_inflight}}</el-descriptions-item>
+                        <el-descriptions-item label="消息队列">{{ form.mqueue_len }}/{{ form.max_mqueue }}</el-descriptions-item>
+                        <el-descriptions-item label="连接时间">{{form.connected_at}}</el-descriptions-item>
+                        <el-descriptions-item label="连接状态">
+                            <div v-if="form.connected == true" style="color: green">
                                         已连接
                                     </div>
                                     <div v-else-if="form.connected == false" style="color: red">
                                         已断开
                                     </div>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最大消息队列:">{{form.max_mqueue}}</el-form-item>
-                                <el-form-item label="未确认的PUBREC数据包计数:">{{ form.awaiting_rel}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="Zone:">{{form.zone}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最大未确认的PUBREC数据包计数:">{{ form.max_awaiting_rel}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="接收的TCP报文数量:">{{form.recv_cnt}}</el-form-item>
-                                <el-form-item label="接收的PUBLISH报文数量:">{{form.recv_msg}}</el-form-item>
-                                <el-form-item label="接收的字节数量:">{{form.recv_oct}}</el-form-item>
-                                <el-form-item label="接收的MQTT报文数量:">{{form.recv_pkt}}</el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="发送的TCP报文数量:">{{form.send_cnt }}</el-form-item>
-                                <el-form-item label="发送的PUBLISH报文数量:">{{form.send_msg }}</el-form-item>
-                                <el-form-item label="发送的字节数量:">{{form.send_oct }}</el-form-item>
-                                <el-form-item label="发送的MQTT报文数量:">{{form.send_pkt}}</el-form-item>
-                            </el-col>
-                        </el-row>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="最大消息队列">{{form.max_mqueue}}</el-descriptions-item>
+                        <el-descriptions-item label="未确认的PUBREC数据包计数">{{form.awaiting_rel}}</el-descriptions-item>
+                        <el-descriptions-item label="Zone">{{form.zone}}</el-descriptions-item>
+                        <el-descriptions-item label="最大未确认的PUBREC数据包计数">{{form.max_awaiting_rel}}</el-descriptions-item>
+                        <el-descriptions-item label="接收的TCP报文数量">{{form.recv_cnt}}</el-descriptions-item>
+                        <el-descriptions-item label="接收的PUBLISH报文数量">{{form.recv_msg}}</el-descriptions-item>
+                        <el-descriptions-item label="接收的字节数量">{{form.recv_oct}}</el-descriptions-item>
+                        <el-descriptions-item label="接收的MQTT报文数量">{{form.recv_pkt}}</el-descriptions-item>
+
+                        <el-descriptions-item label="发送的TCP报文数量">{{form.send_cnt}}</el-descriptions-item>
+                        <el-descriptions-item label="发送的PUBLISH报文数量">{{form.send_msg}}</el-descriptions-item>
+                        <el-descriptions-item label="发送的字节数量">{{form.send_oct}}</el-descriptions-item>
+                        <el-descriptions-item label="发送的MQTT报文数量">{{form.send_pkt}}</el-descriptions-item>
+                        
+                        </el-descriptions>
                     </el-form>
                 </el-tab-pane>
 
@@ -194,6 +169,8 @@ export default {
     name: "Category",
     data() {
         return {
+            // 非单个禁用
+            single: true,
             // 遮罩层
             loading: true,
             loadSubscribeing: true,
