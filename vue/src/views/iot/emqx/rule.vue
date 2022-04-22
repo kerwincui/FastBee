@@ -48,7 +48,7 @@
     </el-card>
 
     <!-- 规则引擎详细 -->
-    <el-dialog title="规则引擎详细" :visible.sync="openView" width="1200px" append-to-body>
+    <el-dialog title="规则引擎详细" :visible.sync="openView" width="50%" append-to-body>
         <el-form ref="form" :model="form" label-width="120px" size="mini">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -155,7 +155,7 @@
                             </el-form-item>
                             <el-form-item prop="test_columns.payload" v-if="form.test_columns">
                                 <span slot="label"> payload： </span>
-                                <CodeMirrorEditor :value="form.test_columns.payload !==''?form.test_columns.payload: ''" myMode="application/json" height="150" />
+                                <CodeMirrorEditor :value="form.test_columns.payload" myMode="application/json" height="150" />
                             </el-form-item>
                             <el-form-item v-if="form.test_columns">
                                 <el-button @click="testConnect" type="success" size="mini">测 试</el-button>
