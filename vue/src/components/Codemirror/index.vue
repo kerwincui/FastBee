@@ -38,10 +38,7 @@ import "codemirror/addon/lint/lint.js";
 
 export default {
   props: {
-    value: {
-      type: String,
-      required: true,
-    },
+    value: '',
     height: {
       type: String,
       required: true,
@@ -60,7 +57,11 @@ export default {
     value(value) {
       const editorValue = this.editor.getValue();
       if (value !== editorValue) {
-        this.editor.setValue(this.value);
+        if (typeof this.value !== "undefined") {
+          this.editor.setValue(this.value);
+        } else {
+          this.editor.setValue("");
+        }
       }
     },
   },
@@ -74,7 +75,7 @@ export default {
       gutters: [
         "CodeMirror-linenumbers",
         "CodeMirror-foldgutter",
-        "CodeMirror-lint-markers",      // CodeMirror-lint-markers是实现语法报错功能
+        "CodeMirror-lint-markers", // CodeMirror-lint-markers是实现语法报错功能
       ],
       lint: true,
       //lineWrapping: true, // 自动换行
@@ -82,14 +83,19 @@ export default {
       autoCloseBrackets: true, // 输入和退格时成对
       readOnly: false, // 只读
       foldGutter: true,
-      autoRefresh: true
+      autoRefresh: true,
     });
     //代码自动提示功能，记住使用cursorActivity事件不要使用change事件，这是一个坑，那样页面直接会卡死
     this.editor.on("inputRead", () => {
       this.editor.showHint();
     });
+    debugger;
     this.editor.setSize("auto", this.height);
-    this.editor.setValue(this.value);
+    if (typeof this.value !== "undefined") {
+      this.editor.setValue(this.value);
+    } else {
+      this.editor.setValue("");
+    }
   },
   methods: {
     getValue() {
