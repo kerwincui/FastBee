@@ -63,9 +63,6 @@ export default {
         this.editor.setValue(this.value);
       }
     },
-    height(value) {
-      this.editor.setSize("auto", this.height);
-    },
   },
   mounted() {
     this.editor = CodeMirror.fromTextArea(this.$refs.textarea, {

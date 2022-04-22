@@ -32,7 +32,7 @@
     </el-card>
 
     <!-- 资源详细 -->
-    <el-dialog title="资源详细" :visible.sync="openView" width="700px" append-to-body>
+    <el-dialog title="资源详细" :visible.sync="openView" width="50%" append-to-body>
         <el-form ref="form" :model="form" label-width="180px" size="mini">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -96,7 +96,7 @@
     </el-dialog>
 
     <!-- 测试重连 -->
-    <el-dialog title="检测状态" :visible.sync="openStatusView" width="700px" append-to-body>
+    <el-dialog title="检测状态" :visible.sync="openStatusView" width="40%" append-to-body>
         <el-form ref="statusForm" :model="statusForm" label-width="180px" size="mini">
             <el-row>
                 <el-col :span="12" v-if="statusForm.status[0]">
@@ -111,7 +111,7 @@
     </el-dialog>
 
     <!-- 添加资源 -->
-    <el-dialog title="资源管理" :visible.sync="openAddView" width="1000px" append-to-body :before-close="cancel">
+    <el-dialog title="资源管理" :visible.sync="openAddView" width="50%" append-to-body :before-close="cancel">
         <el-form ref="addResourceForm" :model="addResourceForm" label-width="180px" :rules="rule">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -335,7 +335,7 @@
                             </span>
                             <el-input v-model="MQTTForm.params.retry_interval.default" />
                         </el-form-item>
-                        <el-form-item prop="resource[1].params.ssl.default">
+                        <el-form-item prop="params.ssl.default">
                             <span slot="label">
                                 <el-tooltip :content="MQTTForm.params.ssl.description.zh" placement="top">
                                     <i class="el-icon-question"></i>
