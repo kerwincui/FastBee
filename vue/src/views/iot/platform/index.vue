@@ -36,7 +36,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['iot:platform:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -47,7 +48,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['iot:platform:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -58,7 +60,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['iot:platform:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -68,43 +71,49 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['iot:platform:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="platformList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column align="center" label="登录平台主键" prop="socialPlatformId"/>
-      <el-table-column align="center" label="第三方平台" prop="platform">
+      <el-table-column align="center" label="平台主键" prop="socialPlatformId" width="75"/>
+      <el-table-column align="center" label="平台名称" prop="platform" width="95">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_social_platform" :value="scope.row.platform"/>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态" prop="status">
+
+      <el-table-column align="center" label="状态" prop="status" width="75">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_social_platform_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="第三方平台申请Id" align="center" prop="clientId"/>
-      <el-table-column label="第三方平台密钥" align="center" prop="secretKey"/>
-      <el-table-column label="用户认证后跳转地址" align="center" prop="redirectUri"/>
+      <el-table-column label="平台申请Id" align="center" prop="clientId"/>
+      <el-table-column label="平台密钥" align="center" prop="secretKey" :show-overflow-tooltip="true"/>
+      <el-table-column label="跳转地址" align="center" prop="redirectUri" width="180" :show-overflow-tooltip="true"/>
+
+      <el-table-column align="center" label="绑定登录uri" prop="bindUri" :show-tooltip-when-overflow="true"
+                       :render-header="(h,column)=>renderHeaderMethods(h,column,columnTips.bindId)"/>
+      <el-table-column align="center" label="跳转登录uri" prop="redirectLoginUri" :show-tooltip-when-overflow="true"
+                       :render-header="(h,column)=>renderHeaderMethods(h,column,columnTips.redirectLogin)"/>
+      <el-table-column align="center" label="错误提示uri" prop="errorMsgUri" :show-tooltip-when-overflow="true"
+                       :render-header="(h,column)=>renderHeaderMethods(h,column,columnTips.errorId)"/>
+      <el-table-column align="center" label="备注" prop="remark" width="75" :show-tooltip-when-overflow="true"/>
       <el-table-column align="center" label="创建者" prop="createBy"/>
-      <el-table-column align="center" label="创建时间" prop="createTime" width="180">
+      <el-table-column align="center" label="创建时间" prop="createTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="更新时间" prop="updateTime" width="180">
+      <el-table-column align="center" label="更新者" prop="updateBy"/>
+      <el-table-column align="center" label="更新时间" prop="updateTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="更新者" prop="updateBy"/>
-      <el-table-column align="center" label="备注" prop="remark"/>
-      <el-table-column align="center" label="绑定注册登录uri,http://localhost/login?bindId=" prop="bindUri"/>
-      <el-table-column align="center" label="跳转登录uri,http://localhost/login?loginId=" prop="redirectLoginUri"/>
-      <el-table-column align="center" label="错误提示uri,http://localhost/login?errorId=" prop="errorMsgUri"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -121,7 +130,8 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['iot:platform:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -223,6 +233,11 @@ export default {
         platform: null,
         status: null,
       },
+      columnTips: {
+        bindId: "绑定登录uri, http://localhost/login?bindId=,域名换成对应域名即可，本地开发不需要更改",
+        redirectLogin: "跳转登录uri,http://localhost/login?loginId=,域名换成对应域名即可，本地开发不需要更改",
+        errorId: "错误提示获取uri,http://localhost/login?errorId=,域名换成对应域名即可，本地开发不需要更改"
+      },
       // 表单参数
       form: {},
       // 表单校验
@@ -258,6 +273,25 @@ export default {
     this.getList();
   },
   methods: {
+    renderHeaderMethods(h, {column}, content) {
+      return h(
+        'div', [
+          h('span', column.label),
+          h('el-tooltip', {
+            props: {
+              effect: 'dark',
+              content: content,
+              placement: 'top'
+            },
+          }, [
+            h('i', {
+              class: 'el-icon-question',
+              style: 'color:#409EFF;margin-left:5px;'
+            })
+          ])
+        ]
+      );
+    },
     /** 查询第三方登录平台控制列表 */
     getList() {
       this.loading = true;
@@ -266,12 +300,14 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-    },
+    }
+    ,
     // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
-    },
+    }
+    ,
     // 表单重置
     reset() {
       this.form = {
@@ -292,29 +328,34 @@ export default {
         errorMsgUri: null
       };
       this.resetForm("form");
-    },
+    }
+    ,
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
       this.getList();
-    },
+    }
+    ,
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
-    },
+    }
+    ,
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.socialPlatformId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
-    },
+    }
+    ,
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
       this.title = "添加第三方登录平台控制";
-    },
+    }
+    ,
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -324,7 +365,8 @@ export default {
         this.open = true;
         this.title = "修改第三方登录平台控制";
       });
-    },
+    }
+    ,
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
@@ -344,17 +386,20 @@ export default {
           }
         }
       });
-    },
+    }
+    ,
     /** 删除按钮操作 */
     handleDelete(row) {
       const socialPlatformIds = row.socialPlatformId || this.ids;
-      this.$modal.confirm('是否确认删除第三方登录平台控制编号为"' + socialPlatformIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除第三方登录平台控制编号为"' + socialPlatformIds + '"的数据项？').then(function () {
         return delPlatform(socialPlatformIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
-    },
+      }).catch(() => {
+      });
+    }
+    ,
     /** 导出按钮操作 */
     handleExport() {
       this.download('iot/platform/export', {
