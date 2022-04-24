@@ -6,13 +6,14 @@
 #### 2. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
 
-#### 3. 案例展示
-|   Wifi通断器  |   信息牌  |  桌面小电视  |  雾霾/粉尘/空气检测仪
-|  :----  | :----------  |:----------  |:----------  |
-| ![](https://oscimg.oschina.net/oscnet/up-91921ed009aed9b70e99e6216a3ffb5c707.png)  | ![](https://oscimg.oschina.net/oscnet/up-b25dde78b0127e0ec08db4496fcf777069d.png) | ![](https://oscimg.oschina.net/oscnet/up-9c53911f42386189b943ce753abed5346f7.png) | ![](https://oscimg.oschina.net/oscnet/up-072a5880eaf5ea502dc265bc208902b8529.png)
-| 【小驿物联】<br /> 1. 手机、电脑远程控制<br /> 2. 遥控配对、清码和控制<br /> 3. 空气温湿度实时监测<br />4. 雷达感应和报警<br /> 5. 供电电压220V和5V<br /> 6. 控制阻性负载2500W，感性负载250W家用设备开关。 | 【更多设备等您加入】<br />待定 | 【更多设备等您加入】<br />待定 | 【小驿物联】<br />1. PM2.5雾霾监测<br />2. PM10粉尘监测<br /> 3. 空气质量监测 <br />4. TFT彩色屏幕
+#### 3. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/blob/master/app/README.md)
 
-#### 4. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/blob/master/app/README.md)
+#### 4. 案例展示
+|   Wifi通断器  |   信息牌  |  桌面小电视  |  雾霾/粉尘/空气检测仪
+|  :----:  | :----------:  |:----------:  |:----------:  |
+| ![](https://oscimg.oschina.net/oscnet/up-91921ed009aed9b70e99e6216a3ffb5c707.png)  | ![](https://oscimg.oschina.net/oscnet/up-b25dde78b0127e0ec08db4496fcf777069d.png) | ![](https://oscimg.oschina.net/oscnet/up-9c53911f42386189b943ce753abed5346f7.png) | ![](https://oscimg.oschina.net/oscnet/up-072a5880eaf5ea502dc265bc208902b8529.png)
+| 【小驿物联】  | 待定 | 待定 | 【小驿物联】
+
 
 
 ### 二、功能
@@ -20,16 +21,11 @@
 - 系统监控： 操作日志、登录日志、系统日志、在线用户、服务监控、连接池监控、缓存监控等
 - 产品管理： 产品、产品物模型、产品分类、产品固件、授权码等
 - 设备管理： 控制、分组、定时、日志、统计、定位、OTA升级、影子模式、实时监测、加密认证等
-- EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理
+- EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理、规则引擎、资源
 - 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报监测数据、AES加密、NTP时间等
 - 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
+- 其他（开发中）：第三方登录，设备分享、设备告警、场景联动（进度50%），智能音箱、多租户、APP界面自定义（进度40%），时序数据库、分布式集群部署、Granfa监控（进度30%），视频流处理、桌面端模拟器/监控、安卓端模拟器/监控（进度20%），App和小程序（正在开发中......）
 
-### 三、计划开发功能
-- 设备分享、设备告警、场景联动（进度50%）
-- 智能音箱、多租户、APP界面自定义（进度40%）
-- 时序数据库、分布式集群部署、Granfa监控（进度30%）
-- 视频流处理、桌面端模拟器/监控、安卓端模拟器/监控（进度0%）
-- App和小程序（正在开发中......）
 
 ### 四、技术栈    
 * 服务端
@@ -44,12 +40,6 @@
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS等
     - 开发工具：Visual Studio Code 和 Arduino
-* 安卓端模拟器/监控
-    - 相关技术：android
-    - 开发工具：Android Studio
-* 电脑端模拟器/监控
-    - 相关技术：WPF
-    - 开发工具：Visual Studio
 
 ### 五、硬件接入
 1. 设备认证
@@ -72,9 +62,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- [获取App源码](https://gitee.com/kerwincui/wumei-smart/tree/master/app)<br />
 
 ###### 移动端适配多端
-|安卓|IOS|微信小程序|支付宝小程序|百度小程序|字节小程序|QQ小程序|快应用|
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-|√|√|√|未测试|未测试|未测试|未测试|未测试|
+|安卓|IOS|微信小程序|其他平台|
+| :---: | :---: | :---: | :---: |
+|√|√|√|未测试|
 
 
 ### 七、相关文档
@@ -109,8 +99,8 @@ kerwincui/wumei-smart:1.1
 * [演示地址>>](https://iot.wumei.live/)
 
 ##### 项目贡献者 
-|[小驿物联](https://gitee.com/iot-xiaoyi) |[guanshubiao](https://gitee.com/guanshubiao)|[crazyDull](https://gitee.com/crazyDull) |[kami0314](https://github.com/kami0314)| [sxh](https://gitee.com/sixiaohu) | [redamancy_zxp](https://gitee.com/redamancy-zxp)
-|--|--|--|--|--|--|
+|[小驿物联](https://gitee.com/iot-xiaoyi) |[guanshubiao](https://gitee.com/guanshubiao)|[crazyDull](https://gitee.com/crazyDull) |[kami0314](https://github.com/kami0314)| [sxh](https://gitee.com/sixiaohu) | [redamancy_zxp](https://gitee.com/redamancy-zxp) | [LEE](https://gitee.com/yueming188)
+|--|--|--|--|--|--|--|
 
 
 ### 九、部分图片

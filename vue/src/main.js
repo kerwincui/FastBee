@@ -40,6 +40,10 @@ import echarts from 'echarts'
 // 一键复制粘贴板组件
 import VueClipboard from 'vue-clipboard2'
 
+
+
+
+
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey
@@ -64,6 +68,7 @@ Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
+
 
 /**
  * If you don't want to use mock-server
