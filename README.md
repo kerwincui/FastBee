@@ -99,7 +99,7 @@ kerwincui/wumei-smart:1.1
 * [演示地址>>](https://iot.wumei.live/)
 
 ##### 项目贡献者 
-|[小驿物联](https://gitee.com/iot-xiaoyi) |[guanshubiao](https://gitee.com/guanshubiao)|[crazyDull](https://gitee.com/crazyDull) |[kami0314](https://github.com/kami0314)| [sxh](https://gitee.com/sixiaohu) | [redamancy_zxp](https://gitee.com/redamancy-zxp) | [LEE](https://gitee.com/yueming188) | [https://gitee.com/fishhunterplus](https://gitee.com/fishhunterplus)
+|[小驿物联](https://gitee.com/iot-xiaoyi) |[Guanshubiao](https://gitee.com/guanshubiao)|[CrazyDull](https://gitee.com/crazyDull) |[Kami0314](https://github.com/kami0314)| [SXH](https://gitee.com/sixiaohu) | [Redamancy_zxp](https://gitee.com/redamancy-zxp) | [LEE](https://gitee.com/yueming188) | [LemonTree](https://gitee.com/fishhunterplus)
 |--|--|--|--|--|--|--|--|
 
 
