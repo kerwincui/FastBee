@@ -1,5 +1,6 @@
-import {bindLogin, getInfo, login, logout, redirectLogin} from '@/api/login'
-import {getToken, removeToken, setToken} from '@/utils/auth'
+import {login, logout, getInfo, bindLogin, bindRegister, redirectLogin} from '@/api/login'
+import {bindUser} from '@/api/iot/platform'
+import {getToken, setToken, removeToken} from '@/utils/auth'
 
 const user = {
   state: {
@@ -63,6 +64,16 @@ const user = {
           setToken(res.token)
           commit('SET_TOKEN', res.token)
           resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    BindUser({commit}, bindId) {
+      return new Promise((resolve, reject) => {
+        bindUser(bindId).then(res => {
+          resolve(res)
         }).catch(error => {
           reject(error)
         })

@@ -42,3 +42,27 @@ export function delPlatform(socialPlatformId) {
     method: 'delete'
   })
 }
+
+//解除绑定
+export function unbind(socialUserId){
+  return request({
+    url: '/iot/social/unbind/' + socialUserId,
+    method: 'get'
+  })
+}
+
+//绑定跳转
+export function bind(platform){
+  return request({
+    url: '/iot/social/bind/' + platform,
+    method: 'get'
+  })
+}
+
+//绑定
+export function bindUser(bindId){
+  return request({
+    url: '/iot/social/bindId/' + bindId,
+    method: 'get'
+  })
+}
