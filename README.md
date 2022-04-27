@@ -34,8 +34,8 @@
 * Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
     - 开发工具：Visual Studio Code    
-* 移动端（android / ios / 微信小程序）
-    - 相关技术：uniapp、(uView)[https://www.uviewui.com/]、(uChart)[https://www.ucharts.cn/v2/#/]
+* 移动端（Android / Ios / 微信小程序 / H5）
+    - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart图表](https://www.ucharts.cn/)
     - 开发工具：HBuilder
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS等
