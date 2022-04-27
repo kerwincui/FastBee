@@ -45,7 +45,7 @@ public class DeviceController extends BaseController
     {
         startPage();
         List<Device> list = new ArrayList<>();
-        if(device.getUserName()==null || device.getUserName()=="" )
+        if(device.getUserId() == null)
         {
             list = deviceService.selectDeviceList(device);
         }else {
@@ -65,7 +65,7 @@ public class DeviceController extends BaseController
     {
         startPage();
         List<DeviceShortOutput> list = new ArrayList<>();
-        if(device.getUserName()==null || device.getUserName()=="" )
+        if(device.getUserId() == null)
         {
             list = deviceService.selectDeviceShortList(device);
         }else {
