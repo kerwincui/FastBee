@@ -1,5 +1,5 @@
 <template>
-<el-dialog title="选择产品" :visible.sync="openSelectUser" width="800px">
+<el-dialog title="选择用户" :visible.sync="openSelectUser" width="800px">
     <div style="margin-top:-50px;">
         <el-divider></el-divider>
     </div>
@@ -41,13 +41,14 @@ import {
 } from "@/api/system/user";
 import {
     addDeviceUser,
+    addDeviceUsers,
 } from "@/api/iot/deviceuser";
 
 export default {
     name: "user-list",
     props: {
         device: {
-            type: Object,
+            type: Array,
             default: null
         }
     },
@@ -148,19 +149,42 @@ export default {
         },
         // 添加设备用户
         addDeviceUser() {
-            if (this.deviceInfo.deviceId != null) {
-                var form = {};
-                form.deviceId = this.deviceInfo.deviceId;
-                form.deviceName = this.deviceInfo.deviceName;
-                form.userId = this.user.userId;
-                form.userName = this.user.userName;
-                form.phonenumber=this.user.phonenumber;
-                addDeviceUser(form).then(response => {
-                    this.$modal.msgSuccess("新增成功");
-                    this.resetQuery();
-                    this.openSelectUser = false;
-                    this.$parent.getList();
-                });
+            if (this.deviceInfo != null && this.deviceInfo.length > 0 && this.user != null) {
+                if (this.deviceInfo.length == 1) {
+                    var form = {};
+                    form.deviceId = this.deviceInfo[0].deviceId;
+                    form.deviceName = this.deviceInfo[0].deviceName;
+                    form.userId = this.user.userId;
+                    form.userName = this.user.userName;
+                    form.phonenumber=this.user.phonenumber;
+                    addDeviceUser(form).then(response => {
+                        this.$modal.msgSuccess("新增成功");
+                        this.resetQuery();
+                        this.openSelectUser = false;
+                        this.$parent.getList();
+                    });
+                } else {
+                    var form = [];
+                    this.deviceInfo.forEach(device => {
+                        let data = {};
+                        data.deviceId = device.deviceId;
+                        data.deviceName = device.deviceName
+                        data.userId = this.user.userId;
+                        data.userName = this.user.userName;
+                        data.phonenumber=this.user.phonenumber;
+                        form.push(data);
+                    });
+
+                    addDeviceUsers(form).then(response => {
+                        this.$modal.msgSuccess("新增成功");
+                        this.resetQuery();
+                        this.openSelectUser = false;
+                        this.$parent.getList();
+                    });
+
+                }
+            } else {
+                this.openSelectUser = false;
             }
         },
     }

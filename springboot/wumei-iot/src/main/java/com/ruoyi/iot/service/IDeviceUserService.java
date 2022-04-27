@@ -17,7 +17,7 @@ public interface IDeviceUserService
      * @param deviceId 设备用户主键
      * @return 设备用户
      */
-    public DeviceUser selectDeviceUserByDeviceId(Long deviceId);
+    public List<DeviceUser> selectDeviceUserByDeviceId(Long deviceId);
 
     /**
      * 查询设备用户列表
@@ -58,4 +58,21 @@ public interface IDeviceUserService
      * @return 结果
      */
     public int deleteDeviceUserByDeviceId(Long deviceId);
+
+    /**
+     * 批量添加设备用户
+     * @param deviceUsers 设备用户
+     * @return 结果
+     */
+    public int insertDeviceUserList(List<DeviceUser> deviceUsers);
+
+    /**
+     * 查询设备用户
+     *
+     * @param deviceId 设备用户主键
+     * @return 设备用户
+     */
+    public DeviceUser selectDeviceUserByDeviceIdAndUserId(Long deviceId, Long userId);
+
+    public int deleteDeviceUser(DeviceUser deviceUser);
 }

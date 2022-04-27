@@ -36,10 +36,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceUserVo"/>
         where device_id = #{deviceId}
     </select>
-        
-    <insert id="insertDeviceUser" parameterType="com.ruoyi.iot.domain.DeviceUser" useGeneratedKeys="true" keyProperty="deviceId">
+
+    <select id="selectDeviceUserByDeviceIdAndUserId" resultMap="DeviceUserResult">
+        <include refid="selectDeviceUserVo"/>
+        where device_id = #{deviceId} and user_id = #{userId}
+    </select>
+
+    <insert id="insertDeviceUser" parameterType="com.ruoyi.iot.domain.DeviceUser" keyProperty="deviceId">
         insert into iot_device_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
             <if test="userId != null">user_id,</if>
             <if test="deviceName != null and deviceName != ''">device_name,</if>
             <if test="userName != null and userName != ''">user_name,</if>
@@ -55,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
             <if test="userId != null">#{userId},</if>
             <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
             <if test="userName != null and userName != ''">#{userName},</if>
@@ -69,6 +76,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
          </trim>
+    </insert>
+
+    <insert id="insertDeviceUserList" parameterType="java.util.ArrayList">
+        insert into iot_device_user
+        (device_id, user_id, device_name, user_name, is_owner,tenant_id,tenant_name,phonenumber, create_time) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.deviceId},#{item.userId},#{item.deviceName}, #{item.userName}, #{item.isOwner}, #{item.tenantId},#{item.tenantName},#{item.phonenumber}, #{item.createTime})
+        </foreach>
     </insert>
 
     <update id="updateDeviceUser" parameterType="com.ruoyi.iot.domain.DeviceUser">
@@ -88,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
         </trim>
-        where device_id = #{deviceId}
+        where device_id = #{deviceId} and user_id = #{userId}
     </update>
 
     <delete id="deleteDeviceUserByDeviceId" parameterType="Long">
@@ -100,5 +115,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="deviceId" collection="array" open="(" separator="," close=")">
             #{deviceId}
         </foreach>
+    </delete>
+    <delete id="deleteDeviceUser">
+        delete from iot_device_user where device_id = #{deviceId} and is_owner !=1 and user_id = #{userId}
     </delete>
 </mapper>

@@ -250,7 +250,7 @@ public class DeviceServiceImpl implements IDeviceService {
         return deviceList;
     }
 
-//    精准查询所有条件的设备
+    //    精准查询所有条件的设备
     @Override
     public List<DeviceShortOutput> selectDeviceShortListAccurate(Device device) {
         return deviceMapper.selectDeviceShortListAccurate(device);
@@ -544,7 +544,7 @@ public class DeviceServiceImpl implements IDeviceService {
     public List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName) {
         return deviceMapper.selectAllDeviceShortListAccurate(userName);
     }
-//    精准查询
+    //    精准查询 新增别人分享给自己的设备
     @Override
     public List<Device> selectDeviceListAccurate(Device device) {
         return deviceMapper.selectDeviceListAccurate(device);

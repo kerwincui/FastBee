@@ -10,9 +10,9 @@ export function listDeviceUser(query) {
 }
 
 // 查询设备用户详细
-export function getDeviceUser(deviceId) {
+export function getDeviceUser(deviceId, userId) {
   return request({
-    url: '/iot/deviceUser/' + deviceId,
+    url: '/iot/deviceUser/' + deviceId + '/' + userId,
     method: 'get'
   })
 }
@@ -21,6 +21,15 @@ export function getDeviceUser(deviceId) {
 export function addDeviceUser(data) {
   return request({
     url: '/iot/deviceUser',
+    method: 'post',
+    data: data
+  })
+}
+
+// 新增多个设备用户
+export function addDeviceUsers(data) {
+  return request({
+    url: '/iot/deviceUser/addDeviceUsers',
     method: 'post',
     data: data
   })
@@ -36,9 +45,10 @@ export function updateDeviceUser(data) {
 }
 
 // 删除设备用户
-export function delDeviceUser(deviceId) {
+export function delDeviceUser(device) {
   return request({
-    url: '/iot/deviceUser/' + deviceId,
-    method: 'delete'
+    url: '/iot/deviceUser',
+    method: 'delete',
+    data: device
   })
 }

@@ -3,6 +3,7 @@
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUser" v-hasPermi="['iot:deviceUser:add']">分享设备</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUserShareAllDevice" v-hasPermi="['iot:deviceUser:add']">分享所有设备</el-button>
         </el-col>
         <right-toolbar @queryTable="getList"></right-toolbar>
     </el-row>
@@ -43,7 +44,7 @@
     </el-dialog>
 
     <!-- 选择用户 -->
-    <user-list ref="userList" :device="device" />
+    <user-list ref="userList" :device="devices" />
 
 </div>
 </template>
@@ -56,6 +57,9 @@ import {
     delDeviceUser,
     updateDeviceUser
 } from "@/api/iot/deviceuser";
+import {
+    listDeviceShort,
+} from "@/api/iot/device";
 
 export default {
     name: "device-user",
@@ -73,6 +77,7 @@ export default {
         // 获取到父组件传递的device后，刷新列表
         device: function (newVal, oldVal) {
             this.deviceInfo = newVal;
+            this.devices = [newVal];
             if (this.deviceInfo && this.deviceInfo.deviceId != 0) {
                 this.queryParams.deviceId = this.deviceInfo.deviceId;
                 this.getList();
@@ -81,6 +86,8 @@ export default {
     },
     data() {
         return {
+            // 设备列表
+            devices: [],
             // 遮罩层
             loading: true,
             // 选中数组
@@ -189,7 +196,7 @@ export default {
         handleUpdate(row) {
             this.reset();
             const deviceId = row.deviceId || this.ids
-            getDeviceUser(deviceId).then(response => {
+            getDeviceUser(deviceId, row.userId).then(response => {
                 this.form = response.data;
                 this.open = true;
                 this.title = "用户备注";
@@ -207,9 +214,9 @@ export default {
         },
         /** 删除按钮操作 */
         handleDelete(row) {
-            const deviceIds = row.deviceId || this.ids;
-            this.$modal.confirm('是否确认删除设备用户编号为"' + deviceIds + '"的数据项？').then(function () {
-                return delDeviceUser(deviceIds);
+            const deviceUser = row;
+            this.$modal.confirm('是否确认删除设备用户编号为"' + deviceUser.deviceId + "-" + deviceUser.userId + '"的数据项？').then(function () {
+                return delDeviceUser(deviceUser);
             }).then(() => {
                 this.getList();
                 this.$modal.msgSuccess("删除成功");
@@ -223,8 +230,24 @@ export default {
         },
         // 选择用户
         selectUser() {
+            this.devices = [this.device]
             this.$refs.userList.openSelectUser = true;
         },
+        selectUserShareAllDevice() {
+            this.loading = true;
+            // 获取设备列表
+            // 判断是否是admin角色
+            if (this.$store.state.user.roles.indexOf("admin") === -1) {
+                this.queryParams.userName = this.$store.state.user.name
+            }
+            listDeviceShort(this.queryParams).then(response => {
+                let deviceList = response.rows;
+                this.devices = deviceList
+                this.loading = false;
+                this.$refs.userList.openSelectUser = true;
+            });
+            
+        }
     }
 };
 </script>

@@ -1,9 +1,7 @@
 package com.ruoyi.iot.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.iot.domain.Firmware;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +20,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.iot.domain.DeviceUser;
 import com.ruoyi.iot.service.IDeviceUserService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
@@ -53,7 +50,7 @@ public class DeviceUserController extends BaseController
     }
 
     /**
-     * 获取设备用户详细信息
+     * 获取设备用户详细信息 根据deviceId 查询的话可能会查出多个
      */
     @PreAuthorize("@ss.hasPermi('iot:device:query')")
     @GetMapping(value = "/{deviceId}")
@@ -61,6 +58,17 @@ public class DeviceUserController extends BaseController
     public AjaxResult getInfo(@PathVariable("deviceId") Long deviceId)
     {
         return AjaxResult.success(deviceUserService.selectDeviceUserByDeviceId(deviceId));
+    }
+
+    /**
+     * 获取设备用户详细信息 双主键 device_id 和 user_id
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @GetMapping(value = "/{deviceId}/{userId}")
+    @ApiOperation("获取设备用户详情,根据用户id 和 设备id")
+    public AjaxResult getInfo(@PathVariable("deviceId") Long deviceId, @PathVariable("userId") Long userId)
+    {
+        return AjaxResult.success(deviceUserService.selectDeviceUserByDeviceIdAndUserId(deviceId, userId));
     }
 
     /**
@@ -73,6 +81,18 @@ public class DeviceUserController extends BaseController
     public AjaxResult add(@RequestBody DeviceUser deviceUser)
     {
         return toAjax(deviceUserService.insertDeviceUser(deviceUser));
+    }
+
+    /**
+     * 新增多个设备用户
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @Log(title = "设备用户", businessType = BusinessType.INSERT)
+    @PostMapping("/addDeviceUsers")
+    @ApiOperation("添加设备用户")
+    public AjaxResult addDeviceUsers(@RequestBody List<DeviceUser> deviceUsers)
+    {
+        return toAjax(deviceUserService.insertDeviceUserList(deviceUsers));
     }
 
     /**
@@ -91,13 +111,13 @@ public class DeviceUserController extends BaseController
     /**
      * 删除设备用户
      */
-    @ApiOperation("批量删除设备用户")
+    @ApiOperation("删除设备用户")
     @PreAuthorize("@ss.hasPermi('iot:device:remove')")
     @Log(title = "设备用户", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{deviceIds}")
-    public AjaxResult remove(@PathVariable Long[] deviceIds)
+	@DeleteMapping
+    public AjaxResult remove(@RequestBody DeviceUser deviceUser)
     {
-        int count=deviceUserService.deleteDeviceUserByDeviceIds(deviceIds);
+        int count=deviceUserService.deleteDeviceUser(deviceUser);
         if(count==0){
             return AjaxResult.error("设备所有者不能删除");
         }else{

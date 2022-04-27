@@ -129,10 +129,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by create_time desc
     </select>
+
     <select id="selectDeviceListAccurate" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         <where>
-            <if test="deviceName != null  and deviceName != ''"> and device_name = #{deviceName}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name = #{deviceName} </if>
             <if test="productId != null "> and product_id = #{productId}</if>
             <if test="productName != null  and productName != ''"> and product_name = #{productName}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -166,7 +167,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
             <if test="productId != null "> and product_id = #{productId}</if>
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userId != null ">
+             and user_id = #{userId}
+             or device_id in (select device_id from iot_device_user where iot_device_user.user_name = #{userName})
+            </if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
             <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
@@ -183,7 +187,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productId != null "> and product_id = #{productId}</if>
             <if test="productName != null  and productName != ''"> and product_name = #{productName}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="userName != null  and userName != ''">
+             and user_name = #{userName}
+             or device_id in (select device_id from iot_device_user where iot_device_user.user_name = #{userName})
+             </if>
             <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name=#{tenantName}</if>
             <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>

@@ -6,8 +6,10 @@ import com.ruoyi.iot.domain.DeviceUser;
 import com.ruoyi.iot.mapper.DeviceUserMapper;
 import com.ruoyi.iot.service.IDeviceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import static com.ruoyi.common.utils.SecurityUtils.getLoginUser;
@@ -31,7 +33,7 @@ public class DeviceUserServiceImpl implements IDeviceUserService
      * @return 设备用户
      */
     @Override
-    public DeviceUser selectDeviceUserByDeviceId(Long deviceId)
+    public List<DeviceUser> selectDeviceUserByDeviceId(Long deviceId)
     {
         return deviceUserMapper.selectDeviceUserByDeviceId(deviceId);
     }
@@ -57,6 +59,8 @@ public class DeviceUserServiceImpl implements IDeviceUserService
     @Override
     public int insertDeviceUser(DeviceUser deviceUser)
     {
+        List<DeviceUser> deviceUsers = selectDeviceUserList(deviceUser);
+        if (!deviceUsers.isEmpty()) throw new RuntimeException("该用户已添加, 禁止重复添加");
         deviceUser.setCreateTime(DateUtils.getNowDate());
         deviceUser.setIsOwner(0);
         SysUser sysUser = getLoginUser().getUser();
@@ -100,5 +104,31 @@ public class DeviceUserServiceImpl implements IDeviceUserService
     public int deleteDeviceUserByDeviceId(Long deviceId)
     {
         return deviceUserMapper.deleteDeviceUserByDeviceId(deviceId);
+    }
+
+    @Override
+    public int insertDeviceUserList(List<DeviceUser> deviceUsers) {
+        try {
+            deviceUsers.forEach(deviceUser -> {
+                deviceUser.setCreateTime(DateUtils.getNowDate());
+                deviceUser.setIsOwner(0);
+                SysUser sysUser = getLoginUser().getUser();
+                deviceUser.setTenantId(sysUser.getUserId());
+                deviceUser.setTenantName(sysUser.getUserName());
+            });
+            return deviceUserMapper.insertDeviceUserList(deviceUsers);
+        } catch (DuplicateKeyException e) {
+            throw new RuntimeException("存在设备已经与用户绑定");
+        }
+    }
+
+    @Override
+    public DeviceUser selectDeviceUserByDeviceIdAndUserId(Long deviceId, Long userId) {
+        return deviceUserMapper.selectDeviceUserByDeviceIdAndUserId(deviceId, userId);
+    }
+
+    @Override
+    public int deleteDeviceUser(DeviceUser deviceUser) {
+        return deviceUserMapper.deleteDeviceUser(deviceUser);
     }
 }
