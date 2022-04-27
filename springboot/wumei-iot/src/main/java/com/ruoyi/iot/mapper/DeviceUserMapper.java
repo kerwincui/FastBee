@@ -2,6 +2,7 @@ package com.ruoyi.iot.mapper;
 
 import java.util.List;
 import com.ruoyi.iot.domain.DeviceUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,7 +20,7 @@ public interface DeviceUserMapper
      * @param deviceId 设备用户主键
      * @return 设备用户
      */
-    public DeviceUser selectDeviceUserByDeviceId(Long deviceId);
+    public List<DeviceUser> selectDeviceUserByDeviceId(Long deviceId);
 
     /**
      * 查询设备用户列表
@@ -60,4 +61,21 @@ public interface DeviceUserMapper
      * @return 结果
      */
     public int deleteDeviceUserByDeviceIds(Long[] deviceIds);
+
+    /**
+     * 批量添加设备用户
+     * @param deviceUsers 设备用户
+     * @return 结果
+     */
+    public int insertDeviceUserList(List<DeviceUser> deviceUsers);
+
+    /**
+     * 根据deviceId 和 userId 查询
+     * @param deviceId 设备id
+     * @param userId   用户id
+     * @return         结果
+     */
+    public DeviceUser selectDeviceUserByDeviceIdAndUserId(@Param("deviceId") Long deviceId, @Param("userId") Long userId);
+
+    public int deleteDeviceUser(DeviceUser deviceUser);
 }

@@ -69,7 +69,7 @@ public class DeviceController extends BaseController
         {
             list = deviceService.selectDeviceShortList(device);
         }else {
-            //            精确查询
+            // 精确查询
             list = deviceService.selectDeviceShortListAccurate(device);
         }
         return getDataTable(list);
