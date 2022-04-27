@@ -112,6 +112,7 @@ export default {
                 pageSize: 10,
                 deviceName: null,
                 userName: null,
+                userId: null,
                 tenantName: null,
                 isOwner: null,
             },
@@ -238,7 +239,7 @@ export default {
             // 获取设备列表
             // 判断是否是admin角色
             if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.userName = this.$store.state.user.name
+                this.queryParams.userId = this.$store.state.user.userId
             }
             listDeviceShort(this.queryParams).then(response => {
                 let deviceList = response.rows;

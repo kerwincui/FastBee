@@ -452,7 +452,7 @@ export default {
             }
             // 判断是否是admin角色
             if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.userName = this.$store.state.user.name
+                this.queryParams.userId = this.$store.state.user.userId
             }
             listDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
