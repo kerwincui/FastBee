@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isTop != null "> and is_top = #{isTop}</if>
             <if test="isBanner != null "> and is_banner = #{isBanner}</if>
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="categoryId != null"> and category_Id  = #{categoryId})</if>
             <if test="status != null "> and status = #{status}</if>
         </where>
         order by create_time desc

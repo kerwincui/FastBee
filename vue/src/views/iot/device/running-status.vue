@@ -92,7 +92,7 @@
             <!---设备状态(影子模式，value值不会更新)-->
             <el-descriptions :column="1" border size="mini" v-if="deviceInfo.isShadow==1 && deviceInfo.status!=3">
                 <template slot="title">
-                    <span style="font-size:14px;color:#606266;">设备处于离线状态</span>
+                    <span style="font-size:14px;color:#606266;">设备离线时状态</span>
                 </template>
                 <!-- bool类型-->
                 <el-descriptions-item v-for="(item,index) in deviceInfo.boolList" :key="index">
@@ -180,7 +180,6 @@ import mqttClient from './mqtt-client.vue'
 
 export default {
     name: "running-status",
-    dicts: ['iot_yes_no'],
     components: {
         mqttClient
     },
@@ -242,7 +241,7 @@ export default {
     methods: {
         /** 发布物模型 类型(1=属性，2=功能) */
         publishThingsModel(device, model) {
-            // 获取缓存的Json物模型
+            // TODO 创建的时候过去一次即可。 获取缓存的Json物模型
             cacheJsonThingsModel(device.productId).then(response => {
                 let thingsModel = JSON.parse(response.data);
                 let type = 0;
