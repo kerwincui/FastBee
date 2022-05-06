@@ -62,9 +62,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- [获取App源码](https://gitee.com/kerwincui/wumei-smart/tree/master/app)<br />
 
 ###### 移动端适配多端
-|安卓-Android|苹果-IOS|网页-H5|微信小程序|
-| :---: | :---: | :---: | :---: |
-|√|√|√|√|
+|安卓/Android|苹果/IOS|微信小程序| 网页/H5|Vue2.0
+| :---: | :---: | :---: | :---: |:---: |
+| √ | √| √ | √ | √ |
 
 
 ### 七、相关文档
