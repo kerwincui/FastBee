@@ -98,6 +98,9 @@ kerwincui/wumei-smart:1.1
 ### 八、其他
 * 互助交流群：1073236354
 * [演示地址>>](https://iot.wumei.live/)
+* 小程序演示
+
+![](https://oscimg.oschina.net/oscnet/up-a6feaa7aa6ea54551bd9feb97ebfb0ff206.jpg)
 
 ##### 项目贡献者 
 
