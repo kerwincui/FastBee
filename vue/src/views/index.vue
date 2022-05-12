@@ -5,12 +5,12 @@
             <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;">
                 <div style="font-size:16px;font-weight:bold;margin-bottom:18px;">物美智能生活物联网平台</div>
                 <div style="display:table;margin-bottom:10px;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;color:#34bfa3;">个人用户</div>
-                    <div style="display:table-cell;line-height:22px;"><b>可用于个人学习和使用，非商业用途。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
+                    <div style="width:70px;font-weight: bold;display:table-cell;">个人用户：</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
                 </div>
                 <div style="display:table;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;color:#36a3f7;">企业用户</div>
-                    <div style="display:table-cell;line-height:22px;"><b>可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为1500元，项目不断完善后会对应增加费用。</div>
+                    <div style="width:70px;font-weight: bold;display:table-cell;">企业用户：</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为1500元，项目不断完善后会对应增加费用。</div>
                 </div>
             </el-card>
         </el-col>
@@ -22,13 +22,13 @@
                 <div style="float:left;">
                     <div style="font-size:16px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
                     <div style="display:table;margin-bottom:10px;">
-                        <div style="width:80px;font-weight: bold;display:table-cell;">官方网站</div>
+                        <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
                         <div style="display:table-cell;">
                         <span>www.wumei.live</span>
                         </div>
                     </div>
                     <div style="display:table;margin-bottom:15px;">
-                        <div style="width:80px;font-weight: bold;display:table-cell;">系统源码</div>
+                        <div style="width:70px;font-weight: bold;display:table-cell;">系统源码</div>
                         <div style="display:table-cell;">
                             <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
                             <el-link target="_blank" href="https://github.com/kerwincui/wumei-smart" style="margin-left:20px;">Github源码</el-link>

@@ -13,7 +13,7 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用</el-tag>
+                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
             </el-form-item>
         </el-form>
     </el-card>

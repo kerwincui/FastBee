@@ -2,8 +2,8 @@
 <div style="padding: 6px">
     <el-card v-show="showSearch" style="margin-bottom: 6px">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
-            <el-form-item label="客户端" prop="categoryName">
-                <el-input v-model="queryParams.categoryName" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-form-item label="客户端" prop="clientid">
+                <el-input v-model="queryParams.clientid" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -185,6 +185,7 @@ export default {
             queryParams: {
                 _limit: 10,
                 _page: 1,
+                clientid:null,
             },
             // 表单参数
             form: {},

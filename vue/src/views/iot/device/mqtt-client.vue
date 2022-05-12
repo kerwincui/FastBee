@@ -38,12 +38,13 @@ export default {
     methods: {
         /** 连接Mqtt */
         connectMqtt(subscribeTopics) {
+            let randomClientId='web-' + Math.random().toString(16).substr(2);
             let options = {
                 username: "wumei-smart",
                 password: getToken(),
                 cleanSession: false,
                 keepAlive: 30,
-                clientId: 'web-' + Math.random().toString(16).substr(2),
+                clientId: randomClientId,
                 connectTimeout: 10000
             }
             // 配置Mqtt地址
@@ -52,7 +53,7 @@ export default {
             console.log("mqtt地址：", url);
             this.client = mqtt.connect(url, options);
             this.client.on("connect", (e) => {
-                console.log("成功连接服务器:", e);
+                console.log("客户端："+randomClientId+"，成功连接服务器:", e);
                 // 订阅主题
                 if (subscribeTopics != '' && subscribeTopics.length > 0) {
                     this.client.subscribe(subscribeTopics, {
