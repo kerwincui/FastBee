@@ -2,7 +2,7 @@
 <div class="app-container home">
     <el-row :gutter="40" style="margin-bottom:10px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;">
+            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;">
                 <div style="font-size:16px;font-weight:bold;margin-bottom:18px;">物美智能生活物联网平台</div>
                 <div style="display:table;margin-bottom:10px;">
                     <div style="width:70px;font-weight: bold;display:table-cell;color:#34bfa3;">个人用户</div>
@@ -10,14 +10,14 @@
                 </div>
                 <div style="display:table;">
                     <div style="width:70px;font-weight: bold;display:table-cell;color:#36a3f7;">企业用户</div>
-                    <div style="display:table-cell;line-height:22px;"><b>可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。</div>
+                    <div style="display:table-cell;line-height:22px;"><b>可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为1500元，项目不断完善后会对应增加费用。</div>
                 </div>
             </el-card>
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;">
-                <div style="float:left;width:150px;">
-                    <el-image style="width:130px;" :src="require('@/assets/images/code.jpg')"></el-image>
+            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;">
+                <div style="float:left;width:170px;">
+                    <el-image style="width:154px;" :src="require('@/assets/images/code.jpg')"></el-image>
                 </div>
                 <div style="float:left;">
                     <div style="font-size:16px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
