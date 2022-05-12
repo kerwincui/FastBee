@@ -392,12 +392,13 @@ export default {
         mqttSubscribe(list) {
             // 订阅当前页面设备状态和实时监测
             let topics = [];
-            for (let i = 0; i < list.length; i++) {
-                let topicStatus = "/" + list[i].productId + "/" + list[i].serialNumber + "/status/post";
-                let topicMonitor = "/" + list[i].productId + "/" + list[i].serialNumber + "/monitor/post";
-                topics.push(topicStatus);
-                topics.push(topicMonitor);
-            }
+            // 订阅数太多，会导致emqx连接中断或者订阅缓慢
+            // for (let i = 0; i < list.length; i++) {
+            //     let topicStatus = "/" + list[i].productId + "/" + list[i].serialNumber + "/status/post";
+            //     let topicMonitor = "/" + list[i].productId + "/" + list[i].serialNumber + "/monitor/post";
+            //     topics.push(topicStatus);
+            //     topics.push(topicMonitor);
+            // }
             this.subscribes = topics;
         },
         /** 更新实时监测参数*/
