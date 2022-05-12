@@ -2,12 +2,12 @@
 <div class="app-container">
     <el-form v-show="showSearch" ref="queryForm" :inline="true" :model="queryParams" label-width="85px">
         <el-form-item label="第三方平台" prop="platform">
-            <el-select v-model="queryParams.platform" clearable placeholder="请选择" size="small">
+            <el-select v-model="queryParams.platform" clearable placeholder="请选择平台" size="small">
                 <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
-            <el-select v-model="queryParams.status" clearable placeholder="请选择" size="small">
+            <el-select v-model="queryParams.status" clearable placeholder="请选择状态" size="small">
                 <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>
         </el-form-item>
@@ -81,7 +81,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="第三方平台状态" prop="status">
-                <el-select v-model="form.status" placeholder="请选择">
+                <el-select v-model="form.status" placeholder="请选择状态">
                     <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                 </el-select>
             </el-form-item>
