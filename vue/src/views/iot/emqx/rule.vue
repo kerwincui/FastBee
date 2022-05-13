@@ -37,7 +37,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100">
                 <template slot-scope="scope">
-                    <el-button size="small" type="danger" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['monitor:rules:delete']" @click="handleDelete(scope.row)">删除
+                    <el-button size="small" type="danger" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>

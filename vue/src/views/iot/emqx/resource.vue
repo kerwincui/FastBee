@@ -21,7 +21,7 @@
                 <template slot-scope="scope">
                     <el-button size="small" type="text" icon="el-icon-connection" style="padding: 5px" v-hasPermi="['monitor:resource:checkStatus']" @click="checkStatus(scope.row)">状态
                     </el-button>
-                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['monitor:resource:delete']" @click="handleDelete(scope.row)">删除
+                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>
