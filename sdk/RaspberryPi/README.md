@@ -41,5 +41,5 @@ python3 main_sdk.py
 #### 三、开发参考资料：
 
 - [Eclipse Paho MQTT Python Client 使用手册](https://www.cooooder.com/archives/20210303)
-- [更多参考资料](https://gitee.com/kerwincui/wumei-smart/blob/master/sdk/RaspberryPi/%E6%9B%B4%E5%A4%9A%E5%8F%82%E8%80%83%E6%95%99%E7%A8%8B.txt)
+- 更多参考资料下载目录中的文本文件
 
