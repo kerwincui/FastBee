@@ -41,5 +41,5 @@ python3 main_sdk.py
 #### 三、开发参考资料：
 
 - [Eclipse Paho MQTT Python Client 使用手册](https://www.cooooder.com/archives/20210303)
-- 更多参考资料下载目录中的文本文件
+- 更多参考资料，下载目录中的文本文件查看
 
