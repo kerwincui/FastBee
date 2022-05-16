@@ -520,6 +520,7 @@ export default {
                 // 筛选监测数据
                 this.monitorThings = thingsModel.properties.filter(item => item.isMonitor == 1);
                 // 监测数据集合初始化
+                this.dataList=[];
                 for (let i = 0; i < this.monitorThings.length; i++) {
                     this.dataList.push({
                         id: this.monitorThings[i].id,
