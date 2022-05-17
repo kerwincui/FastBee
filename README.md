@@ -74,7 +74,7 @@
 * [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
 * [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
-* [uCharts高性能跨平台图标库](https://www.ucharts.cn)
+* [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 ##### Docker快速安装
 * Mysql中创建wumei-smart数据库，[导入Sql脚本](https://gitee.com/kerwincui/wumei-smart/tree/master/springboot/sql)
 * 修改命令中的Mysql配置，并执行
