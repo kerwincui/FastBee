@@ -452,9 +452,9 @@ export default {
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
             // 判断是否是admin角色
-            if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.userId = this.$store.state.user.userId
-            }
+            // if (this.$store.state.user.roles.indexOf("admin") === -1) {
+            //     this.queryParams.userId = this.$store.state.user.userId
+            // }
             listDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.total = response.total;
