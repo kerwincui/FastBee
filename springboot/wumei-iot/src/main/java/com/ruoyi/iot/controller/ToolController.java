@@ -1,6 +1,5 @@
 package com.ruoyi.iot.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.RuoYiConfig;
@@ -10,17 +9,14 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.ProductAuthorize;
-import com.ruoyi.iot.model.AuthenticateInputModel;
-import com.ruoyi.iot.model.DeviceAuthenticateModel;
-import com.ruoyi.iot.model.MqttClientConnectModel;
-import com.ruoyi.iot.model.RegisterUserInput;
-import com.ruoyi.iot.model.ThingsModels.IdentityAndName;
-import com.ruoyi.iot.model.ThingsModels.ThingsModelValueItem;
+import com.ruoyi.iot.mapper.ProductAuthorizeMapper;
+import com.ruoyi.iot.model.*;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelShadow;
 import com.ruoyi.iot.mqtt.EmqxService;
 import com.ruoyi.iot.mqtt.MqttConfig;
@@ -56,7 +52,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -94,6 +89,9 @@ public class ToolController extends BaseController {
     @Autowired
     private IToolService toolService;
 
+    @Autowired
+    private ProductAuthorizeMapper productAuthorizeMapper;
+
     // 令牌秘钥
     @Value("${token.secret}")
     private String secret;
@@ -114,107 +112,197 @@ public class ToolController extends BaseController {
     @ApiOperation("mqtt认证")
     @PostMapping("/mqtt/auth")
     public ResponseEntity mqttAuth(@RequestParam String clientid, @RequestParam String username, @RequestParam String password) throws Exception {
-        try {
-            if (clientid.startsWith("server")) {
-                // 服务端配置账号认证
-                if (mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
-                    System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-                    return ResponseEntity.ok().body("ok");
-                }
-            } else if (clientid.startsWith("web") || clientid.startsWith("phone")) {
-                // web端和手机端token认证
-                String token = password;
-                if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
-                    token = token.replace(Constants.TOKEN_PREFIX, "");
-                }
-                try {
-                    Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-                    System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-                    return ResponseEntity.ok().body("ok");
-                } catch (Exception ex) {
-                    return returnUnauthorized(clientid, username, password, ex.getMessage());
-                }
+        if (clientid.startsWith("server")) {
+            // 服务端认证：配置的账号密码认证
+            if (mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
+                log.info("-----------服务端mqtt认证成功,clientId:" + clientid + "---------------");
+                return ResponseEntity.ok().body("ok");
             } else {
-                // 设备端
-                String[] clientInfo = clientid.split("&");
-                if (clientInfo.length != 2) {
-                    // 设备简单认证
-                    String deviceNum = clientInfo[0];
-                    Device device = deviceService.selectShortDeviceBySerialNumber(deviceNum);
-                    if (device !=null && mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
-                        System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-//                        ProductAuthorize authorize = new ProductAuthorize(null, device.getProductId(), device.getDeviceId(), device.getSerialNumber(), 1L, "admin");
-//                        authorizeService.boundProductAuthorize(authorize);
-                        return ResponseEntity.ok().body("ok");
-                    }
-                    return returnUnauthorized(clientid, username, password, "认证信息有误");
-                }
-                // 设备加密认证
-                String deviceNum = clientInfo[0];
-                Long productId = Long.valueOf(clientInfo[1]);
-                AuthenticateInputModel authenticateInputModel = new AuthenticateInputModel(deviceNum, productId);
-                DeviceAuthenticateModel model = deviceService.selectDeviceAuthenticate(authenticateInputModel);
-                if (model == null) {
-                    return returnUnauthorized(clientid, username, password, "认证信息有误");
-                }
-                // 密码解密，密码加密格式 password & productId & userId & expireTime
-                String decryptPassword = AESUtils.decrypt(password, model.getMqttSecret());
-                if (decryptPassword == null || decryptPassword == "") {
-                    return returnUnauthorized(clientid, username, password, "认证信息有误");
-                }
-                String[] infos = decryptPassword.split("&");
-                if (infos.length != 3) {
-                    return returnUnauthorized(clientid, username, password, "认证信息有误");
-                }
-                String mqttPassword = infos[0];
-                Long userId = Long.valueOf(infos[1]);
-                Long expireTime = Long.valueOf(infos[2]);
-                // 账号密码验证，产品必须为发布状态：1-未发布，2-已发布
-                if (mqttPassword.equals(model.getMqttPassword())
-                        && username.equals(model.getMqttAccount())
-                        && expireTime > System.currentTimeMillis()
-                        && model.getProductStatus() == 2) {
-
-                    // 设备状态验证 （1-未激活，2-禁用，3-在线，4-离线）
-                    if (model.getDeviceId() != null && model.getDeviceId() != 0 && model.getStatus() != 2) {
-                        System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-//                        ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
-//                        authorizeService.boundProductAuthorize(authorize);
-                        return ResponseEntity.ok().body("ok");
-                    } else {
-                        // 自动添加设备
-                        int result = deviceService.insertDeviceAuto(deviceNum, userId, productId);
-                        if (result == 1) {
-                            System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-//                            ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
-//                            authorizeService.boundProductAuthorize(authorize);
-                            return ResponseEntity.ok().body("ok");
-                        }
-                    }
-                }
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "mqtt账号和密码与认证服务器配置不匹配");
             }
-        } catch (Exception ex) {
-            // ex.printStackTrace();
-            return returnUnauthorized(clientid, username, password, ex.getMessage());
+        } else if (clientid.startsWith("web") || clientid.startsWith("phone")) {
+            // web端和移动端认证：token认证
+            String token = password;
+            if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
+                token = token.replace(Constants.TOKEN_PREFIX, "");
+            }
+            try {
+                Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+                log.info("-----------移动端/Web端mqtt认证成功,clientId:" + clientid + "---------------");
+                return ResponseEntity.ok().body("ok");
+            } catch (Exception ex) {
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), ex.getMessage());
+            }
+        } else {
+            // 设备端认证：加密认证（E）和简单认证（S，配置的账号密码认证）
+            String[] clientArray = clientid.split("&");
+            if(clientArray.length != 4 || clientArray[0].equals("") || clientArray[1].equals("") || clientArray[2].equals("") || clientArray[3].equals("")){
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "设备mqtt客户端Id格式为：认证类型 & 设备编号 & 产品ID & 用户ID");
+            }
+            String authType = clientArray[0];
+            String deviceNumber = clientArray[1];
+            Long productId = Long.valueOf(clientArray[2]);
+            Long userId = Long.valueOf(clientArray[3]);
+            // 产品认证信息
+            ProductAuthenticateModel model = deviceService.selectProductAuthenticate(new AuthenticateInputModel(deviceNumber, productId));
+            if (model == null) {
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "设备认证，通过产品ID查询不到信息");
+            }
+            if (model.getProductStatus() != 2) {
+                // 产品必须为发布状态：1-未发布，2-已发布
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "设备认证，设备对应产品还未发布");
+            }
+
+            if (authType.equals("S")) {
+                // 设备简单认证
+                return simpleMqttAuthentication(new MqttAuthenticationModel(clientid, username, password, deviceNumber, productId, userId), model);
+
+            } else if (authType.equals("E")) {
+                // 设备加密认证
+                return encryptAuthentication(new MqttAuthenticationModel(clientid, username, password, deviceNumber, productId, userId), model);
+            } else {
+                return returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "设备认证，认证类型有误");
+            }
         }
-        return returnUnauthorized(clientid, username, password, "认证信息有误");
+    }
+
+    /**
+     * 设备简单认证
+     */
+    private ResponseEntity simpleMqttAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
+        String[] passwordArray = mqttModel.getPassword().split("&");
+        if (productModel.getIsAuthorize() == 1 && passwordArray.length != 2) {
+            return returnUnauthorized(mqttModel, "设备简单认证，产品启用授权码后，密码格式为：密码 & 授权码");
+        }
+        String mqttPassword = passwordArray[0];
+        String authCode = passwordArray.length == 2 ? passwordArray[1] : "";
+        if ((!mqttConfig.getusername().equals(mqttModel.getUserName())) || (!mqttConfig.getpassword().equals(mqttPassword))) {
+            return returnUnauthorized(mqttModel, "设备简单认证，mqtt账号和密码与认证服务器配置不匹配");
+        }
+        // 授权码处理
+        if (productModel.getIsAuthorize() == 1) {
+            // 授权码验证和处理
+            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
+            if (resultMessage != "") {
+                return returnUnauthorized(mqttModel, resultMessage);
+            }
+        }
+        if (productModel.getDeviceId() != null && productModel.getDeviceId() != 0) {
+            if (productModel.getStatus() == 2) {
+                return returnUnauthorized(mqttModel, "设备简单认证，设备处于禁用状态");
+            }
+            log.info("-----------设备简单认证成功,clientId:" + mqttModel.getClientId() + "---------------");
+            return ResponseEntity.ok().body("ok");
+        } else {
+            // 自动添加设备
+            int result = deviceService.insertDeviceAuto(mqttModel.getDeviceNumber(), mqttModel.getUserId(), mqttModel.getProductId());
+            if (result == 1) {
+                log.info("-----------设备简单认证成功,并自动添加设备到系统，clientId:" + mqttModel.getClientId() + "---------------");
+                return ResponseEntity.ok().body("ok");
+            }
+            return returnUnauthorized(mqttModel, "设备简单认证，自动添加设备失败");
+        }
+    }
+
+    /**
+     * 设备加密认证
+     *
+     * @return
+     */
+    private ResponseEntity encryptAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) throws Exception {
+        String decryptPassword = AESUtils.decrypt(mqttModel.getPassword(), productModel.getMqttSecret());
+        if (decryptPassword == null || decryptPassword == "") {
+            return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码解密失败");
+        }
+        String[] passwordArray = decryptPassword.split("&");
+        if (passwordArray.length != 2 && passwordArray.length != 3) {
+            // 密码加密格式 password & expireTime (& authCode 可选)
+            return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码加密格式为：密码 & 过期时间 & 授权码，其中授权码为可选");
+        }
+        String mqttPassword = passwordArray[0];
+        Long expireTime = Long.valueOf(passwordArray[1]);
+        String authCode = passwordArray.length == 3 ? passwordArray[2] : "";
+        if (productModel.getIsAuthorize() == 1) {
+            // 授权码验证和处理
+            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
+            if (resultMessage != "") {
+                return returnUnauthorized(mqttModel, resultMessage);
+            }
+        }
+
+        if (!mqttPassword.equals(productModel.getMqttPassword())) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码错误");
+        }
+        if (!mqttModel.getUserName().equals(productModel.getMqttAccount())) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt用户名错误");
+        }
+        if (expireTime < System.currentTimeMillis()) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码已过期");
+        }
+        // 设备状态验证 （1-未激活，2-禁用，3-在线，4-离线）
+        if (productModel.getDeviceId() != null && productModel.getDeviceId() != 0) {
+            if (productModel.getStatus() == 2) {
+                return returnUnauthorized(mqttModel, "设备加密认证，设备处于禁用状态");
+            }
+            log.info("-----------设备加密认证成功,clientId:" + mqttModel.getClientId() + "---------------");
+            return ResponseEntity.ok().body("ok");
+        } else {
+            // 自动添加设备
+            int result = deviceService.insertDeviceAuto(mqttModel.getDeviceNumber(), mqttModel.getUserId(), mqttModel.getProductId());
+            if (result == 1) {
+                log.info("-----------设备加密认证成功,并自动添加设备到系统，clientId:" + mqttModel.getClientId() + "---------------");
+                return ResponseEntity.ok().body("ok");
+            }
+            return returnUnauthorized(mqttModel, "设备加密认证，自动添加设备失败");
+        }
+    }
+
+    /**
+     * 授权码认证和处理
+     */
+    private String authCodeProcess(String authCode, MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
+        String message = "";
+        if (authCode == "") {
+            message = "设备认证，设备授权码不能为空";
+        }
+        // 查询授权码是否存在
+        ProductAuthorize authorize = productAuthorizeMapper.selectFirstAuthorizeByAuthorizeCode(new ProductAuthorize(authCode, productModel.getProductId()));
+        if (authorize == null) {
+            message = "设备认证，设备授权码错误";
+            return message;
+        }
+        if (authorize.getSerialNumber() != null && !authorize.getSerialNumber().equals("")) {
+            // 授权码已关联设备
+            if (authorize.getSerialNumber() != productModel.getSerialNumber()) {
+                message = "设备认证，设备授权码已经分配给其他设备";
+                return message;
+            }
+        } else {
+            // 授权码未关联设备
+            authorize.setSerialNumber(productModel.getSerialNumber());
+            authorize.setDeviceId(productModel.getDeviceId());
+            authorize.setUserId(mqttModel.getUserId());
+            authorize.setUserName("");
+            authorize.setUpdateTime(DateUtils.getNowDate());
+            int result = productAuthorizeMapper.updateProductAuthorize(authorize);
+            if (result != 1) {
+                message = "设备认证，设备授权码关联失败";
+                return message;
+            }
+        }
+        return message;
     }
 
     /**
      * 返回认证信息
      */
-    private ResponseEntity returnUnauthorized(String clientid, String username, String password, String message) {
-        System.out.println("认证失败：" + message
-                + "\nclientid:" + clientid
-                + "\nusername:" + username
-                + "\npassword:" + password);
-        log.error("认证失败：" + message
-                + "\nclientid:" + clientid
-                + "\nusername:" + username
-                + "\npassword:" + password);
+    private ResponseEntity returnUnauthorized(MqttAuthenticationModel mqttModel, String message) {
+        log.warn("认证失败：" + message
+                + "\nclientid:" + mqttModel.getClientId()
+                + "\nusername:" + mqttModel.getUserName()
+                + "\npassword:" + mqttModel.getPassword());
         return ResponseEntity.status(401).body("Unauthorized");
     }
-
 
     @ApiOperation("mqtt钩子处理")
     @PostMapping("/mqtt/webhook")

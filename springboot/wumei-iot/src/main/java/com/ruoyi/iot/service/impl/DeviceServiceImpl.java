@@ -116,8 +116,8 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 设备
      */
     @Override
-    public DeviceAuthenticateModel selectDeviceAuthenticate(AuthenticateInputModel model) {
-        return deviceMapper.selectDeviceAuthenticate(model);
+    public ProductAuthenticateModel selectProductAuthenticate(AuthenticateInputModel model) {
+        return deviceMapper.selectProductAuthenticate(model);
     }
 
     /**

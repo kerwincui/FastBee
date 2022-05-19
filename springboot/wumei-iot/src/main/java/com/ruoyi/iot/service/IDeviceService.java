@@ -46,7 +46,7 @@ public interface IDeviceService
      * @param model 设备编号和产品ID
      * @return 设备
      */
-    public DeviceAuthenticateModel selectDeviceAuthenticate(AuthenticateInputModel model);
+    public ProductAuthenticateModel selectProductAuthenticate(AuthenticateInputModel model);
 
     /**
      * 查询设备和运行状态

@@ -67,16 +67,9 @@ public interface ProductAuthorizeMapper
     public int insertBatchAuthorize(List<ProductAuthorize> list);
 
     /**
-     * 根据产品id查询一条未绑定的授权码
-     * @param authorize
-     * @return
-     */
-    ProductAuthorize selectOneUnboundAuthorizeByProductId(ProductAuthorize authorize);
-
-    /**
      * 根据授权码查询一条未绑定的授权码
      * @param authorize
      * @return
      */
-    ProductAuthorize selectOneUnboundAuthorizeByAuthorizeCode(ProductAuthorize authorize);
+    ProductAuthorize selectFirstAuthorizeByAuthorizeCode(ProductAuthorize authorize);
 }

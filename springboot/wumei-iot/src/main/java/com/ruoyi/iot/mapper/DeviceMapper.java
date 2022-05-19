@@ -3,7 +3,7 @@ package com.ruoyi.iot.mapper;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.model.AuthenticateInputModel;
 import com.ruoyi.iot.model.DeviceAllShortOutput;
-import com.ruoyi.iot.model.DeviceAuthenticateModel;
+import com.ruoyi.iot.model.ProductAuthenticateModel;
 import com.ruoyi.iot.model.DeviceShortOutput;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesOutput;
@@ -50,7 +50,7 @@ public interface DeviceMapper
      * @param model 设备编号和产品ID
      * @return 设备
      */
-    public DeviceAuthenticateModel selectDeviceAuthenticate(AuthenticateInputModel model);
+    public ProductAuthenticateModel selectProductAuthenticate(AuthenticateInputModel model);
 
     /**
      * 查询设备和运行状态

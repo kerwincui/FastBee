@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author kerwincui
  * @date 2021-12-16
  */
-public class MqttAuthModel
+public class MqttInfoModel
 {
     private String clientid;
 

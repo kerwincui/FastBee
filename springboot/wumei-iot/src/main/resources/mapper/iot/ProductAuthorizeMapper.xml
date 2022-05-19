@@ -42,23 +42,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectProductAuthorizeVo"/>
         where authorize_id = #{authorizeId}
     </select>
-    <select id="selectOneUnboundAuthorizeByProductId" parameterType="com.ruoyi.iot.domain.ProductAuthorize" resultType="com.ruoyi.iot.domain.ProductAuthorize">
-        <include refid="selectProductAuthorizeVo"/>
-        where
-            del_flag = 0
-            and product_id = #{productId}
-            and serial_number is null
-            and device_id is null
-        limit 1
-    </select>
 
-    <select id="selectOneUnboundAuthorizeByAuthorizeCode" parameterType="com.ruoyi.iot.domain.ProductAuthorize" resultType="com.ruoyi.iot.domain.ProductAuthorize">
+    <select id="selectFirstAuthorizeByAuthorizeCode" parameterType="com.ruoyi.iot.domain.ProductAuthorize" resultMap="ProductAuthorizeResult">
         <include refid="selectProductAuthorizeVo"/>
         where
         del_flag = 0
         and authorize_code = #{authorizeCode}
-        and serial_number is null
-        and device_id is null
+        and product_id = #{productId}
         limit 1
     </select>
 

@@ -48,13 +48,9 @@ public class ProductAuthorize extends BaseEntity
     public ProductAuthorize() {
     }
 
-    public ProductAuthorize(String authorizeCode, Long productId, Long deviceId, String serialNumber, Long userId, String userName) {
+    public ProductAuthorize(String authorizeCode, Long productId) {
         this.authorizeCode = authorizeCode;
         this.productId = productId;
-        this.deviceId = deviceId;
-        this.serialNumber = serialNumber;
-        this.userId = userId;
-        this.userName = userName;
     }
 
     public void setAuthorizeId(Long authorizeId)

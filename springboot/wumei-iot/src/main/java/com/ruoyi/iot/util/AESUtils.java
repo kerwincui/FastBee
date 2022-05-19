@@ -59,10 +59,10 @@ public class AESUtils {
             IvParameterSpec iv = new IvParameterSpec(ivString.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             //先用base64解密
-            byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);
+            byte[] encrypted = new BASE64Decoder().decodeBuffer(sSrc);
             try {
-                byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original);
+                byte[] original = cipher.doFinal(encrypted);
+                String originalString = new String(original,"UTF-8");
                 return originalString;
             } catch (Exception e) {
                 System.out.println(e.toString());

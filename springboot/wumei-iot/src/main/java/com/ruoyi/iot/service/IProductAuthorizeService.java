@@ -67,12 +67,4 @@ public interface IProductAuthorizeService
      */
 	public int addProductAuthorizeByNum(ProductAuthorizeVO productAuthorizeVO);
 
-
-    /**
-     * 根据产品id和设备序列号绑定授权码
-     * @param productAuthorize
-     * @return
-     */
-	public int boundProductAuthorize(ProductAuthorize productAuthorize);
-
 }

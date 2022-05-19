@@ -68,13 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="latitude"    column="latitude"    />
     </resultMap>
 
-    <resultMap type="com.ruoyi.iot.model.DeviceAuthenticateModel" id="DeviceAuthenticateResult">
+    <resultMap type="com.ruoyi.iot.model.ProductAuthenticateModel" id="DeviceAuthenticateResult">
         <result property="deviceId"    column="device_id"    />
         <result property="deviceName"    column="device_name"    />
         <result property="status"    column="status"    />
         <result property="productId"    column="product_id"    />
         <result property="productName"    column="product_name"    />
         <result property="productStatus"    column="product_status"    />
+        <result property="isAuthorize"    column="is_authorize"    />
         <result property="serialNumber"    column="serial_number"    />
         <result property="mqttAccount"    column="mqtt_account"    />
         <result property="mqttPassword"    column="mqtt_password"    />
@@ -197,8 +198,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_id = #{deviceId}
     </select>
 
-    <select id="selectDeviceAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">
-        SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.product_id,d.product_name,d.serial_number
+    <select id="selectProductAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">
+        SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.is_authorize,p.product_id,p.product_name,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.serial_number
         FROM iot_product p
                 LEFT JOIN ( SELECT device_id, device_name, STATUS, product_id, product_name, serial_number
                 FROM iot_device

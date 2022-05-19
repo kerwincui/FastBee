@@ -1,7 +1,9 @@
 package com.ruoyi.iot.model;
 
 
-public class DeviceAuthenticateModel {
+import com.ruoyi.common.annotation.Excel;
+
+public class ProductAuthenticateModel {
     /** 产品分类ID */
     private Long deviceId;
 
@@ -20,6 +22,9 @@ public class DeviceAuthenticateModel {
     /** 产品状态 1-未发布，2-已发布 */
     private int productStatus;
 
+    /** 是否启用授权码（0-否，1-是） */
+    private Integer isAuthorize;
+
     /** 设备编号 */
     private String serialNumber;
 
@@ -31,6 +36,14 @@ public class DeviceAuthenticateModel {
 
     /** 产品秘钥 */
     private String mqttSecret;
+
+    public Integer getIsAuthorize() {
+        return isAuthorize;
+    }
+
+    public void setIsAuthorize(Integer isAuthorize) {
+        this.isAuthorize = isAuthorize;
+    }
 
     public int getProductStatus() {
         return productStatus;
