@@ -84,7 +84,7 @@ public class DeviceController extends BaseController
     public TableDataInfo allShortList(Device device)
     {
         List<DeviceAllShortOutput> list = new ArrayList<>();
-        if(device.getUserName()==null || device.getUserName() == "")
+        if(device.getUserName()==null || device.getUserName().equals(""))
         {
             list = deviceService.selectAllDeviceShortList();
         }else {

@@ -49,7 +49,7 @@ public class ThingsModelTemplateController extends BaseController
     {
         startPage();
         List<ThingsModelTemplate> list = new ArrayList<>();
-        if (thingsModelTemplate.getTenantName() == ""|| thingsModelTemplate.getTenantName() == null){
+        if (thingsModelTemplate.getTenantName().equals("")|| thingsModelTemplate.getTenantName() == null){
             list = thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate);
         }else{
 //            精准查询

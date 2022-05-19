@@ -51,7 +51,7 @@ public class GroupController extends BaseController
     {
         startPage();
         List<Group> list = new ArrayList<>();
-        if(group.getUserName() == null || group.getUserName() == "")
+        if(group.getUserName() == null || group.getUserName().equals(""))
         {
 //            搜索查询 ,mapper使用的是模糊查询
             list = groupService.selectGroupList(group);

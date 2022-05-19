@@ -211,7 +211,7 @@ public class ToolController extends BaseController {
      */
     private ResponseEntity encryptAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) throws Exception {
         String decryptPassword = AESUtils.decrypt(mqttModel.getPassword(), productModel.getMqttSecret());
-        if (decryptPassword == null || decryptPassword == "") {
+        if (decryptPassword == null || decryptPassword.equals("")) {
             return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码解密失败");
         }
         String[] passwordArray = decryptPassword.split("&");
@@ -229,7 +229,6 @@ public class ToolController extends BaseController {
                 return returnUnauthorized(mqttModel, resultMessage);
             }
         }
-
         if (!mqttPassword.equals(productModel.getMqttPassword())) {
             return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码错误");
         }
@@ -262,7 +261,7 @@ public class ToolController extends BaseController {
      */
     private String authCodeProcess(String authCode, MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
         String message = "";
-        if (authCode == "") {
+        if (authCode.equals("")) {
             message = "设备认证，设备授权码不能为空";
         }
         // 查询授权码是否存在
