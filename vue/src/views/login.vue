@@ -5,7 +5,7 @@
         <el-row :gutter="10">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="login-top">
-                    <h1>物美智能 - 开源生活物联网平台</h1>
+                    <h1>物美智能 - 物联美好生活</h1>
                     <h2>wumei smart open source living iot platform</h2>
                 </div>
             </el-col>
