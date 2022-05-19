@@ -176,14 +176,15 @@ public class ToolController extends BaseController {
         }
         String mqttPassword = passwordArray[0];
         String authCode = passwordArray.length == 2 ? passwordArray[1] : "";
+        // 验证用户名和密码
         if ((!mqttConfig.getusername().equals(mqttModel.getUserName())) || (!mqttConfig.getpassword().equals(mqttPassword))) {
             return returnUnauthorized(mqttModel, "设备简单认证，mqtt账号和密码与认证服务器配置不匹配");
         }
-        // 授权码处理
+        // 验证授权码
         if (productModel.getIsAuthorize() == 1) {
             // 授权码验证和处理
             String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
-            if (resultMessage != "") {
+            if (!resultMessage.equals("")) {
                 return returnUnauthorized(mqttModel, resultMessage);
             }
         }
@@ -222,21 +223,25 @@ public class ToolController extends BaseController {
         String mqttPassword = passwordArray[0];
         Long expireTime = Long.valueOf(passwordArray[1]);
         String authCode = passwordArray.length == 3 ? passwordArray[2] : "";
-        if (productModel.getIsAuthorize() == 1) {
-            // 授权码验证和处理
-            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
-            if (resultMessage != "") {
-                return returnUnauthorized(mqttModel, resultMessage);
-            }
-        }
-        if (!mqttPassword.equals(productModel.getMqttPassword())) {
-            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码错误");
-        }
+        // 验证用户名
         if (!mqttModel.getUserName().equals(productModel.getMqttAccount())) {
             return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt用户名错误");
         }
+        // 验证密码
+        if (!mqttPassword.equals(productModel.getMqttPassword())) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码错误");
+        }
+        // 验证过期时间
         if (expireTime < System.currentTimeMillis()) {
             return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码已过期");
+        }
+        // 验证授权码
+        if (productModel.getIsAuthorize() == 1) {
+            // 授权码验证和处理
+            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
+            if (!resultMessage.equals("")) {
+                return returnUnauthorized(mqttModel, resultMessage);
+            }
         }
         // 设备状态验证 （1-未激活，2-禁用，3-在线，4-离线）
         if (productModel.getDeviceId() != null && productModel.getDeviceId() != 0) {
@@ -262,7 +267,7 @@ public class ToolController extends BaseController {
     private String authCodeProcess(String authCode, MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
         String message = "";
         if (authCode.equals("")) {
-            message = "设备认证，设备授权码不能为空";
+            return message = "设备认证，设备授权码不能为空";
         }
         // 查询授权码是否存在
         ProductAuthorize authorize = productAuthorizeMapper.selectFirstAuthorizeByAuthorizeCode(new ProductAuthorize(authCode, productModel.getProductId()));
@@ -272,7 +277,7 @@ public class ToolController extends BaseController {
         }
         if (authorize.getSerialNumber() != null && !authorize.getSerialNumber().equals("")) {
             // 授权码已关联设备
-            if (authorize.getSerialNumber() != productModel.getSerialNumber()) {
+            if (!authorize.getSerialNumber().equals( productModel.getSerialNumber())) {
                 message = "设备认证，设备授权码已经分配给其他设备";
                 return message;
             }
