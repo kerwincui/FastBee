@@ -43,8 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTopNewsList" parameterType="News" resultMap="NewsResult">
         select n.news_id, n.title, n.img_url, n.is_top, n.is_banner, n.category_id, c.category_name, n.status, n.author, n.create_time, n.remark
         from news n left join news_category c on c.category_id=n.category_id
-        where is_top=1 and status=1
-        order by create_time desc
+        where n.is_top=1 and n.status=1
+        order by n.create_time desc
     </select>
     
     <select id="selectNewsByNewsId" parameterType="Long" resultMap="NewsResult">
