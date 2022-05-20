@@ -3,9 +3,6 @@
     <el-row>
         <el-col :span="24">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="">
-                <el-form-item label="最大数量" prop="deviceName">
-                    <el-input v-model="queryParams.params.maxSize" placeholder="请输入设备名称" clearable size="small" />
-                </el-form-item>
                 <el-form-item label="时间范围">
                     <el-date-picker v-model="daterangeTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-form-item>
@@ -67,9 +64,7 @@ export default {
             queryParams: {
                 deviceId: 0,
                 identity: "",
-                params: {
-                    maxSize:'998'
-                },
+                params: {},
             },
         };
     },
@@ -104,7 +99,6 @@ export default {
                     this.queryParams.params['beginTime'] = this.daterangeTime[0];
                     this.queryParams.params['endTime'] = this.daterangeTime[1];
                 }
-                console.log(this.queryParams);
                 listMonitor(this.queryParams).then(response => {
                     let data = response.rows;
                     // 对象转数组
