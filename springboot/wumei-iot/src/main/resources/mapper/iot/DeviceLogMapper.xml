@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginTime != null and params.beginTime != '' and params.endTime != null and params.endTime != ''"> and create_time between #{params.beginTime} and #{params.endTime}</if>
         </where>
         order by create_time desc
-        limit 1000
+        limit 2000
     </select>
 
     <select id="selectDeviceLogList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="DeviceLogResult">
