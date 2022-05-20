@@ -390,6 +390,8 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setTenantId(sysUser.getUserId());
         device.setTenantName(sysUser.getUserName());
         device.setRssi(0);
+        Product product=productService.selectProductByProductId(device.getProductId());
+        device.setImgUrl(product.getImgUrl());
         deviceMapper.insertDevice(device);
         // 添加设备用户
 //        DeviceUser deviceUser = new DeviceUser();
@@ -432,6 +434,7 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setIsCustomLocation(0);
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
+        device.setImgUrl(product.getImgUrl());
         return deviceMapper.insertDevice(device);
     }
 
