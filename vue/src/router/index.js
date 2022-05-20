@@ -160,13 +160,13 @@ export const constantRoutes = [
         path: 'product-edit',
         component: (resolve) => require(['@/views/iot/product/product-edit'], resolve),
         name: 'ProductEdit',
-        meta: { title: '编辑产品', activeMenu: '/iot/product' }
+        meta: { title: '编辑产品', activeMenu: '/iot/product',nocache: true}
       },
       {
         path: 'device-edit',
         component: (resolve) => require(['@/views/iot/device/device-edit'], resolve),
         name: 'DeviceEdit',
-        meta: { title: '编辑设备', activeMenu: '/iot/device' }
+        meta: { title: '编辑设备', activeMenu: '/iot/device', noCache: true}
       },
     ]
   }
