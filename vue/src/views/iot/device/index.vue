@@ -447,9 +447,10 @@ export default {
         /** 查询所有简短设备列表 */
         getList() {
             this.loading = true;
+            this.queryParams.params={};
             if (null != this.daterangeActiveTime && '' != this.daterangeActiveTime) {
-                this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
-                this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
+                this.queryParams.params['beginActiveTime'] = this.daterangeActiveTime[0];
+                this.queryParams.params['endActiveTime'] = this.daterangeActiveTime[1];
             }
             // 判断是否是admin角色
             // if (this.$store.state.user.roles.indexOf("admin") === -1) {
