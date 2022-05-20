@@ -29,9 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectMonitorList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="MonitorResult">
         select log_value, create_time from iot_device_log
-        where device_id = #{deviceId} and identity = #{identity} and is_monitor=1
+        <where>
+            <if test="1==1"> and device_id = #{deviceId} </if>
+            <if test="1==1"> and identity = #{identity} </if>
+            <if test="1==1"> and is_monitor=1</if>
+            <if test="params.beginTime != null and params.beginTime != '' and params.endTime != null and params.endTime != ''"> and create_time between #{params.beginTime} and #{params.endTime}</if>
+        </where>
         order by create_time desc
-        limit 2000
+        limit 1000
     </select>
 
     <select id="selectDeviceLogList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="DeviceLogResult">
