@@ -2,8 +2,21 @@
 <div style="padding-left:20px;">
     <el-row>
         <el-col :span="24">
+            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="">
+                <el-form-item label="最大数量" prop="deviceName">
+                    <el-input v-model="queryParams.params.maxSize" placeholder="请输入设备名称" clearable size="small" />
+                </el-form-item>
+                <el-form-item label="时间范围">
+                    <el-date-picker v-model="daterangeTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="getStatisticData">查询</el-button>
+            </el-form-item>
+            </el-form>
+        </el-col>
+        <el-col :span="24">
             <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:50px;">
-                <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }">
+                <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
                     <div ref="statisticMap" style="height:250px;width:1470px;"></div>
                 </el-card>
             </div>
@@ -41,16 +54,27 @@ export default {
     },
     data() {
         return {
+            loading:false,
             // 设备信息
             deviceInfo: {},
             // 监测物模型
             monitorThings: [],
             // 图表集合
             chart: [],
+            // 激活时间范围
+            daterangeTime: [],
+            // 查询参数
+            queryParams: {
+                deviceId: 0,
+                identity: "",
+                params: {
+                    maxSize:'998'
+                },
+            },
         };
     },
     mounted() {
-        
+
     },
     methods: {
         /** 获取物模型*/
@@ -61,36 +85,42 @@ export default {
                 // 筛选监测数据
                 this.monitorThings = thingsModel.properties.filter(item => item.isMonitor == 1);
                 // 加载图表
-                this.$nextTick(function () {   
+                this.$nextTick(function () {
                     // 绘制图表
-                    this.getStatistic();                 
+                    this.getStatistic();
                     // 获取统计数据
-                    this.getStatisticData(this.monitorThings);                    
+                    this.getStatisticData(this.monitorThings);
                 });
 
             });
         },
         /** 获取统计数据 */
-        getStatisticData(monitorThingsModel) {
-            for (let i = 0; i < monitorThingsModel.length; i++) {
-                let queryParams = {};
-                queryParams.deviceId = this.deviceInfo.deviceId;
-                queryParams.identity = monitorThingsModel[i].id;
-                listMonitor(queryParams).then(response => {
+        getStatisticData() {
+            this.loading = true;
+            for (let i = 0; i < this.monitorThings.length; i++) {
+                this.queryParams.deviceId = this.deviceInfo.deviceId;
+                this.queryParams.identity = this.monitorThings[i].id;
+                if (null != this.daterangeTime && '' != this.daterangeTime) {
+                    this.queryParams.params['beginTime'] = this.daterangeTime[0];
+                    this.queryParams.params['endTime'] = this.daterangeTime[1];
+                }
+                console.log(this.queryParams);
+                listMonitor(this.queryParams).then(response => {
                     let data = response.rows;
                     // 对象转数组
-                    let dataList=[];
-                    for(let j=0; j<data.length; j++) {
-                        let item=[];
-                        item[0]=data[j].time;
-                        item[1]=data[j].value;
+                    let dataList = [];
+                    for (let j = 0; j < data.length; j++) {
+                        let item = [];
+                        item[0] = data[j].time;
+                        item[1] = data[j].value;
                         dataList.push(item);
                     }
                     this.chart[i].setOption({
                         series: [{
-                            data:dataList
+                            data: dataList
                         }]
                     });
+                    this.loading = false;
                 });
             }
         },
@@ -100,7 +130,7 @@ export default {
                 this.chart[i] = echarts.init(this.$refs.statisticMap[i]);
                 var option;
                 option = {
-                    animationDurationUpdate:3000,
+                    animationDurationUpdate: 3000,
                     tooltip: {
                         trigger: 'axis',
                     },
