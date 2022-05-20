@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.domain.Product;
+import com.ruoyi.iot.log.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.mapper.DeviceMapper;
 import com.ruoyi.iot.mapper.DeviceUserMapper;
@@ -22,6 +23,7 @@ import com.ruoyi.iot.service.IDeviceService;
 import com.ruoyi.iot.service.IProductService;
 import com.ruoyi.iot.service.IToolService;
 import com.ruoyi.system.service.ISysUserService;
+import org.checkerframework.checker.units.qual.A;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,8 +75,11 @@ public class DeviceServiceImpl implements IDeviceService {
     @Autowired
     private ISysUserService userService;
 
+//    @Autowired
+//    private IDeviceLogService deviceLogService;
+
     @Autowired
-    private IDeviceLogService deviceLogService;
+    private ILogService logService;
 
     /**
      * 查询设备
@@ -196,7 +201,8 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setCreateTime(DateUtils.getNowDate());
                     deviceLog.setIsMonitor(valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
-                    deviceLogMapper.insertDeviceLog(deviceLog);
+                    logService.saveDeviceLog(deviceLog);
+//                    deviceLogMapper.insertDeviceLog(deviceLog);
                     break;
                 }
             }
@@ -588,7 +594,8 @@ public class DeviceServiceImpl implements IDeviceService {
             deviceLog.setIdentity("offline");
             deviceLog.setLogType(6);
         }
-        deviceLogService.insertDeviceLog(deviceLog);
+        logService.saveDeviceLog(deviceLog);
+//        deviceLogService.insertDeviceLog(deviceLog);
         return result;
     }
 

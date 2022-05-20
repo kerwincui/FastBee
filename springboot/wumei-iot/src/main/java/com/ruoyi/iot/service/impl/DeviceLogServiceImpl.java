@@ -2,6 +2,7 @@ package com.ruoyi.iot.service.impl;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.log.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.model.MonitorModel;
 import com.ruoyi.iot.service.IDeviceLogService;
@@ -21,6 +22,9 @@ public class DeviceLogServiceImpl implements IDeviceLogService
 {
     @Autowired
     private DeviceLogMapper deviceLogMapper;
+
+    @Autowired
+    private ILogService logService;
 
     /**
      * 查询设备日志
@@ -43,7 +47,8 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog)
     {
-        return deviceLogMapper.selectDeviceLogList(deviceLog);
+//         deviceLogMapper.selectDeviceLogList(deviceLog);
+        return logService.selectDeviceLogList(deviceLog);
     }
 
     /**
@@ -55,7 +60,8 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog)
     {
-        return deviceLogMapper.selectMonitorList(deviceLog);
+//        return deviceLogMapper.selectMonitorList(deviceLog);
+        return logService.selectMonitorList(deviceLog);
     }
 
     /**
@@ -68,7 +74,8 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     public int insertDeviceLog(DeviceLog deviceLog)
     {
         deviceLog.setCreateTime(DateUtils.getNowDate());
-        return deviceLogMapper.insertDeviceLog(deviceLog);
+//        return deviceLogMapper.insertDeviceLog(deviceLog);
+        return logService.saveDeviceLog(deviceLog);
     }
 
     /**
