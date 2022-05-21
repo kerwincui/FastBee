@@ -50,9 +50,10 @@
                     <el-row :gutter="10">
                         <el-col :span="15">
                             <div style="text-align:left;line-height:40px;font-size:14px;">
-                                <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="small" style="width:60px;display:inline-block;" />
+                                <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="small" style="display:inline-block;margin-right:10px;" />
                                 <el-tag type="success" size="small" v-if="item.isShadow==1">启用影子</el-tag>
                                 <el-tag type="info" size="small" v-else>禁用影子</el-tag>
+                                <dict-tag :options="dict.type.iot_location_way" :value="item.isCustomLocation" size="small" style="display:inline-block;margin-left:10px;" />
                             </div>
                             <el-descriptions :column="1" size="mini">
                                 <el-descriptions-item label="编号">
@@ -196,7 +197,7 @@ import {
 
 export default {
     name: "Device",
-    dicts: ['iot_device_status', 'iot_is_enable'],
+    dicts: ['iot_device_status', 'iot_is_enable','iot_location_way'],
     components: {
         mqttClient
     },
@@ -429,7 +430,7 @@ export default {
             this.getCacheThingsModdel(item.productId);
             // Mqtt发布实时监测
             let model = {};
-            model.name = "";
+            model.name = "实时监测";
             model.value = this.monitorNumber;
             this.mqttPublish(4, item, model);
         },

@@ -1,6 +1,6 @@
 <template>
 <div style="padding-left:20px;">
-    <el-row>
+    <el-row >
         <el-col :span="24">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="">
                 <el-form-item label="时间范围">
@@ -11,10 +11,10 @@
             </el-form-item>
             </el-form>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="23">
             <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:30px;">
-                <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
-                    <div ref="statisticMap" style="height:300px;width:1450px;"></div>
+                <el-card shadow="always" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
+                    <div ref="statisticMap" style="height:300px;width:1080px;" ></div>
                 </el-card>
             </div>
         </el-col>
@@ -70,7 +70,7 @@ export default {
     },
     mounted() {
 
-    },
+},
     methods: {
         /** 获取物模型*/
         getCacheThingsModdel(productId) {
@@ -120,8 +120,13 @@ export default {
         },
         /**监测统计数据 */
         getStatistic() {
+            
             let color = ['#1890FF', '#91CB74', '#FAC858', '#EE6666', '#73C0DE', '#3CA272', '#FC8452', '#9A60B4', '#ea7ccc'];
             for (let i = 0; i < this.monitorThings.length; i++) {
+                // 设置宽度
+                this.$refs.statisticMap[i].style.width=(document.documentElement.clientWidth-510)+"px";
+                console.log(this.$refs.statisticMap[i]);
+
                 this.chart[i] = echarts.init(this.$refs.statisticMap[i]);
                 var option;
                 option = {

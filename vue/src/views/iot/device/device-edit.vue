@@ -43,27 +43,23 @@
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                        <!--
-                        <el-form-item label="设备图片" prop="imageUrl">
-                            <el-image style="height:225px;border:1px solid #dee4ed;border-radius:5px;padding:5px;" :src="imageUrl" :preview-src-list="[imageUrl]" fit="cover"></el-image>
-                        </el-form-item>
-                        -->
-                        <el-form-item label="自定义位置" prop="isCustomLocation">
-                            <el-switch v-model="form.isCustomLocation" active-text="" inactive-text="" :active-value="1" :inactive-value="0">
-                            </el-switch>
+                        <el-form-item label="定位方式" prop="isCustomLocation">
+                            <el-select v-model="form.isCustomLocation" placeholder="请选择设备状态" clearable size="small">
+                                <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="设备经度" prop="longitude">
-                            <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.isCustomLocation==0">
+                            <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.isCustomLocation!=3">
                                 <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="设备纬度" prop="latitude">
-                            <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.isCustomLocation==0">
+                            <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.isCustomLocation!=3">
                                 <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="所在地址" prop="networkAddress">
-                            <el-input v-model="form.networkAddress" placeholder="请输入设备所在地址" :disabled="form.isCustomLocation==0" />
+                            <el-input v-model="form.networkAddress" placeholder="请输入设备所在地址" :disabled="form.isCustomLocation!=3" />
                         </el-form-item>
                         <el-form-item label="入网地址" prop="networkIp">
                             <el-input v-model="form.networkIp" placeholder="设备入网IP" disabled />
@@ -108,12 +104,10 @@
             <device-timer ref="deviceTimer" :device="form" />
         </el-tab-pane>
 
-        
-         <el-tab-pane name="deviceUser" :disabled="form.deviceId==0">
+        <el-tab-pane name="deviceUser" :disabled="form.deviceId==0">
             <span slot="label">设备用户</span>
             <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />
         </el-tab-pane>
-       
 
         <el-tab-pane name="deviceLog" :disabled="form.deviceId==0">
             <span slot="label">设备日志</span>
@@ -164,7 +158,7 @@ import {
 
 export default {
     name: "DeviceEdit",
-    dicts: ['iot_device_status'],
+    dicts: ['iot_device_status','iot_location_way'],
     components: {
         deviceLog,
         deviceUser,
@@ -199,6 +193,7 @@ export default {
             form: {
                 productId: 0,
                 status: 1,
+                isCustomLocation: 1,
             },
             // 图片地址
             imageUrl: require('@/assets/images/product.jpg'),
@@ -239,11 +234,11 @@ export default {
     },
     methods: {
         /** 数据同步*/
-        dataSynchronization(){
+        dataSynchronization() {
             getDevice(this.form.deviceId).then(response => {
                 this.form = response.data;
                 // 选项卡切换
-                this.activeName='runningStatus';
+                this.activeName = 'runningStatus';
                 // 禁用状态
                 if (this.form.status == 2) {
                     this.deviceStatus = 1;
@@ -315,7 +310,7 @@ export default {
                 updateBy: null,
                 updateTime: null,
                 remark: null,
-                isCustomLocation: 0,
+                isCustomLocation: 1,
             };
             this.deviceStatus = 0;
             this.resetForm("form");
