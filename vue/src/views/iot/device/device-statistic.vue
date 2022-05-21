@@ -12,9 +12,9 @@
             </el-form>
         </el-col>
         <el-col :span="24">
-            <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:50px;">
+            <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:30px;">
                 <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
-                    <div ref="statisticMap" style="height:250px;width:1470px;"></div>
+                    <div ref="statisticMap" style="height:300px;width:1450px;"></div>
                 </el-card>
             </div>
         </el-col>
@@ -120,6 +120,7 @@ export default {
         },
         /**监测统计数据 */
         getStatistic() {
+            let color = ['#1890FF', '#91CB74', '#FAC858', '#EE6666', '#73C0DE', '#3CA272', '#FC8452', '#9A60B4', '#ea7ccc'];
             for (let i = 0; i < this.monitorThings.length; i++) {
                 this.chart[i] = echarts.init(this.$refs.statisticMap[i]);
                 var option;
@@ -184,18 +185,18 @@ export default {
                         symbol: 'none',
                         sampling: 'lttb',
                         itemStyle: {
-                            color: 'rgb(64, 158, 255)'
+                            color: i>9? color[0]:color[i]
                         },
                         areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgb(64, 158, 255)'
-                                },
-                                {
-                                    offset: 1,
-                                    color: 'rgb(255, 255, 255)'
-                                }
-                            ])
+                            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            //         offset: 0,
+                            //         color: 'rgb(64, 158, 255)'
+                            //     },
+                            //     {
+                            //         offset: 1,
+                            //         color: 'rgb(255, 255, 255)'
+                            //     }
+                            // ])
                         },
                         data: []
                     }]

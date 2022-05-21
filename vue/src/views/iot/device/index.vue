@@ -538,6 +538,7 @@ export default {
         },
         /**监测数据 */
         getMonitorChart() {
+            let color = ['#1890FF', '#91CB74', '#FAC858', '#EE6666', '#73C0DE', '#3CA272', '#FC8452', '#9A60B4', '#ea7ccc'];
             for (let i = 0; i < this.monitorThings.length; i++) {
                 this.chart[i] = echarts.init(this.$refs.monitor[i]);
                 var option;
@@ -579,7 +580,14 @@ export default {
                     series: [{
                         name: this.monitorThings[i].name,
                         type: 'line',
-                        showSymbol: false,
+                        symbol: 'none',
+                        sampling: 'lttb',
+                        itemStyle: {
+                            color: i>9? color[0]:color[i]
+                        },
+                        areaStyle: {
+                            
+                        },
                         data: []
                     }]
                 };
