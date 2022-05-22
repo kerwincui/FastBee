@@ -3,6 +3,7 @@ package com.ruoyi.iot.mqtt;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.log.service.ILogService;
 import com.ruoyi.iot.model.NtpModel;
 import com.ruoyi.iot.model.ThingsModels.IdentityAndName;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValueItem;
@@ -32,8 +33,11 @@ public class EmqxService {
     @Autowired
     private IDeviceService deviceService;
 
+//    @Autowired
+//    private IDeviceLogService deviceLogService;
+
     @Autowired
-    private IDeviceLogService deviceLogService;
+    private ILogService logService;
 
     /**
      * 订阅的主题
@@ -190,7 +194,8 @@ public class EmqxService {
                 deviceLog.setIdentity(thingsModelValueRemarkItems.get(i).getId());
                 deviceLog.setLogType(3);
                 deviceLog.setIsMonitor(0);
-                deviceLogService.insertDeviceLog(deviceLog);
+//                deviceLogService.insertDeviceLog(deviceLog);
+                logService.saveDeviceLog(deviceLog);
             }
         } catch (Exception e) {
             logger.error("接收事件，解析数据时异常 message={}", e.getMessage());
