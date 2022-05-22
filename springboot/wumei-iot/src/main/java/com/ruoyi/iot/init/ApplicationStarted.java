@@ -4,6 +4,7 @@ package com.ruoyi.iot.init;
 //import com.ruoyi.mysql.config.TDengineConfig;
 
 //import com.ruoyi.iot.tdengine.config.TDengineConfig;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
         import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.mapper.DeviceMapper;
@@ -18,6 +19,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.Date;
 
 /**
@@ -38,22 +40,10 @@ public class ApplicationStarted implements ApplicationRunner {
     private TDDeviceLogMapper deviceLogMapper;
 
     @Autowired
-    private ApplicationContext applicationContext;
-
-    @Autowired
     private DeviceMapper deviceMapper;
-
-    @Autowired
-    @Qualifier("mysqlSqlSessionTemplate")
-    private SqlSessionTemplate mysqlSqlSessionTemplate;
-
-    @Autowired
-    @Qualifier("tdengineSqlSessionTemplate")
-    private SqlSessionTemplate tdengineSqlSessionTemplate;
 
     @Override
     public void run(ApplicationArguments args) {
-        printBean();
         deviceMapper.selectDeviceByDeviceId(0L);
         System.out.println("初始化MySql链接成功");
         initTDengine();
@@ -61,8 +51,14 @@ public class ApplicationStarted implements ApplicationRunner {
     }
 
     /**
-     * 开始初始化加载系统参数
-     */
+    * @Method
+    * @Description 开始初始化加载系统参数,创建数据库和超级表
+    * @Param null
+    * @return
+    * @date 2022/5/22,0022 14:27
+    * @author wxy
+    *
+    */
     public void initTDengine() {
         try {
             String dbName = dengineConfig.getDbName();
@@ -77,11 +73,4 @@ public class ApplicationStarted implements ApplicationRunner {
 
     }
 
-    private void printBean(){
-        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-        for (int i = 0; i < beanDefinitionNames.length; i++) {
-            System.out.println(beanDefinitionNames[i]);
-
-        }
-    }
 }
