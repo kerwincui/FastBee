@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.iot.tdengine.mapper.DatabaseMapper">
+<mapper namespace="com.ruoyi.iot.tdengine.dao.DatabaseDAO">
 
     <!-- 创建数据库-->
     <update id="createDB" parameterType="java.lang.String">
@@ -17,24 +17,6 @@
     <!-- 使用数据库-->
     <update id="useDatabase" parameterType="java.lang.String">
         use ${dbName};
-    </update>
-
-
-    <update id="createsTable">
-        create stable if not exists ${tableName}
-        (ts timestamp,
-        log_id BIGINT,
-        identity NCHAR(100),
-        log_type NCHAR(20),
-        log_value NCHAR(100),
-        device_id BIGINT,
-        device_name NCHAR(100),
-        serial_number NCHAR(100),
-        is_monitor int,
-        create_by NCHAR(100),
-        create_time timestamp,
-        remark NCHAR(1000),
-        );
     </update>
 
     <update id="createTable">

@@ -4,7 +4,7 @@ import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.model.MonitorModel;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
-import com.ruoyi.iot.tdengine.dao.TDDeviceLogMapper;
+import com.ruoyi.iot.tdengine.dao.TDDeviceLogDAO;
 import com.ruoyi.iot.util.SnowflakeIdWorker;
 import org.springframework.context.ApplicationContext;
 
@@ -20,7 +20,7 @@ public class TdengineLogServiceImpl implements ILogService {
 
     private ApplicationContext applicationContext;
 
-    private TDDeviceLogMapper tdDeviceLogMapper;
+    private TDDeviceLogDAO tdDeviceLogDAO;
 
     private TDengineConfig tDengineConfig;
 
@@ -28,8 +28,8 @@ public class TdengineLogServiceImpl implements ILogService {
 
     private String dbName;
 
-    public TdengineLogServiceImpl(TDengineConfig _tDengineConfig,TDDeviceLogMapper _tdDeviceLogMapper) {
-        this.tdDeviceLogMapper = _tdDeviceLogMapper;
+    public TdengineLogServiceImpl(TDengineConfig _tDengineConfig, TDDeviceLogDAO _tdDeviceLogDAO) {
+        this.tdDeviceLogDAO = _tdDeviceLogDAO;
         this.tDengineConfig = _tDengineConfig;
         snowflakeIdWorker=new SnowflakeIdWorker(1);
         this.dbName=_tDengineConfig.getDbName();
@@ -39,16 +39,16 @@ public class TdengineLogServiceImpl implements ILogService {
     public int saveDeviceLog(DeviceLog deviceLog) {
         long logId = snowflakeIdWorker.nextId();
         deviceLog.setLogId(logId);
-        return tdDeviceLogMapper.save(dbName,deviceLog);
+        return tdDeviceLogDAO.save(dbName,deviceLog);
     }
 
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog) {
-        return tdDeviceLogMapper.selectDeviceLogList(dbName,deviceLog);
+        return tdDeviceLogDAO.selectDeviceLogList(dbName,deviceLog);
     }
 
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog) {
-        return tdDeviceLogMapper.selectMonitorList(dbName,deviceLog);
+        return tdDeviceLogDAO.selectMonitorList(dbName,deviceLog);
     }
 }

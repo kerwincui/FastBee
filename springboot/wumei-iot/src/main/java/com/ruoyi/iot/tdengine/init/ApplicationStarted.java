@@ -2,7 +2,7 @@ package com.ruoyi.iot.tdengine.init;
 
 
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
-import com.ruoyi.iot.tdengine.dao.TDDeviceLogMapper;
+import com.ruoyi.iot.tdengine.dao.TDDeviceLogDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class ApplicationStarted implements ApplicationRunner {
         //先获取TDengine的配置，检测TDengine是否已经配置
         if (containBean(TDengineConfig.class)) {
             TDengineConfig tDengineConfig = applicationContext.getBean(TDengineConfig.class);
-            TDDeviceLogMapper tDDeviceLogMapper = applicationContext.getBean(TDDeviceLogMapper.class);
-            initTDengine(tDengineConfig, tDDeviceLogMapper);
+            TDDeviceLogDAO tDDeviceLogDAO = applicationContext.getBean(TDDeviceLogDAO.class);
+            initTDengine(tDengineConfig, tDDeviceLogDAO);
             System.out.println("初始化TDengine成功");
         }else{
             System.out.println("MySQL初始化成功");
@@ -47,7 +47,7 @@ public class ApplicationStarted implements ApplicationRunner {
      * @date 2022/5/22,0022 14:27
      * @author wxy
      */
-    public void initTDengine(TDengineConfig dengineConfig, TDDeviceLogMapper deviceLogMapper) {
+    public void initTDengine(TDengineConfig dengineConfig, TDDeviceLogDAO deviceLogMapper) {
         try {
             String dbName = dengineConfig.getDbName();
             int db = deviceLogMapper.createDB(dbName);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.iot.tdengine.mapper.TDDeviceLogMapper">
+<mapper namespace="com.ruoyi.iot.tdengine.dao.TDDeviceLogDAO">
 
     <resultMap id="BaseResultMap" type="com.ruoyi.iot.domain.DeviceLog">
         <id column="ts" property="ts"/>

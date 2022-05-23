@@ -6,7 +6,7 @@ import com.ruoyi.iot.tdengine.service.impl.TdengineLogServiceImpl;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
-import com.ruoyi.iot.tdengine.dao.TDDeviceLogMapper;
+import com.ruoyi.iot.tdengine.dao.TDDeviceLogDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +30,8 @@ public class LogServiceFactory {
         //先获取TDengine的配置，检测TDengine是否已经配置
         if (containBean(TDengineConfig.class)) {
             TDengineConfig tDengineConfig = applicationContext.getBean(TDengineConfig.class);
-            TDDeviceLogMapper tDDeviceLogMapper = applicationContext.getBean(TDDeviceLogMapper.class);
-            ILogService logService = new TdengineLogServiceImpl(tDengineConfig, tDDeviceLogMapper);
+            TDDeviceLogDAO tDDeviceLogDAO = applicationContext.getBean(TDDeviceLogDAO.class);
+            ILogService logService = new TdengineLogServiceImpl(tDengineConfig, tDDeviceLogDAO);
             return logService;
         } else if (containBean(MyBatisConfig.class)) {
             //没有配置TDengine，那么使用MySQL的日志配置

@@ -1,4 +1,4 @@
-package com.ruoyi.iot.tdengine.mapper;
+package com.ruoyi.iot.tdengine.dao;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * 开发人: wxy
  */
 @Repository
-public interface DatabaseMapper {
+public interface DatabaseDAO {
 
     int  createDB();
 

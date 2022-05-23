@@ -1,11 +1,10 @@
-package com.ruoyi.iot.tdengine.mapper;
+package com.ruoyi.iot.tdengine.dao;
 
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.model.MonitorModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.lang.management.MonitorInfo;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
  * 开发人: wxy
  */
 @Repository
-public interface TDDeviceLogMapper {
+public interface TDDeviceLogDAO {
 
 
     int  createDB( String database);
