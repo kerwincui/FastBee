@@ -2,7 +2,7 @@ package com.ruoyi.iot.service.impl;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.DeviceLog;
-import com.ruoyi.iot.log.service.ILogService;
+import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.model.MonitorModel;
 import com.ruoyi.iot.service.IDeviceLogService;

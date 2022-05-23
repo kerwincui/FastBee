@@ -1,28 +1,17 @@
-package com.ruoyi.iot.log.service.factory;
+package com.ruoyi.iot.tdengine.service.factory;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.framework.config.MyBatisConfig;
-import com.ruoyi.iot.log.service.impl.MySqlLogServiceImpl;
-import com.ruoyi.iot.log.service.impl.TdengineLogServiceImpl;
-import com.ruoyi.iot.model.MonitorModel;
+import com.ruoyi.iot.tdengine.service.impl.MySqlLogServiceImpl;
+import com.ruoyi.iot.tdengine.service.impl.TdengineLogServiceImpl;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
-import com.ruoyi.iot.domain.DeviceLog;
-import com.ruoyi.iot.log.service.ILogService;
+import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
-import com.ruoyi.iot.tdengine.mapper.TDDeviceLogMapper;
-import com.ruoyi.iot.util.SnowflakeIdWorker;
+import com.ruoyi.iot.tdengine.dao.TDDeviceLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.Nullable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 类名: DeviceLogServiceImpl

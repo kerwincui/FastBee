@@ -1,10 +1,9 @@
-package com.ruoyi.iot.log.service.impl;
+package com.ruoyi.iot.tdengine.service.impl;
 
 import com.ruoyi.iot.domain.DeviceLog;
-import com.ruoyi.iot.log.service.ILogService;
+import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.model.MonitorModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.ruoyi.iot.tdengine.mapper;
+package com.ruoyi.iot.tdengine.dao;
 
 import org.springframework.stereotype.Repository;
 

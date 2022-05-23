@@ -1,15 +1,12 @@
-package com.ruoyi.iot.log.service.impl;
+package com.ruoyi.iot.tdengine.service.impl;
 
 import com.ruoyi.iot.domain.DeviceLog;
-import com.ruoyi.iot.log.service.ILogService;
+import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.model.MonitorModel;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
-import com.ruoyi.iot.tdengine.mapper.TDDeviceLogMapper;
+import com.ruoyi.iot.tdengine.dao.TDDeviceLogMapper;
 import com.ruoyi.iot.util.SnowflakeIdWorker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
