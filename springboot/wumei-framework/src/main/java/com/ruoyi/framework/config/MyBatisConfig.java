@@ -1,18 +1,34 @@
 package com.ruoyi.framework.config;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import javax.servlet.*;
 import javax.sql.DataSource;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
+import com.alibaba.druid.util.Utils;
+import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.framework.config.properties.DruidProperties;
+import com.ruoyi.framework.datasource.DynamicDataSource;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -21,17 +37,18 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.ClassUtils;
 import com.ruoyi.common.utils.StringUtils;
 
 /**
  * Mybatis支持*匹配扫描包
- * 
+ *
  * @author ruoyi
  */
 @Configuration
-public class MyBatisConfig
-{
+@MapperScan(basePackages = {"com.ruoyi.iot.mapper", "com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.generator.mapper"}, sqlSessionTemplateRef = "mysqlSqlSessionTemplate")
+public class MyBatisConfig {
     @Autowired
     private Environment env;
 
@@ -113,11 +130,13 @@ public class MyBatisConfig
         return resources.toArray(new Resource[resources.size()]);
     }
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception
+    @Bean(name = "mysqlSessionFactory")
+    @Primary
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dataSource) throws Exception
     {
-        String typeAliasesPackage = env.getProperty("mybatis.typeAliasesPackage");
-        String mapperLocations = env.getProperty("mybatis.mapperLocations");
+        String typeAliasesPackage = "com.ruoyi.**.domain";//env.getProperty("mybatis.typeAliasesPackage");
+        String mapperLocations = "classpath:mapper/iot/*Mapper.xml,classpath:mapper/system/*Mapper.xml,classpath:mapper/quartz/*Mapper.xml";
+//        String typeAliasesPackage = "com.ruoyi.**.domain";
         String configLocation = env.getProperty("mybatis.configLocation");
         typeAliasesPackage = setTypeAliasesPackage(typeAliasesPackage);
         VFS.addImplClass(SpringBootVFS.class);
@@ -129,4 +148,17 @@ public class MyBatisConfig
         sessionFactory.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
         return sessionFactory.getObject();
     }
+
+    @Bean(name = "mysqlTransactionManager")
+    @Primary
+    public DataSourceTransactionManager mysqlTransactionManager(@Qualifier("dynamicDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean(name = "mysqlSqlSessionTemplate")
+    @Primary
+    public SqlSessionTemplate mysqlSqlSessionTemplate(@Qualifier("mysqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
 }

@@ -5,9 +5,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 /**
  * 设备日志对象 iot_device_log
- * 
+ *
  * @author kerwincui
  * @date 2022-01-13
  */
@@ -15,6 +17,8 @@ public class DeviceLog extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    @Excel(name = "时间戳")
+    private Date ts;
     /** 设备日志ID */
     private Long logId;
 
@@ -45,6 +49,15 @@ public class DeviceLog extends BaseEntity
     /** 是否监测数据（1=是，0=否） */
     @Excel(name = "是否监测数据", readConverterExp = "1==是，0=否")
     private Integer isMonitor;
+
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
 
     public String getSerialNumber() {
         return serialNumber;
