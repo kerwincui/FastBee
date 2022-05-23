@@ -392,6 +392,7 @@ export default {
         mqttSubscribe(list) {
             // 订阅当前页面设备状态和实时监测
             let topics = [];
+            // 订阅数太多，会导致emqx连接中断或者订阅缓慢
             for (let i = 0; i < list.length; i++) {
                 let topicStatus = "/" + list[i].productId + "/" + list[i].serialNumber + "/status/post";
                 let topicMonitor = "/" + list[i].productId + "/" + list[i].serialNumber + "/monitor/post";
@@ -451,9 +452,9 @@ export default {
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
             // 判断是否是admin角色
-            if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.userId = this.$store.state.user.userId
-            }
+            // if (this.$store.state.user.roles.indexOf("admin") === -1) {
+            //     this.queryParams.userId = this.$store.state.user.userId
+            // }
             listDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.total = response.total;
@@ -519,6 +520,7 @@ export default {
                 // 筛选监测数据
                 this.monitorThings = thingsModel.properties.filter(item => item.isMonitor == 1);
                 // 监测数据集合初始化
+                this.dataList=[];
                 for (let i = 0; i < this.monitorThings.length; i++) {
                     this.dataList.push({
                         id: this.monitorThings[i].id,

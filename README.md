@@ -24,7 +24,7 @@
 - EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理、规则引擎、资源
 - 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报监测数据、AES加密、NTP时间等
 - 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
-- 其他（开发中）：第三方登录，设备分享、设备告警、场景联动（进度50%），智能音箱、多租户、APP界面自定义（进度40%），时序数据库、分布式集群部署、Granfa监控（进度30%），视频流处理、桌面端模拟器/监控、安卓端模拟器/监控（进度20%）
+- 其他（开发中）：第三方登录，设备分享、设备告警、场景联动（进度50%）; 智能音箱、多租户、APP界面自定义（进度40%）; 时序数据库、分布式集群部署、Granfa监控（进度30%）; 视频流处理、桌面端模拟器/监控、安卓端模拟器/监控（进度20%）
 
 
 ### 四、技术栈    
@@ -74,7 +74,7 @@
 * [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
 * [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
-* [uCharts高性能跨平台图标库](https://www.ucharts.cn)
+* [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 ##### Docker快速安装
 * Mysql中创建wumei-smart数据库，[导入Sql脚本](https://gitee.com/kerwincui/wumei-smart/tree/master/springboot/sql)
 * 修改命令中的Mysql配置，并执行
@@ -104,8 +104,8 @@ kerwincui/wumei-smart:1.1
 
 ##### 项目贡献者 
 
-|[小驿物联](https://gitee.com/iot-xiaoyi) |[Guanshubiao](https://gitee.com/guanshubiao)|[CrazyDull](https://gitee.com/crazyDull) |[Kami0314](https://github.com/kami0314)|
-|--|--|--|--|
+|[小驿物联](https://gitee.com/iot-xiaoyi) |[Guanshubiao](https://gitee.com/guanshubiao)|[CrazyDull](https://gitee.com/crazyDull) |[Kami0314](https://github.com/kami0314)|[YBZX](https://github.com/YBZX)
+|--|--|--|--|--|
 
 | [SXH](https://gitee.com/sixiaohu) | [Redamancy_zxp](https://gitee.com/redamancy-zxp) | [LEE](https://gitee.com/yueming188) | [LemonTree](https://gitee.com/fishhunterplus) | [Tang](https://gitee.com/mexiaotang)
 |--|--|--|--|--|

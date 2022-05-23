@@ -138,13 +138,13 @@ public class ToolController extends BaseController {
                 // 设备端
                 String[] clientInfo = clientid.split("&");
                 if (clientInfo.length != 2) {
-                    // 设备未加密认证
+                    // 设备简单认证
                     String deviceNum = clientInfo[0];
                     Device device = deviceService.selectShortDeviceBySerialNumber(deviceNum);
                     if (device !=null && mqttConfig.getusername().equals(username) && mqttConfig.getpassword().equals(password)) {
                         System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-                        ProductAuthorize authorize = new ProductAuthorize(null, device.getProductId(), device.getDeviceId(), device.getSerialNumber(), 1L, "admin");
-                        authorizeService.boundProductAuthorize(authorize);
+//                        ProductAuthorize authorize = new ProductAuthorize(null, device.getProductId(), device.getDeviceId(), device.getSerialNumber(), 1L, "admin");
+//                        authorizeService.boundProductAuthorize(authorize);
                         return ResponseEntity.ok().body("ok");
                     }
                     return returnUnauthorized(clientid, username, password, "认证信息有误");
@@ -178,16 +178,16 @@ public class ToolController extends BaseController {
                     // 设备状态验证 （1-未激活，2-禁用，3-在线，4-离线）
                     if (model.getDeviceId() != null && model.getDeviceId() != 0 && model.getStatus() != 2) {
                         System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-                        ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
-                        authorizeService.boundProductAuthorize(authorize);
+//                        ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
+//                        authorizeService.boundProductAuthorize(authorize);
                         return ResponseEntity.ok().body("ok");
                     } else {
                         // 自动添加设备
                         int result = deviceService.insertDeviceAuto(deviceNum, userId, productId);
                         if (result == 1) {
                             System.out.println("-----------认证成功,clientId:" + clientid + "---------------");
-                            ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
-                            authorizeService.boundProductAuthorize(authorize);
+//                            ProductAuthorize authorize = new ProductAuthorize(null, model.getProductId(), model.getDeviceId(), model.getSerialNumber(), 1L, "admin");
+//                            authorizeService.boundProductAuthorize(authorize);
                             return ResponseEntity.ok().body("ok");
                         }
                     }

@@ -23,15 +23,14 @@ export default {
     watch: {
         // 获取到父组件传递的值
         publish: function (val, oldVal) {
-            this.mqttPublish(val.topic, val.message,val.name);
+            this.mqttPublish(val.topic, val.message, val.name);
         },
         subscribes: function (val, oldVal) {
             this.connectMqtt(val);
         }
     },
     data() {
-        return {
-        };
+        return {};
     },
     created() {
 
@@ -39,12 +38,13 @@ export default {
     methods: {
         /** 连接Mqtt */
         connectMqtt(subscribeTopics) {
+            let randomClientId='web-' + Math.random().toString(16).substr(2);
             let options = {
                 username: "wumei-smart",
                 password: getToken(),
                 cleanSession: false,
                 keepAlive: 30,
-                clientId: 'web-' + Math.random().toString(16).substr(2),
+                clientId: randomClientId,
                 connectTimeout: 10000
             }
             // 配置Mqtt地址
@@ -53,18 +53,20 @@ export default {
             console.log("mqtt地址：", url);
             this.client = mqtt.connect(url, options);
             this.client.on("connect", (e) => {
-                console.log("成功连接服务器:", e);
+                console.log("客户端："+randomClientId+"，成功连接服务器:", e);
                 // 订阅主题
-                this.client.subscribe(subscribeTopics, {
-                    qos: 1
-                }, (err) => {
-                    if (!err) {
-                        console.log("订阅成功");
-                        console.log(subscribeTopics.join(", "));
-                    } else {
-                        console.log('消息订阅失败！')
-                    }
-                });
+                if (subscribeTopics != '' && subscribeTopics.length > 0) {
+                    this.client.subscribe(subscribeTopics, {
+                        qos: 1
+                    }, (err) => {
+                        if (!err) {
+                            console.log("订阅成功");
+                            console.log(subscribeTopics.join(", "));
+                        } else {
+                            console.log('消息订阅失败！')
+                        }
+                    });
+                }
             });
             // 重新连接
             this.reconnectMqtt()

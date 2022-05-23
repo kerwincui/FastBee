@@ -2,8 +2,8 @@
 <div style="padding: 6px">
     <el-card v-show="showSearch" style="margin-bottom: 6px">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
-            <el-form-item label="客户端" prop="categoryName">
-                <el-input v-model="queryParams.categoryName" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-form-item label="客户端" prop="clientid">
+                <el-input v-model="queryParams.clientid" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -43,7 +43,7 @@
             <el-table-column label="会话创建时间" align="center" prop="created_at" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="danger" v-if="scope.row.connected" style="padding: 5px" v-hasPermi="['monitor:client:edit']" @click="handleDelete(scope.row)">
+                    <el-button size="small" type="danger" v-if="scope.row.connected" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">
                         <svg-icon icon-class="disconnect" /> 断开连接
                     </el-button>
                 </template>
@@ -53,16 +53,14 @@
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams._page" :limit.sync="queryParams._limit" @pagination="getList" />
 
         <!-- MQTT客户端详细 -->
-        <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
+        <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
             <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
                 <el-tab-pane name="basic">
                     <span slot="label">基本信息</span>
-                    <el-form ref="form" :model="form" label-width="120px" size="mini">
-
-                        <el-descriptions class="margin-top" title="基本信息" :column="4" direction="vertical">
+                    <el-descriptions class="margin-top" :column="2" border size="medium">
                         <el-descriptions-item label="节点">{{form.node }}</el-descriptions-item>
                         <el-descriptions-item label="客户端ID">{{form.clientid}}</el-descriptions-item>
-                        <el-descriptions-item label="Clean Session">{{form.clean_start}}</el-descriptions-item>
+                        <el-descriptions-item label="清除Session">{{form.clean_start}}</el-descriptions-item>
                         <el-descriptions-item label="会话过期间隔(秒)">{{form.expiry_interval}}</el-descriptions-item>
                         <el-descriptions-item label="用户名">{{form.username}}</el-descriptions-item>
                         <el-descriptions-item label="协议类型">{{form.proto_ver}}</el-descriptions-item>
@@ -79,11 +77,11 @@
                         <el-descriptions-item label="连接时间">{{form.connected_at}}</el-descriptions-item>
                         <el-descriptions-item label="连接状态">
                             <div v-if="form.connected == true" style="color: green">
-                                        已连接
-                                    </div>
-                                    <div v-else-if="form.connected == false" style="color: red">
-                                        已断开
-                                    </div>
+                                已连接
+                            </div>
+                            <div v-else-if="form.connected == false" style="color: red">
+                                已断开
+                            </div>
                         </el-descriptions-item>
                         <el-descriptions-item label="最大消息队列">{{form.max_mqueue}}</el-descriptions-item>
                         <el-descriptions-item label="未确认的PUBREC数据包计数">{{form.awaiting_rel}}</el-descriptions-item>
@@ -93,14 +91,11 @@
                         <el-descriptions-item label="接收的PUBLISH报文数量">{{form.recv_msg}}</el-descriptions-item>
                         <el-descriptions-item label="接收的字节数量">{{form.recv_oct}}</el-descriptions-item>
                         <el-descriptions-item label="接收的MQTT报文数量">{{form.recv_pkt}}</el-descriptions-item>
-
                         <el-descriptions-item label="发送的TCP报文数量">{{form.send_cnt}}</el-descriptions-item>
                         <el-descriptions-item label="发送的PUBLISH报文数量">{{form.send_msg}}</el-descriptions-item>
                         <el-descriptions-item label="发送的字节数量">{{form.send_oct}}</el-descriptions-item>
                         <el-descriptions-item label="发送的MQTT报文数量">{{form.send_pkt}}</el-descriptions-item>
-                        
-                        </el-descriptions>
-                    </el-form>
+                    </el-descriptions>
                 </el-tab-pane>
 
                 <el-tab-pane name="subscribe">
@@ -190,6 +185,7 @@ export default {
             queryParams: {
                 _limit: 10,
                 _page: 1,
+                clientid:null,
             },
             // 表单参数
             form: {},

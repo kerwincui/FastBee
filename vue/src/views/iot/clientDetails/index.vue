@@ -1,7 +1,6 @@
 <template>
 <div style="padding: 6px">
     <el-card v-show="showSearch" style="margin-bottom: 6px">
-    <div style="height:50px; color:#F56C6C;margin-left:20px;">该功能下个版本发布</div>
         <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px" style="margin-bottom:-20px;">
             <el-form-item label="客户端ID" prop="clientId">
                 <el-input v-model="queryParams.clientId" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -14,6 +13,7 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
             </el-form-item>
         </el-form>
     </el-card>

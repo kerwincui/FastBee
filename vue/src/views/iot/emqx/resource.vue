@@ -12,19 +12,16 @@
         <el-table v-loading="loading" :data="resourceList">
             <el-table-column label="ID" align="center" header-align="center" prop="id">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="primary">{{ scope.row.id }}</el-link>
+                    <el-link :underline="false" type="primary" @click="handleQuery(scope.row)">{{ scope.row.id }}</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="资源类型" align="center" prop="type" />
             <el-table-column label="备注" align="center" prop="description" />
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+            <el-table-column label="操作" align="center" width="200">
                 <template slot-scope="scope">
-                    <el-button size="small" type="text" style="padding: 5px" v-hasPermi="['monitor:resource:query']" @click="handleQuery(scope.row)">
-                        查看
+                    <el-button size="small" type="text" icon="el-icon-connection" style="padding: 5px" v-hasPermi="['monitor:resource:checkStatus']" @click="checkStatus(scope.row)">状态
                     </el-button>
-                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['monitor:resource:delete']" @click="handleDelete(scope.row)">删除
-                    </el-button>
-                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['monitor:resource:checkStatus']" @click="checkStatus(scope.row)">状态
+                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -32,7 +29,7 @@
     </el-card>
 
     <!-- 资源详细 -->
-    <el-dialog title="资源详细" :visible.sync="openView" width="50%" append-to-body>
+    <el-dialog title="资源详细" :visible.sync="openView" width="800px" append-to-body>
         <el-form ref="form" :model="form" label-width="180px" size="mini">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -96,22 +93,18 @@
     </el-dialog>
 
     <!-- 测试重连 -->
-    <el-dialog title="检测状态" :visible.sync="openStatusView" width="40%" append-to-body>
-        <el-form ref="statusForm" :model="statusForm" label-width="180px" size="mini">
-            <el-row>
-                <el-col :span="12" v-if="statusForm.status[0]">
-                    {{ statusForm.status[0].node }}
-                    <el-tag type="success" v-if="statusForm.status[0].is_alive == true" style="margin-left: 10px">可用</el-tag>
-                    <el-tag type="danger" v-if="statusForm.status[0].is_alive == false" style="margin-left: 10px">不可用</el-tag>
-                    <el-button size="small" type="primary" icon="el-icon-connection" style="padding: 5px; margin-left: 10px" v-hasPermi="['monitor:resource:connect']" @click="checkNode(statusForm.id)">重新连接
-                    </el-button>
-                </el-col>
-            </el-row>
+    <el-dialog title="检测状态" :visible.sync="openStatusView" width="600px" append-to-body>
+        <el-form ref="statusForm" :model="statusForm" label-width="180px" size="mini" v-if="statusForm.status[0]">
+            {{ statusForm.status[0].node }}
+            <el-tag type="success" v-if="statusForm.status[0].is_alive == true" style="margin-left: 10px">可用</el-tag>
+            <el-tag type="danger" v-if="statusForm.status[0].is_alive == false" style="margin-left: 10px">不可用</el-tag>
+            <el-button size="small" type="primary" icon="el-icon-connection" style="padding: 5px; margin-left: 10px" v-hasPermi="['monitor:resource:connect']" @click="checkNode(statusForm.id)">重新连接
+            </el-button>
         </el-form>
     </el-dialog>
 
     <!-- 添加资源 -->
-    <el-dialog title="资源管理" :visible.sync="openAddView" width="50%" append-to-body :before-close="cancel">
+    <el-dialog title="资源管理" :visible.sync="openAddView" width="800px" append-to-body :before-close="cancel">
         <el-form ref="addResourceForm" :model="addResourceForm" label-width="180px" :rules="rule">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">

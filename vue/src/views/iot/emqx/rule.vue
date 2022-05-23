@@ -10,37 +10,34 @@
             </el-col>
         </el-row>
         <el-table v-loading="loading" :data="rulesList">
-            <el-table-column label="ID" align="center" header-align="center" prop="id">
+            <el-table-column label="ID" align="center" header-align="center" prop="id" width="150">
                 <template slot-scope="scope">
-                    <el-link :underline="false" type="primary">{{scope.row.id }}</el-link>
+                    <el-link :underline="false" type="primary" @click="handleQuery(scope.row)">{{scope.row.id }}</el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="主题" align="center" prop="for" width="120">
+            <el-table-column label="主题" align="center" prop="for">
                 <template slot-scope="scope">
                     <p v-for="(topic, index) in scope.row.for" :key="index">
-                        <el-tag type="success">{{ topic }}</el-tag>
+                        <el-tag type="warning">{{ topic }}</el-tag>
                     </p>
                 </template>
             </el-table-column>
             <el-table-column label="SQL" align="center" prop="rawsql" />
-            <el-table-column label="响应动作" align="center" prop="actions">
+            <el-table-column label="响应动作" align="center" prop="actions" width="250">
                 <template slot-scope="scope">
                     <p v-for="(action, index) in scope.row.actions" :key="index">
                         <el-tag type="success">{{ action.name }}</el-tag>
                     </p>
                 </template>
             </el-table-column>
-            <el-table-column label="已命中" align="center" prop="matched">
+            <el-table-column label="已命中" align="center" prop="matched" width="100">
                 <template slot-scope="scope">
                     {{ scope.row.metrics[0].matched }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100">
                 <template slot-scope="scope">
-                    <el-button size="small" type="text" style="padding: 5px" v-hasPermi="['monitor:rules:query']" @click="handleQuery(scope.row)">
-                        查看
-                    </el-button>
-                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['monitor:rules:delete']" @click="handleDelete(scope.row)">删除
+                    <el-button size="small" type="danger" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -48,7 +45,7 @@
     </el-card>
 
     <!-- 规则引擎详细 -->
-    <el-dialog title="规则引擎详细" :visible.sync="openView" width="50%" append-to-body>
+    <el-dialog title="规则引擎详细" :visible.sync="openView" width="800px" append-to-body>
         <el-form ref="form" :model="form" label-width="120px" size="mini">
             <el-card style="padding-bottom: 10px">
                 <div slot="header" class="clearfix">
@@ -107,20 +104,18 @@
     </el-dialog>
 
     <!-- 添加规则引擎 -->
-    <el-dialog title="资源管理" :visible.sync="openAddView" width="60%" append-to-body :before-close="cancel">
-        <el-form ref="form" :model="form" label-width="180px">
-            <el-card style="padding-bottom: 10px">
-                <div slot="header" class="clearfix">
-                    <span>
-                        <h2>条件</h2>
-                        <h6>使用 SQL 定义规则条件与数据处理方式</h6>
-                    </span>
-                </div>
-                <el-row :gutter="50">
-                    <el-col :span="12">
+    <el-dialog title="添加规则引擎" :visible.sync="openAddView" width="1000px" append-to-body :before-close="cancel">
+        <el-card style="margin-bottom:10px;">
+            <div slot="header" class="clearfix">
+                <span style="font-size:16px;font-weight:bold;">条件</span>
+                <span style="font-size:12px;margin-left:12px;">使用 SQL 定义规则条件与数据处理方式</span>
+            </div>
+            <el-form ref="form" :model="form" label-width="90px">
+                <el-row :gutter="30">
+                    <el-col :span="13">
                         <el-form-item prop="sql_example">
                             <span slot="label"> 规则 SQL： </span>
-                            <CodeMirrorEditor :value="form.sql_example" myMode="text/x-mysql" height="420" />
+                            <CodeMirrorEditor :value="form.sql_example" myMode="text/x-mysql" height="400" style="border:1px solid #ddd;" />
                         </el-form-item>
                         <el-form-item prop="sql_example">
                             <span slot="label"> 备注： </span>
@@ -129,106 +124,103 @@
                         <el-form-item prop="SQLtest">
                             <span slot="label">
                                 SQL测试：
-                                <el-tooltip content="自定义模拟数据进行 SQL 命令测试，仅用于测试功能" placement="top">
-                                    <i class="el-icon-question"></i>
-                                </el-tooltip>
                             </span>
                             <el-switch v-model="form.SQLtest" active-text="" inactive-text="" :active-value="true" :inactive-value="false" active-color="#13ce66">
                             </el-switch>
+                            <span style="font-size:12px;margin-left:10px;">自定义模拟数据进行 SQL 命令测试，仅用于测试功能</span>
                         </el-form-item>
-                        <div v-if="form.SQLtest">
-                            <el-form-item prop="test_columns.username" v-if="form.test_columns">
-                                <span slot="label"> username： </span>
-                                <el-input v-model="form.test_columns.username" />
-                            </el-form-item>
-                            <el-form-item prop="test_columns.topic" v-if="form.test_columns">
-                                <span slot="label"> topic： </span>
-                                <el-input v-model="form.test_columns.topic" />
-                            </el-form-item>
-                            <el-form-item prop="test_columns.qos" v-if="form.test_columns">
-                                <span slot="label"> qos： </span>
-                                <el-input v-model="form.test_columns.qos" />
-                            </el-form-item>
-                            <el-form-item prop="test_columns.clientid" v-if="form.test_columns">
-                                <span slot="label"> clientid： </span>
-                                <el-input v-model="form.test_columns.clientid" />
-                            </el-form-item>
-                            <el-form-item prop="test_columns.payload" v-if="form.test_columns">
-                                <span slot="label"> payload： </span>
-                                <CodeMirrorEditor :value="form.test_columns.payload" myMode="application/json" height="150" />
-                            </el-form-item>
-                            <el-form-item v-if="form.test_columns">
-                                <el-button @click="testConnect" type="success" size="mini">测 试</el-button>
-                            </el-form-item>
-                            <el-form-item v-if="form.test_columns">
-                                <span slot="label"> 测试结果： </span>
-                                <textarea style="width: 497px; height: 70px" v-model="content">
-                  </textarea>
-                            </el-form-item>
-                        </div>
+
                     </el-col>
-                    <el-col :span="10">
+                    <el-col :span="11">
                         <div class="sql-tips">
-                            <div class="title">编写 SQL 进行条件过滤与数据处理</div>
-                            <div class="el-scrollbar">
-                                <div class="doc-wrapper" style="margin-bottom: -17px; margin-right: -17px">
-                                    <div class="el-scrollbar__view">
-                                        <div>
-                                            <p>
-                                                EMQ X
-                                                在消息发布、事件触发时将触发规则引擎，满足触发条件的规则将执行各自的
-                                                SQL 语句筛选并处理消息和事件的上下文信息。
-                                            </p>
-                                            <p class="item">
-                                                规则引擎借助响应动作可将特定主题的消息处理结果存储到数据库，发送到
-                                                HTTP Server，转发到消息队列 Kafka 或
-                                                RabbitMQ，重新发布到新的主题甚至是另一个 Broker
-                                                集群中，每个规则可以配置多个响应动作。
-                                            </p>
-                                            <p>
-                                                1. 选择发布到 't/#' 主题的消息，并筛选出全部字段：
-                                            </p>
-                                            <div class="code">
-                                                <code>SELECT * FROM "t/#"</code>
-                                            </div>
-                                            <p>
-                                                2. 选择发布到 't/a' 主题的消息，并从 JSON
-                                                格式的消息内容中筛选出 "x" 字段：
-                                            </p>
-                                            <div class="code">
-                                                <code>SELECT payload.x as x FROM "t/a"</code>
-                                            </div>
-                                            <p class="item">
-                                                规则引擎使用 $events/ 开头的虚拟主题（事件主题）处理
-                                                EMQ X
-                                                内置事件，内置事件提供更精细的消息控制和客户端动作处理能力，可用在
-                                                QoS 1 QoS 2 的消息抵达记录、设备上下线记录等业务中。
-                                            </p>
-                                            <p>
-                                                1. 选择客户端连接事件，筛选 Username 为 'emqx'
-                                                的设备并获取连接信息：
-                                            </p>
-                                            <div class="code">
-                                                <code>SELECT clientid, connected_at FROM
-                                                    "$events/client_connected" WHERE username =
-                                                    'emqx'</code>
-                                            </div>
-                                            <p>规则引擎和 SQL 语句的详细教程参见 EMQ X 文档。</p>
-                                        </div>
-                                    </div>
+                            <div>编写 SQL 进行条件过滤与数据处理</div>
+                            <div class="doc-wrapper">
+                                <p>
+                                    EMQ X
+                                    在消息发布、事件触发时将触发规则引擎，满足触发条件的规则将执行各自的
+                                    SQL 语句筛选并处理消息和事件的上下文信息。
+                                </p>
+                                <p>
+                                    规则引擎借助响应动作可将特定主题的消息处理结果存储到数据库，发送到
+                                    HTTP Server，转发到消息队列 Kafka 或
+                                    RabbitMQ，重新发布到新的主题甚至是另一个 Broker
+                                    集群中，每个规则可以配置多个响应动作。
+                                </p>
+                                <p>
+                                    1. 选择发布到 't/#' 主题的消息，并筛选出全部字段：
+                                </p>
+                                <div class="code">
+                                    <code>SELECT * FROM "t/#"</code>
                                 </div>
+                                <p>
+                                    2. 选择发布到 't/a' 主题的消息，并从 JSON
+                                    格式的消息内容中筛选出 "x" 字段：
+                                </p>
+                                <div class="code">
+                                    <code>SELECT payload.x as x FROM "t/a"</code>
+                                </div>
+                                <p>
+                                    规则引擎使用 $events/ 开头的虚拟主题（事件主题）处理
+                                    EMQ X
+                                    内置事件，内置事件提供更精细的消息控制和客户端动作处理能力，可用在
+                                    QoS 1 QoS 2 的消息抵达记录、设备上下线记录等业务中。
+                                </p>
+                                <p>
+                                    1. 选择客户端连接事件，筛选 Username 为 'emqx'
+                                    的设备并获取连接信息：
+                                </p>
+                                <div class="code">
+                                    <code>SELECT clientid, connected_at FROM
+                                        "$events/client_connected" WHERE username =
+                                        'emqx'</code>
+                                </div>
+                                <p>规则引擎和 SQL 语句的详细教程参见 EMQ X 文档。</p>
                             </div>
                         </div>
                     </el-col>
                 </el-row>
-            </el-card>
-        </el-form>
+                <el-row v-if="form.SQLtest" style="background-color:#f8f8f8;margin:-20px;">
+                    <el-col :span="13">
+                        <el-form-item prop="test_columns.username" v-if="form.test_columns">
+                            <span slot="label"> username </span>
+                            <el-input v-model="form.test_columns.username" />
+                        </el-form-item>
+                        <el-form-item prop="test_columns.topic" v-if="form.test_columns">
+                            <span slot="label"> topic</span>
+                            <el-input v-model="form.test_columns.topic" />
+                        </el-form-item>
+                        <el-form-item prop="test_columns.payload" v-if="form.test_columns">
+                            <span slot="label"> payload</span>
+                            <CodeMirrorEditor :value="form.test_columns.payload" myMode="application/json" height="150" style="border:1px solid #ddd;" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="11">
+                        <el-form-item prop="test_columns.clientid" v-if="form.test_columns">
+                            <span slot="label"> clientid </span>
+                            <el-input v-model="form.test_columns.clientid" />
+                        </el-form-item>
+                        <el-form-item prop="test_columns.qos" v-if="form.test_columns">
+                            <span slot="label"> qos </span>
+                            <el-input v-model="form.test_columns.qos" />
+                        </el-form-item>
+                        <el-form-item v-if="form.test_columns">
+                            <span slot="label"> 测试结果： </span>
+                            <el-input type="textarea" v-model="content" :rows="4"></el-input>
+                        </el-form-item>
+                        <el-form-item v-if="form.test_columns">
+                            <el-button @click="testConnect" type="success" size="mini" style="width:100px;">测 试</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </el-card>
+
         <el-card style="padding-bottom: 10px">
             <div slot="header" class="clearfix">
-                <span>
-                    <h2>响应动作</h2>
-                    <h6>处理命中规则的消息</h6>
-                </span>
+                <div slot="header" class="clearfix">
+                    <span style="font-size:16px;font-weight:bold;">响应动作</span>
+                    <span style="font-size:12px;margin-left:12px;">处理命中规则的消息</span>
+                </div>
             </div>
             <el-table ref="singleTable" :data="actions" highlight-current-row>
                 <el-table-column property="name" label="类型"> </el-table-column>
@@ -254,10 +246,10 @@
     </el-dialog>
 
     <!-- 添加响应动作 -->
-    <el-dialog title="响应动作" :visible.sync="openAddActionView" width="40%" append-to-body :before-close="cancelAction">
+    <el-dialog title="响应动作" :visible.sync="openAddActionView" width="600px" append-to-body :before-close="cancelAction">
         <el-form ref="actionForm" :model="actionForm" label-width="180px" v-if="actionForm.actions" :rules="ruleActions">
             <el-row>
-                <el-col :span="20">
+                <el-col>
                     <el-form-item prop="actions.title">
                         <span slot="label">
                             动作：
@@ -486,8 +478,7 @@ export default {
             //检查 (调试)表单参数
             inspectForm: {},
             //消息重新发布表单参数
-            republishForm: {
-            },
+            republishForm: {},
             //桥接数据到 MQTT Broker表单参数
             data_to_mqtt_broker_Form: {
                 resources: [],
@@ -672,9 +663,9 @@ export default {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         param.$resource = this.data_to_mqtt_broker_Form.resourceId;
-                        if(this.data_to_mqtt_broker_Form.params.payload_tmpl != null){
+                        if (this.data_to_mqtt_broker_Form.params.payload_tmpl != null) {
                             param.payload_tmpl =
-                            this.data_to_mqtt_broker_Form.params.payload_tmpl.default;
+                                this.data_to_mqtt_broker_Form.params.payload_tmpl.default;
                         }
                         action.params = param;
                         action.name = this.data_to_mqtt_broker_Form.name;
@@ -689,9 +680,9 @@ export default {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         param.$resource = this.data_to_webserver_Form.resourceId;
-                        if(this.data_to_webserver_Form.params.payload_tmpl != null){
+                        if (this.data_to_webserver_Form.params.payload_tmpl != null) {
                             param.payload_tmpl =
-                            this.data_to_webserver_Form.params.payload_tmpl.default;
+                                this.data_to_webserver_Form.params.payload_tmpl.default;
                         }
                         action.params = param;
                         action.name = this.data_to_webserver_Form.name;
@@ -762,54 +753,18 @@ export default {
 .sql-tips {
     border: 4px dashed #d8d8d8;
     color: #71737d;
-}
-
-.sql-tips {
-    padding: 20px 0;
+    font-size: 12px;
+    padding: 10px;
     border-radius: 4px;
-    font-size: 15px;
-    max-height: 480px;
-}
-
-.sql-tips .title {
-    padding: 0 20px 12px;
-}
-
-.el-scrollbar {
+    height: 510px;
     overflow: hidden;
-    position: relative;
-}
-
-.sql-tips .doc-wrapper {
-    max-height: 400px;
-    padding: 0 20px;
-}
-
-.sql-tips .el-scrollbar__wrap {
-    overflow-x: hidden;
-}
-
-.el-scrollbar__wrap {
-    overflow: scroll;
-    height: 100%;
-}
-
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+    margin-right: -10px;
 }
 
 .code {
     line-height: 1.4;
     padding: 6px;
     border-radius: 4px;
-    margin-bottom: 12px;
-}
-
-.code {
     background-color: hsla(0, 0%, 87%, 0.8);
 }
 </style>
