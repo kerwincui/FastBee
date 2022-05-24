@@ -50,11 +50,12 @@ public class ApplicationStarted implements ApplicationRunner {
     public void initTDengine(TDengineConfig dengineConfig, TDDeviceLogDAO deviceLogMapper) {
         try {
             String dbName = dengineConfig.getDbName();
+            // TODO 目前还不支持自动创建数据库
             int db = deviceLogMapper.createDB(dbName);
             deviceLogMapper.createSTable(dbName);
         } catch (Exception e) {
-            e.printStackTrace();
             LOGGER.info("错误",e.getMessage());
+            e.printStackTrace();
         }
 
     }
