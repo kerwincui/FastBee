@@ -52,9 +52,9 @@ public class ApplicationStarted implements ApplicationRunner {
             this.dataSource = applicationContext.getBean("tDengineDataSource", DruidDataSource.class);
             this.deviceLogMapper= applicationContext.getBean(TDDeviceLogDAO.class);
             initTDengine(this.dengineConfig.getDbName());
-            System.out.println("初始化TDengine成功");
-        } else {
-            System.out.println("MySQL初始化成功");
+            LOGGER.info("使用TDengine存储设备数据，初始化成功");
+        }else{
+            LOGGER.info("使用MySql存储设备数据，初始化成功");
         }
     }
 
@@ -72,9 +72,10 @@ public class ApplicationStarted implements ApplicationRunner {
             //创建数据库表
             deviceLogMapper.createSTable(dbName);
             System.out.println("完成超级表的创建");
+            LOGGER.info("完成超级表的创建");
         } catch (Exception e) {
+            LOGGER.info("错误",e.getMessage());
             e.printStackTrace();
-            System.out.println("ERROR");
         }
 
     }
@@ -109,10 +110,10 @@ public class ApplicationStarted implements ApplicationRunner {
             Connection conn = DriverManager.getConnection(newJdbcUrl, connProps);
             conn.createStatement().execute(String.format("create database  if not exists  %s;",dbName));
             conn.close();
-            System.out.println("完成数据库创建");
+            LOGGER.info("完成数据库创建");
         } catch (Exception e) {
+            LOGGER.info("错误",e.getMessage());
             e.printStackTrace();
-            System.out.println("ERROR");
         }
     }
 
