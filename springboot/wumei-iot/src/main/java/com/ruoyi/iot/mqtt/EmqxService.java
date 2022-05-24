@@ -10,6 +10,7 @@ import com.ruoyi.iot.model.ThingsModels.ThingsModelValueRemarkItem;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput;
 import com.ruoyi.iot.service.IDeviceLogService;
 import com.ruoyi.iot.service.IDeviceService;
+import com.ruoyi.iot.tdengine.service.ILogService;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -32,8 +33,11 @@ public class EmqxService {
     @Autowired
     private IDeviceService deviceService;
 
+//    @Autowired
+//    private IDeviceLogService deviceLogService;
+
     @Autowired
-    private IDeviceLogService deviceLogService;
+    private ILogService logService;
 
     /**
      * 订阅的主题
@@ -190,7 +194,8 @@ public class EmqxService {
                 deviceLog.setIdentity(thingsModelValueRemarkItems.get(i).getId());
                 deviceLog.setLogType(3);
                 deviceLog.setIsMonitor(0);
-                deviceLogService.insertDeviceLog(deviceLog);
+//                deviceLogService.insertDeviceLog(deviceLog);
+                logService.saveDeviceLog(deviceLog);
             }
         } catch (Exception e) {
             logger.error("接收事件，解析数据时异常 message={}", e.getMessage());
