@@ -42,7 +42,6 @@
     </update>
 
     <update id="createSTable">
-
         create STABLE  if not exists ${database}.device_log
         (
         ts timestamp,

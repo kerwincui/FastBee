@@ -36,6 +36,8 @@ public class TDengineConfig {
 
     @Value("${spring.datasource.druid.tdengine-server.dbName}")
     private String dbName;
+    @Value("${spring.datasource.druid.tdengine-server.url}")
+    private String jdbc;
 
 
     @Bean(name = "tDengineDataSource")
