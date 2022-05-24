@@ -75,7 +75,7 @@
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
 * [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
-* [TDengine](https://www.taosdata.com/?zh)
+* [TDengine时序数据库](https://www.taosdata.com/?zh)
 
 ##### Docker快速安装
 * Mysql中创建wumei-smart数据库，[导入Sql脚本](https://gitee.com/kerwincui/wumei-smart/tree/master/springboot/sql)
