@@ -117,7 +117,7 @@
         <where>
              is_monitor=1
             <if test="device.deviceId!=null"> and device_id = #{device.deviceId} </if>
-            <if test="device.identity != null  and device.identity != ''"> and identity like concat('%', #{device.identity}, '%')</if>
+            <if test="device.identity != null  and device.identity != ''"> and identity like  #{device.identity}</if>
 
         order by ts desc
         limit 2000
@@ -130,7 +130,7 @@
             is_monitor !=1
             <if test="device.deviceId!=null"> and device_id = #{device.deviceId} </if>
             <if test="device.logType != null "> and log_type = #{device.logType}</if>
-            <if test="device.identity != null  and device.identity != ''"> and identity like concat('%', #{device.identity}, '%')</if>
+            <if test="device.identity != null  and device.identity != ''"> and identity like #{device.identity}</if>
         </where>
         order by ts desc
     </select>
