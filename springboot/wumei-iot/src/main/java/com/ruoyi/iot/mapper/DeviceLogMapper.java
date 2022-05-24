@@ -4,11 +4,12 @@ import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.model.MonitorModel;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * 设备日志Mapper接口
- * 
+ *
  * @author kerwincui
  * @date 2022-01-13
  */
@@ -17,7 +18,7 @@ public interface DeviceLogMapper
 {
     /**
      * 查询设备日志
-     * 
+     *
      * @param logId 设备日志主键
      * @return 设备日志
      */
@@ -25,7 +26,7 @@ public interface DeviceLogMapper
 
     /**
      * 查询设备日志列表
-     * 
+     *
      * @param deviceLog 设备日志
      * @return 设备日志集合
      */
@@ -41,7 +42,7 @@ public interface DeviceLogMapper
 
     /**
      * 新增设备日志
-     * 
+     *
      * @param deviceLog 设备日志
      * @return 结果
      */
@@ -49,7 +50,7 @@ public interface DeviceLogMapper
 
     /**
      * 修改设备日志
-     * 
+     *
      * @param deviceLog 设备日志
      * @return 结果
      */
@@ -57,7 +58,7 @@ public interface DeviceLogMapper
 
     /**
      * 删除设备日志
-     * 
+     *
      * @param logId 设备日志主键
      * @return 结果
      */
@@ -65,7 +66,7 @@ public interface DeviceLogMapper
 
     /**
      * 批量删除设备日志
-     * 
+     *
      * @param logIds 需要删除的数据主键集合
      * @return 结果
      */
@@ -78,4 +79,7 @@ public interface DeviceLogMapper
      * @return 结果
      */
     public int deleteDeviceLogByDeviceIds(Long[] deviceIds);
+
+
+//    List<DeviceLog> selectLogList(Long deviceId,String serialNumber,Long isMonitor,Long logType, Date beginDate, Date endDate);
 }

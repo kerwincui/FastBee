@@ -1,4 +1,4 @@
-package com.ruoyi.iot.log.service;
+package com.ruoyi.iot.tdengine.service;
 
 import com.ruoyi.iot.domain.DeviceLog;
 

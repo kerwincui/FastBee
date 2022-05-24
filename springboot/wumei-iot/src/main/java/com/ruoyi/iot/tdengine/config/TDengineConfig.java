@@ -2,7 +2,6 @@ package com.ruoyi.iot.tdengine.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.iot.tdengine.mapper.TDDeviceLogMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,12 +30,9 @@ import java.util.List;
  * 开发人: wxy
  */
 @Configuration
-@MapperScan(basePackages = {"com.ruoyi.iot.tdengine.mapper"}, sqlSessionTemplateRef = "tdengineSqlSessionTemplate")
+@MapperScan(basePackages = {"com.ruoyi.iot.tdengine.dao"}, sqlSessionTemplateRef = "tdengineSqlSessionTemplate")
 @ConditionalOnProperty(name = "spring.datasource.druid.tdengine-server.enabled", havingValue = "true")
 public class TDengineConfig {
-
-    @Autowired
-    private TDDeviceLogMapper deviceLogMapper;
 
     @Value("${spring.datasource.druid.tdengine-server.dbName}")
     private String dbName;
@@ -63,22 +59,6 @@ public class TDengineConfig {
     public SqlSessionTemplate tdengineSqlSessionTemplate(@Qualifier("tDengineSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
-
-
-//    @Bean
-//    @ConditionalOnProperty(name = "spring.datasource.druid.tdengine-server.enabled", havingValue = "true")
-//    public TDDeviceLogMapper genTdengineLogMapper(@Qualifier("tDengineDataSource") TDDeviceLogMapper mapper) {
-//        if(this.deviceLogMapper==null){
-//            this.deviceLogMapper=mapper;
-//        }
-//        return this.deviceLogMapper;
-//    }
-
-    public TDDeviceLogMapper getTDengineLogMapper() {
-        return deviceLogMapper;
-    }
-
-
 
     public String getDbName() {
         return dbName;
