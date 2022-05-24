@@ -8,7 +8,7 @@ ruoyi:
   copyrightYear: 2021
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/wumei-smart/uploadPath，Linux配置 /var/wumei-smart/java/uploadPath）
+  # 文件路径，以uploadPath结尾 示例（ Windows配置D:/wumei-smart/uploadPath，Linux配置 /var/wumei-smart/java/uploadPath）
   profile: /var/wumei-smart/java/uploadPath
   # 获取ip地址开关
   addressEnabled: true
@@ -43,7 +43,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: dev
+    active: druid
   # 文件上传
   servlet:
     multipart:
@@ -65,7 +65,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password:
+    password: wumei-smart
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -80,13 +80,12 @@ spring:
         max-wait: -1ms
   # mqtt 配置
   mqtt:
-    username: wumei-smart                           # 账号
-    password: wumei-smart                           # 密码
-    host-url: tcp://wumei.live:1883           # mqtt连接tcp地址
-    #    host-url: tcp://127.0.0.1:1883
-    client-id: ${random.value}        # 客户端Id，每个启动的id要不同 随机：${random.value}
-    default-topic: test                       # 默认主题
-    timeout: 100                              # 超时时间
+    username: wumei-smart                      # 账号
+    password: wumei-smart                      # 密码
+    host-url: tcp://localhost:1883            # mqtt连接tcp地址
+    client-id: ${random.int}                   # 客户端Id，不能相同，采用随机数 ${random.value}
+    default-topic: test                        # 默认主题
+    timeout: 30000                             # 超时时间
     keepalive: 30                              # 保持连接
     clearSession: true                         # 清除会话(设置为false,断开连接，重连后使用原来的会话 保留订阅的主题，能接收离线期间的消息)
   task:

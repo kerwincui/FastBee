@@ -17,9 +17,10 @@ spring:
         username:
         password:
 
-      #TDengine数据库
+      # TDengine数据库
       tdengine-server:
-        enabled: true
+        # 默认不启用TDengine，true=启用，false=不启用
+        enabled: false
         driverClassName: com.taosdata.jdbc.TSDBDriver
         url: jdbc:TAOS://127.0.0.1:6030/wumei_smart_log?timezone=Asia/Beijing&charset=utf-8
         username: root
