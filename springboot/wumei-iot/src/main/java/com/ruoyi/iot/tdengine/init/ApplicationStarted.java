@@ -33,9 +33,9 @@ public class ApplicationStarted implements ApplicationRunner {
             TDengineConfig tDengineConfig = applicationContext.getBean(TDengineConfig.class);
             TDDeviceLogDAO tDDeviceLogDAO = applicationContext.getBean(TDDeviceLogDAO.class);
             initTDengine(tDengineConfig, tDDeviceLogDAO);
-            System.out.println("初始化TDengine成功");
+            LOGGER.info("使用TDengine存储设备数据，初始化成功");
         }else{
-            System.out.println("MySQL初始化成功");
+            LOGGER.info("使用MySql存储设备数据，初始化成功");
         }
     }
 
@@ -52,10 +52,9 @@ public class ApplicationStarted implements ApplicationRunner {
             String dbName = dengineConfig.getDbName();
             int db = deviceLogMapper.createDB(dbName);
             deviceLogMapper.createSTable(dbName);
-            System.out.println(db);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR");
+            LOGGER.info("错误",e.getMessage());
         }
 
     }
