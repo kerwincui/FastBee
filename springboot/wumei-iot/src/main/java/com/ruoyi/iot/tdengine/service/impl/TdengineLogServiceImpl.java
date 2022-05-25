@@ -49,6 +49,9 @@ public class TdengineLogServiceImpl implements ILogService {
 
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog) {
+        if(deviceLog.getIdentity()!=null){
+            deviceLog.setIdentity("%"+deviceLog.getIdentity()+"%");
+        }
         return tdDeviceLogDAO.selectMonitorList(dbName,deviceLog);
     }
 }
