@@ -6,7 +6,7 @@
 #### 2. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
 
-#### 3. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://gitee.com/kerwincui/wumei-smart/blob/master/app/README.md)
+#### 3. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
 
 #### 4. 案例展示
 |   Wifi通断器  |   信息牌  |  桌面小电视  |  雾霾/粉尘/空气检测仪
@@ -59,7 +59,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK<br />
-&nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- [获取App源码](https://gitee.com/kerwincui/wumei-smart/tree/master/app)<br />
+&nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 移动端打包文件
 
 ###### 移动端适配多端
 |安卓/Android|苹果/IOS|微信小程序| 网页/H5|Vue2.0
@@ -69,7 +69,7 @@
 
 ### 七、相关文档
 ##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
-* [项目文档](http://wumei.live/kerwincui/document/wiki/)
+* [项目文档](https://wumei.live/doc/)
 * [物美智能官网](http://wumei.live/)
 * [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
