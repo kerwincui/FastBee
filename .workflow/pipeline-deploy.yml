@@ -28,7 +28,7 @@ stages:
         artifacts:
           - name: BUILD_JAVA
             path:
-              - ./wumei-admin/target
+              - ./springboot/wumei-admin/target
         settings: []
         strategy:
           retry: '0'
