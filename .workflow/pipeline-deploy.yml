@@ -31,6 +31,20 @@ stages:
         settings: []
         strategy:
           retry: '0'
+  - name: stage-129078f0
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_JAVA
+        artifactName: output
+        strategy:
+          retry: '0'
 strategy:
   blocking: true
 permissions:
