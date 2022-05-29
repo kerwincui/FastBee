@@ -21,7 +21,7 @@ stages:
         name: build_maven
         displayName: Maven 构建
         jdkVersion: '8'
-        mavenVersion: 3.3.9
+        mavenVersion: 3.6.1
         commands:
           - cd ./springboot
           - mvn -B clean package -Dmaven.test.skip=true
