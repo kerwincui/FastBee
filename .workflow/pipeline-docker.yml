@@ -23,7 +23,7 @@ stages:
         displayName: 镜像构建
         type: cert
         certificate: kerwincui-docker
-        tag: kerwincui/wumei-smart:1.0
+        tag: kerwincui/wumei-smart:1.01
         dockerfile: ./docker/Dockerfile
         context: ./docker
         isCache: true
