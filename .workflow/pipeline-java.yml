@@ -15,7 +15,8 @@ stages:
     displayName: 构建后端
     strategy: naturally
     trigger: auto
-    executor: []
+    executor:
+      - kerwincui
     steps:
       - step: build@maven
         name: build_maven
@@ -36,7 +37,8 @@ stages:
     displayName: 部署后端
     strategy: naturally
     trigger: auto
-    executor: []
+    executor:
+      - kerwincui
     steps:
       - step: deploy@agent
         name: deploy_agent
@@ -52,6 +54,13 @@ stages:
           # nohup java -jar test.jar > nohup.out &
            echo 'Hello Gitee!'
            touch springboot
+        strategy:
+          retry: '0'
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_JAVA
+        artifactName: springboot
         strategy:
           retry: '0'
 strategy:
