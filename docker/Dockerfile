@@ -11,13 +11,21 @@ ENV DB_NAME           wumei
 ENV DB_USER             root
 ENV DB_PASSWORD   admin
 
-RUN echo "测试打印日志"
 RUN apt-get update && \
-	# 安装网络工具和设置时区
+	RUN echo "1. 安装网络工具和设置时区" && \
 	apt-get install wget -y --no-install-recommends && \
 	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-
-	# 修改redis配置
+	RUN echo "2. 更换国内源" && \
+	wget http://qiniu.xiwen.online/Debian10.list && \
+	mv Debian10.list /etc/apt/sources.list && \
+	apt update && apt upgrade -y && \
+	RUN echo "3. 安装压缩工具" && \
+                apt install zip -y && \
+	RUN echo "4. 安装nginx" && \
+	apt-get install nginx -y --no-install-recommends && \
+	RUN echo "5. 安装redis" && \
+	apt-get install redis-server -y --no-install-recommends && \
+	RUN echo "6. 修改redis配置" && \
 	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
 	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf
 
