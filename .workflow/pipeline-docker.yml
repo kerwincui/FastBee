@@ -47,6 +47,26 @@ stages:
               - ./vue/dist
         strategy:
           retry: '0'
+  - name: stage-f5631c9e
+    displayName: 保存打包文件
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifact_java
+        displayName: 上传后端制品
+        dependArtifact: BUILD_JAVA
+        artifactName: output
+        strategy:
+          retry: '0'
+      - step: publish@general_artifacts
+        name: publish_general_artifacts_vue
+        displayName: 上传前端制品
+        dependArtifact: BUILD_VUE
+        artifactName: output
+        strategy:
+          retry: '0'
   - name: stage-59a550ac
     displayName: 构建镜像
     strategy: naturally
@@ -62,6 +82,9 @@ stages:
         tag: kerwincui/wumei-smart:1.01
         dockerfile: ./docker/Dockerfile
         context: ./docker
+        artifacts:
+          - ${BUILD_JAVA}
+          - ${BUILD_VUE}
         isCache: true
         strategy:
           retry: '0'
