@@ -1,0 +1,35 @@
+version: '1.0'
+name: pipeline-docker
+displayName: pipeline-docker
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+    commitMessages:
+      include:
+        - ^deploy-docker
+stages:
+  - name: stage-59a550ac
+    displayName: 构建镜像
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: build@docker
+        name: build_docker
+        displayName: 镜像构建
+        type: cert
+        certificate: kerwincui-docker
+        tag: ${GITEE_PIPELINE_BUILD_NUMBER}
+        dockerfile: ./docker/Dockerfile
+        context: ./docker
+        isCache: true
+        strategy:
+          retry: '0'
+permissions:
+  - role: admin
+    members:
+      - kerwincui
