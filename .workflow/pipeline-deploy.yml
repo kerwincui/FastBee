@@ -23,6 +23,7 @@ stages:
         jdkVersion: '8'
         mavenVersion: 3.3.9
         commands:
+          - cd ./springboot
           - mvn -B clean package -Dmaven.test.skip=true
         artifacts:
           - name: BUILD_JAVA
