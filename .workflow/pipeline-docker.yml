@@ -54,17 +54,17 @@ stages:
     executor: []
     steps:
       - step: publish@general_artifacts
-        name: publish_general_artifact_java
+        name: publish_general_artifacts_java
         displayName: 上传后端制品
         dependArtifact: BUILD_JAVA
-        artifactName: output
+        artifactName: springboot
         strategy:
           retry: '0'
       - step: publish@general_artifacts
         name: publish_general_artifacts_vue
         displayName: 上传前端制品
         dependArtifact: BUILD_VUE
-        artifactName: output
+        artifactName: vue
         strategy:
           retry: '0'
   - name: stage-59a550ac
