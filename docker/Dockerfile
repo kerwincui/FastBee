@@ -12,22 +12,36 @@ ENV DB_USER             root
 ENV DB_PASSWORD   admin
 
 RUN apt-get update && \
-	echo "1. 安装网络工具和设置时区" && \
+	echo "1. 安装网络工具和设置时区 =====================" && \
 	apt-get install wget -y --no-install-recommends && \
 	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-	echo "2. 更换国内源" && \
+	echo "2. 更换国内源 =============================" && \
 	wget http://qiniu.xiwen.online/Debian10.list && \
 	mv Debian10.list /etc/apt/sources.list && \
 	apt update && apt upgrade -y && \
-	echo "3. 安装压缩工具" && \
+	echo "3. 安装压缩工具 ============================" && \
                 apt install zip -y && \
-	echo "4. 安装nginx" && \
+	echo "4. 安装nginx ==============================" && \
 	apt-get install nginx -y --no-install-recommends && \
-	echo "5. 安装redis" && \
+	echo "5. 安装redis ===============================" && \
 	apt-get install redis-server -y --no-install-recommends && \
-	echo "6. 修改redis配置" && \
+	echo "6. 修改redis配置 =============================" && \
 	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
-	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf
+	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf && \
+	echo "6. 安装 emqx =============================" && \
+	apt update && apt install -y \
+    		apt-transport-https \
+    		ca-certificates \
+    		curl \
+    		gnupg-agent \
+    		software-properties-common && \
+	curl -fsSL https://repos.emqx.io/gpg.pub | apt-key add - && \
+	add-apt-repository \
+    		"deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ \
+    		./bionic \
+    		stable" && \
+	apt update && \
+	apt install emqx=4.0.0 -y --no-install-recommends
 
 # 复制emqx和Nginx的配置文件
 COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
