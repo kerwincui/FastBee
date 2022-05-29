@@ -56,13 +56,6 @@ stages:
            touch springboot
         strategy:
           retry: '0'
-      - step: publish@general_artifacts
-        name: publish_general_artifacts
-        displayName: 上传制品
-        dependArtifact: BUILD_JAVA
-        artifactName: springboot
-        strategy:
-          retry: '0'
 strategy:
   blocking: true
 permissions:
