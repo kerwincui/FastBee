@@ -1,6 +1,6 @@
 version: '1.0'
 name: pipeline-docker
-displayName: pipeline-docker
+displayName: 构建镜像
 triggers:
   trigger: auto
   push:
