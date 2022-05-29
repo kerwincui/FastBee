@@ -27,32 +27,31 @@ RUN apt-get update && \
 	apt-get install redis-server -y --no-install-recommends && \
 	echo "6. 修改redis配置 =============================" && \
 	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
-	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf && \
-	echo "6. 安装 emqx =============================" && \
-	echo "6.1 安装所需依赖包 =============================" && \
-	apt update && apt install -y \
-    		apt-transport-https \
-    		ca-certificates \
-    		curl \
-    		gnupg-agent \
-    		software-properties-common && \
-	echo "6.2 添加EMQX官方GPG秘钥 =============================" && \
-	curl -fsSL https://repos.emqx.io/gpg.pub | apt-key add - && \
-	echo "6.3 设置存储库 =============================" && \
-	add-apt-repository \
-    		"deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ \
-    		./bionic \
-    		stable" && \
-	echo "6.4 更新apt包索引 =============================" && \
-	apt update && \
-	echo "6.5 安装4.0版本 =============================" && \
-	apt install emqx=4.0.0 -y --no-install-recommends
+	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf
+	# echo "6. 安装 emqx =============================" && \
+	# apt update && apt install -y \
+    # 		apt-transport-https \
+    # 		ca-certificates \
+    # 		curl \
+    # 		gnupg-agent \
+    # 		software-properties-common && \
+	# echo "6.2 添加EMQX官方GPG秘钥 =============================" && \
+	# curl -fsSL https://repos.emqx.io/gpg.pub | apt-key add - && \
+	# echo "6.3 设置存储库 =============================" && \
+	# add-apt-repository \
+    # 		"deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ \
+    # 		./bionic \
+    # 		stable" && \
+	# echo "6.4 更新apt包索引 =============================" && \
+	# apt update && \
+	# echo "6.5 安装4.0版本 =============================" && \
+	# apt install emqx=4.0.0 -y --no-install-recommends
 
 # 复制emqx和Nginx的配置文件
-COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
-COPY ./emqx4.0/emqx_auth_http.conf /etc/emqx/plugins/emqx_auth_http.conf
-COPY ./emqx4.0/emqx_web_hook.conf /etc/emqx/plugins/emqx_web_hook.conf
-COPY ./emqx4.0/loaded_plugins /var/lib/emqx/loaded_plugins
+# COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
+# COPY ./emqx4.0/emqx_auth_http.conf /etc/emqx/plugins/emqx_auth_http.conf
+# COPY ./emqx4.0/emqx_web_hook.conf /etc/emqx/plugins/emqx_web_hook.conf
+# COPY ./emqx4.0/loaded_plugins /var/lib/emqx/loaded_plugins
 COPY ./nginx.conf /etc/nginx/nginx.conf
 # 拷贝前后端压缩文件到容器，容器内解压后删除
 # COPY ./wumei-smart.tar /var/
