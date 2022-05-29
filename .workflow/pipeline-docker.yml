@@ -26,9 +26,6 @@ stages:
         tag: kerwincui/wumei-smart:${GITEE_PIPELINE_BUILD_NUMBER}
         dockerfile: ./docker/Dockerfile
         context: ./docker
-        artifacts:
-          - ${BUILD_JAVA}
-          - ${BUILD_VUE}
         isCache: true
         strategy:
           retry: '0'
