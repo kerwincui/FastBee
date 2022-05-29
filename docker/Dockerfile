@@ -12,7 +12,7 @@ ENV DB_USER             root
 ENV DB_PASSWORD   admin
 
 
-
+echo '测试输出消息'
 # 复制emqx和Nginx的配置文件
 COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
 COPY ./emqx4.0/emqx_auth_http.conf /etc/emqx/plugins/emqx_auth_http.conf
