@@ -20,7 +20,7 @@ stages:
     steps:
       - step: build@maven
         name: build_maven
-        displayName: Maven 构建
+        displayName: Maven 构建后端
         jdkVersion: '8'
         mavenVersion: 3.6.1
         commands:
@@ -35,7 +35,7 @@ stages:
           retry: '0'
       - step: build@nodejs
         name: build_nodejs
-        displayName: Nodejs 构建
+        displayName: Nodejs 构建前端
         nodeVersion: 14.16.0
         commands:
           - cd ./vue
@@ -48,10 +48,11 @@ stages:
         strategy:
           retry: '0'
   - name: stage-f5631c9e
-    displayName: 保存打包文件
+    displayName: 上传打包文件
     strategy: naturally
     trigger: auto
-    executor: []
+    executor:
+      - kerwincui
     steps:
       - step: publish@general_artifacts
         name: publish_general_artifacts_java
