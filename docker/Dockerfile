@@ -11,6 +11,15 @@ ENV DB_NAME           wumei
 ENV DB_USER             root
 ENV DB_PASSWORD   admin
 
+RUN echo "测试打印日志"
+RUN apt-get update && \
+	# 安装网络工具和设置时区
+	apt-get install wget -y --no-install-recommends && \
+	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+
+	# 修改redis配置
+	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
+	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf
 
 # 复制emqx和Nginx的配置文件
 COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
