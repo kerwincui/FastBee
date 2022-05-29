@@ -49,10 +49,8 @@ COPY ./emqx4.0/emqx_web_hook.conf /etc/emqx/plugins/emqx_web_hook.conf
 COPY ./emqx4.0/loaded_plugins /var/lib/emqx/loaded_plugins
 COPY ./nginx.conf /etc/nginx/nginx.conf
 # 拷贝前后端压缩文件到容器，容器内解压后删除
-# COPY ./wumei-smart.tar /var/
-# RUN cd /var && tar -xvf wumei-smart.tar && rm wumei-smart.tar
-
-# 解压前端和后端文件并放置到对应位置
+COPY ./wumei-smart.tar /var/
+RUN cd /var && tar -xvf wumei-smart.tar && rm wumei-smart.tar
 
 # 启动脚本
 COPY docker-entrypoint.sh /
