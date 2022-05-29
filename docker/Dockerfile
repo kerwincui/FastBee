@@ -21,26 +21,8 @@ RUN apt-get update && \
 	apt update && apt upgrade -y && \
                 # 安装压缩工具
                 apt install zip -y && \
-	# 安装nginx和redis
-	apt-get install nginx -y --no-install-recommends && \
-	apt-get install redis-server -y --no-install-recommends && \
-	# 安装 emqx
-	apt update && apt install -y \
-    		apt-transport-https \
-    		ca-certificates \
-    		curl \
-    		gnupg-agent \
-    		software-properties-common && \
-	curl -fsSL https://repos.emqx.io/gpg.pub | apt-key add - && \
-	add-apt-repository \
-    		"deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ \
-    		./bionic \
-    		stable" && \
-	apt update && \
-	apt install emqx=4.0.0 -y --no-install-recommends && \
-	# 修改redis配置
-	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
-	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf
+
+
 
 # 复制emqx和Nginx的配置文件
 COPY ./emqx4.0/emqx.conf /etc/emqx/emqx.conf 
