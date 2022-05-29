@@ -1,5 +1,5 @@
 version: '1.0'
-name: pipeline-20220529
+name: pipeline-java
 displayName: 部署后端
 triggers:
   trigger: auto
