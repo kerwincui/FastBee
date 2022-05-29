@@ -28,7 +28,7 @@ stages:
         artifacts:
           - name: BUILD_JAVA
             path:
-              - ./target
+              - ../document/java
         settings: []
         strategy:
           retry: '0'
