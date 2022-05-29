@@ -29,9 +29,6 @@ RUN apt-get update && \
 	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
 	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf && \
 	echo "6. 安装 emqx =============================" && \
-	# 解决报错问题
-	service messagebus start && \
-	service haldaemon start && \
 	echo "6.1 安装所需依赖包 =============================" && \
 	apt update && apt install -y \
     		apt-transport-https \
