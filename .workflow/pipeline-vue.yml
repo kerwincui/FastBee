@@ -54,6 +54,13 @@ stages:
            echo 'Hello Gitee!'
         strategy:
           retry: '0'
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_VUE
+        artifactName: vue
+        strategy:
+          retry: '0'
 permissions:
   - role: admin
     members: []
