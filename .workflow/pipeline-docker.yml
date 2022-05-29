@@ -22,13 +22,14 @@ stages:
         name: build_maven
         displayName: Maven 构建
         jdkVersion: '8'
-        mavenVersion: 3.3.9
+        mavenVersion: 3.6.1
         commands:
+          - cd ./springboot
           - mvn -B clean package -Dmaven.test.skip=true
         artifacts:
-          - name: BUILD_ARTIFACT
+          - name: BUILD_JAVA
             path:
-              - ./target
+              - ./springboot/wumei-admin/target/wumei-admin.jar
         settings: []
         strategy:
           retry: '0'
@@ -37,11 +38,13 @@ stages:
         displayName: Nodejs 构建
         nodeVersion: 14.16.0
         commands:
-          - npm install && rm -rf ./dist && npm run build
+          - cd ./vue
+          - npm install --registry=https://registry.npm.taobao.org \
+          - '&& rm -rf ./dist && npm run build:prod'
         artifacts:
-          - name: BUILD_ARTIFACT
+          - name: BUILD_VUE
             path:
-              - ./dist
+              - ./vue/dist
         strategy:
           retry: '0'
   - name: stage-59a550ac
