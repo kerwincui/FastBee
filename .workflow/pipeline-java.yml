@@ -44,13 +44,14 @@ stages:
         hostGroupID: alicloud
         deployArtifact:
           - source: build
-            name: output
+            name: springboot
             target: ~/gitee_go/deploy
             dependArtifact: BUILD_JAVA
         script: |-
           # 请在此输入部署脚本，如启动Java应用如下
           # nohup java -jar test.jar > nohup.out &
            echo 'Hello Gitee!'
+           touch springboot
         strategy:
           retry: '0'
 strategy:
