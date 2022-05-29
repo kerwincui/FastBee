@@ -29,18 +29,26 @@ RUN apt-get update && \
 	sed -i "s/# requirepass foobared/requirepass wumei-smart/g" /etc/redis/redis.conf && \
 	sed -i "s/bind 127.0.0.1/# bind 127.0.0.1/g" /etc/redis/redis.conf && \
 	echo "6. 安装 emqx =============================" && \
+	# 解决报错问题
+	service messagebus start && \
+	service haldaemon start && \
+	echo "6.1 安装所需依赖包 =============================" && \
 	apt update && apt install -y \
     		apt-transport-https \
     		ca-certificates \
     		curl \
     		gnupg-agent \
     		software-properties-common && \
+	echo "6.2 添加EMQX官方GPG秘钥 =============================" && \
 	curl -fsSL https://repos.emqx.io/gpg.pub | apt-key add - && \
+	echo "6.3 设置存储库 =============================" && \
 	add-apt-repository \
     		"deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ \
     		./bionic \
     		stable" && \
+	echo "6.4 更新apt包索引 =============================" && \
 	apt update && \
+	echo "6.5 安装4.0版本 =============================" && \
 	apt install emqx=4.0.0 -y --no-install-recommends
 
 # 复制emqx和Nginx的配置文件
