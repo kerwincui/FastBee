@@ -1,0 +1,39 @@
+version: '1.0'
+name: pipeline-20220529
+displayName: 项目部署
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+    commitMessages:
+      include:
+        - ^wumei-deploy
+stages:
+  - name: stage-2c3f9607
+    displayName: 未命名
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@maven
+        name: build_maven
+        displayName: Maven 构建
+        jdkVersion: '8'
+        mavenVersion: 3.3.9
+        commands:
+          - mvn -B clean package -Dmaven.test.skip=true
+        artifacts:
+          - name: BUILD_JAVA
+            path:
+              - ./target
+        settings: []
+        strategy:
+          retry: '0'
+strategy:
+  blocking: true
+permissions:
+  - role: admin
+    members:
+      - kerwincui
