@@ -1,6 +1,6 @@
 version: '1.0'
 name: pipeline-20220529
-displayName: 项目部署
+displayName: 部署后端
 triggers:
   trigger: auto
   push:
@@ -9,10 +9,10 @@ triggers:
         - master
     commitMessages:
       include:
-        - ^wumei-deploy
+        - ^deploy-server
 stages:
   - name: stage-2c3f9607
-    displayName: 构建
+    displayName: 构建后端
     strategy: naturally
     trigger: auto
     executor: []
@@ -33,7 +33,7 @@ stages:
         strategy:
           retry: '0'
   - name: stage-b6625c4a
-    displayName: 部署
+    displayName: 部署后端
     strategy: naturally
     trigger: auto
     executor: []
