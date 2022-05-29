@@ -12,7 +12,7 @@ triggers:
         - ^wumei-deploy
 stages:
   - name: stage-2c3f9607
-    displayName: 未命名
+    displayName: 构建
     strategy: naturally
     trigger: auto
     executor: []
@@ -32,7 +32,7 @@ stages:
         strategy:
           retry: '0'
   - name: stage-129078f0
-    displayName: 发布
+    displayName: 发布-可无
     strategy: naturally
     trigger: auto
     executor:
@@ -43,6 +43,29 @@ stages:
         displayName: 上传制品
         dependArtifact: BUILD_JAVA
         artifactName: output
+        strategy:
+          retry: '0'
+  - name: stage-b6625c4a
+    displayName: 部署
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID: alicloud
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: release
+            artifactName: output
+            artifactVersion: latest
+        script: |-
+          # 请在此输入部署脚本，如启动Java应用如下
+          # nohup java -jar test.jar > nohup.out &
+           echo 'Hello Gitee!'
         strategy:
           retry: '0'
 strategy:
