@@ -11,17 +11,6 @@ ENV DB_NAME           wumei
 ENV DB_USER             root
 ENV DB_PASSWORD   admin
 
-RUN apt-get update && \
-	# 安装网络工具和设置时区
-	apt-get install wget -y --no-install-recommends && \
-	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-	# 更换国内源
-	wget http://qiniu.xiwen.online/Debian10.list && \
-	mv Debian10.list /etc/apt/sources.list && \
-	apt update && apt upgrade -y && \
-                # 安装压缩工具
-                apt install zip -y && \
-
 
 
 # 复制emqx和Nginx的配置文件
