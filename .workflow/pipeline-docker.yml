@@ -23,7 +23,7 @@ stages:
         displayName: 镜像构建
         type: cert
         certificate: kerwincui-docker
-        tag: ${GITEE_PIPELINE_BUILD_NUMBER}
+        tag: kerwincui/wumei-smart:${GITEE_PIPELINE_BUILD_NUMBER}
         dockerfile: ./docker/Dockerfile
         context: ./docker
         artifacts:
