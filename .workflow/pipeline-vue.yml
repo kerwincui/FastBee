@@ -51,7 +51,8 @@ stages:
         script: |-
           # 请在此输入部署脚本，如启动Java应用如下
           # nohup java -jar test.jar > nohup.out &
-           echo 'Hello Gitee!'
+           echo 'Hello Gitee!' && touch vuetest
+           touch vue
         strategy:
           retry: '0'
       - step: publish@general_artifacts
