@@ -1,0 +1,64 @@
+version: '1.0'
+name: pipeline-java
+displayName: 部署后端
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+    commitMessages:
+      include:
+        - ^deploy-server
+stages:
+  - name: stage-2c3f9607
+    displayName: 构建后端
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: build@maven
+        name: build_maven
+        displayName: Maven 构建
+        jdkVersion: '8'
+        mavenVersion: 3.6.1
+        commands:
+          - cd ./springboot
+          - mvn -B clean package -Dmaven.test.skip=true
+        artifacts:
+          - name: BUILD_JAVA
+            path:
+              - ./springboot/wumei-admin/target/wumei-admin.jar
+        settings: []
+        strategy:
+          retry: '0'
+  - name: stage-b6625c4a
+    displayName: 部署后端
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID: alicloud
+        deployArtifact:
+          - source: build
+            name: springboot
+            target: ~/gitee_go/deploy
+            dependArtifact: BUILD_JAVA
+        script: |-
+          # 请在此输入部署脚本，如启动Java应用如下
+          # nohup java -jar test.jar > nohup.out &
+           echo 'Hello Gitee!'
+           touch springboot
+        strategy:
+          retry: '0'
+strategy:
+  blocking: true
+permissions:
+  - role: admin
+    members:
+      - kerwincui

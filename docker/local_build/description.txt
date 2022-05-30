@@ -1,0 +1,48 @@
+# 服务启动
+service nginx start
+service redis-server start
+service mysql start
+emqx start
+java -jar /var/wumei-smart/app.jar
+
+# 镜像构建
+docker build -t wumei-smart:1.0 .
+# 复制文件到容器
+docker cp wumei-smart/* container:/var/wumei-smart/
+# 镜像导出导入
+docker export container| docker import - kerwincui/wumei-smart:1.0
+# 镜像推送
+阿里云镜像：registry.cn-chengdu.aliyuncs.com/kerwincui/wumei-smart:1.0
+docker tag wumei-smart kerwincui/wumei-smart:1.0
+docker push kerwinci/wumei-smart:1.0
+
+# 容器运行
+docker run \
+--name wumei-smart \
+--env DB_HOST=wumei.live:3306 \
+--env DB_NAME=wumei-smart \
+--env DB_USER=root \
+--env DB_PASSWORD=wumei-smart \
+--publish 80:80 \
+--publish 1883:1883 \
+--publish 8083:8083 \
+--volume /var/wumei-smart/java/uploadPath:/var/wumei-smart/java/uploadPath \
+--restart unless-stopped \
+--detach \
+kerwincui/wumei-smart:1.1
+
+--publish 18083:18083 \
+--publish 8084:8084 \
+--publish 8883:8883 \
+--publish 8081:8081 \
+--publish 6379:6379 \
+--publish 8080:8080 \
+
+--volume /var/wumei-smart/java/logs:/var/wumei-smart/java/logs \
+--volume /var/wumei-smart/nginx/nginx.conf:/etc/nginx/nginx.conf \
+--volume /var/wumei-smart/nginx/error.log:/var/log/nginx/error.log \
+--volume /var/wumei-smart/redis/redis.conf:/etc/redis/redis.conf \
+--volume /var/wumei-smart/redis/redis-server.log:/var/log/redis/redis-server.log \
+--volume /var/wumei-smart/emqx/emqx.conf:/etc/emqx/emqx.conf  \
+--volume /var/wumei-smart/emqx/log:/var/log/emqx  \
+

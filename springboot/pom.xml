@@ -241,7 +241,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerArguments>
                         <!-- rt.jar和jce.jar中间的分隔符，windows为“;”，linux为“:” -->
-                        <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+                        <bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jce.jar</bootclasspath>
                     </compilerArguments>
                 </configuration>
             </plugin>

@@ -1,0 +1,95 @@
+version: '1.0'
+name: pipeline-docker
+displayName: 构建镜像
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+    commitMessages:
+      include:
+        - ^deploy-docker
+stages:
+  - name: stage-5ecf171c
+    displayName: 项目打包
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: build@maven
+        name: build_maven
+        displayName: Maven 构建后端
+        jdkVersion: '8'
+        mavenVersion: 3.6.1
+        commands:
+          - cd ./springboot
+          - mvn -B clean package -Dmaven.test.skip=true
+        artifacts:
+          - name: BUILD_JAVA
+            path:
+              - ./springboot/wumei-admin/target/wumei-admin.jar
+        settings: []
+        strategy:
+          retry: '0'
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: Nodejs 构建前端
+        nodeVersion: 14.16.0
+        commands:
+          - cd ./vue
+          - npm install --registry=https://registry.npm.taobao.org \
+          - '&& rm -rf ./dist && npm run build:prod'
+        artifacts:
+          - name: BUILD_VUE
+            path:
+              - ./vue/dist
+        strategy:
+          retry: '0'
+  - name: stage-f5631c9e
+    displayName: 上传打包文件
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifacts_java
+        displayName: 上传后端制品
+        dependArtifact: BUILD_JAVA
+        artifactName: springboot
+        strategy:
+          retry: '0'
+      - step: publish@general_artifacts
+        name: publish_general_artifacts_vue
+        displayName: 上传前端制品
+        dependArtifact: BUILD_VUE
+        artifactName: vue
+        strategy:
+          retry: '0'
+  - name: stage-59a550ac
+    displayName: 构建镜像
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: build@docker
+        name: build_docker
+        displayName: 镜像构建
+        type: cert
+        certificate: kerwincui-docker
+        tag: kerwincui/wumei-smart:1.01
+        dockerfile: ./docker/Dockerfile
+        context: ./docker
+        artifacts:
+          - ${BUILD_JAVA}
+          - ${BUILD_VUE}
+        isCache: true
+        strategy:
+          retry: '0'
+permissions:
+  - role: admin
+    members:
+      - kerwincui

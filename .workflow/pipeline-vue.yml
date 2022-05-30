@@ -1,0 +1,60 @@
+version: '1.0'
+name: pipeline-vue
+displayName: 部署前端
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - master
+    commitMessages:
+      include:
+        - ^deploy-vue
+stages:
+  - name: stage-3761fd9a
+    displayName: 构建前端
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: Nodejs 构建
+        nodeVersion: 14.16.0
+        commands:
+          - cd ./vue
+          - npm install --registry=https://registry.npm.taobao.org \
+          - '&& rm -rf ./dist && npm run build:prod'
+        artifacts:
+          - name: BUILD_VUE
+            path:
+              - ./vue/dist
+        strategy:
+          retry: '0'
+  - name: stage-79a96375
+    displayName: 部署前端
+    strategy: naturally
+    trigger: auto
+    executor:
+      - kerwincui
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID: alicloud
+        deployArtifact:
+          - source: build
+            name: vue
+            target: ~/gitee_go/deploy
+            dependArtifact: BUILD_VUE
+        script: |-
+          # 请在此输入部署脚本，如启动Java应用如下
+          # nohup java -jar test.jar > nohup.out &
+           echo 'Hello Gitee!' && touch vuetest
+           touch vue
+        strategy:
+          retry: '0'
+permissions:
+  - role: admin
+    members: []
