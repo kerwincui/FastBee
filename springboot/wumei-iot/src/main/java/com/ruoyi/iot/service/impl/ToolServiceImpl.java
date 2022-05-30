@@ -6,19 +6,31 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.exception.user.CaptchaExpireException;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
+import com.ruoyi.iot.domain.ProductAuthorize;
+import com.ruoyi.iot.mapper.ProductAuthorizeMapper;
+import com.ruoyi.iot.model.MqttAuthenticationModel;
+import com.ruoyi.iot.model.ProductAuthenticateModel;
 import com.ruoyi.iot.model.RegisterUserInput;
+import com.ruoyi.iot.service.IDeviceService;
 import com.ruoyi.iot.service.IToolService;
+import com.ruoyi.iot.util.AESUtils;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ruoyi.iot.mqtt.MqttConfig;
 
 import java.util.Random;
 
@@ -30,6 +42,8 @@ import java.util.Random;
 @Service
 public class ToolServiceImpl implements IToolService
 {
+    private static final Logger log = LoggerFactory.getLogger(ToolServiceImpl.class);
+
     @Autowired
     private RedisCache redisCache;
 
@@ -41,6 +55,16 @@ public class ToolServiceImpl implements IToolService
 
     @Autowired
     private SysUserMapper userMapper;
+
+    @Autowired
+    private ProductAuthorizeMapper productAuthorizeMapper;
+
+    @Autowired
+    private MqttConfig mqttConfig;
+
+    @Autowired
+    @Lazy
+    private IDeviceService deviceService;
 
     /**
      * 生成随机数字和字母
@@ -169,5 +193,150 @@ public class ToolServiceImpl implements IToolService
         {
             throw new CaptchaException();
         }
+    }
+
+    /**
+     * 设备简单认证
+     */
+    @Override
+    public ResponseEntity simpleMqttAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
+        String[] passwordArray = mqttModel.getPassword().split("&");
+        if (productModel.getIsAuthorize() == 1 && passwordArray.length != 2) {
+            return returnUnauthorized(mqttModel, "设备简单认证，产品启用授权码后，密码格式为：密码 & 授权码");
+        }
+        String mqttPassword = passwordArray[0];
+        String authCode = passwordArray.length == 2 ? passwordArray[1] : "";
+        // 验证用户名和密码
+        if ((!mqttConfig.getusername().equals(mqttModel.getUserName())) || (!mqttConfig.getpassword().equals(mqttPassword))) {
+            return returnUnauthorized(mqttModel, "设备简单认证，mqtt账号和密码与认证服务器配置不匹配");
+        }
+        // 验证授权码
+        if (productModel.getIsAuthorize() == 1) {
+            // 授权码验证和处理
+            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
+            if (!resultMessage.equals("")) {
+                return returnUnauthorized(mqttModel, resultMessage);
+            }
+        }
+        if (productModel.getDeviceId() != null && productModel.getDeviceId() != 0) {
+            if (productModel.getStatus() == 2) {
+                return returnUnauthorized(mqttModel, "设备简单认证，设备处于禁用状态");
+            }
+            log.info("-----------设备简单认证成功,clientId:" + mqttModel.getClientId() + "---------------");
+            return ResponseEntity.ok().body("ok");
+        } else {
+            // 自动添加设备
+            int result = deviceService.insertDeviceAuto(mqttModel.getDeviceNumber(), mqttModel.getUserId(), mqttModel.getProductId());
+            if (result == 1) {
+                log.info("-----------设备简单认证成功,并自动添加设备到系统，clientId:" + mqttModel.getClientId() + "---------------");
+                return ResponseEntity.ok().body("ok");
+            }
+            return returnUnauthorized(mqttModel, "设备简单认证，自动添加设备失败");
+        }
+    }
+
+    /**
+     * 设备加密认证
+     *
+     * @return
+     */
+    @Override
+    public ResponseEntity encryptAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) throws Exception {
+        String decryptPassword = AESUtils.decrypt(mqttModel.getPassword(), productModel.getMqttSecret());
+        if (decryptPassword == null || decryptPassword.equals("")) {
+            return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码解密失败");
+        }
+        String[] passwordArray = decryptPassword.split("&");
+        if (passwordArray.length != 2 && passwordArray.length != 3) {
+            // 密码加密格式 password & expireTime (& authCode 可选)
+            return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码加密格式为：密码 & 过期时间 & 授权码，其中授权码为可选");
+        }
+        String mqttPassword = passwordArray[0];
+        Long expireTime = Long.valueOf(passwordArray[1]);
+        String authCode = passwordArray.length == 3 ? passwordArray[2] : "";
+        // 验证用户名
+        if (!mqttModel.getUserName().equals(productModel.getMqttAccount())) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt用户名错误");
+        }
+        // 验证密码
+        if (!mqttPassword.equals(productModel.getMqttPassword())) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码错误");
+        }
+        // 验证过期时间
+        if (expireTime < System.currentTimeMillis()) {
+            return returnUnauthorized(mqttModel, "设备加密认证，设备mqtt密码已过期");
+        }
+        // 验证授权码
+        if (productModel.getIsAuthorize() == 1) {
+            // 授权码验证和处理
+            String resultMessage = authCodeProcess(authCode, mqttModel, productModel);
+            if (!resultMessage.equals("")) {
+                return returnUnauthorized(mqttModel, resultMessage);
+            }
+        }
+        // 设备状态验证 （1-未激活，2-禁用，3-在线，4-离线）
+        if (productModel.getDeviceId() != null && productModel.getDeviceId() != 0) {
+            if (productModel.getStatus() == 2) {
+                return returnUnauthorized(mqttModel, "设备加密认证，设备处于禁用状态");
+            }
+            log.info("-----------设备加密认证成功,clientId:" + mqttModel.getClientId() + "---------------");
+            return ResponseEntity.ok().body("ok");
+        } else {
+            // 自动添加设备
+            int result = deviceService.insertDeviceAuto(mqttModel.getDeviceNumber(), mqttModel.getUserId(), mqttModel.getProductId());
+            if (result == 1) {
+                log.info("-----------设备加密认证成功,并自动添加设备到系统，clientId:" + mqttModel.getClientId() + "---------------");
+                return ResponseEntity.ok().body("ok");
+            }
+            return returnUnauthorized(mqttModel, "设备加密认证，自动添加设备失败");
+        }
+    }
+
+    /**
+     * 授权码认证和处理
+     */
+    private String authCodeProcess(String authCode, MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
+        String message = "";
+        if (authCode.equals("")) {
+            return message = "设备认证，设备授权码不能为空";
+        }
+        // 查询授权码是否存在
+        ProductAuthorize authorize = productAuthorizeMapper.selectFirstAuthorizeByAuthorizeCode(new ProductAuthorize(authCode, productModel.getProductId()));
+        if (authorize == null) {
+            message = "设备认证，设备授权码错误";
+            return message;
+        }
+        if (authorize.getSerialNumber() != null && !authorize.getSerialNumber().equals("")) {
+            // 授权码已关联设备
+            if (!authorize.getSerialNumber().equals( productModel.getSerialNumber())) {
+                message = "设备认证，设备授权码已经分配给其他设备";
+                return message;
+            }
+        } else {
+            // 授权码未关联设备
+            authorize.setSerialNumber(productModel.getSerialNumber());
+            authorize.setDeviceId(productModel.getDeviceId());
+            authorize.setUserId(mqttModel.getUserId());
+            authorize.setUserName("");
+            authorize.setUpdateTime(DateUtils.getNowDate());
+            int result = productAuthorizeMapper.updateProductAuthorize(authorize);
+            if (result != 1) {
+                message = "设备认证，设备授权码关联失败";
+                return message;
+            }
+        }
+        return message;
+    }
+
+    /**
+     * 返回认证信息
+     */
+    @Override
+    public ResponseEntity returnUnauthorized(MqttAuthenticationModel mqttModel, String message) {
+        log.warn("认证失败：" + message
+                + "\nclientid:" + mqttModel.getClientId()
+                + "\nusername:" + mqttModel.getUserName()
+                + "\npassword:" + mqttModel.getPassword());
+        return ResponseEntity.status(401).body("Unauthorized");
     }
 }
