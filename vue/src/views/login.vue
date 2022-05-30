@@ -5,17 +5,19 @@
         <el-row :gutter="10">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="login-top">
-                    <h1>物美智能 - 开源生活物联网平台</h1>
-                    <h2>wumei smart open source living iot platform</h2>
+                    <h1>
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
+                        -
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">开源生活物联网平台</a>
+                    </h1>
+                    <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
                 </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" style="z-index:1000">
-                    <h3 class="title" v-if="!bindAccount">账号登录
-                        <span style="font-size:16px;color:#eee">（ 演示账号：wumei<span style="margin:0 10px;">123456 ）</span></span>
-                    </h3>
-                    <h3 class="bindAccountTitle" v-else>绑定物美智能账户
-                    </h3>
+                <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" style="z-index:1000;margin:0 auto;">
+                    <h3 class="title" v-if="!bindAccount">账号登录</h3>
+                    <h3 class="bindAccountTitle" v-else>绑定物美智能账户</h3>
+                     <div style="font-size:16px;color:#eee;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -34,7 +36,7 @@
                             <img :src="codeUrl" @click="getCode" class="login-code-img" />
                         </div>
                     </el-form-item>
-                    <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;color:#000;">记住密码</el-checkbox>
+                    <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;color:#000;">记住密码</el-checkbox>                   
                     <el-form-item style="width:100%;">
                         <el-button v-if="!bindAccount" :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
                             <span v-if="!loading">登 录</span>
@@ -274,10 +276,10 @@ export default {
 }
 
 .title {
-    margin: 0px auto 30px auto;
-    text-align: left;
+    margin: 0px auto 20px auto;
+    text-align: center;
     color: #333;
-    font-size: 24px;
+    font-size: 30px;
 }
 
 .bindAccountTitle {
@@ -291,7 +293,7 @@ export default {
     color: #fff;
     text-align: center;
     font-weight: bold;
-    margin-top: 100px;
+    margin-bottom: 100px;
 
     h1 {
         font-size: 30px;

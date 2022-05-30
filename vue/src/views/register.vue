@@ -5,8 +5,12 @@
         <el-row :gutter="10">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="login-top">
-                    <h1>物美智能 - 开源生活物联网平台</h1>
-                    <h2>wumei smart open source living iot platform</h2>
+                     <h1>
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
+                        -
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">开源生活物联网平台</a>
+                    </h1>
+                    <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
                 </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -271,7 +275,8 @@ export default {
     color: #fff;
     text-align: center;
     font-weight: bold;
-    margin-top: 100px;
+    margin-top: 20px;
+    margin-bottom:80px;
 
     h1 {
         font-size: 30px;
