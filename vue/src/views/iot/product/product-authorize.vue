@@ -21,13 +21,13 @@
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">生成授权码</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:authorize:edit']">修改</el-button>
+            <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single || productInfo.status==2" @click="handleUpdate" v-hasPermi="['iot:authorize:edit']">修改</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">删除</el-button>
+            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || productInfo.status==2" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">删除</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-link type="danger" style="padding-top:5px" :underline="false">注意：绑定设备之后不可以删除。 Tips：双击可以复制授权码。</el-link>
+            <el-link type="danger" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
         </el-col>
         <right-toolbar @queryTable="getList"></right-toolbar>
     </el-row>
@@ -147,8 +147,8 @@ export default {
             title: "",
             // 是否显示弹出层
             open: false,
-            // 新增个数
-            createNum: 1,
+            // 新增授权码个数
+            createNum: 10,
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -241,7 +241,7 @@ export default {
                     addProductAuthorizeByNum(_addData).then(response => {
                         this.$modal.msgSuccess("新增授权码成功");
                         this.getList();
-                        this.createNum = 1;
+                        this.createNum = 10;
                     });
                 }
             }).catch(() => {

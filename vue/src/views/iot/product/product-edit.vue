@@ -7,23 +7,23 @@
                 <el-row :gutter="100">
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品名称" prop="productName">
-                            <el-input v-model="form.productName" placeholder="请输入产品名称" />
+                            <el-input v-model="form.productName" placeholder="请输入产品名称" :readonly="form.status==2"/>
                         </el-form-item>
                         <el-form-item label="产品分类" prop="categoryId">
-                            <el-select v-model="form.categoryId" placeholder="请选择分类" @change="selectCategory" style="width:100%">
+                            <el-select v-model="form.categoryId" placeholder="请选择分类" @change="selectCategory" style="width:100%" :disabled="form.status==2">
                                 <el-option v-for="category in categoryShortList" :key="category.id" :label="category.name" :value="category.id"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="联网方式" prop="networkMethod">
-                            <el-select v-model="form.networkMethod" placeholder="请选择联网方式" style="width:100%;">
+                            <el-select v-model="form.networkMethod" placeholder="请选择联网方式" style="width:100%;" :disabled="form.status==2">
                                 <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="授权码开关" prop="networkMethod">
-                            <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" />
+                        <el-form-item label="授权码" prop="networkMethod">
+                            <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" :disabled="form.status==2" />
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" :readonly="form.status==2" />
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
@@ -58,7 +58,7 @@
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品图片">
-                            <imageUpload ref="image-upload" :value="form.imgUrl" :limit="1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
+                            <imageUpload ref="image-upload" :value="form.imgUrl" :limit="form.status==2 ? 0 : 1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -76,7 +76,7 @@
             <product-things-model ref="productThingsModel" :product="form" />
         </el-tab-pane>
 
-        <el-tab-pane label="" name="productAuthorize" :disabled="form.isAuthorize==0">
+        <el-tab-pane label="" name="productAuthorize" :disabled="form.productId==0 || form.isAuthorize==0">
             <span slot="label">授权码</span>
             <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
@@ -170,10 +170,10 @@ export default {
                     trigger: "blur"
                 }]
             },
-                // 查询参数
-                queryParams: {
-                  tenantName: null,
-                },
+            // 查询参数
+            queryParams: {
+                tenantName: null,
+            },
 
         };
     },
@@ -187,15 +187,15 @@ export default {
         this.init();
     },
     methods: {
-      init(){
-        if (this.$store.state.user.roles.indexOf("admin") === -1){
-          this.queryParams.tenantName = this.$store.state.user.name
-        }
-        // 获取简短分类列表
-        listShortCategory1(this.queryParams).then(response => {
-          this.categoryShortList = response.data;
-        })
-      },
+        init() {
+            if (this.$store.state.user.roles.indexOf("admin") === -1) {
+                this.queryParams.tenantName = this.$store.state.user.name
+            }
+            // 获取简短分类列表
+            listShortCategory1(this.queryParams).then(response => {
+                this.categoryShortList = response.data;
+            })
+        },
         /** 返回按钮 */
         goBack() {
             const obj = {
@@ -308,8 +308,7 @@ export default {
         // 授权码状态修改
         changeIsAuthorize() {
             let text = this.form.isAuthorize == "1" ? "启用" : "停用";
-            this.$modal.confirm('确认要' + text + '授权码吗？').then(function () {
-            }).catch(() => {
+            this.$modal.confirm('确认要' + text + '授权码吗？').then(function () {}).catch(() => {
                 this.form.isAuthorize = 0;
             });
         }

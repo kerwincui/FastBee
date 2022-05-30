@@ -62,12 +62,6 @@
                         <el-col :span="10">
                             <div style="margin-top:10px;">
                                 <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" lazy :preview-src-list="[baseUrl+item.imgUrl]" :src="baseUrl+item.imgUrl" fit="cover" v-if="item.imgUrl!=null && item.imgUrl!=''"></el-image>
-                                <!-- 用于显示本地计算机、手机、树莓派等设备图片-->
-                                <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/esp8266.jpg')]" :src="require('@/assets/images/esp8266.jpg')" fit="cover" v-else-if="item.productName.indexOf('ESP8266')!=-1"></el-image>
-                                <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/esp32.jpg')]" :src="require('@/assets/images/esp32.jpg')" fit="cover" v-else-if="item.productName.indexOf('ESP32')!=-1"></el-image>
-                                <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/raspberry.jpg')]" :src="require('@/assets/images/raspberry.jpg')" fit="cover" v-else-if="item.productName.indexOf('Raspberry')!=-1"></el-image>
-                                <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/telphone.jpg')]" :src="require('@/assets/images/telphone.jpg')" fit="cover" v-else-if="item.productName.indexOf('Phone')!=-1"></el-image>
-                                <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/computer.jpg')]" :src="require('@/assets/images/computer.jpg')" fit="cover" v-else-if="item.productName.indexOf('Computer')!=-1"></el-image>
                                 <el-image style="width:100%;height:100px;border:1px solid #ccc;border-radius:5px;" :preview-src-list="[require('@/assets/images/product.jpg')]" :src="require('@/assets/images/product.jpg')" fit="cover" v-else></el-image>
                             </div>
                         </el-col>
@@ -129,7 +123,7 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 10,
+                pageSize: 12,
                 productName: null,
                 categoryId: null,
                 categoryName: null,
