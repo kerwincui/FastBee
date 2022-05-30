@@ -25,6 +25,9 @@ String deviceNum = "D6329VL54419L1Y0";
 String userId = "1";
 String productId = "2";
 String firmwareVersion = "1.0";
+// 经度和纬度可选，如果产品使用设备定位，则必须传
+float latitude=0;
+float longitude=0;
 
 // Mqtt配置
 char *mqttHost = "wumei.live";
@@ -32,6 +35,8 @@ int mqttPort = 1883;
 char *mqttUserName = "wumei-smart";
 char *mqttPwd = "P5FJKZJHIR82GNB2";
 char mqttSecret[17] = "K63C4EA3AI5TER97";
+// 产品启用授权码，则授权码不能为空
+String authCode="";
 
 // NTP地址（用于获取时间,可选的修改为自己部署项目的地址）
 String ntpServer = "http://wumei.live:8080/iot/tool/ntp?deviceSendTime=";
@@ -198,7 +203,7 @@ void connectWifi()
 void connectMqtt()
 {
   printMsg("连接Mqtt服务器...");
-  // 生成mqtt认证密码（密码 = mqtt密码 & 用户ID & 过期时间）
+  // 生成mqtt认证密码(设备加密认证，密码加密格式为：mqtt密码 & 过期时间 & 授权码，其中授权码为可选)
   String password = generationPwd();
   String encryptPassword = encrypt(password, mqttSecret, wumei_iv);
   printMsg("密码(已加密)：" + encryptPassword);
@@ -207,8 +212,8 @@ void connectMqtt()
   mqttClient.setCallback(callback);
   mqttClient.setBufferSize(1024);
   mqttClient.setKeepAlive(10);
-  //连接（客户端ID = 设备编号 & 产品ID）
-  String clientId = deviceNum + "&" + productId;
+  //连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
+  String clientId = "E&" + deviceNum + "&" + productId +"&" + userId;
   bool connectResult = mqttClient.connect(clientId.c_str(), mqttUserName, encryptPassword.c_str());
   if (connectResult)
   {
@@ -246,6 +251,8 @@ void publishInfo()
   doc["firmwareVersion"] = firmwareVersion;
   doc["status"] = 3; // （1-未激活，2-禁用，3-在线，4-离线）
   doc["userId"] = (String)userId;
+  doc["longitude"] = longitude;
+  doc["latitude"] = latitude;
 
   printMsg("发布设备信息:");
   serializeJson(doc, Serial);
@@ -371,7 +378,13 @@ String generationPwd()
   float now = (serverSendTime + serverRecvTime + deviceRecvTime - deviceSendTime) / 2;
   // 过期时间 = 当前时间 + 1小时
   float expireTime = now + 1 * 60 * 60 * 1000;
-  String password = (String)mqttPwd + "&" + userId + "&" + String(expireTime, 0);
+  // 密码加密格式为：mqtt密码 & 过期时间 & 授权码（可选），如果产品启用了授权码就必须加上
+  String password="";
+  if(authCode==""){
+    password = (String)mqttPwd + "&" + String(expireTime, 0);
+  }else{
+    password = (String)mqttPwd + "&" + String(expireTime, 0)+ "&" + authCode;
+  }
   printMsg("密码(未加密):" + password);
   return password;
 }
