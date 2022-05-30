@@ -317,16 +317,22 @@ public class ToolController extends BaseController {
             if (model.getClientid().startsWith("server") || model.getClientid().startsWith("web") || model.getClientid().startsWith("phone")) {
                 return;
             }
-            String[] clientInfo = model.getClientid().split("&");
-            String deviceNum = clientInfo[1];
-            Device device = deviceService.selectShortDeviceBySerialNumber(deviceNum);
+
+            // 设备端认证：加密认证（E）和简单认证（S，配置的账号密码认证）
+            String[] clientArray = model.getClientid().split("&");
+            String authType = clientArray[0];
+            String deviceNumber = clientArray[1];
+            Long productId = Long.valueOf(clientArray[2]);
+            Long userId = Long.valueOf(clientArray[3]);
+
+            Device device = deviceService.selectShortDeviceBySerialNumber(deviceNumber);
             // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
             if (model.getAction().equals("client_disconnected")) {
                 device.setStatus(4);
                 deviceService.updateDeviceStatusAndLocation(device, "");
                 // 发布设备状态
                 emqxService.publishStatus(device.getProductId(), device.getSerialNumber(), 4, device.getIsShadow());
-                // 清空保留消息，上线后发布新的属性功能保留消息 TODO 发布的时候取消保留消息
+                // 清空保留消息，上线后发布新的属性功能保留消息
                 emqxService.publishProperty(device.getProductId(), device.getSerialNumber(), null);
                 emqxService.publishFunction(device.getProductId(), device.getSerialNumber(), null);
             } else if (model.getAction().equals("client_connected")) {

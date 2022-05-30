@@ -566,12 +566,13 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateDeviceStatusAndLocation(Device device,String ipAddress) {
-        // 设置定位和状态
+        // 设置自动定位和状态
         if(ipAddress!="") {
             if(device.getActiveTime()==null){
                 device.setActiveTime(DateUtils.getNowDate());
             }
-            if (device.getIsCustomLocation() == 0) {
+            // 定位方式(1=ip自动定位，2=设备定位，3=自定义)
+            if (device.getIsCustomLocation() == 1) {
                 device.setNetworkIp(ipAddress);
                 setLocation(ipAddress, device);
             }
@@ -596,7 +597,6 @@ public class DeviceServiceImpl implements IDeviceService {
             deviceLog.setLogType(6);
         }
         logService.saveDeviceLog(deviceLog);
-//        deviceLogService.insertDeviceLog(deviceLog);
         return result;
     }
 
