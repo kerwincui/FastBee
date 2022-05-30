@@ -79,7 +79,7 @@ public class EmqxClient {
                 token.waitForCompletion();
             }catch (Exception e){
                 logger.error("=====>>>>>mqtt连接失败 message={}",e.getMessage());
-//                e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
@@ -98,7 +98,7 @@ public class EmqxClient {
                 logger.debug("====>>>mqtt客户端启动成功");
             }catch (MqttException e){
                 logger.error("mqtt客户端连接错误 error={}",e.getMessage());
-//                e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
@@ -132,7 +132,6 @@ public class EmqxClient {
                 token.waitForCompletion();
             }catch (MqttException e){
                 logger.error("====>>>>断开mqtt连接发生错误 message={}",e.getMessage());
-                throw new ServiceException("断开mqtt连接发生错误" + e.getMessage());
             }
         }
         client = null;
