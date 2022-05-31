@@ -1,23 +1,50 @@
 <template>
 <div class="login">
 
-    <div style="width:520px;padding:20px;">
+    <div style="padding:20px;">
         <el-row :gutter="10">
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <div class="login-top">
+            <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
+                <div class="login-top hidden-sm-and-down">
                     <h1>
                         <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
                         -
                         <a href="https://wumei.live/" target="_blank" style="color:#FFF;">开源生活物联网平台</a>
                     </h1>
                     <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
+
+                    <div style="max-width:330px;text-align:left;margin:0 auto;">
+                        <div v-if="!bindAccount" style="padding:25px 0;">
+                            <span style="color:#fff;margin-right:10px;">登录方式</span>
+                            <el-button type="success" title="微信登录" size="mini" @click="authLogin" style="border:1px solid #fff;" disabled>
+                                <svg-icon icon-class="wechat" /> 微信
+                            </el-button>
+                            <el-button type="danger" title="QQ登录" size="mini" @click="qqLogin" style="border:1px solid #fff;" disabled>
+                                <svg-icon icon-class="qq" /> QQ
+                            </el-button>
+                            <el-button type="primary" title="支付宝登录" size="mini" @click="authLogin" style="border:1px solid #fff;" disabled>
+                                <svg-icon icon-class="zhifubao" /> 支付宝
+                            </el-button>
+                        </div>
+                        <div v-if="register">
+                            <el-button style="padding:0px;">
+                                <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:12px 18px;display:flex;">注册账号
+                                </router-link>
+                            </el-button>
+                            <el-button type="warning" style="padding:0px;">
+                                <el-link href="https://wumei.live/" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">返回官网</el-link>
+                            </el-button>
+                            <el-button type="danger" style="padding:0px;">
+                                <el-link href="https://wumei.live/doc" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">查看文档</el-link>
+                            </el-button>
+                        </div>
+                    </div>
                 </div>
             </el-col>
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" style="z-index:1000;margin:0 auto;">
+            <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
                     <h3 class="title" v-if="!bindAccount">账号登录</h3>
                     <h3 class="bindAccountTitle" v-else>绑定物美智能账户</h3>
-                     <div style="font-size:16px;color:#eee;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
+                    <div style="font-size:16px;color:#eee;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -36,35 +63,16 @@
                             <img :src="codeUrl" @click="getCode" class="login-code-img" />
                         </div>
                     </el-form-item>
-                    <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;color:#000;">记住密码</el-checkbox>                   
+                    <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;color:#000;">记住密码</el-checkbox>
                     <el-form-item style="width:100%;">
-                        <el-button v-if="!bindAccount" :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+                        <el-button v-if="!bindAccount" :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
                             <span v-if="!loading">登 录</span>
                             <span v-else>登 录 中...</span>
                         </el-button>
-                        <el-button v-else :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+                        <el-button v-else :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
                             <span v-if="!loading">绑定</span>
                             <span v-else>绑 定 中...</span>
                         </el-button>
-                        <div style="margin-top:30px;" v-if="!bindAccount">
-                            <div v-if="!bindAccount" style="float:left;">
-                                <span style="color:#fff;margin-right:10px;">第三方登录</span>
-                                <el-button type="success" circle title="微信登录" size="small" @click="authLogin">
-                                    <svg-icon icon-class="wechat" />
-                                </el-button>
-
-                                <el-button type="danger" circle title="QQ登录" size="small" @click="qqLogin">
-                                    <svg-icon icon-class="qq" />
-                                </el-button>
-                                <el-button type="primary" circle title="支付宝登录" size="small" @click="authLogin">
-                                    <svg-icon icon-class="zhifubao" />
-                                </el-button>
-                            </div>
-                            <div style="float:right;" v-if="register">
-                                <router-link style="color:#333;font-size:16px;" :to='{path:"/register",query: this.$route.query }'>立即注册>>
-                                </router-link>
-                            </div>
-                        </div>
 
                     </el-form-item>
                 </el-form>
@@ -79,6 +87,7 @@
 </template>
 
 <script>
+import 'element-ui/lib/theme-chalk/display.css';
 import {
     getCodeImg,
     checkBindId,
@@ -266,20 +275,20 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
-    display: flex;
-    justify-content: center;
     background: linear-gradient(303deg, #48c6ef 10%, #6f86d6 80%);
     height: 100%;
     overflow: auto;
+    padding-top: 150px;
+
 }
 
 .title {
     margin: 0px auto 20px auto;
     text-align: center;
     color: #333;
-    font-size: 30px;
+    font-size: 24px;
 }
 
 .bindAccountTitle {
@@ -292,25 +301,27 @@ export default {
 .login-top {
     color: #fff;
     text-align: center;
-    font-weight: bold;
-    margin-bottom: 100px;
+    padding: 30px;
 
     h1 {
-        font-size: 30px;
+        font-size: 46px;
     }
 
     h2 {
-        font-size: 21px;
-        margin-top: -12px;
+        font-size: 26px;
+        margin-top: -15px;
     }
 }
 
 .login-form {
+    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     background-color: rgba(250, 250, 250, 0.2);
     border: 1px solid #fff;
     padding: 25px 25px 5px 25px;
-    margin: 20px;
+    margin:0 auto;
+    z-index: 1000;
+    max-width: 400px;
     margin-bottom: 100px;
 
     .el-input {
@@ -318,6 +329,7 @@ export default {
 
         input {
             height: 38px;
+            background-color: rgba(255, 255, 255, 0.9);
         }
     }
 
