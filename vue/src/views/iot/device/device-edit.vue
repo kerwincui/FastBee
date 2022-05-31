@@ -44,7 +44,7 @@
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="定位方式" prop="isCustomLocation">
-                            <el-select v-model="form.isCustomLocation" placeholder="请选择设备状态" clearable size="small">
+                            <el-select v-model="form.isCustomLocation" placeholder="请选择设备状态" clearable size="small" style="width:100%;">
                                 <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
                             </el-select>
                         </el-form-item>

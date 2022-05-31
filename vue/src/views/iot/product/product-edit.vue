@@ -23,12 +23,12 @@
                             <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" :disabled="form.status==2" />
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" :readonly="form.status==2" />
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="4" :readonly="form.status==2" />
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="设备类型" prop="deviceType">
-                            <el-select v-model="form.deviceType" placeholder="请选择设备类型" disabled style="width:100%">
+                            <el-select v-model="form.deviceType" placeholder="请选择设备类型" :disabled="form.status==2" style="width:100%">
                                 <el-option v-for="dict in dict.type.iot_device_type" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
