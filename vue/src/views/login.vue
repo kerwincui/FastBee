@@ -26,15 +26,15 @@
                             </el-button>
                         </div>
                         <div v-if="register">
-                            <el-button style="padding:0px;">
-                                <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:12px 18px;display:flex;">注册账号
-                                </router-link>
-                            </el-button>
                             <el-button type="warning" style="padding:0px;">
                                 <el-link href="https://wumei.live/" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">返回官网</el-link>
                             </el-button>
                             <el-button type="danger" style="padding:0px;">
                                 <el-link href="https://wumei.live/doc" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">查看文档</el-link>
+                            </el-button>
+                            <el-button style="padding:0px;">
+                                <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:12px 18px;display:flex;">注册账号
+                                </router-link>
                             </el-button>
                         </div>
                     </div>
@@ -44,23 +44,23 @@
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
                     <h3 class="title" v-if="!bindAccount">账号登录</h3>
                     <h3 class="bindAccountTitle" v-else>绑定物美智能账户</h3>
-                    <div style="font-size:16px;color:#eee;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
+                    <div style="font-size:16px;color:#333;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-                            <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+                            <svg-icon slot="prefix" icon-class="user" class="input-icon" />
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
-                            <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+                            <svg-icon slot="prefix" icon-class="password" class="input-icon" />
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="code" v-if="captchaOnOff">
                         <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
-                            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+                            <svg-icon slot="prefix" icon-class="validCode" class="input-icon" />
                         </el-input>
                         <div class="login-code">
-                            <img :src="codeUrl" @click="getCode" class="login-code-img" />
+                            <img :src="codeUrl" @click="getCode" />
                         </div>
                     </el-form-item>
                     <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;color:#000;">记住密码</el-checkbox>
@@ -275,7 +275,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .login {
     background: linear-gradient(303deg, #48c6ef 10%, #6f86d6 80%);
     height: 100%;
@@ -303,33 +303,74 @@ export default {
     text-align: center;
     padding: 30px;
 
-    h1 {
-        font-size: 46px;
+    @media screen and (min-width:992px) {
+        h1 {
+            font-size: 32px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: -15px;
+        }
     }
 
-    h2 {
-        font-size: 26px;
-        margin-top: -15px;
+    @media screen and (min-width:1200px) {
+        h1 {
+            font-size: 42px;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-top: -15px;
+        }
     }
+
+    @media screen and (min-width:1920px) {
+        h1 {
+            font-size: 48px;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin-top: -15px;
+        }
+    }
+
 }
 
 .login-form {
-    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    background-color: rgba(250, 250, 250, 0.2);
+    box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: rgba(250, 250, 250, 0.8);
     border: 1px solid #fff;
     padding: 25px 25px 5px 25px;
-    margin:0 auto;
+    margin: 0 auto;
     z-index: 1000;
-    max-width: 400px;
+    max-width: 370px;
     margin-bottom: 100px;
 
     .el-input {
         height: 38px;
-
         input {
             height: 38px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(0, 0, 0, 0.1);
+            color:#333;
+        }
+         // 谷歌
+        input::-webkit-input-placeholder{
+            color:#666;
+        }
+        // 火狐19+版本
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#666;
+        }
+        // 火狐4-18版本
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#666;
+        }
+        // IE10-11版本
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#666;
         }
     }
 
@@ -337,6 +378,7 @@ export default {
         height: 39px;
         width: 14px;
         margin-left: 2px;
+        color:#fff;
     }
 }
 
@@ -348,6 +390,8 @@ export default {
     img {
         cursor: pointer;
         vertical-align: middle;
+        border-radius:5px;
+        height:38px;
     }
 }
 
@@ -364,7 +408,5 @@ export default {
     letter-spacing: 1px;
 }
 
-.login-code-img {
-    height: 38px;
-}
+
 </style>
