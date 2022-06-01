@@ -6,15 +6,15 @@
             <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
                 <div class="login-top hidden-sm-and-down">
                     <h1>
-                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
+                        <a href="https://wumei.live/" target="_blank">物美智能 </a>
                         -
-                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">开源生活物联网平台</a>
+                        <a href="https://wumei.live/" target="_blank" style="">物联美好生活</a>
                     </h1>
-                    <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
+                    <h2><a href="https://wumei.live/" target="_blank">wumei smart</a> open source living iot platform</h2>
 
                     <div style="max-width:330px;text-align:left;margin:0 auto;">
                         <div v-if="!bindAccount" style="padding:25px 0;">
-                            <span style="color:#fff;margin-right:10px;">登录方式</span>
+                            <span style="margin-right:10px;">登录方式</span>
                             <el-button type="success" title="微信登录" size="mini" @click="authLogin" style="border:1px solid #fff;" disabled>
                                 <svg-icon icon-class="wechat" /> 微信
                             </el-button>
@@ -33,7 +33,7 @@
                                 <el-link href="https://wumei.live/doc" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">查看文档</el-link>
                             </el-button>
                             <el-button style="padding:0px;">
-                                <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:12px 18px;display:flex;">注册账号
+                                <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:11px 18px;display:flex;padding-bottom:12px;">注册账号
                                 </router-link>
                             </el-button>
                         </div>
@@ -301,11 +301,11 @@ export default {
 .login-top {
     color: #fff;
     text-align: center;
-    padding: 30px;
+    padding-top: 30px;
 
     @media screen and (min-width:992px) {
         h1 {
-            font-size: 32px;
+            font-size: 36px;
         }
 
         h2 {
@@ -316,7 +316,7 @@ export default {
 
     @media screen and (min-width:1200px) {
         h1 {
-            font-size: 42px;
+            font-size: 46px;
         }
 
         h2 {
@@ -326,12 +326,13 @@ export default {
     }
 
     @media screen and (min-width:1920px) {
+        padding:0px;
         h1 {
-            font-size: 48px;
+            font-size: 62px;
         }
 
         h2 {
-            font-size: 30px;
+            font-size: 35px;
             margin-top: -15px;
         }
     }

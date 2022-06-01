@@ -8,7 +8,7 @@
                     <h1>
                         <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
                         -
-                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">开源生活物联网平台</a>
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物联美好生活</a>
                     </h1>
                     <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
 
@@ -33,7 +33,7 @@
                                 <el-link href="https://wumei.live/doc" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">查看文档</el-link>
                             </el-button>
                             <el-button style="padding:0px;">
-                                <router-link :to='{path:"/login",query: this.$route.query }' style="color:#666;padding:12px 18px;display:flex;">账号登录
+                                <router-link :to='{path:"/login",query: this.$route.query }' style="color:#666;padding:11px 18px;display:flex;padding-bottom:12px;">账号登录
                                 </router-link>
                             </el-button>
                         </div>
@@ -293,11 +293,13 @@ export default {
 .login-top {
     color: #fff;
     text-align: center;
-    padding: 30px;
+    padding-top: 30px;
+
     @media screen and (min-width:992px) {
         h1 {
-            font-size: 32px;
+            font-size: 36px;
         }
+
         h2 {
             font-size: 20px;
             margin-top: -15px;
@@ -306,8 +308,9 @@ export default {
 
     @media screen and (min-width:1200px) {
         h1 {
-            font-size: 42px;
+            font-size: 46px;
         }
+
         h2 {
             font-size: 26px;
             margin-top: -15px;
@@ -315,11 +318,13 @@ export default {
     }
 
     @media screen and (min-width:1920px) {
+        padding-top:0px;
         h1 {
-            font-size: 48px;
+            font-size: 62px;
         }
+
         h2 {
-            font-size: 30px;
+            font-size: 35px;
             margin-top: -15px;
         }
     }
