@@ -33,12 +33,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by order_num
     </select>
+
     <select id="selectCategoryShortList"  resultMap="CategoryShortResult">
-        select category_id, category_name
-        from iot_category
-        order by order_num
-    </select>
-    <select id="selectCategoryShortListAccurate"  resultMap="CategoryShortResult">
         select category_id, category_name
         from iot_category
         <where>

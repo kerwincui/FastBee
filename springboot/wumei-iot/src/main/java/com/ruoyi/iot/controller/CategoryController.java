@@ -60,16 +60,9 @@ public class CategoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('iot:category:list')")
     @GetMapping("/shortlist")
     @ApiOperation("分类简短列表")
-    public AjaxResult shortlist(Category category)
+    public AjaxResult shortlist()
     {
-        List<IdAndName> list = new ArrayList<>();
-        if(category.getTenantName()==""||category.getTenantName()==null)
-        {
-            list = categoryService.selectCategoryShortList();
-        }else {
-            list = categoryService.selectCategoryShortListAccurate(category);
-        }
-        return AjaxResult.success(list);
+        return AjaxResult.success(categoryService.selectCategoryShortList());
     }
 
     /**

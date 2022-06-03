@@ -6,9 +6,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost/wumei-smart?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: admin
+        url: jdbc:mysql://kerwincui.mysql.rds.aliyuncs.com/wumei-smart?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: kerwincui
+        password: 1a2b3c4D
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -22,7 +22,7 @@ spring:
         # 默认不启用TDengine，true=启用，false=不启用
         enabled: false
         driverClassName: com.taosdata.jdbc.TSDBDriver
-        url: jdbc:TAOS://127.0.0.1:6030/wumei_smart_log?timezone=Asia/Beijing&charset=utf-8
+        url: jdbc:TAOS://wumei.live:6030/wumei_smart_log?timezone=Asia/Beijing&charset=utf-8
         username: root
         password: taosdata
         dbName: wumei_smart_log

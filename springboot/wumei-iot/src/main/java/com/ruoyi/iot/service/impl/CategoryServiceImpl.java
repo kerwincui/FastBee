@@ -65,7 +65,14 @@ public class CategoryServiceImpl implements ICategoryService
     @Override
     public List<IdAndName> selectCategoryShortList()
     {
-        return categoryMapper.selectCategoryShortList();
+        Category category=new Category();
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            category.setTenantId(user.getUserId());
+        }
+        return categoryMapper.selectCategoryShortList(category);
     }
 
     /**
@@ -101,11 +108,6 @@ public class CategoryServiceImpl implements ICategoryService
     {
         category.setUpdateTime(DateUtils.getNowDate());
         return categoryMapper.updateCategory(category);
-    }
-
-    @Override
-    public List<IdAndName> selectCategoryShortListAccurate(Category category) {
-        return categoryMapper.selectCategoryShortListAccurate(category);
     }
 
     /**

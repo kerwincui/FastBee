@@ -98,7 +98,7 @@ public interface DeviceMapper
      *
      * @return 设备集合
      */
-    public List<DeviceAllShortOutput> selectAllDeviceShortList();
+    public List<DeviceAllShortOutput> selectAllDeviceShortList(Device device);
 
     /**
      * 新增设备
@@ -167,17 +167,5 @@ public interface DeviceMapper
      * @return 结果
      */
     public int resetDeviceStatus(String deviceNum);
-
-    /**
-     * 查询所有简短设备列表
-     * @return 结果
-     */
-    List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
-
-    /**
-     * 精准查询
-     * @return 结果
-     */
-    List<Device> selectDeviceListAccurate(Device device);
 
 }

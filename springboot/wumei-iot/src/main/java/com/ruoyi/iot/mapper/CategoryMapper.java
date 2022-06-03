@@ -36,7 +36,7 @@ public interface CategoryMapper
      *
      * @return 产品分类集合
      */
-    public List<IdAndName> selectCategoryShortList();
+    public List<IdAndName> selectCategoryShortList(Category category);
 
     /**
      * 新增产品分类
@@ -78,5 +78,4 @@ public interface CategoryMapper
      */
     public int productCountInCategorys(Long[] categoryIds);
 
-    List<IdAndName> selectCategoryShortListAccurate(Category category);
 }

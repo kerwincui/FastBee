@@ -158,18 +158,5 @@ public interface IDeviceService
      */
     public int resetDeviceStatus(String deviceNum);
 
-    /**
-     * 获取所有简短设备列表
-     * @param userName
-     * @return
-     */
-    List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName);
-
-    /**
-     * 精准查询
-     * @param device
-     * @return
-     */
-    List<Device> selectDeviceListAccurate(Device device);
 
 }

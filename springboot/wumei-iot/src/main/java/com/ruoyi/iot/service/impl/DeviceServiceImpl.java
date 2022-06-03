@@ -240,8 +240,19 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public List<DeviceAllShortOutput> selectAllDeviceShortList() {
-        // TODO redis缓存
-        return deviceMapper.selectAllDeviceShortList();
+        Device device=new Device();
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+            }
+        }
+        return deviceMapper.selectAllDeviceShortList(device);
     }
 
     /**
@@ -252,8 +263,6 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public List<DeviceShortOutput> selectDeviceShortList(Device device) {
-        // TODO 关联设备用户表
-
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
         for(int i=0;i<roles.size();i++){
@@ -566,16 +575,6 @@ public class DeviceServiceImpl implements IDeviceService {
             generationDeviceNum();
         }
         return "";
-    }
-
-    @Override
-    public List<DeviceAllShortOutput> selectAllDeviceShortListAccurate(String userName) {
-        return deviceMapper.selectAllDeviceShortListAccurate(userName);
-    }
-    //    精准查询 新增别人分享给自己的设备
-    @Override
-    public List<Device> selectDeviceListAccurate(Device device) {
-        return deviceMapper.selectDeviceListAccurate(device);
     }
 
 

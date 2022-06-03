@@ -106,13 +106,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select device_id, device_name,product_id, serial_number, status,is_shadow ,is_custom_location,things_model_value, active_time from iot_device
     </sql>
 
-    <select id="selectAllDeviceShortListAccurate" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceAllShortResult">
-        select device_id, device_name, product_name, user_name, serial_number, firmware_version, status,rssi,is_shadow ,
-        is_custom_location, active_time,network_address,longitude,latitude from iot_device
-        <where>
-            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
-        </where>
-    </select>
     <select id="selectDeviceList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
         <include refid="selectDeviceVo"/>
         <where>  
@@ -134,6 +127,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAllDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceAllShortResult">
         select device_id, device_name, product_name, user_name, serial_number, firmware_version, status,rssi,is_shadow ,
                is_custom_location, active_time,network_address,longitude,latitude from iot_device
+        <where>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+        </where>
     </select>
 
     <select id="selectDeviceThingsModelValueBySerialNumber" parameterType="String" resultMap="DeviceThingsValueResult">
@@ -145,34 +141,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <select id="selectDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceShortResult">
-        <include refid="selectDeviceShortVo"/>
+        select d.device_id, d.device_name, d.product_id, d.product_name,
+        d.user_id, d.user_name, d.tenant_id, d.tenant_name, d.serial_number,
+        d.firmware_version, d.status,d.rssi,d.is_shadow ,d.is_custom_location,
+        d.things_model_value, d.active_time,img_url
+        from iot_device d
+        left join iot_device_user u on u.device_id = d.device_id
         <where>
-            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
-            <if test="productId != null "> and product_id = #{productId}</if>
-            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
-            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
-            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
-            <if test="status != null "> and status = #{status}</if>
-            <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
+            <if test="userId != null "> and u.user_id = #{userId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="productId != null "> and d.product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''"> and d.product_name like concat('%', #{productName}, '%')</if>
+            <if test="userName != null  and userName != ''"> and d.user_name like concat('%', #{userName}, '%')</if>
+            <if test="tenantId != null "> and d.tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and d.tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and d.serial_number = #{serialNumber}</if>
+            <if test="status != null "> and d.status = #{status}</if>
+            <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and d.active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
         </where>
-        order by create_time desc
-    </select>
-
-    <select id="selectDeviceShortListAccurate" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceShortResult">
-        select device.device_id, device.device_name, device.product_id, device.product_name,
-            device.user_id, device.user_name, device.tenant_id, device.tenant_name, device.serial_number,
-            device.firmware_version, device.status,device.rssi,device.is_shadow ,device.is_custom_location,
-            device.things_model_value, device.active_time,img_url
-
-        from iot_device_user device_user
-        inner join iot_device device on device_user.device_id = device.device_id
-        <where>
-            <if test="userId != null  and userId != ''"> and device_user.user_id = #{userId} </if>
-        </where>
-        order by device.create_time desc
+        order by d.create_time desc
     </select>
     
     <select id="selectDeviceByDeviceId" parameterType="Long" resultMap="DeviceResult">

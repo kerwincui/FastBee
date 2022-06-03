@@ -69,5 +69,4 @@ public interface ICategoryService
      */
     public int deleteCategoryByCategoryId(Long categoryId);
 
-    List<IdAndName> selectCategoryShortListAccurate(Category category);
 }
