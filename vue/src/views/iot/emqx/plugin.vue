@@ -14,11 +14,11 @@
             <el-table-column label="描述" align="left" prop="description" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="success" style="padding:5px;" @click="loadMqttPlugin(scope.row.name)" v-if="!scope.row.active" v-hasPermi="['iot:product:remove']">
-                    <svg-icon icon-class="start" /> 启动
+                    <el-button size="small" type="success" style="padding:5px;" @click="loadMqttPlugin(scope.row.name)" v-if="!scope.row.active" v-hasPermi="['iot:emqx:edit']">
+                        <svg-icon icon-class="start" /> 启动
                     </el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" @click="unloadMqttPlugin(scope.row.name)" v-else v-hasPermi="['iot:product:remove']">
-                    <svg-icon icon-class="stop" /> 停止
+                    <el-button size="small" type="danger" style="padding:5px;" @click="unloadMqttPlugin(scope.row.name)" v-hasPermi="['iot:emqx:edit']" v-if="scope.row.active && scope.row.name!='emqx_auth_http' && scope.row.name!='emqx_web_hook'  && scope.row.name!='emqx_rule_engine' && scope.row.name!='emqx_management' ">
+                        <svg-icon icon-class="stop" /> 停止
                     </el-button>
                 </template>
             </el-table-column>

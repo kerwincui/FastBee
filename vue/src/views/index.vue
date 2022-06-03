@@ -147,15 +147,33 @@
         <h2><i class="el-icon-s-data"> 服务器状态</i></h2>
         <el-row :gutter="40">
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
-                    <el-descriptions :column="1">
-                        <el-descriptions-item label="服务器名称"><strong>{{server.sys.computerName}}</strong></el-descriptions-item>
-                        <el-descriptions-item label="服务器IP"><strong>{{server.sys.computerIp}}</strong></el-descriptions-item>
-                        <el-descriptions-item label="操作系统"><strong>{{server.sys.osName}}</strong></el-descriptions-item>
-                        <el-descriptions-item label="系统架构"><strong>{{server.sys.osArch}}</strong></el-descriptions-item>
-                        <el-descriptions-item label="CPU核心"><strong>{{server.cpu.cpuNum}}核</strong></el-descriptions-item>
-                        <el-descriptions-item label="总内存"><strong>{{server.mem.total}}G</strong></el-descriptions-item>
-                    </el-descriptions>
+                <el-card style="margin:-10px;height:218px;margin-bottom:150px;background-color:#fafafa;" shadow="hover">
+                    <table class="description">
+                        <tr>
+                            <td><strong>服务器名称： </strong></td>
+                            <td>{{server.sys.computerName}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>服务器IP： </strong></td>
+                            <td>{{server.sys.computerIp}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>操作系统： </strong></td>
+                            <td>{{server.sys.osName}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>系统架构： </strong></td>
+                            <td>{{server.sys.osArch}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU核心： </strong></td>
+                            <td>{{server.cpu.cpuNum}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>总内存： </strong></td>
+                            <td>{{server.mem.total}}</td>
+                        </tr>
+                    </table>
                 </el-card>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
@@ -174,15 +192,33 @@
                 </el-card>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
-                    <el-descriptions :column="1">
-                        <el-descriptions-item label="Java名称"><strong>{{server.jvm.name}}</strong></el-descriptions-item>
-                        <el-descriptions-item label="启动时间"><strong>{{ server.jvm.startTime }}</strong></el-descriptions-item>
-                        <el-descriptions-item label="Java版本"><strong>{{ server.jvm.version }}</strong></el-descriptions-item>
-                        <el-descriptions-item label="运行时长"><strong>{{ server.jvm.runTime }}</strong></el-descriptions-item>
-                        <el-descriptions-item label="占用内存"><strong>{{server.jvm.used}}M</strong></el-descriptions-item>
-                        <el-descriptions-item label="JVM总内存"><strong>{{server.jvm.total}}M</strong></el-descriptions-item>
-                    </el-descriptions>
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                    <table class="description">
+                        <tr>
+                            <td><strong>Java名称： </strong></td>
+                            <td>{{server.jvm.name}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>启动时间： </strong></td>
+                            <td>{{server.jvm.startTime}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Java版本： </strong></td>
+                            <td>{{server.jvm.version}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>运行时长： </strong></td>
+                            <td>{{server.jvm.runTime}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>占用内存： </strong></td>
+                            <td>{{server.jvm.used}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JVM总内存： </strong></td>
+                            <td>{{server.jvm.total}}</td>
+                        </tr>
+                    </table>
                 </el-card>
             </el-col>
         </el-row>
@@ -397,7 +433,7 @@ export default {
                                 featureType: 'land',
                                 elementType: 'all',
                                 stylers: {
-                                    color: '#f0f0f0' // ##fffeee 黄色
+                                    color: '#fffff8'
                                 }
                             },
                             {
@@ -750,6 +786,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.description {
+    font-size: 14px;
+
+    tr {
+        line-height: 26px;
+    }
+}
+
 .panel-group {
     .card-panel-col {
         margin-bottom: 10px;
@@ -761,8 +805,8 @@ export default {
         position: relative;
         overflow: hidden;
         color: #666;
-        border:1px solid #eee;
-        border-radius:5px;
+        border: 1px solid #eee;
+        border-radius: 5px;
         box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
 
         &:hover {

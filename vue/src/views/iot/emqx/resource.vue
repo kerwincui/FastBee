@@ -3,10 +3,10 @@
     <el-card style="padding-bottom: 100px">
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-refresh" size="mini" @click="getList" v-hasPermi="['monitor:resource:refresh']">刷新</el-button>
+                <el-button type="success" plain icon="el-icon-refresh" size="mini" @click="getList" v-hasPermi="['iot:emqx:query']">刷新</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="addResource" v-hasPermi="['monitor:resource:add']">新增</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="addResource" v-hasPermi="['iot:emqx:add']">新增</el-button>
             </el-col>
         </el-row>
         <el-table v-loading="loading" :data="resourceList">
@@ -19,9 +19,9 @@
             <el-table-column label="备注" align="center" prop="description" />
             <el-table-column label="操作" align="center" width="200">
                 <template slot-scope="scope">
-                    <el-button size="small" type="text" icon="el-icon-connection" style="padding: 5px" v-hasPermi="['monitor:resource:checkStatus']" @click="checkStatus(scope.row)">状态
+                    <el-button size="small" type="text" icon="el-icon-connection" style="padding: 5px" v-hasPermi="['iot:emqx:edit']" @click="checkStatus(scope.row)">状态
                     </el-button>
-                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
+                    <el-button size="small" type="text" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:emqx:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -98,7 +98,7 @@
             {{ statusForm.status[0].node }}
             <el-tag type="success" v-if="statusForm.status[0].is_alive == true" style="margin-left: 10px">可用</el-tag>
             <el-tag type="danger" v-if="statusForm.status[0].is_alive == false" style="margin-left: 10px">不可用</el-tag>
-            <el-button size="small" type="primary" icon="el-icon-connection" style="padding: 5px; margin-left: 10px" v-hasPermi="['monitor:resource:connect']" @click="checkNode(statusForm.id)">重新连接
+            <el-button size="small" type="primary" icon="el-icon-connection" style="padding: 5px; margin-left: 10px" v-hasPermi="['iot:emqx:edit']" @click="checkNode(statusForm.id)">重新连接
             </el-button>
         </el-form>
     </el-dialog>

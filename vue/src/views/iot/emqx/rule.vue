@@ -3,10 +3,10 @@
     <el-card style="padding-bottom: 100px">
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-refresh" size="mini" @click="getList" v-hasPermi="['monitor:rules:refresh']">刷新</el-button>
+                <el-button type="success" plain icon="el-icon-refresh" size="mini" @click="getList" v-hasPermi="['iot:emqx:query']">刷新</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="getAddRules" v-hasPermi="['monitor:rules:add']">新增</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="getAddRules" v-hasPermi="['iot:emqx:add']">新增</el-button>
             </el-col>
         </el-row>
         <el-table v-loading="loading" :data="rulesList">
@@ -37,7 +37,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100">
                 <template slot-scope="scope">
-                    <el-button size="small" type="danger" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">删除
+                    <el-button size="small" type="danger" icon="el-icon-delete" style="padding: 5px" v-hasPermi="['iot:emqx:remove']" @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
             </el-table-column>

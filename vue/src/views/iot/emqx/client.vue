@@ -43,7 +43,7 @@
             <el-table-column label="会话创建时间" align="center" prop="created_at" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="danger" v-if="scope.row.connected" style="padding: 5px" v-hasPermi="['iot:product:remove']" @click="handleDelete(scope.row)">
+                    <el-button size="small" type="danger" v-if="scope.row.connected" style="padding: 5px" v-hasPermi="['iot:emqx:remove']" @click="handleDelete(scope.row)">
                         <svg-icon icon-class="disconnect" /> 断开连接
                     </el-button>
                 </template>
@@ -102,10 +102,10 @@
                     <span slot="label">订阅列表</span>
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-refresh" size="mini" @click="handleRefresh" v-hasPermi="['monitor:subscribe:refresh']">刷新</el-button>
+                            <el-button type="primary" plain icon="el-icon-refresh" size="mini" @click="handleRefresh" v-hasPermi="['iot:emqx:query']">刷新</el-button>
                         </el-col>
                         <el-col :span="1.5">
-                            <el-button type="success" plain icon="el-icon-plus" size="mini" :disabled="single" @click="handleAdd" v-hasPermi="['monitor:subscribe:add']">添加订阅</el-button>
+                            <el-button type="success" plain icon="el-icon-plus" size="mini" :disabled="single" @click="handleAdd" v-hasPermi="['iot:emqx:add']">添加订阅</el-button>
                         </el-col>
                     </el-row>
                     <el-table v-loading="loadSubscribeing" :data="subscribeList">
@@ -113,7 +113,7 @@
                         <el-table-column label="QoS" align="center" prop="qos" />
                         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                             <template slot-scope="scope">
-                                <el-button size="small" type="danger" style="padding: 5px" v-hasPermi="['monitor:subscribe:delete']" @click="handleUnsubscribe(scope.row)">
+                                <el-button size="small" type="danger" style="padding: 5px" v-hasPermi="['iot:emqx:remove']" @click="handleUnsubscribe(scope.row)">
                                     <svg-icon icon-class="disconnect" /> 取消订阅
                                 </el-button>
                             </template>
