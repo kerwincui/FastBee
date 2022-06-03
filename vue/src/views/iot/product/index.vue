@@ -154,9 +154,6 @@ export default {
         /** 查询产品列表 */
         getList() {
             this.loading = true;
-            if (this.$store.state.user.roles.indexOf("admin") === -1){
-              this.queryParams.tenantName = this.$store.state.user.name
-            }
             listProduct(this.queryParams).then(response => {
                 this.productList = response.rows;
                 this.total = response.total;

@@ -5,11 +5,6 @@
             <el-form-item label="分类名称" prop="categoryName">
                 <el-input v-model="queryParams.categoryName" placeholder="请输入产品分类名称" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="系统定义" prop="isSys">
-                <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
-                    <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
-                </el-select>
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -121,7 +116,6 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
                 categoryName: null,
-                tenantName: null,
                 isSys: null,
             },
             // 表单参数
@@ -131,16 +125,6 @@ export default {
                 categoryName: [{
                     required: true,
                     message: "产品分类名称不能为空",
-                    trigger: "blur"
-                }],
-                tenantId: [{
-                    required: true,
-                    message: "租户ID不能为空",
-                    trigger: "blur"
-                }],
-                tenantName: [{
-                    required: true,
-                    message: "租户名称不能为空",
                     trigger: "blur"
                 }],
                 isSys: [{
@@ -164,9 +148,6 @@ export default {
         /** 查询产品分类列表 */
         getList() {
             this.loading = true;
-            if (this.$store.state.user.roles.indexOf("admin") === -1){
-              this.queryParams.tenantName = this.$store.state.user.name
-            }
             listCategory(this.queryParams).then(response => {
                 this.categoryList = response.rows;
                 this.total = response.total;

@@ -173,21 +173,6 @@ export default {
                     message: "产品名称不能为空",
                     trigger: "blur"
                 }],
-                tenantId: [{
-                    required: true,
-                    message: "租户ID不能为空",
-                    trigger: "blur"
-                }],
-                tenantName: [{
-                    required: true,
-                    message: "租户名称不能为空",
-                    trigger: "blur"
-                }],
-                isSys: [{
-                    required: true,
-                    message: "是否系统通用不能为空",
-                    trigger: "blur"
-                }],
                 version: [{
                     required: true,
                     message: "固件版本不能为空",
@@ -228,9 +213,6 @@ export default {
       },
         /** 查询产品固件列表 */
         getList() {
-            if (this.$store.state.user.roles !="admin"){
-              this.queryParams.tenantName = this.$store.state.user.name
-            }
             this.loading = true;
             listFirmware(this.queryParams).then(response => {
                 this.firmwareList = response.rows;
