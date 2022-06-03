@@ -116,6 +116,4 @@ public interface ProductMapper
      * @return 结果
      */
     public int thingsCountInProduct(Long productId);
-    //    精准查询
-    List<Product> selectProductListAccurate(Product product);
 }

@@ -172,10 +172,4 @@ public interface IDeviceService
      */
     List<Device> selectDeviceListAccurate(Device device);
 
-    /**
-     * 精准查询所有条件设备的简短信息
-     * @param device
-     * @return
-     */
-    List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);
 }

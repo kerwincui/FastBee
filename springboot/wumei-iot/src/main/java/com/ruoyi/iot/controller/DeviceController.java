@@ -44,15 +44,7 @@ public class DeviceController extends BaseController
     public TableDataInfo list(Device device)
     {
         startPage();
-        List<Device> list = new ArrayList<>();
-        if(device.getUserId() == null)
-        {
-            list = deviceService.selectDeviceList(device);
-        }else {
-            //            精确查询
-            list = deviceService.selectDeviceListAccurate(device);
-        }
-        return getDataTable(list);
+        return getDataTable(deviceService.selectDeviceList(device));
     }
 
     /**
@@ -64,15 +56,7 @@ public class DeviceController extends BaseController
     public TableDataInfo shortList(Device device)
     {
         startPage();
-        List<DeviceShortOutput> list = new ArrayList<>();
-        if(device.getUserId() == null)
-        {
-            list = deviceService.selectDeviceShortList(device);
-        }else {
-            // 精确查询
-            list = deviceService.selectDeviceShortListAccurate(device);
-        }
-        return getDataTable(list);
+        return getDataTable(deviceService.selectDeviceShortList(device));
     }
 
     /**

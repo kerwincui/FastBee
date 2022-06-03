@@ -41,29 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
-            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
-            <if test="isSys != null "> and is_sys = #{isSys}</if>
             <if test="isAuthorize != null "> and is_authorize = #{isAuthorize}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="deviceType != null "> and device_type = #{deviceType}</if>
             <if test="networkMethod != null "> and network_method = #{networkMethod}</if>
-        </where>
-        order by create_time desc
-    </select>
-    <select id="selectProductListAccurate" parameterType="com.ruoyi.iot.domain.Product" resultMap="ProductResult">
-        <include refid="selectProductVo"/>
-        <where>
-            <if test="productName != null  and productName != ''"> and product_name=#{productName}</if>
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
-            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
-            <if test="tenantName != null  and tenantName != ''"> and tenant_name = #{tenantName} or is_sys = 1</if>
-            <if test="isSys != null "> and is_sys = #{isSys}</if>
-            <if test="isAuthorize != null "> and is_authorize = #{isAuthorize}</if>
-            <if test="status != null "> and status = #{status}</if>
-            <if test="deviceType != null "> and device_type = #{deviceType}</if>
-            <if test="networkMethod != null "> and network_method = #{networkMethod}</if>
+            <if test="tenantId != null  and tenantId != 0"> and (tenant_id = #{tenantId} or is_sys = 1)</if>
         </where>
         order by create_time desc
     </select>

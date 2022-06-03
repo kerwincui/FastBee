@@ -50,17 +50,7 @@ public class GroupController extends BaseController
     public TableDataInfo list(Group group)
     {
         startPage();
-        List<Group> list = new ArrayList<>();
-        if(group.getUserName() == null || group.getUserName().equals(""))
-        {
-//            搜索查询 ,mapper使用的是模糊查询
-            list = groupService.selectGroupList(group);
-
-        }else {
-//            精准查询
-            list = groupService.selectGroupListAccurate(group);
-        }
-        return getDataTable(list);
+        return getDataTable(groupService.selectGroupList(group));
     }
 
     /**

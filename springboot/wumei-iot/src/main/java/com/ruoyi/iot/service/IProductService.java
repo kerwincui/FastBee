@@ -78,6 +78,4 @@ public interface IProductService
      */
     public int deleteProductByProductId(Long productId);
 
-//    精准查询
-    List<Product> selectProductListAccurate(Product product);
 }

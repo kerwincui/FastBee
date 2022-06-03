@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.iot.model.IdAndName;
 import io.swagger.annotations.Api;
@@ -49,15 +51,7 @@ public class CategoryController extends BaseController
     public TableDataInfo list(Category category)
     {
         startPage();
-        List<Category> list = new ArrayList<>();
-        if(category.getTenantName()== null || category.getTenantName()=="")
-        {
-            list = categoryService.selectCategoryList(category);
-        }else {
-            list = categoryService.selectCategoryListAccurate(category);
-        }
-
-        return getDataTable(list);
+        return getDataTable(categoryService.selectCategoryList(category));
     }
 
     /**

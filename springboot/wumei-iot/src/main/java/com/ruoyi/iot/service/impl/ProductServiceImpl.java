@@ -59,6 +59,12 @@ public class ProductServiceImpl implements IProductService
     @Override
     public List<Product> selectProductList(Product product)
     {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            product.setTenantId(user.getUserId());
+        }
         return productMapper.selectProductList(product);
     }
 
@@ -193,10 +199,5 @@ public class ProductServiceImpl implements IProductService
         // 删除物模型JSON缓存
         redisCache.deleteObject(tslPreKey+productId);
         return productMapper.deleteProductByProductId(productId);
-    }
-    //    精准查询
-    @Override
-    public List<Product> selectProductListAccurate(Product product) {
-        return productMapper.selectProductListAccurate(product);
     }
 }

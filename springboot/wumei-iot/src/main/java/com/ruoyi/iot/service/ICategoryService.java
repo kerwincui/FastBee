@@ -69,8 +69,5 @@ public interface ICategoryService
      */
     public int deleteCategoryByCategoryId(Long categoryId);
 
-//    精准查询
-    List<Category> selectCategoryListAccurate(Category category);
-
     List<IdAndName> selectCategoryShortListAccurate(Category category);
 }

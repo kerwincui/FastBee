@@ -46,6 +46,12 @@ public class FirmwareServiceImpl implements IFirmwareService
     @Override
     public List<Firmware> selectFirmwareList(Firmware firmware)
     {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            firmware.setTenantId(user.getUserId());
+        }
         return firmwareMapper.selectFirmwareList(firmware);
     }
 

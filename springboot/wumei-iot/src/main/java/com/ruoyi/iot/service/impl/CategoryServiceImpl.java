@@ -48,6 +48,12 @@ public class CategoryServiceImpl implements ICategoryService
     @Override
     public List<Category> selectCategoryList(Category category)
     {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            category.setTenantId(user.getUserId());
+        }
         return categoryMapper.selectCategoryList(category);
     }
 
@@ -131,10 +137,5 @@ public class CategoryServiceImpl implements ICategoryService
     public int deleteCategoryByCategoryId(Long categoryId)
     {
         return categoryMapper.deleteCategoryByCategoryId(categoryId);
-    }
-
-    @Override
-    public List<Category> selectCategoryListAccurate(Category category) {
-        return categoryMapper.selectCategoryListAccurate(category);
     }
 }

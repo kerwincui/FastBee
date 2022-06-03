@@ -77,8 +77,6 @@ public interface CategoryMapper
      * @return 结果
      */
     public int productCountInCategorys(Long[] categoryIds);
-    //    精准查询
-    List<Category> selectCategoryListAccurate(Category category);
 
     List<IdAndName> selectCategoryShortListAccurate(Category category);
 }

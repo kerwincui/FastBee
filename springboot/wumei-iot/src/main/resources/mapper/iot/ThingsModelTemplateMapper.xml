@@ -31,16 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
             <if test="type != null "> and type = #{type}</if>
             <if test="specs != null  and specs != ''"> and specs = #{specs}</if>
-        </where>
-        order by create_time desc
-    </select>
-    <select id="selectThingsModelTemplateListAccurate" parameterType="com.ruoyi.iot.domain.ThingsModelTemplate" resultMap="ThingsModelTemplateResult">
-        <include refid="selectThingsModelTemplateVo"/>
-        <where>
-            <if test="templateName != null  and templateName != ''"> and template_name = #{templateName}</if>
-            <if test="type != null "> and type = #{type}</if>
-            <if test="specs != null  and specs != ''"> and specs = #{specs}</if>
-            <if test="tenantName != null  and tenantName != ''"> and create_by = #{tenantName} or is_sys = 1</if>
+            <if test="tenantId != null  and tenantId != ''"> and (tenant_id = #{tenantId} or is_sys = 1)</if>
         </where>
         order by create_time desc
     </select>

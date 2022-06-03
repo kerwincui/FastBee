@@ -180,5 +180,4 @@ public interface DeviceMapper
      */
     List<Device> selectDeviceListAccurate(Device device);
 
-    List<DeviceShortOutput> selectDeviceShortListAccurate(Device device);
 }

@@ -29,17 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCategoryVo"/>
         <where>  
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
-            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
-            <if test="isSys != null "> and is_sys = #{isSys}</if>
-        </where>
-        order by order_num
-    </select>
-    <select id="selectCategoryListAccurate" parameterType="com.ruoyi.iot.domain.Category" resultMap="CategoryResult">
-        <include refid="selectCategoryVo"/>
-        <where>
-            <if test="categoryName != null  and categoryName != ''"> and category_name = #{categoryName}</if>
-            <if test="tenantName != null  and tenantName != ''"> and tenant_name = #{tenantName} or is_sys = 1</if>
-            <if test="isSys != null "> and is_sys = #{isSys}</if>
+            <if test="tenantId != null  and tenantId != ''"> and (tenant_id = #{tenantId} or is_sys = 1)</if>
         </where>
         order by order_num
     </select>

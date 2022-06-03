@@ -3,6 +3,7 @@ package com.ruoyi.iot.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -218,6 +219,17 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public List<Device> selectDeviceList(Device device) {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+            }
+        }
         return deviceMapper.selectDeviceList(device);
     }
 
@@ -241,6 +253,20 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<DeviceShortOutput> selectDeviceShortList(Device device) {
         // TODO 关联设备用户表
+
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+                break;
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+                break;
+            }
+        }
         List<DeviceShortOutput> deviceList = deviceMapper.selectDeviceShortList(device);
         for (int i = 0; i < deviceList.size(); i++) {
             JSONObject thingsModelObject = JSONObject.parseObject(thingsModelService.getCacheThingsModelByProductId(deviceList.get(i).getProductId()));
@@ -254,11 +280,6 @@ public class DeviceServiceImpl implements IDeviceService {
         return deviceList;
     }
 
-    //    精准查询所有条件的设备
-    @Override
-    public List<DeviceShortOutput> selectDeviceShortListAccurate(Device device) {
-        return deviceMapper.selectDeviceShortListAccurate(device);
-    }
 
     /**
      * Json物模型集合转换为对象中的分类集合

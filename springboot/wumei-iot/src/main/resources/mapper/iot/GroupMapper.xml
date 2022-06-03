@@ -28,14 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-        </where>
-        order by group_order
-    </select>
-    <select id="selectGroupListAccurate" parameterType="com.ruoyi.iot.domain.Group" resultMap="GroupResult">
-        <include refid="selectGroupVo"/>
-        <where>
-            <if test="groupName != null  and groupName != ''"> and group_name = #{groupName}</if>
-            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
         order by group_order
     </select>

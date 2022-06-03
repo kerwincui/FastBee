@@ -1,5 +1,6 @@
 package com.ruoyi.iot.service.impl;
 
+import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.Group;
@@ -63,6 +64,15 @@ public class GroupServiceImpl implements IGroupService
     @Override
     public List<Group> selectGroupList(Group group)
     {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                group.setUserId(user.getUserId());
+                break;
+            }
+        }
         return groupMapper.selectGroupList(group);
     }
 
@@ -140,9 +150,4 @@ public class GroupServiceImpl implements IGroupService
         return groupMapper.deleteGroupByGroupId(groupId);
     }
 
-//    精准查询所有
-    @Override
-    public List<Group> selectGroupListAccurate(Group group) {
-        return groupMapper.selectGroupListAccurate(group);
-    }
 }

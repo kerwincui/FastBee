@@ -47,6 +47,12 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
     @Override
     public List<ThingsModelTemplate> selectThingsModelTemplateList(ThingsModelTemplate thingsModelTemplate)
     {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            thingsModelTemplate.setTenantId(user.getUserId());
+        }
         return thingsModelTemplateMapper.selectThingsModelTemplateList(thingsModelTemplate);
     }
 
@@ -107,10 +113,5 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
     public int deleteThingsModelTemplateByTemplateId(Long templateId)
     {
         return thingsModelTemplateMapper.deleteThingsModelTemplateByTemplateId(templateId);
-    }
-    //    精准查询
-    @Override
-    public List<ThingsModelTemplate> selectThingsModelTemplateListAccurate(ThingsModelTemplate thingsModelTemplate) {
-        return thingsModelTemplateMapper.selectThingsModelTemplateListAccurate(thingsModelTemplate);
     }
 }

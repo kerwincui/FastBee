@@ -43,14 +43,7 @@ public class ProductController extends BaseController
     public TableDataInfo list(Product product)
     {
         startPage();
-        List<Product> list = new ArrayList<>();
-        if(product.getTenantName()=="" ||product.getTenantName()==null)
-        {
-            list = productService.selectProductList(product);
-        }else {
-            list = productService.selectProductListAccurate(product);
-        }
-        return getDataTable(list);
+        return getDataTable(productService.selectProductList(product));
     }
 
     /**

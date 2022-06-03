@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,8 @@ import com.ruoyi.iot.domain.ThingsModelTemplate;
 import com.ruoyi.iot.service.IThingsModelTemplateService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+
+import static com.ruoyi.common.utils.SecurityUtils.getLoginUser;
 
 /**
  * 通用物模型Controller
@@ -48,14 +52,7 @@ public class ThingsModelTemplateController extends BaseController
     public TableDataInfo list(ThingsModelTemplate thingsModelTemplate)
     {
         startPage();
-        List<ThingsModelTemplate> list = new ArrayList<>();
-        if (thingsModelTemplate.getTenantName().equals("")|| thingsModelTemplate.getTenantName() == null){
-            list = thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate);
-        }else{
-//            精准查询
-            list = thingsModelTemplateService.selectThingsModelTemplateListAccurate(thingsModelTemplate);
-        }
-               return getDataTable(list);
+        return getDataTable(thingsModelTemplateService.selectThingsModelTemplateList(thingsModelTemplate));
     }
 
     /**
