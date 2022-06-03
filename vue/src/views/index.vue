@@ -2,7 +2,7 @@
 <div class="app-container home">
     <el-row :gutter="40" style="margin-bottom:10px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;">
+            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;background-color:#fafafa;">
                 <div style="font-size:16px;font-weight:bold;margin-bottom:18px;">物美智能生活物联网平台</div>
                 <div style="display:table;margin-bottom:10px;">
                     <div style="width:70px;font-weight: bold;display:table-cell;">个人用户：</div>
@@ -15,7 +15,7 @@
             </el-card>
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;">
+            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;background-color:#fafafa;">
                 <div style="float:left;width:170px;">
                     <el-image style="width:154px;" :src="require('@/assets/images/code.jpg')"></el-image>
                 </div>
@@ -24,7 +24,13 @@
                     <div style="display:table;margin-bottom:10px;">
                         <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
                         <div style="display:table-cell;">
-                        <span>www.wumei.live</span>
+                            <span>www.wumei.live</span>
+                        </div>
+                    </div>
+                    <div style="display:table;margin-bottom:10px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
+                        <div style="display:table-cell;">
+                            <span>QQ164770707</span>
                         </div>
                     </div>
                     <div style="display:table;margin-bottom:15px;">
@@ -42,13 +48,13 @@
 
     <el-row :gutter="40" style="margin-bottom:80px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#F8F8F8;">
-                <div ref="map" style="height:650px;margin:-10px;margin-top:-5px;"></div>
+            <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#eee;">
+                <div ref="map" style="height:650px;margin:-17px;margin-top:-12px;"></div>
             </el-card>
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card style="margin:-10px;" shadow="hover">
+            <el-card style="margin:-10px;" shadow="never">
                 <h3 style="font-weight:bold">Mqtt 统计指标</h3>
                 <el-row :gutter="40" class="panel-group">
                     <el-col :span="12" class="card-panel-col">
@@ -132,7 +138,7 @@
                 </el-row>
             </el-card>
             <el-card style="margin:-10px;margin-top:20px;" shadow="hover">
-                <div ref="statsChart" style="height:296px;"></div>
+                <div ref="statsChart" style="height:283px;"></div>
             </el-card>
         </el-col>
 
@@ -153,17 +159,17 @@
                 </el-card>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
                     <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
                     <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;" shadow="hover">
+                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
                     <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
                 </el-card>
             </el-col>
@@ -376,7 +382,7 @@ export default {
                     }
                 },
                 bmap: {
-                    center: [133, 37],
+                    center: [133, 38],
                     zoom: 5,
                     roam: true,
                     mapStyle: {
@@ -391,7 +397,7 @@ export default {
                                 featureType: 'land',
                                 elementType: 'all',
                                 stylers: {
-                                    color: '#FFFFFF'
+                                    color: '#f0f0f0' // ##fffeee 黄色
                                 }
                             },
                             {
@@ -755,7 +761,9 @@ export default {
         position: relative;
         overflow: hidden;
         color: #666;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, .1);
+        border:1px solid #eee;
+        border-radius:5px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
 
         &:hover {
             .card-panel-icon-wrapper {
@@ -789,7 +797,7 @@ export default {
 
         .card-panel-icon {
             float: left;
-            font-size: 32px;
+            font-size: 30px;
         }
 
         .card-panel-description {
