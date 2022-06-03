@@ -12,28 +12,14 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
+            <el-form-item style="float:right;">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:firmware:add']">新增</el-button>
+            </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom:100px;">
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:firmware:add']">新增</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:firmware:remove']">删除</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:firmware:export']">导出</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
         <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange" border>
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
             <el-table-column label="产品名称" align="center" prop="productName" />
             <el-table-column label="租户名称" align="center" prop="tenantName" />
@@ -58,7 +44,7 @@
                 <template slot-scope="scope">
                     <el-button size="small" type="info" style="padding:5px;" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -124,7 +110,7 @@ export default {
     data() {
         return {
             // 判断是否有修改权限
-            canEdit:false,
+            canEdit: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -206,11 +192,11 @@ export default {
         this.init();
     },
     methods: {
-      init(){
-        if (this.$store.state.user.roles.indexOf("admin") !== -1){
-          this.canEdit = true
-        }
-      },
+        init() {
+            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
+                this.canEdit = true
+            }
+        },
         /** 查询产品固件列表 */
         getList() {
             this.loading = true;
@@ -336,9 +322,9 @@ export default {
             }
         },
         // 获取文件路径
-        getFilePath(data){
+        getFilePath(data) {
             console.log(data);
-            this.form.filePath=data;
+            this.form.filePath = data;
         },
 
         // 文件提交处理

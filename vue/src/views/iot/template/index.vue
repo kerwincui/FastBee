@@ -14,28 +14,14 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
+            <el-form-item style="float:right;">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:template:add']">新增</el-button>
+            </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom:100px;">
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:template:add']">新增</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:template:edit']">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:template:remove']">删除</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:template:export']">导出</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
         <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" border>
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="名称" align="center" prop="templateName" />
             <el-table-column label="标识符" align="center" prop="identifier" />
             <el-table-column label="首页显示" align="center" prop="isTop" width="80">
@@ -75,8 +61,8 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']" v-if="scope.row.isSys == '1'  && isTenant!=true" >修改</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if="scope.row.isSys == '1'  && isTenant!=true">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -184,7 +170,7 @@
             </el-form>
 
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
+                <el-button type="primary" @click="submitForm">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -212,8 +198,8 @@ export default {
     dicts: ["iot_things_type", "iot_data_type", "iot_yes_no"],
     data() {
         return {
-            // 是否具有修改权限 admin可以修改系统定义的通用物 其他不可以
-            canEdit: false,
+            // 是否为租户
+            isTenant: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -277,8 +263,8 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
-                this.canEdit = true
+            if (this.$store.state.user.roles.indexOf("tenant") !== -1) {
+                this.isTenant = true
             }
         },
         /** 查询通用物模型列表 */

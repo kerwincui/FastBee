@@ -9,28 +9,14 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
+            <el-form-item style="float:right;">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:group:add']">新增</el-button>
+            </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom:100px;">
-
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:group:add']">新增</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:group:edit']">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:group:remove']">删除</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:group:export']">导出</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
         <el-table v-loading="loading" :data="groupList" @selection-change="handleSelectionChange" border>
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="分组名称" align="center" prop="groupName" width="200" />
             <el-table-column label="分组排序" align="center" prop="groupOrder" width="100" />
             <el-table-column label="创建时间" align="center" prop="createTime" width="180">

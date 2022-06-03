@@ -15,28 +15,14 @@
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
                 <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
             </el-form-item>
+            <el-form-item style="float:right;">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">新增</el-button>
+            </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom: 100px">
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">新增</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:clientDetails:edit']">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" disabled @click="handleDelete" v-hasPermi="['iot:clientDetails:remove']">删除</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:clientDetails:export']">导出</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
         <el-table v-loading="loading" :data="clientDetailsList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="授权平台" align="center" prop="type">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.oauth_platform" :value="scope.row.type" />
@@ -276,29 +262,29 @@ export default {
             );
         },
         /** 格式化显示授权模式 */
-        formatGrantTypesDisplay(data){
-          let dataArray=data.split(",");
-          let displayHtml=""
-          for(let i=0;i<dataArray.length;i++){
-              displayHtml=displayHtml+"<div style='background-color:#eee;margin:0 auto;margin-bottom:5px;width:86px;border-radius:5px;padding:3px;'>"+this.convertGrantType(dataArray[i])+"</div>"
-          }
-          return displayHtml;
+        formatGrantTypesDisplay(data) {
+            let dataArray = data.split(",");
+            let displayHtml = ""
+            for (let i = 0; i < dataArray.length; i++) {
+                displayHtml = displayHtml + "<div style='background-color:#eee;margin:0 auto;margin-bottom:5px;width:86px;border-radius:5px;padding:3px;'>" + this.convertGrantType(dataArray[i]) + "</div>"
+            }
+            return displayHtml;
         },
         /** 授权模式转换 */
-        convertGrantType(type){
-          if(type=="client_credentials"){
-            return "客户端模式"
-          }else if(type=="password"){
-            return "密码模式";
-          }else if(type=="authorization_code"){
-            return "授权码模式";
-          }else if(type=="implicit"){
-            return "简化模式";
-          }else if(type=="refresh_token"){
-            return "刷新Token";
-          }else{
-            return "";
-          }
+        convertGrantType(type) {
+            if (type == "client_credentials") {
+                return "客户端模式"
+            } else if (type == "password") {
+                return "密码模式";
+            } else if (type == "authorization_code") {
+                return "授权码模式";
+            } else if (type == "implicit") {
+                return "简化模式";
+            } else if (type == "refresh_token") {
+                return "刷新Token";
+            } else {
+                return "";
+            }
         }
 
     },

@@ -9,28 +9,14 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
+            <el-form-item style="float:right;">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:category:add']">新增</el-button>
+            </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom:100px;">
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:category:add']">新增</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:category:edit']">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:category:remove']">删除</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:category:export']">导出</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
         <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange" border>
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="产品分类名称" align="center" prop="categoryName" />
             <el-table-column label="备注" align="left" prop="remark" min-width="150" />
             <el-table-column label="系统定义" align="center" prop="isSys">
@@ -47,7 +33,7 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" v-if =" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -92,7 +78,7 @@ export default {
     data() {
         return {
             // 判断是否获取到修改权限
-            canEdit:false,
+            canEdit: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -140,11 +126,11 @@ export default {
         this.init();
     },
     methods: {
-      init(){
-        if (this.$store.state.user.roles.indexOf("admin") !== -1){
-          this.canEdit = true
-        }
-      },
+        init() {
+            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
+                this.canEdit = true
+            }
+        },
         /** 查询产品分类列表 */
         getList() {
             this.loading = true;
@@ -233,10 +219,10 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const categoryIds = row.categoryId || this.ids;
-            let msg="";
+            let msg = "";
             this.$modal.confirm('是否确认删除产品分类编号为"' + categoryIds + '"的数据项？').then(function () {
                 return delCategory(categoryIds).then(response => {
-                    msg=response.msg;
+                    msg = response.msg;
                 });
             }).then(() => {
                 this.getList();
