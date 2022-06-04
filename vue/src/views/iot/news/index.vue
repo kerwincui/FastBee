@@ -1,6 +1,6 @@
 <template>
 <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="60px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="60px" v-if="isAdmin">
         <el-form-item label="标题" prop="title">
             <el-input v-model="queryParams.title" placeholder="请输入标题" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -168,6 +168,8 @@ export default {
     },
     data() {
         return {
+            // 是否为管理员
+            isAdmin:false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -196,7 +198,7 @@ export default {
                 isTop: null,
                 isBanner: null,
                 categoryName: null,
-                status: null,
+                status: '1', // 默认为发布
             },
             // 表单参数
             form: {},
@@ -228,13 +230,18 @@ export default {
     },
     created() {
         this.getList();
-
+        this.init();
         // 获取分类列表
         listShortNewsCategory().then(response => {
             this.categoryList = response.data;
         })
     },
     methods: {
+        init() {
+            if (this.$store.state.user.roles.indexOf("tenant") === -1 || this.$store.state.user.roles.indexOf("tenant") === -1) {
+                this.isAdmin = true
+            }
+        },
         /** 查询新闻资讯列表 */
         getList() {
             this.loading = true;

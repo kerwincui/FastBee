@@ -1,6 +1,6 @@
 <template>
 <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px" v-if="isAdmin">
         <el-form-item label="公告标题" prop="noticeTitle">
             <el-input v-model="queryParams.noticeTitle" placeholder="请输入公告标题" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -113,6 +113,8 @@ export default {
     dicts: ['sys_notice_status', 'sys_notice_type'],
     data() {
         return {
+            // 是否为管理员
+            isAdmin:false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -158,8 +160,14 @@ export default {
     },
     created() {
         this.getList();
+        this.init();
     },
     methods: {
+        init() {
+            if (this.$store.state.user.roles.indexOf("tenant") === -1 || this.$store.state.user.roles.indexOf("tenant") === -1) {
+                this.isAdmin = true
+            }
+        },
         /** 查询公告列表 */
         getList() {
             this.loading = true;

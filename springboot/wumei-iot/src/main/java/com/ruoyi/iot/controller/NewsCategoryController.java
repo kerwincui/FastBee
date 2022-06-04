@@ -55,7 +55,7 @@ public class NewsCategoryController extends BaseController
     /**
      * 查询新闻分类简短列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:newsCategory:list')")
+    @PreAuthorize("@ss.hasPermi('iot:news:list')")
     @GetMapping("/newsCategoryShortList")
     @ApiOperation("分类简短列表")
     public AjaxResult newsCategoryShortList()

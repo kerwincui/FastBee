@@ -147,12 +147,12 @@
                             <el-tag size="mini" effect="dark" v-else>信息</el-tag>
                             {{item.noticeTitle}}
                         </div>
-                        <div style="display:table-cell;width:90px;">{{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
+                        <div style="display:table-cell;width:90px;font-size:14px;"><i class="el-icon-time"></i> {{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
                     </div>
                 </div>
             </el-card>
 
-        </el-col>
+        </el-col>   
     </el-row>
 
     <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:80px;">
