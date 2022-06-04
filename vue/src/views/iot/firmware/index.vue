@@ -19,15 +19,10 @@
     </el-card>
 
     <el-card style="padding-bottom:100px;">
-        <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange" border>
+        <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
             <el-table-column label="产品名称" align="center" prop="productName" />
             <el-table-column label="租户名称" align="center" prop="tenantName" />
-            <el-table-column label="系统定义" align="center" prop="isSys">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isSys" />
-                </template>
-            </el-table-column>
             <el-table-column label="固件版本" align="center" prop="version">
                 <template slot-scope="scope">
                     <span>Version </span> {{scope.row.version}}
@@ -44,7 +39,7 @@
                 <template slot-scope="scope">
                     <el-button size="small" type="info" style="padding:5px;" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -73,7 +68,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
+                <el-button type="primary" @click="submitForm" >确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -109,8 +104,6 @@ export default {
     },
     data() {
         return {
-            // 判断是否有修改权限
-            canEdit: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -189,14 +182,8 @@ export default {
     created() {
         this.getList();
         this.getProductShortList();
-        this.init();
     },
     methods: {
-        init() {
-            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
-                this.canEdit = true
-            }
-        },
         /** 查询产品固件列表 */
         getList() {
             this.loading = true;

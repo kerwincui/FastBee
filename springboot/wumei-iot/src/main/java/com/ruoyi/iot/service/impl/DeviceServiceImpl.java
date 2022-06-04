@@ -247,9 +247,11 @@ public class DeviceServiceImpl implements IDeviceService {
             if(roles.get(i).getRoleKey().equals("tenant")){
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
+                break;
             }else if (roles.get(i).getRoleKey().equals("general")){
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
+                break;
             }
         }
         return deviceMapper.selectAllDeviceShortList(device);

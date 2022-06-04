@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="deviceType != null "> and device_type = #{deviceType}</if>
             <if test="networkMethod != null "> and network_method = #{networkMethod}</if>
-            <if test="tenantId != null  and tenantId != 0"> and (tenant_id = #{tenantId} or is_sys = 1)</if>
+            <if test="tenantId != null  and tenantId != 0"> and tenant_id = #{tenantId}</if>
         </where>
         order by create_time desc
     </select>

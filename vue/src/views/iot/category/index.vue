@@ -32,8 +32,8 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" v-if=" canEdit ? true : (scope.row.isSys == '1' ? false : true)">删除</el-button>
+                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:edit']" v-if="scope.row.isSys == '1'  && isTenant!=true">修改</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']" v-if="scope.row.isSys == '1'  && isTenant!=true">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -54,7 +54,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" :disabled=" canEdit ? false : (form.isSys == '1' ? true : false)">确 定</el-button>
+                <el-button type="primary" @click="submitForm" >确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -77,8 +77,8 @@ export default {
     dicts: ["iot_yes_no"],
     data() {
         return {
-            // 判断是否获取到修改权限
-            canEdit: false,
+            // 是否为租户
+            isTenant: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -127,8 +127,8 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user.roles.indexOf("admin") !== -1) {
-                this.canEdit = true
+            if (this.$store.state.user.roles.indexOf("tenant") !== -1) {
+                this.isTenant = true
             }
         },
         /** 查询产品分类列表 */

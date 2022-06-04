@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="tenantId != null "> and (tenant_id = #{tenantId} or is_sys = 1)</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
             <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
             <if test="status != null "> and status = #{status}</if>

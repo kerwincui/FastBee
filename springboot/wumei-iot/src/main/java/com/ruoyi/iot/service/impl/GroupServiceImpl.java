@@ -67,8 +67,8 @@ public class GroupServiceImpl implements IGroupService
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
         for(int i=0;i<roles.size();i++){
-            if (roles.get(i).getRoleKey().equals("general")){
-                // 用户查看自己设备
+            // 租户和用户，只查看自己分组
+            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
                 group.setUserId(user.getUserId());
                 break;
             }
