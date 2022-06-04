@@ -119,8 +119,7 @@ export default {
             }
         },
         /**监测统计数据 */
-        getStatistic() {
-            
+        getStatistic() {            
             let color = ['#1890FF', '#91CB74', '#FAC858', '#EE6666', '#73C0DE', '#3CA272', '#FC8452', '#9A60B4', '#ea7ccc'];
             for (let i = 0; i < this.monitorThings.length; i++) {
                 // 设置宽度
@@ -141,7 +140,7 @@ export default {
                     grid: {
                         top: '80px',
                         left: '40px',
-                        right: '80px',
+                        right: '20px',
                         bottom: '60px',
                         containLabel: true
                     },
@@ -156,23 +155,9 @@ export default {
                     },
                     xAxis: {
                         type: 'time',
-                        boundaryGap: false,
-                        name: "时间", //坐标名字
-                        nameLocation: "end", //坐标位置，支持start,end，middle
-                        nameTextStyle: { //字体样式            
-                            fontSize: 16, //字体大小            
-                            padding: 20 //距离坐标位置的距离    
-                        },
                     },
                     yAxis: {
                         type: 'value',
-                        boundaryGap: [0, '100%'],
-                        name: this.monitorThings[i].name, //坐标名字
-                        nameLocation: "end", //坐标位置，支持start,end，middle
-                        nameTextStyle: { //字体样式            
-                            fontSize: 16, //字体大小            
-                            padding: 10 //距离坐标位置的距离    
-                        },
                     },
                     dataZoom: [{
                             type: 'inside',
@@ -191,17 +176,6 @@ export default {
                         sampling: 'lttb',
                         itemStyle: {
                             color: i>9? color[0]:color[i]
-                        },
-                        areaStyle: {
-                            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            //         offset: 0,
-                            //         color: 'rgb(64, 158, 255)'
-                            //     },
-                            //     {
-                            //         offset: 1,
-                            //         color: 'rgb(255, 255, 255)'
-                            //     }
-                            // ])
                         },
                         data: []
                     }]

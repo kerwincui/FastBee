@@ -33,7 +33,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="设备认证" prop="vertificateMethod">
-                            <el-select v-model="form.vertificateMethod" placeholder="请选择认证方式" disabled style="width:100%">
+                            <el-select v-model="form.vertificateMethod" placeholder="请选择认证方式" style="width:100%">
                                 <el-option v-for="dict in dict.type.iot_vertificate_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>

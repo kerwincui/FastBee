@@ -22,7 +22,6 @@
         <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
             <el-table-column label="产品名称" align="center" prop="productName" />
-            <el-table-column label="租户名称" align="center" prop="tenantName" />
             <el-table-column label="固件版本" align="center" prop="version">
                 <template slot-scope="scope">
                     <span>Version </span> {{scope.row.version}}

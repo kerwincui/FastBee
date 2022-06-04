@@ -123,7 +123,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope" v-if="scope.row.roleId !== 1 && scope.row.roleId !== 2 && scope.row.roleId !== 3">
+        <template slot-scope="scope" v-if="scope.row.roleId !== 1 && scope.row.roleId !== 1 && scope.row.roleId !== 1">
           <el-button
             size="mini"
             type="text"

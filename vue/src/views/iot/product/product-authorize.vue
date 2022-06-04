@@ -41,7 +41,7 @@
                 <el-tag type="info" v-else>未使用</el-tag>
             </template>
         </el-table-column>
-        <el-table-column label="授权码" width="300" align="center" prop="authorizeCode" />
+        <el-table-column label="授权码" width="310" align="center" prop="authorizeCode" />
         <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
         <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
         <el-table-column label="用户ID" width="75" align="center" prop="userId" />

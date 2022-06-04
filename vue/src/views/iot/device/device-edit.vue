@@ -194,6 +194,7 @@ export default {
                 productId: 0,
                 status: 1,
                 isCustomLocation: 1,
+                firmwareVersion: 1.0,
             },
             // 图片地址
             imageUrl: require('@/assets/images/product.jpg'),
@@ -297,7 +298,7 @@ export default {
                 tenantId: null,
                 tenantName: null,
                 serialNumber: null,
-                firmwareVersion: null,
+                firmwareVersion: 1.0,
                 status: 1,
                 rssi: null,
                 networkAddress: null,

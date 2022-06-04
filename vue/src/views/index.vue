@@ -30,7 +30,7 @@
                     <div style="display:table;margin-bottom:10px;">
                         <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
                         <div style="display:table-cell;">
-                            <span>QQ164770707</span>
+                            <span>QQ 164770707</span>
                         </div>
                     </div>
                     <div style="display:table;margin-bottom:15px;">
@@ -340,6 +340,11 @@
             <el-button type="primary" @click="closeDetail"> 关 闭 </el-button>
         </div>
     </el-dialog>
+
+    <div style="width:100%;text-align:center;font-size:14px;color:#666;line-height:32px;margin-top:150px;">
+        <span>Copyright © 2021-2022 <a href="https://wumei.live/" target="_blank">Wumei Smart</a> | <a href="https://wumei.live/" target="_blank">物美智能</a> | Apache License</span><br />
+        <span>项目文档<a href="https://wumei.live/doc/" target="_blank"> https://wumei.live/doc/</a></span>
+    </div>
 
 </div>
 </template>
@@ -940,9 +945,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-container {
-    padding-bottom: 200px;
-}
 
 .description {
     font-size: 14px;
