@@ -25,14 +25,6 @@ export function listAllDeviceShort() {
         method: 'get',
     })
 }
-// 查询所有设备简短列表
-export function listAllDeviceShort2(query) {
-    return request({
-        url: '/iot/device/all',
-        method: 'get',
-        params: query
-    })
-}
 // 查询设备详细
 export function getDevice(deviceId) {
     return request({

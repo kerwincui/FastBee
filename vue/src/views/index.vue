@@ -46,7 +46,7 @@
         </el-col>
     </el-row>
 
-    <el-row :gutter="40" style="margin-bottom:80px;">
+    <el-row :gutter="40" style="margin-bottom:100px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#eee;">
                 <div ref="map" style="height:650px;margin:-17px;margin-top:-12px;"></div>
@@ -54,12 +54,115 @@
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card style="margin:-10px;" shadow="never">
-                <h3 style="font-weight:bold">Mqtt 统计指标</h3>
+            <el-card style="margin:-10px;background-color:#fafafa;" shadow="never">
+                <h3 style="font-weight:bold">设备统计</h3>
                 <el-row :gutter="40" class="panel-group">
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-message">
+                            <div class="card-panel-icon-wrapper icon-blue">
+                                <svg-icon icon-class="device" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    设备数量
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-red">
+                                <svg-icon icon-class="product" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    产品数量
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-blue">
+                                <svg-icon icon-class="guide" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    上报数据
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-red">
+                                <svg-icon icon-class="receiver" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    下发数据
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-blue">
+                                <svg-icon icon-class="log" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    操作次数
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-red">
+                                <svg-icon icon-class="alert" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    触发事件
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-card>
+
+            <el-card style="margin:-10px;margin-top:40px;height:300px;background-color:#fafafa;" shadow="hover">
+                <h3 style="font-weight:bold">信息栏</h3>
+                <div style="line-height:36px;">
+                    <div style="cursor:pointer;display:table;width:100%;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
+                        <div style="display:table-cell;padding-right:10px;">
+                            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType==2">公告</el-tag>
+                            <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+                            {{item.noticeTitle}}
+                        </div>
+                        <div style="display:table-cell;width:90px;">{{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
+                    </div>
+                </div>
+            </el-card>
+
+        </el-col>
+    </el-row>
+
+    <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:80px;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
+            <el-card style="margin:-10px;background-color:#fafafa;height:320px;" shadow="never">
+                <h3 style="font-weight:bold">Mqtt 统计指标</h3>
+                <el-row :gutter="20" class="panel-group">
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="guide" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -72,7 +175,7 @@
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-shopping">
+                            <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="receiver" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -85,7 +188,7 @@
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-message">
+                            <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -98,7 +201,7 @@
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-shopping">
+                            <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="connect" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -111,7 +214,7 @@
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-message">
+                            <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -124,7 +227,7 @@
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-shopping">
+                            <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="message" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
@@ -137,97 +240,115 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-card style="margin:-10px;margin-top:20px;" shadow="hover">
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
+            <el-card style="margin:-10px;background-color:#fafafa;" shadow="hover">
                 <div ref="statsChart" style="height:283px;"></div>
             </el-card>
         </el-col>
-
     </el-row>
-    <div v-if="isAdmin">
-        <h2><i class="el-icon-s-data"> 服务器状态</i></h2>
-        <el-row :gutter="40">
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                <el-card style="margin:-10px;height:218px;margin-bottom:150px;background-color:#fafafa;" shadow="hover">
-                    <table class="description">
-                        <tr>
-                            <td><strong>服务器名称： </strong></td>
-                            <td>{{server.sys.computerName}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>服务器IP： </strong></td>
-                            <td>{{server.sys.computerIp}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>操作系统： </strong></td>
-                            <td>{{server.sys.osName}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>系统架构： </strong></td>
-                            <td>{{server.sys.osArch}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CPU核心： </strong></td>
-                            <td>{{server.cpu.cpuNum}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>总内存： </strong></td>
-                            <td>{{server.mem.total}}</td>
-                        </tr>
-                    </table>
-                </el-card>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                    <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
-                </el-card>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                    <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
-                </el-card>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                    <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
-                </el-card>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                    <table class="description">
-                        <tr>
-                            <td><strong>Java名称： </strong></td>
-                            <td>{{server.jvm.name}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>启动时间： </strong></td>
-                            <td>{{server.jvm.startTime}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Java版本： </strong></td>
-                            <td>{{server.jvm.version}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>运行时长： </strong></td>
-                            <td>{{server.jvm.runTime}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>占用内存： </strong></td>
-                            <td>{{server.jvm.used}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>JVM总内存： </strong></td>
-                            <td>{{server.jvm.total}}</td>
-                        </tr>
-                    </table>
-                </el-card>
-            </el-col>
-        </el-row>
-    </div>
+
+    <el-row :gutter="40" v-if="isAdmin">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <table class="description">
+                    <tr>
+                        <td><strong>服务器名称： </strong></td>
+                        <td>{{server.sys.computerName}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>服务器IP： </strong></td>
+                        <td>{{server.sys.computerIp}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>操作系统： </strong></td>
+                        <td>{{server.sys.osName}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>系统架构： </strong></td>
+                        <td>{{server.sys.osArch}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CPU核心： </strong></td>
+                        <td>{{server.cpu.cpuNum}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>总内存： </strong></td>
+                        <td>{{server.mem.total}}</td>
+                    </tr>
+                </table>
+            </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
+            </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
+            </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
+            </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <table class="description">
+                    <tr>
+                        <td><strong>Java名称： </strong></td>
+                        <td>{{server.jvm.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>启动时间： </strong></td>
+                        <td>{{server.jvm.startTime}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Java版本： </strong></td>
+                        <td>{{server.jvm.version}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>运行时长： </strong></td>
+                        <td>{{server.jvm.runTime}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>占用内存： </strong></td>
+                        <td>{{server.jvm.used}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JVM总内存： </strong></td>
+                        <td>{{server.jvm.total}}</td>
+                    </tr>
+                </table>
+            </el-card>
+        </el-col>
+    </el-row>
+
+    <!--通知公告详情 -->
+    <el-dialog :title="title" :visible.sync="open" width="800px"  append-to-body>
+        <div style="margin-top:-20px;margin-bottom:10px;">
+            <el-tag size="mini" effect="dark" type="warning" v-if="notice.noticeType==2">公告</el-tag>
+            <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+            {{notice.createTime}}
+        </div>
+        <div v-loading="loading" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
+            <div v-html="notice.noticeContent"></div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="closeDetail"> 关 闭 </el-button>
+        </div>
+    </el-dialog>
 
 </div>
 </template>
 
 <script>
+import {
+    listNotice,
+    getNotice,
+} from "@/api/system/notice";
 import CountTo from 'vue-count-to'
 import * as echarts from 'echarts';
 require('echarts/theme/macarons') // echarts theme
@@ -246,7 +367,6 @@ import {
 } from "@/api/iot/emqx";
 import {
     listAllDeviceShort,
-    listAllDeviceShort2
 } from "@/api/iot/device";
 
 export default {
@@ -256,11 +376,18 @@ export default {
     },
     data() {
         return {
-            // 控制是否显示服务器状态栏
+            // 遮罩层
+            loading: true,
+            // 是否显示弹出层
+            open: false,
+            // 弹出层标题
+            title: "",
+            // 信息列表
+            noticeList: [],
+            // 信息详情
+            notice: {},
+            // 是否为管理员
             isAdmin: true,
-            queryParams: {
-                userName: ''
-            },
             // 设备列表
             deviceList: [],
             // 设备总数
@@ -299,9 +426,7 @@ export default {
     created() {
         this.init();
         this.getAllDevice();
-        this.getServer();
-        this.getMqttStats();
-        this.statisticMqtt();
+        this.getNoticeList();
     },
     methods: {
         init() {
@@ -309,12 +434,41 @@ export default {
             // 由于admin可以看所有数据所以判断
             if (this.$store.state.user.roles.indexOf("admin") === -1) {
                 this.isAdmin = false
-                this.queryParams.userName = this.$store.state.user.name
+            } else {
+                this.getServer();
+                this.getMqttStats();
+                this.statisticMqtt();
             }
+        },
+        /** 查询公告列表 */
+        getNoticeList() {
+            let queryParams = {
+                pageNum: 1,
+                pageSize: 6,
+            };
+            listNotice(queryParams).then(response => {
+                this.noticeList = response.rows;
+            });
+        },
+        // 打开信息详情
+        openDetail(id) {
+            this.open = true;
+            this.loading=true;
+            getNotice(id).then(response => {
+                this.notice = response.data;
+                this.open = true;
+                this.title = this.notice.noticeTitle;
+                this.loading=false;
+            });
+        },
+        // 取消按钮
+        closeDetail() {
+            this.title = "";
+            this.open = false;
         },
         /**查询所有设备 */
         getAllDevice() {
-            listAllDeviceShort2(this.queryParams).then(response => {
+            listAllDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.deviceCount = response.total;
                 this.$nextTick(() => {
@@ -786,6 +940,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-container {
+    padding-bottom: 200px;
+}
+
 .description {
     font-size: 14px;
 
@@ -807,28 +965,45 @@ export default {
         color: #666;
         border: 1px solid #eee;
         border-radius: 5px;
-        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+        //box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+        background-color: #fff;
 
         &:hover {
             .card-panel-icon-wrapper {
                 color: #fff;
             }
 
-            .icon-message {
+            .icon-blue {
                 background: #36a3f7;
             }
 
-            .icon-shopping {
+            .icon-green {
                 background: #34bfa3
+            }
+
+            .icon-red {
+                background: #F56C6C;
+            }
+
+            .icon-orange {
+                background: #E6A23C;
             }
         }
 
-        .icon-message {
+        .icon-blue {
             color: #36a3f7;
         }
 
-        .icon-shopping {
+        .icon-green {
             color: #34bfa3
+        }
+
+        .icon-red {
+            color: #F56C6C;
+        }
+
+        .icon-orange {
+            color: #E6A23C;
         }
 
         .card-panel-icon-wrapper {
