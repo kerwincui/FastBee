@@ -12,7 +12,7 @@
                     </h1>
                     <h2><a href="https://wumei.live/" target="_blank">wumei smart</a> open source living iot platform</h2>
 
-                    <div style="max-width:330px;text-align:left;margin:0 auto;">
+                    <div style="max-width:330px;text-align:left;margin:0 auto;">                        
                         <div v-if="!bindAccount" style="padding:25px 0;">
                             <span style="margin-right:10px;">登录方式</span>
                             <el-button type="success" title="微信登录" size="mini" @click="authLogin" style="border:1px solid #fff;" disabled>
@@ -29,13 +29,33 @@
                             <el-button type="warning" style="padding:0px;">
                                 <el-link href="https://wumei.live/" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">返回官网</el-link>
                             </el-button>
-                            <el-button type="danger" style="padding:0px;">
+                            <el-button type="success" style="padding:0px;">
                                 <el-link href="https://wumei.live/doc" :underline="false" target="_blank" style="color:#fff;padding:12px 18px;">查看文档</el-link>
                             </el-button>
                             <el-button style="padding:0px;">
                                 <router-link :to='{path:"/register",query: this.$route.query }' style="color:#666;padding:11px 18px;display:flex;padding-bottom:12px;">注册账号
                                 </router-link>
                             </el-button>
+                        </div>
+                        <div style="line-height:20px;border:1px solid #fff;color:#eee;margin-top:30px;width:316px;">
+                            <table>
+                                <tr>
+                                    <td rowspan="3" style="width:60px;font-weight:bold;color:#fff;line-height:28px;background-color:#F56C6C;text-align:center;font-size:18px;">演 示<br />账 号</td>
+                                    <td style="padding:10px 20px 0 10px;">管理员</td>
+                                    <td style="padding:10px 30px 0 0;">wumei</td>
+                                    <td style="padding-top:10px;">123456</td>
+                                </tr>
+                                 <tr>
+                                    <td style="padding:0 20px 0 10px;">租户账号</td>
+                                    <td>wumei-t1</td>
+                                    <td>123456</td>
+                                </tr>
+                                 <tr>
+                                    <td style="padding:0 20px 10px 10px;">普通用户</td>
+                                    <td style="padding-bottom:10px;">wumei-u1</td>
+                                    <td style="padding-bottom:10px;">123456</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -44,7 +64,6 @@
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
                     <h3 class="title" v-if="!bindAccount">账号登录</h3>
                     <h3 class="bindAccountTitle" v-else>绑定物美智能账户</h3>
-                    <div style="font-size:16px;color:#333;margin-bottom:10px;">演示账号：wumei<span style="margin:0 10px;">123456</span></div>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="input-icon" />
@@ -288,7 +307,7 @@ export default {
     margin: 0px auto 20px auto;
     text-align: center;
     color: #333;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .bindAccountTitle {
@@ -301,7 +320,6 @@ export default {
 .login-top {
     color: #fff;
     text-align: center;
-    padding-top: 30px;
 
     @media screen and (min-width:992px) {
         h1 {
@@ -326,7 +344,8 @@ export default {
     }
 
     @media screen and (min-width:1920px) {
-        padding:0px;
+        padding: 0px;
+
         h1 {
             font-size: 62px;
         }
@@ -351,26 +370,34 @@ export default {
 
     .el-input {
         height: 38px;
+
         input {
             height: 38px;
             background-color: rgba(0, 0, 0, 0.1);
-            color:#333;
+            color: #333;
         }
-         // 谷歌
-        input::-webkit-input-placeholder{
-            color:#666;
+
+        // 谷歌
+        input::-webkit-input-placeholder {
+            color: #666;
         }
+
         // 火狐19+版本
-        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
-            color:#666;
+        input::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #666;
         }
+
         // 火狐4-18版本
-        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
-            color:#666;
+        input:-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #666;
         }
+
         // IE10-11版本
-        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
-            color:#666;
+        input:-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #666;
         }
     }
 
@@ -378,7 +405,7 @@ export default {
         height: 39px;
         width: 14px;
         margin-left: 2px;
-        color:#fff;
+        color: #fff;
     }
 }
 
@@ -390,8 +417,8 @@ export default {
     img {
         cursor: pointer;
         vertical-align: middle;
-        border-radius:5px;
-        height:38px;
+        border-radius: 5px;
+        height: 38px;
     }
 }
 
@@ -407,6 +434,4 @@ export default {
     font-size: 12px;
     letter-spacing: 1px;
 }
-
-
 </style>

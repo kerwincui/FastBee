@@ -287,7 +287,7 @@ export default {
     margin: 0px auto 20px auto;
     text-align: center;
     color: #333;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .login-top {
