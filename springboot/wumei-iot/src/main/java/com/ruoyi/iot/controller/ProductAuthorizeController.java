@@ -32,7 +32,7 @@ public class ProductAuthorizeController extends BaseController
     /**
      * 查询产品授权码列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:authorize:list')")
+    @PreAuthorize("@ss.hasPermi('iot:product:list')")
     @GetMapping("/list")
     public TableDataInfo list(ProductAuthorize productAuthorize)
     {

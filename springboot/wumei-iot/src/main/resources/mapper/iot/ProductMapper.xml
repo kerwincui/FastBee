@@ -51,9 +51,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
     </select>
 
-    <select id="selectProductShortList" parameterType="Long" resultMap="ProductShortResult">
+    <select id="selectProductShortList" parameterType="com.ruoyi.iot.domain.Product" resultMap="ProductShortResult">
         select product_id,product_name from iot_product
-        where tenant_id=#{userId} or is_sys = 1
+        <where>
+            <if test="tenantId != null  and tenantId != 0"> and tenant_id = #{tenantId}</if>
+        </where>
         order by create_time desc
     </select>
     

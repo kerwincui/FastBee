@@ -76,8 +76,14 @@ public class ProductServiceImpl implements IProductService
     @Override
     public List<IdAndName> selectProductShortList()
     {
+        Product product =new Product();
         SysUser user = getLoginUser().getUser();
-        return productMapper.selectProductShortList(user.getUserId());
+        List<SysRole> roles=user.getRoles();
+        // 租户
+        if(roles.stream().anyMatch(a->a.getRoleKey().equals("tenant"))){
+            product.setTenantId(user.getUserId());
+        }
+        return productMapper.selectProductShortList(product);
     }
 
     /**

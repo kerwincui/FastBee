@@ -35,10 +35,10 @@ public interface ProductMapper
     /**
      * 查询产品简短列表
      *
-     * @param userId 用户ID
+     * @param product 产品
      * @return 产品集合
      */
-    public List<IdAndName> selectProductShortList(Long userId);
+    public List<IdAndName> selectProductShortList(Product product);
 
     /**
      * 新增产品

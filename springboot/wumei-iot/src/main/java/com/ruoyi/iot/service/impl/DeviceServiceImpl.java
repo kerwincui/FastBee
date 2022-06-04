@@ -426,6 +426,13 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setTenantId(sysUser.getUserId());
         device.setTenantName(sysUser.getUserName());
         device.setRssi(0);
+        // 随机经纬度
+        if(device.getLongitude()==null || device.getLongitude().equals("")){
+            device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
+        }
+        if(device.getLatitude()==null || device.getLatitude().equals("")){
+            device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
+        }
         Product product=productService.selectProductByProductId(device.getProductId());
         device.setImgUrl(product.getImgUrl());
         deviceMapper.insertDevice(device);
