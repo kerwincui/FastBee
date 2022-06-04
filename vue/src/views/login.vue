@@ -336,7 +336,6 @@ export default {
             margin-top: -30px;
         }
     }
-
 }
 
 .login-form {
