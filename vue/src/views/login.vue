@@ -310,7 +310,7 @@ export default {
 
         h2 {
             font-size: 20px;
-            margin-top: -15px;
+            margin-top: -20px;
         }
     }
 
@@ -321,7 +321,7 @@ export default {
 
         h2 {
             font-size: 26px;
-            margin-top: -15px;
+            margin-top: -25px;
         }
     }
 
@@ -333,7 +333,7 @@ export default {
 
         h2 {
             font-size: 35px;
-            margin-top: -15px;
+            margin-top: -30px;
         }
     }
 
