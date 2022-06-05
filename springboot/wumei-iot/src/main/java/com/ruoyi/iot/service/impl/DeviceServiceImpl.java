@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.domain.DeviceUser;
 import com.ruoyi.iot.domain.Product;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
@@ -73,9 +74,6 @@ public class DeviceServiceImpl implements IDeviceService {
 
     @Autowired
     private ISysUserService userService;
-
-//    @Autowired
-//    private IDeviceLogService deviceLogService;
 
     @Autowired
     private ILogService logService;
@@ -201,7 +199,6 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setIsMonitor(valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
                     logService.saveDeviceLog(deviceLog);
-//                    deviceLogMapper.insertDeviceLog(deviceLog);
                     break;
                 }
             }
@@ -423,9 +420,12 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
         device.setUserId(sysUser.getUserId());
         device.setUserName(sysUser.getUserName());
-        device.setTenantId(sysUser.getUserId());
-        device.setTenantName(sysUser.getUserName());
         device.setRssi(0);
+        // 设置租户
+        Product product=productService.selectProductByProductId(device.getProductId());
+        device.setTenantId(product.getTenantId());
+        device.setTenantName(product.getTenantName());
+        device.setImgUrl(product.getImgUrl());
         // 随机经纬度和地址
         device.setNetworkIp("127.0.0.1");
         if(device.getLongitude()==null || device.getLongitude().equals("")){
@@ -437,20 +437,18 @@ public class DeviceServiceImpl implements IDeviceService {
         if(device.getNetworkAddress()==null || device.getNetworkAddress().equals("")){
             device.setNetworkAddress("中国");
         }
-        Product product=productService.selectProductByProductId(device.getProductId());
-        device.setImgUrl(product.getImgUrl());
         deviceMapper.insertDevice(device);
         // 添加设备用户
-//        DeviceUser deviceUser = new DeviceUser();
-//        deviceUser.setUserId(sysUser.getUserId());
-//        deviceUser.setUserName(sysUser.getUserName());
-//        deviceUser.setPhonenumber(sysUser.getPhonenumber());
-//        deviceUser.setDeviceId(device.getDeviceId());
-//        deviceUser.setDeviceName(device.getDeviceName());
-//        deviceUser.setTenantId(device.getDeviceId());
-//        deviceUser.setTenantName(device.getTenantName());
-//        deviceUser.setIsOwner(1);
-//        deviceUserMapper.insertDeviceUser(deviceUser);
+        DeviceUser deviceUser = new DeviceUser();
+        deviceUser.setUserId(sysUser.getUserId());
+        deviceUser.setUserName(sysUser.getUserName());
+        deviceUser.setPhonenumber(sysUser.getPhonenumber());
+        deviceUser.setDeviceId(device.getDeviceId());
+        deviceUser.setDeviceName(device.getDeviceName());
+        deviceUser.setTenantId(product.getTenantId());
+        deviceUser.setTenantName(product.getTenantName());
+        deviceUser.setIsOwner(1);
+        deviceUserMapper.insertDeviceUser(deviceUser);
         return device;
     }
 
@@ -468,20 +466,26 @@ public class DeviceServiceImpl implements IDeviceService {
         SysUser user=userService.selectUserById(userId);
         device.setUserId(userId);
         device.setUserName(user.getUserName());
-        Product product=productService.selectProductByProductId(productId);
         device.setProductId(productId);
-        device.setProductName(product.getProductName());
-        device.setTenantId(userId);
-        device.setTenantName(user.getUserName());
         device.setFirmwareVersion(BigDecimal.valueOf(1.0));
-        device.setStatus(3);
+        device.setStatus(1); // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
-        device.setIsCustomLocation(0);
+        device.setIsCustomLocation(1); // 1-自动定位，2-设备定位，3-自定义位置
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
+        // 随机位置
+        device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
+        device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
+        device.setNetworkAddress("中国");
+        // 产品相关
+        Product product=productService.selectProductByProductId(productId);
+        device.setTenantId(userId);
+        device.setTenantName(user.getUserName());
         device.setImgUrl(product.getImgUrl());
+        device.setProductId(product.getProductId());
+        device.setProductName(product.getProductName());
         return deviceMapper.insertDevice(device);
     }
 

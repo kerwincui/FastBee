@@ -37,7 +37,6 @@ public class ProductController extends BaseController
     /**
      * 查询产品列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:product:list')")
     @GetMapping("/list")
     @ApiOperation("产品分页列表")
     public TableDataInfo list(Product product)
