@@ -77,9 +77,6 @@
 </template>
 
 <script>
-import {
-    download
-} from '@/api/iot/tool'
 import fileUpload from '../../../components/FileUpload/index'
 import {
     listShortProduct
@@ -133,7 +130,9 @@ export default {
                 isSys: null,
             },
             // 表单参数
-            form: {},
+            form: {
+                version: 1.0
+            },
             // 表单校验
             rules: {
                 firmwareName: [{
@@ -213,7 +212,7 @@ export default {
                 tenantId: null,
                 tenantName: null,
                 isSys: null,
-                version: null,
+                version: 1.0,
                 filePath: null,
                 delFlag: null,
                 createBy: null,
@@ -329,7 +328,7 @@ export default {
         },
         // 文件下载处理
         handleDownload(row) {
-            download(row.filePath);
+            window.open(process.env.VUE_APP_BASE_API+row.filePath);
         }
 
     },

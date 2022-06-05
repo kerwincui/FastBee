@@ -18,22 +18,3 @@ export function register(data) {
     data: data
   })
 }
-
-// 下载文件
-export function download(resource) {  
-  var url = baseURL + "/iot/tool/download?fileName=" + encodeURI(resource);  
-  axios({
-    method: 'get',
-    url: url,
-    responseType: 'blob',
-    headers: { 'Authorization': 'Bearer ' + getToken() }
-  }).then(async (res) => {
-    const isLogin = await blobValidate(res.data);
-    if (isLogin) {
-      const blob = new Blob([res.data])
-      saveAs(blob, decodeURI(res.headers['download-filename']))
-    } else {
-      Message.error('无效的会话，或者会话已过期，请重新登录。');
-    }
-  })
-}

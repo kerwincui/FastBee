@@ -124,7 +124,7 @@ export default {
     },
     // 上传成功回调
     handleUploadSuccess(res) {
-      this.fileList.push({ name: res.fileName, url: process.env.VUE_APP_BASE_API + "/iot/tool/download?fileName="+res.fileName });
+      this.fileList.push({ name: res.fileName, url: process.env.VUE_APP_BASE_API +res.fileName });
       this.$emit("input", this.listToString(this.fileList));
       this.loading.close();
     },

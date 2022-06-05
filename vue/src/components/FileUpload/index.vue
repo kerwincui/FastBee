@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_BASE_API,
-      uploadFileUrl: process.env.VUE_APP_BASE_API + "/iot/tool/upload", // 上传的图片服务器地址
+      uploadFileUrl: process.env.VUE_APP_BASE_API + "/iot/tool/upload", // 上传文件服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },
