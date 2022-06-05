@@ -33,7 +33,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="设备认证" prop="vertificateMethod">
-                            <el-select v-model="form.vertificateMethod" placeholder="请选择认证方式" style="width:100%">
+                            <el-select v-model="form.vertificateMethod" placeholder="请选择认证方式" style="width:100%" :disabled="form.status==2">
                                 <el-option v-for="dict in dict.type.iot_vertificate_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
@@ -122,7 +122,6 @@ import productAuthorize from "./product-authorize"
 import imageUpload from "../../../components/ImageUpload/index"
 import {
     listShortCategory,
-    listShortCategory1
 } from "@/api/iot/category";
 import {
     getProduct,
@@ -188,11 +187,8 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.tenantName = this.$store.state.user.name
-            }
             // 获取简短分类列表
-            listShortCategory1(this.queryParams).then(response => {
+            listShortCategory().then(response => {
                 this.categoryShortList = response.data;
             })
         },

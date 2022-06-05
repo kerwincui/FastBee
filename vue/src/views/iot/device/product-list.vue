@@ -20,9 +20,16 @@
             </el-table-column>
             <el-table-column label="产品名称" align="center" prop="productName" />
             <el-table-column label="分类名称" align="center" prop="categoryName" />
-            <el-table-column label="状态" align="center" prop="status">
+            <el-table-column label="租户名称" align="center" prop="tenantName" />
+            <el-table-column label="授权码" align="center" prop="status">
                 <template slot-scope="scope">
-                    <dict-tag :options="dict.type.iot_product_status" :value="scope.row.status" />
+                    <el-tag type="success" v-if="scope.row.isAuthorize==1">启用</el-tag>
+                    <el-tag type="info" v-if="scope.row.isAuthorize==0">未启用</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="认证方式" align="center" prop="status">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_vertificate_method" :value="scope.row.vertificateMethod" />
                 </template>
             </el-table-column>
             <el-table-column label="联网方式" align="center" prop="networkMethod">
@@ -30,7 +37,7 @@
                     <dict-tag :options="dict.type.iot_network_method" :value="scope.row.networkMethod" />
                 </template>
             </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="createTime" width="150">
+            <el-table-column label="创建时间" align="center" prop="createTime" width="100">
                 <template slot-scope="scope">
                     <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                 </template>
@@ -53,7 +60,7 @@ import {
 
 export default {
     name: "Product",
-    dicts: [ 'iot_product_status', 'iot_network_method'],
+    dicts: ['iot_vertificate_method', 'iot_network_method'],
     props: {
         productId: {
             type: Number,
@@ -95,10 +102,6 @@ export default {
         /** 查询产品列表 */
         getList() {
             this.loading = true;
-          // 判断是否是admin角色
-            if (this.$store.state.user.roles.indexOf("admin") === -1){
-              this.queryParams.tenantName = this.$store.state.user.name
-            }
             listProduct(this.queryParams).then(response => {
                 this.productList = response.rows;
                 this.total = response.total;

@@ -49,7 +49,7 @@
     <el-row :gutter="40" style="margin-bottom:100px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#eee;">
-                <div ref="map" style="height:650px;margin:-17px;margin-top:-12px;"></div>
+                <div ref="map" style="height:651px;margin:-17px;margin-top:-12px;"></div>
             </el-card>
         </el-col>
 

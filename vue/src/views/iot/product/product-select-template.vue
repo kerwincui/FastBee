@@ -71,7 +71,6 @@ export default {
                 pageSize: 10,
                 templateName: null,
                 type: null,
-                tenantName:''
             },
         };
     },
@@ -83,9 +82,6 @@ export default {
         /** 查询通用物模型列表 */
         getList() {
             this.loading = true;
-          if (this.$store.state.user.roles.indexOf("admin") === -1){
-            this.queryParams.tenantName = this.$store.state.user.name
-          }
             listTemplate(this.queryParams).then((response) => {
                 this.templateList = response.rows;
                 this.total = response.total;
