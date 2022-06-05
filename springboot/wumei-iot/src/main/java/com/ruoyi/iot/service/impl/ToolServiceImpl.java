@@ -200,6 +200,10 @@ public class ToolServiceImpl implements IToolService
      */
     @Override
     public ResponseEntity simpleMqttAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) {
+        // 1=简单认证，2=加密认证，3=简单+加密认证
+        if(productModel.getVertificateMethod()!=1 && productModel.getVertificateMethod()!=3){
+            return returnUnauthorized(mqttModel, "设备简单认证，设备对应产品不支持简单认证");
+        }
         String[] passwordArray = mqttModel.getPassword().split("&");
         if (productModel.getIsAuthorize() == 1 && passwordArray.length != 2) {
             return returnUnauthorized(mqttModel, "设备简单认证，产品启用授权码后，密码格式为：密码 & 授权码");
@@ -242,6 +246,10 @@ public class ToolServiceImpl implements IToolService
      */
     @Override
     public ResponseEntity encryptAuthentication(MqttAuthenticationModel mqttModel, ProductAuthenticateModel productModel) throws Exception {
+        // 1=简单认证，2=加密认证，3=简单+加密认证
+        if(productModel.getVertificateMethod()!=2 && productModel.getVertificateMethod()!=3){
+            return returnUnauthorized(mqttModel, "设备加密认证，设备对应产品不支持加密认证");
+        }
         String decryptPassword = AESUtils.decrypt(mqttModel.getPassword(), productModel.getMqttSecret());
         if (decryptPassword == null || decryptPassword.equals("")) {
             return returnUnauthorized(mqttModel, "设备加密认证，mqtt密码解密失败");

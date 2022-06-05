@@ -80,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="mqttAccount"    column="mqtt_account"    />
         <result property="mqttPassword"    column="mqtt_password"    />
         <result property="mqttSecret"    column="mqtt_secret"    />
+        <result property="vertificateMethod"    column="vertificate_method"    />
     </resultMap>
 
     <resultMap type="com.ruoyi.iot.model.ThingsModels.ThingsModelValuesOutput" id="DeviceThingsValueResult">
@@ -171,7 +172,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectProductAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">
-        SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.is_authorize,p.product_id,p.product_name,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.serial_number
+        SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.is_authorize,p.product_id,p.product_name,p.vertificate_method,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.serial_number
         FROM iot_product p
                 LEFT JOIN ( SELECT device_id, device_name, STATUS, product_id, product_name, serial_number
                 FROM iot_device

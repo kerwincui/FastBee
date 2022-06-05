@@ -37,6 +37,16 @@ public class ProductAuthenticateModel {
     /** 产品秘钥 */
     private String mqttSecret;
 
+    private int vertificateMethod;
+
+    public int getVertificateMethod() {
+        return vertificateMethod;
+    }
+
+    public void setVertificateMethod(int vertificateMethod) {
+        this.vertificateMethod = vertificateMethod;
+    }
+
     public Integer getIsAuthorize() {
         return isAuthorize;
     }
