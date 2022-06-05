@@ -327,11 +327,11 @@
     </el-row>
 
     <!--通知公告详情 -->
-    <el-dialog :title="title" :visible.sync="open" width="800px"  append-to-body>
+    <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px"  append-to-body>
         <div style="margin-top:-20px;margin-bottom:10px;">
             <el-tag size="mini" effect="dark" type="warning" v-if="notice.noticeType==2">公告</el-tag>
             <el-tag size="mini" effect="dark" v-else>信息</el-tag>
-            {{notice.createTime}}
+            <span style="margin-left:20px;">{{notice.createTime}}</span>
         </div>
         <div v-loading="loading" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
             <div v-html="notice.noticeContent"></div>
@@ -385,8 +385,6 @@ export default {
             loading: true,
             // 是否显示弹出层
             open: false,
-            // 弹出层标题
-            title: "",
             // 信息列表
             noticeList: [],
             // 信息详情
@@ -462,7 +460,6 @@ export default {
             getNotice(id).then(response => {
                 this.notice = response.data;
                 this.open = true;
-                this.title = this.notice.noticeTitle;
                 this.loading=false;
             });
         },

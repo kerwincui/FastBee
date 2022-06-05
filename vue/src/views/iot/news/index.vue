@@ -83,6 +83,7 @@
         <el-table-column label="备注" align="center" prop="remark" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
+                <el-button size="mini" type="text" icon="el-icon-view" @click="openDetailDialog(scope.row.newsId)">查看</el-button>
                 <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:news:edit']">修改</el-button>
                 <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:news:remove']">删除</el-button>
             </template>
@@ -144,6 +145,20 @@
             <el-button @click="cancel">取 消</el-button>
         </div>
     </el-dialog>
+
+    <!--通知公告详情 -->
+    <el-dialog :title="form.title" :visible.sync="openDetail" width="800px" append-to-body>
+        <div style="margin-top:-20px;margin-bottom:10px;">
+            <el-tag size="mini" effect="dark" type="success">{{form.categoryName}}</el-tag>
+            <span style="margin-left:20px;">{{form.createTime}}</span>
+        </div>
+        <div v-loading="loadingDetail" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
+            <div v-html="form.content"></div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="closeDetail"> 关 闭 </el-button>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -169,7 +184,11 @@ export default {
     data() {
         return {
             // 是否为管理员
-            isAdmin:false,
+            isAdmin: false,
+            // 详情加载
+            loadingDetail: false,
+            // 打开详情
+            openDetail: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -231,15 +250,16 @@ export default {
     created() {
         this.getList();
         this.init();
-        // 获取分类列表
-        listShortNewsCategory().then(response => {
-            this.categoryList = response.data;
-        })
+
     },
     methods: {
         init() {
-            if (this.$store.state.user.roles.indexOf("tenant") === -1 || this.$store.state.user.roles.indexOf("tenant") === -1) {
+            if (this.$store.state.user.roles.indexOf("tenant") === -1 && this.$store.state.user.roles.indexOf("general") === -1) {
                 this.isAdmin = true
+                // 获取分类列表
+                listShortNewsCategory().then(response => {
+                    this.categoryList = response.data;
+                })
             }
         },
         /** 查询新闻资讯列表 */
@@ -363,6 +383,22 @@ export default {
                     return;
                 }
             }
+        },
+        // 打开信息详情
+        openDetailDialog(newsId ) {
+            this.openDetail = true;
+            this.loadingDetail = true;
+            getNews(newsId).then(response => {
+               this.form = response.data;
+                this.openDetail = true;
+                this.loadingDetail = false;
+            });
+        },
+        // 取消按钮
+        closeDetail() {
+            this.titleDetail = "详情";
+            this.openDetail = false;
+            this.reset();
         },
     }
 };
