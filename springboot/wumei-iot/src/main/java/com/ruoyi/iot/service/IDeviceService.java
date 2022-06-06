@@ -72,6 +72,14 @@ public interface IDeviceService
     public List<Device> selectDeviceList(Device device);
 
     /**
+     * 查询分组可添加设备分页列表
+     *
+     * @param device 设备
+     * @return 设备集合
+     */
+    public List<Device> selectDeviceListByGroup(Device device);
+
+    /**
      * 查询所有设备简短列表
      *
      * @return 设备

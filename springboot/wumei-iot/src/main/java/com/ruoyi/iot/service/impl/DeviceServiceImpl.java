@@ -231,6 +231,20 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
+     * 查询分组可添加设备分页列表（分组用户与设备用户匹配）
+     *
+     * @param device 设备
+     * @return 设备
+     */
+    @Override
+    public List<Device> selectDeviceListByGroup(Device device) {
+        if(device.getUserId()==null || device.getUserId()==0){
+            return new ArrayList<>();
+        }
+        return deviceMapper.selectDeviceListByGroup(device);
+    }
+
+    /**
      * 查询所有设备简短列表
      *
      * @return 设备

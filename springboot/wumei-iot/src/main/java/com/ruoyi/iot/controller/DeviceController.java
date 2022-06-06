@@ -48,7 +48,19 @@ public class DeviceController extends BaseController
     }
 
     /**
-     * 查询设备简短列表
+     * 查询分组可添加设备
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:list')")
+    @GetMapping("/listByGroup")
+    @ApiOperation("查询分组可添加设备分页列表")
+    public TableDataInfo listByGroup(Device device)
+    {
+        startPage();
+        return getDataTable(deviceService.selectDeviceListByGroup(device));
+    }
+
+    /**
+     * 查询设备简短列表，主页列表数据
      */
     @PreAuthorize("@ss.hasPermi('iot:device:list')")
     @GetMapping("/shortList")
