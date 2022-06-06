@@ -47,7 +47,7 @@ public class DeviceAllShortOutput
     private Date activeTime;
 
     /** 是否自定义位置 **/
-    private Integer isCustomLocation;
+    private Integer locationWay;
 
     /** 设备地址 */
     private String networkAddress;
@@ -82,12 +82,12 @@ public class DeviceAllShortOutput
         this.latitude = latitude;
     }
 
-    public Integer getIsCustomLocation() {
-        return isCustomLocation;
+    public Integer getlocationWay() {
+        return locationWay;
     }
 
-    public void setIsCustomLocation(Integer isCustomLocation) {
-        this.isCustomLocation = isCustomLocation;
+    public void setlocationWay(Integer locationWay) {
+        this.locationWay = locationWay;
     }
 
     public Integer getIsShadow() {

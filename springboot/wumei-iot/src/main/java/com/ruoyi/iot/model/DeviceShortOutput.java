@@ -88,7 +88,7 @@ public class DeviceShortOutput
     private Date activeTime;
 
     /** 是否自定义位置 **/
-    private Integer isCustomLocation;
+    private Integer locationWay;
 
     /** 图片地址 */
     private String imgUrl;
@@ -101,12 +101,12 @@ public class DeviceShortOutput
     private List<BoolModelOutput> boolList;
     private List<ReadOnlyModelOutput> readOnlyList;
 
-    public Integer getIsCustomLocation() {
-        return isCustomLocation;
+    public Integer getlocationWay() {
+        return locationWay;
     }
 
-    public void setIsCustomLocation(Integer isCustomLocation) {
-        this.isCustomLocation = isCustomLocation;
+    public void setlocationWay(Integer locationWay) {
+        this.locationWay = locationWay;
     }
 
     public String getImgUrl() {

@@ -97,17 +97,28 @@ public class Device extends BaseEntity
     private String imgUrl;
 
     /** 是否自定义位置 **/
-    private Integer isCustomLocation;
+    private Integer locationWay;
+
+    /** 设备摘要 **/
+    private String summary;
 
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
-    public Integer getIsCustomLocation() {
-        return isCustomLocation;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setIsCustomLocation(Integer isCustomLocation) {
-        this.isCustomLocation = isCustomLocation;
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Integer getlocationWay() {
+        return locationWay;
+    }
+
+    public void setlocationWay(Integer locationWay) {
+        this.locationWay = locationWay;
     }
 
     public String getImgUrl() {

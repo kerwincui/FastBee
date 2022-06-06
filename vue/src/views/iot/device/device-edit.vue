@@ -7,7 +7,9 @@
                 <el-row :gutter="100">
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="设备名称" prop="deviceName">
-                            <el-input v-model="form.deviceName" placeholder="请输入设备名称" />
+                            <el-input v-model="form.deviceName" placeholder="请输入设备名称">
+                                <el-button slot="append" @click="openSummaryDialog" :disabled="form.deviceId==0">摘要</el-button>
+                            </el-input>
                         </el-form-item>
                         <el-form-item label="" prop="serialNumber">
                             <template slot="label">
@@ -43,23 +45,23 @@
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                        <el-form-item label="定位方式" prop="isCustomLocation">
-                            <el-select v-model="form.isCustomLocation" placeholder="请选择设备状态" clearable size="small" style="width:100%;">
+                        <el-form-item label="定位方式" prop="locationWay">
+                            <el-select v-model="form.locationWay" placeholder="请选择设备状态" clearable size="small" style="width:100%;">
                                 <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="设备经度" prop="longitude">
-                            <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.isCustomLocation!=3">
+                            <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.locationWay!=3">
                                 <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="设备纬度" prop="latitude">
-                            <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.isCustomLocation!=3">
+                            <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.locationWay!=3">
                                 <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="所在地址" prop="networkAddress">
-                            <el-input v-model="form.networkAddress" placeholder="请输入设备所在地址" :disabled="form.isCustomLocation!=3" />
+                            <el-input v-model="form.networkAddress" placeholder="请输入设备所在地址" :disabled="form.locationWay!=3" />
                         </el-form-item>
                         <el-form-item label="入网地址" prop="networkIp">
                             <el-input v-model="form.networkIp" placeholder="设备入网IP" disabled />
@@ -136,10 +138,27 @@
         </el-tab-pane>
     </el-tabs>
 
+    <!-- 设备配置JSON -->
+    <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="600px" append-to-body>    
+        <div style="border:1px solid #ccc;margin-top:-15px;height:400px; overflow:scroll;">
+            <json-viewer :value="summary" :expand-depth=10 copyable>
+                <template v-slot:copy>
+                    复制
+                </template>
+            </json-viewer>
+        </div>
+        <div slot="footer" class="dialog-footer">
+            
+            <el-button type="info" @click="closeSummaryDialog">关 闭</el-button>
+        </div>
+    </el-dialog>
+
 </el-card>
 </template>
 
 <script>
+import JsonViewer from 'vue-json-viewer'
+import 'vue-json-viewer/style.css'
 import productList from "./product-list"
 import deviceLog from './device-log';
 import deviceUser from './device-user';
@@ -158,7 +177,7 @@ import {
 
 export default {
     name: "DeviceEdit",
-    dicts: ['iot_device_status','iot_location_way'],
+    dicts: ['iot_device_status', 'iot_location_way'],
     components: {
         deviceLog,
         deviceUser,
@@ -166,6 +185,7 @@ export default {
         runningStatus,
         productList,
         deviceTimer,
+        JsonViewer,
     },
     watch: {
         activeName(val) {
@@ -179,6 +199,8 @@ export default {
     },
     data() {
         return {
+            // 打开设备配置对话框
+            openSummary:false,
             // 是否加载完成
             isLoaded: false,
             // 生成设备编码是否禁用
@@ -193,9 +215,11 @@ export default {
             form: {
                 productId: 0,
                 status: 1,
-                isCustomLocation: 1,
+                locationWay: 1,
                 firmwareVersion: 1.0,
             },
+            // 设备摘要
+            summary:[],
             // 图片地址
             imageUrl: require('@/assets/images/product.jpg'),
             // 地址
@@ -255,6 +279,7 @@ export default {
         getDevice(deviceId) {
             getDevice(deviceId).then(response => {
                 this.form = response.data;
+                this.summary=JSON.parse(this.form.summary);
                 // 禁用状态
                 if (this.form.status == 2) {
                     this.deviceStatus = 1;
@@ -311,7 +336,7 @@ export default {
                 updateBy: null,
                 updateTime: null,
                 remark: null,
-                isCustomLocation: 1,
+                locationWay: 1,
             };
             this.deviceStatus = 0;
             this.resetForm("form");
@@ -357,6 +382,14 @@ export default {
         // 获取选中的用户
         getUserData(user) {
 
+        },
+        /**关闭物模型 */
+        openSummaryDialog() {
+            this.openSummary = true;
+        },
+        /**关闭物模型 */
+        closeSummaryDialog() {
+            this.openSummary = false;
         },
 
         // 地图定位

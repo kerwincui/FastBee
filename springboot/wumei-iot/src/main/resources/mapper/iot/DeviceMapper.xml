@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="status"    column="status"    />
         <result property="rssi"    column="rssi"    />
         <result property="isShadow"    column="is_shadow"    />
-        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="locationWay"    column="location_way"    />
         <result property="thingsModelValue"    column="things_model_value"    />
         <result property="networkAddress"    column="network_address"    />
         <result property="networkIp"    column="network_ip"    />
@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
         <result property="imgUrl"    column="img_url"    />
+        <result property="summary"    column="summary"    />
     </resultMap>
 
     <resultMap type="com.ruoyi.iot.model.DeviceShortOutput" id="DeviceShortResult">
@@ -46,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="activeTime"    column="active_time"    />
         <result property="rssi"    column="rssi"    />
         <result property="isShadow"    column="is_shadow"    />
-        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="locationWay"    column="location_way"    />
         <result property="thingsModelValue"    column="things_model_value"    />
         <result property="imgUrl"    column="img_url"    />
     </resultMap>
@@ -62,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="activeTime"    column="active_time"    />
         <result property="rssi"    column="rssi"    />
         <result property="isShadow"    column="is_shadow"    />
-        <result property="isCustomLocation"    column="is_custom_location"    />
+        <result property="locationWay"    column="location_way"    />
         <result property="networkAddress"    column="network_address"    />
         <result property="longitude"    column="longitude"    />
         <result property="latitude"    column="latitude"    />
@@ -96,15 +97,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDeviceVo">
-        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status, rssi,is_shadow ,is_custom_location,things_model_value,network_address, network_ip, longitude, latitude, active_time, create_time, update_time, img_url,remark from iot_device
+        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status, rssi,is_shadow ,location_way,things_model_value,network_address, network_ip, longitude, latitude, active_time, create_time, update_time, img_url,summary,remark from iot_device
     </sql>
 
     <sql id="selectDeviceShortVo">
-        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status,rssi,is_shadow ,is_custom_location,things_model_value, active_time,img_url from iot_device
+        select device_id, device_name, product_id, product_name, user_id, user_name, tenant_id, tenant_name, serial_number, firmware_version, status,rssi,is_shadow ,location_way,things_model_value, active_time,img_url from iot_device
     </sql>
 
     <sql id="selectWebhookDeviceVo">
-        select device_id, device_name,product_id, serial_number, status,is_shadow ,is_custom_location,things_model_value, active_time from iot_device
+        select device_id, device_name,product_id, serial_number, status,is_shadow ,location_way,things_model_value, active_time from iot_device
     </sql>
 
     <select id="selectDeviceList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
@@ -127,7 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectAllDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceAllShortResult">
         select d.device_id, d.device_name, d.product_name, d.user_name, d.serial_number, d.firmware_version, d.status,d.rssi,d.is_shadow ,
-               d.is_custom_location, d.active_time,d.network_address,d.longitude,latitude
+               d.location_way, d.active_time,d.network_address,d.longitude,latitude
         from iot_device d
         left join iot_device_user u on u.device_id = d.device_id
         <where>
@@ -147,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceShortResult">
         select d.device_id, d.device_name, d.product_id, d.product_name,
         d.user_id, d.user_name, d.tenant_id, d.tenant_name, d.serial_number,
-        d.firmware_version, d.status,d.rssi,d.is_shadow ,d.is_custom_location,
+        d.firmware_version, d.status,d.rssi,d.is_shadow ,d.location_way,
         d.things_model_value, d.active_time,img_url
         from iot_device d
         left join iot_device_user u on u.device_id = d.device_id
@@ -211,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status,</if>
             <if test="rssi != null">rssi,</if>
             <if test="isShadow != null">is_shadow,</if>
-            <if test="isCustomLocation != null">is_custom_location,</if>
+            <if test="locationWay != null">location_way,</if>
             <if test="thingsModelValue != null">things_model_value,</if>
             <if test="networkAddress != null">network_address,</if>
             <if test="networkIp != null">network_ip,</if>
@@ -239,7 +240,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">#{status},</if>
             <if test="rssi != null">#{rssi},</if>
             <if test="isShadow != null">#{isShadow},</if>
-            <if test="isCustomLocation != null">#{isCustomLocation},</if>
+            <if test="locationWay != null">#{locationWay},</if>
             <if test="thingsModelValue != null">#{thingsModelValue},</if>
             <if test="networkAddress != null">#{networkAddress},</if>
             <if test="networkIp != null">#{networkIp},</if>
@@ -271,7 +272,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status = #{status},</if>
             <if test="rssi != null">rssi = #{rssi},</if>
             <if test="isShadow != null">is_shadow = #{isShadow},</if>
-            <if test="isCustomLocation != null">is_custom_location = #{isCustomLocation},</if>
+            <if test="locationWay != null">location_way = #{locationWay},</if>
             <if test="thingsModelValue != null">things_model_value = #{thingsModelValue},</if>
             <if test="networkAddress != null">network_address = #{networkAddress},</if>
             <if test="networkIp != null">network_ip = #{networkIp},</if>
@@ -323,7 +324,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status = #{status},</if>
             <if test="rssi != null">rssi = #{rssi},</if>
             <if test="isShadow != null">is_shadow = #{isShadow},</if>
-            <if test="isCustomLocation != null">is_custom_location = #{isCustomLocation},</if>
+            <if test="locationWay != null">location_way = #{locationWay},</if>
             <if test="thingsModelValue != null">things_model_value = #{thingsModelValue},</if>
             <if test="networkAddress != null">network_address = #{networkAddress},</if>
             <if test="networkIp != null">network_ip = #{networkIp},</if>

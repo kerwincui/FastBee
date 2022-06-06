@@ -472,7 +472,7 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
-        device.setIsCustomLocation(1); // 1-自动定位，2-设备定位，3-自定义位置
+        device.setlocationWay(1); // 1-自动定位，2-设备定位，3-自定义位置
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
         // 随机位置
@@ -609,7 +609,7 @@ public class DeviceServiceImpl implements IDeviceService {
                 device.setActiveTime(DateUtils.getNowDate());
             }
             // 定位方式(1=ip自动定位，2=设备定位，3=自定义)
-            if (device.getIsCustomLocation() == 1) {
+            if (device.getlocationWay() == 1) {
                 device.setNetworkIp(ipAddress);
                 setLocation(ipAddress, device);
             }
