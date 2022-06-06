@@ -66,72 +66,72 @@
                                 <div class="card-panel-text">
                                     设备数量
                                 </div>
-                                <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
+                                <count-to :start-val="0" :end-val="deviceStatistic.deviceCount" :duration="3000" class="card-panel-num" />
                             </div>
                         </div>
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-red">
-                                <svg-icon icon-class="product" class-name="card-panel-icon" />
+                                <svg-icon icon-class="monitor-a" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    监测数据
+                                </div>
+                                <count-to :start-val="0" :end-val="deviceStatistic.monitorCount" :duration="3000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-blue">
+                                <svg-icon icon-class="model" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
                                 <div class="card-panel-text">
                                     产品数量
                                 </div>
-                                <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="12" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-blue">
-                                <svg-icon icon-class="guide" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    上报数据
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
+                                <count-to :start-val="0" :end-val="deviceStatistic.productCount" :duration="1000" class="card-panel-num" />
                             </div>
                         </div>
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-red">
-                                <svg-icon icon-class="receiver" class-name="card-panel-icon" />
+                                <svg-icon icon-class="log-a" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
                                 <div class="card-panel-text">
-                                    下发数据
+                                    功能操作
                                 </div>
-                                <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
+                                <count-to :start-val="0" :end-val="deviceStatistic.functionCount" :duration="1000" class="card-panel-num" />
                             </div>
                         </div>
                     </el-col>
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-blue">
-                                <svg-icon icon-class="log" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    操作次数
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="12" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-red">
                                 <svg-icon icon-class="alert" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
                                 <div class="card-panel-text">
-                                    触发事件
+                                    告警数量
                                 </div>
-                                <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
+                                <count-to :start-val="0" :end-val="deviceStatistic.alertCount" :duration="2000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-red">
+                                <svg-icon icon-class="event-a" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    上报事件
+                                </div>
+                                <count-to :start-val="0" :end-val="deviceStatistic.eventCount" :duration="2000" class="card-panel-num" />
                             </div>
                         </div>
                     </el-col>
@@ -155,7 +155,7 @@
         </el-col>   
     </el-row>
 
-    <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:80px;">
+    <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:50px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-card style="margin:-10px;background-color:#fafafa;height:320px;" shadow="never">
                 <h3 style="font-weight:bold">Mqtt 统计指标</h3>
@@ -351,6 +351,9 @@
 
 <script>
 import {
+    getDeviceStatistic,
+} from "@/api/iot/device";
+import {
     listNotice,
     getNotice,
 } from "@/api/system/notice";
@@ -393,6 +396,8 @@ export default {
             isAdmin: false,
             // 设备列表
             deviceList: [],
+            // 设备统计信息
+            deviceStatistic:{},
             // 设备总数
             deviceCount: 0,
             // emqx状态数据
@@ -430,6 +435,7 @@ export default {
         this.init();
         this.getAllDevice();
         this.getNoticeList();
+        this.getDeviceStatistic();
     },
     methods: {
         init() {
@@ -439,6 +445,13 @@ export default {
                 this.getMqttStats();
                 this.statisticMqtt();
             }
+        },
+        /** 查询设备统计信息 */
+        getDeviceStatistic(){
+            getDeviceStatistic().then(response => {
+                this.deviceStatistic = response.data;
+                console.log( this.deviceStatistic);
+            });
         },
         /** 查询公告列表 */
         getNoticeList() {
@@ -586,7 +599,7 @@ export default {
                                 featureType: 'land',
                                 elementType: 'all',
                                 stylers: {
-                                    color: '#fffff8'
+                                    color: '#fafafa'  // #fffff8 淡黄色
                                 }
                             },
                             {

@@ -34,10 +34,19 @@ export function listAllDeviceShort() {
         method: 'get',
     })
 }
+
 // 查询设备详细
 export function getDevice(deviceId) {
     return request({
         url: '/iot/device/' + deviceId,
+        method: 'get'
+    })
+}
+
+// 查询设备统计信息
+export function getDeviceStatistic() {
+    return request({
+        url: '/iot/device/statistic',
         method: 'get'
     })
 }
