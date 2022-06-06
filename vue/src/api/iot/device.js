@@ -9,6 +9,15 @@ export function listDevice(query) {
     })
 }
 
+// 查询分组可添加设备分页列表
+export function listDeviceByGroup(query) {
+    return request({
+        url: '/iot/device/listByGroup',
+        method: 'get',
+        params: query
+    })
+}
+
 // 查询设备简短列表
 export function listDeviceShort(query) {
     return request({

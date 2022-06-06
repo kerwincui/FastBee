@@ -25,8 +25,9 @@
                 </template>
             </el-table-column>
             <el-table-column label="备注" align="left" prop="remark" />
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="230">
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="320">
                 <template slot-scope="scope">
+                    <el-button size="small" type="warning" style="padding:5px;" icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)" v-hasPermi="['iot:device:query']">查看设备</el-button>
                     <el-button size="small" type="success" style="padding:5px;" icon="el-icon-edit" @click="selectDevice(scope.row)" v-hasPermi="['iot:group:edit']">添加设备</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:group:edit']">修改</el-button>
                     <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:group:remove']">删除</el-button>
@@ -36,7 +37,7 @@
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <el-dialog title="选择设备" :visible.sync="openDeviceList" width="800px" append-to-body>
-            <device-list ref="deviceList" :groupId="deviceGroup.groupId" @idsToParentEvent="getChildData($event)"></device-list>
+            <device-list ref="deviceList" :group="group" @idsToParentEvent="getChildData($event)"></device-list>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="handleDeviceSelected">确 定</el-button>
                 <el-button @click="closeSelectDeviceList">取 消</el-button>
@@ -112,7 +113,7 @@ export default {
                 userName: null,
             },
             // 设备分组
-            deviceGroup: {},
+            group: {},
             // 表单参数
             form: {},
             // 表单校验
@@ -141,6 +142,16 @@ export default {
         this.getList();
     },
     methods: {
+        /** 查看设备按钮操作 */
+        handleViewDevice(groupId) {
+            this.$router.push({
+                path: '/iot/device',
+                query: {
+                    t: Date.now(),
+                    groupId: groupId,
+                }
+            });
+        },
         /** 查询设备分组列表 */
         getList() {
             this.loading = true;
@@ -211,9 +222,9 @@ export default {
         },
         /** 选择设备 */
         selectDevice(row) {
-            this.deviceGroup.groupId = row.groupId;
+            this.group = row;
             this.openDeviceList = true;
-            this.$refs.deviceList.getDeviceIdsByGroupId();
+            // this.$refs.deviceList.getDeviceIdsByGroupId(row.groupId);
         },
         /** 提交按钮 */
         submitForm() {
@@ -253,11 +264,11 @@ export default {
         },
         // 获取子组件选中的ID数组
         getChildData(data) {
-            this.deviceGroup.deviceIds = data;
+            this.group.deviceIds = data;
         },
         // 更新分组下的设备
         handleDeviceSelected() {
-            updateDeviceGroups(this.deviceGroup).then(response => {
+            updateDeviceGroups(this.group).then(response => {
                 this.$modal.msgSuccess("更新分组下的设备成功");
                 this.openDeviceList = false;
             })

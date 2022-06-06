@@ -32,24 +32,24 @@ import {
     getDeviceIds
 } from "@/api/iot/group"
 import {
-    listDeviceShort,
+    listDeviceByGroup,
 } from "@/api/iot/device";
 
 export default {
     name: "device-list",
     dicts: ['iot_device_status'],
     props: {
-        groupId: {
-            type: Number,
+        group: {
+            type: Object,
             default: null
         }
     },
     data() {
         return {
+            // 设备分组
+            deviceGroup:{},
             // 遮罩层
             loading: true,
-            // 分组信息
-            parentGroupId:0,
             // 选中数组
             ids: [],
             // 显示搜索条件
@@ -62,6 +62,7 @@ export default {
             queryParams: {
                 pageNum: 1,
                 pageSize: 10,
+                userId:null,
                 deviceName: null,
                 productId: null,
                 productName: null,
@@ -78,11 +79,12 @@ export default {
     },
     watch: {
         // 获取到父组件传递的group后，刷新列表
-        groupId: {
+        group: {
             handler(newVal, oldVal) {
-                this.parentGroupId = newVal;
+                this.deviceGroup = newVal;
                 // 获取分组下的设备
-                this.queryParams.pageNum=1;
+                this.queryParams.userId=this.deviceGroup.userId;
+                this.queryParams.pageNum = 1;
                 this.getDeviceIdsByGroupId();
             },
             immediate: true
@@ -94,7 +96,7 @@ export default {
     methods: {
         // 获取分组下关联的设备ID数组
         getDeviceIdsByGroupId() {
-            getDeviceIds(this.parentGroupId).then(response => {
+            getDeviceIds(this.deviceGroup.groupId).then(response => {
                 this.ids = response.data;
                 this.getList();
             });
@@ -107,7 +109,7 @@ export default {
                 this.queryParams.params["beginActiveTime"] = this.daterangeActiveTime[0];
                 this.queryParams.params["endActiveTime"] = this.daterangeActiveTime[1];
             }
-            listDeviceShort(this.queryParams).then(response => {
+            listDeviceByGroup(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.total = response.total;
                 this.loading = false;

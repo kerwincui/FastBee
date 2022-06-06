@@ -192,7 +192,7 @@ import {
 
 export default {
     name: "Device",
-    dicts: ['iot_device_status', 'iot_is_enable','iot_location_way'],
+    dicts: ['iot_device_status', 'iot_is_enable', 'iot_location_way'],
     components: {
         mqttClient
     },
@@ -237,6 +237,7 @@ export default {
                 deviceName: null,
                 productId: null,
                 groupId: null,
+                groupId: null,
                 productName: null,
                 userId: null,
                 userName: null,
@@ -250,6 +251,18 @@ export default {
         };
     },
     created() {
+        // 页码筛选
+        this.queryParams.pageNum = Number(this.$route.query.pageNum);
+        // 产品筛选
+        let productId = this.$route.query.productId
+        if (productId != null) {
+            this.queryParams.productId = Number(productId);
+        }
+        // 分组筛选
+        let groupId = this.$route.query.groupId
+        if (groupId != null) {
+            this.queryParams.groupId = Number(groupId);
+        }
         this.getList();
 
     },
@@ -257,11 +270,17 @@ export default {
         const time = this.$route.query.t;
         if (time != null && time != this.uniqueId) {
             this.uniqueId = time;
+            // 页码筛选
             this.queryParams.pageNum = Number(this.$route.query.pageNum);
             // 产品筛选
             let productId = this.$route.query.productId
             if (productId != null) {
                 this.queryParams.productId = Number(productId);
+            }
+            // 分组筛选
+            let groupId = this.$route.query.groupId
+            if (groupId != null) {
+                this.queryParams.groupId = Number(groupId);
             }
             this.getList();
         }
@@ -443,7 +462,7 @@ export default {
         /** 查询所有简短设备列表 */
         getList() {
             this.loading = true;
-            this.queryParams.params={};
+            this.queryParams.params = {};
             if (null != this.daterangeActiveTime && '' != this.daterangeActiveTime) {
                 this.queryParams.params['beginActiveTime'] = this.daterangeActiveTime[0];
                 this.queryParams.params['endActiveTime'] = this.daterangeActiveTime[1];
@@ -470,6 +489,7 @@ export default {
         resetQuery() {
             this.daterangeActiveTime = [];
             this.queryParams.productId = null;
+            this.queryParams.groupId = null;
             this.resetForm("queryForm");
             this.handleQuery();
         },
@@ -513,7 +533,7 @@ export default {
                 // 筛选监测数据
                 this.monitorThings = thingsModel.properties.filter(item => item.isMonitor == 1);
                 // 监测数据集合初始化
-                this.dataList=[];
+                this.dataList = [];
                 for (let i = 0; i < this.monitorThings.length; i++) {
                     this.dataList.push({
                         id: this.monitorThings[i].id,
@@ -575,10 +595,10 @@ export default {
                         symbol: 'none',
                         sampling: 'lttb',
                         itemStyle: {
-                            color: i>9? color[0]:color[i]
+                            color: i > 9 ? color[0] : color[i]
                         },
                         areaStyle: {
-                            
+
                         },
                         data: []
                     }]

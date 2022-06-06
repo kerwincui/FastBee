@@ -390,7 +390,7 @@ export default {
             // 信息详情
             notice: {},
             // 是否为管理员
-            isAdmin: true,
+            isAdmin: false,
             // 设备列表
             deviceList: [],
             // 设备总数
@@ -433,11 +433,8 @@ export default {
     },
     methods: {
         init() {
-            // 设置用户的角色 用以区分自己创建的设备
-            // 由于admin可以看所有数据所以判断
-            if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.isAdmin = false
-            } else {
+            if (this.$store.state.user.roles.indexOf("tenant") === -1 && this.$store.state.user.roles.indexOf("general") === -1) {
+                this.isAdmin = true
                 this.getServer();
                 this.getMqttStats();
                 this.statisticMqtt();
