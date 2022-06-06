@@ -53,6 +53,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceLogVo"/>
         where log_id = #{logId}
     </select>
+
+    <select id="selectCategoryLogCount" parameterType="Long" resultType="com.ruoyi.iot.model.DeviceStatistic">
+        SELECT
+                (select count(log_id) from iot_device_log where log_type=1) as propertyCount,
+                (select count(log_id) from iot_device_log where log_type=2) as functionCount,
+                (select count(log_id) from iot_device_log where log_type=3) as eventCount,
+                (select count(log_id) from iot_device_log where log_type=1 and is_monitor=1) as monitorCount
+        from iot_device_log
+        limit 1
+    </select>
         
     <insert id="insertDeviceLog" parameterType="com.ruoyi.iot.domain.DeviceLog" useGeneratedKeys="true" keyProperty="logId">
         insert into iot_device_log

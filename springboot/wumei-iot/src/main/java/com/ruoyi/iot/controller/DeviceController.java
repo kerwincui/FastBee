@@ -108,6 +108,17 @@ public class DeviceController extends BaseController
     }
 
     /**
+     * 获取设备统计信息
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @GetMapping(value = "/statistic")
+    @ApiOperation("获取设备统计信息")
+    public AjaxResult getDeviceStatistic()
+    {
+        return AjaxResult.success(deviceService.selectDeviceStatistic());
+    }
+
+    /**
      * 获取设备详细信息
      */
     @PreAuthorize("@ss.hasPermi('iot:device:query')")

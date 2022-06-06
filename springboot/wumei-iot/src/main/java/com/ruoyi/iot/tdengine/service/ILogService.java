@@ -2,6 +2,7 @@ package com.ruoyi.iot.tdengine.service;
 
 import com.ruoyi.iot.domain.DeviceLog;
 
+import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.model.MonitorModel;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,12 @@ public interface ILogService {
 
     int saveDeviceLog(DeviceLog deviceLog);
 
+    /** 设备属性、功能、事件总数 **/
+    DeviceStatistic selectCategoryLogCount();
+
+    /** 查询物模型日志列表 **/
     List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);
 
+    /** 查询监测数据列表 **/
     List<MonitorModel> selectMonitorList(DeviceLog deviceLog);
 }

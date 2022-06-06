@@ -1,6 +1,7 @@
 package com.ruoyi.iot.tdengine.service.impl;
 
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.model.MonitorModel;
@@ -20,9 +21,16 @@ public class MySqlLogServiceImpl implements ILogService {
     public MySqlLogServiceImpl(DeviceLogMapper _deviceLogMapper){
         this.deviceLogMapper=_deviceLogMapper;
     }
+
     @Override
     public int saveDeviceLog(DeviceLog deviceLog) {
         return deviceLogMapper.insertDeviceLog(deviceLog);
+    }
+
+    /** 设备属性、功能、事件和监测数据总数 **/
+    @Override
+    public DeviceStatistic selectCategoryLogCount(){
+        return deviceLogMapper.selectCategoryLogCount();
     }
 
     @Override

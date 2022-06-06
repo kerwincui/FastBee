@@ -1,6 +1,7 @@
 package com.ruoyi.iot.mapper;
 
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.model.MonitorModel;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,13 @@ public interface DeviceLogMapper
      * @return 设备日志
      */
     public DeviceLog selectDeviceLogByLogId(Long logId);
+
+    /**
+     * 查询日志分类总数
+     *
+     * @return 设备日志
+     */
+    public DeviceStatistic selectCategoryLogCount();
 
     /**
      * 查询设备日志列表

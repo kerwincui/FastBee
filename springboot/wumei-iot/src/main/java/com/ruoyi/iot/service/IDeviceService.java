@@ -25,6 +25,13 @@ public interface IDeviceService
     public Device selectDeviceByDeviceId(Long deviceId);
 
     /**
+     * 查询设备统计信息
+     *
+     * @return 设备
+     */
+    public DeviceStatistic selectDeviceStatistic();
+
+    /**
      * 根据设备编号查询设备
      *
      * @param serialNumber 设备主键

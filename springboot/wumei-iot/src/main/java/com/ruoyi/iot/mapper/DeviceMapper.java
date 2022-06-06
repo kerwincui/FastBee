@@ -1,10 +1,7 @@
 package com.ruoyi.iot.mapper;
 
 import com.ruoyi.iot.domain.Device;
-import com.ruoyi.iot.model.AuthenticateInputModel;
-import com.ruoyi.iot.model.DeviceAllShortOutput;
-import com.ruoyi.iot.model.ProductAuthenticateModel;
-import com.ruoyi.iot.model.DeviceShortOutput;
+import com.ruoyi.iot.model.*;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesOutput;
 import org.springframework.stereotype.Repository;
@@ -27,6 +24,13 @@ public interface DeviceMapper
      * @return 设备
      */
     public Device selectDeviceByDeviceId(Long deviceId);
+
+    /**
+     * 查询设备和产品总数
+     *
+     * @return 设备
+     */
+    public DeviceStatistic selectDeviceProductAlertCount();
 
     /**
      * 根据设备编号查询设备

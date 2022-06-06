@@ -47,7 +47,6 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog)
     {
-//         deviceLogMapper.selectDeviceLogList(deviceLog);
         return logService.selectDeviceLogList(deviceLog);
     }
 
@@ -60,7 +59,6 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog)
     {
-//        return deviceLogMapper.selectMonitorList(deviceLog);
         return logService.selectMonitorList(deviceLog);
     }
 
@@ -74,7 +72,6 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     public int insertDeviceLog(DeviceLog deviceLog)
     {
         deviceLog.setCreateTime(DateUtils.getNowDate());
-//        return deviceLogMapper.insertDeviceLog(deviceLog);
         return logService.saveDeviceLog(deviceLog);
     }
 

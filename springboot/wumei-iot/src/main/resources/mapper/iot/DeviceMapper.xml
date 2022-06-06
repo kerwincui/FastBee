@@ -192,6 +192,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_id = #{deviceId}
     </select>
 
+    <select id="selectDeviceProductAlertCount" resultType="com.ruoyi.iot.model.DeviceStatistic">
+        SELECT count(device_id) as deviceCount,
+               (select count(product_id) from iot_product) as productCount,
+               (select count(alert_log_id) from iot_alert_log) as alertCount
+        from iot_device
+    </select>
+
     <select id="selectProductAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">
         SELECT p.mqtt_password,p.mqtt_account, p.mqtt_secret,p.is_authorize,p.product_id,p.product_name,p.vertificate_method,p.STATUS as product_status,d.device_id,d.device_name,d.STATUS,d.serial_number
         FROM iot_product p

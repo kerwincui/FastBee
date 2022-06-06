@@ -1,6 +1,7 @@
 package com.ruoyi.iot.tdengine.service.impl;
 
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.model.MonitorModel;
 import com.ruoyi.iot.tdengine.config.TDengineConfig;
@@ -40,6 +41,13 @@ public class TdengineLogServiceImpl implements ILogService {
         long logId = snowflakeIdWorker.nextId();
         deviceLog.setLogId(logId);
         return tdDeviceLogDAO.save(dbName,deviceLog);
+    }
+
+    /** 设备属性、功能、事件和监测数据总数 **/
+    @Override
+    public DeviceStatistic selectCategoryLogCount(){
+//        return  tdDeviceLogDAO.save(dbName,new DeviceLog());
+        return null;
     }
 
     @Override

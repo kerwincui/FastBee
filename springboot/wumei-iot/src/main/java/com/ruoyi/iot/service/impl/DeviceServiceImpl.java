@@ -90,6 +90,25 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
+     * 查询设备统计信息
+     *
+     * @return 设备
+     */
+    @Override
+    public DeviceStatistic selectDeviceStatistic() {
+        // 获取设备、产品和告警数量
+        DeviceStatistic statistic=deviceMapper.selectDeviceProductAlertCount();
+        // 获取属性、功能和事件
+        DeviceStatistic thingsCount=logService.selectCategoryLogCount();
+        // 组合属性、功能、事件和监测数据
+        statistic.setPropertyCount(thingsCount.getPropertyCount());
+        statistic.setFunctionCount(thingsCount.getFunctionCount());
+        statistic.setEventCount(thingsCount.getEventCount());
+        statistic.setMonitorCount(thingsCount.getMonitorCount());
+        return statistic;
+    }
+
+    /**
      * 根据设备编号查询设备
      *
      * @param serialNumber 设备主键
