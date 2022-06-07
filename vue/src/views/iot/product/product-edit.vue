@@ -7,7 +7,7 @@
                 <el-row :gutter="100">
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品名称" prop="productName">
-                            <el-input v-model="form.productName" placeholder="请输入产品名称" :readonly="form.status==2"/>
+                            <el-input v-model="form.productName" placeholder="请输入产品名称" :readonly="form.status==2" />
                         </el-form-item>
                         <el-form-item label="产品分类" prop="categoryId">
                             <el-select v-model="form.categoryId" placeholder="请选择分类" @change="selectCategory" style="width:100%" :disabled="form.status==2">
@@ -304,7 +304,13 @@ export default {
         // 授权码状态修改
         changeIsAuthorize() {
             let text = this.form.isAuthorize == "1" ? "启用" : "停用";
-            this.$modal.confirm('确认要' + text + '授权码吗？').then(function () {}).catch(() => {
+            this.$modal.confirm('确认要' + text + '授权码吗？').then(() => {
+                if (this.form.productId != null && this.form.productId != 0) {
+                    updateProduct(this.form).then(response => {
+                        this.$modal.alertSuccess("授权码已" + text);
+                    });
+                }
+            }).catch(() => {
                 this.form.isAuthorize = 0;
             });
         }
