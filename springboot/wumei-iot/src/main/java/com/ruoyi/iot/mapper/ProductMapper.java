@@ -116,4 +116,11 @@ public interface ProductMapper
      * @return 结果
      */
     public int thingsCountInProduct(Long productId);
+
+    /**
+     * 产品下的物模型标识符重复数
+     * @param productId 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int thingsRepeatCountInProduct(Long productId);
 }

@@ -60,6 +60,8 @@ public class ProductAuthorizeServiceImpl implements IProductAuthorizeService {
      */
     @Override
     public int insertProductAuthorize(ProductAuthorize productAuthorize) {
+        // 1=未使用，2=使用中
+        productAuthorize.setStatus(1);
         productAuthorize.setCreateTime(DateUtils.getNowDate());
         return productAuthorizeMapper.insertProductAuthorize(productAuthorize);
     }
@@ -72,6 +74,10 @@ public class ProductAuthorizeServiceImpl implements IProductAuthorizeService {
      */
     @Override
     public int updateProductAuthorize(ProductAuthorize productAuthorize) {
+        if(productAuthorize.getDeviceId()!=null && productAuthorize.getDeviceId()!=0){
+            // 1=未使用，2=使用中
+            productAuthorize.setStatus(2);
+        }
         productAuthorize.setUpdateTime(DateUtils.getNowDate());
         return productAuthorizeMapper.updateProductAuthorize(productAuthorize);
     }
@@ -113,6 +119,8 @@ public class ProductAuthorizeServiceImpl implements IProductAuthorizeService {
         SysUser user = getLoginUser().getUser();
         for (int i = 0; i < createNum; i++) {
             ProductAuthorize authorize = new ProductAuthorize();
+            // 1=未使用，2=使用中
+            authorize.setStatus(1);
             authorize.setProductId(productId);
             authorize.setCreateBy(user.getUserName());
             authorize.setCreateTime(DateUtils.getNowDate());

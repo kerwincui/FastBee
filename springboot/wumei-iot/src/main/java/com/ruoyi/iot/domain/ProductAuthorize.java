@@ -42,6 +42,10 @@ public class ProductAuthorize extends BaseEntity
     @Excel(name = "用户名称")
     private String userName;
 
+    /** 状态（1-未发布，2-已发布，不能修改） */
+    @Excel(name = "状态", readConverterExp = "1=-未分配，2-使用中")
+    private Integer status;
+
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
@@ -53,6 +57,14 @@ public class ProductAuthorize extends BaseEntity
         this.productId = productId;
     }
 
+    public void setStatus(Integer status)
+    {
+        this.status = status;
+    }
+    public Integer getStatus()
+    {
+        return status;
+    }
     public void setAuthorizeId(Long authorizeId)
     {
         this.authorizeId = authorizeId;

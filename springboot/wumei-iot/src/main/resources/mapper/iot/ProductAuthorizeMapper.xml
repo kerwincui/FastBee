@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="serialNumber"    column="serial_number"    />
         <result property="userId"    column="user_id"    />
         <result property="userName"    column="user_name"    />
+        <result property="status"    column="status"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -21,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProductAuthorizeVo">
-        select authorize_id, authorize_code, product_id, device_id, serial_number, user_id, user_name, del_flag, create_by, create_time, update_by, update_time, remark from iot_product_authorize
+        select authorize_id, authorize_code, product_id, device_id, serial_number, user_id, user_name,status, del_flag, create_by, create_time, update_by, update_time, remark from iot_product_authorize
     </sql>
 
     <select id="selectProductAuthorizeList" parameterType="com.ruoyi.iot.domain.ProductAuthorize" resultMap="ProductAuthorizeResult">
@@ -30,12 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="authorizeCode != null  and authorizeCode != ''"> and authorize_code = #{authorizeCode}</if>
             <if test="productId != null "> and product_id = #{productId}</if>
             <if test="deviceId != null "> and device_id = #{deviceId}</if>
+            <if test="status != null "> and status = #{status}</if>
             <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
         </where>
-        order by
-        device_id desc
+        order by create_time desc
     </select>
     
     <select id="selectProductAuthorizeByAuthorizeId" parameterType="Long" resultMap="ProductAuthorizeResult">
@@ -61,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null">serial_number,</if>
             <if test="userId != null">user_id,</if>
             <if test="userName != null">user_name,</if>
+            <if test="status != null">status,</if>
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
@@ -74,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null">#{serialNumber},</if>
             <if test="userId != null">#{userId},</if>
             <if test="userName != null">#{userName},</if>
+            <if test="status != null">#{status},</if>
             <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -81,12 +84,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
+
     <insert id="insertBatchAuthorize" parameterType="com.ruoyi.iot.domain.ProductAuthorize" useGeneratedKeys="true" keyProperty="authorizeId">
-        insert into iot_product_authorize (authorize_code,product_id,create_by,create_time)
+        insert into iot_product_authorize (authorize_code,product_id,create_by,create_time,status)
         values
         <foreach item="item" collection="list" separator=",">
             <trim prefix="(" suffix=")" suffixOverrides=",">
-                #{item.authorizeCode},#{item.productId},#{item.createBy},#{item.createTime}
+                #{item.authorizeCode},#{item.productId},#{item.createBy},#{item.createTime},#{item.status}
             </trim>
         </foreach>
     </insert>
@@ -100,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productId != null">product_id = #{productId},</if>
             <if test="serialNumber != null">serial_number = #{serialNumber},</if>
             <if test="userName != null">user_name = #{userName},</if>
+            <if test="status != null">status = #{status},</if>
             <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

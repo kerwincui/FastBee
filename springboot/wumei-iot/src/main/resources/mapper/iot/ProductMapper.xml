@@ -185,6 +185,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="thingsCountInProduct" parameterType="Long" resultType="int">
-        select count(*) from iot_things_model where product_id = #{productId}
+        select count(model_id) from iot_things_model where product_id = #{productId}
+    </select>
+
+    <select id="thingsRepeatCountInProduct" parameterType="Long" resultType="int">
+        SELECT count( identifier )
+        FROM ( SELECT identifier
+               FROM iot_things_model
+               WHERE product_id = #{productId}
+               GROUP BY identifier
+               HAVING count( identifier )> 1 ) AS identifiers
     </select>
 </mapper>

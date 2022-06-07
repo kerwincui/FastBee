@@ -154,6 +154,11 @@ public class ProductServiceImpl implements IProductService
             if(thingsCount==0){
                 return AjaxResult.error("发布失败，请先添加产品的物模型");
             }
+            // 产品下物模型的标识符必须唯一
+            int repeatCount=productMapper.thingsRepeatCountInProduct(model.getProductId());
+            if(repeatCount>1){
+                return AjaxResult.error("发布失败，产品物模型的标识符必须唯一");
+            }
         }else{
             return AjaxResult.error("状态更新失败,状态值有误");
         }
