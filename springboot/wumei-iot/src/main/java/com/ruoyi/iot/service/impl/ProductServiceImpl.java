@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.Product;
+import com.ruoyi.iot.mapper.ProductAuthorizeMapper;
 import com.ruoyi.iot.mapper.ProductMapper;
 import com.ruoyi.iot.model.ChangeProductStatusModel;
 import com.ruoyi.iot.model.IdAndName;
@@ -31,6 +32,9 @@ public class ProductServiceImpl implements IProductService
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private ProductAuthorizeMapper productAuthorizeMapper;
 
     @Autowired
     private RedisCache redisCache;
@@ -185,6 +189,8 @@ public class ProductServiceImpl implements IProductService
         }
         // 删除产品物模型
         productMapper.deleteProductThingsModelByProductIds(productIds);
+        // 删除产品的授权码
+        productAuthorizeMapper.deleteProductAuthorizeByProductIds(productIds);
         // 删除产品
         if(productMapper.deleteProductByProductIds(productIds)>0){
             return AjaxResult.success("删除成功");

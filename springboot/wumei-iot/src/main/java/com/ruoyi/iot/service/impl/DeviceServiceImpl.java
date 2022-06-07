@@ -757,12 +757,15 @@ public class DeviceServiceImpl implements IDeviceService {
     public int deleteDeviceByDeviceIds(Long[] deviceIds) throws SchedulerException {
         // 删除设备分组
         deviceMapper.deleteDeviceGroupByDeviceIds(deviceIds);
-        // 删除设备日志
+        // TODO 删除设备日志 td里面删除
         deviceLogMapper.deleteDeviceLogByDeviceIds(deviceIds);
+        // TODO 删除设备告警记录
+
         // 删除定时任务
         deviceJobService.deleteJobByDeviceIds(deviceIds);
-
-        // TODO 删除设备用户
+        // 删除设备用户
+        deviceUserMapper.deleteDeviceUserByDeviceIds(deviceIds);
+        // 删除设备
         return deviceMapper.deleteDeviceByDeviceIds(deviceIds);
     }
 

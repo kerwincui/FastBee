@@ -1,6 +1,7 @@
 package com.ruoyi.iot.tdengine.dao;
 
 import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.model.MonitorModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,6 @@ import java.util.List;
 /**
  * @package com.ruoyi.mysql.mysql.tdengine
  * 类名: DatabaseMapper
- * 描述: TODO
  * 时间: 2022/5/16,0016 1:27
  * 开发人: wxy
  */
@@ -26,6 +26,8 @@ public interface TDDeviceLogDAO {
     int  createTable(String database,String deviceId);
 
     int  save(@Param("database") String database,@Param("device") DeviceLog deviceLog);
+
+    DeviceStatistic selectCategoryLogCount(@Param("database") String database);
 
     List<DeviceLog>  selectSTable(String database,DeviceLog deviceLog);
 

@@ -27,17 +27,28 @@ public class MySqlLogServiceImpl implements ILogService {
         return deviceLogMapper.insertDeviceLog(deviceLog);
     }
 
-    /** 设备属性、功能、事件和监测数据总数 **/
+    /***
+     * 设备属性、功能、事件和监测数据总数
+     * @return
+     */
     @Override
     public DeviceStatistic selectCategoryLogCount(){
         return deviceLogMapper.selectCategoryLogCount();
     }
 
+    /***
+     * 日志列表
+     * @return
+     */
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog) {
         return deviceLogMapper.selectDeviceLogList(deviceLog);
     }
 
+    /***
+     * 监测数据列表
+     * @return
+     */
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog) {
         return deviceLogMapper.selectMonitorList(deviceLog);

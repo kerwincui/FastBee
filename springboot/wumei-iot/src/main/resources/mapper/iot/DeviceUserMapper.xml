@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeviceUserByDeviceIds" parameterType="String">
-        delete from iot_device_user where is_owner !=1 and device_id in
+        delete from iot_device_user where device_id in
         <foreach item="deviceId" collection="array" open="(" separator="," close=")">
             #{deviceId}
         </foreach>

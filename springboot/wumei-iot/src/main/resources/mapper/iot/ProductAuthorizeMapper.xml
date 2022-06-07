@@ -120,4 +120,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{authorizeId}
         </foreach>
     </delete>
+
+    <delete id="deleteProductAuthorizeByProductIds" parameterType="String">
+        delete from iot_product_authorize where product_id in
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
 </mapper>

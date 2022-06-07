@@ -76,6 +76,16 @@
         order by ts desc
     </select>
 
+    <select id="selectCategoryLogCount" parameterType="Long" resultType="com.ruoyi.iot.model.DeviceStatistic">
+        SELECT
+                (select count(log_id) from iot_device_log where log_type=1) as propertyCount,
+                (select count(log_id) from iot_device_log where log_type=2) as functionCount,
+                (select count(log_id) from iot_device_log where log_type=3) as eventCount,
+                (select count(log_id) from iot_device_log where log_type=1 and is_monitor=1) as monitorCount
+        from ${database}.device_log
+        limit 1
+    </select>
+
     <insert id="save" parameterType="com.ruoyi.iot.domain.DeviceLog">
         INSERT INTO ${database}.device_${device.serialNumber} USING  device_log
         TAGS (#{device.deviceId},#{device.deviceName},#{device.serialNumber})

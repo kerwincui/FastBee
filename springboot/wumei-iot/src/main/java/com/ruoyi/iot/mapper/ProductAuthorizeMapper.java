@@ -2,6 +2,7 @@ package com.ruoyi.iot.mapper;
 
 import java.util.List;
 import com.ruoyi.iot.domain.ProductAuthorize;
+import org.springframework.stereotype.Repository;
 
 /**
  * 产品授权码Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.iot.domain.ProductAuthorize;
  * @author kami
  * @date 2022-04-11
  */
+@Repository
 public interface ProductAuthorizeMapper 
 {
     /**
@@ -58,6 +60,14 @@ public interface ProductAuthorizeMapper
      * @return 结果
      */
     public int deleteProductAuthorizeByAuthorizeIds(Long[] authorizeIds);
+
+    /**
+     * 通过产品ID批量删除产品授权码
+     *
+     * @param productIds 产品ID数组
+     * @return 结果
+     */
+    public int deleteProductAuthorizeByProductIds(Long[] productIds);
 
     /**
      * 批量新增产品授权码

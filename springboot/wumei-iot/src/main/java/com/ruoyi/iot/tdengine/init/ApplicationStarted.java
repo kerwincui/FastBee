@@ -24,7 +24,6 @@ import java.util.Properties;
 
 /**
  * 类名: ApplicationStarted
- * 描述: TODO
  * 时间: 2022/5/18,0018 1:41
  * 开发人: wxy
  */

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 类名: DeviceLogServiceImpl
- * 描述: TODO
  * 时间: 2022/5/19,0019 18:09
  * 开发人: wxy
  */

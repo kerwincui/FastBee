@@ -46,8 +46,7 @@ public class TdengineLogServiceImpl implements ILogService {
     /** 设备属性、功能、事件和监测数据总数 **/
     @Override
     public DeviceStatistic selectCategoryLogCount(){
-//        return  tdDeviceLogDAO.save(dbName,new DeviceLog());
-        return null;
+        return  tdDeviceLogDAO.selectCategoryLogCount(dbName);
     }
 
     @Override
