@@ -377,7 +377,6 @@ export default {
         getProductData(product) {
             this.form.productId = product.productId;
             this.form.productName = product.productName;
-            console.log(product);
         },
         // 获取选中的用户
         getUserData(user) {

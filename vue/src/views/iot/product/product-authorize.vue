@@ -1,14 +1,19 @@
 <template>
 <div style="padding-left:20px;">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="80px">
-        <el-form-item label="授权码" prop="authorizeCode">
-            <el-input v-model="queryParams.authorizeCode" placeholder="请输入授权码" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
         <el-form-item label="设备编号" prop="serialNumber">
             <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item label="用户名称" prop="userName">
             <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="授权码" prop="authorizeCode">
+            <el-input v-model="queryParams.authorizeCode" placeholder="请输入授权码" clearable size="small" @keyup.enter.native="handleQuery" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+            <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+                <el-option v-for="dict in dict.type.iot_auth_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+            </el-select>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -27,26 +32,24 @@
             <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || productInfo.status==2" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">删除</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-link type="danger" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
+            <el-link type="info" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
         </el-col>
         <right-toolbar @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick">
-        <el-table-column type="selection" :selectable="selectable" width="55" align="center"/>
-        <el-table-column label="ID"  width="55" align="center" prop="authorizeId" />
+        <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
         <el-table-column label="状态" align="center" prop="active" width="80">
             <template slot-scope="scope">
-                <el-tag type="success" v-if="scope.row.deviceId">已使用</el-tag>
-                <el-tag type="info" v-else>未使用</el-tag>
+                <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
             </template>
         </el-table-column>
-        <el-table-column label="授权码" width="310" align="center" prop="authorizeCode" />
+        <el-table-column label="授权码" width="320" align="center" prop="authorizeCode" />
         <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
         <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
         <el-table-column label="用户ID" width="75" align="center" prop="userId" />
         <el-table-column label="用户名称" align="center" prop="userName" />
-        <el-table-column label="更新时间" align="center" prop="updateTime" width="180">
+        <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
             </template>
@@ -90,10 +93,11 @@
 </template>
 
 <style>
-.createNum{
+.createNum {
     width: 300px;
 }
-.createNum input{
+
+.createNum input {
     width: 260px;
 }
 </style>
@@ -111,6 +115,7 @@ import {
 } from '@/utils/index'
 export default {
     name: "product-authorize",
+    dicts: ['iot_auth_status'],
     props: {
         product: {
             type: Object,
@@ -159,6 +164,7 @@ export default {
                 serialNumber: null,
                 userId: null,
                 userName: null,
+                status: null,
             },
             // 表单参数
             form: {},
@@ -223,20 +229,22 @@ export default {
         },
         /** 批量新增按钮操作 */
         handleAdd() {
-            this.$prompt('', '输入新增授权码数量', {
-              customClass: 'createNum',
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              inputPattern: /[0-9\-]/,
-              inputErrorMessage: '数量内容不正确',
-              inputType: 'number',
-              inputValue: this.createNum
-            }).then(({ value }) => {
+            this.$prompt('', '输入授权码数量', {
+                customClass: 'createNum',
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /[0-9\-]/,
+                inputErrorMessage: '数量内容不正确',
+                inputType: 'number',
+                inputValue: this.createNum
+            }).then(({
+                value
+            }) => {
                 this.createNum = value
                 if (this.queryParams.productId != null) {
                     let _addData = {
-                        productId : this.queryParams.productId,
-                        createNum : this.createNum
+                        productId: this.queryParams.productId,
+                        createNum: this.createNum
                     }
                     addProductAuthorizeByNum(_addData).then(response => {
                         this.$modal.msgSuccess("新增授权码成功");
@@ -246,9 +254,9 @@ export default {
                 }
             }).catch(() => {
                 this.$message({
-                  type: 'info',
-                  message: '取消新增'
-                });       
+                    type: 'info',
+                    message: '取消新增'
+                });
             });
         },
         /** 修改按钮操作 */

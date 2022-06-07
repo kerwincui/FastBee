@@ -12,11 +12,8 @@
         <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
         </el-form-item>
-        <el-form-item>
-            <el-link type="danger" style="padding-top:5px" :underline="false">该功能，未完成</el-link>
-        </el-form-item>
-
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -50,8 +47,6 @@
                 <dict-tag :options="dict.type.iot_alert_level" :value="scope.row.alertLevel" />
             </template>
         </el-table-column>
-        <el-table-column label="产品ID" align="center" prop="productId" />
-        <el-table-column label="产品名称" align="center" prop="productName" />
         <el-table-column label="触发器" align="center" prop="triggers" />
         <el-table-column label="执行动作" align="center" prop="actions" />
         <el-table-column label="创建时间" align="center" prop="createTime" width="180">
@@ -73,27 +68,28 @@
     <!-- 添加或修改设备告警对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-            <el-row>
-                <el-col :span="15">
+            <el-row style="border-bottom:1px solid #ddd;margin-bottom:20px;" :gutter="50">
+                <el-col :span="12">
                     <el-form-item label="告警名称" prop="alertName">
                         <el-input v-model="form.alertName" placeholder="请输入告警名称" />
                     </el-form-item>
-                </el-col>
-                <el-col :span="20">
                     <el-form-item label="告警级别" prop="alertLevel">
-                        <el-select v-model="form.alertLevel" placeholder="请选择告警级别">
+                        <el-select v-model="form.alertLevel" placeholder="请选择告警级别" style="width:100%;">
                             <el-option v-for="dict in dict.type.iot_alert_level" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                         </el-select>
                     </el-form-item>
-                </el-col>
-                <el-col :span="21">
                     <el-form-item label="告警状态">
-                        <el-radio-group v-model="form.status">
-                            <el-radio v-for="dict in alertType" :key="dict.value" :label="dict.value">{{dict.label}}</el-radio>
-                        </el-radio-group>
+                        <el-switch v-model="form.status" :active-value="1" :inactive-value="0" />
                     </el-form-item>
                 </el-col>
+                <el-col :span="12">
+                    <el-form-item label="备注" prop="remark">
+                        <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="6" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
 
+            <el-row style="border-bottom:1px solid #ddd;margin-bottom:20px;">
                 <el-col :span="24">
                     <el-form-item label="触发器" prop="griggers">
                         <el-select v-model="form.condition" placeholder="请选择" size="small" style="margin-bottom:10px;">
@@ -180,12 +176,13 @@
                                     <el-input v-model="item.value" placeholder="值" size="small" />
                                 </el-col>
                             </el-row>
-
                         </div>
                         <div>+ <a style="color:#409EFF" @click="addTriggerItem()">添加触发器</a></div>
                     </el-form-item>
                 </el-col>
+            </el-row>
 
+            <el-row>
                 <el-col :span="24">
                     <el-form-item label="执行动作">
                         <el-row v-for="(item,index) in form.actions" :key="index" style="margin-bottom:10px;">
@@ -210,12 +207,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-            <el-col :span="16">
-                <el-form-item label="备注" prop="remark">
-                    <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-                </el-form-item>
-            </el-col>
 
         </el-form>
         <div slot="footer" class="dialog-footer">

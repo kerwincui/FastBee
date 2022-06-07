@@ -12,9 +12,9 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
-            <el-form-item style="float:right;">
+            <!-- <el-form-item style="float:right;">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:firmware:add']">新增</el-button>
-            </el-form-item>
+            </el-form-item> -->
         </el-form>
     </el-card>
 
@@ -22,25 +22,29 @@
         <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
             <el-table-column label="产品名称" align="center" prop="productName" />
+
+            <el-table-column label="下载地址" align="center" prop="filePath" width="400">
+                <template slot-scope="scope">
+                    <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="primary">{{getDownloadUrl(scope.row.filePath)}}</el-link>
+                </template>
+            </el-table-column>
             <el-table-column label="固件版本" align="center" prop="version">
                 <template slot-scope="scope">
                     <span>Version </span> {{scope.row.version}}
                 </template>
             </el-table-column>
-            <el-table-column label="路径" align="left" prop="filePath" />
-            <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+            <el-table-column label="创建时间" align="center" prop="createTime">
                 <template slot-scope="scope">
                     <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="备注" align="center" prop="remark" />
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
+            <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
                 <template slot-scope="scope">
-                    <el-button size="small" type="info" style="padding:5px;" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
-                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']" >删除</el-button>
+                    <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:firmware:remove']">删除</el-button>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
 
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
@@ -67,7 +71,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" >确 定</el-button>
+                <el-button type="primary" @click="submitForm">确 定</el-button>
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
@@ -182,6 +186,9 @@ export default {
         this.getProductShortList();
     },
     methods: {
+        getDownloadUrl(path) {
+            return window.location.origin + process.env.VUE_APP_BASE_API + path;
+        },
         /** 查询产品固件列表 */
         getList() {
             this.loading = true;
@@ -328,7 +335,7 @@ export default {
         },
         // 文件下载处理
         handleDownload(row) {
-            window.open(process.env.VUE_APP_BASE_API+row.filePath);
+            window.open(process.env.VUE_APP_BASE_API + row.filePath);
         }
 
     },

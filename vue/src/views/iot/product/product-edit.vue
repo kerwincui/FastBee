@@ -2,7 +2,7 @@
 <el-card style="margin:6px;padding-bottom:100px;">
     <el-tabs v-model="activeName" tab-position="left" style="padding:10px;">
         <el-tab-pane name="basic">
-            <span slot="label"> * 基本信息</span>
+            <span slot="label"><span style="color:red;">* </span>基本信息</span>
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                 <el-row :gutter="100">
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
@@ -72,22 +72,26 @@
         </el-tab-pane>
 
         <el-tab-pane label="" name="things" :disabled="form.productId==0">
-            <span slot="label">* 物模型</span>
+            <span slot="label"><span style="color:red;">* </span>产品模型</span>
+            <product-things-model ref="productThingsModel" :product="form" />
+        </el-tab-pane>
+        <el-tab-pane label="" name="firmware" :disabled="form.productId==0">
+            <span slot="label">固件管理</span>
             <product-things-model ref="productThingsModel" :product="form" />
         </el-tab-pane>
 
         <el-tab-pane label="" name="productAuthorize" :disabled="form.productId==0 || form.isAuthorize==0">
-            <span slot="label">授权码</span>
+            <span slot="label">设备授权</span>
             <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 
-        <el-tab-pane label="" name="alert" disabled>
+        <el-tab-pane label="" name="alert">
             <span slot="label"> 告警配置</span>
             <product-alert ref="productAlert" :product="form"></product-alert>
         </el-tab-pane>
 
-        <el-tab-pane label="" name="productApp" disabled>
-            <span slot="label">自定义APP</span>
+        <el-tab-pane label="" name="productApp">
+            <span slot="label">产品界面</span>
             <product-app ref="productApp" :product="form" />
         </el-tab-pane>
 
@@ -252,9 +256,9 @@ export default {
         changeProductStatus(status) {
             let message = "发生错误了";
             if (status == 2) {
-                message = "产品发布后不能再更改产品内容和对应物模型 ！";
+                message = "产品发布后不能再更改产品内容和对应物模型";
             } else if (status == 1) {
-                message = "产品下不能有已经创建的设备，才能取消发布哦 ！"
+                message = "产品下不能有已经创建的设备，才能取消发布哦"
             }
             this.$confirm(message, '提示', {
                 confirmButtonText: '确定',

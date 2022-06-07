@@ -2,7 +2,7 @@
 <div style="padding-left:20px;">
     <el-row :gutter="10">
         <el-col :span="14">
-         <el-link type="danger" style="padding-top:5px" :underline="false">该功能，未完成</el-link>
+            <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
             <el-table v-loading="loading" :data="modelList" border style="margin-bottom:60px;margin-top:20px;">
                 <el-table-column label="名称" align="center" prop="modelName" />
                 <el-table-column label="标识符" align="center" prop="identifier" />
@@ -116,6 +116,7 @@ export default {
     top: 45px;
     left: 12px;
     border: 1px solid #888;
-    background: linear-gradient(23deg, #AFF7FF 0%, #ffc3a0 100%);
+    background-color:rgb(245, 245, 255);
+
 }
 </style>
