@@ -230,6 +230,8 @@ export default {
             open: false,
             // 激活时间范围
             daterangeActiveTime: [],
+            // 根路径
+            baseUrl: process.env.VUE_APP_BASE_API,
             // 查询参数
             queryParams: {
                 pageNum: 1,

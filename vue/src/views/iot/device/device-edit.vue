@@ -139,7 +139,7 @@
     </el-tabs>
 
     <!-- 设备配置JSON -->
-    <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="600px" append-to-body>    
+    <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="600px" append-to-body>
         <div style="border:1px solid #ccc;margin-top:-15px;height:400px; overflow:scroll;">
             <json-viewer :value="summary" :expand-depth=10 copyable>
                 <template v-slot:copy>
@@ -148,7 +148,7 @@
             </json-viewer>
         </div>
         <div slot="footer" class="dialog-footer">
-            
+
             <el-button type="info" @click="closeSummaryDialog">关 闭</el-button>
         </div>
     </el-dialog>
@@ -200,7 +200,7 @@ export default {
     data() {
         return {
             // 打开设备配置对话框
-            openSummary:false,
+            openSummary: false,
             // 是否加载完成
             isLoaded: false,
             // 生成设备编码是否禁用
@@ -219,7 +219,7 @@ export default {
                 firmwareVersion: 1.0,
             },
             // 设备摘要
-            summary:[],
+            summary: [],
             // 图片地址
             imageUrl: require('@/assets/images/product.jpg'),
             // 地址
@@ -279,7 +279,7 @@ export default {
         getDevice(deviceId) {
             getDevice(deviceId).then(response => {
                 this.form = response.data;
-                this.summary=JSON.parse(this.form.summary);
+                this.summary = JSON.parse(this.form.summary);
                 // 禁用状态
                 if (this.form.status == 2) {
                     this.deviceStatus = 1;
@@ -350,19 +350,25 @@ export default {
                         this.setDeviceStatus();
                         console.log(this.form);
                         updateDevice(this.form).then(response => {
-                            this.$modal.alertSuccess("修改成功");
-                            this.open = false;
-                            this.loadMap();
+                            if (response.data == 0) {
+                                this.$modal.alertError(response.msg);
+                            } else {
+                                this.$modal.alertSuccess("修改成功");
+                                this.loadMap();
+                            }
                         });
                     } else {
                         addDevice(this.form).then(response => {
-                            this.$modal.alertSuccess("新增成功, 可以烧录sdk到设备了");
-                            this.open = false;
                             this.form = response.data;
-                            if (this.form.status == 2) {
-                                this.deviceStatus = 1;
+                            if (this.form.deviceId == null || this.form.deviceId == 0) {
+                                this.$modal.alertError("设备编号已经存在，添加设备失败");
+                            } else {
+                                if (this.form.status == 2) {
+                                    this.deviceStatus = 1;
+                                }
+                                this.$modal.alertSuccess("新增成功, 可以烧录sdk到设备了");
+                                this.loadMap();
                             }
-                            this.loadMap();
                         });
                     }
                 }

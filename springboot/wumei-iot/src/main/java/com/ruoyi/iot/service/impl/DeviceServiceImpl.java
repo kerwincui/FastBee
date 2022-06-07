@@ -3,8 +3,10 @@ package com.ruoyi.iot.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
@@ -447,6 +449,12 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Device insertDevice(Device device) {
+        // 设备编号唯一检查
+        Device existDevice=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+        if(existDevice!=null){
+            log.error("设备编号："+device.getSerialNumber()+"已经存在了，新增设备失败");
+            return device;
+        }
         SysUser sysUser = getLoginUser().getUser();
         //添加设备
         device.setCreateTime(DateUtils.getNowDate());
@@ -492,6 +500,12 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public int insertDeviceAuto(String serialNumber,Long userId,Long productId) {
+        // 设备编号唯一检查
+        Device existDevice=deviceMapper.selectDeviceBySerialNumber(serialNumber);
+        if(existDevice!=null){
+            log.error("设备编号："+serialNumber+"已经存在了，新增设备失败");
+            return 0;
+        }
         Device device = new Device();
         int random = (int) (Math.random() * (9000)) + 1000;
         device.setDeviceName("设备" + random);
@@ -599,7 +613,16 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    public int updateDevice(Device device) {
+    public AjaxResult updateDevice(Device device) {
+        // 设备编号唯一检查
+        Device oldDevice=deviceMapper.selectDeviceByDeviceId(device.getDeviceId());
+        if(!oldDevice.getSerialNumber().equals(device.getSerialNumber())){
+            Device existDevice=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+            if(existDevice!=null){
+                log.error("设备编号："+device.getSerialNumber()+" 已经存在，新增设备失败");
+                return AjaxResult.success("设备编号："+device.getSerialNumber()+" 已经存在，修改失败",0);
+            }
+        }
         device.setUpdateTime(DateUtils.getNowDate());
         // 未激活状态,可以修改产品以及物模型值
         if (device.getStatus() == 1) {
@@ -608,7 +631,8 @@ public class DeviceServiceImpl implements IDeviceService {
             device.setProductId(null);
             device.setProductName(null);
         }
-        return deviceMapper.updateDevice(device);
+        deviceMapper.updateDevice(device);
+        return AjaxResult.success("修改成功",1);
     }
 
     /**
@@ -617,7 +641,9 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public String generationDeviceNum() {
-        String number= "D"+toolService.getStringRandom(15);
+        // 设备编号：D + userId + 15位随机字母和数字
+        SysUser user = getLoginUser().getUser();
+        String number= "D"+user.getUserId().toString()+toolService.getStringRandom(10);
         int count= deviceMapper.getDeviceNumCount(number);
         if(count==0) {
             return number;

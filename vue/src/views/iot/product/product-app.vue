@@ -70,6 +70,8 @@ export default {
                 type: 4,
             },
             form: {},
+            // 产品
+            productInfo:{},
         };
     },
     watch: {
@@ -116,7 +118,7 @@ export default {
     top: 45px;
     left: 12px;
     border: 1px solid #888;
-    background-color:rgb(245, 245, 255);
+    background: linear-gradient(303deg, #b2e9fc 50%, #b5c4f8 50%);
 
 }
 </style>

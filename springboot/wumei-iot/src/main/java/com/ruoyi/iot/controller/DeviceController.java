@@ -150,7 +150,7 @@ public class DeviceController extends BaseController
     @ApiOperation("修改设备")
     public AjaxResult edit(@RequestBody Device device)
     {
-        return toAjax(deviceService.updateDevice(device));
+        return deviceService.updateDevice(device);
     }
 
     /**

@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="firmwareName != null  and firmwareName != ''"> and firmware_name like concat('%', #{firmwareName}, '%')</if>
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="productId != null"> and product_id = #{productId}</if>
         </where>
       order by create_time desc
     </select>

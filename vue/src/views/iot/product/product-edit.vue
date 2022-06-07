@@ -59,6 +59,7 @@
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品图片">
                             <imageUpload ref="image-upload" :value="form.imgUrl" :limit="form.status==2 ? 0 : 1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
+                            <div class="el-upload__tip" style="color:#f56c6c">提示：上传后需要提交保存</div>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -75,9 +76,9 @@
             <span slot="label"><span style="color:red;">* </span>产品模型</span>
             <product-things-model ref="productThingsModel" :product="form" />
         </el-tab-pane>
-        <el-tab-pane label="" name="firmware" :disabled="form.productId==0">
+        <el-tab-pane label="" name="productFirmware" :disabled="form.productId==0">
             <span slot="label">固件管理</span>
-            <product-things-model ref="productThingsModel" :product="form" />
+            <product-firmware ref="productFirmware" :product="form" />
         </el-tab-pane>
 
         <el-tab-pane label="" name="productAuthorize" :disabled="form.productId==0 || form.isAuthorize==0">
@@ -91,7 +92,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="" name="productApp">
-            <span slot="label">产品界面</span>
+            <span slot="label">控制界面</span>
             <product-app ref="productApp" :product="form" />
         </el-tab-pane>
 
@@ -120,6 +121,7 @@
 
 <script>
 import productThingsModel from "./product-things-model";
+import productFirmware from "./product-firmware";
 import productApp from "./product-app"
 import productAlert from "./product-alert"
 import productAuthorize from "./product-authorize"
@@ -142,6 +144,7 @@ export default {
         productApp,
         productAlert,
         productAuthorize,
+        productFirmware,
         imageUpload,
     },
     data() {

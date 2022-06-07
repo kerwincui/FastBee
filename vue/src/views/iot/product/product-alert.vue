@@ -67,8 +67,9 @@
 
     <!-- 添加或修改设备告警对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+        <div class="el-divider el-divider--horizontal" style="margin-top: -25px;"></div>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-            <el-row style="border-bottom:1px solid #ddd;margin-bottom:20px;" :gutter="50">
+            <el-row :gutter="50">
                 <el-col :span="12">
                     <el-form-item label="告警名称" prop="alertName">
                         <el-input v-model="form.alertName" placeholder="请输入告警名称" />
@@ -89,124 +90,118 @@
                 </el-col>
             </el-row>
 
-            <el-row style="border-bottom:1px solid #ddd;margin-bottom:20px;">
-                <el-col :span="24">
-                    <el-form-item label="触发器" prop="griggers">
-                        <el-select v-model="form.condition" placeholder="请选择" size="small" style="margin-bottom:10px;">
-                            <el-option v-for="item in triggerConditions" :key="item.value" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
-                        <div v-for="(item,index) in form.triggers" :key="index" style="margin-bottom:15px;border:1px solid #ddd;padding:10px;">
-                            <el-row>
-                                <el-col :span="4">
-                                    <el-select v-model="item.source" placeholder="请选择" size="small" @change="changeTriggerSource">
-                                        <el-option v-for="subItem in triggerSource" :key="subItem.value" :label="subItem.label" :value="subItem.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-col>
-                                <el-col :span="16" :offset="1" v-if="item.source==2">
-                                    <el-time-picker v-model="timerTimeValue" size="small" value-format="HH:mm" placeholder="选择执行时间" @change="timeChange" :disabled="item.isAdvance==1"></el-time-picker>
-                                </el-col>
-                                <el-col :span="2" :offset="item.source==1?17:1" v-if="index!=0"><a style="color:#F56C6C" @click="removeTriggerItem(index)">删除</a></el-col>
-                            </el-row>
+            <el-divider></el-divider>
+            <el-form-item label="触发器" prop="griggers">
+                <el-select v-model="form.condition" placeholder="请选择" size="small" style="margin-bottom:10px;">
+                    <el-option v-for="item in triggerConditions" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+                <div v-for="(item,index) in form.triggers" :key="index" style="margin-bottom:15px;border:1px solid #ddd;padding:10px;">
+                    <el-row>
+                        <el-col :span="4">
+                            <el-select v-model="item.source" placeholder="请选择" size="small" @change="changeTriggerSource">
+                                <el-option v-for="subItem in triggerSource" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="16" :offset="1" v-if="item.source==2">
+                            <el-time-picker v-model="timerTimeValue" size="small" value-format="HH:mm" placeholder="选择执行时间" @change="timeChange" :disabled="item.isAdvance==1"></el-time-picker>
+                        </el-col>
+                        <el-col :span="2" :offset="item.source==1?17:1" v-if="index!=0"><a style="color:#F56C6C" @click="removeTriggerItem(index)">删除</a></el-col>
+                    </el-row>
 
-                            <!--定时-->
-                            <el-row v-if="item.source==2">
-                                <el-col :span="24">
-                                    <el-row style="margin-bottom:5px;">
-                                        <el-col :span="4">
-                                            <el-select v-model="timerWeekRepeatValue" placeholder="请选择" @change="repeatChange" size="small" :disabled="item.isAdvance==1">
-                                                <el-option v-for="item in timerWeekRepeats" :key="item.value" :label="item.label" :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-col>
-                                        <el-col :span="15" :offset="1" v-if="timerWeekRepeatValue==3">
-                                            <el-select v-model="timerWeekValue" placeholder="请选择" multiple style="width:485px" @change="weekChange" size="small" :disabled="item.isAdvance==1">
-                                                <el-option v-for="item in timerWeeks" :key="item.value" :label="item.label" :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </el-col>
-                                    </el-row>
-                                </el-col>
-                                <el-col :span="24">
-                                    <el-row>
-                                        <el-col :span="18">
-                                            <el-input v-model="item.cronExpression" placeholder="cron执行表达式" :disabled="item.isAdvance==0" size="small">
-                                                <template slot="append">
-                                                    <el-button type="primary" @click="handleShowCron(item,index)" :disabled="item.isAdvance==0">
-                                                        生成表达式
-                                                        <i class="el-icon-time el-icon--right"></i>
-                                                    </el-button>
-                                                </template>
-                                            </el-input>
-                                        </el-col>
-                                        <el-col :span="4" :offset="1">
-                                            <el-checkbox v-model="item.isAdvance" :true-label="1" :false-label="0" @change="customerCronChange">自定义表达式</el-checkbox>
-                                        </el-col>
-                                    </el-row>
-                                </el-col>
-                            </el-row>
-                            <!--设备-->
-                            <el-row>
+                    <!--定时-->
+                    <el-row v-if="item.source==2">
+                        <el-col :span="24">
+                            <el-row style="margin-bottom:5px;">
                                 <el-col :span="4">
-                                    <el-select v-model="item.modelType" placeholder="请选择" size="small">
-                                        <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                                    <el-select v-model="timerWeekRepeatValue" placeholder="请选择" @change="repeatChange" size="small" :disabled="item.isAdvance==1">
+                                        <el-option v-for="item in timerWeekRepeats" :key="item.value" :label="item.label" :value="item.value">
                                         </el-option>
                                     </el-select>
+                                </el-col>
+                                <el-col :span="15" :offset="1" v-if="timerWeekRepeatValue==3">
+                                    <el-select v-model="timerWeekValue" placeholder="请选择" multiple style="width:485px" @change="weekChange" size="small" :disabled="item.isAdvance==1">
+                                        <el-option v-for="item in timerWeeks" :key="item.value" :label="item.label" :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-col>
+                            </el-row>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-row>
+                                <el-col :span="18">
+                                    <el-input v-model="item.cronExpression" placeholder="cron执行表达式" :disabled="item.isAdvance==0" size="small">
+                                        <template slot="append">
+                                            <el-button type="primary" @click="handleShowCron(item,index)" :disabled="item.isAdvance==0">
+                                                生成表达式
+                                                <i class="el-icon-time el-icon--right"></i>
+                                            </el-button>
+                                        </template>
+                                    </el-input>
                                 </el-col>
                                 <el-col :span="4" :offset="1">
-                                    <el-select v-model="item.modelType" placeholder="请选择" size="small">
-                                        <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-col>
-                                <el-col :span="5" :offset="1">
-                                    <el-select v-model="item.operator" placeholder="请选择操作符" size="small">
-                                        <el-option key="=" label="等于(=)" value="=" />
-                                        <el-option key="!=" label="不等于(!=)" value="!=" />
-                                        <el-option key=">" label="大于(>)" value=">" />
-                                        <el-option key="<" label="小于(<)" value="<" />
-                                        <el-option key=">=" label="大于等于(>=)" value=">=" />
-                                        <el-option key="<=" label="小于等于(<=)" value="<=" />
-                                        <el-option key="contain" label="包含(contain)" value="contain" />
-                                        <el-option key="notcontain" label="不包含(not contain)" value="notcontain" />
-                                    </el-select>
-                                </el-col>
-                                <el-col :span="5" :offset="1">
-                                    <el-input v-model="item.value" placeholder="值" size="small" />
+                                    <el-checkbox v-model="item.isAdvance" :true-label="1" :false-label="0" @change="customerCronChange">自定义表达式</el-checkbox>
                                 </el-col>
                             </el-row>
-                        </div>
-                        <div>+ <a style="color:#409EFF" @click="addTriggerItem()">添加触发器</a></div>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+                        </el-col>
+                    </el-row>
+                    <!--设备-->
+                    <el-row>
+                        <el-col :span="4">
+                            <el-select v-model="item.modelType" placeholder="请选择" size="small">
+                                <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="4" :offset="1">
+                            <el-select v-model="item.modelType" placeholder="请选择" size="small">
+                                <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-select v-model="item.operator" placeholder="请选择操作符" size="small">
+                                <el-option key="=" label="等于(=)" value="=" />
+                                <el-option key="!=" label="不等于(!=)" value="!=" />
+                                <el-option key=">" label="大于(>)" value=">" />
+                                <el-option key="<" label="小于(<)" value="<" />
+                                <el-option key=">=" label="大于等于(>=)" value=">=" />
+                                <el-option key="<=" label="小于等于(<=)" value="<=" />
+                                <el-option key="contain" label="包含(contain)" value="contain" />
+                                <el-option key="notcontain" label="不包含(not contain)" value="notcontain" />
+                            </el-select>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-input v-model="item.value" placeholder="值" size="small" />
+                        </el-col>
+                    </el-row>
+                </div>
+                <div>+ <a style="color:#409EFF" @click="addTriggerItem()">添加触发器</a></div>
+            </el-form-item>
 
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="执行动作">
-                        <el-row v-for="(item,index) in form.actions" :key="index" style="margin-bottom:10px;">
-                            <el-col :span="4">
-                                <el-select v-model="item.modelType" placeholder="请选择">
-                                    <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span="4" :offset="1">
-                                <el-select v-model="item.modelType" placeholder="请选择">
-                                    <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span="11" :offset="1">
-                                <el-input v-model="item.value" placeholder="值" />
-                            </el-col>
-                            <el-col :span="2" :offset="1" v-if="index!=0"><a style="color:#F56C6C" @click="removeActionItem(index)">删除</a></el-col>
-                        </el-row>
-                        <div>+ <a style="color:#409EFF" @click="addActionItem()">添加执行动作</a></div>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            <el-divider></el-divider>
+            <el-form-item label="执行动作">
+                <el-row v-for="(item,index) in form.actions" :key="index" style="margin-bottom:10px;">
+                    <el-col :span="4">
+                        <el-select v-model="item.modelType" placeholder="请选择">
+                            <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4" :offset="1">
+                        <el-select v-model="item.modelType" placeholder="请选择">
+                            <el-option v-for="subItem in modelTypes" :key="subItem.value" :label="subItem.label" :value="subItem.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="11" :offset="1">
+                        <el-input v-model="item.value" placeholder="值" />
+                    </el-col>
+                    <el-col :span="2" :offset="1" v-if="index!=0"><a style="color:#F56C6C" @click="removeActionItem(index)">删除</a></el-col>
+                </el-row>
+                <div>+ <a style="color:#409EFF" @click="addActionItem()">添加执行动作</a></div>
+            </el-form-item>
 
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -380,6 +375,8 @@ export default {
                 triggers: [],
                 actions: []
             },
+            // 产品
+            productInfo: {},
             // 表单校验
             rules: {
                 alertName: [{

@@ -1,5 +1,6 @@
 package com.ruoyi.iot.service;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.model.*;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelShadow;
@@ -129,7 +130,7 @@ public interface IDeviceService
      * @param device 设备
      * @return 结果
      */
-    public int updateDevice(Device device);
+    public AjaxResult updateDevice(Device device);
 
     /**
      * 更新设备状态

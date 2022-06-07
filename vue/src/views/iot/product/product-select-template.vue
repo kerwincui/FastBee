@@ -1,5 +1,5 @@
 <template>
-<div style="margin-top:-35px;">
+<div style="margin-top:-50px;">
     <el-divider></el-divider>
     <el-form :model="queryParams" ref="product-select-template" :inline="true" label-width="48px">
         <el-form-item label="名称" prop="templateName">
@@ -16,7 +16,7 @@
         </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange"  ref="selectTemplateTable" border>
+    <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" ref="selectTemplateTable" size="small">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="名称" align="center" prop="templateName" />
         <el-table-column label="标识符" align="center" prop="identifier" />
@@ -27,12 +27,12 @@
         </el-table-column>
         <el-table-column label="首页显示" align="center" prop="isTop">
             <template slot-scope="scope">
-                <el-switch v-model="scope.row.isTop" :active-value="1" :inactive-value="0" active-color="#81c0fb" disabled></el-switch>
+                <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isTop" />
             </template>
         </el-table-column>
         <el-table-column label="监测值" align="center" prop="isMonitor">
             <template slot-scope="scope">
-                <el-switch v-model="scope.row.isMonitor" :active-value="1" :inactive-value="0" active-color="#81c0fb" disabled></el-switch>
+                <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
             </template>
         </el-table-column>
         <el-table-column label="数据类型" align="center" prop="datatype">

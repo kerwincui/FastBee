@@ -1,6 +1,6 @@
 <template>
 <div style="padding-left:20px;">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
         <el-form-item label="设备编号" prop="serialNumber">
             <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -168,6 +168,8 @@ export default {
             },
             // 表单参数
             form: {},
+            // 产品
+            productInfo:{},
             // 表单校验
             rules: {
 
