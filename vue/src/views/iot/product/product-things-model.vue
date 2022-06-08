@@ -127,7 +127,7 @@
 
             <div v-if="form.datatype == 'enum'">
                 <el-form-item label="枚举项" prop="">
-                    <el-row v-for="(item,index) in form.specs.enumList" :key="index" style="margin-bottom:10px;">
+                    <el-row v-for="(item,index) in form.specs.enumList" :key="'enum'+index" style="margin-bottom:10px;">
                         <el-col :span="8">
                             <el-input v-model="item.value" placeholder="参数值，例如：0" type="number" />
                         </el-col>
@@ -314,15 +314,15 @@ export default {
         // 表单重置
         reset() {
             this.form = {
-                modelId: null,
-                modelName: null,
-                productId: null,
-                productName: null,
+                templateId: null,
+                templateName: null,
+                userId: null,
+                userName: null,
                 tenantId: null,
                 tenantName: null,
                 identifier: null,
-                type: null,
-                datatype: null,
+                type: 1,
+                datatype: "integer",
                 isSys: null,
                 isTop: null,
                 isMonitor: null,
@@ -332,7 +332,13 @@ export default {
                 updateBy: null,
                 updateTime: null,
                 remark: null,
-                specs: null,
+                specs: {
+                    enumList: [{
+                        value: "",
+                        text: ""
+                    }],
+                    arrayType: "int"
+                },
             };
             this.resetForm("form");
         },
@@ -351,23 +357,27 @@ export default {
             this.reset();
             this.open = true;
             this.title = "添加物模型";
-            this.form.type = 1;
-            this.form.datatype = "integer"
-            this.form.specs = {
-                enumList: [],
-                arrayType: "int"
-            };
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.reset();
-            const modelId = row.modelId;
+            const modelId =  row.modelId;;
             getModel(modelId).then((response) => {
-                this.form = response.data;
+                let tempForm = response.data;
                 this.open = true;
                 this.title = "修改物模型";
                 // Json转对象
-                this.form.specs = JSON.parse(this.form.specs);
+                tempForm.specs = JSON.parse(tempForm.specs);
+                if (!tempForm.specs.enumList) {
+                    tempForm.specs.enumList = [{
+                        value: "",
+                        text: ""
+                    }];
+                }
+                if (!tempForm.specs.arrayType) {
+                    tempForm.specs.arrayType = "int";
+                }
+                this.form=tempForm;
             });
         },
         /**查看物模型 */
@@ -539,19 +549,19 @@ export default {
         },
         /** 切换为枚举项 */
         dataTypeChange(val) {
-            if (val == "enum") {
-                this.form.specs.enumList = [{
-                    value: "",
-                    text: ""
-                }];
-            }
+            // if (val == "enum") {
+            //     this.form.specs.enumList = [{
+            //         value: "",
+            //         text: ""
+            //     }];
+            // }
         },
         /** 添加枚举项 */
         addEnumItem() {
             this.form.specs.enumList.push({
                 value: "",
                 text: ""
-            })
+            });
         },
         /** 删除枚举项 */
         removeEnumItem(index) {

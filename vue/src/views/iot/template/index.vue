@@ -1,6 +1,6 @@
 <template>
 <div style="padding:6px;">
-    <el-card v-show="showSearch" style="margin-bottom:6px;">
+    <el-card v-show="showSearch" style="margin-bottom:5px;">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom:-20px;">
             <el-form-item label="名称" prop="templateName">
                 <el-input v-model="queryParams.templateName" placeholder="请输入物模型名称" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -61,7 +61,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                 <template slot-scope="scope">
-                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']" v-if="scope.row.isSys == '0'? true:!isTenant" >修改</el-button>
+                    <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:template:edit']" v-if="scope.row.isSys == '0'? true:!isTenant">修改</el-button>
                     <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:template:remove']" v-if="scope.row.isSys == '0'? true:!isTenant">删除</el-button>
                     <span style="font-size:10px;color:#999;" v-if="scope.row.isSys == '1' && isTenant">系统定义，不能修改</span>
                 </template>
@@ -142,7 +142,7 @@
                 </div>
                 <div v-if="form.datatype == 'enum'">
                     <el-form-item label="枚举项" prop="">
-                        <el-row v-for="(item,index) in form.specs.enumList" :key="index" style="margin-bottom:10px;">
+                        <el-row v-for="(item,index) in form.specs.enumList" :key="'enum'+index" style="margin-bottom:10px;">
                             <el-col :span="8">
                                 <el-input v-model="item.value" placeholder="参数值，例如：0" type="number" />
                             </el-col>
@@ -292,8 +292,8 @@ export default {
                 tenantId: null,
                 tenantName: null,
                 identifier: null,
-                type: null,
-                datatype: null,
+                type: 1,
+                datatype: "integer",
                 isSys: null,
                 isTop: null,
                 isMonitor: null,
@@ -303,7 +303,13 @@ export default {
                 updateBy: null,
                 updateTime: null,
                 remark: null,
-                specs: null,
+                specs: {
+                    enumList: [{
+                        value: "",
+                        text: ""
+                    }],
+                    arrayType: "int"
+                },
             };
             this.resetForm("form");
         },
@@ -328,23 +334,27 @@ export default {
             this.reset();
             this.open = true;
             this.title = "添加通用物模型";
-            this.form.type = 1;
-            this.form.datatype = "integer"
-            this.form.specs = {
-                enumList: [],
-                arrayType: "int"
-            };
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.reset();
             const templateId = row.templateId || this.ids;
             getTemplate(templateId).then((response) => {
-                this.form = response.data;
+                let tempForm = response.data;
                 this.open = true;
                 this.title = "修改通用物模型";
                 // Json转对象
-                this.form.specs = JSON.parse(this.form.specs);
+                tempForm.specs = JSON.parse(tempForm.specs);
+                if (!tempForm.specs.enumList) {
+                    tempForm.specs.enumList = [{
+                        value: "",
+                        text: ""
+                    }];
+                }
+                if (!tempForm.specs.arrayType) {
+                    tempForm.specs.arrayType = "int";
+                }
+                this.form=tempForm;
             });
         },
         /** 提交按钮 */
@@ -445,19 +455,19 @@ export default {
         },
         /** 切换为枚举项 */
         dataTypeChange(val) {
-            if (val == "enum") {
-                this.form.specs.enumList = [{
-                    value: "",
-                    text: ""
-                }];
-            }
+            // if (val == "enum") {
+            //     this.form.specs.enumList = [{
+            //         value: "",
+            //         text: ""
+            //     }];
+            // }
         },
         /** 添加枚举项 */
         addEnumItem() {
             this.form.specs.enumList.push({
                 value: "",
                 text: ""
-            })
+            });
         },
         /** 删除枚举项 */
         removeEnumItem(index) {
