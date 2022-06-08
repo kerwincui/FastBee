@@ -48,6 +48,18 @@ public class DeviceController extends BaseController
     }
 
     /**
+     * 查询未分配授权码设备列表
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:list')")
+    @GetMapping("/unAuthlist")
+    @ApiOperation("设备分页列表")
+    public TableDataInfo unAuthlist(Device device)
+    {
+        startPage();
+        return getDataTable(deviceService.selectUnAuthDeviceList(device));
+    }
+
+    /**
      * 查询分组可添加设备
      */
     @PreAuthorize("@ss.hasPermi('iot:device:list')")

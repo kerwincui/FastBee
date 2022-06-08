@@ -1,22 +1,15 @@
 <template>
 <div style="padding-left:20px;">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom:-20px;" v-show="showSearch">
-        <el-form-item label="固件名称" prop="firmwareName">
-            <el-input v-model="queryParams.firmwareName" placeholder="请输入固件名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="产品名称" prop="productName">
-            <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        </el-form-item>
-        <el-form-item style="float:right;">
+    <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:firmware:add']">新增</el-button>
-        </el-form-item>
-    </el-form>
+        </el-col>
+        <el-col :span="1.5">
+            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+        </el-col>
+    </el-row>
 
-    <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange" size="small">
         <el-table-column label="固件名称" align="center" prop="firmwareName" />
         <el-table-column label="固件版本" align="center" prop="version">
             <template slot-scope="scope">
@@ -41,7 +34,6 @@
             </template>
         </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改产品固件对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -102,7 +94,6 @@ export default {
                 this.queryParams.productId = this.productInfo.productId;
                 this.form.productId=this.productInfo.productId;
                 this.form.productName=this.productInfo.productName;
-                console.log(this.form)
                 this.getList();
             }
         }
@@ -130,7 +121,7 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 10,
+                pageSize: 100,
                 firmwareName: null,
                 productName: null,
                 productId: 0,
@@ -293,7 +284,6 @@ export default {
         },
         // 获取文件路径
         getFilePath(data) {
-            console.log(data);
             this.form.filePath = data;
         },
 

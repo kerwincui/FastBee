@@ -77,8 +77,8 @@ public class ProductAuthorizeServiceImpl implements IProductAuthorizeService {
         if(productAuthorize.getDeviceId()!=null && productAuthorize.getDeviceId()!=0){
             // 1=未使用，2=使用中
             productAuthorize.setStatus(2);
+            productAuthorize.setUpdateTime(DateUtils.getNowDate());
         }
-        productAuthorize.setUpdateTime(DateUtils.getNowDate());
         return productAuthorizeMapper.updateProductAuthorize(productAuthorize);
     }
 

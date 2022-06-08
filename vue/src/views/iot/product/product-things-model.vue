@@ -5,18 +5,20 @@
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-if="productInfo.status==1">新增</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-plus" size="mini" @click="handleSelect" v-if="productInfo.status==1">导入通用物模型</el-button>
+            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="info" plain icon="el-icon-plus" size="mini" @click="handleOpenThingsModel">查看物模型</el-button>
+            <el-button type="success" plain icon="el-icon-upload2" size="mini" @click="handleSelect" v-if="productInfo.status==1">导入通用物模型</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-link type="danger" style="padding-top:5px" :underline="false">注意：标识符不能重复</el-link>
+            <el-button type="info" plain icon="el-icon-view" size="mini" @click="handleOpenThingsModel">查看物模型</el-button>
         </el-col>
-        <right-toolbar @queryTable="getList"></right-toolbar>
+        <el-col :span="1.5">
+            <el-link type="danger" style="padding-top:5px" :underline="false"> 注意：标识符不能重复</el-link>
+        </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="modelList" border>
+    <el-table v-loading="loading" :data="modelList" size="mini">
         <el-table-column label="名称" align="center" prop="modelName" />
         <el-table-column label="标识符" align="center" prop="identifier" />
         <el-table-column label="首页显示" align="center" prop="isTop" width="100">
@@ -143,11 +145,11 @@
             <div v-if="form.datatype == 'string'">
                 <el-form-item label="最大长度" prop="">
                     <el-row>
-                            <el-col :span="9">
-                                <el-input v-model="form.specs.maxLength" placeholder="例如：1024" type="number"/>
-                            </el-col>
-                            <el-col :span="14" :offset="1">（字符串的最大长度）</el-col>
-                        </el-row>
+                        <el-col :span="9">
+                            <el-input v-model="form.specs.maxLength" placeholder="例如：1024" type="number" />
+                        </el-col>
+                        <el-col :span="14" :offset="1">（字符串的最大长度）</el-col>
+                    </el-row>
                 </el-form-item>
             </div>
 
@@ -366,7 +368,7 @@ export default {
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.reset();
-            const modelId =  row.modelId;;
+            const modelId = row.modelId;;
             getModel(modelId).then((response) => {
                 let tempForm = response.data;
                 this.open = true;
@@ -382,7 +384,7 @@ export default {
                 if (!tempForm.specs.arrayType) {
                     tempForm.specs.arrayType = "int";
                 }
-                this.form=tempForm;
+                this.form = tempForm;
             });
         },
         /**查看物模型 */

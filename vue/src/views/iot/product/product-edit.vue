@@ -82,7 +82,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="" name="productAuthorize" :disabled="form.productId==0 || form.isAuthorize==0">
-            <span slot="label">设备授权</span>
+            <span slot="label">产品授权</span>
             <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 

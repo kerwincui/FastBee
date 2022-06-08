@@ -1,6 +1,6 @@
 <template>
 <div style="padding:6px;">
-    <el-card style="margin-bottom:6px;">
+    <el-card style="margin-bottom:5px;">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom:-20px;">
             <el-form-item label="产品名称" prop="productName">
                 <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />

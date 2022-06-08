@@ -4,9 +4,9 @@
         <el-form-item label="设备编号" prop="serialNumber">
             <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="用户名称" prop="userName">
+        <!-- <el-form-item label="用户名称" prop="userName">
             <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="授权码" prop="authorizeCode">
             <el-input v-model="queryParams.authorizeCode" placeholder="请输入授权码" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -32,14 +32,21 @@
             <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || productInfo.status==2" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">删除</el-button>
         </el-col>
         <el-col :span="1.5">
+            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:category:export']">导出</el-button>
+        </el-col>
+        <el-col :span="1.5">
             <el-link type="info" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
         </el-col>
-        <right-toolbar @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick">
+    <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="small">
         <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
-        <el-table-column label="状态" align="center" prop="active" width="80">
+        <el-table-column label="状态" align="center" prop="active" width="100">
+            <template slot-scope="scope">
+                <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
+            </template>
+        </el-table-column>
+        <el-table-column label="状态" align="center" prop="active" width="100">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
             </template>
@@ -47,8 +54,6 @@
         <el-table-column label="授权码" width="320" align="center" prop="authorizeCode" />
         <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
         <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
-        <el-table-column label="用户ID" width="75" align="center" prop="userId" />
-        <el-table-column label="用户名称" align="center" prop="userName" />
         <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
@@ -57,7 +62,8 @@
         <el-table-column label="备注" align="center" prop="remark" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:authorize:edit']">修改</el-button>
+                <el-button size="mini" type="text" icon="el-icon-s-check" @click="handleUpdate(scope.row,'auth')" v-hasPermi="['iot:authorize:edit']" v-if="scope.row.status==1 && !scope.row.deviceId">设备授权</el-button>
+                <el-button size="mini" type="text" icon="el-icon-notebook-1" @click="handleUpdate(scope.row,'remark')" v-hasPermi="['iot:authorize:edit']">备注</el-button>
                 <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:authorize:remove']" v-if="!scope.row.deviceId">删除</el-button>
             </template>
         </el-table-column>
@@ -65,25 +71,43 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改产品授权码对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-            <el-form-item label="设备ID" prop="deviceId">
-                <el-input v-model="form.deviceId" placeholder="请输入设备ID" onkeyup="value=value.replace(/[^\d]/g,'')" />
-            </el-form-item>
-            <el-form-item label="设备编号" prop="serialNumber">
-                <el-input v-model="form.serialNumber" placeholder="请输入设备编号" />
-            </el-form-item>
-            <el-form-item label="用户ID" prop="userId">
-                <el-input v-model="form.userId" placeholder="请输入用户ID" onkeyup="value=value.replace(/[^\d]/g,'')" max="" />
-            </el-form-item>
-            <el-form-item label="用户名称" prop="userName">
-                <el-input v-model="form.userName" placeholder="请输入用户名称" />
-            </el-form-item>
-            <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-            </el-form-item>
-        </el-form>
+    <!-- 设备授权和授权备注对话框 -->
+    <el-dialog :title="title" :visible.sync="open" :width="editWidth" append-to-body>
+        <div v-if="editType=='auth'">
+            <div class="el-divider el-divider--horizontal" style="margin-top: -25px;"></div>
+            <el-form :model="deviceParams" ref="queryDeviceForm" :inline="true" label-width="68px">
+                <el-form-item label="设备名称" prop="deviceName">
+                    <el-input v-model="deviceParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
+                </el-form-item>
+                <el-form-item label="设备编号" prop="serialNumber" style="margin:0 30px;">
+                    <el-input v-model="deviceParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleDeviceQuery">搜索</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetDeviceQuery">重置</el-button>
+                </el-form-item>
+            </el-form>
+            <el-table v-loading="deviceLoading" :data="deviceList" ref="singleTable" size="mini" @row-click="rowClick" highlight-current-row>
+                <el-table-column label="选择" width="50" align="center">
+                    <template slot-scope="scope">
+                        <input type="radio" :checked="scope.row.isSelect" name="device" />
+                    </template>
+                </el-table-column>
+                <el-table-column label="设备名称" align="center" prop="deviceName" />
+                <el-table-column label="设备ID" align="center" prop="deviceId" />
+                <el-table-column label="设备编号" align="center" prop="serialNumber" />
+                <el-table-column label="用户名称" align="center" prop="userName" />
+                <el-table-column label="设备状态" align="center" prop="status">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" />
+                    </template>
+                </el-table-column>
+            </el-table>
+            <pagination v-show="deviceTotal>0" :total="deviceTotal" :page.sync="deviceParams.pageNum" :limit.sync="deviceParams.pageSize" @pagination="getDeviceList" />
+        </div>
+        <div v-if="editType=='remark'">
+            <el-input v-model="form.remark" type="textarea" rows="4" placeholder="请输入内容" />
+        </div>
         <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="submitForm">确 定</el-button>
             <el-button @click="cancel">取 消</el-button>
@@ -104,18 +128,18 @@
 
 <script>
 import {
+    listUnAuthDevice,
+} from "@/api/iot/device";
+import {
     listAuthorize,
     getAuthorize,
     delAuthorize,
     addProductAuthorizeByNum,
     updateAuthorize
 } from "@/api/iot/authorize";
-import {
-    isNumberStr
-} from '@/utils/index'
 export default {
     name: "product-authorize",
-    dicts: ['iot_auth_status'],
+    dicts: ['iot_auth_status', 'iot_device_status'],
     props: {
         product: {
             type: Object,
@@ -128,12 +152,41 @@ export default {
             this.productInfo = newVal;
             if (this.productInfo && this.productInfo.productId != 0) {
                 this.queryParams.productId = this.productInfo.productId;
+                this.deviceParams.productId = this.productInfo.productId;
                 this.getList();
+                this.getDeviceList();
             }
         }
     },
     data() {
         return {
+            // 设备遮罩层
+            deviceLoading: true,
+            // 总条数
+            deviceTotal: 0,
+            // 设备表格数据
+            deviceList: [],
+            // 查询参数
+            deviceParams: {
+                pageNum: 1,
+                pageSize: 10,
+                userId: null,
+                deviceName: null,
+                productId: 0,
+                productName: null,
+                userId: null,
+                userName: null,
+                tenantId: null,
+                tenantName: null,
+                serialNumber: null,
+                status: null,
+                networkAddress: null,
+                activeTime: null,
+            },
+            // 编辑类型，remark=备注、auth=设备授权
+            editType: '',
+            // 编辑界面宽度
+            editWidth:'500px',
             // 遮罩层
             loading: true,
             // 选中数组
@@ -169,17 +222,57 @@ export default {
             // 表单参数
             form: {},
             // 产品
-            productInfo:{},
-            // 表单校验
-            rules: {
-
-            }
+            productInfo: {},
         };
     },
     created() {
 
     },
     methods: {
+        /** 查询设备列表 */
+        getDeviceList() {
+            this.deviceLoading = true;
+            this.deviceParams.params = {};
+            listUnAuthDevice(this.deviceParams).then(response => {
+                this.deviceList = response.rows;
+                this.deviceTotal = response.total;
+                this.deviceLoading = false;
+            });
+        },
+        /** 搜索按钮操作 */
+        handleDeviceQuery() {
+            this.deviceParams.pageNum = 1;
+            this.getDeviceList();
+        },
+        /** 重置按钮操作 */
+        resetDeviceQuery() {
+            this.resetForm("queryDeviceForm");
+            this.handleDeviceQuery();
+        },
+        /** 单选数据 */
+        rowClick(device) {
+            if (device != null) {
+                this.setRadioSelected(device.deviceId);
+                // 赋值
+                this.form.userId = device.userId;
+                this.form.userName = device.userName;
+                this.form.deviceId = device.deviceId;
+                this.form.serialNumber = device.serialNumber;
+            }
+        },
+        /** 设置单选按钮选中 */
+        setRadioSelected(deviceId) {
+            for (let i = 0; i < this.deviceList.length; i++) {
+                let device = this.deviceList[i];
+                if (this.deviceList[i].deviceId == deviceId) {
+                    device.isSelect = true;
+                    this.$set(this.deviceList, i, device);
+                } else {
+                    device.isSelect = false;
+                    this.$set(this.deviceList, i, device);
+                }
+            }
+        },
         /** 查询产品授权码列表 */
         getList() {
             this.loading = true;
@@ -200,9 +293,9 @@ export default {
                 authorizeId: null,
                 authorizeCode: null,
                 productId: "",
+                userId: "",
                 deviceId: null,
                 serialNumber: null,
-                userId: "",
                 userName: null,
                 delFlag: null,
                 createBy: null,
@@ -211,6 +304,7 @@ export default {
                 updateTime: null,
                 remark: null
             };
+            this.device = {};
             this.resetForm("form");
         },
         /** 搜索按钮操作 */
@@ -262,28 +356,50 @@ export default {
             });
         },
         /** 修改按钮操作 */
-        handleUpdate(row) {
+        handleUpdate(row, editType) {
             this.reset();
+            this.editType = editType;
             const authorizeId = row.authorizeId || this.ids
             getAuthorize(authorizeId).then(response => {
                 this.form = response.data;
                 this.open = true;
-                this.title = "编辑授权码";
+                if (this.editType == 'auth') {
+                    this.title = "选择设备";
+                    this.editWidth="800px";
+                } else {
+                    this.title = "备注信息";
+                    this.editWidth="500px";
+                }
+                // 取消选中
+
+                for (let i = 0; i < this.deviceList.length; i++) {
+                    // this.deviceList[i].isSelect=false;
+                    let device = this.deviceList[i];
+                    device.isSelect = false;
+                    // this.deviceList.splice(i,1,device )
+                    this.$set(this.deviceList, i, device);
+                }
             });
         },
         /** 提交按钮 */
         submitForm() {
-            this.$refs["form"].validate(valid => {
-                if (valid) {
-                    if (this.form.authorizeId != null) {
-                        updateAuthorize(this.form).then(response => {
-                            this.$modal.msgSuccess("修改成功");
-                            this.open = false;
-                            this.getList();
-                        });
-                    }
+            if (this.editType == 'auth') {
+                if (this.form.deviceId != null && this.form.deviceId != 0) {
+                    updateAuthorize(this.form).then(response => {
+                        this.$modal.msgSuccess("设备授权成功");
+                        this.open = false;
+                        this.getList();
+                    });
+                } else {
+                    this.$modal.msg("请选择要授权的设备");
                 }
-            });
+            } else if (this.form.authorizeId != null) {
+                updateAuthorize(this.form).then(response => {
+                    this.$modal.msgSuccess("备注成功");
+                    this.open = false;
+                    this.getList();
+                });
+            }
         },
         /** 删除按钮操作 */
         handleDelete(row) {
@@ -300,12 +416,6 @@ export default {
             this.download('iot/authorize/export', {
                 ...this.queryParams
             }, `authorize_${new Date().getTime()}.xlsx`)
-        },
-        handleChange(e) {
-            console.log(currentValue)
-            if (!isNumberStr(currentValue)) {
-                this.$modal.msgSuccess("只能输入数字");
-            }
         },
         //禁用有绑定设备的复选框
         selectable(row) {

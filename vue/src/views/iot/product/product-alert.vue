@@ -1,38 +1,15 @@
 <template>
 <div style="padding-left:20px;">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-        <el-form-item label="告警名称" prop="alertName">
-            <el-input v-model="queryParams.alertName" placeholder="请输入告警名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="告警级别" prop="alertLevel">
-            <el-select v-model="queryParams.alertLevel" placeholder="请选择告警级别" clearable size="small">
-                <el-option v-for="dict in dict.type.iot_alert_level" :key="dict.value" :label="dict.label" :value="dict.value" />
-            </el-select>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
-        </el-form-item>
-    </el-form>
-
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:alert:add']">新增</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:alert:edit']">修改</el-button>
+            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
         </el-col>
-        <el-col :span="1.5">
-            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:alert:remove']">删除</el-button>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:alert:export']">导出</el-button>
-        </el-col>
-        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="alertList" @selection-change="handleSelectionChange" border>
+    <el-table v-loading="loading" :data="alertList" @selection-change="handleSelectionChange" border size="mini">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="告警ID" align="center" prop="alertId" />
         <el-table-column label="告警名称" align="center" prop="alertName" />

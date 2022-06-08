@@ -80,6 +80,14 @@ public interface IDeviceService
     public List<Device> selectDeviceList(Device device);
 
     /**
+     * 查询未分配授权码设备列表
+     *
+     * @param device 设备
+     * @return 设备集合
+     */
+    public List<Device> selectUnAuthDeviceList(Device device);
+
+    /**
      * 查询分组可添加设备分页列表
      *
      * @param device 设备

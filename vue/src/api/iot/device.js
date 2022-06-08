@@ -9,6 +9,15 @@ export function listDevice(query) {
     })
 }
 
+// 查询未授权设备列表
+export function listUnAuthDevice(query) {
+    return request({
+        url: '/iot/device/unAuthlist',
+        method: 'get',
+        params: query
+    })
+}
+
 // 查询分组可添加设备分页列表
 export function listDeviceByGroup(query) {
     return request({

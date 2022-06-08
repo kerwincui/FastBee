@@ -252,6 +252,28 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
+     * 查询未分配授权码设备列表
+     *
+     * @param device 设备
+     * @return 设备
+     */
+    @Override
+    public List<Device> selectUnAuthDeviceList(Device device) {
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+            }
+        }
+        return deviceMapper.selectUnAuthDeviceList(device);
+    }
+
+    /**
      * 查询分组可添加设备分页列表（分组用户与设备用户匹配）
      *
      * @param device 设备

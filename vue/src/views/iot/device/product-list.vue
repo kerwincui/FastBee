@@ -12,7 +12,7 @@
             </el-form-item>
         </el-form>
 
-        <el-table v-loading="loading" ref="singleTable" :data="productList" @current-change="handleCurrentChange" highlight-current-row border size="mini">
+        <el-table v-loading="loading" ref="singleTable" :data="productList" @row-click="rowClick" highlight-current-row size="mini">
             <el-table-column label="选择" width="50" align="center">
                 <template slot-scope="scope">
                     <input type="radio" :checked="scope.row.isSelect" name="product" />
@@ -122,7 +122,7 @@ export default {
             this.handleQuery();
         },
         /** 单选数据 */
-        handleCurrentChange(product) {
+        rowClick(product) {
             if (product != null) {
                 this.setRadioSelected(product.productId);
                 this.product = product;
