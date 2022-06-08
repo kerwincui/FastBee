@@ -55,11 +55,11 @@
     <!-- 添加或修改物模型对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-            <el-form-item label="名称" prop="modelName">
-                <el-input v-model="form.modelName" placeholder="请输入物模型名称，例如：温度" />
+            <el-form-item label="模型名称" prop="modelName">
+                <el-input v-model="form.modelName" placeholder="请输入物模型名称，例如：温度" style="width:385px;" />
             </el-form-item>
             <el-form-item label="标识符" prop="identifier">
-                <el-input v-model="form.identifier" placeholder="请输入标识符，例如：temperature" />
+                <el-input v-model="form.identifier" placeholder="请输入标识符，例如：temperature" style="width:385px;" />
             </el-form-item>
             <el-form-item label="模型类别" prop="type">
                 <el-radio-group v-model="form.type" @change="typeChange(form.type)">
@@ -78,7 +78,7 @@
             </el-form-item>
             <el-divider></el-divider>
             <el-form-item label="数据类型" prop="datatype">
-                <el-select v-model="form.datatype" placeholder="请选择数据类型" @change="dataTypeChange">
+                <el-select v-model="form.datatype" placeholder="请选择数据类型" @change="dataTypeChange" style="width:175px;">
                     <el-option key="integer" label="整数" value="integer"></el-option>
                     <el-option key="decimal" label="小数" value="decimal"></el-option>
                     <el-option key="bool" label="布尔" value="bool" :disabled="form.isMonitor==1"></el-option>
@@ -101,26 +101,26 @@
                     </el-row>
                 </el-form-item>
                 <el-form-item label="单位">
-                    <el-input v-model="form.specs.unit" placeholder="请输入单位，例如：℃" />
+                    <el-input v-model="form.specs.unit" placeholder="请输入单位，例如：℃" style="width:385px;" />
                 </el-form-item>
                 <el-form-item label="步长">
-                    <el-input v-model="form.specs.step" placeholder="请输入步长，例如：1" type="number" />
+                    <el-input v-model="form.specs.step" placeholder="请输入步长，例如：1" type="number" style="width:385px;" />
                 </el-form-item>
             </div>
 
             <div v-if="form.datatype == 'bool'">
                 <el-form-item label="布尔值" prop="">
                     <el-row style="margin-bottom:10px;">
-                        <el-col :span="11">
-                            <el-input v-model="form.specs.falseText" placeholder="0 对应的文本，例如：关闭" />
+                        <el-col :span="9">
+                            <el-input v-model="form.specs.falseText" placeholder="例如：关闭" />
                         </el-col>
-                        <el-col :span="10" :offset="1"> 0 对应文本</el-col>
+                        <el-col :span="10" :offset="1"> （0 值对应文本）</el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="11">
-                            <el-input v-model="form.specs.trueText" placeholder="1 对应的文本，例如：打开" />
+                        <el-col :span="9">
+                            <el-input v-model="form.specs.trueText" placeholder="例如：打开" />
                         </el-col>
-                        <el-col :span="10" :offset="1"> 1 对应文本</el-col>
+                        <el-col :span="10" :offset="1"> （1 值对应文本）</el-col>
                     </el-row>
                 </el-form-item>
             </div>
@@ -128,10 +128,10 @@
             <div v-if="form.datatype == 'enum'">
                 <el-form-item label="枚举项" prop="">
                     <el-row v-for="(item,index) in form.specs.enumList" :key="'enum'+index" style="margin-bottom:10px;">
-                        <el-col :span="8">
+                        <el-col :span="9">
                             <el-input v-model="item.value" placeholder="参数值，例如：0" type="number" />
                         </el-col>
-                        <el-col :span="12" :offset="1">
+                        <el-col :span="11" :offset="1">
                             <el-input v-model="item.text" placeholder="参数描述，例如：中速档位" />
                         </el-col>
                         <el-col :span="2" :offset="1" v-if="index!=0"><a style="color:#F56C6C" @click="removeEnumItem(index)">删除</a></el-col>
@@ -142,7 +142,12 @@
 
             <div v-if="form.datatype == 'string'">
                 <el-form-item label="最大长度" prop="">
-                    <el-input v-model="form.specs.maxLength" placeholder="请输入字符串最大长度，例如：1024" type="number" />
+                    <el-row>
+                            <el-col :span="9">
+                                <el-input v-model="form.specs.maxLength" placeholder="例如：1024" type="number"/>
+                            </el-col>
+                            <el-col :span="14" :offset="1">（字符串的最大长度）</el-col>
+                        </el-row>
                 </el-form-item>
             </div>
 

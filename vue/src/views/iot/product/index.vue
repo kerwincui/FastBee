@@ -25,7 +25,7 @@
     <el-card style="padding-bottom:100px;">
         <el-row :gutter="30" v-loading="loading" >
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item,index) in productList" :key="index" style="margin-bottom:30px;text-align:center;">
-                <el-card :body-style="{ padding: '20px'}" shadow="always">
+                <el-card :body-style="{ padding: '20px'}" shadow="always" class="card-item">
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">
                             <el-link type="" :underline="false" @click="handleEditProduct(item)" style="font-weight:bold;font-size:16px;line-height:32px;">
@@ -248,3 +248,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.card-item {
+    border-radius:15px;
+}
+</style>
