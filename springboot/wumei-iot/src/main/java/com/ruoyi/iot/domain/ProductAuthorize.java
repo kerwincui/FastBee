@@ -43,7 +43,7 @@ public class ProductAuthorize extends BaseEntity
     private String userName;
 
     /** 状态（1-未发布，2-已发布，不能修改） */
-    @Excel(name = "状态", readConverterExp = "1=-未分配，2-使用中")
+    @Excel(name = "状态", readConverterExp = "1=未使用,2=已使用")
     private Integer status;
 
     /** 删除标志（0代表存在 2代表删除） */
