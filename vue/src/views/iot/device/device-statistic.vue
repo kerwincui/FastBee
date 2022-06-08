@@ -177,6 +177,7 @@ export default {
                         itemStyle: {
                             color: i>9? color[0]:color[i]
                         },
+                        areaStyle: {},
                         data: []
                     }]
                 };

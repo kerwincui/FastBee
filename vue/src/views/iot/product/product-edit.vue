@@ -86,12 +86,12 @@
             <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 
-        <el-tab-pane label="" name="alert">
+        <el-tab-pane label="" name="alert" :disabled="form.productId==0">
             <span slot="label"> 告警配置</span>
             <product-alert ref="productAlert" :product="form"></product-alert>
         </el-tab-pane>
 
-        <el-tab-pane label="" name="productApp">
+        <el-tab-pane label="" name="productApp" :disabled="form.productId==0">
             <span slot="label">控制界面</span>
             <product-app ref="productApp" :product="form" />
         </el-tab-pane>

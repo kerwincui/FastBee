@@ -8,7 +8,7 @@
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="设备名称" prop="deviceName">
                             <el-input v-model="form.deviceName" placeholder="请输入设备名称">
-                                <el-button slot="append" @click="openSummaryDialog" :disabled="form.deviceId==0">摘要</el-button>
+                                <el-button slot="append" @click="openSummaryDialog" v-if="form.deviceId!=0">摘要</el-button>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="" prop="serialNumber">
@@ -52,12 +52,12 @@
                         </el-form-item>
                         <el-form-item label="设备经度" prop="longitude">
                             <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.locationWay!=3">
-                                <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
+                                <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay!=3">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="设备纬度" prop="latitude">
                             <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.locationWay!=3">
-                                <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">坐标拾取</el-link>
+                                <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay!=3">坐标拾取</el-link>
                             </el-input>
                         </el-form-item>
                         <el-form-item label="所在地址" prop="networkAddress">
@@ -279,7 +279,9 @@ export default {
         getDevice(deviceId) {
             getDevice(deviceId).then(response => {
                 this.form = response.data;
+                if(this.form.summary!=null && this.form.summary!=""){
                 this.summary = JSON.parse(this.form.summary);
+                }
                 // 禁用状态
                 if (this.form.status == 2) {
                     this.deviceStatus = 1;
