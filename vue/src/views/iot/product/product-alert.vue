@@ -7,6 +7,7 @@
         <el-col :span="1.5">
             <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
         </el-col>
+         <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
     </el-row>
 
     <el-table v-loading="loading" :data="alertList" @selection-change="handleSelectionChange" border size="mini">
