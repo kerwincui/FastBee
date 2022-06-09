@@ -127,12 +127,6 @@ export default {
                         required: true,
                         message: "分组排序不能为空,最大值为99",
                         trigger: "blur"
-                    },
-                    {
-                        min: 1,
-                        max: 2,
-                        message: '范围在 0 到 99',
-                        trigger: 'blur'
                     }
                 ],
             }
@@ -200,7 +194,6 @@ export default {
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map(item => item.groupId)
-            console.log(this.ids);
             this.single = selection.length !== 1
             this.multiple = !selection.length
         },

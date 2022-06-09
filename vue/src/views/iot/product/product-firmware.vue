@@ -18,7 +18,7 @@
         </el-table-column>
         <el-table-column label="下载地址" align="center" prop="filePath" width="400">
             <template slot-scope="scope">
-                <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="primary">{{getDownloadUrl(scope.row.filePath)}}</el-link>
+                <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="success">{{getDownloadUrl(scope.row.filePath)}}</el-link>
             </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="createTime">

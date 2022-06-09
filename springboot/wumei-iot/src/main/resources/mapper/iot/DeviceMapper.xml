@@ -214,11 +214,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_id = #{deviceId}
     </select>
 
-    <select id="selectDeviceProductAlertCount" resultType="com.ruoyi.iot.model.DeviceStatistic">
+    <select id="selectDeviceProductAlertCount" parameterType="com.ruoyi.iot.domain.Device" resultType="com.ruoyi.iot.model.DeviceStatistic">
         SELECT count(device_id) as deviceCount,
-               (select count(product_id) from iot_product) as productCount,
-               (select count(alert_log_id) from iot_alert_log) as alertCount
+               (
+                <!--普通用户查询设备中的产品数量-->
+                <if test="userId != null and userId != 0">
+                   select count(product_id)
+                   from iot_device
+                   where user_id = #{userId}
+                   group by product_id
+                </if>
+                <!--管理员和租户直接查询产品的数量-->
+                <if test="userId == null || userId == 0">
+                    select count(product_id)
+                    from iot_product
+                    <where>
+                        <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId} </if>
+                    </where>
+                </if>
+                ) as productCount,
+               (select count(alert_log_id)
+                    from iot_alert_log
+                    <where>
+                        <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                        <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                    </where>
+               ) as alertCount
         from iot_device
+        <where>
+            <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+            <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+        </where>
     </select>
 
     <select id="selectProductAuthenticate" parameterType="com.ruoyi.iot.model.AuthenticateInputModel" resultMap="DeviceAuthenticateResult">

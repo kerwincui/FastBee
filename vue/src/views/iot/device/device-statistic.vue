@@ -13,7 +13,7 @@
         </el-col>
         <el-col :span="23">
             <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:30px;">
-                <el-card shadow="always" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
+                <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
                     <div ref="statisticMap" style="height:300px;width:1080px;" ></div>
                 </el-card>
             </div>

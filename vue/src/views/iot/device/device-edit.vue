@@ -28,7 +28,7 @@
                             </el-input>
                         </el-form-item>
                         <el-form-item label="固件版本" prop="firmwareVersion">
-                            <el-input v-model="form.firmwareVersion" placeholder="请输入固件版本" type="number" :disabled="form.status!=1">
+                            <el-input v-model="form.firmwareVersion" placeholder="请输入固件版本" type="number" step="0.1" :disabled="form.status!=1">
                                 <template slot="prepend">Version</template>
                             </el-input>
                         </el-form-item>

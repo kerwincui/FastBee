@@ -12,79 +12,79 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class DeviceStatistic
 {
     /** 设备数量 **/
-    private Long deviceCount;
+    private int deviceCount;
 
     /** 产品数量 **/
-    private Long productCount;
+    private int productCount;
 
     /** 告警 **/
-    private Long alertCount;
+    private int alertCount;
 
     /** 属性上报 **/
-    private Long propertyCount;
+    private int propertyCount;
 
     /** 功能上报 **/
-    private Long functionCount;
+    private int functionCount;
 
     /** 事件上报 **/
-    private Long eventCount;
+    private int eventCount;
 
     /** 监测数据上报 **/
-    private Long monitorCount;
+    private int monitorCount;
 
-    public Long getMonitorCount() {
+    public int getMonitorCount() {
         return monitorCount;
     }
 
-    public void setMonitorCount(Long monitorCount) {
+    public void setMonitorCount(int monitorCount) {
         this.monitorCount = monitorCount;
     }
 
-    public Long getDeviceCount() {
+    public int getDeviceCount() {
         return deviceCount;
     }
 
-    public void setDeviceCount(Long deviceCount) {
+    public void setDeviceCount(int deviceCount) {
         this.deviceCount = deviceCount;
     }
 
-    public Long getProductCount() {
+    public int getProductCount() {
         return productCount;
     }
 
-    public void setProductCount(Long productCount) {
+    public void setProductCount(int productCount) {
         this.productCount = productCount;
     }
 
-    public Long getAlertCount() {
+    public int getAlertCount() {
         return alertCount;
     }
 
-    public void setAlertCount(Long alertCount) {
+    public void setAlertCount(int alertCount) {
         this.alertCount = alertCount;
     }
 
-    public Long getPropertyCount() {
+    public int getPropertyCount() {
         return propertyCount;
     }
 
-    public void setPropertyCount(Long propertyCount) {
+    public void setPropertyCount(int propertyCount) {
         this.propertyCount = propertyCount;
     }
 
-    public Long getFunctionCount() {
+    public int getFunctionCount() {
         return functionCount;
     }
 
-    public void setFunctionCount(Long functionCount) {
+    public void setFunctionCount(int functionCount) {
         this.functionCount = functionCount;
     }
 
-    public Long getEventCount() {
+    public int getEventCount() {
         return eventCount;
     }
 
-    public void setEventCount(Long eventCount) {
+    public void setEventCount(int eventCount) {
         this.eventCount = eventCount;
     }
 }

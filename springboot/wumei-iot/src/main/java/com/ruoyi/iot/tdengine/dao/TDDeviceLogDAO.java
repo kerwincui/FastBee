@@ -1,5 +1,6 @@
 package com.ruoyi.iot.tdengine.dao;
 
+import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.model.MonitorModel;
@@ -27,7 +28,7 @@ public interface TDDeviceLogDAO {
 
     int  save(@Param("database") String database,@Param("device") DeviceLog deviceLog);
 
-    DeviceStatistic selectCategoryLogCount(@Param("database") String database);
+    DeviceStatistic selectCategoryLogCount(@Param("database") String database, Device device);
 
     List<DeviceLog>  selectSTable(String database,DeviceLog deviceLog);
 

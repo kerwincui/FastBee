@@ -21,7 +21,7 @@
             <el-table-column label="产品名称" align="center" prop="productName" />
             <el-table-column label="分类名称" align="center" prop="categoryName" />
             <el-table-column label="租户名称" align="center" prop="tenantName" />
-            <el-table-column label="授权码" align="center" prop="status">
+            <el-table-column label="授权码" align="center" prop="status" width="70">
                 <template slot-scope="scope">
                     <el-tag type="success" v-if="scope.row.isAuthorize==1">启用</el-tag>
                     <el-tag type="info" v-if="scope.row.isAuthorize==0">未启用</el-tag>

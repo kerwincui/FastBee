@@ -78,10 +78,38 @@
 
     <select id="selectCategoryLogCount" parameterType="Long" resultType="com.ruoyi.iot.model.DeviceStatistic">
         SELECT
-                (select count(log_id) from iot_device_log where log_type=1) as propertyCount,
-                (select count(log_id) from iot_device_log where log_type=2) as functionCount,
-                (select count(log_id) from iot_device_log where log_type=3) as eventCount,
-                (select count(log_id) from iot_device_log where log_type=1 and is_monitor=1) as monitorCount
+            (select count(log_id)
+                from iot_device_log
+                <where>
+                    <if test="1==1"> and log_type=1</if>
+                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                </where>
+            ) as propertyCount,
+            (select count(log_id)
+                from iot_device_log
+                <where>
+                    <if test="1==1"> and log_type=2</if>
+                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                </where>
+            ) as functionCount,
+            (select count(log_id)
+                from iot_device_log
+                <where>
+                    <if test="1==1"> and log_type=3</if>
+                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                </where>
+            ) as eventCount,
+            (select count(log_id)
+                from iot_device_log
+                <where>
+                    <if test="1==1"> and log_type=1 and is_monitor=1</if>
+                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                </where>
+            ) as monitorCount
         from ${database}.device_log
         limit 1
     </select>

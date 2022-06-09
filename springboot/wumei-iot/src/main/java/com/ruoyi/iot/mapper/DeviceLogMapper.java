@@ -1,5 +1,6 @@
 package com.ruoyi.iot.mapper;
 
+import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.model.DeviceStatistic;
 import com.ruoyi.iot.model.MonitorModel;
@@ -30,7 +31,7 @@ public interface DeviceLogMapper
      *
      * @return 设备日志
      */
-    public DeviceStatistic selectCategoryLogCount();
+    public DeviceStatistic selectCategoryLogCount(Device device);
 
     /**
      * 查询设备日志列表

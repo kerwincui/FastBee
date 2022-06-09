@@ -98,10 +98,29 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public DeviceStatistic selectDeviceStatistic() {
+        Device device=new Device();
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+            }
+        }
         // 获取设备、产品和告警数量
-        DeviceStatistic statistic=deviceMapper.selectDeviceProductAlertCount();
+        DeviceStatistic statistic=deviceMapper.selectDeviceProductAlertCount(device);
+        if(statistic==null){
+            statistic=new DeviceStatistic();
+            return statistic;
+        }
         // 获取属性、功能和事件
-        DeviceStatistic thingsCount=logService.selectCategoryLogCount();
+        DeviceStatistic thingsCount=logService.selectCategoryLogCount(device);
+        if(thingsCount==null){
+            return statistic;
+        }
         // 组合属性、功能、事件和监测数据
         statistic.setPropertyCount(thingsCount.getPropertyCount());
         statistic.setFunctionCount(thingsCount.getFunctionCount());

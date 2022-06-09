@@ -30,7 +30,7 @@ public interface DeviceMapper
      *
      * @return 设备
      */
-    public DeviceStatistic selectDeviceProductAlertCount();
+    public DeviceStatistic selectDeviceProductAlertCount(Device device);
 
     /**
      * 根据设备编号查询设备

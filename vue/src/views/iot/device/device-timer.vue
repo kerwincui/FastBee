@@ -14,7 +14,7 @@
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-form-item>
         <el-form-item style="float:right;">
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:job:add']">新增</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:device:timer']">新增</el-button>
         </el-form-item>
     </el-form>
 
@@ -40,10 +40,10 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:job:edit']">修改</el-button>
-                <el-button size="mini" type="text" icon="el-icon-caret-right" @click="handleView(scope.row)" v-hasPermi="['iot:job:query']">定时详细</el-button><br />
-                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:job:remove']">删除</el-button>
-                <el-button size="mini" type="text" icon="el-icon-caret-right" @click="handleRun(scope.row)" v-hasPermi="['iot:job:changeStatus']">执行一次</el-button>
+                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:device:timer']">修改</el-button>
+                <el-button size="mini" type="text" icon="el-icon-caret-right" @click="handleView(scope.row)" v-hasPermi="['iot:device:timer']">定时详细</el-button><br />
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:timer']">删除</el-button>
+                <el-button size="mini" type="text" icon="el-icon-caret-right" @click="handleRun(scope.row)" v-hasPermi="['iot:device:timer']">执行一次</el-button>
             </template>
         </el-table-column>
     </el-table>

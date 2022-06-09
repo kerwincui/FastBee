@@ -1,5 +1,6 @@
 package com.ruoyi.iot.tdengine.service;
 
+import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 
 import com.ruoyi.iot.model.DeviceStatistic;
@@ -25,7 +26,7 @@ public interface ILogService {
     int deleteDeviceLogByDeviceId(Long deviceId);
 
     /** 设备属性、功能、事件总数 **/
-    DeviceStatistic selectCategoryLogCount();
+    DeviceStatistic selectCategoryLogCount(Device device);
 
     /** 查询物模型日志列表 **/
     List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);

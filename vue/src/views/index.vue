@@ -450,7 +450,6 @@ export default {
         getDeviceStatistic(){
             getDeviceStatistic().then(response => {
                 this.deviceStatistic = response.data;
-                console.log( this.deviceStatistic);
             });
         },
         /** 查询公告列表 */

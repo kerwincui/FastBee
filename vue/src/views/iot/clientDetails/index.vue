@@ -23,14 +23,14 @@
 
     <el-card style="padding-bottom: 100px">
         <el-table v-loading="loading" :data="clientDetailsList" @selection-change="handleSelectionChange">
+            <el-table-column label="客户端ID" align="center" prop="clientId" />
+            <el-table-column label="资源" align="center" prop="resourceIds" />
+            <el-table-column label="权限范围" align="center" prop="scope" />
             <el-table-column label="授权平台" align="center" prop="type">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.oauth_platform" :value="scope.row.type" />
                 </template>
             </el-table-column>
-            <el-table-column label="客户端ID" align="center" prop="clientId" />
-            <el-table-column label="资源" align="center" prop="resourceIds" />
-            <el-table-column label="权限范围" align="center" prop="scope" />
             <el-table-column label="自动授权" align="center" prop="autoapprove">
                 <template slot-scope="scope">
                     <span v-if="scope.row.autoapprove=='true'">自动授权</span>
