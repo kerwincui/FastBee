@@ -1,7 +1,7 @@
 <template>
 <div style="padding-left:20px;">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-        <el-form-item label="类型" prop="logType">
+        <el-form-item label="日志类型" prop="logType">
             <el-select v-model="queryParams.logType" placeholder="请选择类型" clearable size="small">
                 <el-option v-for="dict in dict.type.iot_device_log_type" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>

@@ -5,7 +5,9 @@
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUser" v-hasPermi="['iot:deviceUser:add']">分享设备</el-button>
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUserShareAllDevice" v-hasPermi="['iot:deviceUser:add']">分享所有设备</el-button>
         </el-col>
-        <right-toolbar @queryTable="getList"></right-toolbar>
+        <el-col :span="1.5">
+            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+        </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="deviceUserList" @selection-change="handleSelectionChange" size="mini">

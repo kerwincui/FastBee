@@ -156,10 +156,10 @@
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-row :gutter="20" style="background-color:#F5F7FA;padding:20px;padding-left:10px;">
-                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index" style="margin-bottom:20px;">
-                    <el-card shadow="hover" style="border-radius:30px;">
-                        <div ref="map" style="height:230px;width:180px;margin:0 auto;margin-top:-10px;"></div>
+            <el-row :gutter="20" style="background-color:#F5F7FA;padding:20px 20px 10px 10px;border-radius:15px;margin-right:5px;">
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index">
+                    <el-card shadow="hover" style="border-radius:30px;margin-bottom:20px;">
+                        <div ref="map" style="height:230px;width:180px;margin:0 auto;"></div>
                     </el-card>
                 </el-col>
             </el-row>

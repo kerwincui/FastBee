@@ -13,23 +13,10 @@
             <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
             <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-form-item>
-    </el-form>
-
-    <el-row :gutter="10" class="mb8">
-        <el-col :span="1.5">
+        <el-form-item style="float:right;">
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:job:add']">新增</el-button>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:job:edit']">修改</el-button>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:job:remove']">删除</el-button>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:job:export']">导出</el-button>
-        </el-col>
-        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+        </el-form-item>
+    </el-form>
 
     <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange" size="mini">
         <el-table-column type="selection" width="55" align="center" />
@@ -66,113 +53,99 @@
     <!-- 添加或修改定时定时对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-            <el-row>
-                <el-col :span="15">
-                    <el-form-item label="定时名称" prop="jobName">
-                        <el-input v-model="form.jobName" placeholder="请输入定时名称" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="执行时间" prop="timerTimeValue">
-                        <el-time-picker v-model="timerTimeValue" value-format="HH:mm" placeholder="选择时间" style="width:354px;" @change="timeChange" :disabled="form.isAdvance==1"></el-time-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="重复执行" prop="timerWeek">
-                        <el-row>
-                            <el-col :span="4">
-                                <el-select v-model="timerRepeatValue" placeholder="请选择" @change="repeatChange" :disabled="form.isAdvance==1">
-                                    <el-option v-for="item in timerRepeats" :key="item.value" :label="item.label" :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span="15" :offset="1" v-if="timerRepeatValue==2">
-                                <el-select v-model="timerWeekValue" placeholder="请选择" multiple style="width:485px" @change="weekChange" :disabled="form.isAdvance==1">
-                                    <el-option v-for="item in timerWeeks" :key="item.value" :label="item.label" :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                        </el-row>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="cron表达式" prop="">
-                        <el-row>
-                            <el-col :span="18">
-                                <el-input v-model="form.cronExpression" placeholder="cron执行表达式" :disabled="form.isAdvance==0">
-                                    <template slot="append">
-                                        <el-button type="primary" @click="handleShowCron" :disabled="form.isAdvance==0">
-                                            生成表达式
-                                            <i class="el-icon-time el-icon--right"></i>
-                                        </el-button>
-                                    </template>
-                                </el-input>
-                            </el-col>
-                            <el-col :span="4" :offset="1">
-                                <el-checkbox v-model="form.isAdvance" :true-label="1" :false-label="0" @change="customerCronChange">自定义表达式</el-checkbox>
-                            </el-col>
-                        </el-row>
-                    </el-form-item>
-                </el-col>
+            <el-form-item label="定时名称" prop="jobName">
+                <el-input v-model="form.jobName" placeholder="请输入定时名称" style="width:340px;" />
+            </el-form-item>
+            <el-form-item label="执行时间" prop="timerTimeValue">
+                <el-time-picker v-model="timerTimeValue" value-format="HH:mm" placeholder="选择时间" style="width:340px;" @change="timeChange" :disabled="form.isAdvance==1"></el-time-picker>
+            </el-form-item>
+            <el-form-item label="重复执行" prop="timerWeek">
+                <el-row>
+                    <el-col :span="4">
+                        <el-select v-model="timerRepeatValue" placeholder="请选择" @change="repeatChange" :disabled="form.isAdvance==1">
+                            <el-option v-for="item in timerRepeats" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="15" :offset="1" v-if="timerRepeatValue==2">
+                        <el-select v-model="timerWeekValue" placeholder="请选择" multiple style="width:485px" @change="weekChange" :disabled="form.isAdvance==1">
+                            <el-option v-for="item in timerWeeks" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="cron表达式" prop="cron">
+                <el-row>
+                    <el-col :span="18">
+                        <el-input v-model="form.cronExpression" placeholder="cron执行表达式" :disabled="form.isAdvance==0">
+                            <template slot="append">
+                                <el-button type="primary" @click="handleShowCron" :disabled="form.isAdvance==0">
+                                    生成表达式
+                                    <i class="el-icon-time el-icon--right"></i>
+                                </el-button>
+                            </template>
+                        </el-input>
+                    </el-col>
+                    <el-col :span="4" :offset="1">
+                        <el-checkbox v-model="form.isAdvance" :true-label="1" :false-label="0" @change="customerCronChange">自定义表达式</el-checkbox>
+                    </el-col>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="定时状态" prop="status">
+                <el-radio-group v-model="form.status">
+                    <el-radio v-for="dict in dict.type.sys_job_status" :key="dict.value" :label="dict.value">{{dict.label}}</el-radio>
+                </el-radio-group>
+            </el-form-item>
 
-                <el-col :span="24">
-                    <div style="padding-bottom:15px;padding:0 20px;">
-                        <el-divider></el-divider>
-                    </div>
-                    <el-form-item label="执行动作">
-                        <el-row v-for="(actionItem,index) in actionList" :key="index+'action'" style="margin-bottom:10px;">
-                            <el-col :span="4">
-                                <el-select v-model="actionItem.type" placeholder="请选择类别">
-                                    <el-option v-for="(subItem,subIndex) in modelTypes" :key="subIndex+'type'" :label="subItem.label" :value="subItem.value">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span="4" :offset="1">
-                                <el-select v-model="actionItem.id" placeholder="请选择" v-if="actionItem.type==1" @change="thingsModelItemChange($event,index)">
-                                    <el-option v-for="(subItem,subIndex) in thingsModel.properties" :key="subIndex+'property'" :label="subItem.name" :value="subItem.id">
-                                    </el-option>
-                                </el-select>
-                                <el-select v-model="actionItem.id" placeholder="请选择" v-else-if="actionItem.type==2" @change="thingsModelItemChange($event,index)">
-                                    <el-option v-for="(subItem,subIndex) in thingsModel.functions" :key="subIndex+'func'" :label="subItem.name" :value="subItem.id">
-                                    </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span="10" :offset="1">
-                                <!--物模型项的值-->
-                                <span v-if="actionItem.thingsModelItem &&(actionItem.thingsModelItem.datatype.type=='integer' || actionItem.thingsModelItem.datatype.type=='decimal')">
-                                    <el-input style="width:180px;" v-model="actionItem.value" placeholder="值" :max="actionItem.thingsModelItem.datatype.max" :min="actionItem.thingsModelItem.datatype.min" type="number" />
-                                    <el-input style="width:70px;margin-left:15px;" v-model="actionItem.thingsModelItem.datatype.unit" placeholder="请输入整数或小数" disabled />
-                                </span>
-                                <span v-else-if=" actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='bool'">
-                                    <el-switch v-model="actionItem.value" :active-text="actionItem.thingsModelItem.datatype.trueText" :inactive-text="actionItem.thingsModelItem.datatype.falseText" active-value="1" inactive-value="0">
-                                    </el-switch>
-                                </span>
-                                <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='enum'">
-                                    <el-select v-model="actionItem.value" placeholder="请选择" style="width:100%">
-                                        <el-option v-for="(subItem,subIndex) in actionItem.thingsModelItem.datatype.enumList" :key="subIndex+'things'" :label="subItem.text" :value="subItem.value">
-                                        </el-option>
-                                    </el-select>
-                                </span>
-                                <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='string'">
-                                    <el-input v-model="actionItem.value" placeholder="请输入字符串" :max="actionItem.thingsModelItem.datatype.maxLength" />
-                                </span>
-                                <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='array'">
-                                    <el-input v-model="actionItem.value" placeholder="请输入英文逗号分隔的数组" />
-                                </span>
-                            </el-col>
-                            <el-col :span="2" :offset="1" v-if="index!=0"><a style="color:#F56C6C" @click="removeEnumItem(index)">删除</a></el-col>
-                        </el-row>
-                        <div>+ <a style="color:#409EFF" @click="addEnumItem()">添加执行动作</a></div>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="定时状态">
-                        <el-radio-group v-model="form.status">
-                            <el-radio v-for="dict in dict.type.sys_job_status" :key="dict.value" :label="dict.value">{{dict.label}}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            <div style="padding-bottom:15px;padding:0 20px;">
+                <el-divider></el-divider>
+            </div>
+            <el-form-item label="执行动作" prop="actions">
+                <el-row v-for="(actionItem,index) in actionList" :key="index+'action'" style="margin-bottom:10px;">
+                    <el-col :span="4">
+                        <el-select v-model="actionItem.type" placeholder="请选择类别">
+                            <el-option v-for="(subItem,subIndex) in modelTypes" :key="subIndex+'type'" :label="subItem.label" :value="subItem.value">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4" :offset="1">
+                        <el-select v-model="actionItem.id" placeholder="请选择" v-if="actionItem.type==1" @change="thingsModelItemChange($event,index)">
+                            <el-option v-for="(subItem,subIndex) in thingsModel.properties" :key="subIndex+'property'" :label="subItem.name" :value="subItem.id">
+                            </el-option>
+                        </el-select>
+                        <el-select v-model="actionItem.id" placeholder="请选择" v-else-if="actionItem.type==2" @change="thingsModelItemChange($event,index)">
+                            <el-option v-for="(subItem,subIndex) in thingsModel.functions" :key="subIndex+'func'" :label="subItem.name" :value="subItem.id">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="10" :offset="1">
+                        <!--物模型项的值-->
+                        <span v-if="actionItem.thingsModelItem &&(actionItem.thingsModelItem.datatype.type=='integer' || actionItem.thingsModelItem.datatype.type=='decimal')">
+                            <el-input style="width:180px;" v-model="actionItem.value" placeholder="值" :max="actionItem.thingsModelItem.datatype.max" :min="actionItem.thingsModelItem.datatype.min" type="number" />
+                            <el-input style="width:70px;margin-left:15px;" v-model="actionItem.thingsModelItem.datatype.unit" placeholder="请输入整数或小数" disabled />
+                        </span>
+                        <span v-else-if=" actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='bool'">
+                            <el-switch v-model="actionItem.value" :active-text="actionItem.thingsModelItem.datatype.trueText" :inactive-text="actionItem.thingsModelItem.datatype.falseText" active-value="1" inactive-value="0">
+                            </el-switch>
+                        </span>
+                        <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='enum'">
+                            <el-select v-model="actionItem.value" placeholder="请选择" style="width:100%">
+                                <el-option v-for="(subItem,subIndex) in actionItem.thingsModelItem.datatype.enumList" :key="subIndex+'things'" :label="subItem.text" :value="subItem.value">
+                                </el-option>
+                            </el-select>
+                        </span>
+                        <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='string'">
+                            <el-input v-model="actionItem.value" placeholder="请输入字符串" :max="actionItem.thingsModelItem.datatype.maxLength" />
+                        </span>
+                        <span v-else-if="actionItem.thingsModelItem && actionItem.thingsModelItem.datatype.type=='array'">
+                            <el-input v-model="actionItem.value" placeholder="请输入英文逗号分隔的数组" />
+                        </span>
+                    </el-col>
+                    <el-col :span="2" :offset="1" v-if="index!=0"><a style="color:#F56C6C" @click="removeEnumItem(index)">删除</a></el-col>
+                </el-row>
+                <div>+ <a style="color:#409EFF" @click="addEnumItem()">添加执行动作</a></div>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="submitForm" :loading="submitButtonLoading">确 定</el-button>
@@ -274,7 +247,7 @@ export default {
                     this.thingsModel = JSON.parse(response.data);
                     // 过滤监测数据，监测数据为只读
                     this.thingsModel.properties = this.thingsModel.properties.filter(item => item.isMonitor == 0);
-                    this.queryParams.deviceId= this.deviceInfo.deviceId;
+                    this.queryParams.deviceId = this.deviceInfo.deviceId;
                     this.getList();
                 });
             }
@@ -318,7 +291,7 @@ export default {
             queryParams: {
                 pageNum: 1,
                 pageSize: 10,
-                deviceId:0,
+                deviceId: 0,
                 jobName: undefined,
                 jobGroup: undefined,
                 status: undefined
@@ -375,16 +348,6 @@ export default {
                     message: "定时名称不能为空",
                     trigger: "blur"
                 }],
-                actions: [{
-                    required: true,
-                    message: "执行动作不能为空",
-                    trigger: "blur"
-                }],
-                cronExpression: [{
-                    required: true,
-                    message: "cron执行表达式不能为空",
-                    trigger: "blur"
-                }]
             }
         };
     },
@@ -590,7 +553,7 @@ export default {
                     this.form.serialNumber = this.deviceInfo.serialNumber;
                     this.form.productId = this.deviceInfo.productId;
                     this.form.productName = this.deviceInfo.productName;
-                    console.log("this.form:",this.form);
+                    console.log("this.form:", this.form);
                     // 按钮等待后端加载完
                     this.submitButtonLoading = true;
                     if (this.form.jobId != undefined) {
