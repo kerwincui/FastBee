@@ -21,11 +21,15 @@
     <el-card style="padding-bottom:100px;">
         <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
-            <el-table-column label="产品名称" align="center" prop="productName" />
+            <el-table-column label="产品名称" align="center" prop="productName">
+                <template slot-scope="scope">
+                    <el-link :underline="false" type="primary" @click="handleViewProduct(scope.row.productId)">{{scope.row.productName}}</el-link>
+                </template>
+            </el-table-column>
 
             <el-table-column label="下载地址" align="center" prop="filePath" width="400">
                 <template slot-scope="scope">
-                    <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="primary">{{getDownloadUrl(scope.row.filePath)}}</el-link>
+                    <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="success">{{getDownloadUrl(scope.row.filePath)}}</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="固件版本" align="center" prop="version">
@@ -186,6 +190,17 @@ export default {
         this.getProductShortList();
     },
     methods: {
+        /** 查看产品按钮操作 */
+        handleViewProduct(productId) {
+            this.$router.push({
+                path: '/iot/product-edit',
+                query: {
+                    t: Date.now(),
+                    productId: productId,
+                }
+            });
+        },
+        // 获取下载路径前缀
         getDownloadUrl(path) {
             return window.location.origin + process.env.VUE_APP_BASE_API + path;
         },

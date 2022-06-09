@@ -190,11 +190,25 @@ export default {
         if (this.form.productId != 0) {
             this.getProduct();
         }
-        this.init();
+        // 获取分类信息
+        this.getShortCategory();
+    },
+    activated() {
+        const time = this.$route.query.t;
+        if (time != null && time != this.uniqueId) {
+            this.uniqueId = time;
+            // 获取产品信息
+            let productId = this.$route.query.productId
+            if (productId != null && productId!=0) {
+                this.form.productId = Number(productId);
+                this.getProduct();
+                this.getShortCategory();
+            }
+        }
     },
     methods: {
-        init() {
-            // 获取简短分类列表
+        // 获取简短分类列表
+        getShortCategory() {
             listShortCategory().then(response => {
                 this.categoryShortList = response.data;
             })

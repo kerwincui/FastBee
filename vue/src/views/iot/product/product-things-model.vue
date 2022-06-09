@@ -5,10 +5,10 @@
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-if="productInfo.status==1">新增</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+            <el-button type="success" plain icon="el-icon-upload2" size="mini" @click="handleSelect" v-if="productInfo.status==1">导入通用物模型</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-upload2" size="mini" @click="handleSelect" v-if="productInfo.status==1">导入通用物模型</el-button>
+            <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
         </el-col>
         <el-col :span="1.5">
             <el-button type="info" plain icon="el-icon-view" size="mini" @click="handleOpenThingsModel">查看物模型</el-button>

@@ -2,7 +2,12 @@
 <div style="padding-left:20px;">
     <el-row :gutter="10">
         <el-col :span="14">
-            <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
+            <el-row :gutter="10" class="mb8">
+                <el-col :span="1.5">
+                    <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+                </el-col>
+                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
+            </el-row>
             <el-table v-loading="loading" :data="modelList" border style="margin-bottom:60px;margin-top:20px;" size="small">
                 <el-table-column label="名称" align="center" prop="modelName" />
                 <el-table-column label="标识符" align="center" prop="identifier" />
@@ -71,7 +76,7 @@ export default {
             },
             form: {},
             // 产品
-            productInfo:{},
+            productInfo: {},
         };
     },
     watch: {
