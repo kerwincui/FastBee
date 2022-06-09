@@ -120,10 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteDeviceLogByDeviceIds" parameterType="String">
-        delete from iot_device_log where device_id in
-        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
-            #{deviceId}
-        </foreach>
+    <delete id="deleteDeviceLogByDeviceId" parameterType="Long">
+        delete from iot_device_log where device_id = #{deviceId}
     </delete>
 </mapper>

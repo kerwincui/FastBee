@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.DeviceUser;
 import com.ruoyi.iot.mapper.DeviceUserMapper;
+import com.ruoyi.iot.model.UserIdAndDeviceIdModel;
 import com.ruoyi.iot.service.IDeviceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -103,7 +104,7 @@ public class DeviceUserServiceImpl implements IDeviceUserService
     @Override
     public int deleteDeviceUserByDeviceId(Long deviceId)
     {
-        return deviceUserMapper.deleteDeviceUserByDeviceId(deviceId);
+        return deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdAndDeviceIdModel(null,deviceId));
     }
 
     @Override

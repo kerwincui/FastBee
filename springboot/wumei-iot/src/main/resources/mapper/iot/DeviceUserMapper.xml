@@ -106,8 +106,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_id = #{deviceId} and user_id = #{userId}
     </update>
 
-    <delete id="deleteDeviceUserByDeviceId" parameterType="Long">
-        delete from iot_device_user where device_id = #{deviceId} and is_owner !=1
+    <delete id="deleteDeviceUserByDeviceId" parameterType="com.ruoyi.iot.model.UserIdAndDeviceIdModel">
+        delete from iot_device_user
+        <where>
+            <if test="1==1"> and device_id = #{deviceId}</if>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
     </delete>
 
     <delete id="deleteDeviceUserByDeviceIds" parameterType="String">

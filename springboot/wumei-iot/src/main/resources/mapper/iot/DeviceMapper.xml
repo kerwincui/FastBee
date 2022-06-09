@@ -151,7 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select d.device_id, d.device_name, d.product_name, d.user_name, d.serial_number, d.firmware_version, d.status,d.rssi,d.is_shadow ,
         d.location_way, d.active_time,d.network_address,d.longitude,latitude
         from iot_device d
-        left join iot_device_user u on u.device_id = d.device_id
+        inner join iot_device_user u on u.device_id = d.device_id
         <where>
             <if test="userId != null "> and u.user_id = #{userId}</if>
             <if test="deviceName != null  and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
@@ -169,7 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select d.device_id, d.device_name, d.product_name, d.user_name, d.serial_number, d.firmware_version, d.status,d.rssi,d.is_shadow ,
                d.location_way, d.active_time,d.network_address,d.longitude,latitude
         from iot_device d
-        left join iot_device_user u on u.device_id = d.device_id
+        inner join iot_device_user u on u.device_id = d.device_id
         <where>
             <if test="userId != null "> and u.user_id = #{userId}</if>
             <if test="tenantId != null "> and d.tenant_id = #{tenantId}</if>
@@ -191,7 +191,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             d.firmware_version, d.status,d.rssi,d.is_shadow ,d.location_way,
             d.things_model_value, d.active_time,d.img_url,u.user_id
         from iot_device d
-        left join iot_device_user u on u.device_id = d.device_id
+        inner join iot_device_user u on u.device_id = d.device_id
         <if test="groupId != null and groupId !=0  "> left join iot_device_group g on g.device_id=d.device_id </if>
         <where>
             <if test="groupId != null and groupId !=0  "> and g.group_id = #{groupId}</if>
@@ -406,10 +406,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select count(*) from iot_device where serial_number = #{deviceNum}
     </select>
 
-    <delete id="deleteDeviceGroupByDeviceIds" parameterType="String">
-        delete from iot_device_group where device_id in
-        <foreach item="deviceId" collection="array" open="(" separator="," close=")">
-            #{deviceId}
-        </foreach>
+    <delete id="deleteDeviceGroupByDeviceId" parameterType="com.ruoyi.iot.model.UserIdAndDeviceIdModel">
+        delete from iot_device_group
+        <where>
+            <if test="1==1"> and device_id = #{deviceId}</if>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
     </delete>
 </mapper>

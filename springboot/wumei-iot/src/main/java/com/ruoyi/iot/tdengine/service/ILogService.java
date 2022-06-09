@@ -18,7 +18,11 @@ import java.util.List;
  */
 public interface ILogService {
 
+    /** 保存设备日志 **/
     int saveDeviceLog(DeviceLog deviceLog);
+
+    /** 根据设备ID删除设备日志 **/
+    int deleteDeviceLogByDeviceId(Long deviceId);
 
     /** 设备属性、功能、事件总数 **/
     DeviceStatistic selectCategoryLogCount();

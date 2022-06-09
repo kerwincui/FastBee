@@ -155,20 +155,13 @@ public interface IDeviceService
     public int reportDevice(Device device);
 
     /**
-     * 批量删除设备
+     * 删除设备
      * 
-     * @param deviceIds 需要删除的设备主键集合
+     * @param deviceId 需要删除的设备主键集合
      * @return 结果
      */
-    public int deleteDeviceByDeviceIds(Long[] deviceIds) throws SchedulerException;
+    public int deleteDeviceByDeviceId(Long deviceId) throws SchedulerException;
 
-    /**
-     * 删除设备信息
-     * 
-     * @param deviceId 设备主键
-     * @return 结果
-     */
-    public int deleteDeviceByDeviceId(Long deviceId);
 
     /**
      * 生成设备唯一编号

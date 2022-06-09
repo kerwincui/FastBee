@@ -83,10 +83,10 @@ public interface DeviceLogMapper
     /**
      * 根据设备Ids批量删除设备日志
      *
-     * @param deviceIds 需要删除的数据设备Ids
+     * @param deviceId 需要删除的数据设备Id
      * @return 结果
      */
-    public int deleteDeviceLogByDeviceIds(Long[] deviceIds);
+    public int deleteDeviceLogByDeviceId(Long deviceId);
 
 
 //    List<DeviceLog> selectLogList(Long deviceId,String serialNumber,Long isMonitor,Long logType, Date beginDate, Date endDate);

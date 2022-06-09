@@ -102,13 +102,13 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     /**
      * 根据设备Ids批量删除设备日志
      *
-     * @param deviceIds 需要删除数据的设备Ids
+     * @param deviceId 需要删除数据的设备Ids
      * @return 结果
      */
     @Override
-    public int deleteDeviceLogByDeviceIds(Long[] deviceIds)
+    public int deleteDeviceLogByDeviceId(Long deviceId)
     {
-        return deviceLogMapper.deleteDeviceLogByDeviceIds(deviceIds);
+        return deviceLogMapper.deleteDeviceLogByDeviceId(deviceId);
     }
 
     /**

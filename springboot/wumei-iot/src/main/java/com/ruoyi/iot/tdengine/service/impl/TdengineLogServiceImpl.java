@@ -36,6 +36,10 @@ public class TdengineLogServiceImpl implements ILogService {
         this.dbName=_tDengineConfig.getDbName();
     }
 
+    /***
+     * 新增设备日志
+     * @return
+     */
     @Override
     public int saveDeviceLog(DeviceLog deviceLog) {
         long logId = snowflakeIdWorker.nextId();
@@ -43,17 +47,37 @@ public class TdengineLogServiceImpl implements ILogService {
         return tdDeviceLogDAO.save(dbName,deviceLog);
     }
 
-    /** 设备属性、功能、事件和监测数据总数 **/
+    /***
+     * 根据设备ID删除设备日志
+     * @return
+     */
+    @Override
+    public int deleteDeviceLogByDeviceId(Long deviceId) {
+        return tdDeviceLogDAO.deleteDeviceLogByDeviceId(dbName,deviceId);
+    }
+
+    /***
+     * 设备属性、功能、事件和监测数据总数
+     * @return
+     */
     @Override
     public DeviceStatistic selectCategoryLogCount(){
         return  tdDeviceLogDAO.selectCategoryLogCount(dbName);
     }
 
+    /***
+     * 日志列表
+     * @return
+     */
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog) {
         return tdDeviceLogDAO.selectDeviceLogList(dbName,deviceLog);
     }
 
+    /***
+     * 监测数据列表
+     * @return
+     */
     @Override
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog) {
         if(deviceLog.getIdentity()!=null){

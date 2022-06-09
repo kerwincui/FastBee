@@ -187,7 +187,7 @@ public class DeviceController extends BaseController
 	@DeleteMapping("/{deviceIds}")
     @ApiOperation("批量删除设备")
     public AjaxResult remove(@PathVariable Long[] deviceIds) throws SchedulerException {
-        return toAjax(deviceService.deleteDeviceByDeviceIds(deviceIds));
+        return toAjax(deviceService.deleteDeviceByDeviceId(deviceIds[0]));
     }
 
     @PreAuthorize("@ss.hasPermi('iot:device:edit')")

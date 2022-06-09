@@ -796,34 +796,44 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
-     * 批量删除设备
-     * @param deviceIds 需要删除的设备主键
+     * 删除设备
+     * @param deviceId 需要删除的设备主键
      * @return 结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int deleteDeviceByDeviceIds(Long[] deviceIds) throws SchedulerException {
-        // 删除设备分组
-        deviceMapper.deleteDeviceGroupByDeviceIds(deviceIds);
-        // TODO 删除设备日志 td里面删除
-        deviceLogMapper.deleteDeviceLogByDeviceIds(deviceIds);
-        // TODO 删除设备告警记录
+    public int deleteDeviceByDeviceId(Long deviceId) throws SchedulerException {
+        SysUser user=getLoginUser().getUser();
+        // 是否为普通用户，普通用户如果不是设备所有者，只能删除设备用户和用户自己的设备关联分组信息
+        boolean isGeneralUser=false;
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if (roles.get(i).getRoleKey().equals("general")){
+                isGeneralUser=true;
+                break;
+            }
+        }
 
-        // 删除定时任务
-        deviceJobService.deleteJobByDeviceIds(deviceIds);
-        // 删除设备用户
-        deviceUserMapper.deleteDeviceUserByDeviceIds(deviceIds);
-        // 删除设备
-        return deviceMapper.deleteDeviceByDeviceIds(deviceIds);
-    }
+        Device device=deviceMapper.selectDeviceByDeviceId(deviceId);
+        if(isGeneralUser && device.getUserId().longValue()!=user.getUserId()){
+            // 删除用户的设备用户信息。  普通用户，且不是设备所有者。
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdAndDeviceIdModel(user.getUserId(),deviceId));
+            // 删除用户的设备分组
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdAndDeviceIdModel(user.getUserId(),deviceId));
+        }else{
+            // 删除设备用户。  租户、管理员和设备所有者
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdAndDeviceIdModel(null,deviceId));
+            // 删除设备分组。
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdAndDeviceIdModel(null,deviceId));
+            // 删除定时任务
+            deviceJobService.deleteJobByDeviceIds(new Long[]{deviceId});
+            // 批量删除设备日志
+            logService.deleteDeviceLogByDeviceId(deviceId);
+            // TODO 删除设备告警记录
 
-    /**
-     * 删除设备信息
-     * @param deviceId 设备主键
-     * @return 结果
-     */
-    @Override
-    public int deleteDeviceByDeviceId(Long deviceId) {
-        return deviceMapper.deleteDeviceByDeviceId(deviceId);
+            // 删除设备
+            deviceMapper.deleteDeviceByDeviceIds(new Long[]{deviceId});
+        }
+        return 1;
     }
 }

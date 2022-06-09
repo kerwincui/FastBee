@@ -33,7 +33,9 @@ public interface TDDeviceLogDAO {
 
     int delete(String dbName, DeviceLog deviceLog);
 
-//    List<DeviceLog> selectLogListByPage(String dbName, Integer pageSize, Integer pageNum, String deviceNum, Date beginDate, Date endDate);
+    int deleteDeviceLogByDeviceId(String dbName,Long deviceId);
+
+    // List<DeviceLog> selectLogListByPage(String dbName, Integer pageSize, Integer pageNum, String deviceNum, Date beginDate, Date endDate);
 
     List<DeviceLog> selectLogList(String dbName, Long deviceId, String serialNumber, Long isMonitor, Long logType, Date beginDate, Date endDate);
 

@@ -95,17 +95,21 @@
     <delete id="delete" parameterType="com.ruoyi.iot.domain.DeviceLog">
         delete from ${database}.device_${device.serialNumber}
         <where>
-            <if test="logId !=null">
-                log_id = #{logId}
-            </if>
-            <if test="deviceId !=null and deviceId!=''">
-                device_id = #{deviceId}
-            </if>
-            <if test="serialNumber !=null and serialNumber!=''">
-                serial_number = #{serialNumber}
-            </if>
+            <if test="logId !=null"> log_id = #{logId} </if>
+            <if test="deviceId !=null and deviceId!=''"> device_id = #{deviceId} </if>
+            <if test="serialNumber !=null and serialNumber!=''"> serial_number = #{serialNumber} </if>
         </where>
     </delete>
+
+    <delete id="deleteDeviceLogByDeviceId" parameterType="com.ruoyi.iot.domain.DeviceLog">
+        delete from ${database}.device_${device.serialNumber}
+        <where>
+            <if test="logId !=null"> log_id = #{logId} </if>
+            <if test="deviceId !=null and deviceId!=''"> device_id = #{deviceId} </if>
+            <if test="serialNumber !=null and serialNumber!=''"> serial_number = #{serialNumber} </if>
+        </where>
+    </delete>
+
 
     <select id="selectLogList" resultMap="BaseResultMap">
        select * from ${database}.device_log

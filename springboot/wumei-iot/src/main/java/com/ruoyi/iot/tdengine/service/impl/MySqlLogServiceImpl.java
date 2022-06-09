@@ -22,9 +22,22 @@ public class MySqlLogServiceImpl implements ILogService {
         this.deviceLogMapper=_deviceLogMapper;
     }
 
+    /***
+     * 新增设备日志
+     * @return
+     */
     @Override
     public int saveDeviceLog(DeviceLog deviceLog) {
         return deviceLogMapper.insertDeviceLog(deviceLog);
+    }
+
+    /***
+     * 根据设备ID删除设备日志
+     * @return
+     */
+    @Override
+    public int deleteDeviceLogByDeviceId(Long deviceId) {
+        return deviceLogMapper.deleteDeviceLogByDeviceId(deviceId);
     }
 
     /***
