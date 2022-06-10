@@ -331,14 +331,14 @@ export default {
         updateDeviceStatus(device) {
             if (device.status == 3) {
                 this.statusColor.background = '#12d09f';
-                this.title = "设备控制（在线）";
+                this.title = "在线模式";
             } else {
                 if (device.isShadow == 1) {
                     this.statusColor.background = '#409EFF';
-                    this.title = "设备控制（影子模式）";
+                    this.title = "影子模式";
                 } else {
                     this.statusColor.background = '#909399';
-                    this.title = "设备控制（设备不在线 未启用影子）";
+                    this.title = "离线模式";
                     this.shadowUnEnable = true;
                 }
             }

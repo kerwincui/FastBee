@@ -259,11 +259,13 @@ export default {
         let productId = this.$route.query.productId
         if (productId != null) {
             this.queryParams.productId = Number(productId);
+            this.queryParams.groupId=null;
         }
         // 分组筛选
         let groupId = this.$route.query.groupId
         if (groupId != null) {
             this.queryParams.groupId = Number(groupId);
+            this.queryParams.productId=null;
         }
         this.getList();
 
@@ -278,11 +280,13 @@ export default {
             let productId = this.$route.query.productId
             if (productId != null) {
                 this.queryParams.productId = Number(productId);
+                this.queryParams.groupId=null;
             }
             // 分组筛选
             let groupId = this.$route.query.groupId
             if (groupId != null) {
                 this.queryParams.groupId = Number(groupId);
+                this.queryParams.productId=null;
             }
             this.getList();
         }

@@ -41,17 +41,12 @@
 
     <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="small">
         <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
-        <el-table-column label="状态" align="center" prop="active" width="100">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
-            </template>
-        </el-table-column>
-        <el-table-column label="状态" align="center" prop="active" width="100">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
-            </template>
-        </el-table-column>
         <el-table-column label="授权码" width="320" align="center" prop="authorizeCode" />
+        <el-table-column label="状态" align="center" prop="active" width="100">
+            <template slot-scope="scope">
+                <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
+            </template>
+        </el-table-column>
         <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
         <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
         <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
@@ -186,7 +181,7 @@ export default {
             // 编辑类型，remark=备注、auth=设备授权
             editType: '',
             // 编辑界面宽度
-            editWidth:'500px',
+            editWidth: '500px',
             // 遮罩层
             loading: true,
             // 选中数组
@@ -365,10 +360,10 @@ export default {
                 this.open = true;
                 if (this.editType == 'auth') {
                     this.title = "选择设备";
-                    this.editWidth="800px";
+                    this.editWidth = "800px";
                 } else {
                     this.title = "备注信息";
-                    this.editWidth="500px";
+                    this.editWidth = "500px";
                 }
                 // 取消选中
 
