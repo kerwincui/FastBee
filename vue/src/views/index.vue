@@ -152,7 +152,7 @@
                 </div>
             </el-card>
 
-        </el-col>   
+        </el-col>
     </el-row>
 
     <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:50px;">
@@ -327,7 +327,7 @@
     </el-row>
 
     <!--通知公告详情 -->
-    <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px"  append-to-body>
+    <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px" append-to-body>
         <div style="margin-top:-20px;margin-bottom:10px;">
             <el-tag size="mini" effect="dark" type="warning" v-if="notice.noticeType==2">公告</el-tag>
             <el-tag size="mini" effect="dark" v-else>信息</el-tag>
@@ -397,7 +397,7 @@ export default {
             // 设备列表
             deviceList: [],
             // 设备统计信息
-            deviceStatistic:{},
+            deviceStatistic: {},
             // 设备总数
             deviceCount: 0,
             // emqx状态数据
@@ -447,7 +447,7 @@ export default {
             }
         },
         /** 查询设备统计信息 */
-        getDeviceStatistic(){
+        getDeviceStatistic() {
             getDeviceStatistic().then(response => {
                 this.deviceStatistic = response.data;
             });
@@ -465,11 +465,11 @@ export default {
         // 打开信息详情
         openDetail(id) {
             this.open = true;
-            this.loading=true;
+            this.loading = true;
             getNotice(id).then(response => {
                 this.notice = response.data;
                 this.open = true;
-                this.loading=false;
+                this.loading = false;
             });
         },
         // 取消按钮
@@ -519,6 +519,19 @@ export default {
             var myChart = echarts.init(this.$refs.map);
             var option;
 
+            // 单击事件
+            myChart.on('click', (params) => {
+                if (params.data.deviceId) {
+                    this.$router.push({
+                        path: '/iot/device-edit',
+                        query: {
+                            t: Date.now(),
+                            deviceId: params.data.deviceId,
+                        }
+                    });
+                }
+            });
+
             // 格式化数据
             let convertData = function (data, status) {
                 var res = [];
@@ -534,7 +547,8 @@ export default {
                             firmwareVersion: data[i].firmwareVersion,
                             networkAddress: data[i].networkAddress,
                             productName: data[i].productName,
-                            activeTime: data[i].activeTime,
+                            activeTime: data[i].activeTime == null ? '' : data[i].activeTime,
+                            deviceId: data[i].deviceId,
                         });
                     }
                 }
@@ -598,7 +612,7 @@ export default {
                                 featureType: 'land',
                                 elementType: 'all',
                                 stylers: {
-                                    color: '#fafafa'  // #fffff8 淡黄色
+                                    color: '#fafafa' // #fffff8 淡黄色
                                 }
                             },
                             {
@@ -951,7 +965,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .description {
     font-size: 14px;
 
