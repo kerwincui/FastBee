@@ -61,7 +61,7 @@ public class DeviceUserServiceImpl implements IDeviceUserService
     public int insertDeviceUser(DeviceUser deviceUser)
     {
         List<DeviceUser> deviceUsers = selectDeviceUserList(deviceUser);
-        if (!deviceUsers.isEmpty()) throw new RuntimeException("该用户已添加, 禁止重复添加");
+        if (!deviceUsers.isEmpty()) { throw new RuntimeException("该用户已添加, 禁止重复添加");}
         deviceUser.setCreateTime(DateUtils.getNowDate());
         deviceUser.setIsOwner(0);
         SysUser sysUser = getLoginUser().getUser();

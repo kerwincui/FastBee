@@ -74,7 +74,7 @@ public class DeviceUserController extends BaseController
     /**
      * 新增设备用户
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @PreAuthorize("@ss.hasPermi('iot:device:share')")
     @Log(title = "设备用户", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("添加设备用户")
@@ -86,10 +86,10 @@ public class DeviceUserController extends BaseController
     /**
      * 新增多个设备用户
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @PreAuthorize("@ss.hasPermi('iot:device:share')")
     @Log(title = "设备用户", businessType = BusinessType.INSERT)
     @PostMapping("/addDeviceUsers")
-    @ApiOperation("添加设备用户")
+    @ApiOperation("批量添加设备用户")
     public AjaxResult addDeviceUsers(@RequestBody List<DeviceUser> deviceUsers)
     {
         return toAjax(deviceUserService.insertDeviceUserList(deviceUsers));

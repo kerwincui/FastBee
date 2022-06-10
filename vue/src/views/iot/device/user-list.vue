@@ -19,7 +19,9 @@
                 <input type="radio" :checked="scope.row.isSelect" name="user" />
             </template>
         </el-table-column>
-        <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" :show-overflow-tooltip="true" />
+        <el-table-column label="用户编号" align="center" key="userId" prop="userId" width="120" />
+        <el-table-column label="用户名称" align="center" key="userName" prop="userName"  />
+        <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" />
         <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" width="120" />
         <el-table-column label="创建时间" align="center" prop="createTime" width="160">
             <template slot-scope="scope">
@@ -29,7 +31,7 @@
 
     </el-table>
     <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addDeviceUser">添加</el-button>
+        <el-button type="primary" @click="addDeviceUser">分享</el-button>
         <el-button @click="closeSelectUser">关 闭</el-button>
     </div>
 </el-dialog>

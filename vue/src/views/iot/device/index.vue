@@ -461,7 +461,7 @@ export default {
             this.chartLoading = true;
             // Mqtt发布实时监测
             let model = {};
-            model.name = "";
+            model.name = "关闭实时监测";
             model.value = 0;
             this.mqttPublish(4, this.monitorDevice, model);
         },

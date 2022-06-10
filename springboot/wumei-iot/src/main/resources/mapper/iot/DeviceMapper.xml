@@ -166,6 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="networkAddress != null  and networkAddress != ''"> and d.network_address like concat('%', #{networkAddress}, '%')</if>
             <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and d.active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
         </where>
+        group by d.device_id,d.user_id
         order by d.create_time desc
     </select>
 
@@ -179,6 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tenantId != null "> and d.tenant_id = #{tenantId}</if>
             <if test="productId != null "> and d.product_id = #{productId}</if>
         </where>
+        group by d.device_id,d.user_id
     </select>
 
     <select id="selectDeviceThingsModelValueBySerialNumber" parameterType="String" resultMap="DeviceThingsValueResult">
@@ -210,6 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and d.status = #{status}</if>
             <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and d.active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
         </where>
+        group by d.device_id,d.user_id
         order by d.create_time desc
     </select>
     
