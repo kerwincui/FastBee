@@ -2,8 +2,8 @@
 <div style="padding-left:20px;">
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUser" v-hasPermi="['iot:device:share']">分享设备</el-button>
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUserShareAllDevice" v-hasPermi="['iot:device:share']">分享所有设备</el-button>
+            <el-button type="primary" plain icon="el-icon-share" size="mini" @click="selectUser" v-hasPermi="['iot:device:share']">分享设备</el-button>
+            <!-- <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUserShareAllDevice" v-hasPermi="['iot:device:share']">分享所有设备</el-button> -->
         </el-col>
         <el-col :span="1.5">
             <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
@@ -11,23 +11,25 @@
     </el-row>
 
     <el-table v-loading="loading" :data="deviceUserList" @selection-change="handleSelectionChange" size="mini">
-        <el-table-column label="用户昵称" align="center" prop="userName" width="200" />
-        <el-table-column label="手机号码" align="center" prop="phonenumber" width="200" />
-        <el-table-column label="设备所有者" align="center" prop="isOwner" width="100">
+        <el-table-column label="用户编号" align="center" prop="userId" width="100"/>
+        <el-table-column label="用户名称" align="center" prop="userName"/>
+        <el-table-column label="手机号码" align="center" prop="phonenumber" width="150" />
+        <el-table-column label="用户类型" align="center" prop="isOwner" width="150">
             <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isOwner" />
+                <el-tag type="primary" v-if="scope.row.isOwner">设备主人</el-tag>
+                <el-tag type="success" v-else>分享用户</el-tag>
             </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="createTime" width="150">
+        <el-table-column label="分享时间" align="center" prop="createTime" width="150">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="备注" align="left" prop="remark" al />
+        <el-table-column label="备注" align="left" prop="remark" header-align="center" min-width="150" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
             <template slot-scope="scope">
                 <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:device:share']" v-if="scope.row.isOwner==0">备注</el-button>
-                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:share']" v-if="scope.row.isOwner==0">删除</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:share']" v-if="scope.row.isOwner==0">取消分享</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -218,11 +220,11 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const deviceUser = row;
-            this.$modal.confirm('是否确认删除设备用户编号为"' + deviceUser.deviceId + "-" + deviceUser.userId + '"的数据项？').then(function () {
+            this.$modal.confirm('确认取消分享设备？').then(function () {
                 return delDeviceUser(deviceUser);
             }).then(() => {
                 this.getList();
-                this.$modal.msgSuccess("删除成功");
+                this.$modal.msgSuccess("取消分享成功");
             }).catch(() => {});
         },
         /** 导出按钮操作 */

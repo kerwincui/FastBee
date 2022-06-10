@@ -54,8 +54,9 @@
                                 <el-descriptions-item label="联网方式">
                                     <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" />
                                 </el-descriptions-item>
-                                <el-descriptions-item label="创建时间">
-                                    <span>{{ parseTime(item.createTime, '{y}-{m}-{d}') }}</span>
+                                <el-descriptions-item label="设备授权">
+                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">已启用</el-tag>
+                                    <el-tag type="info" size="mini" v-else>未启用</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                         </el-col>
@@ -83,7 +84,7 @@
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
             <el-link type="danger" style="padding-left:10px;" :underline="false">该功能暂未实现，参考教程和项目的SDK示例</el-link>
             <el-form label-width="80px">
-                <el-form-item label="选择设备">
+                <el-form-item label="设备类型">
                     <el-radio-group v-model="form.datatype">
                         <el-radio v-for="dict in dict.type.iot_device_chip" :key="dict.value" :label="dict.value" style="margin-top:15px;width:160px;">{{dict.label}}</el-radio>
                     </el-radio-group>

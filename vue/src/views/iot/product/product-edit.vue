@@ -19,11 +19,11 @@
                                 <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="授权码" prop="networkMethod">
+                        <el-form-item label="设备授权" prop="networkMethod">
                             <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" :disabled="form.status==2" />
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="4" :readonly="form.status==2" />
+                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" :readonly="form.status==2" />
                         </el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
@@ -58,8 +58,13 @@
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                         <el-form-item label="产品图片">
-                            <imageUpload ref="image-upload" :value="form.imgUrl" :limit="form.status==2 ? 0 : 1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
-                            <div class="el-upload__tip" style="color:#f56c6c">提示：上传后需要提交保存</div>
+                            <div v-if="form.status==2 && form.imgUrl==null">
+                                <el-image style="height:145px;height:145px;border-radius:10px;" :preview-src-list="[require('@/assets/images/product.jpg')]" :src="require('@/assets/images/product.jpg')" fit="cover"></el-image>
+                            </div>
+                            <div v-else>
+                                <imageUpload ref="image-upload" :disabled="true" :value="form.imgUrl" :limit="form.status==2 ? 0 : 1" :fileSize="1" @input="getImagePath($event)"></imageUpload>
+                            </div>
+                            <div class="el-upload__tip" style="color:#f56c6c" v-if="form.productId==null || form.productId==0">提示：上传后需要提交保存</div>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -82,7 +87,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="" name="productAuthorize" :disabled="form.productId==0 || form.isAuthorize==0">
-            <span slot="label">产品授权</span>
+            <span slot="label">设备授权</span>
             <product-authorize ref="productAuthorize" :product="form" />
         </el-tab-pane>
 
@@ -199,7 +204,7 @@ export default {
             this.uniqueId = time;
             // 获取产品信息
             let productId = this.$route.query.productId
-            if (productId != null && productId!=0) {
+            if (productId != null && productId != 0) {
                 this.form.productId = Number(productId);
                 this.getProduct();
                 this.getShortCategory();
