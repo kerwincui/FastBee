@@ -304,8 +304,16 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public List<Device> selectDeviceListByGroup(Device device) {
-        if(device.getUserId()==null || device.getUserId()==0){
-            return new ArrayList<>();
+        SysUser user = getLoginUser().getUser();
+        List<SysRole> roles=user.getRoles();
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant")){
+                // 租户查看产品下所有设备
+                device.setTenantId(user.getUserId());
+            }else if (roles.get(i).getRoleKey().equals("general")){
+                // 用户查看自己设备
+                device.setUserId(user.getUserId());
+            }
         }
         return deviceMapper.selectDeviceListByGroup(device);
     }
@@ -564,7 +572,7 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
-        device.setlocationWay(1); // 1-自动定位，2-设备定位，3-自定义位置
+        device.setLocationWay(1); // 1-自动定位，2-设备定位，3-自定义位置
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
         // 随机位置
@@ -713,7 +721,7 @@ public class DeviceServiceImpl implements IDeviceService {
                 device.setActiveTime(DateUtils.getNowDate());
             }
             // 定位方式(1=ip自动定位，2=设备定位，3=自定义)
-            if (device.getlocationWay() == 1) {
+            if (device.getLocationWay() == 1) {
                 device.setNetworkIp(ipAddress);
                 setLocation(ipAddress, device);
             }

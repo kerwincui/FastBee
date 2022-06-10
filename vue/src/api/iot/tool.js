@@ -18,3 +18,12 @@ export function register(data) {
     data: data
   })
 }
+
+// 查询用户列表
+export function listUser(query) {
+  return request({
+    url: '/iot/tool/userList',
+    method: 'get',
+    params: query
+  })
+}

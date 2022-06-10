@@ -133,7 +133,7 @@ public class EmqxService {
             device.setProductId(productId);
             device.setSerialNumber(deviceNum);
             // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
-            if(device.getlocationWay()!=2){
+            if(device.getLocationWay()!=2){
                 device.setLatitude(null);
                 device.setLongitude(null);
             }

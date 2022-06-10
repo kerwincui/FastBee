@@ -37,7 +37,7 @@ public class AlertController extends BaseController
     /**
      * 查询设备告警列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:list')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:list')")
     @GetMapping("/list")
     public TableDataInfo list(Alert alert)
     {
@@ -49,7 +49,7 @@ public class AlertController extends BaseController
     /**
      * 导出设备告警列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:export')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:export')")
     @Log(title = "设备告警", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Alert alert)
@@ -62,7 +62,7 @@ public class AlertController extends BaseController
     /**
      * 获取设备告警详细信息
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:query')")
     @GetMapping(value = "/{alertId}")
     public AjaxResult getInfo(@PathVariable("alertId") Long alertId)
     {
@@ -72,7 +72,7 @@ public class AlertController extends BaseController
     /**
      * 新增设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:add')")
     @Log(title = "设备告警", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Alert alert)
@@ -83,7 +83,7 @@ public class AlertController extends BaseController
     /**
      * 修改设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:edit')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:edit')")
     @Log(title = "设备告警", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Alert alert)
@@ -94,7 +94,7 @@ public class AlertController extends BaseController
     /**
      * 删除设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:device:remove')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:remove')")
     @Log(title = "设备告警", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{alertIds}")
     public AjaxResult remove(@PathVariable Long[] alertIds)

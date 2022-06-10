@@ -15,6 +15,12 @@
         <el-table-column label="设备名称" align="center" prop="deviceName" />
         <el-table-column label="设备编号" align="center" prop="serialNumber" />
         <el-table-column label="产品名称" align="center" prop="productName" />
+        <el-table-column label="设备类型" align="center">
+             <template slot-scope="scope">
+                <el-tag type="success" v-if="scope.row.isOwner==0">分享</el-tag>
+                <el-tag type="primary" v-else>拥有</el-tag>
+            </template>
+        </el-table-column>
         <el-table-column label="设备状态" align="center" prop="status">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" />

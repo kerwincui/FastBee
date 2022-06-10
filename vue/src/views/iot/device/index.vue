@@ -33,7 +33,9 @@
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">
                             <el-link type="" :underline="false" @click="handleEditDevice(item)" style="font-weight:bold;font-size:16px;line-height:32px;">
-                                <svg-icon icon-class="device" /> {{item.deviceName}}
+                                <svg-icon icon-class="device" v-if="item.isOwner==1" /> 
+                                <svg-icon icon-class="share" v-else /> 
+                                {{item.deviceName}}
                                 <el-tag size="mini" type="info">Version {{item.firmwareVersion}}</el-tag>
                             </el-link>
                         </el-col>

@@ -37,7 +37,7 @@ public class AlertLogController extends BaseController
     /**
      * 查询设备告警列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:list')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:list')")
     @GetMapping("/list")
     public TableDataInfo list(AlertLog alertLog)
     {
@@ -49,7 +49,7 @@ public class AlertLogController extends BaseController
     /**
      * 导出设备告警列表
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:export')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:export')")
     @Log(title = "设备告警", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, AlertLog alertLog)
@@ -62,7 +62,7 @@ public class AlertLogController extends BaseController
     /**
      * 获取设备告警详细信息
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:query')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:query')")
     @GetMapping(value = "/{alertLogId}")
     public AjaxResult getInfo(@PathVariable("alertLogId") Long alertLogId)
     {
@@ -72,7 +72,7 @@ public class AlertLogController extends BaseController
     /**
      * 新增设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:add')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:add')")
     @Log(title = "设备告警", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody AlertLog alertLog)
@@ -83,7 +83,7 @@ public class AlertLogController extends BaseController
     /**
      * 修改设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:edit')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:edit')")
     @Log(title = "设备告警", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AlertLog alertLog)
@@ -94,7 +94,7 @@ public class AlertLogController extends BaseController
     /**
      * 删除设备告警
      */
-    @PreAuthorize("@ss.hasPermi('iot:alertLog:remove')")
+    @PreAuthorize("@ss.hasPermi('iot:alert:remove')")
     @Log(title = "设备告警", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{alertLogIds}")
     public AjaxResult remove(@PathVariable Long[] alertLogIds)

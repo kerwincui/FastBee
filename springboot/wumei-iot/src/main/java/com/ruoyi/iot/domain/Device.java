@@ -105,6 +105,25 @@ public class Device extends BaseEntity
     /** 分组ID，用于分组查询 **/
     private Long groupId;
 
+    /** 是否设备所有者，用于查询 **/
+    private Integer isOwner;
+
+    public Integer getLocationWay() {
+        return locationWay;
+    }
+
+    public void setLocationWay(Integer locationWay) {
+        this.locationWay = locationWay;
+    }
+
+    public Integer getIsOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Integer isOwner) {
+        this.isOwner = isOwner;
+    }
+
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
@@ -122,14 +141,6 @@ public class Device extends BaseEntity
 
     public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public Integer getlocationWay() {
-        return locationWay;
-    }
-
-    public void setlocationWay(Integer locationWay) {
-        this.locationWay = locationWay;
     }
 
     public String getImgUrl() {

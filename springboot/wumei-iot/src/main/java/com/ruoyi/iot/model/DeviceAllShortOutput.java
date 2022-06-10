@@ -58,6 +58,25 @@ public class DeviceAllShortOutput
     /** 纬度 */
     private BigDecimal latitude;
 
+    /** 是否设备所有者，用于查询 **/
+    private Integer isOwner;
+
+    public Integer getLocationWay() {
+        return locationWay;
+    }
+
+    public void setLocationWay(Integer locationWay) {
+        this.locationWay = locationWay;
+    }
+
+    public Integer getIsOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Integer isOwner) {
+        this.isOwner = isOwner;
+    }
+
     public String getNetworkAddress() {
         return networkAddress;
     }
@@ -80,14 +99,6 @@ public class DeviceAllShortOutput
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
-    }
-
-    public Integer getlocationWay() {
-        return locationWay;
-    }
-
-    public void setlocationWay(Integer locationWay) {
-        this.locationWay = locationWay;
     }
 
     public Integer getIsShadow() {

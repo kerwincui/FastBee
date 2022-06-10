@@ -1,5 +1,6 @@
 package com.ruoyi.iot.service.impl;
 
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.iot.mqtt.MqttConfig;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -154,6 +156,18 @@ public class ToolServiceImpl implements IToolService
             }
         }
         return msg;
+    }
+
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    public List<SysUser> selectUserList(SysUser user)
+    {
+        return userMapper.selectUserList(user);
     }
 
     /**

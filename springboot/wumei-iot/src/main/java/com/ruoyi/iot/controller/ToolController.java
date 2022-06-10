@@ -6,6 +6,8 @@ import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
@@ -27,6 +29,7 @@ import com.ruoyi.iot.service.impl.ThingsModelServiceImpl;
 import com.ruoyi.iot.util.AESUtils;
 import com.ruoyi.iot.util.VelocityInitializer;
 import com.ruoyi.iot.util.VelocityUtils;
+import com.ruoyi.system.service.ISysUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
@@ -42,6 +45,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -99,6 +103,17 @@ public class ToolController extends BaseController {
     public AjaxResult register(@RequestBody RegisterUserInput user) {
         String msg = toolService.register(user);
         return StringUtils.isEmpty(msg) ? success() : error(msg);
+    }
+
+    /**
+     * 获取用户列表
+     */
+    @GetMapping("/userList")
+    public TableDataInfo list(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = toolService.selectUserList(user);
+        return getDataTable(list);
     }
 
     @ApiOperation("mqtt认证")

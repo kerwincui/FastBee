@@ -40,7 +40,7 @@
 <script>
 import {
     listUser
-} from "@/api/system/user";
+} from "@/api/iot/tool";
 import {
     addDeviceUser,
     addDeviceUsers,

@@ -93,6 +93,9 @@ public class DeviceShortOutput
     /** 图片地址 */
     private String imgUrl;
 
+    /** 是否设备所有者，用于查询 **/
+    private Integer isOwner;
+
     private List<StringModelOutput> stringList;
     private List<IntegerModelOutput> integerList;
     private List<DecimalModelOutput> decimalList;
@@ -101,12 +104,20 @@ public class DeviceShortOutput
     private List<BoolModelOutput> boolList;
     private List<ReadOnlyModelOutput> readOnlyList;
 
-    public Integer getlocationWay() {
+    public Integer getLocationWay() {
         return locationWay;
     }
 
-    public void setlocationWay(Integer locationWay) {
+    public void setLocationWay(Integer locationWay) {
         this.locationWay = locationWay;
+    }
+
+    public Integer getIsOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Integer isOwner) {
+        this.isOwner = isOwner;
     }
 
     public String getImgUrl() {

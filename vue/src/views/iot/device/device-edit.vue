@@ -368,7 +368,7 @@ export default {
                                 if (this.form.status == 2) {
                                     this.deviceStatus = 1;
                                 }
-                                this.$modal.alertSuccess("新增成功, 可以烧录sdk到设备了");
+                                this.$modal.alertSuccess("添加设备成功");
                                 this.loadMap();
                             }
                         });
