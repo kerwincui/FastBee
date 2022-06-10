@@ -38,7 +38,7 @@ export default {
     methods: {
         /** 连接Mqtt */
         connectMqtt(subscribeTopics) {
-            let randomClientId='web-' + Math.random().toString(16).substr(2);
+            let randomClientId = 'web-' + Math.random().toString(16).substr(2);
             let options = {
                 username: "wumei-smart",
                 password: getToken(),
@@ -53,7 +53,7 @@ export default {
             console.log("mqtt地址：", url);
             this.client = mqtt.connect(url, options);
             this.client.on("connect", (e) => {
-                console.log("客户端："+randomClientId+"，成功连接服务器:", e);
+                console.log("客户端：" + randomClientId + "，成功连接服务器:", e);
                 // 订阅主题
                 if (subscribeTopics != '' && subscribeTopics.length > 0) {
                     this.client.subscribe(subscribeTopics, {
@@ -89,7 +89,11 @@ export default {
                 if (!err) {
                     console.log('成功发布主题：' + topic)
                     console.log('主题内容：' + message);
-                    this.$modal.notifySuccess("[ " + name + " ] 指令发送成功");
+                    if (topic.indexOf('offline') > 0) {
+                        this.$modal.notify("[ " + name + " ] 影子指令发送成功");
+                    } else {
+                        this.$modal.notifySuccess("[ " + name + " ] 指令发送成功");
+                    }
                 }
             })
         },

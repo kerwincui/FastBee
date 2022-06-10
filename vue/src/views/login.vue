@@ -41,17 +41,17 @@
                             <table>
                                 <tr>
                                     <td rowspan="3" style="width:60px;font-weight:bold;color:#fff;line-height:28px;background-color:#F56C6C;text-align:center;font-size:18px;">演 示<br />账 号</td>
-                                    <td style="padding:10px 20px 0 10px;">管理员</td>
+                                    <td style="padding:10px 15px 0 10px;">受限管理</td>
                                     <td style="padding:10px 30px 0 0;">wumei</td>
                                     <td style="padding-top:10px;">123456</td>
                                 </tr>
                                  <tr>
-                                    <td style="padding:0 20px 0 10px;">租户账号</td>
+                                    <td style="padding:0 15px 0 10px;">租户账号</td>
                                     <td>wumei-t1</td>
                                     <td>123456</td>
                                 </tr>
                                  <tr>
-                                    <td style="padding:0 20px 10px 10px;">普通用户</td>
+                                    <td style="padding:0 15px 10px 10px;">普通用户</td>
                                     <td style="padding-bottom:10px;">wumei-u1</td>
                                     <td style="padding-bottom:10px;">123456</td>
                                 </tr>

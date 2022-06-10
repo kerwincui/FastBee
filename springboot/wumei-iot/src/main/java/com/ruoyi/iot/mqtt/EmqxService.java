@@ -199,6 +199,10 @@ public class EmqxService {
                 deviceLog.setIdentity(thingsModelValueRemarkItems.get(i).getId());
                 deviceLog.setLogType(3);
                 deviceLog.setIsMonitor(0);
+                deviceLog.setUserId(device.getUserId());
+                deviceLog.setUserName(device.getUserName());
+                deviceLog.setTenantId(device.getTenantId());
+                deviceLog.setTenantName(device.getTenantName());
                 logService.saveDeviceLog(deviceLog);
             }
         } catch (Exception e) {

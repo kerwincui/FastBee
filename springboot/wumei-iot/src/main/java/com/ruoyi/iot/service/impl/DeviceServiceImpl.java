@@ -238,6 +238,10 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setCreateTime(DateUtils.getNowDate());
                     deviceLog.setIsMonitor(valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
+                    deviceLog.setUserId(deviceThings.getUserId());
+                    deviceLog.setUserName(deviceThings.getUserName());
+                    deviceLog.setTenantId(deviceThings.getTenantId());
+                    deviceLog.setTenantName(deviceThings.getTenantName());
                     logService.saveDeviceLog(deviceLog);
                     break;
                 }
@@ -722,6 +726,10 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceLog.setDeviceName(device.getDeviceName());
         deviceLog.setSerialNumber(device.getSerialNumber());
         deviceLog.setIsMonitor(0);
+        deviceLog.setUserId(device.getUserId());
+        deviceLog.setUserName(device.getUserName());
+        deviceLog.setTenantId(device.getTenantId());
+        deviceLog.setTenantName(device.getTenantName());
         if(device.getStatus()==3){
             deviceLog.setLogValue("1");
             deviceLog.setRemark("设备上线");

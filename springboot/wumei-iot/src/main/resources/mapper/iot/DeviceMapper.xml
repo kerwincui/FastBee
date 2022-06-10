@@ -94,6 +94,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="productName"    column="product_name"    />
         <result property="serialNumber"    column="serial_number"    />
         <result property="thingsModelValue"    column="things_model_value"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
     </resultMap>
 
     <sql id="selectDeviceVo">
@@ -178,7 +182,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectDeviceThingsModelValueBySerialNumber" parameterType="String" resultMap="DeviceThingsValueResult">
-        select product_id,product_name,device_id,device_name,serial_number,is_shadow,status,things_model_value from iot_device where serial_number = #{serialNumber}
+        select product_id,product_name,device_id,device_name,serial_number,is_shadow,status,user_id, user_name, tenant_id, tenant_name,things_model_value from iot_device where serial_number = #{serialNumber}
     </select>
 
     <update id="updateDeviceThingsModelValue" parameterType="com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput">

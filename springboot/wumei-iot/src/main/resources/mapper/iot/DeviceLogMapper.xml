@@ -20,11 +20,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="isMonitor"    column="is_monitor"    />
         <result property="createTime"    column="create_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectDeviceLogVo">
-        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor, create_time, remark from iot_device_log
+        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
     </sql>
 
     <select id="selectMonitorList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="MonitorResult">
@@ -105,6 +109,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isMonitor != null">is_monitor,</if>
             <if test="createTime != null">create_time,</if>
             <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="logType != null">#{logType},</if>
@@ -117,6 +125,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isMonitor != null">#{isMonitor},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
          </trim>
     </insert>
 
@@ -133,6 +145,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
         </trim>
         where log_id = #{logId}
     </update>

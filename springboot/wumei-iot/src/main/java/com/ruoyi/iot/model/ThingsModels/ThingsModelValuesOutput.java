@@ -1,5 +1,7 @@
 package com.ruoyi.iot.model.ThingsModels;
 
+import com.ruoyi.common.annotation.Excel;
+
 /**
  * 设备输入物模型值参数
  *
@@ -24,8 +26,52 @@ public class ThingsModelValuesOutput
     /** 设备ID **/
     private String serialNumber;
 
+    /** 用户ID */
+    private Long userId;
+
+    /** 用户昵称 */
+    private String userName;
+
+    /** 租户ID */
+    private Long tenantId;
+
+    /** 租户名称 */
+    private String tenantName;
+
     /** 设备物模型值 **/
     private String thingsModelValue;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
 
     public int getIsShadow() {
         return isShadow;
