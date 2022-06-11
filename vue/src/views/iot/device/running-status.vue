@@ -155,7 +155,7 @@
             <mqtt-client ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
         </el-col>
 
-        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
+        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14" v-if="deviceInfo.readOnlyList.length >0">
             <el-row :gutter="20" style="background-color:#F5F7FA;padding:20px 20px 10px 10px;border-radius:15px;margin-right:5px;">
                 <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index">
                     <el-card shadow="hover" style="border-radius:30px;margin-bottom:20px;">

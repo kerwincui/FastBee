@@ -216,7 +216,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and d.active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
         </where>
         group by d.device_id,d.user_id
-        order by d.create_time desc
+        order by u.is_owner desc,d.create_time desc
     </select>
     
     <select id="selectDeviceByDeviceId" parameterType="Long" resultMap="DeviceResult">
