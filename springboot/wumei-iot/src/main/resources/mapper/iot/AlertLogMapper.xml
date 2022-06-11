@@ -18,15 +18,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
     </resultMap>
 
     <sql id="selectAlertLogVo">
-        select alert_log__id, alert_name, alert_level, status, product_id, product_name, device_id, device_name, create_by, create_time, update_by, update_time, remark from iot_alert_log
+        select alert_log__id, alert_name, alert_level, status, product_id, product_name, device_id, device_name,user_id, user_name, tenant_id, tenant_name, create_by, create_time, update_by, update_time, remark from iot_alert_log
     </sql>
 
     <select id="selectAlertLogList" parameterType="com.ruoyi.iot.domain.AlertLog" resultMap="AlertLogResult">
         <include refid="selectAlertLogVo"/>
-        <where>  
+        <where>
+            <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+            <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
             <if test="alertName != null  and alertName != ''"> and alert_name like concat('%', #{alertName}, '%')</if>
             <if test="alertLevel != null "> and alert_level = #{alertLevel}</if>
             <if test="status != null "> and status = #{status}</if>
@@ -57,6 +63,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="alertName != null and alertName != ''">#{alertName},</if>
@@ -71,6 +81,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
          </trim>
     </insert>
 
@@ -89,6 +103,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
         </trim>
         where alert_log__id = #{alertLogId}
     </update>

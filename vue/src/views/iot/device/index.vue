@@ -33,8 +33,10 @@
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">
                             <el-link type="" :underline="false" @click="handleEditDevice(item)" style="font-weight:bold;font-size:16px;line-height:32px;">
-                                <svg-icon icon-class="device" v-if="item.isOwner==1" /> 
-                                <svg-icon icon-class="share" v-else /> 
+                                <el-tooltip class="item" effect="dark" content="分享的设备" placement="top-start">
+                                    <svg-icon icon-class="share" style="font-size:20px;" v-if="item.isOwner!=1" />
+                                </el-tooltip>
+                                <svg-icon icon-class="device" v-if="item.isOwner==1" />
                                 {{item.deviceName}}
                                 <el-tag size="mini" type="info">Version {{item.firmwareVersion}}</el-tag>
                             </el-link>
@@ -51,11 +53,13 @@
                     </el-row>
                     <el-row :gutter="10">
                         <el-col :span="15">
-                            <div style="text-align:left;line-height:40px;font-size:14px;">
-                                <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="small" style="display:inline-block;margin-right:10px;" />
-                                <el-tag type="success" size="small" v-if="item.isShadow==1">启用影子</el-tag>
-                                <el-tag type="info" size="small" v-else>禁用影子</el-tag>
-                                <dict-tag :options="dict.type.iot_location_way" :value="item.locationWay" size="small" style="display:inline-block;margin-left:10px;" />
+                            <div style="text-align:left;line-height:40px;">
+                                <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="small" style="display:inline-block;" />
+                                <span style="display:inline-block;margin:0 10px;">
+                                    <el-tag type="success" size="small" v-if="item.isShadow==1">影子</el-tag>
+                                    <el-tag type="info" size="small" v-else>影子</el-tag>
+                                </span>
+                                <dict-tag :options="dict.type.iot_location_way" :value="item.locationWay" size="small" style="display:inline-block;" />
                             </div>
                             <el-descriptions :column="1" size="mini">
                                 <el-descriptions-item label="编号">
@@ -261,13 +265,13 @@ export default {
         let productId = this.$route.query.productId
         if (productId != null) {
             this.queryParams.productId = Number(productId);
-            this.queryParams.groupId=null;
+            this.queryParams.groupId = null;
         }
         // 分组筛选
         let groupId = this.$route.query.groupId
         if (groupId != null) {
             this.queryParams.groupId = Number(groupId);
-            this.queryParams.productId=null;
+            this.queryParams.productId = null;
         }
         this.getList();
 
@@ -282,13 +286,13 @@ export default {
             let productId = this.$route.query.productId
             if (productId != null) {
                 this.queryParams.productId = Number(productId);
-                this.queryParams.groupId=null;
+                this.queryParams.groupId = null;
             }
             // 分组筛选
             let groupId = this.$route.query.groupId
             if (groupId != null) {
                 this.queryParams.groupId = Number(groupId);
-                this.queryParams.productId=null;
+                this.queryParams.productId = null;
             }
             this.getList();
         }
@@ -631,6 +635,6 @@ export default {
 
 <style scoped>
 .card-item {
-    border-radius:15px;
+    border-radius: 15px;
 }
 </style>

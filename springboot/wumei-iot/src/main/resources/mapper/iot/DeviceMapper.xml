@@ -239,10 +239,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            (
             <!--普通用户查询设备中的产品数量-->
             <if test="userId != null and userId != 0">
-               select count(product_id)
+               select count(distinct product_id)
                from iot_device
                where user_id = #{userId}
-               group by product_id
             </if>
             <!--管理员和租户直接查询产品的数量-->
             <if test="userId == null || userId == 0">

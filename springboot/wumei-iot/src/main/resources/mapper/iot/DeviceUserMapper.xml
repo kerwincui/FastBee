@@ -26,9 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeviceUserVo"/>
         <where>
             <if test="1==1"> and device_id = #{deviceId}</if>
-            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
-            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="isOwner != null "> and is_owner = #{isOwner}</if>
+            <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
         </where>
     </select>
     

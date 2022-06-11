@@ -16,7 +16,7 @@
         <el-table-column label="设备编号" align="center" prop="serialNumber" />
         <el-table-column label="产品名称" align="center" prop="productName" />
         <el-table-column label="设备类型" align="center">
-             <template slot-scope="scope">
+            <template slot-scope="scope">
                 <el-tag type="success" v-if="scope.row.isOwner==0">分享</el-tag>
                 <el-tag type="primary" v-else>拥有</el-tag>
             </template>
@@ -28,7 +28,7 @@
         </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+    <!-- <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" /> -->
 
 </div>
 </template>
@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             // 设备分组
-            deviceGroup:{},
+            deviceGroup: {},
             // 遮罩层
             loading: true,
             // 选中数组
@@ -67,8 +67,8 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 10,
-                userId:null,
+                pageSize: 500,
+                userId: null,
                 deviceName: null,
                 productId: null,
                 productName: null,
@@ -89,7 +89,7 @@ export default {
             handler(newVal, oldVal) {
                 this.deviceGroup = newVal;
                 // 获取分组下的设备
-                this.queryParams.userId=this.deviceGroup.userId;
+                this.queryParams.userId = this.deviceGroup.userId;
                 this.queryParams.pageNum = 1;
                 this.getDeviceIdsByGroupId();
             },
@@ -104,6 +104,8 @@ export default {
         getDeviceIdsByGroupId() {
             getDeviceIds(this.deviceGroup.groupId).then(response => {
                 this.ids = response.data;
+                // Id数组传递到父组件
+                this.$emit('idsToParentEvent', this.ids)
                 this.getList();
             });
         },
@@ -143,8 +145,6 @@ export default {
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map(item => item.deviceId)
-            console.log("选择赋值");
-            console.log(this.ids);
             this.single = selection.length !== 1
             this.multiple = !selection.length
             // Id数组传递到父组件

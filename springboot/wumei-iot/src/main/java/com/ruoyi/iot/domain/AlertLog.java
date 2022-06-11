@@ -46,7 +46,55 @@ public class AlertLog extends BaseEntity
     @Excel(name = "设备名称")
     private String deviceName;
 
-    public void setAlertLogId(Long alertLogId) 
+    /** 用户ID */
+    @Excel(name = "用户ID")
+    private Long userId;
+
+    /** 用户昵称 */
+    @Excel(name = "用户昵称")
+    private String userName;
+
+    /** 租户ID */
+    @Excel(name = "租户ID")
+    private Long tenantId;
+
+    /** 租户名称 */
+    @Excel(name = "租户名称")
+    private String tenantName;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
+
+    public void setAlertLogId(Long alertLogId)
     {
         this.alertLogId = alertLogId;
     }
