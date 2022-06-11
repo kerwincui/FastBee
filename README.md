@@ -15,7 +15,7 @@
 
 |  雾霾/粉尘/空气检测仪 | 暂无 |  暂无 | 暂无 |
 |:----------:|:----------:|:----------:|:----------:|
-| <img src="https://oscimg.oschina.net/oscnet/up-072a5880eaf5ea502dc265bc208902b8529.png" width="100" style="width:100px;" /> | 暂无 | 暂无 | 暂无 |
+| <img src="https://oscimg.oschina.net/oscnet/up-072a5880eaf5ea502dc265bc208902b8529.png" width="200" style="width:200px;" /> | 暂无 | 暂无 | 暂无 |
 | 【小驿物联】| 待定 | 待定 | 待定 |
 
 
