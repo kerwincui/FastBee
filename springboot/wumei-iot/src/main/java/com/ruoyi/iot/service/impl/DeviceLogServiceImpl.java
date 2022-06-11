@@ -71,7 +71,6 @@ public class DeviceLogServiceImpl implements IDeviceLogService
     @Override
     public int insertDeviceLog(DeviceLog deviceLog)
     {
-        deviceLog.setCreateTime(DateUtils.getNowDate());
         return logService.saveDeviceLog(deviceLog);
     }
 

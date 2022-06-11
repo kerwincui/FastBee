@@ -16,23 +16,31 @@
     </el-form>
 
     <el-table v-loading="loading" :data="deviceLogList" size="mini">
-        <el-table-column label="编号" align="center" prop="logId" width="100" />
+        <el-table-column label="编号" align="center" prop="logId" width="120" />
         <el-table-column label="类型" align="center" prop="logType" width="120">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_device_log_type" :value="scope.row.logType" />
             </template>
         </el-table-column>
-        <el-table-column label="时间" align="center" prop="createTime" width="180">
+        <el-table-column label="模式" align="center" prop="logType" width="120">
+            <template slot-scope="scope">
+                <el-tag type="primary" v-if="scope.row.mode==1">影子模式</el-tag>
+                <el-tag type="success" v-else-if="scope.row.mode==2">在线模式</el-tag>
+                <el-tag type="info" v-else>其他</el-tag>
+            </template>
+        </el-table-column>        
+        <el-table-column label="时间" align="center" prop="createTime" width="150">
             <template slot-scope="scope">
                 <span>{{ scope.row.createTime }}</span>
             </template>
         </el-table-column>
+        <el-table-column label="标识符" align="center" prop="identity" />
         <el-table-column label="动作" align="left" header-align="center" prop="logValue">
             <template slot-scope="scope">
                 <div v-html="formatValueDisplay(scope.row)"></div>
             </template>
         </el-table-column>
-        <el-table-column label="标识符" align="center" prop="identity" />
+        
         <el-table-column label="备注" header-align="center" align="left" prop="remark">
             <template slot-scope="scope">
                 {{scope.row.remark==null ?"无":scope.row.remark}}

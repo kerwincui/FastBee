@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="identity"    column="identity"    />
         <result property="createBy"    column="create_by"    />
         <result property="isMonitor"    column="is_monitor"    />
+        <result property="mode"    column="mode"    />
         <result property="createTime"    column="create_time"    />
         <result property="userId"    column="user_id"    />
         <result property="userName"    column="user_name"    />
@@ -28,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDeviceLogVo">
-        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
+        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor,mode, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
     </sql>
 
     <select id="selectMonitorList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="MonitorResult">
@@ -92,7 +93,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
             </where>
         ) as monitorCount
-        from iot_device_log
         limit 1
     </select>
         
@@ -107,6 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="identity != null">identity,</if>
             <if test="createBy != null">create_by,</if>
             <if test="isMonitor != null">is_monitor,</if>
+            <if test="mode != null">mode,</if>
             <if test="createTime != null">create_time,</if>
             <if test="remark != null">remark,</if>
             <if test="userId != null">user_id,</if>
@@ -123,6 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="identity != null">#{identity},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="isMonitor != null">#{isMonitor},</if>
+            <if test="mode != null">#{mode},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="remark != null">#{remark},</if>
             <if test="userId != null">#{userId},</if>
@@ -143,6 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="identity != null">identity = #{identity},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
+            <if test="mode != null">mode = #{mode},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="userId != null">user_id = #{userId},</if>

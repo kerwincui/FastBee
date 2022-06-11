@@ -235,14 +235,17 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setLogValue(input.getThingsModelValueRemarkItem().get(i).getValue());
                     deviceLog.setRemark(input.getThingsModelValueRemarkItem().get(i).getRemark());
                     deviceLog.setIdentity(input.getThingsModelValueRemarkItem().get(i).getId());
-                    deviceLog.setCreateTime(DateUtils.getNowDate());
                     deviceLog.setIsMonitor(valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
                     deviceLog.setUserId(deviceThings.getUserId());
                     deviceLog.setUserName(deviceThings.getUserName());
                     deviceLog.setTenantId(deviceThings.getTenantId());
                     deviceLog.setTenantName(deviceThings.getTenantName());
+                    deviceLog.setCreateTime(DateUtils.getNowDate());
+                    // 1=影子模式，2=在线模式，3=其他
+                    deviceLog.setMode(isShadow?1:2);
                     logService.saveDeviceLog(deviceLog);
+
                     break;
                 }
             }
@@ -709,7 +712,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      *
-     * @param device 设备
+     * @param device 设备状态和定位更新
      * @return 结果
      */
     @Override
@@ -738,6 +741,9 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceLog.setUserName(device.getUserName());
         deviceLog.setTenantId(device.getTenantId());
         deviceLog.setTenantName(device.getTenantName());
+        deviceLog.setCreateTime(DateUtils.getNowDate());
+        // 1=影子模式，2=在线模式，3=其他
+        deviceLog.setMode(3);
         if(device.getStatus()==3){
             deviceLog.setLogValue("1");
             deviceLog.setRemark("设备上线");

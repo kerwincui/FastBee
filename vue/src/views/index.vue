@@ -549,6 +549,7 @@ export default {
                             productName: data[i].productName,
                             activeTime: data[i].activeTime == null ? '' : data[i].activeTime,
                             deviceId: data[i].deviceId,
+                            serialNumber:data[i].serialNumber,
                         });
                     }
                 }
@@ -573,6 +574,7 @@ export default {
                     formatter: function (params) {
                         var htmlStr = '<div style="padding:5px;line-height:28px;">';
                         htmlStr += "设备名称： <span style='color:#409EFF'>" + params.data.name + "</span><br />";
+                        htmlStr += "设备编号： " + params.data.serialNumber + "<br />";
                         htmlStr += "设备状态： ";
                         if (params.data.status == 1) {
                             htmlStr += "<span style='color:#E6A23C'>未激活</span>" + "<br />";

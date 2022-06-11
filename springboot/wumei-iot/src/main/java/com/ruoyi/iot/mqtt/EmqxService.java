@@ -1,6 +1,7 @@
 package com.ruoyi.iot.mqtt;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.model.NtpModel;
@@ -203,6 +204,9 @@ public class EmqxService {
                 deviceLog.setUserName(device.getUserName());
                 deviceLog.setTenantId(device.getTenantId());
                 deviceLog.setTenantName(device.getTenantName());
+                deviceLog.setCreateTime(DateUtils.getNowDate());
+                // 1=影子模式，2=在线模式，3=其他
+                deviceLog.setMode(2);
                 logService.saveDeviceLog(deviceLog);
             }
         } catch (Exception e) {

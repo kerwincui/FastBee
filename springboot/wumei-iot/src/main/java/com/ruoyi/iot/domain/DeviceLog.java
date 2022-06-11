@@ -47,8 +47,12 @@ public class DeviceLog extends BaseEntity
     private String identity;
 
     /** 是否监测数据（1=是，0=否） */
-    @Excel(name = "是否监测数据", readConverterExp = "1==是，0=否")
+    @Excel(name = "是否监测数据", readConverterExp = "1=是，0=否")
     private Integer isMonitor;
+
+    /** 模式 */
+    @Excel(name = "模式", readConverterExp = "1=影子模式，2=在线模式,3=其他")
+    private Integer mode;
 
     /** 用户ID */
     @Excel(name = "用户ID")
@@ -65,6 +69,14 @@ public class DeviceLog extends BaseEntity
     /** 租户名称 */
     @Excel(name = "租户名称")
     private String tenantName;
+
+    public Integer getMode() {
+        return mode;
+    }
+
+    public void setMode(Integer mode) {
+        this.mode = mode;
+    }
 
     public Long getUserId() {
         return userId;
