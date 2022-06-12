@@ -156,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDeviceListByGroup" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
         select d.device_id, d.device_name, d.product_name, d.user_name, d.serial_number, d.firmware_version, d.status,d.rssi,d.is_shadow ,
-        d.location_way, d.active_time,d.network_address,d.longitude,d.latitude,u.is_owner
+        d.location_way, d.active_time,d.network_address,d.longitude,d.latitude,max(u.is_owner) as is_owner
         from iot_device d
         inner join iot_device_user u on u.device_id = d.device_id
         <where>
@@ -175,7 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectAllDeviceShortList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceAllShortResult">
         select d.device_id, d.device_name, d.product_name, d.user_name, d.serial_number, d.firmware_version, d.status,d.rssi,d.is_shadow ,
-               d.location_way, d.active_time,d.network_address,d.longitude,d.latitude,u.is_owner
+               d.location_way, d.active_time,d.network_address,d.longitude,d.latitude,max(u.is_owner) as is_owner
         from iot_device d
         inner join iot_device_user u on u.device_id = d.device_id
         <where>
@@ -198,7 +198,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select d.device_id, d.device_name, d.product_id, d.product_name,
             d.user_id, d.user_name, d.tenant_id, d.tenant_name, d.serial_number,
             d.firmware_version, d.status,d.rssi,d.is_shadow ,d.location_way,
-            d.things_model_value, d.active_time,d.img_url,u.is_owner
+            d.things_model_value, d.active_time,d.img_url,max(u.is_owner) as is_owner
         from iot_device d
         inner join iot_device_user u on u.device_id = d.device_id
         <if test="groupId != null and groupId !=0  "> left join iot_device_group g on g.device_id=d.device_id </if>
@@ -216,7 +216,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginActiveTime != null and params.beginActiveTime != '' and params.endActiveTime != null and params.endActiveTime != ''"> and d.active_time between #{params.beginActiveTime} and #{params.endActiveTime}</if>
         </where>
         group by d.device_id,d.user_id
-        order by u.is_owner desc,d.create_time desc
+        order by d.create_time desc
     </select>
     
     <select id="selectDeviceByDeviceId" parameterType="Long" resultMap="DeviceResult">
