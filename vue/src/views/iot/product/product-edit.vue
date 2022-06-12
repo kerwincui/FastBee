@@ -192,8 +192,13 @@ export default {
         // 获取产品信息
         const productId = this.$route.query && this.$route.query.productId;
         this.form.productId = productId;
-        if (this.form.productId != 0) {
+        if (this.form.productId != 0 && this.form.productId != null) {
             this.getProduct();
+        }
+        // 切换选项卡
+        const tabPanelName = this.$route.query && this.$route.query.tabPanelName;
+        if (tabPanelName != null && tabPanelName != '') {
+            this.activeName = tabPanelName;
         }
         // 获取分类信息
         this.getShortCategory();
@@ -208,6 +213,11 @@ export default {
                 this.form.productId = Number(productId);
                 this.getProduct();
                 this.getShortCategory();
+            }
+            // 切换选项卡
+            const tabPanelName = this.$route.query && this.$route.query.tabPanelName;
+            if (tabPanelName != null && tabPanelName != '') {
+                this.activeName = tabPanelName;
             }
         }
     },

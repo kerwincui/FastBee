@@ -99,26 +99,26 @@
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-red">
-                                <svg-icon icon-class="log-a" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    功能操作
-                                </div>
-                                <count-to :start-val="0" :end-val="deviceStatistic.functionCount" :duration="1000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="12" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-blue">
                                 <svg-icon icon-class="alert" class-name="card-panel-icon" />
                             </div>
                             <div class="card-panel-description">
                                 <div class="card-panel-text">
                                     告警数量
                                 </div>
-                                <count-to :start-val="0" :end-val="deviceStatistic.alertCount" :duration="2000" class="card-panel-num" />
+                                <count-to :start-val="0" :end-val="deviceStatistic.alertCount" :duration="1000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="card-panel-col">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-blue">
+                                <svg-icon icon-class="log-a" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    操作记录
+                                </div>
+                                <count-to :start-val="0" :end-val="deviceStatistic.functionCount" :duration="2000" class="card-panel-num" />
                             </div>
                         </div>
                     </el-col>

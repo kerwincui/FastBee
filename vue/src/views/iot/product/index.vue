@@ -70,7 +70,7 @@
                     <el-button-group style="margin-top:15px;">
                         <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEditProduct(item)" v-hasPermi="['iot:product:edit']">详情</el-button>
                         <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">删除</el-button>
-                        <el-button size="mini" type="info" icon="el-icon-download" @click="handleGeneratorSDK(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2">下载SDK</el-button>
+                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">设备授权</el-button>
                         <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">查看设备</el-button>
                     </el-button-group>
                 </el-card>
@@ -242,6 +242,18 @@ export default {
                 path: '/iot/product-edit',
                 query: {
                     productId: productId,
+                    pageNum: this.queryParams.pageNum
+                }
+            });
+        },
+         /** 设备授权操作 */
+        handleDeviceAuthorize(row) {
+            let productId = row.productId
+            this.$router.push({
+                path: '/iot/product-edit',
+                query: {
+                    productId: productId,
+                    tabPanelName:'productAuthorize',
                     pageNum: this.queryParams.pageNum
                 }
             });
