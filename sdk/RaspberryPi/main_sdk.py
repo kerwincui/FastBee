@@ -194,7 +194,7 @@ def publishInfo():
     # rssi值 树莓派中暂时不处理wifi信号问题
     #  信号强度（信号极好4格[-55— 0]，信号好3格[-70— -55]，信号一般2格[-85— -70]，信号差1格[-100— -85]）
     # status值 （1-未激活，2-禁用，3-在线，4-离线）
-    doc={"rssi":1,"firmwareVersion":firmwareVersion,"status":3,"userId":userId,"longitude":longitude,"latitude":latitude}
+    doc={"rssi":1,"firmwareVersion":firmwareVersion,"status":3,"userId":userId,"longitude":longitude,"latitude":latitude,"summary":{"name":"device","chip":"esp8266","author":"kerwincui","version":1.6,"create":"2022 - 06 - 06"}}
     #     client.publish('raspberry/topic',payload=i,qos=0,retain=False) 
     jsonData=json.dumps(doc)
     printMsg("发布设备信息："+pInfoTopic+" "+jsonData)

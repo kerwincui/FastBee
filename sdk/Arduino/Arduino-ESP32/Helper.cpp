@@ -256,8 +256,15 @@ void publishInfo()
   doc["firmwareVersion"] = firmwareVersion;
   doc["status"] = 3; // （1-未激活，2-禁用，3-在线，4-离线）
   doc["userId"] = (String)userId;
-  doc["longitude"] = longitude;
-  doc["latitude"] = latitude;
+  doc["longitude"] = longitude;  //经度 可选
+  doc["latitude"] = latitude;    // 纬度 可选
+  // 设备摘要,可选（自定义配置信息,不限数量）
+  JsonObject summary = doc.createNestedObject("summary");
+  summary["name"]="wumei-smart";
+  summary["chip"]="esp8266";
+  summary["author"]="kerwincui";
+  summary["version"]=1.6;
+  summary["create"]="2022-06-06";
 
   printMsg("发布设备信息:");
   serializeJson(doc, Serial);
