@@ -259,8 +259,6 @@ export default {
         };
     },
     created() {
-        // 页码筛选
-        this.queryParams.pageNum = Number(this.$route.query.pageNum);
         // 产品筛选
         let productId = this.$route.query.productId
         if (productId != null) {
