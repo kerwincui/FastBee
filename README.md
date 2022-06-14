@@ -8,8 +8,8 @@
 
 #### 3. 项目可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
 
-#### 4. 相关硬件
-|   [雾霾/粉尘/空气检测仪](https://item.taobao.com/item.htm?spm=a1z10.1-c.w4004-22657217218.2.355d14963FSV69&id=623332279126)  |   [Wifi通断器](https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-22657217231.57.74076af5XpmsRi&id=651305232489&qq-pf-to=pcqq.group)  |  [智能插座](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.63.4cc47484zEjJ34&id=675275353501)  |  [智能开关](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.72.4cc47484zEjJ34&id=675278061047) | [Wifi通断器](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.31.4cc47484zEjJ34&id=662773208714)  |
+#### 4. 参考设备
+|   [空气检测仪](https://item.taobao.com/item.htm?spm=a1z10.1-c.w4004-22657217218.2.355d14963FSV69&id=623332279126)  |   [Wifi通断器](https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-22657217231.57.74076af5XpmsRi&id=651305232489&qq-pf-to=pcqq.group)  |  [智能插座](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.63.4cc47484zEjJ34&id=675275353501)  |  [智能开关](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.72.4cc47484zEjJ34&id=675278061047) | [Wifi通断器](https://item.taobao.com/item.htm?spm=a1z0d.6639537.1997196601.31.4cc47484zEjJ34&id=662773208714)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-c38ce010e18349cfa526600c60e49792738.png)  | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | ![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg)  | ![](https://oscimg.oschina.net/oscnet/up-e99eb758dc5abe387e880dbcb30ee21c063.jpg) |
 
