@@ -549,7 +549,7 @@ export default {
                             productName: data[i].productName,
                             activeTime: data[i].activeTime == null ? '' : data[i].activeTime,
                             deviceId: data[i].deviceId,
-                            serialNumber:data[i].serialNumber,
+                            serialNumber: data[i].serialNumber,
                         });
                     }
                 }
@@ -806,22 +806,20 @@ export default {
                     data: ['连接数量', '会话数量', '主题数量', '订阅数量', '路由数量', '保留消息']
                 },
                 series: [{
-                        name: '历史最大数',
-                        type: 'bar',
-                        data: [this.stats["connections.max"], this.stats["sessions.max"], this.stats["topics.max"], this.stats["subscribers.max"], this.stats["routes.max"], this.stats["retained.max"]],
-                        itemStyle: {
-                            color: '#409EFF'
-                        }
-                    },
-                    {
-                        name: '当前数量',
-                        type: 'bar',
-                        data: [this.stats["connections.count"], this.stats["sessions.count"], this.stats["topics.count"], this.stats["subscribers.count"], this.stats["routes.count"], this.stats["retained.count"]],
-                        itemStyle: {
-                            color: '#67C23A'
-                        }
+                    name: '当前数量',
+                    type: 'bar',
+                    data: [this.stats["connections.count"], this.stats["sessions.count"], this.stats["topics.count"], this.stats["subscribers.count"], this.stats["routes.count"], this.stats["retained.count"]],
+                    itemStyle: {
+                        color: '#67C23A'
                     }
-                ]
+                }, {
+                    name: '历史最大数',
+                    type: 'bar',
+                    data: [this.stats["connections.max"], this.stats["sessions.max"], this.stats["topics.max"], this.stats["subscribers.max"], this.stats["routes.max"], this.stats["retained.max"]],
+                    itemStyle: {
+                        color: '#409EFF'
+                    }
+                }]
             };
 
             option && myChart.setOption(option);
