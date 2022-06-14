@@ -155,7 +155,7 @@
             <mqtt-client ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
         </el-col>
 
-        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14" v-if="deviceInfo.readOnlyList.length >0">
+        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14" v-if="deviceInfo.readOnlyList.length > 0">
             <el-row :gutter="20" style="background-color:#F5F7FA;padding:20px 20px 10px 10px;border-radius:15px;margin-right:5px;">
                 <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(item,index) in deviceInfo.readOnlyList" :key="index">
                     <el-card shadow="hover" style="border-radius:30px;margin-bottom:20px;">
@@ -192,10 +192,10 @@ export default {
     watch: {
         // 获取到父组件传递的device后，刷新列表
         device: function (newVal, oldVal) {
-            this.deviceInfo = newVal;
-            if (this.deviceInfo && this.deviceInfo.deviceId != 0) {
-                getDeviceRunningStatus(this.deviceInfo.deviceId).then(response => {
+            if (newVal && newVal.deviceId != 0) {
+                getDeviceRunningStatus(newVal.deviceId).then(response => {
                     this.deviceInfo = response.data;
+                    console.log(this.deviceInfo);
                     this.updateDeviceStatus(this.deviceInfo);
                     this.$nextTick(function () {
                         this.MonitorChart();
@@ -231,7 +231,7 @@ export default {
                 integerList: [],
                 decimalList: [],
                 arrayList: [],
-                readonlyList: []
+                readOnlyList: []
             },
         }
     },
@@ -241,7 +241,7 @@ export default {
     methods: {
         /** 发布物模型 类型(1=属性，2=功能) */
         publishThingsModel(device, model) {
-            // TODO 创建的时候过去一次即可。 获取缓存的Json物模型
+            // TODO 创建的时候获取一次即可。 获取缓存的Json物模型
             cacheJsonThingsModel(device.productId).then(response => {
                 let thingsModel = JSON.parse(response.data);
                 let type = 0;
@@ -349,8 +349,9 @@ export default {
             model.name = "设备升级"
             this.mqttPublish(3, this.deviceInfo, model);
         },
-        /**监测图表*/
+        /**监测图表统计*/
         MonitorChart() {
+            console.log(this.deviceInfo.readOnlyList.length);
             for (let i = 0; i < this.deviceInfo.readOnlyList.length; i++) {
                 var myChart = echarts.init(this.$refs.map[i]);
                 var option;
