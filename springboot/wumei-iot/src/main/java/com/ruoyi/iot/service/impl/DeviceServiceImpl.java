@@ -555,6 +555,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int insertDeviceAuto(String serialNumber,Long userId,Long productId) {
         // 设备编号唯一检查
         Device existDevice=deviceMapper.selectDeviceBySerialNumber(serialNumber);
@@ -569,27 +570,39 @@ public class DeviceServiceImpl implements IDeviceService {
         SysUser user=userService.selectUserById(userId);
         device.setUserId(userId);
         device.setUserName(user.getUserName());
-        device.setProductId(productId);
         device.setFirmwareVersion(BigDecimal.valueOf(1.0));
-        device.setStatus(1); // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
+        device.setStatus(3); // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
         device.setLocationWay(1); // 1-自动定位，2-设备定位，3-自定义位置
         device.setCreateTime(DateUtils.getNowDate());
-        device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(device.getProductId())));
+        device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(productId)));
         // 随机位置
         device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
         device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
         device.setNetworkAddress("中国");
-        // 产品相关
+        device.setNetworkIp("127.0.0.1");
+        // 设置租户
         Product product=productService.selectProductByProductId(productId);
-        device.setTenantId(userId);
-        device.setTenantName(user.getUserName());
+        device.setTenantId(product.getTenantId());
+        device.setTenantName(product.getTenantName());
         device.setImgUrl(product.getImgUrl());
         device.setProductId(product.getProductId());
         device.setProductName(product.getProductName());
-        return deviceMapper.insertDevice(device);
+        deviceMapper.insertDevice(device);
+
+        // 添加设备用户
+        DeviceUser deviceUser = new DeviceUser();
+        deviceUser.setUserId(userId);
+        deviceUser.setUserName(user.getUserName());
+        deviceUser.setPhonenumber(user.getPhonenumber());
+        deviceUser.setDeviceId(device.getDeviceId());
+        deviceUser.setDeviceName(device.getDeviceName());
+        deviceUser.setTenantId(product.getTenantId());
+        deviceUser.setTenantName(product.getTenantName());
+        deviceUser.setIsOwner(1);
+        return deviceUserMapper.insertDeviceUser(deviceUser);
     }
 
     /**
@@ -742,7 +755,7 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceLog.setTenantId(device.getTenantId());
         deviceLog.setTenantName(device.getTenantName());
         deviceLog.setCreateTime(DateUtils.getNowDate());
-        // 1=影子模式，2=在线模式，3=其他
+        // 日志模式 1=影子模式，2=在线模式，3=其他
         deviceLog.setMode(3);
         if(device.getStatus()==3){
             deviceLog.setLogValue("1");

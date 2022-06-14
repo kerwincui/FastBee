@@ -336,11 +336,12 @@ public class ToolServiceImpl implements IToolService
             }
         } else {
             // 授权码未关联设备
-            authorize.setSerialNumber(productModel.getSerialNumber());
-            authorize.setDeviceId(productModel.getDeviceId());
+            authorize.setSerialNumber(mqttModel.getDeviceNumber());
             authorize.setUserId(mqttModel.getUserId());
             authorize.setUserName("");
             authorize.setUpdateTime(DateUtils.getNowDate());
+            // 状态（1-未使用，2-使用中）
+            authorize.setStatus(2);
             int result = productAuthorizeMapper.updateProductAuthorize(authorize);
             if (result != 1) {
                 message = "设备认证，设备授权码关联失败";
