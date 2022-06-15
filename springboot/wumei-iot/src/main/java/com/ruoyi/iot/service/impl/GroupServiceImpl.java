@@ -66,11 +66,16 @@ public class GroupServiceImpl implements IGroupService
     {
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            // 租户和用户，只查看自己分组
-            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
-                group.setUserId(user.getUserId());
-                break;
+        if(group.getUserId()!=null && group.getUserId()!=0){
+            // 筛选自己分组（主要针对管理员）
+            group.setUserId(group.getUserId());
+        }else {
+            for (int i = 0; i < roles.size(); i++) {
+                // 租户和用户，只查看自己分组
+                if (roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")) {
+                    group.setUserId(user.getUserId());
+                    break;
+                }
             }
         }
         return groupMapper.selectGroupList(group);
