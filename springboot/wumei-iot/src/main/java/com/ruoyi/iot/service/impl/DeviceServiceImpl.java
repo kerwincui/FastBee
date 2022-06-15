@@ -6,7 +6,6 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
@@ -867,18 +866,17 @@ public class DeviceServiceImpl implements IDeviceService {
                 break;
             }
         }
-
         Device device=deviceMapper.selectDeviceByDeviceId(deviceId);
         if(isGeneralUser && device.getUserId().longValue()!=user.getUserId()){
-            // 删除用户的设备用户信息。  普通用户，且不是设备所有者。
-            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdAndDeviceIdModel(user.getUserId(),deviceId));
-            // 删除用户的设备分组
-            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdAndDeviceIdModel(user.getUserId(),deviceId));
+            // 删除用户分组中的设备 普通用户，且不是设备所有者。
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(user.getUserId(),deviceId));
+            // 删除用户的设备用户信息。
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(user.getUserId(),deviceId));
         }else{
-            // 删除设备用户。  租户、管理员和设备所有者
-            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdAndDeviceIdModel(null,deviceId));
-            // 删除设备分组。
-            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdAndDeviceIdModel(null,deviceId));
+            // 删除设备分组。  租户、管理员和设备所有者
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(null,deviceId));
+            // 删除设备用户。
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null,deviceId));
             // 删除定时任务
             deviceJobService.deleteJobByDeviceIds(new Long[]{deviceId});
             // 批量删除设备日志

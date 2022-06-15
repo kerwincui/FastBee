@@ -6,16 +6,17 @@ package com.ruoyi.iot.model;
  * @author kerwincui
  * @date 2021-12-16
  */
-public class UserIdAndDeviceIdModel
+public class UserIdDeviceIdModel
 {
     private Long userId;
 
     private Long deviceId;
 
-    public UserIdAndDeviceIdModel(Long userId,Long deviceId){
+    public UserIdDeviceIdModel(Long userId, Long deviceId){
         this.userId=userId;
         this.deviceId=deviceId;
     }
+
 
     public Long getUserId() {
         return userId;

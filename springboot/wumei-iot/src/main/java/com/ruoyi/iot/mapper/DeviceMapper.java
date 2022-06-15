@@ -180,7 +180,7 @@ public interface DeviceMapper
      * @param deviceIds
      * @return
      */
-    public int deleteDeviceGroupByDeviceId(UserIdAndDeviceIdModel userIdAndDeviceIdModel);
+    public int deleteDeviceGroupByDeviceId(UserIdDeviceIdModel userDeviceGroupIdModel);
 
     /**
      * 重置设备状态

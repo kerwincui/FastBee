@@ -2,7 +2,7 @@ package com.ruoyi.iot.mapper;
 
 import java.util.List;
 import com.ruoyi.iot.domain.DeviceUser;
-import com.ruoyi.iot.model.UserIdAndDeviceIdModel;
+import com.ruoyi.iot.model.UserIdDeviceIdModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -53,7 +53,7 @@ public interface DeviceUserMapper
      * @param UserIdAndDeviceIdModel 用户ID和设备ID
      * @return 结果
      */
-    public int deleteDeviceUserByDeviceId(UserIdAndDeviceIdModel userIdAndDeviceIdModel);
+    public int deleteDeviceUserByDeviceId(UserIdDeviceIdModel userDeviceGroupIdModel);
 
     /**
      * 批量删除设备用户

@@ -447,11 +447,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select count(*) from iot_device where serial_number = #{deviceNum}
     </select>
 
-    <delete id="deleteDeviceGroupByDeviceId" parameterType="com.ruoyi.iot.model.UserIdAndDeviceIdModel">
+    <delete id="deleteDeviceGroupByDeviceId" parameterType="com.ruoyi.iot.model.UserIdDeviceIdModel">
         delete from iot_device_group
         <where>
             <if test="1==1"> and device_id = #{deviceId}</if>
-            <if test="userId != null">user_id = #{userId}</if>
+            <if test="userId != null"> and group_id in(select group_id from iot_group where user_id = #{userId})</if>
         </where>
     </delete>
 </mapper>
