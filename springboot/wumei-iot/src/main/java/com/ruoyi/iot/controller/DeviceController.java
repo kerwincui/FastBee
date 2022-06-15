@@ -120,6 +120,17 @@ public class DeviceController extends BaseController
     }
 
     /**
+     * 根据设备编号详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @GetMapping(value = "/getDeviceBySerialNumber/{serialNumber}")
+    @ApiOperation("根据设备编号获取设备详情")
+    public AjaxResult getInfoBySerialNumber(@PathVariable("serialNumber") String serialNumber)
+    {
+        return AjaxResult.success(deviceService.selectDeviceBySerialNumber(serialNumber));
+    }
+
+    /**
      * 获取设备统计信息
      */
     @PreAuthorize("@ss.hasPermi('iot:device:query')")

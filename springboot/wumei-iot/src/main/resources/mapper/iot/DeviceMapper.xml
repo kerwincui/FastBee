@@ -224,6 +224,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_id = #{deviceId}
     </select>
 
+    <select id="selectDeviceBySerialNumber" parameterType="String" resultMap="DeviceResult">
+        <include refid="selectDeviceVo"/>
+        where serial_number = #{serialNumber}
+    </select>
+
     <select id="selectDeviceProductAlertCount" parameterType="com.ruoyi.iot.domain.Device" resultType="com.ruoyi.iot.model.DeviceStatistic">
         select
             <!--设备数量-->
@@ -270,11 +275,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 WHERE serial_number = #{serialNumber} ) AS d ON d.product_id = p.product_id
         WHERE
             p.product_id = #{productId}
-    </select>
-
-    <select id="selectDeviceBySerialNumber" parameterType="String" resultMap="DeviceResult">
-        <include refid="selectDeviceVo"/>
-        where serial_number = #{serialNumber}
     </select>
 
     <select id="selectShortDeviceBySerialNumber" parameterType="String" resultMap="DeviceResult">
