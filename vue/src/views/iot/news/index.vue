@@ -52,30 +52,30 @@
                 <el-image style="border-radius:5px;height:80px;width:120px;margin-bottom:-5px;" lazy :preview-src-list="[baseUrl+scope.row.imgUrl]" :src="baseUrl+scope.row.imgUrl" fit="cover"></el-image>
             </template>
         </el-table-column>
-        <el-table-column label="标题" align="center" prop="title" />
-        <el-table-column label="作者" align="center" prop="author" />
+        <el-table-column label="标题" align="center" prop="title" />        
         <el-table-column label="分类" align="center" prop="categoryName">
             <template slot-scope="scope">
                 <el-tag type="info">{{scope.row.categoryName}}</el-tag>
             </template>
         </el-table-column>
-        <el-table-column label="置顶" align="center" prop="isTop">
+        <el-table-column label="作者" align="center" prop="author" width="100" />
+        <el-table-column label="置顶" align="center" prop="isTop" width="80">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isTop" />
             </template>
         </el-table-column>
-        <el-table-column label="轮播" align="center" prop="isBanner">
+        <el-table-column label="轮播" align="center" prop="isBanner" width="80">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isBanner" />
             </template>
         </el-table-column>
-        <el-table-column label="发布" align="center" prop="status">
+        <el-table-column label="发布" align="center" prop="status" width="80">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.status" />
             </template>
         </el-table-column>
 
-        <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <el-table-column label="创建时间" align="center" prop="createTime" width="150">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
             </template>
