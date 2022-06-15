@@ -58,7 +58,7 @@
                     </el-row>
                     <el-row :gutter="10">
                         <el-col :span="15">
-                            <div style="text-align:left;line-height:40px;">
+                            <div style="text-align:left;line-height:40px;white-space:nowrap;">
                                 <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="small" style="display:inline-block;" />
                                 <span style="display:inline-block;margin:0 10px;">
                                     <el-tag type="success" size="small" v-if="item.isShadow==1">影子</el-tag>
@@ -239,7 +239,7 @@ export default {
             // 设备列表数据
             deviceList: [],
             // 我的分组列表数据
-            myGroupList:[],
+            myGroupList: [],
             // 弹出层标题
             title: "",
             // 是否显示弹出层
@@ -289,7 +289,10 @@ export default {
         if (time != null && time != this.uniqueId) {
             this.uniqueId = time;
             // 页码筛选
-            this.queryParams.pageNum = Number(this.$route.query.pageNum);
+            let pageNum = this.$route.query.pageNum;
+            if (pageNum != null) {
+                this.queryParams.pageNum = Number(pageNum);
+            }
             // 产品筛选
             let productId = this.$route.query.productId
             if (productId != null) {
@@ -309,10 +312,10 @@ export default {
         /** 查询设备分组列表 */
         getGroupList() {
             this.loading = true;
-            let queryParams ={
-                pageSize:30, 
-                pageNum:1,
-                userId:this.$store.state.user.userId
+            let queryParams = {
+                pageSize: 30,
+                pageNum: 1,
+                userId: this.$store.state.user.userId
             }
             listGroup(queryParams).then(response => {
                 this.myGroupList = response.rows;

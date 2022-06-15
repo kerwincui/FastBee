@@ -52,6 +52,14 @@ export function getDevice(deviceId) {
     })
 }
 
+// 根据设备编号查询设备详细
+export function getDeviceBySerialNumber(serialNumber) {
+    return request({
+        url: '/iot/device/getDeviceBySerialNumber/' + serialNumber,
+        method: 'get'
+    })
+}
+
 // 查询设备统计信息
 export function getDeviceStatistic() {
     return request({

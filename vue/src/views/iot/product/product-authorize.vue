@@ -47,7 +47,11 @@
                 <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
             </template>
         </el-table-column>
-        <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
+        <el-table-column label="设备编号" width="150" align="center" prop="serialNumber">
+            <template slot-scope="scope">
+                <el-link type="primary" @click="getDeviceBySerialNumber(scope.row.serialNumber)" :underline="false">{{scope.row.serialNumber}}</el-link>
+            </template>
+        </el-table-column>
         <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
@@ -107,6 +111,47 @@
             <el-button @click="cancel">取 消</el-button>
         </div>
     </el-dialog>
+
+    <!-- 设备详情对话框 -->
+    <el-dialog title="设备详情" :visible.sync="openDevice" width="600" append-to-body>
+        <el-descriptions border :column="2" size="medium">
+            <el-descriptions-item label="设备ID">{{device.deviceId}}</el-descriptions-item>
+            <el-descriptions-item label="设备名称">{{device.deviceName}}</el-descriptions-item>
+            <el-descriptions-item label="设备编号">{{device.serialNumber}}</el-descriptions-item>
+            <el-descriptions-item label="设备状态">
+                <!-- （1-未激活，2-禁用，3-在线，4-离线） -->
+                <el-tag v-if="device.status==1" type="warning">未激活</el-tag>
+                <el-tag v-else-if="device.status==2" type="danger">禁用</el-tag>
+                <el-tag v-else-if="device.status==3" type="success">在线</el-tag>
+                <el-tag v-else-if="device.status==4" type="info">离线</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="设备影子">
+                <el-tag v-if="device.isShadow==1" type="success">启用</el-tag>
+                <el-tag v-else type="info">未启用</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="定位方式">
+                <!-- (1=ip自动定位，2=设备定位，3=自定义) -->
+                <el-tag v-if="device.locationWay==1" type="success">自动定位</el-tag>
+                <el-tag v-else-if="device.locationWay==2" type="warning">设备定位</el-tag>
+                <el-tag v-else-if="device.locationWay==3" type="primary">自定义位置</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item label="产品名称">{{device.productName}}</el-descriptions-item>
+            <el-descriptions-item label="租户名称">{{device.userName}}</el-descriptions-item>
+            <el-descriptions-item label="固件版本">Version {{device.firmwareVersion}}</el-descriptions-item>
+            <el-descriptions-item label="所在地址">{{device.networkAddress}}</el-descriptions-item>
+            <el-descriptions-item label="设备经度">{{device.longitude}}</el-descriptions-item>
+            <el-descriptions-item label="设备纬度">{{device.latitude}}</el-descriptions-item>
+            <el-descriptions-item label="入网IP">{{device.networkIp}}</el-descriptions-item>
+            <el-descriptions-item label="设备信号">{{device.rssi}}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{device.createTime}}</el-descriptions-item>
+            <el-descriptions-item label="激活时间">{{device.activeTime}}</el-descriptions-item>
+            <el-descriptions-item label="备注信息">{{device.remark}}</el-descriptions-item>
+        </el-descriptions>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="goToEditDevice(device.deviceId)" type="primary">查看设备</el-button>
+            <el-button @click="closeDevice">关 闭</el-button>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -121,6 +166,9 @@
 </style>
 
 <script>
+import {
+    getDeviceBySerialNumber,
+} from "@/api/iot/device";
 import {
     listUnAuthDevice,
 } from "@/api/iot/device";
@@ -154,6 +202,10 @@ export default {
     },
     data() {
         return {
+            // 设备信息
+            device: {},
+            // 设备信息对话框
+            openDevice: false,
             // 设备遮罩层
             deviceLoading: true,
             // 总条数
@@ -223,6 +275,23 @@ export default {
 
     },
     methods: {
+        /**获取设备详情*/
+        getDeviceBySerialNumber(serialNumber) {
+            this.openDevice = true;
+            getDeviceBySerialNumber(serialNumber).then(response => {
+                this.device = response.data;
+            });
+        },
+        /** 修改按钮操作 */
+        goToEditDevice(deviceId) {
+            this.openDevice=false;
+            this.$router.push({
+                path: '/iot/device-edit',
+                query: {
+                    deviceId: deviceId,
+                }
+            });
+        },
         /** 查询设备列表 */
         getDeviceList() {
             this.deviceLoading = true;
@@ -280,6 +349,10 @@ export default {
         cancel() {
             this.open = false;
             this.reset();
+        },
+        // 关闭设备详情
+        closeDevice() {
+            this.openDevice = false;
         },
         // 表单重置
         reset() {
