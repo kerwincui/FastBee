@@ -139,16 +139,14 @@
             </el-card>
 
             <el-card style="margin:-10px;margin-top:40px;height:300px;background-color:#fafafa;" shadow="hover">
-                <h3 style="font-weight:bold">信息栏</h3>
-                <div style="line-height:36px;">
-                    <div style="cursor:pointer;display:table;width:100%;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
-                        <div style="display:table-cell;padding-right:10px;">
-                            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType==2">公告</el-tag>
-                            <el-tag size="mini" effect="dark" v-else>信息</el-tag>
-                            {{item.noticeTitle}}
-                        </div>
-                        <div style="display:table-cell;width:90px;font-size:14px;"><i class="el-icon-time"></i> {{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
+                <h3 style="font-weight:bold;margin-bottom:10px;">信息栏</h3>
+                <div style="cursor:pointer;display:table;width:100%;line-height:36px;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
+                    <div style="display:table-cell;padding-right:10px;">
+                        <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType==2">公告</el-tag>
+                        <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+                        {{item.noticeTitle}}
                     </div>
+                    <div style="display:table-cell;width:90px;font-size:14px;"><i class="el-icon-time"></i> {{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
                 </div>
             </el-card>
 
