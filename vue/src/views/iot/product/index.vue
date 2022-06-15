@@ -78,7 +78,7 @@
         </el-row>
 
         <el-empty description="暂无数据，请添加产品" v-if="total==0"></el-empty>
-        <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
 
         <!-- 下载SDK -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>

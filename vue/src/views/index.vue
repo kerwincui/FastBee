@@ -24,7 +24,7 @@
                     <div style="display:table;margin-bottom:10px;">
                         <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
                         <div style="display:table-cell;">
-                            <span>www.wumei.live</span>
+                            <el-link target="_blank" href="https://wumei.live/">www.wumei.live</el-link>
                         </div>
                     </div>
                     <div style="display:table;margin-bottom:10px;">
@@ -557,7 +557,7 @@ export default {
             };
             option = {
                 title: {
-                    text: '设备分布和状态（数量 ' + this.deviceCount + '）',
+                    text: '设备分布和状态',
                     subtext: 'wumei-smart open source living iot platform',
                     sublink: 'https://iot.wumei.live',
                     target: "_blank",

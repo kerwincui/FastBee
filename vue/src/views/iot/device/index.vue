@@ -3,19 +3,24 @@
     <el-card style="margin-bottom:6px;">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom:-20px;">
             <el-form-item label="设备名称" prop="deviceName">
-                <el-input v-model="queryParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-input v-model="queryParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
             </el-form-item>
             <el-form-item label="产品名称" prop="productName">
-                <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
             </el-form-item>
             <el-form-item label="设备状态" prop="status">
-                <el-select v-model="queryParams.status" placeholder="请选择设备状态" clearable size="small">
+                <el-select v-model="queryParams.status" placeholder="请选择设备状态" clearable size="small" style="width:150px;">
                     <el-option v-for="dict in dict.type.iot_device_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="激活时间">
-                <el-date-picker v-model="daterangeActiveTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+            <el-form-item label="我的分组">
+                <el-select v-model="queryParams.groupId" placeholder="请选择我的分组" clearable size="small" style="width:150px;">
+                    <el-option v-for="group in myGroupList" :key="group.groupId" :label="group.groupName" :value="group.groupId" />
+                </el-select>
             </el-form-item>
+            <!-- <el-form-item label="激活时间">
+                <el-date-picker v-model="daterangeActiveTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+            </el-form-item> -->
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -144,7 +149,7 @@
         </el-row>
 
         <el-empty description="暂无数据，请添加设备" v-if="total==0"></el-empty>
-        <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
 
         <!-- 查看监测数据 -->
         <el-dialog title="实时监测" :visible.sync="open" width="800px">
@@ -195,6 +200,9 @@ import {
 import {
     cacheJsonThingsModel
 } from "@/api/iot/model";
+import {
+    listGroup
+} from "@/api/iot/group";
 
 export default {
     name: "Device",
@@ -230,6 +238,8 @@ export default {
             total: 0,
             // 设备列表数据
             deviceList: [],
+            // 我的分组列表数据
+            myGroupList:[],
             // 弹出层标题
             title: "",
             // 是否显示弹出层
@@ -272,7 +282,7 @@ export default {
             this.queryParams.productId = null;
         }
         this.getList();
-
+        this.getGroupList();
     },
     activated() {
         const time = this.$route.query.t;
@@ -296,6 +306,18 @@ export default {
         }
     },
     methods: {
+        /** 查询设备分组列表 */
+        getGroupList() {
+            this.loading = true;
+            let queryParams ={
+                pageSize:30, 
+                pageNum:1,
+                userId:this.$store.state.user.userId
+            }
+            listGroup(queryParams).then(response => {
+                this.myGroupList = response.rows;
+            });
+        },
         /** 发布物模型 类型(1=属性，2=功能) */
         publishThingsModel(device, model) {
             // 获取缓存的Json物模型

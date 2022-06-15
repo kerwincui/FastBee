@@ -47,7 +47,6 @@
                 <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
             </template>
         </el-table-column>
-        <el-table-column label="设备ID" width="75" align="center" prop="deviceId" />
         <el-table-column label="设备编号" width="150" align="center" prop="serialNumber" />
         <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
             <template slot-scope="scope">

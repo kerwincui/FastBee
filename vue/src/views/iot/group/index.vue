@@ -5,6 +5,9 @@
             <el-form-item label="分组名称" prop="groupName">
                 <el-input v-model="queryParams.groupName" placeholder="请输入分组名称" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
+            <el-form-item label="我的分组" v-if="isAdmin" style="margin:0 20px;">
+                <el-switch v-model="myGroup" @change="myGroupChange"></el-switch>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -85,6 +88,10 @@ export default {
     },
     data() {
         return {
+            // 是否管理员
+            isAdmin:false,
+            // 我的分组
+            myGroup:false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -110,7 +117,7 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
                 groupName: null,
-                userName: null,
+                userId: null,
             },
             // 设备分组
             group: {},
@@ -134,8 +141,18 @@ export default {
     },
     created() {
         this.getList();
+        this.init();
     },
     methods: {
+        init() {
+            if (this.$store.state.user.roles.indexOf("tenant") === -1 && this.$store.state.user.roles.indexOf("general") === -1) {
+                this.isAdmin = true
+            }
+        },
+        // 我的分组改变事件
+        myGroupChange(){
+            this.queryParams.userId=this.myGroup?this.$store.state.user.userId:null;
+        },
         /** 查看设备按钮操作 */
         handleViewDevice(groupId) {
             this.$router.push({
