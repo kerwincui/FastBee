@@ -282,7 +282,6 @@ export default {
             this.queryParams.productId = null;
         }
         this.getList();
-        this.getGroupList();
     },
     activated() {
         const time = this.$route.query.t;
@@ -509,6 +508,8 @@ export default {
                 this.mqttSubscribe(this.deviceList);
                 this.loading = false;
             });
+            // 获取最新分组列表
+            this.getGroupList();
         },
         // 取消按钮
         cancel() {

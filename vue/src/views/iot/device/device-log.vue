@@ -26,7 +26,7 @@
             <template slot-scope="scope">
                 <el-tag type="primary" v-if="scope.row.mode==1">影子模式</el-tag>
                 <el-tag type="success" v-else-if="scope.row.mode==2">在线模式</el-tag>
-                <el-tag type="info" v-else>其他</el-tag>
+                <el-tag type="info" v-else>其他信息</el-tag>
             </template>
         </el-table-column>        
         <el-table-column label="时间" align="center" prop="createTime" width="150">
