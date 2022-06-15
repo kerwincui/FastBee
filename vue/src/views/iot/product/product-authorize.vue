@@ -107,8 +107,9 @@
     </el-dialog>
 
     <!-- 设备详情对话框 -->
-    <el-dialog title="设备详情" :visible.sync="openDevice" width="600" append-to-body>
-        <el-descriptions border :column="2" size="medium">
+    <el-dialog title="设备详情" :visible.sync="openDevice" width="600px" append-to-body>
+        <div v-if="device==null" style="text-align:center;">提示：查找不到设备，可能已经被删除</div>
+        <el-descriptions border :column="2" size="medium" v-if="device!=null">
             <el-descriptions-item label="设备ID">{{device.deviceId}}</el-descriptions-item>
             <el-descriptions-item label="设备名称">{{device.deviceName}}</el-descriptions-item>
             <el-descriptions-item label="设备编号">{{device.serialNumber}}</el-descriptions-item>
