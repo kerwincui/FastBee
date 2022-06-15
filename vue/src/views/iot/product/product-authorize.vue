@@ -4,9 +4,6 @@
         <el-form-item label="设备编号" prop="serialNumber">
             <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <!-- <el-form-item label="用户名称" prop="userName">
-            <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item> -->
         <el-form-item label="授权码" prop="authorizeCode">
             <el-input v-model="queryParams.authorizeCode" placeholder="请输入授权码" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -26,13 +23,10 @@
             <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">生成授权码</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single || productInfo.status==2" @click="handleUpdate" v-hasPermi="['iot:authorize:edit']">修改</el-button>
+            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">批量删除</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || productInfo.status==2" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">删除</el-button>
-        </el-col>
-        <el-col :span="1.5">
-            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:category:export']">导出</el-button>
+            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:authorize:export']">导出</el-button>
         </el-col>
         <el-col :span="1.5">
             <el-link type="info" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
@@ -237,8 +231,6 @@ export default {
             loading: true,
             // 选中数组
             ids: [],
-            // 非单个禁用
-            single: true,
             // 非多个禁用
             multiple: true,
             // 显示搜索条件
@@ -387,7 +379,6 @@ export default {
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map(item => item.authorizeId)
-            this.single = selection.lengdelAuthorizeth !== 1
             this.multiple = !selection.length
         },
         /** 批量新增按钮操作 */
