@@ -49,7 +49,7 @@
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="图片" align="center" prop="imgUrl" width="140px;">
             <template slot-scope="scope">
-                <el-image style="border-radius:5px;height:60px;width:120px;margin-bottom:-5px;" lazy :preview-src-list="[baseUrl+scope.row.imgUrl]" :src="baseUrl+scope.row.imgUrl" fit="cover"></el-image>
+                <el-image style="border-radius:5px;height:80px;width:120px;margin-bottom:-5px;" lazy :preview-src-list="[baseUrl+scope.row.imgUrl]" :src="baseUrl+scope.row.imgUrl" fit="cover"></el-image>
             </template>
         </el-table-column>
         <el-table-column label="标题" align="center" prop="title" />
@@ -152,7 +152,7 @@
             <el-tag size="mini" effect="dark" type="success">{{form.categoryName}}</el-tag>
             <span style="margin-left:20px;">{{form.createTime}}</span>
         </div>
-        <div v-loading="loadingDetail" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
+        <div v-loading="loadingDetail" class="content">
             <div v-html="form.content"></div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -385,11 +385,11 @@ export default {
             }
         },
         // 打开信息详情
-        openDetailDialog(newsId ) {
+        openDetailDialog(newsId) {
             this.openDetail = true;
             this.loadingDetail = true;
             getNews(newsId).then(response => {
-               this.form = response.data;
+                this.form = response.data;
                 this.openDetail = true;
                 this.loadingDetail = false;
             });
@@ -403,3 +403,12 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.content {
+    line-height: 24px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+</style>

@@ -105,7 +105,7 @@
             <el-tag size="mini" effect="dark" v-else>信息</el-tag>
             <span style="margin-left:20px;">{{form.createTime}}</span>
         </div>
-        <div v-loading="loadingDetail" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
+        <div v-loading="loadingDetail" class="content">
             <div v-html="form.noticeContent"></div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -294,3 +294,12 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.content {
+    line-height: 24px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+</style>

@@ -333,7 +333,7 @@
             <el-tag size="mini" effect="dark" v-else>信息</el-tag>
             <span style="margin-left:20px;">{{notice.createTime}}</span>
         </div>
-        <div v-loading="loading" style="line-height:24px;padding:10px;border:1px solid #eee;border-radius:10px;">
+        <div v-loading="loading" class="content">
             <div v-html="notice.noticeContent"></div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -965,6 +965,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content {
+    line-height: 24px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
 .description {
     font-size: 14px;
 
