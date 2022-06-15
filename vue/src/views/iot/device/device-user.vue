@@ -11,8 +11,8 @@
     </el-row>
 
     <el-table v-loading="loading" :data="deviceUserList" @selection-change="handleSelectionChange" size="mini">
-        <el-table-column label="用户编号" align="center" prop="userId" width="100"/>
-        <el-table-column label="用户名称" align="center" prop="userName"/>
+        <el-table-column label="用户编号" align="center" prop="userId" width="100" />
+        <el-table-column label="用户名称" align="center" prop="userName" />
         <el-table-column label="手机号码" align="center" prop="phonenumber" width="150" />
         <el-table-column label="用户类型" align="center" prop="isOwner" width="150">
             <template slot-scope="scope">
@@ -36,11 +36,7 @@
 
     <!-- 添加或修改设备用户对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-            <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="8" />
-            </el-form-item>
-        </el-form>
+        <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="4" />
         <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="submitForm">确 定</el-button>
             <el-button @click="cancel">取 消</el-button>
@@ -251,7 +247,7 @@ export default {
                 this.loading = false;
                 this.$refs.userList.openSelectUser = true;
             });
-            
+
         }
     }
 };

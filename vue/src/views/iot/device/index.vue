@@ -66,7 +66,7 @@
                                 </span>
                                 <dict-tag :options="dict.type.iot_location_way" :value="item.locationWay" size="small" style="display:inline-block;" />
                             </div>
-                            <el-descriptions :column="1" size="mini">
+                            <el-descriptions :column="1" size="mini" style="white-space:nowrap;">
                                 <el-descriptions-item label="编号">
                                     {{item.serialNumber}}
                                 </el-descriptions-item>
