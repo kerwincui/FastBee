@@ -141,6 +141,18 @@ void callback(char *topic, byte *payload, unsigned int length)
   if (strcmp(topic, sOtaTopic.c_str()) == 0)
   {
     printMsg("订阅到设备升级指令...");
+    StaticJsonDocument<256> doc;
+    DeserializationError error = deserializeJson(doc, payload);
+    if (error)
+    {
+      Serial.print(F("deserializeJson() failed: "));
+      Serial.println(error.f_str());
+      return;
+    }
+    String newVersion = doc["version"];
+    String downloadUrl = doc["downloadUrl"];
+    printMsg("固件版本："+newVersion);
+    printMsg("下载地址："+downloadUrl);
   }
   else if (strcmp(topic, sNtpTopic.c_str()) == 0)
   {
