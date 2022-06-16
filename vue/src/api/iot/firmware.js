@@ -9,6 +9,14 @@ export function listFirmware(query) {
   })
 }
 
+// 查询设备最新固件
+export function getLatestFirmware(deviceId) {
+  return request({
+    url: '/iot/firmware/getLatest/' + deviceId,
+    method: 'get'
+  })
+}
+
 // 查询产品固件详细
 export function getFirmware(firmwareId) {
   return request({

@@ -10,8 +10,7 @@
                         OTA升级
                     </template>
                     <el-link :underline="false" style="line-height:28px;font-size:16px;padding-right:10px;">Version {{deviceInfo.firmwareVersion}}</el-link>
-                    <el-link type="success" :underline="false" style="font-size:12px;display:none;">已经是最新版本</el-link>
-                    <el-button type="success" size="mini" style="float:right;" @click="otaUpgrade()" :disabled="deviceInfo.status!=3">升级</el-button>
+                    <el-button type="success" size="mini" style="float:right;" @click="getLatestFirmware(deviceInfo.deviceId)" :disabled="deviceInfo.status!=3">检查更新</el-button>
                 </el-descriptions-item>
                 <!-- bool类型-->
                 <el-descriptions-item v-for="(item,index) in deviceInfo.boolList" :key="index" :labelStyle="statusColor">
@@ -165,6 +164,27 @@
             </el-row>
         </el-col>
     </el-row>
+
+    <!-- 添加或修改产品固件对话框 -->
+    <el-dialog title="设备固件升级" :visible.sync="openFirmware" width="600px" append-to-body>
+        <div v-if="firmware==null || deviceInfo.firmwareVersion>=firmware.version" style="text-align:center;font-size:16px;"><i class="el-icon-success" style="color:#67C23A;"></i> 已经是最新版本，不需要升级</div>
+        <el-descriptions :column="1" border size="large" v-if="firmware!=null && deviceInfo.firmwareVersion<firmware.version" :labelStyle='{"width":"100px","font-weight":"bold"}'>
+            <template slot="title">
+                 <el-link icon="el-icon-success" type="success" :underline="false"> 可以升级到以下版本</el-link>
+            </template>
+            <el-descriptions-item label="固件名称">{{firmware.firmwareName}}</el-descriptions-item>
+            <el-descriptions-item label="所属产品">{{firmware.productName}}</el-descriptions-item>
+            <el-descriptions-item label="固件版本">Version {{firmware.version}}</el-descriptions-item>
+            <el-descriptions-item label="下载地址">
+                <el-link :href="getDownloadUrl(firmware.filePath)" :underline="false" type="primary">{{getDownloadUrl(firmware.filePath)}}</el-link>
+            </el-descriptions-item>
+            <el-descriptions-item label="固件描述">{{firmware.remark}}</el-descriptions-item>
+        </el-descriptions>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="success" @click="otaUpgrade" v-if="firmware!=null && deviceInfo.firmwareVersion<firmware.version">升 级</el-button>
+            <el-button @click="cancel">取 消</el-button>
+        </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -172,6 +192,9 @@
 import {
     getDeviceRunningStatus
 } from "@/api/iot/device"
+import {
+    getLatestFirmware,
+} from "@/api/iot/firmware";
 import {
     cacheJsonThingsModel
 } from "@/api/iot/model";
@@ -195,7 +218,6 @@ export default {
             if (newVal && newVal.deviceId != 0) {
                 getDeviceRunningStatus(newVal.deviceId).then(response => {
                     this.deviceInfo = response.data;
-                    console.log(this.deviceInfo);
                     this.updateDeviceStatus(this.deviceInfo);
                     this.$nextTick(function () {
                         this.MonitorChart();
@@ -221,6 +243,10 @@ export default {
                 background: '#67C23A',
                 color: '#fff',
             },
+            // 最新固件信息
+            firmware: {},
+            // 打开固件对话框
+            openFirmware: false,
             // 遮罩层
             loading: true,
             // 设备信息
@@ -295,7 +321,7 @@ export default {
             } else if (type == 3) {
                 // OTA升级
                 topic = "/" + device.productId + "/" + device.serialNumber + "/ota/get";
-                message = '{"version":' + device.firmwareVersion + '}';
+                message = '{"version":' + this.firmware.version + ',"downloadUrl":"' + this.getDownloadUrl(this.firmware.filePath) + '"}';
             } else {
                 return;
             }
@@ -348,10 +374,25 @@ export default {
             let model = {};
             model.name = "设备升级"
             this.mqttPublish(3, this.deviceInfo, model);
+            this.openFirmware = false;
+        },
+        /** 修改按钮操作 */
+        getLatestFirmware(deviceId) {
+            getLatestFirmware(deviceId).then(response => {
+                this.firmware = response.data;
+                this.openFirmware = true;
+            });
+        },
+        // 取消按钮
+        cancel() {
+            this.openFirmware = false;
+        },
+        // 获取下载路径前缀
+        getDownloadUrl(path) {
+            return window.location.origin + process.env.VUE_APP_BASE_API + path;
         },
         /**监测图表统计*/
         MonitorChart() {
-            console.log(this.deviceInfo.readOnlyList.length);
             for (let i = 0; i < this.deviceInfo.readOnlyList.length; i++) {
                 var myChart = echarts.init(this.$refs.map[i]);
                 var option;

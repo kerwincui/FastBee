@@ -28,7 +28,7 @@
                 <el-card :body-style="{ padding: '20px'}" shadow="always" class="card-item">
                     <el-row type="flex" :gutter="10" justify="space-between">
                         <el-col :span="20" style="text-align:left;">
-                            <el-link type="" :underline="false" @click="handleEditProduct(item)" style="font-weight:bold;font-size:16px;line-height:32px;">
+                            <el-link type="" :underline="false" @click="handleEditProduct(item)" style="font-weight:bold;font-size:16px;line-height:32px;white-space:nowrap;">
                                 <svg-icon icon-class="product" /> {{item.productName}}
                                 <el-tag type="info" size="mini" style="margin-left:5px;font-weight:200" v-if="item.isSys==1">系统</el-tag>
                             </el-link>
@@ -44,7 +44,7 @@
                     </el-row>
                     <el-row :gutter="10">
                         <el-col :span="14">
-                            <el-descriptions :column="1" size="small" style="margin-top:10px;">
+                            <el-descriptions :column="1" size="small" style="margin-top:10px;white-space:nowrap;">
                                 <el-descriptions-item label="所属分类">
                                     <el-link type="primary" :underline="false">{{item.categoryName}}</el-link>
                                 </el-descriptions-item>
@@ -67,7 +67,7 @@
                             </div>
                         </el-col>
                     </el-row>
-                    <el-button-group style="margin-top:15px;">
+                    <el-button-group style="margin-top:15px;height:28px;">
                         <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEditProduct(item)" v-hasPermi="['iot:product:edit']">详情</el-button>
                         <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">删除</el-button>
                         <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">设备授权</el-button>

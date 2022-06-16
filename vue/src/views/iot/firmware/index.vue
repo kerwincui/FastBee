@@ -21,28 +21,33 @@
     <el-card style="padding-bottom:100px;">
         <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange">
             <el-table-column label="固件名称" align="center" prop="firmwareName" />
+            <el-table-column label="固件版本" align="center" prop="version" width="120">
+                <template slot-scope="scope">
+                    <span>Version </span> {{scope.row.version}}
+                </template>
+            </el-table-column>
+            <el-table-column label="状态" align="center" prop="isLatest" width="80">
+                <template slot-scope="scope">
+                    <el-tag type="success" v-if="scope.row.isLatest==1">最新</el-tag>
+                    <el-tag type="info" v-else>默认</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+                <template slot-scope="scope">
+                    <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="产品名称" align="center" prop="productName">
                 <template slot-scope="scope">
                     <el-link :underline="false" type="primary" @click="handleViewProduct(scope.row.productId)">{{scope.row.productName}}</el-link>
                 </template>
             </el-table-column>
-
-            <el-table-column label="下载地址" align="center" prop="filePath" width="400">
+            <el-table-column label="下载地址" align="center" prop="filePath" min-width="100">
                 <template slot-scope="scope">
                     <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="success">{{getDownloadUrl(scope.row.filePath)}}</el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="固件版本" align="center" prop="version">
-                <template slot-scope="scope">
-                    <span>Version </span> {{scope.row.version}}
-                </template>
-            </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="createTime">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="备注" align="center" prop="remark" />
+            <el-table-column label="固件描述" align="center" prop="remark" min-width="200" />
             <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
                 <template slot-scope="scope">
                     <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>

@@ -11,22 +11,28 @@
 
     <el-table v-loading="loading" :data="firmwareList" @selection-change="handleSelectionChange" size="small">
         <el-table-column label="固件名称" align="center" prop="firmwareName" />
-        <el-table-column label="固件版本" align="center" prop="version">
+        <el-table-column label="固件版本" align="center" prop="version" width="120">
             <template slot-scope="scope">
                 <span>Version </span> {{scope.row.version}}
             </template>
         </el-table-column>
-        <el-table-column label="下载地址" align="center" prop="filePath" width="400">
+        <el-table-column label="状态" align="center" prop="isLatest" width="80">
             <template slot-scope="scope">
-                <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="success">{{getDownloadUrl(scope.row.filePath)}}</el-link>
+                <el-tag type="success" v-if="scope.row.isLatest==1">最新</el-tag>
+                <el-tag type="info" v-else>默认</el-tag>
             </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="createTime">
+        <el-table-column label="创建时间" align="center" prop="createTime" width="100">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="备注" align="center" prop="remark" />
+        <el-table-column label="下载地址" align="center" prop="filePath" min-width="100">
+            <template slot-scope="scope">
+                <el-link :href="getDownloadUrl(scope.row.filePath)" :underline="false" type="success">{{getDownloadUrl(scope.row.filePath)}}</el-link>
+            </template>
+        </el-table-column>
+        <el-table-column label="固件描述" align="center" prop="remark" min-width="200" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
             <template slot-scope="scope">
                 <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:firmware:edit']">修改</el-button>
@@ -44,12 +50,16 @@
             <el-form-item label="固件版本" prop="version">
                 <el-input v-model="form.version" placeholder="请输入固件版本" type="number" step="0.1" />
             </el-form-item>
-
+            <el-form-item label="最新固件" prop="isLatest">
+                <el-switch v-model="form.isLatest" active-text="" inactive-text="" :active-value="1" :inactive-value="0">
+                </el-switch>
+                <el-link type="info" :underline="false" style="font-size:12px;margin-left:15px;">提示：产品中只能有一个最新固件</el-link>
+            </el-form-item>
             <el-form-item label="固件上传" prop="filePath">
                 <fileUpload ref="file-upload" :value="form.filePath" :limit="1" :fileSize="10" :fileType='["bin", "zip", "pdf"]' @input="getFilePath($event)"></fileUpload>
             </el-form-item>
-            <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+            <el-form-item label="固件描述" prop="remark">
+                <el-input v-model="form.remark" type="textarea" rows="4" placeholder="请输入固件信息" />
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -92,8 +102,8 @@ export default {
             this.productInfo = newVal;
             if (this.productInfo && this.productInfo.productId != 0) {
                 this.queryParams.productId = this.productInfo.productId;
-                this.form.productId=this.productInfo.productId;
-                this.form.productName=this.productInfo.productName;
+                this.form.productId = this.productInfo.productId;
+                this.form.productName = this.productInfo.productName;
                 this.getList();
             }
         }
@@ -167,8 +177,7 @@ export default {
 
         };
     },
-    created() {
-    },
+    created() {},
     methods: {
         getDownloadUrl(path) {
             return window.location.origin + process.env.VUE_APP_BASE_API + path;
@@ -194,9 +203,10 @@ export default {
                 firmwareName: null,
                 tenantId: null,
                 tenantName: null,
-                productId:this.form.productId,
-                productName:this.form.productName,
+                productId: this.form.productId,
+                productName: this.form.productName,
                 isSys: null,
+                isLatest: 0,
                 version: 1.0,
                 filePath: null,
                 delFlag: null,
