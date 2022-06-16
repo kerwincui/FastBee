@@ -161,6 +161,11 @@ def on_message(client,userdata,msg):
     printMsg("接收数据:"+msg.topic+" "+str(msg.payload))
     if(msg.topic==sOtaTopic):
         printMsg("订阅到设备升级指令...")
+        jsonData=json.loads(msg.payload)
+        newVersion = jsonData["version"]
+        downloadUrl = jsonData["downloadUrl"]
+        printMsg("固件版本："+newVersion)
+        printMsg("下载地址："+downloadUrl)
     elif(msg.topic==sNtpTopic):
         printMsg("订阅到NTP时间..."); 
         jsonData=json.loads(msg.payload)
