@@ -25,7 +25,7 @@ char *wifiPwd = "wifi-password";
 String deviceNum = "D6329VL54419L1Y0";
 String userId = "1";
 String productId = "2";
-String firmwareVersion = "1.0";
+float firmwareVersion = 1.0;
 // 经度和纬度可选，如果产品使用设备定位，则必须传
 float latitude=0;
 float longitude=0;

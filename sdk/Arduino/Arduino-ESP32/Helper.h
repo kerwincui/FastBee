@@ -23,7 +23,7 @@ extern String deviceNum ;      // 设备编号（重要，同时是Mqtt的client
 extern String userId;          // 用户ID
 extern String productId;       // 产品ID
 extern float rssi;             // 信号强度（信号极好4格[-55— 0]，信号好3格[-70— -55]，信号一般2格[-85— -70]，信号差1格[-100— -85]）
-extern String firmwareVersion; // 固件版本
+extern float firmwareVersion; // 固件版本
 extern char *wifiSsid;         // WIFI的SSID
 extern char *wifiPwd;          // WIFI的密码
 extern char *mqttHost;         // Mqtt消息服务器地址
