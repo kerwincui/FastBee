@@ -825,6 +825,11 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public int reportDevice(Device device) {
         Device deviceEntity=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+        // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
+        if(deviceEntity.getLocationWay()!=2){
+            device.setLatitude(null);
+            device.setLongitude(null);
+        }
         int result=0;
         if(deviceEntity!=null){
             // 更新设备信息

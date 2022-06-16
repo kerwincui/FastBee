@@ -34,9 +34,6 @@ public class EmqxService {
     @Autowired
     private IDeviceService deviceService;
 
-//    @Autowired
-//    private IDeviceLogService deviceLogService;
-
     @Autowired
     private ILogService logService;
 
@@ -133,11 +130,6 @@ public class EmqxService {
             Device device = JSON.parseObject(message, Device.class);
             device.setProductId(productId);
             device.setSerialNumber(deviceNum);
-            // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
-            if(device.getLocationWay()!=2){
-                device.setLatitude(null);
-                device.setLongitude(null);
-            }
             deviceService.reportDevice(device);
         } catch (Exception e) {
             logger.error("接收设备信息，解析数据时异常 message={}", e.getMessage());

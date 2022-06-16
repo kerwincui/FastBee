@@ -316,6 +316,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
             <if test="imgUrl != null">img_url,</if>
+            <if test="summary != null">summary,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
@@ -344,6 +345,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
             <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="summary != null">#{summary},</if>
          </trim>
     </insert>
 
@@ -376,6 +378,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="summary != null">summary = #{summary},</if>
         </trim>
         where device_id = #{deviceId}
     </update>
@@ -428,6 +431,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="summary != null">summary = #{summary},</if>
         </trim>
         where serial_number = #{serialNumber}
     </update>
