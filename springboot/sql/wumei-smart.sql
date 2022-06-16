@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50735
  Source Host           : kerwincui.mysql.rds.aliyuncs.com:3306
- Source Schema         : wumei-smart
+ Source Schema         : wumei-smart-dev
 
  Target Server Type    : MySQL
  Target Server Version : 50735
  File Encoding         : 65001
 
- Date: 12/06/2022 15:07:02
+ Date: 16/06/2022 23:42:26
 */
 
 SET NAMES utf8mb4;
@@ -485,7 +485,7 @@ INSERT INTO `iot_device` VALUES (27, '体温检测设备(T2)', 15, '温度监测
 INSERT INTO `iot_device` VALUES (28, '体温检测仪(U2)', 15, '温度监测仪(T2)', 5, 'wumei-u2', 3, 'wumei-t2', 'D5IN2B08QN01', 1.00, 1, 0, 1, 1, '[{\"id\": \"temperature\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"humidity\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"co2\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"brightness\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"temp_admin\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"temp_t2\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"switch\", \"value\": \"\", \"shadow\": \"1\"}, {\"id\": \"gear\", \"value\": \"\", \"shadow\": \"3\"}, {\"id\": \"light_color\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"message\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"report_monitor\", \"value\": \"\", \"shadow\": \"\"}]', '中国', '127.0.0.1', 113.520027, 34.907662, NULL, NULL, NULL, '0', '', '2022-06-11 02:26:01', '', NULL, '用户U2测试数据');
 INSERT INTO `iot_device` VALUES (29, '智能开关(T1)', 16, '智能开关(T1)', 2, 'wumei-t1', 2, 'wumei-t1', 'D2P4IU4E50HJ', 1.00, 1, 0, 1, 3, '[{\"id\": \"light_color\", \"value\": \"\", \"shadow\": \"11\"}, {\"id\": \"switch\", \"value\": \"\", \"shadow\": \"1\"}]', '中国', '127.0.0.1', 116.388171, 39.870869, NULL, NULL, NULL, '0', '', '2022-06-12 00:44:15', '', NULL, NULL);
 INSERT INTO `iot_device` VALUES (30, '智能开关(U2)', 16, '智能开关(T1)', 5, 'wumei-u2', 2, 'wumei-t1', 'D5BE0D756D24', 1.00, 1, 0, 1, 1, '[{\"id\": \"light_color\", \"value\": \"\", \"shadow\": \"\"}, {\"id\": \"switch\", \"value\": \"\", \"shadow\": \"0\"}]', '中国', '127.0.0.1', 103.792440, 32.176495, NULL, NULL, NULL, '0', '', '2022-06-12 01:06:06', '', NULL, NULL);
-INSERT INTO `iot_device` VALUES (31, '智能开关(U1)', 16, '智能开关(T1)', 4, 'wumei-u1', 2, 'wumei-t1', 'D43MU367RLU7', 1.10, 1, 0, 1, 1, '[{\"id\": \"light_color\", \"value\": \"\", \"shadow\": \"1\"}, {\"id\": \"switch\", \"value\": \"\", \"shadow\": \"1\"}]', '中国', '127.0.0.1', 105.270904, 27.100544, NULL, NULL, NULL, '0', '', '2022-06-12 01:36:33', '', '2022-06-12 01:37:31', NULL);
+INSERT INTO `iot_device` VALUES (31, '智能开关(U1)', 16, '智能开关(T1)', 4, 'wumei-u1', 2, 'wumei-t1', 'D43MU367RLU7', 1.10, 1, 0, 1, 1, '[{\"id\": \"light_color\", \"value\": \"\", \"shadow\": \"1\"}, {\"id\": \"switch\", \"value\": \"\", \"shadow\": \"0\"}]', '中国', '127.0.0.1', 105.270904, 27.100544, NULL, NULL, NULL, '0', '', '2022-06-12 01:36:33', '', '2022-06-12 01:37:31', NULL);
 
 -- ----------------------------
 -- Table structure for iot_device_group
@@ -570,7 +570,7 @@ CREATE TABLE `iot_device_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2891 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2909 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设备日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of iot_device_log
@@ -597,6 +597,24 @@ INSERT INTO `iot_device_log` VALUES (2887, 'gear', 2, '1', 28, '体温检测仪(
 INSERT INTO `iot_device_log` VALUES (2888, 'gear', 2, '3', 28, '体温检测仪(U2)', 'D5IN2B08QN01', 0, 1, 5, 'wumei-u2', 3, 'wumei-t2', '', '2022-06-12 02:08:32', NULL);
 INSERT INTO `iot_device_log` VALUES (2889, 'switch', 2, '0', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-12 02:09:13', NULL);
 INSERT INTO `iot_device_log` VALUES (2890, 'switch', 2, '1', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-12 02:09:14', NULL);
+INSERT INTO `iot_device_log` VALUES (2891, 'switch', 2, '0', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:00:04', NULL);
+INSERT INTO `iot_device_log` VALUES (2892, 'switch', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:00:05', NULL);
+INSERT INTO `iot_device_log` VALUES (2893, 'switch', 2, '0', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:00:07', NULL);
+INSERT INTO `iot_device_log` VALUES (2894, 'light_color', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:00:08', NULL);
+INSERT INTO `iot_device_log` VALUES (2895, 'switch', 2, '0', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:03:12', NULL);
+INSERT INTO `iot_device_log` VALUES (2896, 'switch', 2, '1', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:03:14', NULL);
+INSERT INTO `iot_device_log` VALUES (2897, 'switch', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:29:46', NULL);
+INSERT INTO `iot_device_log` VALUES (2898, 'switch', 2, '0', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:29:50', NULL);
+INSERT INTO `iot_device_log` VALUES (2899, 'light_color', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:29:52', NULL);
+INSERT INTO `iot_device_log` VALUES (2900, 'switch', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:30:10', NULL);
+INSERT INTO `iot_device_log` VALUES (2901, 'switch', 2, '0', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:30:12', NULL);
+INSERT INTO `iot_device_log` VALUES (2902, 'light_color', 2, '1', 31, '智能开关(U1)', 'D43MU367RLU7', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:30:13', NULL);
+INSERT INTO `iot_device_log` VALUES (2903, 'switch', 2, '0', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:35:43', NULL);
+INSERT INTO `iot_device_log` VALUES (2904, 'switch', 2, '1', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:35:44', NULL);
+INSERT INTO `iot_device_log` VALUES (2905, 'switch', 2, '0', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:36:22', NULL);
+INSERT INTO `iot_device_log` VALUES (2906, 'switch', 2, '1', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:36:23', NULL);
+INSERT INTO `iot_device_log` VALUES (2907, 'switch', 2, '0', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:36:29', NULL);
+INSERT INTO `iot_device_log` VALUES (2908, 'switch', 2, '1', 26, '体温检测设备(U1)', 'D41FTPHZYKOX', 0, 1, 4, 'wumei-u1', 2, 'wumei-t1', '', '2022-06-14 16:36:30', NULL);
 
 -- ----------------------------
 -- Table structure for iot_device_user
@@ -647,6 +665,7 @@ CREATE TABLE `iot_firmware`  (
   `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
   `is_sys` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否系统通用（0-否，1-是）',
+  `is_latest` tinyint(1) NOT NULL COMMENT '是否最新版本（0-否，1-是）',
   `version` float(11, 2) NOT NULL DEFAULT 0.10 COMMENT '固件版本',
   `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件路径',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
@@ -661,10 +680,10 @@ CREATE TABLE `iot_firmware`  (
 -- ----------------------------
 -- Records of iot_firmware
 -- ----------------------------
-INSERT INTO `iot_firmware` VALUES (10, '体温检测仪出厂固件(admin)', 13, '体温检测仪(admin)', 1, 'admin', 1, 1.00, '/profile/iot/1/2022-0609-172438.bin', '0', '', '2022-06-09 17:24:41', '', '2022-06-09 23:07:48', NULL);
-INSERT INTO `iot_firmware` VALUES (11, '体温检测仪出厂固件(T1)', 14, '体温检测仪(T1)', 2, 'wumei-t1', 0, 1.10, '/profile/iot/2/2022-0610-004259.bin', '0', '', '2022-06-10 00:43:17', '', '2022-06-10 00:43:38', '租户T1测试数据');
-INSERT INTO `iot_firmware` VALUES (12, '温度检测仪出厂固件(T2)', 15, '温度监测仪(T2)', 3, 'wumei-t2', 0, 1.10, '/profile/iot/3/2022-0611-003131.bin', '0', '', '2022-06-11 00:31:44', '', '2022-06-11 00:31:50', '租户T2测试数据');
-INSERT INTO `iot_firmware` VALUES (13, '智能开关(T1)', 16, '智能开关(T1)', 2, 'wumei-t1', 0, 1.00, '/profile/iot/2/2022-0612-004129.bin', '0', '', '2022-06-12 00:41:32', '', NULL, NULL);
+INSERT INTO `iot_firmware` VALUES (10, '体温检测仪出厂固件(admin)', 13, '体温检测仪(admin)', 1, 'admin', 1, 0, 1.00, '/profile/iot/1/2022-0609-172438.bin', '0', '', '2022-06-09 17:24:41', '', '2022-06-09 23:07:48', NULL);
+INSERT INTO `iot_firmware` VALUES (11, '体温检测仪出厂固件(T1)', 14, '体温检测仪(T1)', 2, 'wumei-t1', 0, 0, 1.10, '/profile/iot/2/2022-0610-004259.bin', '0', '', '2022-06-10 00:43:17', '', '2022-06-10 00:43:38', '租户T1测试数据');
+INSERT INTO `iot_firmware` VALUES (12, '温度检测仪出厂固件(T2)', 15, '温度监测仪(T2)', 3, 'wumei-t2', 0, 0, 1.10, '/profile/iot/3/2022-0611-003131.bin', '0', '', '2022-06-11 00:31:44', '', '2022-06-11 00:31:50', '租户T2测试数据');
+INSERT INTO `iot_firmware` VALUES (13, '智能开关(T1)', 16, '智能开关(T1)', 2, 'wumei-t1', 0, 0, 1.00, '/profile/iot/2/2022-0612-004129.bin', '0', '', '2022-06-12 00:41:32', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for iot_group
@@ -1312,7 +1331,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('RuoyiScheduler', 'DESKTOP-KKH3KAT1655016910967', 1655017663699, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('RuoyiScheduler', 'DESKTOP-KKH3KAT1655190465370', 1655195832384, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -1389,13 +1408,13 @@ CREATE TABLE `qrtz_triggers`  (
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME10', 'DEFAULT', 'TASK_CLASS_NAME10', 'DEFAULT', NULL, 1655058600000, -1, 5, 'WAITING', 'CRON', 1655016952000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME11', 'DEFAULT', 'TASK_CLASS_NAME11', 'DEFAULT', NULL, 1655031600000, -1, 5, 'WAITING', 'CRON', 1655016957000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME12', 'DEFAULT', 'TASK_CLASS_NAME12', 'DEFAULT', NULL, 1655033760000, -1, 5, 'WAITING', 'CRON', 1655016958000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME6', 'DEFAULT', 'TASK_CLASS_NAME6', 'DEFAULT', NULL, 1655045400000, -1, 5, 'WAITING', 'CRON', 1655016936000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME7', 'DEFAULT', 'TASK_CLASS_NAME7', 'DEFAULT', NULL, 1655054400000, -1, 5, 'WAITING', 'CRON', 1655016938000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME8', 'DEFAULT', 'TASK_CLASS_NAME8', 'DEFAULT', NULL, 1655054940000, -1, 5, 'WAITING', 'CRON', 1655016941000, 0, NULL, 1, '');
-INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME9', 'DEFAULT', 'TASK_CLASS_NAME9', 'DEFAULT', NULL, 1655058420000, -1, 5, 'WAITING', 'CRON', 1655016948000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME10', 'DEFAULT', 'TASK_CLASS_NAME10', 'DEFAULT', NULL, 1655231400000, -1, 5, 'WAITING', 'CRON', 1655190480000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME11', 'DEFAULT', 'TASK_CLASS_NAME11', 'DEFAULT', NULL, 1655204400000, -1, 5, 'WAITING', 'CRON', 1655190481000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME12', 'DEFAULT', 'TASK_CLASS_NAME12', 'DEFAULT', NULL, 1655206560000, -1, 5, 'WAITING', 'CRON', 1655190483000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME6', 'DEFAULT', 'TASK_CLASS_NAME6', 'DEFAULT', NULL, 1655218200000, -1, 5, 'WAITING', 'CRON', 1655190474000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME7', 'DEFAULT', 'TASK_CLASS_NAME7', 'DEFAULT', NULL, 1655227200000, -1, 5, 'WAITING', 'CRON', 1655190476000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME8', 'DEFAULT', 'TASK_CLASS_NAME8', 'DEFAULT', NULL, 1655227740000, -1, 5, 'WAITING', 'CRON', 1655190477000, 0, NULL, 1, '');
+INSERT INTO `qrtz_triggers` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME9', 'DEFAULT', 'TASK_CLASS_NAME9', 'DEFAULT', NULL, 1655231220000, -1, 5, 'WAITING', 'CRON', 1655190478000, 0, NULL, 1, '');
 
 -- ----------------------------
 -- Table structure for sys_auth_user
@@ -1718,7 +1737,7 @@ CREATE TABLE `sys_logininfor`  (
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '提示消息',
   `login_time` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 387 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 395 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1999,6 +2018,14 @@ INSERT INTO `sys_logininfor` VALUES (383, 'wumei-u1', '127.0.0.1', '内网IP', '
 INSERT INTO `sys_logininfor` VALUES (384, 'wumei-u1', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2022-06-12 14:58:46');
 INSERT INTO `sys_logininfor` VALUES (385, 'wumei-u1', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2022-06-12 14:59:00');
 INSERT INTO `sys_logininfor` VALUES (386, 'wumei-u1', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2022-06-12 15:03:10');
+INSERT INTO `sys_logininfor` VALUES (387, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '验证码已失效', '2022-06-14 15:15:31');
+INSERT INTO `sys_logininfor` VALUES (388, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2022-06-14 15:15:36');
+INSERT INTO `sys_logininfor` VALUES (389, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2022-06-14 15:15:53');
+INSERT INTO `sys_logininfor` VALUES (390, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2022-06-14 15:16:05');
+INSERT INTO `sys_logininfor` VALUES (391, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2022-06-14 15:16:24');
+INSERT INTO `sys_logininfor` VALUES (392, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2022-06-14 15:54:14');
+INSERT INTO `sys_logininfor` VALUES (393, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '验证码已失效', '2022-06-14 15:56:24');
+INSERT INTO `sys_logininfor` VALUES (394, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2022-06-14 15:56:30');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -3142,7 +3169,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '物美智能管理员', '00', '164770707@qq.com', '15888888888', '0', '', '$2a$10$0Duw0QB6s7YnQEaNSdSVWeXHMmSa090pG15ZXpf.CQEzEhgxyr7IO', '0', '0', '127.0.0.1', '2022-06-12 14:57:58', 'admin', '2021-12-15 21:36:18', '', '2022-06-12 14:57:59', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '物美智能管理员', '00', '164770707@qq.com', '15888888888', '0', '', '$2a$10$0Duw0QB6s7YnQEaNSdSVWeXHMmSa090pG15ZXpf.CQEzEhgxyr7IO', '0', '0', '127.0.0.1', '2022-06-14 15:56:31', 'admin', '2021-12-15 21:36:18', '', '2022-06-14 15:56:30', '管理员');
 INSERT INTO `sys_user` VALUES (2, 100, 'wumei-t1', '物美租户壹', '00', '', '15888888880', '0', '', '$2a$10$BAWId9C2Nrcwklzl1Ikoau4iqL8XRGvfRjq6Wl.PXWpzwAw0sXMdK', '0', '0', '127.0.0.1', '2022-06-12 14:33:02', 'admin', '2022-04-15 16:21:25', 'admin', '2022-06-12 14:33:03', NULL);
 INSERT INTO `sys_user` VALUES (3, 100, 'wumei-t2', '物美租户贰', '00', '', '15888888881', '0', '', '$2a$10$1zMlbW7hGpzA59gpzWGO/ObeASziQ296evjMjHrYdZnxKBLU4WUum', '0', '0', '127.0.0.1', '2022-06-12 00:54:28', 'admin', '2022-04-15 16:22:08', 'admin', '2022-06-12 00:54:30', NULL);
 INSERT INTO `sys_user` VALUES (4, 100, 'wumei-u1', '物美用户壹', '00', '', '15888888882', '0', '', '$2a$10$691RJMXZ9HM4sgNTExLPfO5Nw6J6cWgCvcoF9V.jKMnPk5o/8c9VS', '0', '0', '127.0.0.1', '2022-06-12 14:58:59', 'admin', '2022-04-15 16:22:37', 'admin', '2022-06-12 14:59:00', NULL);
