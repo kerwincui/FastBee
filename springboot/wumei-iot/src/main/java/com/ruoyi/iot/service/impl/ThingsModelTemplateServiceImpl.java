@@ -65,12 +65,15 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
     @Override
     public int insertThingsModelTemplate(ThingsModelTemplate thingsModelTemplate)
     {
+        // 判断是否为管理员
+        thingsModelTemplate.setIsSys(1);
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
-        if(roles==null || roles.size()==0) {return 0;}
-        // 系统管理员
-        if(roles.stream().anyMatch(a->a.getRoleKey().equals("admin"))){
-            thingsModelTemplate.setIsSys(1);
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
+                thingsModelTemplate.setIsSys(0);
+                break;
+            }
         }
         thingsModelTemplate.setTenantId(user.getUserId());
         thingsModelTemplate.setTenantName(user.getUserName());

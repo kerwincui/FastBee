@@ -84,12 +84,15 @@ public class CategoryServiceImpl implements ICategoryService
     @Override
     public int insertCategory(Category category)
     {
+        // 判断是否为管理员
+        category.setIsSys(1);
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
-        if(roles==null || roles.size()==0) {return 0;}
-        // 系统管理员
-        if(roles.stream().anyMatch(a->a.getRoleKey().equals("admin"))){
-            category.setIsSys(1);
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
+                category.setIsSys(0);
+                break;
+            }
         }
         category.setTenantId(user.getUserId());
         category.setTenantName(user.getUserName());

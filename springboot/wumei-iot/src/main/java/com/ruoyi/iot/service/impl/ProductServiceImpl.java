@@ -99,12 +99,15 @@ public class ProductServiceImpl implements IProductService
     @Override
     public Product insertProduct(Product product)
     {
+        // 判断是否为管理员
+        product.setIsSys(1);
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
-        if(roles==null || roles.size()==0) {return null;}
-        // 系统管理员
-        if(roles.stream().anyMatch(a->a.getRoleKey().equals("admin"))){
-            product.setIsSys(1);
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
+                product.setIsSys(0);
+                break;
+            }
         }
         // mqtt账号密码
         product.setMqttAccount("wumei-smart");

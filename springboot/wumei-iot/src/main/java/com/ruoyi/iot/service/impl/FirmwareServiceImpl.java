@@ -76,12 +76,15 @@ public class FirmwareServiceImpl implements IFirmwareService
     @Override
     public int insertFirmware(Firmware firmware)
     {
+        // 判断是否为管理员
+        firmware.setIsSys(1);
         SysUser user = getLoginUser().getUser();
         List<SysRole> roles=user.getRoles();
-        if(roles==null || roles.size()==0) {return 0;}
-        // 系统管理员
-        if(roles.stream().anyMatch(a->a.getRoleKey().equals("admin"))){
-            firmware.setIsSys(1);
+        for(int i=0;i<roles.size();i++){
+            if(roles.get(i).getRoleKey().equals("tenant") || roles.get(i).getRoleKey().equals("general")){
+                firmware.setIsSys(0);
+                break;
+            }
         }
         firmware.setTenantId(user.getUserId());
         firmware.setTenantName(user.getUserName());
