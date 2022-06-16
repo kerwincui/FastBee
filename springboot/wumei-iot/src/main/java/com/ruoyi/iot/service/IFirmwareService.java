@@ -20,6 +20,14 @@ public interface IFirmwareService
     public Firmware selectFirmwareByFirmwareId(Long firmwareId);
 
     /**
+     * 查询设备最新固件
+     *
+     * @param deviceId 产品固件主键
+     * @return 产品固件
+     */
+    public Firmware selectLatestFirmware(Long deviceId);
+
+    /**
      * 查询产品固件列表
      * 
      * @param firmware 产品固件

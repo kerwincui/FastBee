@@ -38,6 +38,18 @@ public class FirmwareServiceImpl implements IFirmwareService
     }
 
     /**
+     * 查询设备最新固件
+     *
+     * @param deviceId 产品固件主键
+     * @return 产品固件
+     */
+    @Override
+    public Firmware selectLatestFirmware(Long deviceId)
+    {
+        return firmwareMapper.selectLatestFirmware(deviceId);
+    }
+
+    /**
      * 查询产品固件列表
      * 
      * @param firmware 产品固件

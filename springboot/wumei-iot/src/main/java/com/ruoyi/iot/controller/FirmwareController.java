@@ -88,6 +88,17 @@ public class FirmwareController extends BaseController
     }
 
     /**
+     * 获取设备最新固件
+     */
+    @ApiOperation("获取设备最新固件")
+    @PreAuthorize("@ss.hasPermi('iot:firmware:query')")
+    @GetMapping(value = "/getLatest/{deviceId}")
+    public AjaxResult getLatest(@PathVariable("deviceId") Long deviceId)
+    {
+        return AjaxResult.success(firmwareService.selectLatestFirmware(deviceId));
+    }
+
+    /**
      * 新增产品固件
      */
     @ApiOperation("添加产品固件")

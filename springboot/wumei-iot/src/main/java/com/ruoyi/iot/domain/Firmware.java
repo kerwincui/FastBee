@@ -43,6 +43,10 @@ public class Firmware extends BaseEntity
     @Excel(name = "是否系统通用", readConverterExp = "0=-否，1-是")
     private Integer isSys;
 
+    /** 是否最新版（0-否，1-是） */
+    @Excel(name = "是否系统通用", readConverterExp = "0=-否，1-是")
+    private Integer isLatest;
+
     /** 固件版本 */
     @Excel(name = "固件版本")
     private BigDecimal version;
@@ -54,7 +58,15 @@ public class Firmware extends BaseEntity
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
-    public void setFirmwareId(Long firmwareId) 
+    public Integer getIsLatest() {
+        return isLatest;
+    }
+
+    public void setIsLatest(Integer isLatest) {
+        this.isLatest = isLatest;
+    }
+
+    public void setFirmwareId(Long firmwareId)
     {
         this.firmwareId = firmwareId;
     }
