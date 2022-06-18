@@ -119,7 +119,7 @@
                         <i class="el-icon-tickets"></i>
                         {{item.name}}
                     </template>
-                    <el-input v-model="item.value" placeholder="请输入字符串" size="mini" disabled></el-input>
+                    {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
 
                 <!-- array类型-->
@@ -128,7 +128,7 @@
                         <i class="el-icon-tickets"></i>
                         {{item.name}}
                     </template>
-                    <el-input v-model="item.value" placeholder="请输入英文逗号分隔的字符串" size="mini" disabled></el-input>
+                     {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
 
                 <!-- decimal类型-->
@@ -137,7 +137,7 @@
                         <i class="el-icon-star-off"></i>
                         {{item.name}}
                     </template>
-                    <el-input v-model="item.value" type="number" placeholder="请输入小数" size="mini" disabled></el-input>
+                    {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
 
                 <!-- integer类型-->
@@ -146,7 +146,7 @@
                         <i class="el-icon-paperclip"></i>
                         {{item.name}}
                     </template>
-                    <el-input v-model="item.value" type="integer" placeholder="请输入整数 " size="mini" disabled></el-input>
+                     {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
             </el-descriptions>
 
