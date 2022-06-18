@@ -15,8 +15,7 @@
         </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="deviceLogList" size="mini">
-        <el-table-column label="编号" align="center" prop="logId" width="120" />
+    <el-table v-loading="loading" :data="deviceLogList" size="mini">        
         <el-table-column label="类型" align="center" prop="logType" width="120">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_device_log_type" :value="scope.row.logType" />
@@ -28,7 +27,7 @@
                 <el-tag type="success" v-else-if="scope.row.mode==2">在线模式</el-tag>
                 <el-tag type="info" v-else>其他信息</el-tag>
             </template>
-        </el-table-column>        
+        </el-table-column>
         <el-table-column label="时间" align="center" prop="createTime" width="150">
             <template slot-scope="scope">
                 <span>{{ scope.row.createTime }}</span>
@@ -40,7 +39,7 @@
                 <div v-html="formatValueDisplay(scope.row)"></div>
             </template>
         </el-table-column>
-        
+
         <el-table-column label="备注" header-align="center" align="left" prop="remark">
             <template slot-scope="scope">
                 {{scope.row.remark==null ?"无":scope.row.remark}}
