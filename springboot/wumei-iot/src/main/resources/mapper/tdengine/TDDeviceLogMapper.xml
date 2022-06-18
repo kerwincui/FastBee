@@ -52,7 +52,7 @@
     </update>
 
     <insert id="save" parameterType="com.ruoyi.iot.domain.DeviceLog">
-        INSERT INTO ${database}.${device.serialNumber} USING  device_log
+        INSERT INTO ${database}.device_${device.serialNumber} USING  device_log
         TAGS (#{device.deviceId},
             #{device.serialNumber},
             #{device.userId},
@@ -70,7 +70,7 @@
     </insert>
 
     <delete id="deleteDeviceLogByDeviceNumber" parameterType="com.ruoyi.iot.domain.DeviceLog">
-        DROP TABLE IF EXISTS ${database}.${serialNumber};
+        DROP TABLE IF EXISTS ${database}.device_${serialNumber};
     </delete>
 
     <select id="selectPropertyLogCount" parameterType="com.ruoyi.iot.domain.Device" resultType="Long">
