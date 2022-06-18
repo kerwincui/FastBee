@@ -22,8 +22,8 @@ public interface ILogService {
     /** 保存设备日志 **/
     int saveDeviceLog(DeviceLog deviceLog);
 
-    /** 根据设备ID删除设备日志 **/
-    int deleteDeviceLogByDeviceId(Long deviceId);
+    /** 根据设备编号删除设备日志 **/
+    int deleteDeviceLogByDeviceNumber(String deviceNumber);
 
     /** 设备属性、功能、事件总数 **/
     DeviceStatistic selectCategoryLogCount(Device device);

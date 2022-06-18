@@ -19,28 +19,55 @@ import java.util.List;
 @Repository
 public interface TDDeviceLogDAO {
 
-
+    /***
+     * 创建数据库
+     */
     int  createDB( String database);
 
+    /***
+     * 创建超级表
+     */
     int  createSTable(String database);
 
-    int  createTable(String database,String deviceId);
 
+    /***
+     * 新增设备日志
+     */
     int  save(@Param("database") String database,@Param("device") DeviceLog deviceLog);
 
-    DeviceStatistic selectCategoryLogCount(@Param("database") String database, Device device);
+    /***
+     * 设备属性数据总数
+     */
+    Long selectPropertyLogCount(@Param("database") String database,@Param("device")  Device device);
 
-    List<DeviceLog>  selectSTable(String database,DeviceLog deviceLog);
+    /***
+     * 设备功能数据总数
+     */
+    Long selectFunctionLogCount(@Param("database") String database,@Param("device")  Device device);
 
-    int delete(String dbName, DeviceLog deviceLog);
+    /***
+     * 设备事件数据总数
+     */
+    Long selectEventLogCount(@Param("database") String database,@Param("device")  Device device);
 
-    int deleteDeviceLogByDeviceId(String dbName,Long deviceId);
+    /***
+     * 设备监测数据总数
+     */
+    Long selectMonitorLogCount(@Param("database") String database,@Param("device")  Device device);
 
-    // List<DeviceLog> selectLogListByPage(String dbName, Integer pageSize, Integer pageNum, String deviceNum, Date beginDate, Date endDate);
-
-    List<DeviceLog> selectLogList(String dbName, Long deviceId, String serialNumber, Long isMonitor, Long logType, Date beginDate, Date endDate);
-
+    /***
+     * 监测数据列表
+     */
     List<MonitorModel> selectMonitorList(@Param("database")  String database, @Param("device") DeviceLog deviceLog);
 
+    /***
+     * 日志列表
+     */
     List<DeviceLog> selectDeviceLogList(@Param("database")  String database,@Param("device") DeviceLog deviceLog);
+
+    /***
+     * 根据设备ID删除设备日志
+     */
+    int deleteDeviceLogByDeviceNumber(@Param("database")String dbName,@Param("serialNumber") String serialNumber);
+
 }

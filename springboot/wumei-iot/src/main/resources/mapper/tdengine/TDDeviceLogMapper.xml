@@ -4,36 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.iot.tdengine.dao.TDDeviceLogDAO">
 
-    <resultMap id="BaseResultMap" type="com.ruoyi.iot.domain.DeviceLog">
-        <id column="ts" property="ts"/>
-        <result column="log_id" property="logId"/>
-        <result column="device_name" property="deviceName"/>
-        <result column="serial_number" property="serialNumber"/>
-        <result column="log_type" property="logType"/>
-        <result column="log_value" property="logValue"/>
-        <result column="identity" property="identity"/>
-        <result column="is_monitor" property="isMonitor"/>
-        <result column="create_by" property="createBy"/>
-        <result column="create_time" property="createTime"/>
-        <result column="remark" property="remark"/>
-    </resultMap>
-
     <resultMap type="com.ruoyi.iot.model.MonitorModel" id="MonitorResult">
         <result property="value"    column="log_value"    />
-        <result property="time"    column="create_time"    />
+        <result property="time"    column="ts"    />
     </resultMap>
 
     <resultMap type="com.ruoyi.iot.domain.DeviceLog" id="DeviceLogResult">
-        <result property="logId"    column="log_id"    />
         <result property="logType"    column="log_type"    />
         <result property="logValue"    column="log_value"    />
+        <result property="mode"    column="mode"    />
         <result property="deviceId"    column="device_id"    />
         <result property="deviceName"    column="device_name"    />
         <result property="serialNumber"    column="serial_number"    />
         <result property="identity"    column="identity"    />
         <result property="createBy"    column="create_by"    />
         <result property="isMonitor"    column="is_monitor"    />
-        <result property="createTime"    column="create_time"    />
+        <result property="createTime"    column="ts"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 
@@ -43,124 +33,93 @@
 
     <update id="createSTable">
         create STABLE  if not exists ${database}.device_log
-        (
-        ts timestamp,
-         log_id BIGINT,
-        log_type TINYINT,
-        `identity` BINARY(100),
+        (ts timestamp,
         `log_value` BINARY(100),
         is_monitor TINYINT,
-        create_by BINARY(100),
-        create_time timestamp,
-        remark BINARY(500)
+        log_type TINYINT,
+        `identity` BINARY(100),
+        mode TINYINT,
+        remark BINARY(500))
 
-        )
         TAGS(
         device_id BIGINT,
-        device_name BINARY(100),
-        serial_number BINARY(50));
+        serial_number BINARY(50),
+        user_id BIGINT,
+        tenant_Id BIGINT,
+        user_name BINARY(100),
+        tenant_name BINARY(100),
+        device_name BINARY(100));
     </update>
-
-    <update id="createTable">
-        create TABLE if not exists ${database}.${tableName}
-        USING ${database}.device_${deviceId} TAGS(log_type,is_monitor,create_by,create_time,remark)
-        (ts2 timestamp,
-        log_type BINARY(100)
-        );
-    </update>
-
-    <select id="selectSTable" resultMap="BaseResultMap">
-        select
-        *
-        from ${database}.device_log
-        order by ts desc
-    </select>
-
-    <select id="selectCategoryLogCount" parameterType="Long" resultType="com.ruoyi.iot.model.DeviceStatistic">
-        SELECT
-            (select count(log_id)
-                from iot_device_log
-                <where>
-                    <if test="1==1"> and log_type=1</if>
-                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
-                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
-                </where>
-            ) as propertyCount,
-            (select count(log_id)
-                from iot_device_log
-                <where>
-                    <if test="1==1"> and log_type=2</if>
-                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
-                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
-                </where>
-            ) as functionCount,
-            (select count(log_id)
-                from iot_device_log
-                <where>
-                    <if test="1==1"> and log_type=3</if>
-                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
-                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
-                </where>
-            ) as eventCount,
-            (select count(log_id)
-                from iot_device_log
-                <where>
-                    <if test="1==1"> and log_type=1 and is_monitor=1</if>
-                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
-                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
-                </where>
-            ) as monitorCount
-        from ${database}.device_log
-        limit 1
-    </select>
 
     <insert id="save" parameterType="com.ruoyi.iot.domain.DeviceLog">
-        INSERT INTO ${database}.device_${device.serialNumber} USING  device_log
-        TAGS (#{device.deviceId},#{device.deviceName},#{device.serialNumber})
-        VALUES (now, #{device.logId}, #{device.logType},#{device.identity},#{device.logValue},#{device.isMonitor},#{device.createBy},now,#{device.remark} );
+        INSERT INTO ${database}.${device.serialNumber} USING  device_log
+        TAGS (#{device.deviceId},
+            #{device.serialNumber},
+            #{device.userId},
+            #{device.tenantId},
+            #{device.userName},
+            #{device.tenantName},
+            #{device.deviceName})
+        VALUES (now,
+            #{device.logValue},
+            #{device.isMonitor},
+            #{device.logType},
+            #{device.identity},
+            #{device.mode},
+            #{device.remark});
     </insert>
 
-    <delete id="delete" parameterType="com.ruoyi.iot.domain.DeviceLog">
-        delete from ${database}.device_${device.serialNumber}
-        <where>
-            <if test="logId !=null"> log_id = #{logId} </if>
-            <if test="deviceId !=null and deviceId!=''"> device_id = #{deviceId} </if>
-            <if test="serialNumber !=null and serialNumber!=''"> serial_number = #{serialNumber} </if>
-        </where>
+    <delete id="deleteDeviceLogByDeviceNumber" parameterType="com.ruoyi.iot.domain.DeviceLog">
+        DROP TABLE IF EXISTS ${database}.${serialNumber};
     </delete>
 
-    <delete id="deleteDeviceLogByDeviceId" parameterType="com.ruoyi.iot.domain.DeviceLog">
-        delete from ${database}.device_${device.serialNumber}
+    <select id="selectPropertyLogCount" parameterType="com.ruoyi.iot.domain.Device" resultType="Long">
+        select count(mode) as propertyCount
+        from ${database}.device_log
         <where>
-            <if test="logId !=null"> log_id = #{logId} </if>
-            <if test="deviceId !=null and deviceId!=''"> device_id = #{deviceId} </if>
-            <if test="serialNumber !=null and serialNumber!=''"> serial_number = #{serialNumber} </if>
+            <if test="1==1"> and log_type=1</if>
+            <if test="device.userId != null and device.userId != 0"> and user_id = #{device.userId}</if>
+            <if test="device.tenantId != null and device.tenantId != 0"> and tenant_id = #{device.tenantId}</if>
         </where>
-    </delete>
+    </select>
 
-
-    <select id="selectLogList" resultMap="BaseResultMap">
-       select * from ${database}.device_log
+    <select id="selectFunctionLogCount" parameterType="com.ruoyi.iot.domain.Device" resultType="Long">
+        select count(mode) as functionCount
+        from ${database}.device_log
         <where>
-            <if test="deviceId != null "> and device_id = #{deviceId}</if>
-            <if test="serialNumber != null  and serialNumber!=''"> and serial_number = #{serialNumber}</if>
-            <if test="isMonitor != null "> and is_monitor = #{isMonitor}</if>
-            <if test="logType != null "> and log_type = #{logType}</if>
-
-            <if test="beginDate != null "> and create_time &lt;= #{beginDate}</if>
-            <if test="endDate != null "> and create_time &gt;= #{endDate}</if>
-
+            <if test="1==1"> and log_type=2</if>
+            <if test="device.userId != null and device.userId != 0"> and user_id = #{device.userId}</if>
+            <if test="device.tenantId != null and device.tenantId != 0"> and tenant_id = #{device.tenantId}</if>
         </where>
-        order by ts desc
+    </select>
+
+    <select id="selectEventLogCount" parameterType="com.ruoyi.iot.domain.Device" resultType="Long">
+        select count(mode) as eventCount
+        from ${database}.device_log
+        <where>
+            <if test="1==1"> and log_type=3</if>
+            <if test="device.userId != null and device.userId != 0"> and user_id = #{device.userId}</if>
+            <if test="device.tenantId != null and device.tenantId != 0"> and tenant_id = #{device.tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectMonitorLogCount" parameterType="com.ruoyi.iot.domain.Device" resultType="Long">
+        select count(mode) as monitorCount
+        from ${database}.device_log
+        <where>
+            <if test="1==1"> and log_type=1 and is_monitor=1</if>
+            <if test="device.userId != null and device.userId != 0"> and user_id = #{device.userId}</if>
+            <if test="device.tenantId != null and device.tenantId != 0"> and tenant_id = #{device.tenantId}</if>
+        </where>
     </select>
 
     <select id="selectMonitorList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="MonitorResult">
-        select log_value, create_time from ${database}.device_log
+        select log_value, ts from ${database}.device_log
         <where>
              is_monitor=1
             <if test="device.deviceId!=null"> and device_id = #{device.deviceId} </if>
             <if test="device.identity != null  and device.identity != ''"> and identity like  #{device.identity}</if>
-
+            <if test="device.params.beginTime != null and device.params.beginTime != '' and device.params.endTime != null and device.params.endTime != ''"> and ts between #{device.params.beginTime} and #{device.params.endTime}</if>
         order by ts desc
         limit 2000
         </where>
@@ -169,7 +128,7 @@
     <select id="selectDeviceLogList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="DeviceLogResult">
         select * from ${database}.device_log
         <where>
-            is_monitor !=1
+            is_monitor!=1
             <if test="device.deviceId!=null"> and device_id = #{device.deviceId} </if>
             <if test="device.logType != null "> and log_type = #{device.logType}</if>
             <if test="device.identity != null  and device.identity != ''"> and identity like #{device.identity}</if>

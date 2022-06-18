@@ -38,8 +38,8 @@ public class MySqlLogServiceImpl implements ILogService {
      * @return
      */
     @Override
-    public int deleteDeviceLogByDeviceId(Long deviceId) {
-        return deviceLogMapper.deleteDeviceLogByDeviceId(deviceId);
+    public int deleteDeviceLogByDeviceNumber(String deviceNumber) {
+        return deviceLogMapper.deleteDeviceLogByDeviceNumber(deviceNumber);
     }
 
     /***

@@ -18,25 +18,25 @@ public class DeviceStatistic
     private int productCount;
 
     /** 告警 **/
-    private int alertCount;
+    private long alertCount;
 
     /** 属性上报 **/
-    private int propertyCount;
+    private long propertyCount;
 
     /** 功能上报 **/
-    private int functionCount;
+    private long functionCount;
 
     /** 事件上报 **/
-    private int eventCount;
+    private long eventCount;
 
     /** 监测数据上报 **/
-    private int monitorCount;
+    private long monitorCount;
 
-    public int getMonitorCount() {
+    public long getMonitorCount() {
         return monitorCount;
     }
 
-    public void setMonitorCount(int monitorCount) {
+    public void setMonitorCount(long monitorCount) {
         this.monitorCount = monitorCount;
     }
 
@@ -56,35 +56,35 @@ public class DeviceStatistic
         this.productCount = productCount;
     }
 
-    public int getAlertCount() {
+    public long getAlertCount() {
         return alertCount;
     }
 
-    public void setAlertCount(int alertCount) {
+    public void setAlertCount(long alertCount) {
         this.alertCount = alertCount;
     }
 
-    public int getPropertyCount() {
+    public long getPropertyCount() {
         return propertyCount;
     }
 
-    public void setPropertyCount(int propertyCount) {
+    public void setPropertyCount(long propertyCount) {
         this.propertyCount = propertyCount;
     }
 
-    public int getFunctionCount() {
+    public long getFunctionCount() {
         return functionCount;
     }
 
-    public void setFunctionCount(int functionCount) {
+    public void setFunctionCount(long functionCount) {
         this.functionCount = functionCount;
     }
 
-    public int getEventCount() {
+    public long getEventCount() {
         return eventCount;
     }
 
-    public void setEventCount(int eventCount) {
+    public void setEventCount(long eventCount) {
         this.eventCount = eventCount;
     }
 }

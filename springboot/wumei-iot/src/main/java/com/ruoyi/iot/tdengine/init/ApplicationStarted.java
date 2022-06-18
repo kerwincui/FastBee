@@ -70,10 +70,9 @@ public class ApplicationStarted implements ApplicationRunner {
             createDatabase();
             //创建数据库表
             deviceLogMapper.createSTable(dbName);
-            System.out.println("完成超级表的创建");
             LOGGER.info("完成超级表的创建");
         } catch (Exception e) {
-            LOGGER.info("错误",e.getMessage());
+            LOGGER.error("错误",e.getMessage());
             e.printStackTrace();
         }
 

@@ -70,10 +70,10 @@ public interface IDeviceLogService
     public int deleteDeviceLogByLogId(Long logId);
 
     /**
-     * 根据设备ID批量删除设备日志
+     * 根据设备编号批量删除设备日志
      *
-     * @param deviceId 需要删除的设备日志ID
+     * @param deviceNumber 需要删除的设备日志ID
      * @return 结果
      */
-    public int deleteDeviceLogByDeviceId(Long deviceId);
+    public int deleteDeviceLogByDeviceNumber(String deviceNumber);
 }

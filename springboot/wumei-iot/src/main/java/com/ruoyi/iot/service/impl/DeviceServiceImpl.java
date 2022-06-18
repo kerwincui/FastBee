@@ -234,7 +234,7 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setLogValue(input.getThingsModelValueRemarkItem().get(i).getValue());
                     deviceLog.setRemark(input.getThingsModelValueRemarkItem().get(i).getRemark());
                     deviceLog.setIdentity(input.getThingsModelValueRemarkItem().get(i).getId());
-                    deviceLog.setIsMonitor(valueList.get(k).getIsMonitor());
+                    deviceLog.setIsMonitor(valueList.get(k).getIsMonitor()==null ? 0:valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
                     deviceLog.setUserId(deviceThings.getUserId());
                     deviceLog.setUserName(deviceThings.getUserName());
@@ -244,7 +244,6 @@ public class DeviceServiceImpl implements IDeviceService {
                     // 1=影子模式，2=在线模式，3=其他
                     deviceLog.setMode(isShadow?1:2);
                     logService.saveDeviceLog(deviceLog);
-
                     break;
                 }
             }
@@ -885,7 +884,7 @@ public class DeviceServiceImpl implements IDeviceService {
             // 删除定时任务
             deviceJobService.deleteJobByDeviceIds(new Long[]{deviceId});
             // 批量删除设备日志
-            logService.deleteDeviceLogByDeviceId(deviceId);
+            logService.deleteDeviceLogByDeviceNumber(device.getSerialNumber());
             // TODO 删除设备告警记录
 
             // 删除设备

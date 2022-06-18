@@ -49,21 +49,21 @@ public class TdengineLogServiceImpl implements ILogService {
     }
 
     /***
-     * 根据设备ID删除设备日志
-     * @return
-     */
-    @Override
-    public int deleteDeviceLogByDeviceId(Long deviceId) {
-        return tdDeviceLogDAO.deleteDeviceLogByDeviceId(dbName,deviceId);
-    }
-
-    /***
      * 设备属性、功能、事件和监测数据总数
      * @return
      */
     @Override
     public DeviceStatistic selectCategoryLogCount(Device device){
-        return  tdDeviceLogDAO.selectCategoryLogCount(dbName,device);
+        DeviceStatistic statistic=new DeviceStatistic();
+        Long property=tdDeviceLogDAO.selectPropertyLogCount(dbName,device);
+        Long function=tdDeviceLogDAO.selectFunctionLogCount(dbName,device);
+        Long event=tdDeviceLogDAO.selectEventLogCount(dbName,device);
+        Long monitor=tdDeviceLogDAO.selectMonitorLogCount(dbName,device);
+        statistic.setPropertyCount(property==null?0:property);
+        statistic.setFunctionCount(function==null?0:function);
+        statistic.setEventCount(event==null?0:event);
+        statistic.setMonitorCount(monitor==null?0:monitor);
+        return  statistic;
     }
 
     /***
@@ -85,5 +85,14 @@ public class TdengineLogServiceImpl implements ILogService {
             deviceLog.setIdentity("%"+deviceLog.getIdentity()+"%");
         }
         return tdDeviceLogDAO.selectMonitorList(dbName,deviceLog);
+    }
+
+    /***
+     * 根据设备ID删除设备日志
+     * @return
+     */
+    @Override
+    public int deleteDeviceLogByDeviceNumber(String deviceNumber) {
+        return tdDeviceLogDAO.deleteDeviceLogByDeviceNumber(dbName,deviceNumber);
     }
 }
