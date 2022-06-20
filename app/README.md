@@ -1,7 +1,7 @@
 <br />
 
 * 项目可用于个人学习；商业使用请赞助该项目，获得授权；
-* 赞助后还提供了小程序、APP源码和相关教程。[详情](https://wumei.live/doc/pages/sponsor/)
+* 赞助后还提供了小程序、APP源码。[详情](https://wumei.live/doc/pages/sponsor/)
 
 
 #### 移动端介绍
