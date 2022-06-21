@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.iot.mapper.SocialUserMapper">
 
-    <resultMap type="SocialUser" id="SocialUserResult">
+    <resultMap type="com.ruoyi.iot.domain.SocialUser" id="SocialUserResult">
         <result property="socialUserId" column="social_user_id"/>
         <result property="uuid" column="uuid"/>
         <result property="source" column="source"/>
@@ -69,7 +69,7 @@
         from iot_social_user
     </sql>
 
-    <select id="selectSocialUserList" parameterType="SocialUser" resultMap="SocialUserResult">
+    <select id="selectSocialUserList" parameterType="com.ruoyi.iot.domain.SocialUser" resultMap="SocialUserResult">
         <include refid="selectSocialUserVo"/>
         <where>
             <if test="uuid != null  and uuid != ''">and uuid = #{uuid}</if>
@@ -105,7 +105,7 @@
         where social_user_id = #{socialUserId}
     </select>
 
-    <insert id="insertSocialUser" parameterType="SocialUser" useGeneratedKeys="true" keyProperty="socialUserId">
+    <insert id="insertSocialUser" parameterType="com.ruoyi.iot.domain.SocialUser" useGeneratedKeys="true" keyProperty="socialUserId">
         insert into iot_social_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uuid != null and uuid != ''">uuid,</if>
@@ -169,7 +169,7 @@
         </trim>
     </insert>
 
-    <update id="updateSocialUser" parameterType="SocialUser">
+    <update id="updateSocialUser" parameterType="com.ruoyi.iot.domain.SocialUser">
         update iot_social_user
         <trim prefix="SET" suffixOverrides=",">
             <if test="uuid != null and uuid != ''">uuid = #{uuid},</if>

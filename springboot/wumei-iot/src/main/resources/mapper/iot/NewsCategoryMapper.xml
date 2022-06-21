@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.iot.mapper.NewsCategoryMapper">
     
-    <resultMap type="NewsCategory" id="NewsCategoryResult">
+    <resultMap type="com.ruoyi.iot.domain.NewsCategory" id="NewsCategoryResult">
         <result property="categoryId"    column="category_id"    />
         <result property="categoryName"    column="category_name"    />
         <result property="orderNum"    column="order_num"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select category_id, category_name, order_num, del_flag, create_by, create_time, update_by, update_time, remark from news_category
     </sql>
 
-    <select id="selectNewsCategoryList" parameterType="NewsCategory" resultMap="NewsCategoryResult">
+    <select id="selectNewsCategoryList" parameterType="com.ruoyi.iot.domain.NewsCategory" resultMap="NewsCategoryResult">
         <include refid="selectNewsCategoryVo"/>
         <where>  
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where category_id = #{categoryId}
     </select>
         
-    <insert id="insertNewsCategory" parameterType="NewsCategory" useGeneratedKeys="true" keyProperty="categoryId">
+    <insert id="insertNewsCategory" parameterType="com.ruoyi.iot.domain.NewsCategory" useGeneratedKeys="true" keyProperty="categoryId">
         insert into news_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="categoryName != null and categoryName != ''">category_name,</if>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateNewsCategory" parameterType="NewsCategory">
+    <update id="updateNewsCategory" parameterType="com.ruoyi.iot.domain.NewsCategory">
         update news_category
         <trim prefix="SET" suffixOverrides=",">
             <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>

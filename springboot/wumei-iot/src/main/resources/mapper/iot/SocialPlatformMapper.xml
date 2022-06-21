@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.iot.mapper.SocialPlatformMapper">
 
-    <resultMap type="SocialPlatform" id="SocialPlatformResult">
+    <resultMap type="com.ruoyi.iot.domain.SocialPlatform" id="SocialPlatformResult">
         <result property="socialPlatformId" column="social_platform_id"/>
         <result property="platform" column="platform"/>
         <result property="status" column="status"/>
@@ -41,7 +41,7 @@
         from iot_social_platform
     </sql>
 
-    <select id="selectSocialPlatformList" parameterType="SocialPlatform" resultMap="SocialPlatformResult">
+    <select id="selectSocialPlatformList" parameterType="com.ruoyi.iot.domain.SocialPlatform" resultMap="SocialPlatformResult">
         <include refid="selectSocialPlatformVo"/>
         <where>
             <if test="platform != null  and platform != ''">and platform = #{platform}</if>
@@ -67,7 +67,7 @@
         where platform = #{platform}
     </select>
 
-    <insert id="insertSocialPlatform" parameterType="SocialPlatform" useGeneratedKeys="true"
+    <insert id="insertSocialPlatform" parameterType="com.ruoyi.iot.domain.SocialPlatform" useGeneratedKeys="true"
             keyProperty="socialPlatformId">
         insert into iot_social_platform
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -104,7 +104,7 @@
         </trim>
     </insert>
 
-    <update id="updateSocialPlatform" parameterType="SocialPlatform">
+    <update id="updateSocialPlatform" parameterType="com.ruoyi.iot.domain.SocialPlatform">
         update iot_social_platform
         <trim prefix="SET" suffixOverrides=",">
             <if test="platform != null and platform != ''">platform = #{platform},</if>

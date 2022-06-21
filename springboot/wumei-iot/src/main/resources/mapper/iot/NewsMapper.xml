@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.iot.mapper.NewsMapper">
     
-    <resultMap type="News" id="NewsResult">
+    <resultMap type="com.ruoyi.iot.domain.News" id="NewsResult">
         <result property="newsId"    column="news_id"    />
         <result property="title"    column="title"    />
         <result property="content"    column="content"    />
@@ -27,20 +27,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select news_id, title, img_url, is_top, is_banner, category_id, category_name, status, author, del_flag, create_by, create_time, update_by, update_time, remark from news
     </sql>
 
-    <select id="selectNewsList" parameterType="News" resultMap="NewsResult">
-        <include refid="selectNewsVo"/>
-        <where>  
-            <if test="title != null  and title != ''"> and title = #{title}</if>
+    <select id="selectNewsList" parameterType="com.ruoyi.iot.domain.News" resultMap="NewsResult">
+        select news_id, title, img_url, is_top, is_banner, category_id, category_name, status, author,
+               create_by, create_time, update_by, update_time, remark
+        from news s
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
             <if test="isTop != null "> and is_top = #{isTop}</if>
             <if test="isBanner != null "> and is_banner = #{isBanner}</if>
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
-            <if test="categoryId != null"> and category_Id  = #{categoryId})</if>
             <if test="status != null "> and status = #{status}</if>
         </where>
         order by create_time desc
     </select>
 
-    <select id="selectTopNewsList" parameterType="News" resultMap="NewsResult">
+    <select id="selectTopNewsList" parameterType="com.ruoyi.iot.domain.News" resultMap="NewsResult">
         select n.news_id, n.title, n.img_url, n.is_top, n.is_banner, n.category_id, c.category_name, n.status, n.author, n.create_time, n.remark
         from news n left join news_category c on c.category_id=n.category_id
         where n.is_top=1 and n.status=1
@@ -52,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where news_id = #{newsId}
     </select>
         
-    <insert id="insertNews" parameterType="News" useGeneratedKeys="true" keyProperty="newsId">
+    <insert id="insertNews" parameterType="com.ruoyi.iot.domain.News" useGeneratedKeys="true" keyProperty="newsId">
         insert into news
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="title != null and title != ''">title,</if>
@@ -90,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateNews" parameterType="News">
+    <update id="updateNews" parameterType="com.ruoyi.iot.domain.News">
         update news
         <trim prefix="SET" suffixOverrides=",">
             <if test="title != null and title != ''">title = #{title},</if>
