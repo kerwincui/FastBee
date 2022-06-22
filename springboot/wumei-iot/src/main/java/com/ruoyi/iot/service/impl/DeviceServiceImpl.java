@@ -369,9 +369,10 @@ public class DeviceServiceImpl implements IDeviceService {
             JSONObject thingsModelObject = JSONObject.parseObject(thingsModelService.getCacheThingsModelByProductId(deviceList.get(i).getProductId()));
             JSONArray properties = thingsModelObject.getJSONArray("properties");
             JSONArray functions = thingsModelObject.getJSONArray("functions");
-            // 物模型转换为对象中的不同类别集合,isOnlyRead忘了干啥用的，暂时保留吧
+            // 物模型转换为对象中的不同类别集合
             convertJsonToCategoryList(properties, deviceList.get(i), true, false);
             convertJsonToCategoryList(functions, deviceList.get(i), true, false);
+            // 置空物模型，已分配到不同类型中
             deviceList.get(i).setThingsModelValue("");
         }
         return deviceList;
@@ -408,8 +409,15 @@ public class DeviceServiceImpl implements IDeviceService {
             // 获取value
             for (int j = 0; j < thingsValueArray.size(); j++) {
                 if (thingsValueArray.getJSONObject(j).getString("id").equals(thingsModel.getId())) {
-                    thingsModel.setValue(thingsValueArray.getJSONObject(j).getString("value"));
-                    thingsModel.setShadow(thingsValueArray.getJSONObject(j).getString("shadow"));
+                    String value=thingsValueArray.getJSONObject(j).getString("value");
+                    String shadow=thingsValueArray.getJSONObject(j).getString("shadow");
+                    thingsModel.setValue(value);
+                    thingsModel.setShadow(shadow);
+                    // bool 类型默认值为0，解决移动端报错问题
+                    if(thingsModel.getType().equals("bool")){
+                        thingsModel.setValue(value.equals("")?"0":value);
+                        thingsModel.setShadow(shadow.equals("")?"0":shadow);
+                    }
                     break;
                 }
             }
