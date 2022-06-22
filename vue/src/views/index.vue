@@ -360,7 +360,7 @@ import * as echarts from 'echarts';
 require('echarts/theme/macarons') // echarts theme
 import {
     loadBMap
-} from './iot/map.js'
+} from '@/utils/map.js'
 //安装的是echarts完整包，里面包含百度地图扩展，路径为 echarts/extension/bmap/bmap.js，将其引入
 //ECharts的百度地图扩展，可以在百度地图上展现点图，线图，热力图等可视化
 require('echarts/extension/bmap/bmap')
@@ -480,11 +480,15 @@ export default {
             listAllDeviceShort(this.queryParams).then(response => {
                 this.deviceList = response.rows;
                 this.deviceCount = response.total;
-                this.$nextTick(() => {
-                    loadBMap().then(() => {
-                        this.getmap();
-                    });
-                })
+                this.loadMap();
+            })
+        },
+        /**加载地图*/
+        loadMap() {
+            this.$nextTick(() => {
+                loadBMap().then(() => {
+                    this.getmap();
+                });
             })
         },
         /** 查询emqx统计*/

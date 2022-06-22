@@ -33,14 +33,14 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:8080`,
+        target: process.env.VUE_APP_SERVER_API_URL,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
       ['/api/v4']: {
-        target: `http://wumei.live:8081`,
+        target: process.env.VUE_APP_EMQX_API_URL,
         changeOrigin: true,
         // logLevel: 'debug',
       },

@@ -167,7 +167,7 @@ import deviceStatistic from './device-statistic'
 import deviceTimer from './device-timer'
 import {
     loadBMap
-} from '../map.js'
+} from '@/utils/map.js'
 import {
     getDevice,
     addDevice,

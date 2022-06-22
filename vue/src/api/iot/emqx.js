@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const username = 'admin';
-const password = 'public';
+const username = process.env.VUE_APP_EMQX_API_USER_NAME;
+const password = process.env.VUE_APP_EMQX_API_PASSWORD;
 
 // 集群下所有客户端列表
 export function listMqttClient(query) {  
