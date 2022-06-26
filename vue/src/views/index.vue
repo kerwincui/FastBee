@@ -552,6 +552,7 @@ export default {
                             activeTime: data[i].activeTime == null ? '' : data[i].activeTime,
                             deviceId: data[i].deviceId,
                             serialNumber: data[i].serialNumber,
+                            locationWay:data[i].locationWay,
                         });
                     }
                 }
@@ -595,6 +596,16 @@ export default {
                         htmlStr += "产品名称： " + params.data.productName + "<br />";
                         htmlStr += "固件版本： Version " + params.data.firmwareVersion + "<br />";
                         htmlStr += "激活时间： " + params.data.activeTime + "<br />";
+                        htmlStr += "定位方式： ";
+                        if (params.data.locationWay == 1) {
+                            htmlStr += "自动定位" + "<br />";
+                        } else if (params.data.locationWay == 2) {
+                            htmlStr += "设备定位" + "<br />";
+                        } else if (params.data.locationWay == 3) {
+                            htmlStr += "自定义位置" + "<br />";
+                        } else{
+                            htmlStr += "未知" + "<br />";
+                        }
                         htmlStr += "所在地址： " + params.data.networkAddress + "<br />";
                         htmlStr += '</div>';
                         return htmlStr;

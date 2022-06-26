@@ -651,7 +651,7 @@ export default {
             }
             let week = "*";
             if (this.timerWeekValue.length > 0) {
-                week = this.timerWeekValue;
+                week = this.timerWeekValue.sort();
             }
             this.form.cronExpression = "0 " + minute + " " + hour + " ? * " + week;
         },
