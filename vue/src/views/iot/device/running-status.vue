@@ -376,7 +376,7 @@ export default {
             this.mqttPublish(3, this.deviceInfo, model);
             this.openFirmware = false;
         },
-        /** 修改按钮操作 */
+        /** 获取最新固件 */
         getLatestFirmware(deviceId) {
             getLatestFirmware(deviceId).then(response => {
                 this.firmware = response.data;
