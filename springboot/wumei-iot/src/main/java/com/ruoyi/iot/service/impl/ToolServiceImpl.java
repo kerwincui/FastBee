@@ -139,7 +139,7 @@ public class ToolServiceImpl implements IToolService
             SysUser sysUser = new SysUser();
             sysUser.setUserName(username);
             sysUser.setNickName(username);
-            sysUser.setPhonenumber(username);
+            sysUser.setPhonenumber(phonenumber);
             sysUser.setPassword(SecurityUtils.encryptPassword(registerBody.getPassword()));
             boolean regFlag = userService.registerUser(sysUser);
             //分配普通用户角色(1=超级管理员，2=设备租户，3=普通用户，4=游客)
