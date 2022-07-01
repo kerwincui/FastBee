@@ -70,6 +70,39 @@ public class DeviceLog extends BaseEntity
     @Excel(name = "租户名称")
     private String tenantName;
 
+    /** 查询用的开始时间 */
+    private String beginTime;
+
+    /** 查询用的结束时间 */
+    private String endTime;
+
+    /** 查询的总数 */
+    private int total;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public String getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(String beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public Integer getMode() {
         return mode;
     }

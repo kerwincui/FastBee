@@ -38,10 +38,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="1==1"> and device_id = #{deviceId} </if>
             <if test="1==1"> and identity = #{identity} </if>
             <if test="1==1"> and is_monitor=1</if>
-            <if test="params.beginTime != null and params.beginTime != '' and params.endTime != null and params.endTime != ''"> and create_time between #{params.beginTime} and #{params.endTime}</if>
+            <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''"> and create_time between #{beginTime} and #{endTime}</if>
         </where>
         order by create_time desc
-        limit 2000
+        limit #{total}
     </select>
 
     <select id="selectDeviceLogList" parameterType="com.ruoyi.iot.domain.DeviceLog" resultMap="DeviceLogResult">

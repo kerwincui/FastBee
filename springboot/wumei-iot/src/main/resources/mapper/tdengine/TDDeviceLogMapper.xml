@@ -119,9 +119,9 @@
              is_monitor=1
             <if test="device.deviceId!=null"> and device_id = #{device.deviceId} </if>
             <if test="device.identity != null  and device.identity != ''"> and identity like  #{device.identity}</if>
-            <if test="device.params.beginTime != null and device.params.beginTime != '' and device.params.endTime != null and device.params.endTime != ''"> and ts between #{device.params.beginTime} and #{device.params.endTime}</if>
+            <if test="device.beginTime != null and device.beginTime != '' and device.endTime != null and device.endTime != ''"> and ts between #{device.beginTime} and #{device.endTime}</if>
         order by ts desc
-        limit 2000
+        limit #{device.total}
         </where>
     </select>
 
