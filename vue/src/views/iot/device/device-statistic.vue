@@ -1,20 +1,23 @@
 <template>
 <div style="padding-left:20px;">
-    <el-row >
+    <el-row>
         <el-col :span="24">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="">
                 <el-form-item label="时间范围">
                     <el-date-picker v-model="daterangeTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-form-item>
+                <el-form-item label="最大数量">
+                    <el-input v-model="queryParams.total"></el-input>
+                </el-form-item>
                 <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="getStatisticData">查询</el-button>
-            </el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="getStatisticData">查询</el-button>
+                </el-form-item>
             </el-form>
         </el-col>
         <el-col :span="23">
             <div v-for="(item,index) in monitorThings" :key="index" style="margin-bottom:30px;">
                 <el-card shadow="hover" :body-style="{ padding: '10px 0px',overflow:'auto' }" v-loading="loading">
-                    <div ref="statisticMap" style="height:300px;width:1080px;" ></div>
+                    <div ref="statisticMap" style="height:300px;width:1080px;"></div>
                 </el-card>
             </div>
         </el-col>
@@ -51,7 +54,7 @@ export default {
     },
     data() {
         return {
-            loading:false,
+            loading: false,
             // 设备信息
             deviceInfo: {},
             // 监测物模型
@@ -64,13 +67,13 @@ export default {
             queryParams: {
                 deviceId: 0,
                 identity: "",
-                params: {},
+                total: 1000,
             },
         };
     },
     mounted() {
 
-},
+    },
     methods: {
         /** 获取物模型*/
         getCacheThingsModdel(productId) {
@@ -96,8 +99,8 @@ export default {
                 this.queryParams.deviceId = this.deviceInfo.deviceId;
                 this.queryParams.identity = this.monitorThings[i].id;
                 if (null != this.daterangeTime && '' != this.daterangeTime) {
-                    this.queryParams.params['beginTime'] = this.daterangeTime[0];
-                    this.queryParams.params['endTime'] = this.daterangeTime[1];
+                    this.queryParams.beginTime = this.daterangeTime[0];
+                    this.queryParams.endTime = this.daterangeTime[1]+" 23:59";
                 }
                 listMonitor(this.queryParams).then(response => {
                     let data = response.rows;
@@ -119,11 +122,11 @@ export default {
             }
         },
         /**监测统计数据 */
-        getStatistic() {            
+        getStatistic() {
             let color = ['#1890FF', '#91CB74', '#FAC858', '#EE6666', '#73C0DE', '#3CA272', '#FC8452', '#9A60B4', '#ea7ccc'];
             for (let i = 0; i < this.monitorThings.length; i++) {
                 // 设置宽度
-                this.$refs.statisticMap[i].style.width=(document.documentElement.clientWidth-510)+"px";
+                this.$refs.statisticMap[i].style.width = (document.documentElement.clientWidth - 510) + "px";
                 console.log(this.$refs.statisticMap[i]);
 
                 this.chart[i] = echarts.init(this.$refs.statisticMap[i]);
@@ -175,7 +178,7 @@ export default {
                         symbol: 'none',
                         sampling: 'lttb',
                         itemStyle: {
-                            color: i>9? color[0]:color[i]
+                            color: i > 9 ? color[0] : color[i]
                         },
                         areaStyle: {},
                         data: []
