@@ -14,6 +14,7 @@ import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.domain.DeviceLog;
 import com.ruoyi.iot.domain.DeviceUser;
 import com.ruoyi.iot.domain.Product;
+import com.ruoyi.iot.mqtt.EmqxService;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
 import com.ruoyi.iot.mapper.DeviceMapper;
@@ -30,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +80,10 @@ public class DeviceServiceImpl implements IDeviceService {
 
     @Autowired
     private ILogService logService;
+
+    @Autowired
+    @Lazy
+    private EmqxService emqxService;
 
     /**
      * 查询设备
@@ -703,6 +709,11 @@ public class DeviceServiceImpl implements IDeviceService {
             device.setProductName(null);
         }
         deviceMapper.updateDevice(device);
+        // 设备取消禁用
+        if(oldDevice.getStatus()==2 && device.getStatus()==4){
+            // 发布设备信息
+            emqxService.publishInfo(oldDevice.getProductId(),oldDevice.getSerialNumber());
+        }
         return AjaxResult.success("修改成功",1);
     }
 
