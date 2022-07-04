@@ -224,9 +224,13 @@ public class ToolServiceImpl implements IToolService
         }
         String mqttPassword = passwordArray[0];
         String authCode = passwordArray.length == 2 ? passwordArray[1] : "";
-        // 验证用户名和密码
-        if ((!mqttConfig.getusername().equals(mqttModel.getUserName())) || (!mqttConfig.getpassword().equals(mqttPassword))) {
-            return returnUnauthorized(mqttModel, "设备简单认证，mqtt账号和密码与认证服务器配置不匹配");
+        // 验证用户名
+        if (!mqttModel.getUserName().equals(productModel.getMqttAccount())) {
+            return returnUnauthorized(mqttModel, "设备简单认证，设备mqtt用户名错误");
+        }
+        // 验证密码
+        if (!mqttPassword.equals(productModel.getMqttPassword())) {
+            return returnUnauthorized(mqttModel, "设备简单认证，设备mqtt密码错误");
         }
         // 验证授权码
         if (productModel.getIsAuthorize() == 1) {

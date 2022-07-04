@@ -274,7 +274,7 @@ public class EmqxService {
         // 1-未激活，2-禁用，3-在线，4-离线
         if(device.getStatus()==3){
             device.setStatus(4);
-            deviceService.updateDevice(device);
+            deviceService.updateDeviceStatus(device);
             // 发布设备信息
             publishInfo(device.getProductId(),device.getSerialNumber());
         }

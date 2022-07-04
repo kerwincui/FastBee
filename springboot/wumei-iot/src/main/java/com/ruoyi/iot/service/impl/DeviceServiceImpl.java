@@ -533,15 +533,6 @@ public class DeviceServiceImpl implements IDeviceService {
         SysUser user = getLoginUser().getUser();
         device.setNetworkIp(user.getLoginIp());
         setLocation(user.getLoginIp(),device);
-//        if(device.getLongitude()==null || device.getLongitude().equals("")){
-//            device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
-//        }
-//        if(device.getLatitude()==null || device.getLatitude().equals("")){
-//            device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
-//        }
-//        if(device.getNetworkAddress()==null || device.getNetworkAddress().equals("")){
-//            device.setNetworkAddress("中国");
-//        }
 
         deviceMapper.insertDevice(device);
         // 添加设备用户
@@ -781,6 +772,16 @@ public class DeviceServiceImpl implements IDeviceService {
         }
         logService.saveDeviceLog(deviceLog);
         return result;
+    }
+
+    /**
+     *
+     * @param device 设备状态
+     * @return 结果
+     */
+    @Override
+    public int updateDeviceStatus(Device device) {
+        return deviceMapper.updateDeviceStatus(device);
     }
 
     /**

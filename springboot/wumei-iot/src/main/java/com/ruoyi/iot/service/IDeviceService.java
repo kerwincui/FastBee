@@ -141,11 +141,18 @@ public interface IDeviceService
     public AjaxResult updateDevice(Device device);
 
     /**
-     * 更新设备状态
+     * 更新设备状态和定位
      * @param device 设备
      * @return 结果
      */
     public int updateDeviceStatusAndLocation(Device device,String ipAddress);
+
+    /**
+     * 更新设备状态
+     * @param device 设备
+     * @return 结果
+     */
+    public int updateDeviceStatus(Device device);
 
     /**
      * 上报设备信息
