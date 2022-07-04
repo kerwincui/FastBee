@@ -3,7 +3,6 @@
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
             <el-button type="primary" plain icon="el-icon-share" size="mini" @click="selectUser" v-hasPermi="['iot:device:share']">分享设备</el-button>
-            <!-- <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="selectUserShareAllDevice" v-hasPermi="['iot:device:share']">分享所有设备</el-button> -->
         </el-col>
         <el-col :span="1.5">
             <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
@@ -57,9 +56,6 @@ import {
     delDeviceUser,
     updateDeviceUser
 } from "@/api/iot/deviceuser";
-import {
-    listDeviceShort,
-} from "@/api/iot/device";
 
 export default {
     name: "device-user",
@@ -96,8 +92,6 @@ export default {
             single: true,
             // 非多个禁用
             multiple: true,
-            // 显示搜索条件
-            showSearch: true,
             // 总条数
             total: 0,
             // 设备用户表格数据
@@ -234,21 +228,7 @@ export default {
             this.devices = [this.device]
             this.$refs.userList.openSelectUser = true;
         },
-        selectUserShareAllDevice() {
-            this.loading = true;
-            // 获取设备列表
-            // 判断是否是admin角色
-            if (this.$store.state.user.roles.indexOf("admin") === -1) {
-                this.queryParams.userId = this.$store.state.user.userId
-            }
-            listDeviceShort(this.queryParams).then(response => {
-                let deviceList = response.rows;
-                this.devices = deviceList
-                this.loading = false;
-                this.$refs.userList.openSelectUser = true;
-            });
-
-        }
+        
     }
 };
 </script>

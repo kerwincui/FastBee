@@ -52,6 +52,14 @@ export function getDevice(deviceId) {
     })
 }
 
+// 设备数据同步
+export function deviceSynchronization(serialNumber) {
+    return request({
+        url: '/iot/device/synchronization/' + serialNumber,
+        method: 'get'
+    })
+}
+
 // 根据设备编号查询设备详细
 export function getDeviceBySerialNumber(serialNumber) {
     return request({

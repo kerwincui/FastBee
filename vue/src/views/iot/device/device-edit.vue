@@ -127,7 +127,7 @@
         <el-tab-pane name="device04">
             <span slot="label">
                 <el-tooltip class="item" effect="dark" content="用于查看发送的指令，设备是否已经响应" placement="right-start">
-                    <el-button type="success" size="mini" @click="dataSynchronization()" :disabled="form.deviceId==0">数据同步</el-button>
+                    <el-button type="success" size="mini" @click="deviceSynchronization()" :disabled="form.deviceId==0">数据同步</el-button>
                 </el-tooltip>
             </span>
         </el-tab-pane>
@@ -169,6 +169,7 @@ import {
     loadBMap
 } from '@/utils/map.js'
 import {
+    deviceSynchronization,
     getDevice,
     addDevice,
     updateDevice,
@@ -259,8 +260,8 @@ export default {
     },
     methods: {
         /** 数据同步*/
-        dataSynchronization() {
-            getDevice(this.form.deviceId).then(response => {
+        deviceSynchronization() {
+            deviceSynchronization(this.form.serialNumber).then(response => {
                 this.form = response.data;
                 // 选项卡切换
                 this.activeName = 'runningStatus';
@@ -272,7 +273,6 @@ export default {
                     this.imageUrl = this.form.imgUrl;
                 }
                 this.loadMap();
-
             });
         },
         /**获取设备详情*/
