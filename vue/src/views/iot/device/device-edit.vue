@@ -98,7 +98,7 @@
 
         <el-tab-pane name="runningStatus" :disabled="form.deviceId==0">
             <span slot="label">运行状态</span>
-            <running-status ref="runningStatus" :device="form" />
+            <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatus($event)" />
         </el-tab-pane>
 
         <el-tab-pane name="deviceTimer" :disabled="form.deviceId==0">
@@ -198,6 +198,26 @@ export default {
             }
         }
     },
+    computed: {
+        deviceStatus: {
+            set(val) {
+                if (val == 1) {
+                    // 1-未激活，2-禁用，3-在线，4-离线
+                    this.form.status = 2;
+                } else if (val == 0) {
+                    this.form.status = 4;
+                } else {
+                    this.form.status = this.oldDeviceStatus;
+                }
+            },
+            get() {
+                if (this.form.status == 2) {
+                    return 1;
+                }
+                return 0
+            },
+        },
+    },
     data() {
         return {
             // 打开设备配置对话框
@@ -210,8 +230,8 @@ export default {
             activeName: 'basic',
             // 遮罩层
             loading: true,
-            // 设备状态（1=禁用，0=不禁用）
-            deviceStatus: 0,
+            // 设备开始状态
+            oldDeviceStatus: null,
             // 表单参数
             form: {
                 productId: 0,
@@ -259,19 +279,17 @@ export default {
         }, 2000);
     },
     methods: {
+        // 获取子组件订阅的设备状态
+        getDeviceStatus(status) {
+            this.form.status = status;
+        },
         /** 数据同步*/
         deviceSynchronization() {
             deviceSynchronization(this.form.serialNumber).then(response => {
                 this.form = response.data;
                 // 选项卡切换
                 this.activeName = 'runningStatus';
-                // 禁用状态
-                if (this.form.status == 2) {
-                    this.deviceStatus = 1;
-                }
-                if (this.form.imgUrl != null && this.form.imgUrl != "") {
-                    this.imageUrl = this.form.imgUrl;
-                }
+                this.oldDeviceStatus = this.form.status;
                 this.loadMap();
             });
         },
@@ -279,16 +297,10 @@ export default {
         getDevice(deviceId) {
             getDevice(deviceId).then(response => {
                 this.form = response.data;
-                if(this.form.summary!=null && this.form.summary!=""){
-                this.summary = JSON.parse(this.form.summary);
+                if (this.form.summary != null && this.form.summary != "") {
+                    this.summary = JSON.parse(this.form.summary);
                 }
-                // 禁用状态
-                if (this.form.status == 2) {
-                    this.deviceStatus = 1;
-                }
-                if (this.form.imgUrl != null && this.form.imgUrl != "") {
-                    this.imageUrl = this.form.imgUrl;
-                }
+                this.oldDeviceStatus = this.form.status;
                 this.loadMap();
 
             });
@@ -348,20 +360,19 @@ export default {
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     if (this.form.deviceId != 0) {
-                        // 设置设备状态
-                        this.setDeviceStatus();
-                        console.log(this.form);
                         updateDevice(this.form).then(response => {
                             if (response.data == 0) {
                                 this.$modal.alertError(response.msg);
                             } else {
                                 this.$modal.alertSuccess("修改成功");
+                                this.form=JSON.parse(JSON.stringify(this.form));
                                 this.loadMap();
                             }
                         });
                     } else {
                         addDevice(this.form).then(response => {
                             this.form = response.data;
+                            this.oldDeviceStatus = this.from.status;
                             if (this.form.deviceId == null || this.form.deviceId == 0) {
                                 this.$modal.alertError("设备编号已经存在，添加设备失败");
                             } else {
@@ -416,17 +427,6 @@ export default {
             this.mk = new BMap.Marker(point)
             this.map.addOverlay(this.mk)
             this.map.panTo(point)
-        },
-        // 设置设备的状态
-        setDeviceStatus() {
-            if (this.deviceStatus == 1) {
-                this.form.status = 2;
-            } else {
-                // 禁用状态，启用后状态是离线
-                if (this.form.status == 2) {
-                    this.form.status = 4;
-                }
-            }
         },
         // 生成随机字母和数字
         generateNum() {

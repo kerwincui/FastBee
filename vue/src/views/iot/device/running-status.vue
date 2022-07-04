@@ -368,6 +368,7 @@ export default {
                     this.shadowUnEnable = true;
                 }
             }
+            this.$emit('statusEvent', this.deviceInfo.status);
         },
         /** 设备升级 */
         otaUpgrade() {
