@@ -530,16 +530,19 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setTenantName(product.getTenantName());
         device.setImgUrl(product.getImgUrl());
         // 随机经纬度和地址
-        device.setNetworkIp("127.0.0.1");
-        if(device.getLongitude()==null || device.getLongitude().equals("")){
-            device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
-        }
-        if(device.getLatitude()==null || device.getLatitude().equals("")){
-            device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
-        }
-        if(device.getNetworkAddress()==null || device.getNetworkAddress().equals("")){
-            device.setNetworkAddress("中国");
-        }
+        SysUser user = getLoginUser().getUser();
+        device.setNetworkIp(user.getLoginIp());
+        setLocation(user.getLoginIp(),device);
+//        if(device.getLongitude()==null || device.getLongitude().equals("")){
+//            device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
+//        }
+//        if(device.getLatitude()==null || device.getLatitude().equals("")){
+//            device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
+//        }
+//        if(device.getNetworkAddress()==null || device.getNetworkAddress().equals("")){
+//            device.setNetworkAddress("中国");
+//        }
+
         deviceMapper.insertDevice(device);
         // 添加设备用户
         DeviceUser deviceUser = new DeviceUser();
@@ -577,11 +580,13 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setUserId(userId);
         device.setUserName(user.getUserName());
         device.setFirmwareVersion(BigDecimal.valueOf(1.0));
-        device.setStatus(3); // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
+        // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
+        device.setStatus(3);
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
-        device.setLocationWay(1); // 1-自动定位，2-设备定位，3-自定义位置
+        // 1-自动定位，2-设备定位，3-自定义位置
+        device.setLocationWay(1);
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(productId)));
         // 随机位置
@@ -830,8 +835,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    public int reportDevice(Device device) {
-        Device deviceEntity=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+    public int reportDevice(Device device,Device deviceEntity) {
         // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
         if(deviceEntity.getLocationWay()!=2){
             device.setLatitude(null);

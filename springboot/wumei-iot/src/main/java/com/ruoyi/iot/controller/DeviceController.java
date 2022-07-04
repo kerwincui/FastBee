@@ -9,11 +9,13 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.model.DeviceAllShortOutput;
 import com.ruoyi.iot.model.DeviceShortOutput;
+import com.ruoyi.iot.mqtt.EmqxService;
 import com.ruoyi.iot.service.IDeviceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,10 @@ public class DeviceController extends BaseController
 {
     @Autowired
     private IDeviceService deviceService;
+
+    @Lazy
+    @Autowired
+    private EmqxService emqxService;
 
     /**
      * 查询设备列表
@@ -117,6 +123,17 @@ public class DeviceController extends BaseController
     public AjaxResult getInfo(@PathVariable("deviceId") Long deviceId)
     {
         return AjaxResult.success(deviceService.selectDeviceByDeviceId(deviceId));
+    }
+
+    /**
+     * 设备数据同步
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @GetMapping(value = "/synchronization/{serialNumber}")
+    @ApiOperation("设备数据同步")
+    public AjaxResult deviceSynchronization(@PathVariable("serialNumber") String serialNumber)
+    {
+        return AjaxResult.success(emqxService.deviceSynchronization(serialNumber));
     }
 
     /**

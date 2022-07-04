@@ -53,6 +53,7 @@ public class EmqxService {
      * 发布的主题
      */
     String pStatusTopic = "/status/post";
+    String pInfoTopic = "/info/get";
     String pNtpTopic = "/ntp/get";
     String pPropertyTopic = "/property/get";
     String pFunctionTopic = "/function/get";
@@ -127,10 +128,15 @@ public class EmqxService {
      */
     private void reportDevice(Long productId, String deviceNum, String message) {
         try {
+            // 设备实体
+            Device deviceEntity=deviceService.selectDeviceBySerialNumber(deviceNum);
+            // 上报设备信息
             Device device = JSON.parseObject(message, Device.class);
             device.setProductId(productId);
             device.setSerialNumber(deviceNum);
-            deviceService.reportDevice(device);
+            deviceService.reportDevice(device,deviceEntity);
+            // 发布设备状态
+            publishStatus(productId, deviceNum, 3, deviceEntity.getIsShadow());
         } catch (Exception e) {
             logger.error("接收设备信息，解析数据时异常 message={}", e.getMessage());
         }
@@ -216,7 +222,14 @@ public class EmqxService {
     }
 
     /**
-     * 2.发布时钟同步信息
+     * 2.发布设备信息
+     */
+    public void publishInfo(Long productId, String deviceNum) {
+        emqxClient.publish(1, false, "/" + productId + "/" + deviceNum + pInfoTopic, "");
+    }
+
+    /**
+     * 3.发布时钟同步信息
      *
      * @param message
      */
@@ -228,7 +241,7 @@ public class EmqxService {
     }
 
     /**
-     * 3.发布属性
+     * 4.发布属性
      */
     public void publishProperty(Long productId, String deviceNum, List<IdentityAndName> thingsList) {
         if (thingsList == null) {
@@ -239,7 +252,7 @@ public class EmqxService {
     }
 
     /**
-     * 4.发布功能
+     * 5.发布功能
      */
     public void publishFunction(Long productId, String deviceNum, List<IdentityAndName> thingsList) {
         if (thingsList == null) {
@@ -250,5 +263,21 @@ public class EmqxService {
 
     }
 
-
+    /**
+     * 设备数据同步
+     *
+     * @param deviceNumber 设备编号
+     * @return 设备
+     */
+    public Device deviceSynchronization(String deviceNumber) {
+        Device device=deviceService.selectDeviceBySerialNumber(deviceNumber);
+        // 1-未激活，2-禁用，3-在线，4-离线
+        if(device.getStatus()==3){
+            device.setStatus(4);
+            deviceService.updateDevice(device);
+            // 发布设备信息
+            publishInfo(device.getProductId(),device.getSerialNumber());
+        }
+        return device;
+    }
 }

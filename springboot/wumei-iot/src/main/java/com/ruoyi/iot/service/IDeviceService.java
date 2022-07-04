@@ -152,7 +152,7 @@ public interface IDeviceService
      * @param device 设备
      * @return 结果
      */
-    public int reportDevice(Device device);
+    public int reportDevice(Device device,Device deviceentity);
 
     /**
      * 删除设备

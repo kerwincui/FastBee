@@ -203,8 +203,6 @@ public class ToolController extends BaseController {
             } else if (model.getAction().equals("client_connected")) {
                 device.setStatus(3);
                 deviceService.updateDeviceStatusAndLocation(device, model.getIpaddress());
-                // 发布设备状态
-                emqxService.publishStatus(device.getProductId(), device.getSerialNumber(), 3, device.getIsShadow());
                 // 影子模式，发布属性和功能
                 if (device.getIsShadow() == 1) {
                     ThingsModelShadow shadow = deviceService.getDeviceShadowThingsModel(device);
