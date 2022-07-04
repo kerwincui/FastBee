@@ -52,6 +52,7 @@ authCode=""
 
 # 订阅的主题
 prefix = "/" + productId + "/" + deviceNum
+sInfoTopic = prefix + "/info/get"
 sOtaTopic = prefix + "/ota/get"
 sNtpTopic = prefix + "/ntp/get"
 sPropertyTopic = prefix + "/property/get"
@@ -96,7 +97,7 @@ def on_connect(client,userdata,flags,rc):
         printMsg("连接成功")
         # 放在on_connect下可以保证重连重新订阅
         # 订阅(OTA、NTP、属性、功能、实时监测)
-
+        client.subscribe(sInfoTopic, 1)
         client.subscribe(sOtaTopic, 1)
         client.subscribe(sNtpTopic, 1)
         client.subscribe(sPropertyTopic, 1)
@@ -105,6 +106,7 @@ def on_connect(client,userdata,flags,rc):
         client.subscribe(sFunctionOnline, 1)
         client.subscribe(sMonitorTopic, 1)
 
+        printMsg("订阅主题：" + sInfoTopic)
         printMsg("订阅主题：" + sOtaTopic)
         printMsg("订阅主题：" + sNtpTopic)
         printMsg("订阅主题：" + sPropertyTopic)
@@ -166,6 +168,10 @@ def on_message(client,userdata,msg):
         downloadUrl = jsonData["downloadUrl"]
         printMsg("固件版本："+newVersion)
         printMsg("下载地址："+downloadUrl)
+    elif(msg.topic==sInfoTopic):
+        printMsg("订阅到设备信息指令...")
+        # 发布设备信息
+        publishInfo()
     elif(msg.topic==sNtpTopic):
         printMsg("订阅到NTP时间..."); 
         jsonData=json.loads(msg.payload)

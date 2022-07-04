@@ -45,6 +45,7 @@ String ntpServer = "http://wumei.live:8080/iot/tool/ntp?deviceSendTime=";
 
 // 订阅的主题
 String prefix = "/" + productId + "/" + deviceNum;
+String sInfoTopic = prefix + "/info/get";
 String sOtaTopic = prefix + "/ota/get";
 String sNtpTopic = prefix + "/ntp/get";
 String sPropertyTopic = prefix + "/property/get";
@@ -154,6 +155,12 @@ void callback(char *topic, byte *payload, unsigned int length)
     printMsg("固件版本："+newVersion);
     printMsg("下载地址："+downloadUrl);
   }
+  else if (strcmp(topic, sInfoTopic.c_str()) == 0)
+  {
+    printMsg("订阅到设备信息...");
+    // 发布设备信息
+    publishInfo();
+  }
   else if (strcmp(topic, sNtpTopic.c_str()) == 0)
   {
     printMsg("订阅到NTP时间...");
@@ -235,7 +242,8 @@ void connectMqtt()
   if (connectResult)
   {
     printMsg("连接成功");
-    // 订阅(OTA、NTP、属性、功能、实时监测)
+    // 订阅(OTA、NTP、属性、功能、实时监测、信息)
+    mqttClient.subscribe(sInfoTopic.c_str(), 1);
     mqttClient.subscribe(sOtaTopic.c_str(), 1);
     mqttClient.subscribe(sNtpTopic.c_str(), 1);
     mqttClient.subscribe(sPropertyTopic.c_str(), 1);
@@ -243,6 +251,7 @@ void connectMqtt()
     mqttClient.subscribe(sPropertyOnline.c_str(), 1);
     mqttClient.subscribe(sFunctionOnline.c_str(), 1);
     mqttClient.subscribe(sMonitorTopic.c_str(), 1);
+    printMsg("订阅主题：" + sInfoTopic);
     printMsg("订阅主题：" + sOtaTopic);
     printMsg("订阅主题：" + sNtpTopic);
     printMsg("订阅主题：" + sPropertyTopic);
