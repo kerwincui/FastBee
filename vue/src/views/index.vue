@@ -560,7 +560,7 @@ export default {
             };
             option = {
                 title: {
-                    text: '设备分布和状态',
+                    text: '设备分布（在线数 '+this.deviceList.filter(x=>x.status==3).length + '）',
                     subtext: 'wumei-smart open source living iot platform',
                     sublink: 'https://iot.wumei.live',
                     target: "_blank",
