@@ -78,25 +78,6 @@
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 * [TDengine时序数据库](https://www.taosdata.com/?zh)
 
-##### Docker快速安装
-* Mysql中创建wumei-smart数据库，[导入Sql脚本](https://gitee.com/kerwincui/wumei-smart/tree/master/springboot/sql)
-* 修改命令中的Mysql配置，并执行
-```
-docker run \
---name wumei-smart \
---env DB_HOST=localhost:3306 \
---env DB_NAME=wumei-smart \
---env DB_USER=root \
---env DB_PASSWORD=wumei-smart \
---publish 80:80 \
---publish 1883:1883 \
---publish 8083:8083 \
---volume /var/wumei-smart/java/uploadPath:/var/wumei-smart/java/uploadPath \
---restart unless-stopped \
---detach \
-kerwincui/wumei-smart:1.1
-```
-
 
 ### 八、其他
 * 互助交流群：946029159 1073236354
