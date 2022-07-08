@@ -1,12 +1,11 @@
 <template>
-<div style="padding:6px;">
+<el-dialog title="选择设备" :visible.sync="openDeviceList" width="800px" append-to-body>
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
         <el-form-item label="设备名称" prop="deviceName">
             <el-input v-model="queryParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-form-item>
     </el-form>
 
@@ -27,15 +26,19 @@
             </template>
         </el-table-column>
     </el-table>
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
-    <!-- <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" /> -->
-
-</div>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleDeviceSelected">确 定</el-button>
+        <el-button @click="closeSelectDeviceList">取 消</el-button>
+    </div>
+</el-dialog>
 </template>
 
 <script>
 import {
-    getDeviceIds
+    getDeviceIds,
+    updateDeviceGroups
 } from "@/api/iot/group"
 import {
     listDeviceByGroup,
@@ -58,8 +61,8 @@ export default {
             loading: true,
             // 选中数组
             ids: [],
-            // 显示搜索条件
-            showSearch: true,
+            // 是否显示设备列表
+            openDeviceList: false,
             // 总条数
             total: 0,
             // 设备表格数据
@@ -67,8 +70,7 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 500,
-                userId: null,
+                pageSize: 10,
                 deviceName: null,
                 productId: null,
                 productName: null,
@@ -87,11 +89,13 @@ export default {
         // 获取到父组件传递的group后，刷新列表
         group: {
             handler(newVal, oldVal) {
-                this.deviceGroup = newVal;
-                // 获取分组下的设备
-                this.queryParams.userId = this.deviceGroup.userId;
-                this.queryParams.pageNum = 1;
-                this.getDeviceIdsByGroupId();
+                if (newVal.groupId) {
+                    this.deviceGroup = newVal;
+                    // 获取分组下的设备
+                    this.queryParams.userId = this.deviceGroup.userId;
+                    this.queryParams.pageNum = 1;
+                    this.getDeviceIdsByGroupId(this.deviceGroup.groupId);
+                }
             },
             immediate: true
         }
@@ -101,11 +105,9 @@ export default {
     },
     methods: {
         // 获取分组下关联的设备ID数组
-        getDeviceIdsByGroupId() {
-            getDeviceIds(this.deviceGroup.groupId).then(response => {
+        getDeviceIdsByGroupId(groupId) {
+            getDeviceIds(groupId).then(response => {
                 this.ids = response.data;
-                // Id数组传递到父组件
-                this.$emit('idsToParentEvent', this.ids)
                 this.getList();
             });
         },
@@ -143,13 +145,34 @@ export default {
             this.handleQuery();
         },
         // 多选框选中数据
-        handleSelectionChange(selection) {
-            this.ids = selection.map(item => item.deviceId)
+        handleSelectionChange(selection, row) {
             this.single = selection.length !== 1
-            this.multiple = !selection.length
-            // Id数组传递到父组件
-            this.$emit('idsToParentEvent', this.ids)
+            this.multiple = !selection.length;
+
+            // 设备ID是否存在于原始设备ID数组中
+            let index = this.ids.indexOf(row.deviceId);
+            // 是否选中
+            let value = selection.indexOf(row);
+            if (index == -1 && value != -1) {
+                // 不存在且选中
+                this.ids.push(row.deviceId);
+            } else if (index != -1 && value == -1) {
+                // 存在且取消选中
+                this.ids.splice(index, 1);
+            }
         },
+        // 关闭选择设备列表
+        closeSelectDeviceList() {
+            this.openDeviceList = false;
+        },
+        // 更新分组下的设备
+        handleDeviceSelected() {
+            this.group.deviceIds=this.ids;
+            updateDeviceGroups(this.group).then(response => {
+                this.$modal.msgSuccess("更新分组下的设备成功");
+                this.openDeviceList = false;
+            })
+        }
     }
 };
 </script>

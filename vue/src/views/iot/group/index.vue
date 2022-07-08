@@ -39,13 +39,8 @@
         </el-table>
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
-        <el-dialog title="选择设备" :visible.sync="openDeviceList" width="800px" append-to-body>
-            <device-list ref="deviceList" :group="group" @idsToParentEvent="getChildData($event)"></device-list>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="handleDeviceSelected">确 定</el-button>
-                <el-button @click="closeSelectDeviceList">取 消</el-button>
-            </div>
-        </el-dialog>
+        <!-- 分组设备列表 -->
+        <deviceList ref="groupDeviceList" :group="group"></deviceList>
 
         <!-- 添加或修改设备分组对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -78,7 +73,6 @@ import {
     delGroup,
     addGroup,
     updateGroup,
-    updateDeviceGroups
 } from "@/api/iot/group";
 
 export default {
@@ -89,9 +83,9 @@ export default {
     data() {
         return {
             // 是否管理员
-            isAdmin:false,
+            isAdmin: false,
             // 我的分组
-            myGroup:false,
+            myGroup: false,
             // 遮罩层
             loading: true,
             // 选中数组
@@ -110,8 +104,6 @@ export default {
             title: "",
             // 是否显示弹出层
             open: false,
-            // 是否显示设备列表
-            openDeviceList: false,
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -131,11 +123,10 @@ export default {
                     trigger: "blur"
                 }],
                 groupOrder: [{
-                        required: true,
-                        message: "分组排序不能为空,最大值为99",
-                        trigger: "blur"
-                    }
-                ],
+                    required: true,
+                    message: "分组排序不能为空,最大值为99",
+                    trigger: "blur"
+                }],
             }
         };
     },
@@ -150,8 +141,8 @@ export default {
             }
         },
         // 我的分组改变事件
-        myGroupChange(){
-            this.queryParams.userId=this.myGroup?this.$store.state.user.userId:null;
+        myGroupChange() {
+            this.queryParams.userId = this.myGroup ? this.$store.state.user.userId : null;
         },
         /** 查看设备按钮操作 */
         handleViewDevice(groupId) {
@@ -176,10 +167,6 @@ export default {
         cancel() {
             this.open = false;
             this.reset();
-        },
-        // 关闭选择设备列表
-        closeSelectDeviceList() {
-            this.openDeviceList = false;
         },
         // 表单重置
         reset() {
@@ -233,8 +220,8 @@ export default {
         /** 选择设备 */
         selectDevice(row) {
             this.group = row;
-            this.openDeviceList = true;
-            // this.$refs.deviceList.getDeviceIdsByGroupId(row.groupId);
+            // 刷新子组件
+            this.$refs.groupDeviceList.openDeviceList = true;
         },
         /** 提交按钮 */
         submitForm() {
@@ -272,17 +259,6 @@ export default {
                 ...this.queryParams
             }, `group_${new Date().getTime()}.xlsx`)
         },
-        // 获取子组件选中的ID数组
-        getChildData(data) {
-            this.group.deviceIds = data;
-        },
-        // 更新分组下的设备
-        handleDeviceSelected() {
-            updateDeviceGroups(this.group).then(response => {
-                this.$modal.msgSuccess("更新分组下的设备成功");
-                this.openDeviceList = false;
-            })
-        }
     }
 };
 </script>

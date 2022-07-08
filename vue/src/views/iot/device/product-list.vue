@@ -59,7 +59,7 @@ import {
 } from "@/api/iot/product";
 
 export default {
-    name: "Product",
+    name: "ProductList",
     dicts: ['iot_vertificate_method', 'iot_network_method'],
     props: {
         productId: {
