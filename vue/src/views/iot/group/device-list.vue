@@ -9,7 +9,7 @@
         </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="deviceList" @select="handleSelectionChange" ref="multipleTable" size="mini" border>
+    <el-table v-loading="loading" :data="deviceList" @select="handleSelectionChange" @select-all="handleSelectionAll" ref="multipleTable" size="mini" border>
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="设备名称" align="center" prop="deviceName" />
         <el-table-column label="设备编号" align="center" prop="serialNumber" />
@@ -146,9 +146,6 @@ export default {
         },
         // 多选框选中数据
         handleSelectionChange(selection, row) {
-            this.single = selection.length !== 1
-            this.multiple = !selection.length;
-
             // 设备ID是否存在于原始设备ID数组中
             let index = this.ids.indexOf(row.deviceId);
             // 是否选中
@@ -161,13 +158,29 @@ export default {
                 this.ids.splice(index, 1);
             }
         },
+        // 全选事件处理
+        handleSelectionAll(selection) {
+            for (let i = 0; i < this.deviceList.length; i++) {
+                // 设备ID是否存在于原始设备ID数组中
+                let index = this.ids.indexOf(this.deviceList[i].deviceId);
+                // 是否选中
+                let value = selection.indexOf(this.deviceList[i]);
+                if (index == -1 && value != -1) {
+                    // 不存在且选中
+                    this.ids.push(this.deviceList[i].deviceId);
+                } else if (index != -1 && value == -1) {
+                    // 存在且取消选中
+                    this.ids.splice(index, 1);
+                }
+            }
+        },
         // 关闭选择设备列表
         closeSelectDeviceList() {
             this.openDeviceList = false;
         },
         // 更新分组下的设备
         handleDeviceSelected() {
-            this.group.deviceIds=this.ids;
+            this.group.deviceIds = this.ids;
             updateDeviceGroups(this.group).then(response => {
                 this.$modal.msgSuccess("更新分组下的设备成功");
                 this.openDeviceList = false;
