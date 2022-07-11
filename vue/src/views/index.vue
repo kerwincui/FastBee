@@ -10,7 +10,7 @@
                 </div>
                 <div style="display:table;">
                     <div style="width:70px;font-weight: bold;display:table-cell;">企业用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为2000元，项目不断完善后会对应增加费用。</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为2500元，项目不断完善后会对应增加费用。</div>
                 </div>
             </el-card>
         </el-col>
