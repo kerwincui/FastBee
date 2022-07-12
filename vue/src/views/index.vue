@@ -1,51 +1,5 @@
 <template>
 <div class="app-container home">
-    <el-row :gutter="40" style="margin-bottom:10px;">
-        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;background-color:#fafafa;">
-                <div style="font-size:16px;font-weight:bold;margin-bottom:18px;">物美智能生活物联网平台</div>
-                <div style="display:table;margin-bottom:10px;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;">个人用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
-                </div>
-                <div style="display:table;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;">企业用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，通过赞助方式获取企业授权。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为2500元，项目不断完善后会对应增加费用。</div>
-                </div>
-            </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card shadow="hover" style="margin:-10px;margin-bottom:20px;font-size:14px;min-height:170px;background-color:#fafafa;">
-                <div style="float:left;width:170px;">
-                    <el-image style="width:154px;" :src="require('@/assets/images/code.jpg')"></el-image>
-                </div>
-                <div style="float:left;">
-                    <div style="font-size:16px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
-                    <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
-                        <div style="display:table-cell;">
-                            <el-link target="_blank" href="https://wumei.live/">www.wumei.live</el-link>
-                        </div>
-                    </div>
-                    <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
-                        <div style="display:table-cell;">
-                            <span>QQ 164770707</span>
-                        </div>
-                    </div>
-                    <div style="display:table;margin-bottom:15px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">系统源码</div>
-                        <div style="display:table-cell;">
-                            <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
-                            <el-link target="_blank" href="https://github.com/kerwincui/wumei-smart" style="margin-left:20px;">Github源码</el-link>
-                        </div>
-                    </div>
-                </div>
-
-            </el-card>
-        </el-col>
-    </el-row>
-
     <el-row :gutter="40" style="margin-bottom:100px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#eee;">
@@ -324,6 +278,65 @@
         </el-col>
     </el-row>
 
+    <el-row :gutter="40" style="background-color:#fafafa;padding:60px 0;margin:-10px;margin-top:50px;">
+        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
+            <el-card shadow="hover" style="padding:20px 0;margin-bottom:20px;font-size:14px;">
+            <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
+                <div style="display:table;font-size:14px;margin-bottom:10px;">
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途</b></div>
+                </div>
+                <div style="display:table;margin-bottom:10px;">
+                    <div style="width:70px;font-weight: bold;display:table-cell;">普通用户：</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
+                </div>
+                <div style="display:table;">
+                    <div style="width:70px;font-weight: bold;display:table-cell;">赞助用户：</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为2500元，项目不断完善后会对应增加费用。</div>
+                </div>
+            </el-card>
+            <el-card shadow="hover" style="padding:20px 0;margin-bottom:40px;font-size:14px;">
+                <div style="float:left;width:230px;">
+                    <el-image style="width:210px;" :src="require('@/assets/images/code.jpg')"></el-image>
+                </div>
+                <div style="float:left;">
+                    <div style="font-size:18px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
+                    <div style="font-size:14px;font-weight:bold;margin:16px 0;color:#F56C6C">右侧查看H5端演示 >>> </div>
+                    <div style="display:table;margin-bottom:10px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
+                        <div style="display:table-cell;">
+                            <el-link target="_blank" href="https://wumei.live/">www.wumei.live</el-link>
+                        </div>
+                    </div>
+                    <div style="display:table;margin-bottom:10px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">在线文档</div>
+                        <div style="display:table-cell;">
+                            <el-link target="_blank" href="https://wumei.live/doc">www.wumei.live/doc</el-link>
+                        </div>
+                    </div>
+                    <div style="display:table;margin-bottom:10px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
+                        <div style="display:table-cell;">
+                            <span>QQ 164770707</span>
+                        </div>
+                    </div>
+                    <div style="display:table;margin-bottom:15px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">系统源码</div>
+                        <div style="display:table-cell;">
+                            <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
+                            <el-link target="_blank" href="https://github.com/kerwincui/wumei-smart" style="margin-left:20px;">Github源码</el-link>
+                        </div>
+                    </div>
+                </div>
+
+            </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+            <div class="phone">
+                <iframe src="https://wumei.live/h5" id="iframe" frameborder="0" scrolling="auto" height="100%" width="100%" class="phone-container"></iframe>
+            </div>
+        </el-col>
+    </el-row>
+
     <!--通知公告详情 -->
     <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px" append-to-body>
         <div style="margin-top:-20px;margin-bottom:10px;">
@@ -444,6 +457,11 @@ export default {
                 this.statisticMqtt();
             }
         },
+        //刷新iframe
+        flushIframe() {
+            var iframe = window.parent.document.getElementById('iframe');
+            iframe.contentWindow.location.reload(true);
+        },
         /** 查询设备统计信息 */
         getDeviceStatistic() {
             getDeviceStatistic().then(response => {
@@ -552,7 +570,7 @@ export default {
                             activeTime: data[i].activeTime == null ? '' : data[i].activeTime,
                             deviceId: data[i].deviceId,
                             serialNumber: data[i].serialNumber,
-                            locationWay:data[i].locationWay,
+                            locationWay: data[i].locationWay,
                         });
                     }
                 }
@@ -560,7 +578,7 @@ export default {
             };
             option = {
                 title: {
-                    text: '设备分布（在线数 '+this.deviceList.filter(x=>x.status==3).length + '）',
+                    text: '设备分布（在线数 ' + this.deviceList.filter(x => x.status == 3).length + '）',
                     subtext: 'wumei-smart open source living iot platform',
                     sublink: 'https://iot.wumei.live',
                     target: "_blank",
@@ -603,7 +621,7 @@ export default {
                             htmlStr += "设备定位" + "<br />";
                         } else if (params.data.locationWay == 3) {
                             htmlStr += "自定义位置" + "<br />";
-                        } else{
+                        } else {
                             htmlStr += "未知" + "<br />";
                         }
                         htmlStr += "所在地址： " + params.data.networkAddress + "<br />";
@@ -978,6 +996,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.phone {
+    height: 729px;
+    width: 370px;
+    background-image: url("../assets/images/phone.png");
+    background-size: cover;
+    margin: 0 auto;
+}
+
+.phone-container {
+    height: 618px;
+    width: 343px;
+    position: relative;
+    top: 46px;
+    left: 12px;
+    background-color:#fff;
+}
+
 .content {
     line-height: 24px;
     padding: 10px;
