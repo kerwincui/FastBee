@@ -2,176 +2,160 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-#define DEBUG
-
-#ifdef DEBUG
-  //以下三个定义为调试定义
-  #define DebugBegin(baud_rate)    Serial.begin(baud_rate)
-  #define DebugPrintln(message)    Serial.println(message)
-  #define DebugPrint(message)    Serial.print(message)
-#else
-  //以下三个定义为调试定义
-  #define DebugBegin(baud_rate)
-  #define DebugPrintln(message)
-  #define DebugPrint(message)
-#endif  
-
-const char* ap_ssid = "esp_webconfig";
-const char* ap_password = "";//开放式网络
+const char *ap_ssid = "wumei_smart";
+const char *ap_password = ""; //开放式网络
 
 char sta_ssid[32] = {0};
 char sta_password[64] = {0};
+char sta_user_name[64] = {0};
 
-const char* webpage_html = "\
-<!DOCTYPE html>\r\n\
-<html lang='en'>\r\n\
-<head>\r\n\
-  <meta charset='UTF-8'>\r\n\
-  <title>Document</title>\r\n\
-</head>\r\n\
-<body>\r\n\
-  <form name='input' action='/' method='POST'>\r\n\
-        wifi名称: <br>\r\n\
-        <input type='text' name='ssid'><br>\r\n\
-        wifi密码:<br>\r\n\
-        <input type='text' name='password'><br>\r\n\
-        <input type='submit' value='保存'>\r\n\
-    </form>\r\n\
-</body>\r\n\
-</html>\r\n\
-";
-
-IPAddress local_IP(192,168,4,1);
-IPAddress gateway(192,168,4,1);
-IPAddress subnet(255,255,255,0);
+IPAddress local_IP(192, 168, 4, 1);
+IPAddress gateway(192, 168, 4, 1);
+IPAddress subnet(255, 255, 255, 0);
 
 void initApConfig();
 void initWebServer();
-void connectToWifi();
-void handleRootPost();
-void handleRoot();
+void handleGet();
+void handlePost();
 void handleNotFound();
 
 ESP8266WebServer server(80);
 
-void setup(void) {
-  DebugBegin(115200);
-  DebugPrintln("");
-  DebugPrint("connect ap: ");
-  DebugPrintln(ap_ssid);
-
+void setup(void)
+{
+  //打开串行端口：
+  Serial.begin(115200); 
+  // AP模式
   initApConfig();
-
-  DebugPrint("IP address: ");
-  DebugPrintln(WiFi.softAPIP());
-
+  // web服务
   initWebServer();
-
-  DebugPrintln("HTTP server started");
-
-  Serial.printf("Ready! Open http://%s in your browser\n",
-  WiFi.softAPIP().toString().c_str());
 }
 
-void loop(void) {
+void loop(void)
+{
+  // Web服务端
   server.handleClient();
 }
 
 /**
- * 初始化AP配置
+ * AP模式
  */
-void initApConfig(){
-  WiFi.mode(WIFI_AP);
+void initApConfig()
+{
+  WiFi.mode(WIFI_AP_STA);
   WiFi.softAPConfig(local_IP, gateway, subnet);
   WiFi.softAP(ap_ssid, ap_password);
+  printMsg("已启动AP配网，IP地址：" + WiFi.softAPIP().toString());
 }
 
 /**
  * 初始化webserver配置
  */
-void initWebServer(){
-  server.on("/", HTTP_GET, handleRoot);
-  server.on("/", HTTP_POST, handleRootPost);
+void initWebServer()
+{
+  server.on("/", HTTP_GET, handleGet);
+  server.on("/", HTTP_POST, handlePost);
   server.onNotFound(handleNotFound);
   server.enableCORS(true);
-  server.begin();  
+  server.begin();
+  printMsg("HTTP服务已启动");
 }
 
 /**
- * 连接到WiFi
+ * 处理配网状态请求
  */
-void connectToWifi(){
-  DebugPrintln("connectToWifi");
-  WiFi.disconnect();
-  WiFi.mode(WIFI_STA);
+void handleGet()
+{
+  printMsg("获取网络状态");
+  if (server.hasArg("deviceNum"))
+  {
+    printMsg("收到设备编号：" + server.arg("deviceNum"));
+  }
+  printMsg("连接WIFI");
   WiFi.begin(sta_ssid, sta_password);
-
   int cnt = 0;
-  while (WiFi.status() != WL_CONNECTED) {
-          delay(500);
-          cnt++;
-          Serial.print(".");
-          if(cnt>=40){
-            cnt = 0;
-            //重启系统
-            DebugPrintln("\r\nRestart now!");
-            ESP.restart();
-          }
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    cnt++;
+    Serial.print(".");
+    if (cnt >= 30)
+    {
+      printMsg("设备连接WIFI超时，进入到AP配网模式!");
+      server.send(500, "text/plain;charset=utf-8", "设备连接WIFI超时，配网失败");
+      initApConfig();
+      break;
+    }
   }
-  DebugPrintln("connectToWifi Success!");
+  if(WiFi.status() == WL_CONNECTED){
+    server.send(200, "text/plain;charset=utf-8", "设备已连接WIFI，配网成功");
+    server.close();
+    WiFi.softAPdisconnect(false);
+    printMsg("Http服务和热点已关闭，设备已连接WIFI，配网成功");
+  }
 }
 
 /**
- * 处理web post请求
+ * 处理配网Post请求
  */
-void handleRootPost() {
-  DebugPrintln("handleRootPost");
-  if (server.hasArg("ssid")) {
-    DebugPrint("got ssid:");
-    strcpy(sta_ssid, server.arg("ssid").c_str());
-    DebugPrintln(sta_ssid);
-  } else {
-    DebugPrintln("error, not found ssid");
-    server.send(200, "text/plain", "error, not found ssid");
-    return;
-  }
-
-  if (server.hasArg("password")) {
-    DebugPrint("got password:");
+void handlePost()
+{
+  printMsg("进入配网......");
+  // wifi名称、wifi密码、用户名
+  if (server.hasArg("SSID") && server.hasArg("password") && server.hasArg("userName"))
+  {
+    strcpy(sta_ssid, server.arg("SSID").c_str());
     strcpy(sta_password, server.arg("password").c_str());
-    DebugPrintln(sta_password);
-  } else {
-    DebugPrintln("error, not found password");
-    server.send(200, "text/plain", "error, not found password");
+    strcpy(sta_user_name, server.arg("userName").c_str());
+    printMsg("收到WIFI名称：" + (String)sta_ssid);
+    printMsg("收到WIFI密码：" + (String)sta_password);
+    printMsg("收到用户名称：" + (String)sta_user_name);
+  }
+  else
+  {
+    printMsg("配网必须传递用户名、WIFI名称和WIFI密码,配网失败");
+    server.send(500, "text/plain;charset=utf-8", "配网必须传递用户名、WIFI名称和WIFI密码，配网失败");
     return;
   }
-
-  server.send(200, "text/plain", "保存成功");
-  delay(2000);
-  //连接wifi
-  connectToWifi();
+  // 可选字段
+  if (server.hasArg("deviceNum"))
+  {
+    printMsg("收到设备编号：" + server.arg("deviceNum"));
+  }
+  if (server.hasArg("deviceName"))
+  {
+    printMsg("收到设备名称：" + server.arg("deviceName"));
+  }
+  if (server.hasArg("extra"))
+  {
+    printMsg("收到补充信息：" + server.arg("extra"));
+  }
+  
+  server.send(200, "text/plain;charset=utf-8", "设备已完成配置，连接Wifi中...");
 }
 
-/**
- * 处理web get请求
- */
-void handleRoot() {
-  DebugPrintln("handleRoot");
-  server.send(200, "text/html", webpage_html);
-}
-
-void handleNotFound() {
+void handleNotFound()
+{
+  printMsg("进入预检请求或请求地址找不到");
   if (server.method() == HTTP_OPTIONS)
-    {
-        server.sendHeader("Access-Control-Max-Age", "10000");
-        server.sendHeader("Access-Control-Allow-Methods", "PUT,POST,GET,OPTIONS");
-        server.sendHeader("Access-Control-Allow-Headers", "*");
-        server.send(204);
-    }
-    else
-    {
-        server.send(404, "text/plain", "");
-    }
-  String message = "File Not Found\n\n";
-  server.send(404, "text/plain", message);
+  {
+    // 处理浏览器跨域问题
+    server.sendHeader("Access-Control-Max-Age", "10000");
+    server.sendHeader("Access-Control-Allow-Methods", "PUT,POST,GET,OPTIONS");
+    server.sendHeader("Access-Control-Allow-Headers", "*");
+    server.send(204);
+  }
+  else
+  {
+    server.send(404, "text/plain;charset=utf-8", "请求的地址找不到或无法访问");
+  }
+}
+
+//打印提示信息
+void printMsg(String msg)
+{
+  Serial.print("\r\n[");
+  Serial.print(millis());
+  Serial.print("ms]");
+  Serial.print(msg);
 }
