@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-const char *ap_ssid = "wumei_smart";
+const char *ap_ssid = "wumei-device6";
 const char *ap_password = ""; //开放式网络
 
 char sta_ssid[32] = {0};
@@ -15,8 +15,8 @@ IPAddress subnet(255, 255, 255, 0);
 
 void initApConfig();
 void initWebServer();
-void handleGet();
-void handlePost();
+void handleConfig();
+void handleStatus();
 void handleNotFound();
 
 ESP8266WebServer server(80);
@@ -53,8 +53,8 @@ void initApConfig()
  */
 void initWebServer()
 {
-  server.on("/", HTTP_GET, handleGet);
-  server.on("/", HTTP_POST, handlePost);
+  server.on("/status", HTTP_GET, handleStatus);
+  server.on("/config", HTTP_POST, handleConfig);
   server.onNotFound(handleNotFound);
   server.enableCORS(true);
   server.begin();
@@ -62,15 +62,10 @@ void initWebServer()
 }
 
 /**
- * 处理配网状态请求
+ * 连接WIFI
  */
-void handleGet()
+void connectWifi()
 {
-  printMsg("获取网络状态");
-  if (server.hasArg("deviceNum"))
-  {
-    printMsg("收到设备编号：" + server.arg("deviceNum"));
-  }
   printMsg("连接WIFI");
   WiFi.begin(sta_ssid, sta_password);
   int cnt = 0;
@@ -81,24 +76,26 @@ void handleGet()
     Serial.print(".");
     if (cnt >= 30)
     {
-      printMsg("设备连接WIFI超时，进入到AP配网模式!");
-      server.send(500, "text/plain;charset=utf-8", "设备连接WIFI超时，配网失败");
-      initApConfig();
-      break;
+      printMsg("设备连接WIFI超时，请重新配网");
+      return;
     }
   }
-  if(WiFi.status() == WL_CONNECTED){
-    server.send(200, "text/plain;charset=utf-8", "设备已连接WIFI，配网成功");
-    server.close();
-    WiFi.softAPdisconnect(false);
-    printMsg("Http服务和热点已关闭，设备已连接WIFI，配网成功");
-  }
+  server.close();
+  WiFi.softAPdisconnect(false);
+  printMsg("Http服务和热点已关闭，设备已连接WIFI");
 }
 
 /**
- * 处理配网Post请求
+ * 检测设备状态
  */
-void handlePost()
+ void handleStatus(){
+   server.send(200, "text/plain;charset=utf-8", "AP配网已准备就绪");
+ }
+ 
+/**
+ * 配网：下发配置信息
+ */
+void handleConfig()
 {
   printMsg("进入配网......");
   // wifi名称、wifi密码、用户名
@@ -122,16 +119,14 @@ void handlePost()
   {
     printMsg("收到设备编号：" + server.arg("deviceNum"));
   }
-  if (server.hasArg("deviceName"))
-  {
-    printMsg("收到设备名称：" + server.arg("deviceName"));
-  }
   if (server.hasArg("extra"))
   {
     printMsg("收到补充信息：" + server.arg("extra"));
   }
+  // TODO 可增加设备连接WIFI测试
   
-  server.send(200, "text/plain;charset=utf-8", "设备已完成配置，连接Wifi中...");
+  server.send(200, "text/plain;charset=utf-8", "设备已更新WIFI配置，开始连接WIFI...");
+  connectWifi();
 }
 
 void handleNotFound()
