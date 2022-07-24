@@ -2,7 +2,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-const char *ap_ssid = "wumei-device6";
+String randomName="wumei-device"+(String)random(1000);
+const char *ap_ssid =randomName.c_str();
 const char *ap_password = ""; //开放式网络
 
 char sta_ssid[32] = {0};
@@ -24,7 +25,7 @@ ESP8266WebServer server(80);
 void setup(void)
 {
   //打开串行端口：
-  Serial.begin(115200); 
+  Serial.begin(115200);
   // AP模式
   initApConfig();
   // web服务
@@ -45,7 +46,7 @@ void initApConfig()
   WiFi.mode(WIFI_AP_STA);
   WiFi.softAPConfig(local_IP, gateway, subnet);
   WiFi.softAP(ap_ssid, ap_password);
-  printMsg("已启动AP配网，IP地址：" + WiFi.softAPIP().toString());
+  printMsg("已启动AP配网，IP地址：" + WiFi.softAPIP().toString()+"， 热点名称："+(String)ap_ssid);
 }
 
 /**
