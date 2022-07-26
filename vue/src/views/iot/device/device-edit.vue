@@ -139,16 +139,25 @@
     </el-tabs>
 
     <!-- 设备配置JSON -->
-    <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="600px" append-to-body>
-        <div style="border:1px solid #ccc;margin-top:-15px;height:400px; overflow:scroll;">
-            <json-viewer :value="summary" :expand-depth=10 copyable>
-                <template v-slot:copy>
-                    复制
-                </template>
-            </json-viewer>
-        </div>
+    <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="700px" append-to-body>
+        <el-row :gutter="20">
+            <el-col :span="14">
+                <div style="border:1px solid #ccc;margin-top:-15px;height:350px;width:360px; overflow:scroll;">
+                    <json-viewer :value="summary" :expand-depth=10 copyable>
+                        <template v-slot:copy>
+                            复制
+                        </template>
+                    </json-viewer>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div style="border:1px solid #ccc;width:200px;text-align: center;margin-left:20px;margin-top:-10px;">
+                    <vue-qr :text="qrText" :size="200" ></vue-qr>
+                    <div style="padding-bottom:10px;">设备二维码</div>
+                </div>
+            </el-col>
+        </el-row>
         <div slot="footer" class="dialog-footer">
-
             <el-button type="info" @click="closeSummaryDialog">关 闭</el-button>
         </div>
     </el-dialog>
@@ -165,6 +174,7 @@ import deviceUser from './device-user';
 import runningStatus from './running-status';
 import deviceStatistic from './device-statistic'
 import deviceTimer from './device-timer'
+import vueQr from 'vue-qr'
 import {
     loadBMap
 } from '@/utils/map.js'
@@ -187,6 +197,7 @@ export default {
         productList,
         deviceTimer,
         JsonViewer,
+        vueQr
     },
     watch: {
         activeName(val) {
@@ -220,6 +231,8 @@ export default {
     },
     data() {
         return {
+            // 二维码内容
+            qrText:'wumei-smart',
             // 打开设备配置对话框
             openSummary: false,
             // 是否加载完成
@@ -365,7 +378,7 @@ export default {
                                 this.$modal.alertError(response.msg);
                             } else {
                                 this.$modal.alertSuccess("修改成功");
-                                this.form=JSON.parse(JSON.stringify(this.form));
+                                this.form = JSON.parse(JSON.stringify(this.form));
                                 this.loadMap();
                             }
                         });
@@ -403,6 +416,13 @@ export default {
         },
         /**关闭物模型 */
         openSummaryDialog() {
+            let json={
+                type:1,// 1=扫码关联设备
+                deviceNumber:this.form.serialNumber,
+                productId:this.form.productId,
+                productName:this.form.productName,
+            };
+            this.qrText=JSON.stringify(json);
             this.openSummary = true;
         },
         /**关闭物模型 */
