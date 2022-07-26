@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '物美智能-物联网平台',
+      title: '物美智能系统',
       logo: logoImg
     }
   }
