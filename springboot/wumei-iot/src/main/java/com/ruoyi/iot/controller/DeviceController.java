@@ -8,6 +8,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.model.DeviceAllShortOutput;
+import com.ruoyi.iot.model.DeviceRelateUserInput;
 import com.ruoyi.iot.model.DeviceShortOutput;
 import com.ruoyi.iot.mqtt.EmqxService;
 import com.ruoyi.iot.service.IDeviceService;
@@ -173,7 +174,7 @@ public class DeviceController extends BaseController
      * 新增设备
      */
     @PreAuthorize("@ss.hasPermi('iot:device:add')")
-    @Log(title = "设备", businessType = BusinessType.INSERT)
+    @Log(title = "添加设备", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("添加设备")
     public AjaxResult add(@RequestBody Device device)
@@ -182,10 +183,28 @@ public class DeviceController extends BaseController
     }
 
     /**
+     * 设备关联用户
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @Log(title = "设备关联用户", businessType = BusinessType.UPDATE)
+    @PostMapping("/relateUser")
+    @ApiOperation("设备关联用户")
+    public AjaxResult relateUser(@RequestBody DeviceRelateUserInput deviceRelateUserInput)
+    {
+        if(deviceRelateUserInput.getUserId()==0 || deviceRelateUserInput.getUserId()==null){
+            return AjaxResult.error("用户ID不能为空");
+        }
+        if(deviceRelateUserInput.getDeviceNumberAndProductIds()==null || deviceRelateUserInput.getDeviceNumberAndProductIds().size()==0){
+            return AjaxResult.error("设备编号和产品ID不能为空");
+        }
+        return deviceService.deviceRelateUser(deviceRelateUserInput);
+    }
+
+    /**
      * 修改设备
      */
     @PreAuthorize("@ss.hasPermi('iot:device:edit')")
-    @Log(title = "设备", businessType = BusinessType.UPDATE)
+    @Log(title = "修改设备", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改设备")
     public AjaxResult edit(@RequestBody Device device)
@@ -197,9 +216,9 @@ public class DeviceController extends BaseController
      * 重置设备状态
      */
     @PreAuthorize("@ss.hasPermi('iot:device:edit')")
-    @Log(title = "设备", businessType = BusinessType.UPDATE)
+    @Log(title = "重置设备状态", businessType = BusinessType.UPDATE)
     @PutMapping("/reset/{serialNumber}")
-    @ApiOperation("重置设备设备")
+    @ApiOperation("重置设备状态")
     public AjaxResult resetDeviceStatus(@PathVariable String serialNumber)
     {
         Device device=new Device();
@@ -211,13 +230,16 @@ public class DeviceController extends BaseController
      * 删除设备
      */
     @PreAuthorize("@ss.hasPermi('iot:device:remove')")
-    @Log(title = "设备", businessType = BusinessType.DELETE)
+    @Log(title = "删除设备", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{deviceIds}")
     @ApiOperation("批量删除设备")
     public AjaxResult remove(@PathVariable Long[] deviceIds) throws SchedulerException {
         return toAjax(deviceService.deleteDeviceByDeviceId(deviceIds[0]));
     }
 
+    /**
+     * 生成设备编号
+     */
     @PreAuthorize("@ss.hasPermi('iot:device:edit')")
     @GetMapping("/generator")
     @ApiOperation("生成设备编号")

@@ -119,6 +119,14 @@ public interface IDeviceService
     public Device insertDevice(Device device);
 
     /**
+     * 设备关联用户
+     *
+     * @param deviceRelateUserInput 设备
+     * @return 结果
+     */
+    public AjaxResult deviceRelateUser(DeviceRelateUserInput deviceRelateUserInput);
+
+    /**
      * 设备认证后自动添加设备
      *
      * @return 结果

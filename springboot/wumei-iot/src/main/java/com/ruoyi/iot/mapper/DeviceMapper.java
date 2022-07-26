@@ -40,6 +40,15 @@ public interface DeviceMapper
      */
     public Device selectDeviceBySerialNumber(String serialNumber);
 
+
+    /**
+     * 根据设备编号查询设备数量
+     *
+     * @param serialNumber 设备主键
+     * @return 设备
+     */
+    public int selectDeviceCountBySerialNumber(String serialNumber);
+
     /**
      * 根据设备编号查询简介设备
      *

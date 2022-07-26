@@ -50,10 +50,10 @@ public interface DeviceUserMapper
     /**
      * 删除设备用户
      * 
-     * @param UserIdAndDeviceIdModel 用户ID和设备ID
+     * @param UserIdDeviceIdModel 用户ID和设备ID
      * @return 结果
      */
-    public int deleteDeviceUserByDeviceId(UserIdDeviceIdModel userDeviceGroupIdModel);
+    public int deleteDeviceUserByDeviceId(UserIdDeviceIdModel UserIdDeviceIdModel);
 
     /**
      * 批量删除设备用户
@@ -78,5 +78,9 @@ public interface DeviceUserMapper
      */
     public DeviceUser selectDeviceUserByDeviceIdAndUserId(@Param("deviceId") Long deviceId, @Param("userId") Long userId);
 
+    /**
+     * 根据deviceId 和 userId 删除设备用户，不包含设备所有者
+     */
     public int deleteDeviceUser(DeviceUser deviceUser);
+
 }

@@ -103,27 +103,27 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public DeviceStatistic selectDeviceStatistic() {
-        Device device=new Device();
+        Device device = new Device();
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
             }
         }
         // 获取设备、产品和告警数量
-        DeviceStatistic statistic=deviceMapper.selectDeviceProductAlertCount(device);
-        if(statistic==null){
-            statistic=new DeviceStatistic();
+        DeviceStatistic statistic = deviceMapper.selectDeviceProductAlertCount(device);
+        if (statistic == null) {
+            statistic = new DeviceStatistic();
             return statistic;
         }
         // 获取属性、功能和事件
-        DeviceStatistic thingsCount=logService.selectCategoryLogCount(device);
-        if(thingsCount==null){
+        DeviceStatistic thingsCount = logService.selectCategoryLogCount(device);
+        if (thingsCount == null) {
             return statistic;
         }
         // 组合属性、功能、事件和监测数据
@@ -196,15 +196,15 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int reportDeviceThingsModelValue(ThingsModelValuesInput input, int type,boolean isShadow) {
+    public int reportDeviceThingsModelValue(ThingsModelValuesInput input, int type, boolean isShadow) {
         // 查询物模型
         String thingsModels = thingsModelService.getCacheThingsModelByProductId(input.getProductId());
         JSONObject thingsModelObject = JSONObject.parseObject(thingsModels);
-        List<ThingsModelValueItemDto> valueList =null;
-        if(type==1){
+        List<ThingsModelValueItemDto> valueList = null;
+        if (type == 1) {
             JSONArray properties = thingsModelObject.getJSONArray("properties");
             valueList = properties.toJavaList(ThingsModelValueItemDto.class);
-        }else if(type==2){
+        } else if (type == 2) {
             JSONArray functions = thingsModelObject.getJSONArray("functions");
             valueList = functions.toJavaList(ThingsModelValueItemDto.class);
         }
@@ -213,12 +213,12 @@ public class DeviceServiceImpl implements IDeviceService {
         ThingsModelValuesOutput deviceThings = deviceMapper.selectDeviceThingsModelValueBySerialNumber(input.getDeviceNumber());
         List<ThingsModelValueItem> thingsModelValues = JSONObject.parseArray(deviceThings.getThingsModelValue(), ThingsModelValueItem.class);
 
-        for(int i=0;i<input.getThingsModelValueRemarkItem().size();i++){
+        for (int i = 0; i < input.getThingsModelValueRemarkItem().size(); i++) {
             // 赋值
-            for(int j=0;j<thingsModelValues.size();j++){
+            for (int j = 0; j < thingsModelValues.size(); j++) {
                 if (input.getThingsModelValueRemarkItem().get(i).getId().equals(thingsModelValues.get(j).getId())) {
                     // 影子模式只更新影子值
-                    if(!isShadow){
+                    if (!isShadow) {
                         thingsModelValues.get(j).setValue(String.valueOf(input.getThingsModelValueRemarkItem().get(i).getValue()));
                     }
                     thingsModelValues.get(j).setShadow(String.valueOf(input.getThingsModelValueRemarkItem().get(i).getValue()));
@@ -227,7 +227,7 @@ public class DeviceServiceImpl implements IDeviceService {
             }
 
             //日志
-            for(int k=0;k<valueList.size();k++){
+            for (int k = 0; k < valueList.size(); k++) {
                 if (valueList.get(k).getId().equals(input.getThingsModelValueRemarkItem().get(i).getId())) {
                     valueList.get(k).setValue(input.getThingsModelValueRemarkItem().get(i).getValue());
                     // TODO 场景联动、告警规则匹配处理
@@ -240,7 +240,7 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setLogValue(input.getThingsModelValueRemarkItem().get(i).getValue());
                     deviceLog.setRemark(input.getThingsModelValueRemarkItem().get(i).getRemark());
                     deviceLog.setIdentity(input.getThingsModelValueRemarkItem().get(i).getId());
-                    deviceLog.setIsMonitor(valueList.get(k).getIsMonitor()==null ? 0:valueList.get(k).getIsMonitor());
+                    deviceLog.setIsMonitor(valueList.get(k).getIsMonitor() == null ? 0 : valueList.get(k).getIsMonitor());
                     deviceLog.setLogType(type);
                     deviceLog.setUserId(deviceThings.getUserId());
                     deviceLog.setUserName(deviceThings.getUserName());
@@ -248,7 +248,7 @@ public class DeviceServiceImpl implements IDeviceService {
                     deviceLog.setTenantName(deviceThings.getTenantName());
                     deviceLog.setCreateTime(DateUtils.getNowDate());
                     // 1=影子模式，2=在线模式，3=其他
-                    deviceLog.setMode(isShadow?1:2);
+                    deviceLog.setMode(isShadow ? 1 : 2);
                     logService.saveDeviceLog(deviceLog);
                     break;
                 }
@@ -268,12 +268,12 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<Device> selectDeviceList(Device device) {
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
             }
@@ -290,12 +290,12 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<Device> selectUnAuthDeviceList(Device device) {
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
             }
@@ -312,12 +312,12 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<Device> selectDeviceListByGroup(Device device) {
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
             }
@@ -332,15 +332,15 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     public List<DeviceAllShortOutput> selectAllDeviceShortList() {
-        Device device=new Device();
+        Device device = new Device();
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
                 break;
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
                 break;
@@ -358,13 +358,13 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<DeviceShortOutput> selectDeviceShortList(Device device) {
         SysUser user = getLoginUser().getUser();
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if(roles.get(i).getRoleKey().equals("tenant")){
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("tenant")) {
                 // 租户查看产品下所有设备
                 device.setTenantId(user.getUserId());
                 break;
-            }else if (roles.get(i).getRoleKey().equals("general")){
+            } else if (roles.get(i).getRoleKey().equals("general")) {
                 // 用户查看自己设备
                 device.setUserId(user.getUserId());
                 break;
@@ -415,14 +415,14 @@ public class DeviceServiceImpl implements IDeviceService {
             // 获取value
             for (int j = 0; j < thingsValueArray.size(); j++) {
                 if (thingsValueArray.getJSONObject(j).getString("id").equals(thingsModel.getId())) {
-                    String value=thingsValueArray.getJSONObject(j).getString("value");
-                    String shadow=thingsValueArray.getJSONObject(j).getString("shadow");
+                    String value = thingsValueArray.getJSONObject(j).getString("value");
+                    String shadow = thingsValueArray.getJSONObject(j).getString("shadow");
                     thingsModel.setValue(value);
                     thingsModel.setShadow(shadow);
                     // bool 类型默认值为0，解决移动端报错问题
-                    if(thingsModel.getType().equals("bool")){
-                        thingsModel.setValue(value.equals("")?"0":value);
-                        thingsModel.setShadow(shadow.equals("")?"0":shadow);
+                    if (thingsModel.getType().equals("bool")) {
+                        thingsModel.setValue(value.equals("") ? "0" : value);
+                        thingsModel.setShadow(shadow.equals("") ? "0" : shadow);
                     }
                     break;
                 }
@@ -518,9 +518,9 @@ public class DeviceServiceImpl implements IDeviceService {
     @Transactional(rollbackFor = Exception.class)
     public Device insertDevice(Device device) {
         // 设备编号唯一检查
-        Device existDevice=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
-        if(existDevice!=null){
-            log.error("设备编号："+device.getSerialNumber()+"已经存在了，新增设备失败");
+        Device existDevice = deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+        if (existDevice != null) {
+            log.error("设备编号：" + device.getSerialNumber() + "已经存在了，新增设备失败");
             return device;
         }
         SysUser sysUser = getLoginUser().getUser();
@@ -531,14 +531,14 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setUserName(sysUser.getUserName());
         device.setRssi(0);
         // 设置租户
-        Product product=productService.selectProductByProductId(device.getProductId());
+        Product product = productService.selectProductByProductId(device.getProductId());
         device.setTenantId(product.getTenantId());
         device.setTenantName(product.getTenantName());
         device.setImgUrl(product.getImgUrl());
         // 随机经纬度和地址
         SysUser user = getLoginUser().getUser();
         device.setNetworkIp(user.getLoginIp());
-        setLocation(user.getLoginIp(),device);
+        setLocation(user.getLoginIp(), device);
 
         deviceMapper.insertDevice(device);
         // 添加设备用户
@@ -551,8 +551,58 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceUser.setTenantId(product.getTenantId());
         deviceUser.setTenantName(product.getTenantName());
         deviceUser.setIsOwner(1);
+        deviceUser.setCreateTime(DateUtils.getNowDate());
         deviceUserMapper.insertDeviceUser(deviceUser);
         return device;
+    }
+
+    /**
+     * 设备关联用户
+     *
+     * @param deviceRelateUserInput
+     * @return 结果
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public AjaxResult deviceRelateUser(DeviceRelateUserInput deviceRelateUserInput) {
+        // 查询用户信息
+        SysUser sysUser = userService.selectUserById(deviceRelateUserInput.getUserId());
+        for (int i = 0; i < deviceRelateUserInput.getDeviceNumberAndProductIds().size(); i++) {
+            Device existDevice = deviceMapper.selectDeviceBySerialNumber(deviceRelateUserInput.getDeviceNumberAndProductIds().get(i).getDeviceNumber());
+            if (existDevice != null) {
+                if (existDevice.getUserId().longValue() == deviceRelateUserInput.getUserId().longValue()) {
+                    return AjaxResult.error("用户已经拥有设备：" + existDevice.getDeviceName() + ", 设备编号：" + existDevice.getSerialNumber());
+                }
+                // 先删除设备的所有用户
+                deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null,existDevice.getDeviceId()));
+                // 添加新的设备用户
+                DeviceUser deviceUser = new DeviceUser();
+                deviceUser.setUserId(sysUser.getUserId());
+                deviceUser.setUserName(sysUser.getUserName());
+                deviceUser.setPhonenumber(sysUser.getPhonenumber());
+                deviceUser.setDeviceId(existDevice.getDeviceId());
+                deviceUser.setDeviceName(existDevice.getDeviceName());
+                deviceUser.setTenantId(existDevice.getTenantId());
+                deviceUser.setTenantName(existDevice.getTenantName());
+                deviceUser.setIsOwner(1);
+                deviceUser.setCreateTime(DateUtils.getNowDate());
+                deviceUserMapper.insertDeviceUser(deviceUser);
+                // 更新设备用户信息
+                existDevice.setUserId(deviceRelateUserInput.getUserId());
+                existDevice.setUserName(sysUser.getUserName());
+                deviceMapper.updateDevice(existDevice);
+            } else {
+                // 自动添加设备
+                int result = insertDeviceAuto(
+                        deviceRelateUserInput.getDeviceNumberAndProductIds().get(i).getDeviceNumber(),
+                        deviceRelateUserInput.getUserId(),
+                        deviceRelateUserInput.getDeviceNumberAndProductIds().get(i).getProductId());
+                if (result == 0) {
+                    return AjaxResult.error("设备不存在，自动添加设备时失败，请检查产品编号是否正确");
+                }
+            }
+        }
+        return AjaxResult.success("添加设备成功");
     }
 
     /**
@@ -562,18 +612,18 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int insertDeviceAuto(String serialNumber,Long userId,Long productId) {
+    public int insertDeviceAuto(String serialNumber, Long userId, Long productId) {
         // 设备编号唯一检查
-        Device existDevice=deviceMapper.selectDeviceBySerialNumber(serialNumber);
-        if(existDevice!=null){
-            log.error("设备编号："+serialNumber+"已经存在了，新增设备失败");
+        int count = deviceMapper.selectDeviceCountBySerialNumber(serialNumber);
+        if (count != 0) {
+            log.error("设备编号：" + serialNumber + "已经存在了，新增设备失败");
             return 0;
         }
         Device device = new Device();
         int random = (int) (Math.random() * (9000)) + 1000;
         device.setDeviceName("设备" + random);
         device.setSerialNumber(serialNumber);
-        SysUser user=userService.selectUserById(userId);
+        SysUser user = userService.selectUserById(userId);
         device.setUserId(userId);
         device.setUserName(user.getUserName());
         device.setFirmwareVersion(BigDecimal.valueOf(1.0));
@@ -587,12 +637,16 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setCreateTime(DateUtils.getNowDate());
         device.setThingsModelValue(JSONObject.toJSONString(getThingsModelDefaultValue(productId)));
         // 随机位置
-        device.setLongitude(BigDecimal.valueOf(116.23-(Math.random()*15)));
-        device.setLatitude(BigDecimal.valueOf(39.54-(Math.random()*15)));
+        device.setLongitude(BigDecimal.valueOf(116.23 - (Math.random() * 15)));
+        device.setLatitude(BigDecimal.valueOf(39.54 - (Math.random() * 15)));
         device.setNetworkAddress("中国");
         device.setNetworkIp("127.0.0.1");
         // 设置租户
-        Product product=productService.selectProductByProductId(productId);
+        Product product = productService.selectProductByProductId(productId);
+        if (product == null) {
+            log.error("自动添加设备时，根据产品ID查找不到对应产品");
+            return 0;
+        }
         device.setTenantId(product.getTenantId());
         device.setTenantName(product.getTenantName());
         device.setImgUrl(product.getImgUrl());
@@ -615,6 +669,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      * 获取物模型值
+     *
      * @param productId
      * @return
      */
@@ -635,6 +690,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      * 获取设备设置的影子
+     *
      * @param device
      * @return
      */
@@ -654,17 +710,17 @@ public class DeviceServiceImpl implements IDeviceService {
         for (int i = 0; i < thingsModelValueItems.size(); i++) {
             if (!thingsModelValueItems.get(i).getValue().equals(thingsModelValueItems.get(i).getShadow())) {
                 shadowList.add(thingsModelValueItems.get(i));
-                System.out.println("添加影子："+thingsModelValueItems.get(i).getId());
+                System.out.println("添加影子：" + thingsModelValueItems.get(i).getId());
             }
         }
-        ThingsModelShadow shadow=new ThingsModelShadow();
+        ThingsModelShadow shadow = new ThingsModelShadow();
         for (int i = 0; i < shadowList.size(); i++) {
             boolean isGetValue = false;
             for (int j = 0; j < properties.size(); j++) {
-                if (properties.getJSONObject(j).getInteger("isMonitor")==0 && properties.getJSONObject(j).getString("id").equals(shadowList.get(i).getId())) {
+                if (properties.getJSONObject(j).getInteger("isMonitor") == 0 && properties.getJSONObject(j).getString("id").equals(shadowList.get(i).getId())) {
                     IdentityAndName item = new IdentityAndName(shadowList.get(i).getId(), shadowList.get(i).getShadow());
                     shadow.getProperties().add(item);
-                    System.out.println("添加影子属性："+item.getId());
+                    System.out.println("添加影子属性：" + item.getId());
                     isGetValue = true;
                     break;
                 }
@@ -674,7 +730,7 @@ public class DeviceServiceImpl implements IDeviceService {
                     if (functions.getJSONObject(k).getString("id").equals(shadowList.get(i).getId())) {
                         IdentityAndName item = new IdentityAndName(shadowList.get(i).getId(), shadowList.get(i).getShadow());
                         shadow.getFunctions().add(item);
-                        System.out.println("添加影子功能："+item.getId());
+                        System.out.println("添加影子功能：" + item.getId());
                         break;
                     }
                 }
@@ -686,18 +742,19 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      * 修改设备
+     *
      * @param device 设备
      * @return 结果
      */
     @Override
     public AjaxResult updateDevice(Device device) {
         // 设备编号唯一检查
-        Device oldDevice=deviceMapper.selectDeviceByDeviceId(device.getDeviceId());
-        if(!oldDevice.getSerialNumber().equals(device.getSerialNumber())){
-            Device existDevice=deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
-            if(existDevice!=null){
-                log.error("设备编号："+device.getSerialNumber()+" 已经存在，新增设备失败");
-                return AjaxResult.success("设备编号："+device.getSerialNumber()+" 已经存在，修改失败",0);
+        Device oldDevice = deviceMapper.selectDeviceByDeviceId(device.getDeviceId());
+        if (!oldDevice.getSerialNumber().equals(device.getSerialNumber())) {
+            Device existDevice = deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
+            if (existDevice != null) {
+                log.error("设备编号：" + device.getSerialNumber() + " 已经存在，新增设备失败");
+                return AjaxResult.success("设备编号：" + device.getSerialNumber() + " 已经存在，修改失败", 0);
             }
         }
         device.setUpdateTime(DateUtils.getNowDate());
@@ -710,26 +767,27 @@ public class DeviceServiceImpl implements IDeviceService {
         }
         deviceMapper.updateDevice(device);
         // 设备取消禁用
-        if(oldDevice.getStatus()==2 && device.getStatus()==4){
+        if (oldDevice.getStatus() == 2 && device.getStatus() == 4) {
             // 发布设备信息
-            emqxService.publishInfo(oldDevice.getProductId(),oldDevice.getSerialNumber());
+            emqxService.publishInfo(oldDevice.getProductId(), oldDevice.getSerialNumber());
         }
-        return AjaxResult.success("修改成功",1);
+        return AjaxResult.success("修改成功", 1);
     }
 
     /**
      * 生成设备唯一编号
+     *
      * @return 结果
      */
     @Override
     public String generationDeviceNum() {
         // 设备编号：D + userId + 15位随机字母和数字
         SysUser user = getLoginUser().getUser();
-        String number= "D"+user.getUserId().toString()+toolService.getStringRandom(10);
-        int count= deviceMapper.getDeviceNumCount(number);
-        if(count==0) {
+        String number = "D" + user.getUserId().toString() + toolService.getStringRandom(10);
+        int count = deviceMapper.getDeviceNumCount(number);
+        if (count == 0) {
             return number;
-        }else{
+        } else {
             generationDeviceNum();
         }
         return "";
@@ -737,16 +795,15 @@ public class DeviceServiceImpl implements IDeviceService {
 
 
     /**
-     *
      * @param device 设备状态和定位更新
      * @return 结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateDeviceStatusAndLocation(Device device,String ipAddress) {
+    public int updateDeviceStatusAndLocation(Device device, String ipAddress) {
         // 设置自动定位和状态
-        if(ipAddress!="") {
-            if(device.getActiveTime()==null){
+        if (ipAddress != "") {
+            if (device.getActiveTime() == null) {
                 device.setActiveTime(DateUtils.getNowDate());
             }
             // 定位方式(1=ip自动定位，2=设备定位，3=自定义)
@@ -755,7 +812,7 @@ public class DeviceServiceImpl implements IDeviceService {
                 setLocation(ipAddress, device);
             }
         }
-        int result=deviceMapper.updateDeviceStatus(device);
+        int result = deviceMapper.updateDeviceStatus(device);
 
         // 添加到设备日志
         DeviceLog deviceLog = new DeviceLog();
@@ -770,12 +827,12 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceLog.setCreateTime(DateUtils.getNowDate());
         // 日志模式 1=影子模式，2=在线模式，3=其他
         deviceLog.setMode(3);
-        if(device.getStatus()==3){
+        if (device.getStatus() == 3) {
             deviceLog.setLogValue("1");
             deviceLog.setRemark("设备上线");
             deviceLog.setIdentity("online");
             deviceLog.setLogType(5);
-        }else if(device.getStatus()==4){
+        } else if (device.getStatus() == 4) {
             deviceLog.setLogValue("0");
             deviceLog.setRemark("设备离线");
             deviceLog.setIdentity("offline");
@@ -786,7 +843,6 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
-     *
      * @param device 设备状态
      * @return 结果
      */
@@ -797,114 +853,115 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      * 根据IP获取地址
+     *
      * @param ip
      * @return
      */
-    private void setLocation(String ip,Device device){
+    private void setLocation(String ip, Device device) {
         String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
         String address = "未知地址";
         // 内网不查询
-        if (IpUtils.internalIp(ip))
-        {
-            device.setNetworkAddress( "内网IP");
+        if (IpUtils.internalIp(ip)) {
+            device.setNetworkAddress("内网IP");
         }
-        try
-        {
+        try {
             String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true", Constants.GBK);
-            if (!StringUtils.isEmpty(rspStr))
-            {
+            if (!StringUtils.isEmpty(rspStr)) {
                 JSONObject obj = JSONObject.parseObject(rspStr);
                 device.setNetworkAddress(obj.getString("addr"));
-                System.out.println(device.getSerialNumber()+"- 设置地址："+obj.getString("addr"));
+                System.out.println(device.getSerialNumber() + "- 设置地址：" + obj.getString("addr"));
                 // 查询经纬度
-                setLatitudeAndLongitude(obj.getString("city"),device);
+                setLatitudeAndLongitude(obj.getString("city"), device);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
     /**
      * 设置经纬度
+     *
      * @param city
      */
-    private void setLatitudeAndLongitude(String city,Device device){
-        String BAIDU_URL="https://api.map.baidu.com/geocoder";
-        String baiduResponse = HttpUtils.sendGet(BAIDU_URL,"address="+city  + "&output=json", Constants.GBK);
-        if(!StringUtils.isEmpty(baiduResponse)){
+    private void setLatitudeAndLongitude(String city, Device device) {
+        String BAIDU_URL = "https://api.map.baidu.com/geocoder";
+        String baiduResponse = HttpUtils.sendGet(BAIDU_URL, "address=" + city + "&output=json", Constants.GBK);
+        if (!StringUtils.isEmpty(baiduResponse)) {
             JSONObject baiduObject = JSONObject.parseObject(baiduResponse);
-            JSONObject location=baiduObject.getJSONObject("result").getJSONObject("location");
+            JSONObject location = baiduObject.getJSONObject("result").getJSONObject("location");
             device.setLongitude(location.getBigDecimal("lng"));
             device.setLatitude(location.getBigDecimal("lat"));
-            System.out.println(device.getSerialNumber()+"- 设置经度："+location.getBigDecimal("lng")+"，设置纬度："+location.getBigDecimal("lat"));
+            System.out.println(device.getSerialNumber() + "- 设置经度：" + location.getBigDecimal("lng") + "，设置纬度：" + location.getBigDecimal("lat"));
         }
     }
 
     /**
      * 上报设备信息
+     *
      * @param device 设备
      * @return 结果
      */
     @Override
-    public int reportDevice(Device device,Device deviceEntity) {
+    public int reportDevice(Device device, Device deviceEntity) {
         // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
-        if(deviceEntity.getLocationWay()!=2){
+        if (deviceEntity.getLocationWay() != 2) {
             device.setLatitude(null);
             device.setLongitude(null);
         }
-        int result=0;
-        if(deviceEntity!=null){
+        int result = 0;
+        if (deviceEntity != null) {
             // 更新设备信息
             device.setUpdateTime(DateUtils.getNowDate());
-            if(deviceEntity.getActiveTime()==null || deviceEntity.getActiveTime().equals("")) {
+            if (deviceEntity.getActiveTime() == null || deviceEntity.getActiveTime().equals("")) {
                 device.setActiveTime(DateUtils.getNowDate());
             }
             device.setThingsModelValue(null);
-            result= deviceMapper.updateDeviceBySerialNumber(device);
+            result = deviceMapper.updateDeviceBySerialNumber(device);
         }
         return result;
     }
 
     /**
      * 重置设备状态
+     *
      * @return 结果
      */
     @Override
     public int resetDeviceStatus(String deviceNum) {
-        int result=deviceMapper.resetDeviceStatus(deviceNum);
+        int result = deviceMapper.resetDeviceStatus(deviceNum);
         return result;
     }
 
     /**
      * 删除设备
+     *
      * @param deviceId 需要删除的设备主键
      * @return 结果
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteDeviceByDeviceId(Long deviceId) throws SchedulerException {
-        SysUser user=getLoginUser().getUser();
+        SysUser user = getLoginUser().getUser();
         // 是否为普通用户，普通用户如果不是设备所有者，只能删除设备用户和用户自己的设备关联分组信息
-        boolean isGeneralUser=false;
-        List<SysRole> roles=user.getRoles();
-        for(int i=0;i<roles.size();i++){
-            if (roles.get(i).getRoleKey().equals("general")){
-                isGeneralUser=true;
+        boolean isGeneralUser = false;
+        List<SysRole> roles = user.getRoles();
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getRoleKey().equals("general")) {
+                isGeneralUser = true;
                 break;
             }
         }
-        Device device=deviceMapper.selectDeviceByDeviceId(deviceId);
-        if(isGeneralUser && device.getUserId().longValue()!=user.getUserId()){
+        Device device = deviceMapper.selectDeviceByDeviceId(deviceId);
+        if (isGeneralUser && device.getUserId().longValue() != user.getUserId()) {
             // 删除用户分组中的设备 普通用户，且不是设备所有者。
-            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(user.getUserId(),deviceId));
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(user.getUserId(), deviceId));
             // 删除用户的设备用户信息。
-            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(user.getUserId(),deviceId));
-        }else{
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(user.getUserId(), deviceId));
+        } else {
             // 删除设备分组。  租户、管理员和设备所有者
-            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(null,deviceId));
+            deviceMapper.deleteDeviceGroupByDeviceId(new UserIdDeviceIdModel(null, deviceId));
             // 删除设备用户。
-            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null,deviceId));
+            deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null, deviceId));
             // 删除定时任务
             deviceJobService.deleteJobByDeviceIds(new Long[]{deviceId});
             // 批量删除设备日志

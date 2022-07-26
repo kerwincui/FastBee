@@ -229,6 +229,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where serial_number = #{serialNumber}
     </select>
 
+    <select id="selectDeviceCountBySerialNumber" parameterType="String" resultType="int">
+        select count(device_id) from iot_device
+        where serial_number = #{serialNumber}
+    </select>
+
     <select id="selectDeviceProductAlertCount" parameterType="com.ruoyi.iot.domain.Device" resultType="com.ruoyi.iot.model.DeviceStatistic">
         select
             <!--设备数量-->
