@@ -72,7 +72,7 @@
 ##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
 * [项目文档](https://wumei.live/doc/)
 * [物美智能官网](http://wumei.live/)
-* [权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
+* [若依权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
 * [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
