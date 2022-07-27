@@ -620,15 +620,13 @@ public class DeviceServiceImpl implements IDeviceService {
             return 0;
         }
         Device device = new Device();
-        int random = (int) (Math.random() * (9000)) + 1000;
-        device.setDeviceName("设备" + random);
         device.setSerialNumber(serialNumber);
         SysUser user = userService.selectUserById(userId);
         device.setUserId(userId);
         device.setUserName(user.getUserName());
         device.setFirmwareVersion(BigDecimal.valueOf(1.0));
         // 设备状态（1-未激活，2-禁用，3-在线，4-离线）
-        device.setStatus(3);
+        device.setStatus(1);
         device.setActiveTime(DateUtils.getNowDate());
         device.setIsShadow(0);
         device.setRssi(0);
@@ -647,6 +645,8 @@ public class DeviceServiceImpl implements IDeviceService {
             log.error("自动添加设备时，根据产品ID查找不到对应产品");
             return 0;
         }
+        int random = (int) (Math.random() * (90)) + 10;
+        device.setDeviceName(product.getProductName() + random);
         device.setTenantId(product.getTenantId());
         device.setTenantName(product.getTenantName());
         device.setImgUrl(product.getImgUrl());
