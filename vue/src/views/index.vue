@@ -1,15 +1,15 @@
 <template>
-<div class="app-container home">
-    <el-row :gutter="40" style="margin-bottom:100px;">
+<div style="padding:10px;">
+    <el-row :gutter="20" style="background-color:#fafafa;margin:10px 10px 50px 10px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card style="margin:-10px;" shadow="hover" body-style="background-color:#eee;">
-                <div ref="map" style="height:651px;margin:-17px;margin-top:-12px;"></div>
-            </el-card>
+            <div style="overflow:hidden;">
+                <div ref="map" style="height:650px;"></div>
+            </div>
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card style="margin:-10px;background-color:#fafafa;" shadow="never">
-                <h3 style="font-weight:bold">设备统计</h3>
+            <div style="padding:20px;">
+                <h3 style="font-weight:bold"><i class="el-icon-s-data"></i> 设备统计</h3>
                 <el-row :gutter="40" class="panel-group">
                     <el-col :span="12" class="card-panel-col">
                         <div class="card-panel">
@@ -90,10 +90,9 @@
                         </div>
                     </el-col>
                 </el-row>
-            </el-card>
-
-            <el-card style="margin:-10px;margin-top:40px;height:300px;background-color:#fafafa;" shadow="hover">
-                <h3 style="font-weight:bold;margin-bottom:10px;">信息栏</h3>
+            </div>
+            <div style="padding:20px;">
+                <h3 style="font-weight:bold;margin-bottom:10px;"><i class="el-icon-s-order"></i> 信息栏</h3>
                 <div style="cursor:pointer;display:table;width:100%;line-height:36px;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
                     <div style="display:table-cell;padding-right:10px;">
                         <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType==2">公告</el-tag>
@@ -102,17 +101,17 @@
                     </div>
                     <div style="display:table-cell;width:90px;font-size:14px;"><i class="el-icon-time"></i> {{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
                 </div>
-            </el-card>
+            </div>
 
         </el-col>
     </el-row>
 
-    <el-row :gutter="40" v-if="isAdmin" style="margin-bottom:50px;">
-        <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <el-card style="margin:-10px;background-color:#fafafa;height:320px;" shadow="never">
+    <el-row :gutter="40" v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 50px 10px;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
+            <div style="padding:20px;height:300px;">
                 <h3 style="font-weight:bold">Mqtt 统计指标</h3>
                 <el-row :gutter="20" class="panel-group">
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="guide" class-name="card-panel-icon" />
@@ -125,7 +124,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="receiver" class-name="card-panel-icon" />
@@ -138,7 +137,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
@@ -151,7 +150,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="connect" class-name="card-panel-icon" />
@@ -164,7 +163,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-orange">
                                 <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
@@ -177,7 +176,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :span="12" class="card-panel-col">
+                    <el-col :span="24" class="card-panel-col">
                         <div class="card-panel">
                             <div class="card-panel-icon-wrapper icon-green">
                                 <svg-icon icon-class="message" class-name="card-panel-icon" />
@@ -191,18 +190,33 @@
                         </div>
                     </el-col>
                 </el-row>
-            </el-card>
+            </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <el-card style="margin:-10px;background-color:#fafafa;" shadow="hover">
-                <div ref="statsChart" style="height:283px;"></div>
-            </el-card>
+                <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
+            <div style="padding:20px;margin-top:30px;">
+                <div ref="statsChart" style="height:280px;"></div>
+            </div>
+            <el-row>
+                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+                    <div style="padding:20px;margin-top:30px;">
+                        <div ref="pieCpu" style="height:150px;margin-bottom:-20px;"></div>
+                    </div>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+                    <div style="padding:20px;margin-top:30px;">
+                        <div ref="pieMemery" style="height:150px;margin-bottom:-20px;"></div>
+                    </div>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+                    <div style="padding:20px;margin-top:30px;">
+                        <div ref="pieDisk" style="height:150px;margin-bottom:-20px;"></div>
+                    </div>
+                </el-col>
+            </el-row>
         </el-col>
-    </el-row>
-
-    <el-row :gutter="40" v-if="isAdmin">
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
+            <div style="padding:20px;margin-top:30px;">
+                <h3 style="font-weight:bold">服务器信息</h3>
                 <table class="description">
                     <tr>
                         <td><strong>服务器名称： </strong></td>
@@ -229,25 +243,7 @@
                         <td>{{server.mem.total}}</td>
                     </tr>
                 </table>
-            </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                <div ref="pieCpu" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                <div ref="pieMemery" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
-            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
-                <div ref="pieDisk" style="height:200px;margin-bottom:-20px;"></div>
-            </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-            <el-card style="margin:-10px;height:218px;margin-bottom:30px;background-color:#fafafa;" shadow="hover">
+                <h3 style="font-weight:bold">Java虚拟机</h3>
                 <table class="description">
                     <tr>
                         <td><strong>Java名称： </strong></td>
@@ -274,14 +270,16 @@
                         <td>{{server.jvm.total}}</td>
                     </tr>
                 </table>
-            </el-card>
+            </div>
         </el-col>
+
+
     </el-row>
 
     <el-row :gutter="40" style="background-color:#fafafa;padding:60px 0;margin:-10px;margin-top:50px;">
         <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
             <el-card shadow="hover" style="padding:20px 0;margin-bottom:20px;font-size:14px;">
-            <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
+                <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
                 <div style="display:table;font-size:14px;margin-bottom:10px;">
                     <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途</b></div>
                 </div>
@@ -1010,7 +1008,7 @@ export default {
     position: relative;
     top: 46px;
     left: 12px;
-    background-color:#fff;
+    background-color: #fff;
 }
 
 .content {
