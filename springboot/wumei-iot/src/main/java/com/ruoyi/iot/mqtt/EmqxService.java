@@ -136,7 +136,7 @@ public class EmqxService {
             device.setSerialNumber(deviceNum);
             deviceService.reportDevice(device,deviceEntity);
             // 发布设备状态
-            publishStatus(productId, deviceNum, 3, deviceEntity.getIsShadow());
+            publishStatus(productId, deviceNum, 3, deviceEntity.getIsShadow(),device.getRssi());
         } catch (Exception e) {
             logger.error("接收设备信息，解析数据时异常 message={}", e.getMessage());
         }
@@ -216,8 +216,8 @@ public class EmqxService {
     /**
      * 1.发布设备状态
      */
-    public void publishStatus(Long productId, String deviceNum, int deviceStatus, int isShadow) {
-        String message = "{\"status\":" + deviceStatus + ",\"isShadow\":" + isShadow + "}";
+    public void publishStatus(Long productId, String deviceNum, int deviceStatus, int isShadow,int rssi) {
+        String message = "{\"status\":" + deviceStatus + ",\"isShadow\":" + isShadow + ",\"rssi\":" + rssi + "}";
         emqxClient.publish(1, false, "/" + productId + "/" + deviceNum + pStatusTopic, message);
     }
 

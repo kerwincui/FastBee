@@ -195,8 +195,8 @@ public class ToolController extends BaseController {
             if (model.getAction().equals("client_disconnected")) {
                 device.setStatus(4);
                 deviceService.updateDeviceStatusAndLocation(device, "");
-                // 发布设备状态
-                emqxService.publishStatus(device.getProductId(), device.getSerialNumber(), 4, device.getIsShadow());
+                // 设备掉线后发布设备状态
+                emqxService.publishStatus(device.getProductId(), device.getSerialNumber(), 4, device.getIsShadow(),device.getRssi());
                 // 清空保留消息，上线后发布新的属性功能保留消息
                 emqxService.publishProperty(device.getProductId(), device.getSerialNumber(), null);
                 emqxService.publishFunction(device.getProductId(), device.getSerialNumber(), null);

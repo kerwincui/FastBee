@@ -112,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <sql id="selectWebhookDeviceVo">
-        select device_id, device_name,product_id, serial_number,user_id, user_name, tenant_id, tenant_name, status,is_shadow ,location_way,things_model_value, active_time from iot_device
+        select device_id, device_name,product_id, serial_number,user_id, user_name, tenant_id, tenant_name, status,is_shadow, rssi ,location_way,things_model_value, active_time from iot_device
     </sql>
 
     <select id="selectDeviceList" parameterType="com.ruoyi.iot.domain.Device" resultMap="DeviceResult">
