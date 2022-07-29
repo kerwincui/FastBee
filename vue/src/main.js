@@ -39,6 +39,9 @@ import DictData from '@/components/DictData'
 import echarts from 'echarts'
 // 一键复制粘贴板组件
 import VueClipboard from 'vue-clipboard2'
+// Mqtt工具
+import mqttTool from '@/utils/mqttTool'
+
 
 
 
@@ -55,6 +58,7 @@ Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.$echarts = echarts
+Vue.prototype.$mqttTool = mqttTool
 
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
