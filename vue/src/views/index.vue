@@ -1,6 +1,6 @@
 <template>
 <div style="padding:10px;">
-    <el-row :gutter="20" style="background-color:#fafafa;margin:10px 10px 50px 10px;">
+    <el-row :gutter="20" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <div style="overflow:hidden;">
                 <div ref="map" style="height:650px;"></div>
@@ -106,178 +106,169 @@
         </el-col>
     </el-row>
 
-    <el-row :gutter="40" v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 50px 10px;">
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
-            <div style="padding:20px;height:300px;">
-                <h3 style="font-weight:bold">Mqtt 统计指标</h3>
-                <el-row :gutter="20" class="panel-group">
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-orange">
-                                <svg-icon icon-class="guide" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    发送字节
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
-                            </div>
+    <el-row v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="padding:20px;">
+            <h3 style="font-weight:bold">Mqtt 统计指标</h3>
+            <el-row :gutter="20" class="panel-group">
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-orange">
+                            <svg-icon icon-class="guide" class-name="card-panel-icon" />
                         </div>
-                    </el-col>
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-green">
-                                <svg-icon icon-class="receiver" class-name="card-panel-icon" />
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                发送字节
                             </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    接收字节
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
-                            </div>
+                            <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
                         </div>
-                    </el-col>
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-orange">
-                                <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    认证次数
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-green">
-                                <svg-icon icon-class="connect" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    连接次数
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-orange">
-                                <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    订阅次数
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="24" class="card-panel-col">
-                        <div class="card-panel">
-                            <div class="card-panel-icon-wrapper icon-green">
-                                <svg-icon icon-class="message" class-name="card-panel-icon" />
-                            </div>
-                            <div class="card-panel-description">
-                                <div class="card-panel-text">
-                                    接收消息
-                                </div>
-                                <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
-                            </div>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
-        </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <div style="padding:20px;margin-top:30px;">
-                <div ref="statsChart" style="height:280px;"></div>
-            </div>
-            <el-row>
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-                    <div style="padding:20px;margin-top:30px;">
-                        <div ref="pieCpu" style="height:150px;margin-bottom:-20px;"></div>
                     </div>
                 </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-                    <div style="padding:20px;margin-top:30px;">
-                        <div ref="pieMemery" style="height:150px;margin-bottom:-20px;"></div>
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-green">
+                            <svg-icon icon-class="receiver" class-name="card-panel-icon" />
+                        </div>
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                接收字节
+                            </div>
+                            <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
+                        </div>
                     </div>
                 </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-                    <div style="padding:20px;margin-top:30px;">
-                        <div ref="pieDisk" style="height:150px;margin-bottom:-20px;"></div>
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-orange">
+                            <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
+                        </div>
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                认证次数
+                            </div>
+                            <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-green">
+                            <svg-icon icon-class="connect" class-name="card-panel-icon" />
+                        </div>
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                连接次数
+                            </div>
+                            <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-orange">
+                            <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
+                        </div>
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                订阅次数
+                            </div>
+                            <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="24" class="card-panel-col">
+                    <div class="card-panel">
+                        <div class="card-panel-icon-wrapper icon-green">
+                            <svg-icon icon-class="message" class-name="card-panel-icon" />
+                        </div>
+                        <div class="card-panel-description">
+                            <div class="card-panel-text">
+                                接收消息
+                            </div>
+                            <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
+                        </div>
                     </div>
                 </el-col>
             </el-row>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
-            <div style="padding:20px;margin-top:30px;">
-                <h3 style="font-weight:bold">服务器信息</h3>
-                <table class="description">
-                    <tr>
-                        <td><strong>服务器名称： </strong></td>
-                        <td>{{server.sys.computerName}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>服务器IP： </strong></td>
-                        <td>{{server.sys.computerIp}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>操作系统： </strong></td>
-                        <td>{{server.sys.osName}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>系统架构： </strong></td>
-                        <td>{{server.sys.osArch}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>CPU核心： </strong></td>
-                        <td>{{server.cpu.cpuNum}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>总内存： </strong></td>
-                        <td>{{server.mem.total}}</td>
-                    </tr>
-                </table>
-                <h3 style="font-weight:bold">Java虚拟机</h3>
-                <table class="description">
-                    <tr>
-                        <td><strong>Java名称： </strong></td>
-                        <td>{{server.jvm.name}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>启动时间： </strong></td>
-                        <td>{{server.jvm.startTime}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Java版本： </strong></td>
-                        <td>{{server.jvm.version}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>运行时长： </strong></td>
-                        <td>{{server.jvm.runTime}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>占用内存： </strong></td>
-                        <td>{{server.jvm.used}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>JVM总内存： </strong></td>
-                        <td>{{server.jvm.total}}</td>
-                    </tr>
-                </table>
-            </div>
-        </el-col>
+        <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="padding:20px 50px;">
+            <div ref="statsChart" style="height:310px;margin:20px 0 40px 0;"></div>
+            <el-row style="padding-left:20px;">
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+                    <table class="description">
+                        <tr>
+                            <td><strong>服务器名称： </strong></td>
+                            <td>{{server.sys.computerName}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>服务器IP： </strong></td>
+                            <td>{{server.sys.computerIp}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>操作系统： </strong></td>
+                            <td>{{server.sys.osName}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>系统架构： </strong></td>
+                            <td>{{server.sys.osArch}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU核心： </strong></td>
+                            <td>{{server.cpu.cpuNum}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>总内存： </strong></td>
+                            <td>{{server.mem.total}}</td>
+                        </tr>
+                    </table>
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+                    <table class="description">
+                        <tr>
+                            <td><strong>Java名称： </strong></td>
+                            <td>{{server.jvm.name}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>启动时间： </strong></td>
+                            <td>{{server.jvm.startTime}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Java版本： </strong></td>
+                            <td>{{server.jvm.version}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>运行时长： </strong></td>
+                            <td>{{server.jvm.runTime}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>占用内存： </strong></td>
+                            <td>{{server.jvm.used}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JVM总内存： </strong></td>
+                            <td>{{server.jvm.total}}</td>
+                        </tr>
+                    </table>
+                </el-col>
+            </el-row>
 
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="padding:20px;">
+            <div style="padding:20px;">
+                <div ref="pieCpu" style="height:161px;margin-bottom:-20px;"></div>
+            </div>
+            <div style="padding:20px;">
+                <div ref="pieMemery" style="height:161px;margin-bottom:-20px;"></div>
+            </div>
+            <div style="padding:20px;">
+                <div ref="pieDisk" style="height:161px;margin-bottom:-20px;"></div>
+            </div>
+
+        </el-col>
 
     </el-row>
 
-    <el-row :gutter="40" style="background-color:#fafafa;padding:60px 0;margin:-10px;margin-top:50px;">
-        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
+    <el-row :gutter="40" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
+        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding:40px;">
             <el-card shadow="hover" style="padding:20px 0;margin-bottom:20px;font-size:14px;">
                 <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
                 <div style="display:table;font-size:14px;margin-bottom:10px;">
@@ -328,7 +319,7 @@
 
             </el-card>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="padding:40px;">
             <div class="phone">
                 <iframe src="https://wumei.live/h5" id="iframe" frameborder="0" scrolling="auto" height="100%" width="100%" class="phone-container"></iframe>
             </div>
@@ -808,7 +799,12 @@ export default {
 
             option = {
                 title: {
-                    text: 'Mqtt 状态数据'
+                    text: 'Mqtt 状态数据',
+                    textStyle: {
+                        fontSize: 18,
+                        color: "#000",
+                        fontWeight: 800,
+                    }
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -860,8 +856,11 @@ export default {
             var option;
             option = {
                 title: {
-                    text: 'CPU使用率 %',
-                    left: 'left'
+                    text: 'CPU使用率',
+                    left: 'left',
+                    textStyle: {
+                        fontSize: 16
+                    }
                 },
                 tooltip: {
                     trigger: 'item',
@@ -907,8 +906,11 @@ export default {
             var option;
             option = {
                 title: {
-                    text: '内存使用 G',
-                    left: 'left'
+                    text: '内存使用率',
+                    left: 'left',
+                    textStyle: {
+                        fontSize: 16
+                    }
                 },
                 tooltip: {
                     trigger: 'item'
@@ -952,8 +954,11 @@ export default {
             let two = this.server.sysFiles[0].free.replace("GB", "");;
             option = {
                 title: {
-                    text: 'C盘状态 G',
-                    left: 'left'
+                    text: '系统盘使用率',
+                    left: 'left',
+                    textStyle: {
+                        fontSize: 16
+                    }
                 },
                 tooltip: {
                     trigger: 'item'
@@ -1019,10 +1024,10 @@ export default {
 }
 
 .description {
-    font-size: 14px;
+    font-size: 12px;
 
     tr {
-        line-height: 26px;
+        line-height: 20px;
     }
 }
 
