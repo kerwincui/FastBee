@@ -128,7 +128,7 @@
                         <i class="el-icon-tickets"></i>
                         {{item.name}}
                     </template>
-                     {{item.value}} {{item.unit?item.unit:""}}
+                    {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
 
                 <!-- decimal类型-->
@@ -146,7 +146,7 @@
                         <i class="el-icon-paperclip"></i>
                         {{item.name}}
                     </template>
-                     {{item.value}} {{item.unit?item.unit:""}}
+                    {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
             </el-descriptions>
 
@@ -170,7 +170,7 @@
         <div v-if="firmware==null || deviceInfo.firmwareVersion>=firmware.version" style="text-align:center;font-size:16px;"><i class="el-icon-success" style="color:#67C23A;"></i> 已经是最新版本，不需要升级</div>
         <el-descriptions :column="1" border size="large" v-if="firmware!=null && deviceInfo.firmwareVersion<firmware.version" :labelStyle='{"width":"100px","font-weight":"bold"}'>
             <template slot="title">
-                 <el-link icon="el-icon-success" type="success" :underline="false"> 可以升级到以下版本</el-link>
+                <el-link icon="el-icon-success" type="success" :underline="false"> 可以升级到以下版本</el-link>
             </template>
             <el-descriptions-item label="固件名称">{{firmware.firmwareName}}</el-descriptions-item>
             <el-descriptions-item label="所属产品">{{firmware.productName}}</el-descriptions-item>
@@ -344,14 +344,79 @@ export default {
                 // 更新列表中设备的状态
                 this.deviceInfo.status = data.message.status;
                 this.deviceInfo.isShadow = data.message.isShadow;
+                this.deviceInfo.rssi = data.message.rssi;
                 this.updateDeviceStatus(this.deviceInfo);
+                return;
+            }
+            if (topics[3] == 'property' || topics[3] == 'function') {
+                // 更新列表中设备的属性
+                if (this.deviceInfo.serialNumber == deviceNum) {
+                    for (let j = 0; j < data.message.length; j++) {
+                        let isComplete = false;
+                        // 布尔类型
+                        for (let k = 0; k < this.deviceInfo.boolList.length && !isComplete; k++) {
+                            if (this.deviceInfo.boolList[k].id == data.message[j].id) {
+                                this.deviceInfo.boolList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                        // 枚举类型
+                        for (let k = 0; k < this.deviceInfo.enumList.length && !isComplete; k++) {
+                            if (this.deviceInfo.enumList[k].id == data.message[j].id) {
+                                this.deviceInfo.enumList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                        // 字符串类型
+                        for (let k = 0; k < this.deviceInfo.stringList.length && !isComplete; k++) {
+                            if (this.deviceInfo.stringList[k].id == data.message[j].id) {
+                                this.deviceInfo.stringList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                        // 数组类型
+                        for (let k = 0; k < this.deviceInfo.arrayList.length && !isComplete; k++) {
+                            if (this.deviceInfo.arrayList[k].id == data.message[j].id) {
+                                this.deviceInfo.arrayList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                        // 整数类型
+                        for (let k = 0; k < this.deviceInfo.integerList.length && !isComplete; k++) {
+                            if (this.deviceInfo.integerList[k].id == data.message[j].id) {
+                                this.deviceInfo.integerList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                        // 小数类型
+                        for (let k = 0; k < this.deviceInfo.decimalList.length && !isComplete; k++) {
+                            if (this.deviceInfo.decimalList[k].id == data.message[j].id) {
+                                this.deviceInfo.decimalList[k].shadow = data.message[j].value;
+                                isComplete = true;
+                                break;
+                            }
+                        }
+                    }
+                    return;
+                }
             }
         },
         /** Mqtt订阅主题 */
         mqttSubscribe(device) {
-            // 订阅当前设备状态
-            let topic = "/" + device.productId + "/" + device.serialNumber + "/status/post";
-            this.subscribes = [topic];
+            // 订阅当前设备状态和无模型
+            let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
+            let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
+            let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
+            let topics = [];
+            topics.push(topicStatus);
+            topics.push(topicProperty);
+            topics.push(topicFunction);
+            this.subscribes = topics;
         },
         /** 更新设备状态 */
         updateDeviceStatus(device) {

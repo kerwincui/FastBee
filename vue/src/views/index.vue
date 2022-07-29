@@ -250,7 +250,6 @@
                     </table>
                 </el-col>
             </el-row>
-
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="padding:20px;">
             <div style="padding:20px;">
@@ -262,7 +261,6 @@
             <div style="padding:20px;">
                 <div ref="pieDisk" style="height:161px;margin-bottom:-20px;"></div>
             </div>
-
         </el-col>
 
     </el-row>
