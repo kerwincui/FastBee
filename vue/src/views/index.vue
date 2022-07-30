@@ -106,11 +106,11 @@
         </el-col>
     </el-row>
 
-    <el-row v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="padding:20px;">
+    <el-row :gutter="80" v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 60px 10px;padding:20px 0;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="">
             <h3 style="font-weight:bold">Mqtt 统计指标</h3>
             <el-row :gutter="20" class="panel-group">
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-orange">
                             <svg-icon icon-class="guide" class-name="card-panel-icon" />
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-green">
                             <svg-icon icon-class="receiver" class-name="card-panel-icon" />
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-orange">
                             <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
@@ -149,7 +149,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-green">
                             <svg-icon icon-class="connect" class-name="card-panel-icon" />
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-orange">
                             <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
@@ -175,7 +175,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="24" class="card-panel-col">
+                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
                     <div class="card-panel">
                         <div class="card-panel-icon-wrapper icon-green">
                             <svg-icon icon-class="message" class-name="card-panel-icon" />
@@ -190,76 +190,28 @@
                 </el-col>
             </el-row>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="padding:20px 50px;">
-            <div ref="statsChart" style="height:310px;margin:20px 0 40px 0;"></div>
-            <el-row style="padding-left:20px;">
-                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-                    <table class="description">
-                        <tr>
-                            <td><strong>服务器名称： </strong></td>
-                            <td>{{server.sys.computerName}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>服务器IP： </strong></td>
-                            <td>{{server.sys.computerIp}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>操作系统： </strong></td>
-                            <td>{{server.sys.osName}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>系统架构： </strong></td>
-                            <td>{{server.sys.osArch}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CPU核心： </strong></td>
-                            <td>{{server.cpu.cpuNum}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>总内存： </strong></td>
-                            <td>{{server.mem.total}}</td>
-                        </tr>
-                    </table>
-                </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-                    <table class="description">
-                        <tr>
-                            <td><strong>Java名称： </strong></td>
-                            <td>{{server.jvm.name}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>启动时间： </strong></td>
-                            <td>{{server.jvm.startTime}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Java版本： </strong></td>
-                            <td>{{server.jvm.version}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>运行时长： </strong></td>
-                            <td>{{server.jvm.runTime}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>占用内存： </strong></td>
-                            <td>{{server.jvm.used}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>JVM总内存： </strong></td>
-                            <td>{{server.jvm.total}}</td>
-                        </tr>
-                    </table>
-                </el-col>
-            </el-row>
+        <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="">
+            <div ref="statsChart" style="height:275px;margin:20px 0 40px 0;"></div>
+            <el-table :data="tableData" border stripe size="mini" :show-header="false" style="width: 100%;margin-bottom:40px;">
+                <el-table-column prop="server" label="服务器信息" width="82">
+                </el-table-column>
+                <el-table-column prop="serverContent" label="详情" min-width="100">
+                </el-table-column>
+                <el-table-column prop="java" label="JAVA虚拟机" width="82">
+                </el-table-column>
+                <el-table-column prop="javaContent" label="详情" min-width="100">
+                </el-table-column>
+            </el-table>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="padding:20px;">
+        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="">
             <div style="padding:20px;">
-                <div ref="pieCpu" style="height:161px;margin-bottom:-20px;"></div>
+                <div ref="pieCpu" style="height:161px;border-bottom:1px solid #ddd;"></div>
             </div>
             <div style="padding:20px;">
-                <div ref="pieMemery" style="height:161px;margin-bottom:-20px;"></div>
+                <div ref="pieMemery" style="height:161px;border-bottom:1px solid #ddd;"></div>
             </div>
             <div style="padding:20px;">
-                <div ref="pieDisk" style="height:161px;margin-bottom:-20px;"></div>
+                <div ref="pieDisk" style="height:161px;"></div>
             </div>
         </el-col>
 
@@ -426,7 +378,8 @@ export default {
                 mem: {
                     total: 2
                 }
-            }
+            },
+            tableData: []
         };
     },
     created() {
@@ -513,6 +466,37 @@ export default {
         getServer() {
             getServer().then(response => {
                 this.server = response.data;
+                this.tableData = [{
+                    server: '服务器名',
+                    serverContent: this.server.sys.computerName,
+                    java: 'Java名称',
+                    javaContent: this.server.jvm.name
+                }, {
+                    server: '服务器IP',
+                    serverContent: this.server.sys.computerIp,
+                    java: '启动时间',
+                    javaContent: this.server.jvm.startTime
+                }, {
+                    server: '操作系统',
+                    serverContent: this.server.sys.osName,
+                    java: 'Java版本',
+                    javaContent: this.server.jvm.version
+                }, {
+                    server: '系统架构',
+                    serverContent: this.server.sys.osArch,
+                    java: '运行时长',
+                    javaContent: this.server.jvm.runTime
+                }, {
+                    server: 'CPU核心',
+                    serverContent: this.server.cpu.cpuNum,
+                    java: '占用内存',
+                    javaContent: this.server.jvm.used
+                }, {
+                    server: '内存大小',
+                    serverContent: this.server.mem.total,
+                    java: 'JVM总内存',
+                    javaContent: this.server.jvm.total
+                }, ]
                 this.$nextTick(() => {
                     this.drawPieCpu();
                     this.drawPieMemery();
@@ -991,12 +975,13 @@ export default {
                 }]
             };
             option && myChart.setOption(option);
-        }
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+
 .phone {
     height: 729px;
     width: 370px;
