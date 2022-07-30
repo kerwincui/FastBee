@@ -149,9 +149,6 @@
                     {{item.value}} {{item.unit?item.unit:""}}
                 </el-descriptions-item>
             </el-descriptions>
-
-            <!-- Mqtt通讯 -->
-            <mqtt-client ref="mqttClient" :publish="publish" :subscribes="subscribes" @callbackEvent="mqttCallback($event)" />
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14" v-if="deviceInfo.readOnlyList.length > 0">
@@ -199,13 +196,10 @@ import {
     cacheJsonThingsModel
 } from "@/api/iot/model";
 import * as echarts from 'echarts';
-import mqttClient from './mqtt-client.vue'
 
 export default {
     name: "running-status",
-    components: {
-        mqttClient
-    },
+    components: {},
     props: {
         device: {
             type: Object,
@@ -222,18 +216,12 @@ export default {
                     this.$nextTick(function () {
                         this.MonitorChart();
                     });
-                    // Mqtt订阅主题
-                    this.mqttSubscribe(this.deviceInfo);
                 });
             }
         }
     },
     data() {
         return {
-            // 发布消息
-            publish: {},
-            // 订阅集合
-            subscribes: [],
             // 控制模块标题
             title: "设备控制 ",
             // 未启用设备影子
@@ -259,15 +247,126 @@ export default {
                 arrayList: [],
                 readOnlyList: []
             },
+            // 监测图表
+            monitorChart: [{
+                chart: {},
+                data: {
+                    id: '',
+                    name: '',
+                    value: ''
+                },
+            }],
         }
     },
     created() {
-
+        // 回调处理
+        this.mqttCallback();
     },
     methods: {
+        /* Mqtt回调处理 */
+        mqttCallback() {
+            this.$mqttTool.client.on('message', (topic, message, buffer) => {
+                let topics = topic.split('/');
+                let productId = topics[1];
+                let deviceNum = topics[2];
+                message = JSON.parse(message.toString());
+                if (topics[3] == 'status') {
+                    console.log('接收到【设备状态-运行】主题：', topic);
+                    console.log('接收到【设备状态-运行】内容：', message);
+                    // 更新列表中设备的状态
+                    if (this.deviceInfo.serialNumber == deviceNum) {
+                        this.deviceInfo.status = message.status;
+                        this.deviceInfo.isShadow = message.isShadow;
+                        this.deviceInfo.rssi = message.rssi;
+                        this.updateDeviceStatus(this.deviceInfo);
+                    }
+                }
+                if (topics[3] == 'property' || topics[3] == 'function') {
+                    console.log('接收到【物模型】主题：', topic);
+                    console.log('接收到【物模型】内容：', message);
+                    // 更新列表中设备的属性
+                    if (this.deviceInfo.serialNumber == deviceNum) {
+                        for (let j = 0; j < message.length; j++) {
+                            let isComplete = false;
+                            // 布尔类型
+                            for (let k = 0; k < this.deviceInfo.boolList.length && !isComplete; k++) {
+                                if (this.deviceInfo.boolList[k].id == message[j].id) {
+                                    this.deviceInfo.boolList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 枚举类型
+                            for (let k = 0; k < this.deviceInfo.enumList.length && !isComplete; k++) {
+                                if (this.deviceInfo.enumList[k].id == message[j].id) {
+                                    this.deviceInfo.enumList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 字符串类型
+                            for (let k = 0; k < this.deviceInfo.stringList.length && !isComplete; k++) {
+                                if (this.deviceInfo.stringList[k].id == message[j].id) {
+                                    this.deviceInfo.stringList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 数组类型
+                            for (let k = 0; k < this.deviceInfo.arrayList.length && !isComplete; k++) {
+                                if (this.deviceInfo.arrayList[k].id == message[j].id) {
+                                    this.deviceInfo.arrayList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 整数类型
+                            for (let k = 0; k < this.deviceInfo.integerList.length && !isComplete; k++) {
+                                if (this.deviceInfo.integerList[k].id == message[j].id) {
+                                    this.deviceInfo.integerList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 小数类型
+                            for (let k = 0; k < this.deviceInfo.decimalList.length && !isComplete; k++) {
+                                if (this.deviceInfo.decimalList[k].id == message[j].id) {
+                                    this.deviceInfo.decimalList[k].shadow = message[j].value;
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                            // 监测数据
+                            for (let k = 0; k < this.deviceInfo.readOnlyList.length && !isComplete; k++) {
+                                if (this.deviceInfo.readOnlyList[k].id == message[j].id) {
+                                    this.deviceInfo.readOnlyList[k].shadow = message[j].value;
+                                    // 更新图表
+                                    for (let m = 0; m < this.monitorChart.length; m++) {
+                                        if (message[j].id == this.monitorChart[m].data.id) {
+                                            let data = [{
+                                                value: message[j].value,
+                                                name: this.monitorChart[m].data.name
+                                            }];
+                                            this.monitorChart[m].chart.setOption({
+                                                series: [{
+                                                    data: data
+                                                }]
+                                            });
+                                            break;
+                                        }
+                                    }
+                                    isComplete = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        },
         /** 发布物模型 类型(1=属性，2=功能) */
         publishThingsModel(device, model) {
-            // TODO 创建的时候获取一次即可。 获取缓存的Json物模型
+            // 获取缓存的Json物模型
             cacheJsonThingsModel(device.productId).then(response => {
                 let thingsModel = JSON.parse(response.data);
                 let type = 0;
@@ -288,7 +387,7 @@ export default {
                 if (type != 0) {
                     this.mqttPublish(type, device, model);
                 }
-            })
+            });
         },
         /** 
          * Mqtt发布消息
@@ -327,97 +426,14 @@ export default {
             }
             if (topic != "") {
                 // 发布
-                this.publish = {
-                    topic: topic,
-                    message: message,
-                    name: model.name
-                }
+                this.$mqttTool.publish(topic, message, model.name).then(res => {
+                    this.$modal.notifySuccess(res);
+                }).catch(res => {
+                    this.$modal.notifyError(res);
+                });
             }
         },
-        /** 接收到Mqtt回调 */
-        mqttCallback(data) {
-            let topics = [];
-            topics = data.topic.split("/");
-            let productId = topics[1];
-            let deviceNum = topics[2]
-            if (topics[3] == "status") {
-                // 更新列表中设备的状态
-                this.deviceInfo.status = data.message.status;
-                this.deviceInfo.isShadow = data.message.isShadow;
-                this.deviceInfo.rssi = data.message.rssi;
-                this.updateDeviceStatus(this.deviceInfo);
-                return;
-            }
-            if (topics[3] == 'property' || topics[3] == 'function') {
-                // 更新列表中设备的属性
-                if (this.deviceInfo.serialNumber == deviceNum) {
-                    for (let j = 0; j < data.message.length; j++) {
-                        let isComplete = false;
-                        // 布尔类型
-                        for (let k = 0; k < this.deviceInfo.boolList.length && !isComplete; k++) {
-                            if (this.deviceInfo.boolList[k].id == data.message[j].id) {
-                                this.deviceInfo.boolList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                        // 枚举类型
-                        for (let k = 0; k < this.deviceInfo.enumList.length && !isComplete; k++) {
-                            if (this.deviceInfo.enumList[k].id == data.message[j].id) {
-                                this.deviceInfo.enumList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                        // 字符串类型
-                        for (let k = 0; k < this.deviceInfo.stringList.length && !isComplete; k++) {
-                            if (this.deviceInfo.stringList[k].id == data.message[j].id) {
-                                this.deviceInfo.stringList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                        // 数组类型
-                        for (let k = 0; k < this.deviceInfo.arrayList.length && !isComplete; k++) {
-                            if (this.deviceInfo.arrayList[k].id == data.message[j].id) {
-                                this.deviceInfo.arrayList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                        // 整数类型
-                        for (let k = 0; k < this.deviceInfo.integerList.length && !isComplete; k++) {
-                            if (this.deviceInfo.integerList[k].id == data.message[j].id) {
-                                this.deviceInfo.integerList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                        // 小数类型
-                        for (let k = 0; k < this.deviceInfo.decimalList.length && !isComplete; k++) {
-                            if (this.deviceInfo.decimalList[k].id == data.message[j].id) {
-                                this.deviceInfo.decimalList[k].shadow = data.message[j].value;
-                                isComplete = true;
-                                break;
-                            }
-                        }
-                    }
-                    return;
-                }
-            }
-        },
-        /** Mqtt订阅主题 */
-        mqttSubscribe(device) {
-            // 订阅当前设备状态和无模型
-            let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
-            let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
-            let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
-            let topics = [];
-            topics.push(topicStatus);
-            topics.push(topicProperty);
-            topics.push(topicFunction);
-            this.subscribes = topics;
-        },
+
         /** 更新设备状态 */
         updateDeviceStatus(device) {
             if (device.status == 3) {
@@ -460,7 +476,14 @@ export default {
         /**监测图表统计*/
         MonitorChart() {
             for (let i = 0; i < this.deviceInfo.readOnlyList.length; i++) {
-                var myChart = echarts.init(this.$refs.map[i]);
+                this.monitorChart[i] = {
+                    chart: echarts.init(this.$refs.map[i]),
+                    data: {
+                        id: this.deviceInfo.readOnlyList[i].id,
+                        name: this.deviceInfo.readOnlyList[i].name,
+                        value: this.deviceInfo.readOnlyList[i].shadow
+                    }
+                };
                 var option;
                 option = {
                     tooltip: {
@@ -524,7 +547,7 @@ export default {
                         }
                     }]
                 };
-                option && myChart.setOption(option);
+                option && this.monitorChart[i].chart.setOption(option);
             }
         }
     },

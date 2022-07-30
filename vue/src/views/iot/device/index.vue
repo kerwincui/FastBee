@@ -212,18 +212,12 @@ export default {
             monitorNumber: 30,
             // 选中的实时监测设备
             monitorDevice: {},
-            // 发布消息
-            publish: {},
-            // 订阅集合
-            subscribes: [],
             // 图表集合
             chart: [],
             // 图表数据集合
             dataList: [],
             // 监测物模型
             monitorThings: [],
-            // mqtt客户端
-            client: {},
             // 遮罩层
             loading: true,
             // 图表遮罩层
@@ -309,18 +303,6 @@ export default {
             }
             this.mqttCallback();
             this.getList();
-        },
-        /** 查询设备分组列表 */
-        getGroupList() {
-            this.loading = true;
-            let queryParams = {
-                pageSize: 30,
-                pageNum: 1,
-                userId: this.$store.state.user.userId
-            }
-            listGroup(queryParams).then(response => {
-                this.myGroupList = response.rows;
-            });
         },
         /** 发布物模型 类型(1=属性，2=功能) */
         publishThingsModel(device, model) {
@@ -498,6 +480,14 @@ export default {
                                         break;
                                     }
                                 }
+                                // 监测数据
+                                for (let k = 0; k < this.deviceList[i].readOnlyList.length && !isComplete; k++) {
+                                    if (this.deviceList[i].readOnlyList[k].id == message[j].id) {
+                                        this.deviceList[i].readOnlyList[k].shadow = message[j].value;
+                                        isComplete = true;
+                                        break;
+                                    }
+                                }
                             }
                             return;
                         }
@@ -521,7 +511,18 @@ export default {
             }
             this.$mqttTool.subscribe(topics);
         },
-
+        /** 查询设备分组列表 */
+        getGroupList() {
+            this.loading = true;
+            let queryParams = {
+                pageSize: 30,
+                pageNum: 1,
+                userId: this.$store.state.user.userId
+            }
+            listGroup(queryParams).then(response => {
+                this.myGroupList = response.rows;
+            });
+        },
         /** 更新实时监测参数*/
         updateMonitorParameters() {
             // 清空图表数据

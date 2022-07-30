@@ -284,6 +284,7 @@ export default {
         // 获取设备信息
         this.form.deviceId = this.$route.query && this.$route.query.deviceId;
         if (this.form.deviceId != 0) {
+            this.connectMqtt();
             this.getDevice(this.form.deviceId);
         }
         // 未加载完，直接返回会报错
@@ -291,7 +292,64 @@ export default {
             this.isLoaded = true;
         }, 2000);
     },
+    destroyed() {
+        // 取消订阅主题
+		this.mqttUnSubscribe(this.form);
+    },
     methods: {
+        /* 连接Mqtt消息服务器 */
+		async connectMqtt() {
+			if (this.$mqttTool.client == null) {
+				await this.$mqttTool.connect(this.vuex_token);
+			}
+			this.mqttCallback();
+		},
+        /* Mqtt回调处理  */
+		mqttCallback() {
+			this.$mqttTool.client.on('message', (topic, message, buffer) => {
+				let topics = topic.split('/');
+				let productId = topics[1];
+				let deviceNum = topics[2];
+				message = JSON.parse(message.toString());
+				if (topics[3] == 'status') {
+					console.log('接收到【设备状态-详情】主题：', topic);
+					console.log('接收到【设备状态-详情】内容：', message);
+					// 更新列表中设备的状态
+					if (this.form.serialNumber == deviceNum) {
+                        this.oldDeviceStatus = message.status;
+                        this.form.status = message.status;
+						this.form.isShadow = message.isShadow;
+						this.form.rssid = message.rssid;
+					}
+				}
+			});
+		},
+        /** Mqtt订阅主题 */
+		mqttSubscribe(device) {
+			// 订阅当前设备状态和实时监测
+			let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
+			let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
+			let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
+			let topics = [];
+			topics.push(topicStatus);
+			topics.push(topicProperty);
+			topics.push(topicFunction);
+			this.$mqttTool.subscribe(topics);
+		},
+       /** Mqtt取消订阅主题 */
+		mqttUnSubscribe(device) {
+			// 订阅当前设备状态和实时监测
+			let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
+			let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
+			let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
+			let topics = [];
+			topics.push(topicStatus);
+			topics.push(topicProperty);
+			topics.push(topicFunction);
+			console.log('取消订阅', topics);
+			this.$mqttTool.unsubscribe(topics);
+		},
+
         // 获取子组件订阅的设备状态
         getDeviceStatus(status) {
             this.form.status = status;
@@ -300,8 +358,6 @@ export default {
         deviceSynchronization() {
             deviceSynchronization(this.form.serialNumber).then(response => {
                 this.form = response.data;
-                // 选项卡切换
-                this.activeName = 'runningStatus';
                 this.oldDeviceStatus = this.form.status;
                 this.loadMap();
             });
@@ -315,7 +371,8 @@ export default {
                 }
                 this.oldDeviceStatus = this.form.status;
                 this.loadMap();
-
+                //Mqtt订阅
+				this.mqttSubscribe(this.form);
             });
         },
         /**加载地图*/
