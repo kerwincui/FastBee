@@ -358,6 +358,8 @@ export default {
         deviceSynchronization() {
             deviceSynchronization(this.form.serialNumber).then(response => {
                 this.form = response.data;
+                // 选项卡切换
+                this.activeName = 'runningStatus';
                 this.oldDeviceStatus = this.form.status;
                 this.loadMap();
             });
