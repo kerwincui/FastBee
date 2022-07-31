@@ -8,7 +8,7 @@ const char *ap_password = ""; //开放式网络
 
 char sta_ssid[32] = {0};
 char sta_password[64] = {0};
-char sta_user_name[64] = {0};
+char sta_user_id[32] = {0};
 
 IPAddress local_IP(192, 168, 4, 1);
 IPAddress gateway(192, 168, 4, 1);
@@ -99,20 +99,20 @@ void connectWifi()
 void handleConfig()
 {
   printMsg("进入配网......");
-  // wifi名称、wifi密码、用户名
-  if (server.hasArg("SSID") && server.hasArg("password") && server.hasArg("userName"))
+  // wifi名称、wifi密码、用户编号
+  if (server.hasArg("SSID") && server.hasArg("password") && server.hasArg("userId"))
   {
     strcpy(sta_ssid, server.arg("SSID").c_str());
     strcpy(sta_password, server.arg("password").c_str());
-    strcpy(sta_user_name, server.arg("userName").c_str());
+    strcpy(sta_user_id, server.arg("userId").c_str());
     printMsg("收到WIFI名称：" + (String)sta_ssid);
     printMsg("收到WIFI密码：" + (String)sta_password);
-    printMsg("收到用户名称：" + (String)sta_user_name);
+    printMsg("收到用户编号：" + (String)sta_user_id);
   }
   else
   {
-    printMsg("配网必须传递用户名、WIFI名称和WIFI密码,配网失败");
-    server.send(500, "text/plain;charset=utf-8", "配网必须传递用户名、WIFI名称和WIFI密码，配网失败");
+    printMsg("配网必须传递用户编号、WIFI名称和WIFI密码,配网失败");
+    server.send(500, "text/plain;charset=utf-8", "配网必须传递用户编号、WIFI名称和WIFI密码，配网失败");
     return;
   }
   // 可选字段
