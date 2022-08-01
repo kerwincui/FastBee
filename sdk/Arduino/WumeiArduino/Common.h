@@ -1,22 +1,24 @@
-/***********************************************************
- * function： 设备交互
+/*********************************************************************
+ * function： 程序入口
  * board:     esp8266 core for arduino v3.0.2
- * library：  PubSubClient2.8.0  & ArduinoJson6.19.1
- * source:    https://github.com/kerwincui/wumei-smart
- ***********************************************************/
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: wumei-smart and kerwincui all rights reserved.
+ ********************************************************************/
  
 #ifndef _COMMON_H
 #define _COMMON_H
 
 #include "Base64.h"
 #include <ESP8266WiFi.h>
-#include <Ethernet.h>
-#include <ESP8266HTTPClient.h>
+#include <EEPROM.h>
 #include <PubSubClient.h>      // 版本2.8.0
 #include <ArduinoJson.h>       // 版本6.19.1
+#include <OneButton.h>         // 版本2.0.4
 
 extern WiFiClient wifiClient;
 extern PubSubClient mqttClient;
+extern OneButton button;
 
 extern String deviceNum ;      // 设备编号（重要，同时是Mqtt的clientId）
 extern String userId;          // 用户ID
@@ -37,14 +39,42 @@ extern String authCode;        // 产品授权码，产品未启用时为空字�
 extern String ntpServer;       // NTP服务地址，用于获取当前时间
 extern int monitorCount;       // 发布监测数据的最大次数
 extern long monitorInterval;   // 发布监测数据的间隔，默认1000毫秒
+extern bool isApMode;          // 是否进入AP配网模式
 
+
+// 订阅的主题
+extern String sInfoTopic;      // 订阅设备信息
+extern String sOtaTopic;       // 订阅OTA升级
+extern String sNtpTopic;       // 订阅NTP时间
+extern String sPropertyTopic;  // 订阅属性
+extern String sFunctionTopic;  // 订阅功能
+extern String sPropertyOnline; // 订阅属性-在线模式
+extern String sFunctionOnline; // 订阅功能-在线模式
+extern String sMonitorTopic;   // 订阅实时监测
+// 发布的主题
+extern String pInfoTopic;      // 发布设备信息
+extern String pNtpTopic;       // 发布NTP时间
+extern String pPropertyTopic;  // 发布属性
+extern String pFunctionTopic;  // 发布功能
+extern String pMonitorTopic;   // 发布实时监测数据
+extern String pEventTopic;     // 发布事件
+
+// 初始化项目
+void initWumeiSmart();
 // 连接WIFI
 void connectWifi();
+// 加载配置
+void loadConfig();
+// 保存配置
+void saveConfig();
+// 清空配置
+void clearConfig();
 // 随机生成监测值
 String randomPropertyData();
 //打印提示信息
 void printMsg(String tips);
 // 控制指示灯闪烁
 void blink();
+
 
 #endif 

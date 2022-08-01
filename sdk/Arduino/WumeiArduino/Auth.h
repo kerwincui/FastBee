@@ -1,16 +1,16 @@
-/***********************************************************
- * function： 设备认证
+/*********************************************************************
+ * function： 程序入口
  * board:     esp8266 core for arduino v3.0.2
- * library：  PubSubClient2.8.0  & ArduinoJson6.19.1
- * source:    https://github.com/kerwincui/wumei-smart
- ***********************************************************/
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: wumei-smart and kerwincui all rights reserved.
+ ********************************************************************/
  
-#ifndef _AUTH9_H
-#define _AUTH9_H
+#ifndef _AUTH_H
+#define _AUTH_H
 
 #include "Common.h"
 #include "Mqtt.h"
-#include "Base64.h"
 #include <Ethernet.h>
 #include <ESP8266HTTPClient.h>
 

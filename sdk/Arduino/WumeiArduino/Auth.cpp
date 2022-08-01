@@ -1,9 +1,10 @@
-/***********************************************************
- * function： 设备认证
+/*********************************************************************
+ * function： 程序入口
  * board:     esp8266 core for arduino v3.0.2
- * library：  PubSubClient2.8.0  & ArduinoJson6.19.1
- * source:    https://github.com/kerwincui/wumei-smart
- ***********************************************************/
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: wumei-smart and kerwincui all rights reserved.
+ ********************************************************************/
 
 #include "Auth.h"
 
@@ -24,6 +25,7 @@ void connectMqtt()
   String aesPassword = generationAESPwd();
   // 连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
   String clientId = "E&" + deviceNum + "&" + productId + "&" + userId;
+  printMsg("客户端ID："+clientId);
   bool connectResult = mqttClient.connect(clientId.c_str(), mqttUserName, aesPassword.c_str());
   if (connectResult)
   {

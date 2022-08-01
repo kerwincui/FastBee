@@ -1,29 +1,12 @@
-/***********************************************************
- * function： 设备交互
+/*********************************************************************
+ * function： 程序入口
  * board:     esp8266 core for arduino v3.0.2
- * library：  PubSubClient2.8.0  & ArduinoJson6.19.1
- * source:    https://github.com/kerwincui/wumei-smart
- ***********************************************************/
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: wumei-smart and kerwincui all rights reserved.
+ ********************************************************************/
 
 #include "Mqtt.h"
-
-// 订阅的主题
-String prefix = "/" + productId + "/" + deviceNum;
-String sInfoTopic = prefix + "/info/get";
-String sOtaTopic = prefix + "/ota/get";
-String sNtpTopic = prefix + "/ntp/get";
-String sPropertyTopic = prefix + "/property/get";
-String sFunctionTopic = prefix + "/function/get";
-String sPropertyOnline = prefix + "/property-online/get";
-String sFunctionOnline = prefix + "/function-online/get";
-String sMonitorTopic = prefix + "/monitor/get";
-// 发布的主题
-String pInfoTopic = prefix + "/info/post";
-String pNtpTopic = prefix + "/ntp/post";
-String pPropertyTopic = prefix + "/property/post";
-String pFunctionTopic = prefix + "/function/post";
-String pMonitorTopic = prefix + "/monitor/post";
-String pEventTopic = prefix + "/event/post";
 
 // 物模型-属性处理
 void processProperty(String payload)
@@ -188,6 +171,7 @@ void publishInfo()
   serializeJson(doc, Serial);
   String output;
   serializeJson(doc, output);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pInfoTopic.c_str(), output.c_str());
 }
 
@@ -201,6 +185,7 @@ void publishNtp()
   serializeJson(doc, Serial);
   String output;
   serializeJson(doc, output);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pNtpTopic.c_str(), output.c_str());
 }
 
@@ -208,6 +193,7 @@ void publishNtp()
 void publishProperty(String msg)
 {
   printMsg("发布属性:" + msg);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pPropertyTopic.c_str(), msg.c_str());
 }
 
@@ -215,6 +201,7 @@ void publishProperty(String msg)
 void publishFunction(String msg)
 {
   printMsg("发布功能:" + msg);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pFunctionTopic.c_str(), msg.c_str());
 }
 
@@ -237,6 +224,7 @@ void publishEvent()
   serializeJson(doc, Serial);
   String output;
   serializeJson(doc, output);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pEventTopic.c_str(), output.c_str());
 }
 
@@ -246,5 +234,6 @@ void publishMonitor()
   String msg=randomPropertyData();
   // 发布为实时监测数据，不会存储
   printMsg("发布实时监测数据:"+msg);
+  printMsg("主题为:" + pPropertyTopic);
   mqttClient.publish(pMonitorTopic.c_str(), msg.c_str());
 }

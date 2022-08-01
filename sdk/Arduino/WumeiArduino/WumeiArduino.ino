@@ -1,30 +1,38 @@
-/***********************************************************
+/*********************************************************************
  * function： 程序入口
  * board:     esp8266 core for arduino v3.0.2
- * library：  PubSubClient2.8.0  & ArduinoJson6.19.1
- * source:    https://github.com/kerwincui/wumei-smart
- ***********************************************************/
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: wumei-smart and kerwincui all rights reserved.
+ ********************************************************************/
 
 #include "Common.h"
 #include "Auth.h"
-#include "Mqtt.h"
+#include "Apconfig.h"
 
-long lastMqttConn;             // 上次mqtt连接时间
-long lastPublishMonitor;       // 上次发布监测数据时间
-long lastPublishSimulateData;  // 上次发布测试数据时间
+long lastMqttConn;            // 上次mqtt连接时间
+long lastPublishMonitor;      // 上次发布监测数据时间
+long lastPublishSimulateData; // 上次发布测试数据时间
 
 /**
  * 启动
  */
 void setup()
 {
-  //打开串行端口：
-  Serial.begin(115200);
-  printMsg("wumei smart device starting...");
-  // 连接Wifi
-  connectWifi();
-  // 连接Mqtt
-  connectMqtt();
+  // 初始化配置
+  initWumeiSmart();
+
+  if(strcmp(wifiSsid, "") == 0){
+    // 启动配网
+    startApConfig();
+  }else{
+    // 连接Wifi
+    connectWifi();
+    // 连接Mqtt(加密认证)
+    connectMqtt();
+  }
+  
+
 }
 
 /**
@@ -32,12 +40,28 @@ void setup()
  */
 void loop()
 {
-  // Wifi重连
-  wifiReconnectionClient();
-  // 发布实时监测数据
-  publicMonitorClient();
-  // 发布模拟数据，测试用
-  publishSimulateDataClient();
+  // 监测按钮
+  button.tick();
+
+  if (isApMode)
+  {
+    // 配网时的Web服务
+    server.handleClient();
+  }
+  else
+  {
+    // Wifi重连
+    wifiReconnectionClient();
+
+    // Mqtt重连
+    mqttReconnectionClient();
+
+    // 发布实时监测数据
+    publicMonitorClient();
+
+    // 发布模拟数据，测试用
+    publishSimulateDataClient();
+  }
 }
 
 /*
@@ -48,6 +72,29 @@ void wifiReconnectionClient()
   if (WiFi.status() != WL_CONNECTED)
   {
     connectWifi();
+  }
+}
+
+/*
+ *  mqtt掉线重连(非阻塞、间隔30s)
+ */
+void mqttReconnectionClient()
+{
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    long now = millis();
+    if (!mqttClient.connected())
+    {
+      if (now - lastMqttConn > 30000)
+      {
+        lastMqttConn = now;
+        connectMqtt();
+      }
+    }
+    else
+    {
+      mqttClient.loop();
+    }
   }
 }
 
