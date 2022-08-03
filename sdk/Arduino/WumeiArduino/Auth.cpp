@@ -1,5 +1,5 @@
 /*********************************************************************
- * function： 程序入口
+ * function： 设备认证
  * board:     esp8266 core for arduino v3.0.2
  * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
  * source:    https://gitee.com/kerwincui/wumei-smart
@@ -25,21 +25,13 @@ void connectMqtt()
   String aesPassword = generationAESPwd();
   // 连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
   String clientId = "E&" + (String)deviceNum + "&" + (String)productId + "&" + (String)userId;
-  printMsg("客户端ID："+clientId);
+  printMsg("客户端ID：" + clientId);
   bool connectResult = mqttClient.connect(clientId.c_str(), mqttUserName, aesPassword.c_str());
   if (connectResult)
   {
     printMsg("连接Mqtt成功");
-    // 订阅(OTA、NTP、属性、功能、实时监测、信息)
-    mqttClient.subscribe(sInfoTopic.c_str(), 1);
-    mqttClient.subscribe(sOtaTopic.c_str(), 1);
-    mqttClient.subscribe(sNtpTopic.c_str(), 1);
-    mqttClient.subscribe(sPropertyTopic.c_str(), 1);
-    mqttClient.subscribe(sFunctionTopic.c_str(), 1);
-    mqttClient.subscribe(sPropertyOnline.c_str(), 1);
-    mqttClient.subscribe(sFunctionOnline.c_str(), 1);
-    mqttClient.subscribe(sMonitorTopic.c_str(), 1);
-    printMsg("订阅主题完成");
+    // 订阅系统主题
+    subscribeTopic();
     // 发布设备信息,设备上电都需要发布一次
     publishInfo();
   }

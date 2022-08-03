@@ -1,5 +1,5 @@
 /*********************************************************************
- * function： 程序入口
+ * function： 设备AP配网
  * board:     esp8266 core for arduino v3.0.2
  * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
  * source:    https://gitee.com/kerwincui/wumei-smart
@@ -65,9 +65,9 @@ void handleConfig()
   if (server.hasArg("SSID") && server.hasArg("password") && server.hasArg("userId"))
   {
     // 分配空间
-    wifiSsid=(char *)malloc(32*sizeof(char));
-    wifiPwd=(char *)malloc(64*sizeof(char));
-    userId=(char *)malloc(16*sizeof(char));
+    wifiSsid = (char *)malloc(32 * sizeof(char));
+    wifiPwd = (char *)malloc(64 * sizeof(char));
+    userId = (char *)malloc(16 * sizeof(char));
     strcpy(config.stassid, server.arg("SSID").c_str());
     strcpy(wifiSsid, server.arg("SSID").c_str());
     strcpy(config.stapsw, server.arg("password").c_str());
@@ -88,14 +88,14 @@ void handleConfig()
   // 可选字段
   if (server.hasArg("deviceNum"))
   {
-    deviceNum=(char *)malloc(32*sizeof(char));
+    deviceNum = (char *)malloc(32 * sizeof(char));
     strcpy(config.deviceNum, server.arg("deviceNum").c_str());
     strcpy(deviceNum, server.arg("deviceNum").c_str());
     printMsg("收到设备编号：" + server.arg("deviceNum"));
   }
   if (server.hasArg("authCode"))
   {
-    authCode=(char *)malloc(32*sizeof(char));
+    authCode = (char *)malloc(32 * sizeof(char));
     strcpy(config.authCode, server.arg("authCode").c_str());
     strcpy(authCode, server.arg("authCode").c_str());
     printMsg("收到产品授权码：" + server.arg("authCode"));
@@ -105,9 +105,10 @@ void handleConfig()
     printMsg("收到补充信息：" + server.arg("extra"));
   }
   server.send(200, "text/plain;charset=utf-8", "设备已更新WIFI配置，开始连接WIFI...");
-
+  // 统一设置Mqtt消息主题前缀
+  prefix = "/" + (String)productId + "/" + (String)deviceNum;
   // 存储配置
-  saveConfig(config); 
+  saveConfig(config);
   // 连接Wifi
   connectWifi();
 }

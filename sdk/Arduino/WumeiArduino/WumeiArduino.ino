@@ -6,9 +6,10 @@
  * copyright: wumei-smart and kerwincui all rights reserved.
  ********************************************************************/
 
-#include "Common.h"
+#include "Config.h"
 #include "Auth.h"
 #include "Apconfig.h"
+#include "User.h"
 
 long lastWifiConn;            // 上次wifi连接时间
 long lastMqttConn;            // 上次mqtt连接时间
@@ -20,20 +21,24 @@ long lastPublishSimulateData; // 上次发布测试数据时间
  */
 void setup()
 {
-  clearConfig();
-  // 初始化配置
-  initWumeiSmart();
+  //打开串行端口：
+  Serial.begin(115200);
+  printMsg("wumei smart device starting...");
+  // 加载配置
+  loadConfig();
+  // 初始化用户配置
+  initUser();
 
-  if(strcmp(wifiSsid, "") == 0){
+  if (strcmp(wifiSsid, "") == 0)
+  {
     // 启动配网
     startApConfig();
-  }else{
+  }
+  else
+  {
     // 连接Wifi
     connectWifi();
-    // 连接Mqtt(加密认证)
-    connectMqtt();
   }
-  
 }
 
 /**
@@ -53,36 +58,33 @@ void loop()
   {
     // Wifi重连
     wifiReconnectionClient();
-
-    // Mqtt重连
+    // Mqtt连接
     mqttReconnectionClient();
-
     // 发布实时监测数据
     publicMonitorClient();
-
     // 发布模拟数据，测试用
     publishSimulateDataClient();
   }
 }
 
 /*
- *  Wifi掉线重连(非阻塞，间隔10s)
+ *  Wifi掉线重连(非阻塞，间隔5s)
  */
 void wifiReconnectionClient()
 {
   long now = millis();
   if (WiFi.status() != WL_CONNECTED)
   {
-    if (now - lastWifiConn > 10000)
-      {
-        lastWifiConn = now;
-        WiFi.reconnect();
-      }
+    if (now - lastWifiConn > 5000)
+    {
+      lastWifiConn = now;
+      WiFi.reconnect();
+    }
   }
 }
 
 /*
- *  mqtt掉线重连(非阻塞、间隔30s)
+ *  mqtt连接(非阻塞、间隔5s)
  */
 void mqttReconnectionClient()
 {
@@ -91,7 +93,7 @@ void mqttReconnectionClient()
     long now = millis();
     if (!mqttClient.connected())
     {
-      if (now - lastMqttConn > 30000)
+      if (now - lastMqttConn > 5000)
       {
         lastMqttConn = now;
         connectMqtt();
@@ -116,7 +118,8 @@ void publicMonitorClient()
     {
       lastPublishMonitor = now;
       monitorCount--;
-      publishMonitor();
+      String msg = randomPropertyData();
+      publishMonitor(msg);
     }
   }
 }
@@ -134,7 +137,7 @@ void publishSimulateDataClient()
       lastPublishSimulateData = now;
       printMsg("执行定时上报");
       // 发布事件
-      publishEvent();
+      processEvent();
       // 发布时钟同步
       publishNtp();
 

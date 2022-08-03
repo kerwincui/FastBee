@@ -1,7 +1,12 @@
-/*
- * Copyright (c) 2013 Adam Rudd.
- * See LICENSE for more information
- */
+
+/*********************************************************************
+ * function： Base64编码和解码
+ * board:     esp8266 core for arduino v3.0.2
+ * library：  PubSubClient2.8.0  & ArduinoJson6.19.1 & OneButton2.0.4
+ * source:    https://gitee.com/kerwincui/wumei-smart
+ * copyright: Copyright (c) 2013 Adam Rudd.
+ ********************************************************************/
+
 #ifndef _BASE64_H
 #define _BASE64_H
 
