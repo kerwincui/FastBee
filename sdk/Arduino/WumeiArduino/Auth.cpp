@@ -24,7 +24,7 @@ void connectMqtt()
   // 生成mqtt加密密码
   String aesPassword = generationAESPwd();
   // 连接 设备mqtt客户端Id格式为：认证类型(E=加密、S=简单) & 设备编号 & 产品ID & 用户ID
-  String clientId = "E&" + deviceNum + "&" + productId + "&" + userId;
+  String clientId = "E&" + (String)deviceNum + "&" + (String)productId + "&" + (String)userId;
   printMsg("客户端ID："+clientId);
   bool connectResult = mqttClient.connect(clientId.c_str(), mqttUserName, aesPassword.c_str());
   if (connectResult)

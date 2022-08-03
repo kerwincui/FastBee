@@ -10,6 +10,7 @@
 #include "Auth.h"
 #include "Apconfig.h"
 
+long lastWifiConn;            // 上次wifi连接时间
 long lastMqttConn;            // 上次mqtt连接时间
 long lastPublishMonitor;      // 上次发布监测数据时间
 long lastPublishSimulateData; // 上次发布测试数据时间
@@ -19,6 +20,7 @@ long lastPublishSimulateData; // 上次发布测试数据时间
  */
 void setup()
 {
+  clearConfig();
   // 初始化配置
   initWumeiSmart();
 
@@ -32,7 +34,6 @@ void setup()
     connectMqtt();
   }
   
-
 }
 
 /**
@@ -65,13 +66,18 @@ void loop()
 }
 
 /*
- *  Wifi掉线重连
+ *  Wifi掉线重连(非阻塞，间隔10s)
  */
 void wifiReconnectionClient()
 {
+  long now = millis();
   if (WiFi.status() != WL_CONNECTED)
   {
-    connectWifi();
+    if (now - lastWifiConn > 10000)
+      {
+        lastWifiConn = now;
+        WiFi.reconnect();
+      }
   }
 }
 

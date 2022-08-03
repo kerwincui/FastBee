@@ -9,6 +9,7 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+#include "Apconfig.h"
 #include "Base64.h"
 #include <ESP8266WiFi.h>
 #include <EEPROM.h>
@@ -16,13 +17,24 @@
 #include <ArduinoJson.h>       // 版本6.19.1
 #include <OneButton.h>         // 版本2.0.4
 
+// 存储的配置类型结构
+struct config_type
+{
+  char flag;          // 是否有数据标识，等于1表示有数据
+  char stassid[32];   // SSID配置项
+  char stapsw[64];    // Password配置项
+  char deviceNum[32]; // 设备编号配置项
+  char userId[16];    // 用户ID配置项
+  char authCode[32];  // 授权码配置项
+};
+
 extern WiFiClient wifiClient;
 extern PubSubClient mqttClient;
 extern OneButton button;
 
-extern String deviceNum ;      // 设备编号（重要，同时是Mqtt的clientId）
-extern String userId;          // 用户ID
-extern String productId;       // 产品ID
+extern char *deviceNum ;       // 设备编号（重要，同时是Mqtt的clientId）
+extern char *userId;           // 用户ID
+extern char *productId;        // 产品ID
 extern float rssi;             // 信号强度（信号极好4格[-55— 0]，信号好3格[-70— -55]，信号一般2格[-85— -70]，信号差1格[-100— -85]）
 extern float firmwareVersion;  // 固件版本
 extern float latitude;         // 设备精度
@@ -35,7 +47,7 @@ extern char *mqttUserName;     // Mqtt消息服务器账号
 extern char *mqttPwd;          // Mqtt消息服务器密码
 extern char mqttSecret[17];    // Mqtt秘钥,16位
 extern char wumei_iv[17];      // AES加密偏移量，固定值16位
-extern String authCode;        // 产品授权码，产品未启用时为空字符串
+extern char *authCode;         // 产品授权码，产品未启用时为空字符串
 extern String ntpServer;       // NTP服务地址，用于获取当前时间
 extern int monitorCount;       // 发布监测数据的最大次数
 extern long monitorInterval;   // 发布监测数据的间隔，默认1000毫秒
@@ -66,7 +78,7 @@ void connectWifi();
 // 加载配置
 void loadConfig();
 // 保存配置
-void saveConfig();
+void saveConfig(config_type config);
 // 清空配置
 void clearConfig();
 // 随机生成监测值
@@ -75,6 +87,8 @@ String randomPropertyData();
 void printMsg(String tips);
 // 控制指示灯闪烁
 void blink();
+// 控制指示灯状态
+void ledStatus(bool status);
 
 
 #endif 

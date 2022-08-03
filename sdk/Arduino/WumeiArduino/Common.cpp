@@ -7,28 +7,18 @@
  ********************************************************************/
 
 #include "Common.h"
+#define BUTTON 14 // 按键引脚
+#define LED 15    // LED灯引脚
 
 WiFiClient wifiClient;
 PubSubClient mqttClient;
-
-// 存储的配置类型
-struct config_type
-{
-  char stassid[32];   // SSID配置项
-  char stapsw[64];    // Password配置项
-  char deviceNum[64]; // 设备编号配置项
-  char userId[32];    // 用户ID配置项
-  char authCode[32];  // 授权码配置项
-};
-config_type config;
-
 OneButton button;
 // 按钮单击事件
 static void buttonClick();
 // 按钮双击事件
-static void buttonDoubleClick() ;
+static void buttonDoubleClick();
 // 按钮长按事件
-static void buttonLongPress() ;
+static void buttonLongPress();
 
 float rssi = 0;
 char wumei_iv[17] = "wumei-smart-open";
@@ -36,19 +26,17 @@ int monitorCount = 0;
 long monitorInterval = 1000;
 bool isApMode = false;
 
-//==================================== begin 可配置的项 ===============================
-
-// Wifi配置
+/********************************** begin 可配置的项 **********************************/
+// wifi信息
 char *wifiSsid = "";
 char *wifiPwd = "";
-
-String userId = "1";
+char *userId = "1";
 // 产品启用授权码，则授权码不能为空
-String authCode = "";
+char *authCode = "";
 
 // 设备信息配置
-String deviceNum = "D6329VL5668888";
-String productId = "41";
+char *deviceNum = "D6329VL5668888";
+char *productId = "41";
 float firmwareVersion = 1.0;
 // 经度和纬度可选，如果产品使用设备定位，则必须传
 float latitude = 0;
@@ -64,10 +52,10 @@ char mqttSecret[17] = "K2V5DE28XNUU3497";
 // NTP地址（用于获取时间,修改为自己部署项目的接口地址）
 String ntpServer = "http://wumei.live:8080/iot/tool/ntp?deviceSendTime=";
 
-//==================================== end 可配置的项 ===============================
+/********************************** end 可配置的项 **********************************/
 
-// 订阅的主题
-String prefix = "/" + productId + "/" + deviceNum;
+// Mqtt订阅的主题
+String prefix = "/" + (String)productId + "/" + (String)deviceNum;
 String sInfoTopic = prefix + "/info/get";
 String sOtaTopic = prefix + "/ota/get";
 String sNtpTopic = prefix + "/ntp/get";
@@ -76,7 +64,7 @@ String sFunctionTopic = prefix + "/function/get";
 String sPropertyOnline = prefix + "/property-online/get";
 String sFunctionOnline = prefix + "/function-online/get";
 String sMonitorTopic = prefix + "/monitor/get";
-// 发布的主题
+// Mqtt发布的主题
 String pInfoTopic = prefix + "/info/post";
 String pNtpTopic = prefix + "/ntp/post";
 String pPropertyTopic = prefix + "/property/post";
@@ -91,57 +79,64 @@ void initWumeiSmart()
   Serial.begin(115200);
   printMsg("wumei smart device starting...");
 
-  // 初始化按键为GND，并添加单击、双击、长按事件
-  button = OneButton(14, true, true);
+  // 初始化按键为低电平，并添加单击、双击、长按事件
+  button = OneButton(BUTTON, true, true);
   button.attachClick(buttonClick);
   button.attachDoubleClick(buttonDoubleClick);
   button.attachLongPressStart(buttonLongPress);
 
-  saveConfig();
+  // 加载配置
   loadConfig();
 }
 
 // 按钮单击事件
-static void buttonClick() {
-  Serial.println("Clicked!");
+static void buttonClick()
+{
+  printMsg("检测到按键单击");
+  ledStatus(true);
 }
 
 // 按钮双击事件
-static void buttonDoubleClick() {
-  Serial.println("double Clicked!");
+static void buttonDoubleClick()
+{
+  printMsg("检测到按键双击");
+  ledStatus(false);
 }
 
-// 按钮长按事件
-static void buttonLongPress() {
-  Serial.println("long Clicked!");
+// 按钮长按事件,进入配网模式
+static void buttonLongPress()
+{
+  if (isApMode)
+  {
+    printMsg("设备重启...");
+    ESP.restart();
+  }
+  else
+  {
+    printMsg("开始AP配网");
+    startApConfig();
+  }
 }
 
 // 连接wifi
 void connectWifi()
 {
-  printMsg("连接 ");
+  isApMode = false;
+  printMsg("连接Wifi... ");
   Serial.print(wifiSsid);
   WiFi.mode(WIFI_STA);
   WiFi.begin(wifiSsid, wifiPwd);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.print(".");
-  }
-  printMsg("WiFi连接成功");
-  printMsg("IP地址: ");
-  Serial.print(WiFi.localIP());
+  // 关闭AP配网模式
+  server.stop();
+  ledStatus(false);
 }
 
 // 存储配置
-void saveConfig()
+void saveConfig(config_type config)
 {
+  // 标识为已经存储数据
+  config.flag = 1;
   EEPROM.begin(240);
-  strcpy(config.stassid, "tp-six");                                                //名称复制
-  strcpy(config.stapsw, "clh15108665817");                                         //密码复制
-  strcpy(config.userId, "1000");                                                   //密码复制
-  strcpy(config.authCode, "8kjfsfjjkjfjljdfldjfsdlfjsdlfjl8");                     //密码复制
-  strcpy(config.deviceNum, "6qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6"); //密码复制
   printMsg("存储配置...");
   uint8_t *p = (uint8_t *)(&config);
   for (int i = 0; i < sizeof(config); i++)
@@ -154,6 +149,7 @@ void saveConfig()
 // 加载配置
 void loadConfig()
 {
+  config_type config;
   EEPROM.begin(240);
   printMsg("加载配置...");
   uint8_t *p = (uint8_t *)(&config);
@@ -161,14 +157,36 @@ void loadConfig()
   {
     *(p + i) = EEPROM.read(i);
   }
-  EEPROM.commit();
-  wifiSsid = config.stassid;
-  wifiPwd = config.stapsw;
-  printMsg("SSID: " + (String)config.stassid);
-  printMsg("SSID: " + (String)config.authCode);
-  printMsg("SSID: " + (String)config.deviceNum);
-  printMsg("SSID: " + (String)config.userId);
-  printMsg("Password: " + (String)wifiPwd);
+  if (config.flag != 1)
+  {
+    printMsg("flash暂无数据");
+    return;
+  }
+  // wifi名称
+  if (strlen(config.stassid) != 0)
+  {
+    strcpy(wifiSsid, config.stassid);
+  }
+  // wifi密码
+  if (strlen(config.stapsw) != 0)
+  {
+    strcpy(wifiPwd, config.stapsw);
+  }
+  // 设备编号
+  if (strlen(config.deviceNum) != 0)
+  {
+    strcpy(deviceNum, config.deviceNum);
+  }
+  // 用户编号
+  if (strlen(config.userId) != 0)
+  {
+    strcpy(userId, config.userId);
+  }
+  // 授权码
+  if (strlen(config.authCode) != 0)
+  {
+    strcpy(authCode, config.authCode);
+  }
 }
 
 // 清空配置
@@ -233,13 +251,26 @@ void printMsg(String msg)
 void blink()
 {
   printMsg("指示灯闪烁...");
-  int led = 15;
-  pinMode(led, OUTPUT);
+  pinMode(LED, OUTPUT);
   for (int i = 0; i < 2; i++)
   {
-    digitalWrite(led, HIGH);
+    digitalWrite(LED, HIGH);
     delay(100);
-    digitalWrite(led, LOW);
+    digitalWrite(LED, LOW);
     delay(100);
+  }
+}
+
+// 控制指示灯状态
+void ledStatus(bool status)
+{
+  pinMode(LED, OUTPUT);
+  if (status)
+  {
+    digitalWrite(LED, HIGH);
+  }
+  else
+  {
+    digitalWrite(LED, LOW);
   }
 }
