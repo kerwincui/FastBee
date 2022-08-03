@@ -230,7 +230,7 @@
                 </div>
                 <div style="display:table;">
                     <div style="width:70px;font-weight: bold;display:table-cell;">赞助用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为2500元，项目不断完善后会对应增加费用。</div>
+                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为3000元，项目不断完善后会对应增加费用。</div>
                 </div>
             </el-card>
             <el-card shadow="hover" style="padding:20px 0;margin-bottom:40px;font-size:14px;">

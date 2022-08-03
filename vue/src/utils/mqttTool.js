@@ -79,7 +79,7 @@ mqttTool.subscribe = function (topics) {
       qos: 1
     }, function (err, res) {
       console.log("订阅主题：", topics);
-      if (!err && res.length > 0) {
+      if (!err) {
         console.log("订阅成功")
         resolve('订阅成功')
       } else {
