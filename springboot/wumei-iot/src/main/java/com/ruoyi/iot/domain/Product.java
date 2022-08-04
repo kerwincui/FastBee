@@ -64,19 +64,19 @@ public class Product extends BaseEntity
     }
 
     /** 状态（1-未发布，2-已发布，不能修改） */
-    @Excel(name = "状态", readConverterExp = "1=-未发布，2-已发布，不能修改")
+    @Excel(name = "状态", readConverterExp = "1==未发布，2=已发布，不能修改")
     private Integer status;
 
     /** 设备类型（1-直连设备、2-网关子设备、3-网关设备） */
-    @Excel(name = "设备类型", readConverterExp = "1=-直连设备、2-网关子设备、3-网关设备")
+    @Excel(name = "设备类型", readConverterExp = "1=直连设备、2=网关子设备、3=网关设备")
     private Integer deviceType;
 
-    /** 联网方式（1-wifi、2-蓝牙、3-wifi+蓝牙） */
-    @Excel(name = "联网方式", readConverterExp = "1=-wifi、2-蓝牙、3-wifi+蓝牙")
+    /** 联网方式（1=-wifi、2-蜂窝(2G/3G/4G/5G)、3-以太网、4-其他） */
+    @Excel(name = "联网方式", readConverterExp = "1=-wifi、2=蜂窝(2G/3G/4G/5G)、3=以太网、4=其他")
     private Integer networkMethod;
 
     /** 认证方式（1-账号密码、2-证书、3-Http） */
-    @Excel(name = "认证方式", readConverterExp = "1=-账号密码、2-证书、3-Http")
+    @Excel(name = "认证方式", readConverterExp = "1=账号密码、2=证书、3=Http")
     private Integer vertificateMethod;
 
     /** 图片地址 */

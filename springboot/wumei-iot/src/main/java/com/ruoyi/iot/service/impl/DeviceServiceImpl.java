@@ -574,7 +574,7 @@ public class DeviceServiceImpl implements IDeviceService {
                     return AjaxResult.error("用户已经拥有设备：" + existDevice.getDeviceName() + ", 设备编号：" + existDevice.getSerialNumber());
                 }
                 // 先删除设备的所有用户
-                deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null,existDevice.getDeviceId()));
+                deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null, existDevice.getDeviceId()));
                 // 添加新的设备用户
                 DeviceUser deviceUser = new DeviceUser();
                 deviceUser.setUserId(sysUser.getUserId());
@@ -902,6 +902,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int reportDevice(Device device, Device deviceEntity) {
         // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
         if (deviceEntity.getLocationWay() != 2) {
@@ -910,11 +911,38 @@ public class DeviceServiceImpl implements IDeviceService {
         }
         int result = 0;
         if (deviceEntity != null) {
-            // 更新设备信息
+            // 联网方式为Wifi的需要更新用户信息（1=wifi、2=蜂窝(2G/3G/4G/5G)、3=以太网、4=其他）
+            Product product = productService.selectProductByProductId(deviceEntity.getProductId());
+            if (product.getNetworkMethod() == 1) {
+                if (deviceEntity.getUserId().longValue() != device.getUserId().longValue()) {
+                    // 先删除设备的所有用户
+                    deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null, deviceEntity.getDeviceId()));
+                    // 添加新的设备用户
+                    SysUser sysUser = userService.selectUserById(device.getUserId());
+                    DeviceUser deviceUser = new DeviceUser();
+                    deviceUser.setUserId(sysUser.getUserId());
+                    deviceUser.setUserName(sysUser.getUserName());
+                    deviceUser.setPhonenumber(sysUser.getPhonenumber());
+                    deviceUser.setDeviceId(deviceEntity.getDeviceId());
+                    deviceUser.setDeviceName(deviceEntity.getDeviceName());
+                    deviceUser.setTenantId(deviceEntity.getTenantId());
+                    deviceUser.setTenantName(deviceEntity.getTenantName());
+                    deviceUser.setIsOwner(1);
+                    deviceUser.setCreateTime(DateUtils.getNowDate());
+                    deviceUserMapper.insertDeviceUser(deviceUser);
+                    // 更新设备用户信息
+                    device.setUserId(device.getUserId());
+                    device.setUserName(sysUser.getUserName());
+                }
+            }else{
+                // 其他联网设备不更新用户信息
+                device.setUserId(null);
+            }
             device.setUpdateTime(DateUtils.getNowDate());
             if (deviceEntity.getActiveTime() == null || deviceEntity.getActiveTime().equals("")) {
                 device.setActiveTime(DateUtils.getNowDate());
             }
+            // 不更新物模型
             device.setThingsModelValue(null);
             result = deviceMapper.updateDeviceBySerialNumber(device);
         }
