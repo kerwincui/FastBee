@@ -69,8 +69,9 @@ void connectWifi()
 {
   if (isApMode)
   {
-    // 关闭AP配网模式
+    // 关闭AP配网模式，延迟2秒确保返回状态码给手机
     isApMode = false;
+    delay(2000);
     server.stop();
     ledStatus(false);
   }
