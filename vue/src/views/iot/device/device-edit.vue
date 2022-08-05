@@ -15,7 +15,7 @@
                             <template slot="label">
                                 <span style="color:red;">* </span>设备编号
                             </template>
-                            <el-input v-model="form.serialNumber" placeholder="请输入设备编号" :disabled="form.status!=1">
+                            <el-input v-model="form.serialNumber" placeholder="请输入设备编号" :disabled="form.status!=1" maxlength="32">
                                 <el-button slot="append" @click="generateNum" :loading="genDisabled" :disabled="form.status!=1">生成</el-button>
                             </el-input>
                         </el-form-item>
@@ -152,7 +152,7 @@
             </el-col>
             <el-col :span="10">
                 <div style="border:1px solid #ccc;width:200px;text-align: center;margin-left:20px;margin-top:-10px;">
-                    <vue-qr :text="qrText" :size="200" ></vue-qr>
+                    <vue-qr :text="qrText" :size="200"></vue-qr>
                     <div style="padding-bottom:10px;">设备二维码</div>
                 </div>
             </el-col>
@@ -232,7 +232,7 @@ export default {
     data() {
         return {
             // 二维码内容
-            qrText:'wumei-smart',
+            qrText: 'wumei-smart',
             // 打开设备配置对话框
             openSummary: false,
             // 是否加载完成
@@ -271,6 +271,11 @@ export default {
                     required: true,
                     message: "设备名称不能为空",
                     trigger: "blur"
+                }, {
+                    min: 2,
+                    max: 5,
+                    message: '设备名称长度在 2 到 5 个字符',
+                    trigger: 'blur'
                 }],
                 firmwareVersion: [{
                     required: true,
@@ -294,61 +299,61 @@ export default {
     },
     destroyed() {
         // 取消订阅主题
-		this.mqttUnSubscribe(this.form);
+        this.mqttUnSubscribe(this.form);
     },
     methods: {
         /* 连接Mqtt消息服务器 */
-		async connectMqtt() {
-			if (this.$mqttTool.client == null) {
-				await this.$mqttTool.connect(this.vuex_token);
-			}
-			this.mqttCallback();
-		},
+        async connectMqtt() {
+            if (this.$mqttTool.client == null) {
+                await this.$mqttTool.connect(this.vuex_token);
+            }
+            this.mqttCallback();
+        },
         /* Mqtt回调处理  */
-		mqttCallback() {
-			this.$mqttTool.client.on('message', (topic, message, buffer) => {
-				let topics = topic.split('/');
-				let productId = topics[1];
-				let deviceNum = topics[2];
-				message = JSON.parse(message.toString());
-				if (topics[3] == 'status') {
-					console.log('接收到【设备状态-详情】主题：', topic);
-					console.log('接收到【设备状态-详情】内容：', message);
-					// 更新列表中设备的状态
-					if (this.form.serialNumber == deviceNum) {
+        mqttCallback() {
+            this.$mqttTool.client.on('message', (topic, message, buffer) => {
+                let topics = topic.split('/');
+                let productId = topics[1];
+                let deviceNum = topics[2];
+                message = JSON.parse(message.toString());
+                if (topics[3] == 'status') {
+                    console.log('接收到【设备状态-详情】主题：', topic);
+                    console.log('接收到【设备状态-详情】内容：', message);
+                    // 更新列表中设备的状态
+                    if (this.form.serialNumber == deviceNum) {
                         this.oldDeviceStatus = message.status;
                         this.form.status = message.status;
-						this.form.isShadow = message.isShadow;
-						this.form.rssid = message.rssid;
-					}
-				}
-			});
-		},
+                        this.form.isShadow = message.isShadow;
+                        this.form.rssid = message.rssid;
+                    }
+                }
+            });
+        },
         /** Mqtt订阅主题 */
-		mqttSubscribe(device) {
-			// 订阅当前设备状态和实时监测
-			let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
-			let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
-			let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
-			let topics = [];
-			topics.push(topicStatus);
-			topics.push(topicProperty);
-			topics.push(topicFunction);
-			this.$mqttTool.subscribe(topics);
-		},
-       /** Mqtt取消订阅主题 */
-		mqttUnSubscribe(device) {
-			// 订阅当前设备状态和实时监测
-			let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
-			let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
-			let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
-			let topics = [];
-			topics.push(topicStatus);
-			topics.push(topicProperty);
-			topics.push(topicFunction);
-			console.log('取消订阅', topics);
-			this.$mqttTool.unsubscribe(topics);
-		},
+        mqttSubscribe(device) {
+            // 订阅当前设备状态和实时监测
+            let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
+            let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
+            let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
+            let topics = [];
+            topics.push(topicStatus);
+            topics.push(topicProperty);
+            topics.push(topicFunction);
+            this.$mqttTool.subscribe(topics);
+        },
+        /** Mqtt取消订阅主题 */
+        mqttUnSubscribe(device) {
+            // 订阅当前设备状态和实时监测
+            let topicStatus = '/' + device.productId + '/' + device.serialNumber + '/status/post';
+            let topicProperty = '/' + device.productId + '/' + device.serialNumber + '/property/post';
+            let topicFunction = '/' + device.productId + '/' + device.serialNumber + '/function/post';
+            let topics = [];
+            topics.push(topicStatus);
+            topics.push(topicProperty);
+            topics.push(topicFunction);
+            console.log('取消订阅', topics);
+            this.$mqttTool.unsubscribe(topics);
+        },
 
         // 获取子组件订阅的设备状态
         getDeviceStatus(status) {
@@ -374,7 +379,7 @@ export default {
                 this.oldDeviceStatus = this.form.status;
                 this.loadMap();
                 //Mqtt订阅
-				this.mqttSubscribe(this.form);
+                this.mqttSubscribe(this.form);
             });
         },
         /**加载地图*/
@@ -429,6 +434,20 @@ export default {
         },
         /** 提交按钮 */
         submitForm() {
+            if (this.form.serialNumber == null || this.form.serialNumber == 0) {
+                this.$modal.alertError("设备编号不能为空");
+                return;
+            }
+            let reg = /^[0-9a-zA-Z]+$/;
+            if (!reg.test(this.form.serialNumber)) {
+                this.$modal.alertError("设备编号只能是字母和数字");
+                return;
+            }
+            if (this.form.productId == null || this.form.productId == 0) {
+                this.$modal.alertError("所属产品不能为空");
+                return;
+            }
+
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     if (this.form.deviceId != 0) {
@@ -476,13 +495,13 @@ export default {
         },
         /**关闭物模型 */
         openSummaryDialog() {
-            let json={
-                type:1,// 1=扫码关联设备
-                deviceNumber:this.form.serialNumber,
-                productId:this.form.productId,
-                productName:this.form.productName,
+            let json = {
+                type: 1, // 1=扫码关联设备
+                deviceNumber: this.form.serialNumber,
+                productId: this.form.productId,
+                productName: this.form.productName,
             };
-            this.qrText=JSON.stringify(json);
+            this.qrText = JSON.stringify(json);
             this.openSummary = true;
         },
         /**关闭物模型 */
