@@ -273,8 +273,8 @@ export default {
                     trigger: "blur"
                 }, {
                     min: 2,
-                    max: 5,
-                    message: '设备名称长度在 2 到 5 个字符',
+                    max: 32,
+                    message: '设备名称长度在 2 到 32 个字符',
                     trigger: 'blur'
                 }],
                 firmwareVersion: [{
