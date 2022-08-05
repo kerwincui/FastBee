@@ -217,6 +217,7 @@ export default {
                         this.MonitorChart();
                     });
                 });
+                this.connectMqtt();
             }
         }
     },
@@ -259,10 +260,16 @@ export default {
         }
     },
     created() {
-        // 回调处理
-        this.mqttCallback();
+
     },
     methods: {
+        /* 连接Mqtt消息服务器 */
+		async connectMqtt() {
+			if (this.$mqttTool.client == null) {
+				await this.$mqttTool.connect(this.vuex_token);
+			}
+			this.mqttCallback();
+		},
         /* Mqtt回调处理 */
         mqttCallback() {
             this.$mqttTool.client.on('message', (topic, message, buffer) => {

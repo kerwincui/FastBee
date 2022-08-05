@@ -444,7 +444,8 @@ export default {
                     } else {
                         addDevice(this.form).then(response => {
                             this.form = response.data;
-                            this.oldDeviceStatus = this.from.status;
+                            console.log(response);
+                            this.oldDeviceStatus = this.form.status;
                             if (this.form.deviceId == null || this.form.deviceId == 0) {
                                 this.$modal.alertError("设备编号已经存在，添加设备失败");
                             } else {
