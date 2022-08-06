@@ -38,7 +38,7 @@
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
     - 开发工具：HBuilder
 * 硬件端
-    - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python等
+    - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
     - 开发工具：Visual Studio Code 和 Arduino
 
 
@@ -56,19 +56,18 @@
 * [物美智能官网](http://wumei.live/)
 * [若依权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
 * [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
-* [ESP8266 Core For Arduino](https://github.com/esp8266/Arduino)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 * [TDengine时序数据库](https://www.taosdata.com/?zh)
 
 
-### 八、其他
+### 七、其他
 1. 互助交流群：946029159 1073236354
 2. 项目贡献者 
   - [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)
   - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
 
 
-### 九、部分图片
+### 八、部分图片
 
 ![](https://oscimg.oschina.net/oscnet/up-75a392de73aff6110e7345399aed1cc78fb.png)
 ![](https://oscimg.oschina.net/oscnet/up-94aa4573358d29b485d71bb251964d2bfb3.png)
