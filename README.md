@@ -41,16 +41,8 @@
     - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python等
     - 开发工具：Visual Studio Code 和 Arduino
 
-### 五、硬件接入
-1. 设备认证
-    * 加密认证（推荐）
-    * 简单认证
-2. 设备交互
-    * 发布物模型、设备信息、时钟同步相关Mqtt主题
-    * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
-
-### 六、项目目录
+### 五、项目目录
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot --------------- 后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
@@ -63,7 +55,7 @@
 | √ | √| √ | √ | √ |
 
 
-### 七、相关文档
+### 六、相关文档
 ##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
 * [项目文档](https://wumei.live/doc/)
 * [物美智能官网](http://wumei.live/)
