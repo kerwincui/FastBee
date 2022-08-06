@@ -27,7 +27,7 @@
 - 开发中功能：设备告警、场景联动、云云对接智能音箱、第三方登录、短信登录、APP界面自定义、视频流处理等
 
 
-### 四、技术栈    
+### 三、技术栈    
 * 服务端
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Mqtt等
     - 开发工具：IDEA    
@@ -39,10 +39,10 @@
     - 开发工具：HBuilder
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
-    - 开发工具：Visual Studio Code 和 Arduino
+    - 开发工具：Visual Studio Code 和 Arduino等
 
 
-### 五、项目目录
+### 四、项目目录
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot --------------- 后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
@@ -50,7 +50,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 移动端打包文件
 
 
-### 六、相关文档
+### 五、相关文档
 ##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
 * [项目文档](https://wumei.live/doc/)
 * [物美智能官网](http://wumei.live/)
@@ -60,14 +60,14 @@
 * [TDengine时序数据库](https://www.taosdata.com/?zh)
 
 
-### 七、其他
+### 六、其他
 1. 互助交流群：946029159 1073236354
 2. 项目贡献者 
   - [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)
   - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
 
 
-### 八、部分图片
+### 七、部分图片
 
 ![](https://oscimg.oschina.net/oscnet/up-bae37a65120d87a357b5d366e2f7e343f24.png)
 ![](https://oscimg.oschina.net/oscnet/up-6d89f1558797a9becf07c20f92c1407a13a.png)
