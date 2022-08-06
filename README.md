@@ -49,15 +49,12 @@
     * 发布物模型、设备信息、时钟同步相关Mqtt主题
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
 
-###### 项目提供了示例SDK，使用ESP8266芯片，基于Arduino开发。（设备烧录使用串口模块，例如Ch340，大部分开发板自带了）接线图如下：
-![烧录代码](https://oscimg.oschina.net/oscnet/up-ed61da9a62390de451715686d6a6b37c190.png)
-
 
 ### 六、项目目录
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot --------------- 后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
-&nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK<br />
+&nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK，不同设备的SDK示例在不断增加<br />
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 移动端打包文件
 
 ###### 移动端适配多端
