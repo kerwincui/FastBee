@@ -3,16 +3,15 @@
 
 #### 1. 物美智能 [wumei-smart](http://wumei.live/) 是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。
 
-#### 2. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
+#### 2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
+
+#### 3. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
 
-#### 3. 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
-
-#### 4. 参考设备
-|   [空气检测仪](https://wumei.live/doc/pages/hardware/)  |   [Wifi通断器](https://wumei.live/doc/pages/hardware/)  |  [智能插座](https://wumei.live/doc/pages/hardware/)  |  [智能开关](https://wumei.live/doc/pages/hardware/) | [Wifi通断器](https://wumei.live/doc/pages/hardware/)  |
+#### 4. 相关硬件
+|[空气检测仪](https://wumei.live/doc/pages/hardware/)  |   [物联网开发板](https://wumei.live/doc/pages/hardware/)  |  [Air724开发板](https://wumei.live/doc/pages/hardware/)  |  [智能开关](https://wumei.live/doc/pages/hardware/) | [查看更多>>](https://wumei.live/doc/pages/hardware/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
-| ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-c38ce010e18349cfa526600c60e49792738.png)  | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | ![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg)  | ![](https://oscimg.oschina.net/oscnet/up-e99eb758dc5abe387e880dbcb30ee21c063.jpg) |
-
+| ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
 
 
 
@@ -20,12 +19,12 @@
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
 - 系统监控： 操作日志、登录日志、系统日志、在线用户、服务监控、连接池监控、缓存监控等
 - 产品管理： 产品、产品物模型、产品分类、产品固件、设备授权码等
-- 设备管理： 控制、分组、定时、日志、统计、定位、分享、配置、配网、禁用、OTA升级、实时状态、自动注册、影子模式、实时监测、加密认证等
+- 设备管理： 设备控制、设备分组、设备定时、设备日志、监测统计、设备定位、设备分享、智能配网、设备禁用、OTA升级、实时状态、影子模式、实时监测、加密认证等
 - EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理、规则引擎、资源
 - 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报监测数据、AES加密、NTP时间等
 - 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
 - 其他功能：多租户、统计、新闻资讯、通知公告、支持TDengine时序数据库
-- 计划开发完善功能：设备告警、场景联动、云云对接智能音箱、第三方登录、短信登录、APP界面自定义、视频流处理等
+- 开发中功能：设备告警、场景联动、云云对接智能音箱、第三方登录、短信登录、APP界面自定义、视频流处理等
 
 
 ### 四、技术栈    
@@ -39,14 +38,13 @@
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
     - 开发工具：HBuilder
 * 硬件端
-    - 相关技术： ESP-IDF、Arduino、FreeRTOS等
+    - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python等
     - 开发工具：Visual Studio Code 和 Arduino
 
 ### 五、硬件接入
 1. 设备认证
     * 加密认证（推荐）
     * 简单认证
-    * EMQX支持的其他认证方式 
 2. 设备交互
     * 发布物模型、设备信息、时钟同步相关Mqtt主题
     * 订阅物模型、设备升级、时钟同步相关Mqtt主题
@@ -87,15 +85,8 @@
 ![](https://oscimg.oschina.net/oscnet/up-a6feaa7aa6ea54551bd9feb97ebfb0ff206.jpg)
 
 ##### 项目贡献者 
-
-|[小驿物联](https://gitee.com/iot-xiaoyi) |[Guanshubiao](https://gitee.com/guanshubiao)|[CrazyDull](https://gitee.com/crazyDull) |[Kami0314](https://github.com/kami0314)|[YBZX](https://github.com/YBZX)
-|--|--|--|--|--|
-
-| [SXH](https://gitee.com/sixiaohu) | [Redamancy_zxp](https://gitee.com/redamancy-zxp) | [LEE](https://gitee.com/yueming188) | [LemonTree](https://gitee.com/fishhunterplus) | [Tang](https://gitee.com/mexiaotang)
-|--|--|--|--|--|
-
-| [xxmfl](https://gitee.com/xxmfl) |
-|--|
+- [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)
+- [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
 
 
 ### 九、部分图片
