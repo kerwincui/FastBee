@@ -1,7 +1,7 @@
 
 ### 一、项目简介
 
-#### 1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。
+#### 1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。[演示地址>>](https://iot.wumei.live/)
 
 #### 2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
 
@@ -75,15 +75,14 @@
 
 
 ### 八、其他
-* 互助交流群：946029159 1073236354
-* [演示地址>>](https://iot.wumei.live/)
-* 小程序演示
-
+1. 互助交流群：946029159 1073236354
+2. 项目贡献者 
+  - [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)
+  - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
+3. 扫码查看小程序演示 <br />
 ![](https://oscimg.oschina.net/oscnet/up-a6feaa7aa6ea54551bd9feb97ebfb0ff206.jpg)
 
-##### 项目贡献者 
-- [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)
-- [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
+
 
 
 ### 九、部分图片
