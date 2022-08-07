@@ -46,7 +46,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; spring-boot --------------- 后端<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
-&nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK，不同设备的SDK示例在不断增加<br />
+&nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK,已集成多种设备<br />
 &nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 移动端打包文件
 
 
