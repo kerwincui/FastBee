@@ -41,7 +41,6 @@ python3 main_sdk.py
 #### 三、开发参考资料：
 
 - [Eclipse Paho MQTT Python Client 使用手册](https://www.cooooder.com/archives/20210303)
-- [Eclipse Paho MQTT Python Client 使用手册](https://www.cooooder.com/archives/20210303) 
 - [Python 实现AES加密](https://zhuanlan.zhihu.com/p/261694311) 
 - [python实现AES加密解密](https://blog.csdn.net/chouzhou9701/article/details/122019967)
 - [使用python time()方法](http://www.py.cn/jishu/jichu/20424.html)
