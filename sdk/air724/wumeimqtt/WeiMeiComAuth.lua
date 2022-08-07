@@ -3,6 +3,7 @@
 -- @module 物美MQTT通信
 -- @license MIT
 -- @copyright 杜兴杰
+-- @email 1066950103@qq.com
 -- @release 2022.8.4
 
 module(..., package.seeall)

@@ -13,7 +13,7 @@ local m_strLongitude = "0"
 local m_strLatitude = "0"
 
 local m_nTemperature = 25
-local m_nVoltval = 4.0
+--local m_nVoltval = 4.0
 
 --模块温度返回回调函数
 --@temp温度，srting类型，如果要对该值进行运算，可以使用带float的固件将该值转为number
@@ -35,11 +35,11 @@ local function read0()
 end
 
 --2秒循环查询模块温度
---sys.timerLoopStart(misc.getTemperature,1000,getTemperatureCb)
---sys.timerLoopStart(read0,1000)
+sys.timerLoopStart(misc.getTemperature,1000,getTemperatureCb)
+sys.timerLoopStart(read0,1000)
 
 -- 开启对应的adc通道
---adc.open(0)
+adc.open(0)
 
 
 
@@ -53,7 +53,7 @@ function PropertyData()
         value= m_nTemperature ,
         remark="温度信息"
     },{
-        id= "Voltage",
+        id= "voltage",
         value= m_nVoltval,
         remark="电压信息"
     }}
@@ -74,7 +74,7 @@ function InformationData()
             chip = "air724",
             author = "duxingjie",
             version=0.1,
-            create = "2022-08-06"
+            create = "2022-08-07"
         }
     }
     local jsonStr = json.encode(jsonData)

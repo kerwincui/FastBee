@@ -3,6 +3,7 @@
 -- @module 物美MQTT通信测试
 -- @license MIT
 -- @copyright 杜兴杰
+-- @email 1066950103@qq.com
 -- @release 2022.8.5
 module(..., package.seeall)
 require"WeiMeiComAuth"
@@ -13,22 +14,21 @@ require"mqtt"
 
 local ready = false
 
-
-
 --物美配置参数相关配置
 local m_strEncryptionMode = "S"
-local m_strProductId = 218 
+local m_strProductId = 220 
 local m_strDeviceId = nil
 local m_strUserId = "1" -- admin
 local m_strMqttUser = "wumei-smart"
-local m_strMqttPassword = "PKYCYO0G8WH7PT8K"
-local m_strProductPassword = "K2K63TIMFACA0T65" --产品密码
+local m_strMqttPassword = "PVMXS6V46205CAQ5"
+local m_strProductPassword = "KC3169JOU816X5C0" --产品密码
 local m_nMqttAuthenticationTimeout = 24*60*60*1000 --24小时
 local m_strMqttIp = "wumei.live"
 local m_strDeviceAuthorizationCode = "A25040D2E34B483DA371B5F9A315BB43" --设备授权码
 
 local m_mqttClient = nil
 local m_mqttFlag = 0
+
 function AuthenticationResultCallback(nResult)
     if nResult == 1 then 
         log.info("---AuthenticationResultCallback---ok")
@@ -53,6 +53,7 @@ local function GetSubscriberAll()
     end
     return true
 end
+
 --- MQTT连接是否处于激活状态
 -- @return 激活状态返回true，非激活状态返回false
 -- @usage mqttTask.isReady()
