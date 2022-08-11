@@ -40,6 +40,12 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/bigScreen',
+    component: (resolve) => require(['@/views/bigScreen/home'], resolve),
+    hidden: true,
+    meta: { bigScreen: true }
+  },
+  {
     path: '/login',
     component: (resolve) => require(['@/views/login'], resolve),
     hidden: true

@@ -1,0 +1,50 @@
+// 颜色
+$primary-color: #1890ff;
+$primary-color-hl: rgb(41, 52, 67);
+$default-color: #006569;
+$link: #1890ff;
+$active-color: rgb(0, 101, 105);
+$del-color: #ff1839;
+$content-background: #f3f5fa;
+$table-header-background: #d8eaff;
+
+$primary-color-rgba: rgba($color: $primary-color,
+  $alpha: 0.1,
+);
+//表格上面button按钮颜色
+$table-header-button: #18d1ff;
+// 阴影
+$primary-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
+0 0 6px rgba(0, 0, 0, 0.04);
+$primary-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$baidu-shadow: 1px 2px 1px rgba(0, 0, 0, 0.15);
+$gaode-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
+0 2px 6px 0 rgba(0, 0, 0, 0.19);
+
+// box-shadow: 0 2px 6px 0 rgb(114 124 245 / 50%);
+
+$primary-border: $primary-color solid 1px;
+
+$tool-top: 20px;
+
+//header 的高度
+$index-height: 60px;
+$index-content-height: calc(100% - 60px);
+$index-tags-height: 36px;
+// 宽度侧边栏
+$aside-width: 200px;
+$content-padding: 16px;
+
+$default-zindex: 99;
+
+/*文本格式化，超出范围，显示省略号*/
+@mixin text-overflow($num: 1) {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+}
+
+

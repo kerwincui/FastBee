@@ -1,0 +1,361 @@
+@import "./modules/reset.scss";
+@import "./modules/variables.scss";
+@import './theme/index.css';
+@import '../iconfont//iconfont.css';
+
+[class*=" blq-icon-"],
+[class^=blq-icon-] {
+  font-family: iconfont !important;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+*,
+:after,
+:before {
+  box-sizing: content-box;
+}
+
+.clearfix {
+  &::after {
+    content: "";
+    display: table;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+}
+
+.contents {
+  width: 100%;
+  display: flex;
+  min-height: calc(100% - 60px);
+  justify-content: space-between;
+}
+
+.beautify-scroll-def {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar-thumb {
+    //滚动条的设置
+    background-color: rgba(14, 59, 150, 0);
+    background-clip: padding-box;
+    border-radius: 4px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      //滚动条的设置
+      background-color: rgba(14, 59, 150, 0.5);
+      background-clip: padding-box;
+      border-radius: 4px;
+    }
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    //滚动条凹槽的颜色，还可以设置边框属性
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    //滚动条的宽度
+    width: 8px;
+    height: 8px;
+  }
+
+
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(14, 59, 150, .8);
+  }
+}
+
+
+.orderNum {
+  // min-width: 22px;
+  // height: 22px;
+  // background: #00b8ff;
+  // border-radius: 50%;
+  // text-align: center;
+  // line-height: 22px;
+  // font-size: 13px;
+  // font-weight: 900;
+  // color: #0f2854;
+  color: #00b8ff;
+}
+
+.yh-big-input {
+  width: 253px;
+  height: 14px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .53);
+  border-radius: 4px;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 14px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &:focus {
+    outline: none;
+    border-color: #31abe3;
+  }
+}
+
+.yh-big-el-input {
+  width: 253px;
+  font-size: 14px;
+
+  .el-input__inner {
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, .53);
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 1;
+    color: #fff;
+    &:hover{
+      border-color: rgba(255, 255, 255, .8);
+    }
+    &:focus {
+      outline: none;
+      border-color: #31abe3;
+    }
+
+  }
+
+}
+
+.yh-big-button {
+  width: 53px;
+  height: 26px;
+  background: #00b1d6;
+  border-radius: 4px;
+  // border-color: #00b1d6;
+  border-width: 1px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+
+  &:hover,
+  &:focus {
+    // border-color: #0597b4;
+    background: #0597b4;
+  }
+}
+
+
+//浮动
+.float-r {
+  float: right;
+}
+
+//浮动
+.float-l {
+  float: left;
+}
+
+// 字体加粗
+.fw-b {
+  font-weight: bold;
+}
+
+//文章一行显示，多余省略号显示
+.title-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//表格样式重置
+.ve-table {
+  $border-color: #525371;
+  // $border-color: rgba(255, 255, 255, .43);
+  box-sizing: border-box;
+
+  .ve-table-container {
+    &::-webkit-scrollbar-track-piece {
+      //滚动条凹槽的颜色，还可以设置边框属性
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      //滚动条的宽度
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      //滚动条的设置
+      background-color: rgba(14, 59, 150, 0.5);
+      background-clip: padding-box;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(14, 59, 150, .8);
+    }
+
+    .ve-table-content {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0px;
+        width: 1px;
+        height: 100%;
+        background-color: $border-color;
+        z-index: 20;
+
+      }
+    }
+
+  }
+
+  &.ve-table-border-around {
+    border-color: $border-color;
+  }
+
+  .ve-table-container table.ve-table-content thead.ve-table-header tr.ve-table-header-tr {
+    height: 34px;
+    box-sizing: border-box;
+
+    th.ve-table-header-th {
+      background: #04004E;
+      color: #FFF;
+      border-color: $border-color;
+      box-sizing: border-box;
+      line-height: 1;
+    }
+  }
+
+  .ve-table-container table.ve-table-content tbody.ve-table-body {
+
+    tr.ve-table-body-tr td.ve-table-body-td,
+    tr.ve-table-expand-tr td.ve-table-body-td,
+    tr.ve-table-body-tr td.ve-table-expand-td,
+    tr.ve-table-expand-tr td.ve-table-expand-td {
+      background: transparent;
+      color: #FFF;
+      border-color: $border-color;
+      box-sizing: border-box;
+    }
+
+    tr.ve-table-body-tr,
+    tr.ve-table-expand-tr {
+      height: 34px;
+      box-sizing: border-box;
+    }
+
+    &.ve-table-row-hover tr.ve-table-body-tr:hover td {
+      background-color: rgba(0, 0, 0, .22);
+      box-sizing: border-box;
+    }
+  }
+
+
+
+  .ve-table-container .ve-table-border-x th,
+  .ve-table-container .ve-table-border-x td {
+    border-color: $border-color;
+    box-sizing: border-box;
+  }
+
+}
+
+
+
+//颜色
+@each $colorkey,
+$color in $colors {
+  .text-#{$colorkey} {
+    color: $color;
+  }
+
+  .bg-#{$colorkey} {
+    background-color: $color;
+  }
+}
+
+//对齐
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var !important;
+  }
+}
+
+//flex
+@each $key,
+$value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+
+@each $key,
+$value in $flex-ai {
+  .ai-#{$key} {
+    align-items: $value;
+  }
+}
+
+//字体
+@each $fontkey,
+$fontvalue in $font-sizes {
+  .fs-#{$fontkey} {
+    font-size: $fontvalue * $base-font-size;
+  }
+}
+
+//.mt-1 => margin top
+//spacing
+
+@each $typekey,
+$type in $spacing-types {
+
+  //.m-1
+  @each $sizekey,
+  $size in $spacing-sizes {
+    .#{$typekey}-#{$sizekey} {
+      #{$type}: $size * $spacing-base-size;
+    }
+  }
+
+  //.mx-1
+  @each $sizekey,
+  $size in $spacing-sizes {
+    .#{$typekey}x-#{$sizekey} {
+      #{$type}-left: $size * $spacing-base-size;
+      #{$type}-right: $size * $spacing-base-size;
+    }
+
+    .#{$typekey}y-#{$sizekey} {
+      #{$type}-top: $size * $spacing-base-size;
+      #{$type}-bottom: $size * $spacing-base-size;
+    }
+  }
+
+  //.mt-1
+  @each $directionkey,
+  $direction in $spacing-directions {
+
+    @each $sizekey,
+    $size in $spacing-sizes {
+      .#{$typekey}#{$directionkey}-#{$sizekey} {
+        #{$type}-#{$direction}: $size * $spacing-base-size;
+      }
+    }
+  }
+
+  .#{$typekey} {
+    #{$type}: 0;
+  }
+}
