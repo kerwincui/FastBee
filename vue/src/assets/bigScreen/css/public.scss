@@ -1,0 +1,156 @@
+.flex {
+	display: flex;
+}
+
+.flex-direction {
+	flex-direction: column;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.align-start {
+	align-items: flex-start;
+}
+
+.align-end {
+	align-items: flex-end;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.align-stretch {
+	align-items: stretch;
+}
+
+.self-start {
+	align-self: flex-start;
+}
+
+.self-center {
+	align-self: flex-center;
+}
+
+.self-end {
+	align-self: flex-end;
+}
+
+.self-stretch {
+	align-self: stretch;
+}
+
+.align-stretch {
+	align-items: stretch;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+@for $i from 0 through 12 {
+  .rdx-flex-#{$i} {
+    flex: $i;
+  }
+}
+
+@for $i from 9 to 50 {
+  .rdx-font-#{$i} {
+    font-size: $i + px;
+  }
+}
+
+@for $i from 2 to 50 {
+  .rdx-radius-#{$i} {
+    border-radius: $i + px;
+  }
+}
+@for $i from 10 to 50 {
+  .rdx-line-height-#{$i} {
+    line-height: $i + px;
+  }
+}
+
+// 定义内外边距，历遍1-80
+@for $i from 0 through 80 {
+  // 只要双数和能被5除尽的数
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    // 得出：u-margin-30或者u-m-30
+    .rdx-m-#{$i} {
+      margin: $i + px !important;
+    }
+    // 得出：u-padding-30或者u-p-30
+    .rdx-p-#{$i} {
+      padding: $i + px !important;
+    }
+
+    @each $short, $long in l left, t top, r right, b bottom {
+      // 缩写版，结果如： u-m-l-30
+      // 定义外边距
+      .rdx-m-#{$short}-#{$i} {
+        margin-#{$long}: $i + px !important;
+      }
+
+      // 定义内边距
+      .rdx-p-#{$short}-#{$i} {
+        padding-#{$long}: $i + px !important;
+      }
+
+	 //自定义左右内边距
+	  .rdx-p-lr-#{$i} {
+		padding-left:$i + px !important;
+		padding-right:$i + px !important;
+	  }
+	  //自定义上下内边距
+	   .rdx-p-tb-#{$i} {
+	  		padding-top:$i + px !important;
+	  		padding-bottom:$i + px !important;
+	   }
+    }
+  }
+}
+i{font-style: normal;}
+.position-re{position: relative;}
+.position-ab{position: absolute; z-index: 9;}
+.position-fixed{position: fixed; background: rgba(92, 116, 143, 0.45); width: 100%; height: 100%; left: 0px; top: 0px; z-index: 10;}
+.round{border-radius: 50%;}
+.font-strong{font-weight: bold;}
+// .color-del{color:$del-color}
+// .color-primary{color: $primary-color;}
+.color-remark{color: #666666;}
+.color-9{color: #999999;}
+.color-green{color: #38a800;}
+.bg-white{background-color: white;}
+.line-bottom{border-bottom: 1px solid #eeeeee;}
+.button-pointer{cursor: pointer;}
+.box-shadow-item{box-shadow: 0px 0px 4px 0px rgba(45, 45, 46, 0.1);}
+.search-form .search-form-item label {text-align: right; padding-right: 6px;}
+
+
+.break-all{
+  word-break: break-all;
+}
+.blocks{
+  width: 100%;
+  height: 100%;
+}
+.cursor-pointer{
+  cursor: pointer;
+}

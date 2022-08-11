@@ -42,7 +42,30 @@ import VueClipboard from 'vue-clipboard2'
 // Mqtt工具
 import mqttTool from '@/utils/mqttTool'
 
+import ItemWrap from './views/bigScreen/components/item-wrap/item-wrap.vue'
+import Message from './views/bigScreen/components/message/message.vue'
+import Reacquire from './views/bigScreen/components/reacquire/reacquire.vue'
+import Echart from './views/bigScreen/components/echart/index.vue'
 
+import  '@/assets/bigScreen/css/public.scss'
+import "@/assets/bigScreen/css/index.scss"
+import {loading,borderBox13,digitalFlop,capsuleChart,borderBox8} from '@jiaminghi/data-view'
+import * as filters from '@/directive/filters'
+
+require('./mock/mock')//是否使用mock
+
+// datav组件
+Vue.use(loading)
+Vue.use(borderBox13)
+Vue.use(borderBox8)
+Vue.use(digitalFlop)
+Vue.use(capsuleChart)
+
+// 自定义组件
+Vue.component("Echart",Echart)
+Vue.component("ItemWrap",ItemWrap)
+Vue.component("Message",Message)
+Vue.component("Reacquire",Reacquire)
 
 
 
@@ -73,7 +96,8 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
-
+// 全局数据过滤器
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
