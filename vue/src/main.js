@@ -47,8 +47,6 @@ import Message from './views/bigScreen/components/message/message.vue'
 import Reacquire from './views/bigScreen/components/reacquire/reacquire.vue'
 import Echart from './views/bigScreen/components/echart/index.vue'
 
-import  '@/assets/bigScreen/css/public.scss'
-import "@/assets/bigScreen/css/index.scss"
 import {loading,borderBox13,digitalFlop,capsuleChart,borderBox8} from '@jiaminghi/data-view'
 import * as filters from '@/directive/filters'
 

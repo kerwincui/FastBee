@@ -88,6 +88,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 @import "./home.scss";
+@import '../../assets/bigScreen/css/theme/index.css';
+@import "../../assets/bigScreen/css/index.scss" 
 </style>
