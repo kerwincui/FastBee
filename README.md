@@ -3,7 +3,7 @@
 
 #### 1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。[演示地址>>](https://iot.wumei.live/)
 
-#### 2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
+#### 2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途必须赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
 
 #### 3. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
