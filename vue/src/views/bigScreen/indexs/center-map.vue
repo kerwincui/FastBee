@@ -43,7 +43,8 @@ export default {
   methods: {
     getData(code) {
       currentGET('big8',{regionCode:code}).then(res => {
-        console.log('设备分布', res);
+        console.log('设备分布', JSON.stringify(res));
+        //{"success":true,"data":{"dataList":[{"name":"湖北省","value":430},{"name":"浙江省","value":143},{"name":"广东省","value":668},{"name":"湖南省","value":460},{"name":"陕西省","value":764},{"name":"吉林省","value":405},{"name":"重庆","value":753},{"name":"江苏省","value":849}],"regionCode":-1}}
         if (res.success) {
           if (!code) {
             this.userCode = res.data.regionCode;
@@ -57,7 +58,8 @@ export default {
       })
     },
     getGeojson(name, mydata) {
-
+       console.log('设备分布1', name);
+       console.log('设备分布2', mydata);
       if (name == -1) {
         name = 'china'
       }
@@ -306,10 +308,11 @@ export default {
       this.options = option;
     },
     message(text) {
-      this.$Message({
-        text: text,
-        type: 'warning'
-      })
+      // this.$Message({
+      //   text: text,
+      //   type: 'warning'
+      // })
+      alert(text);
     },
     mapclick() {
       if (this.echartBindClick || this.userCode !== -1) return
@@ -317,10 +320,12 @@ export default {
       this.$refs.CenterMap.chart.on("click", (params) => {
         // console.log(params);
         let xzqData = xzqCode[params.name];
+        console.log(xzqData)
         if (xzqData) {
           this.getData(xzqData.adcode);
         } else {
-          this.message("暂无下级地市!");
+          //  alert("暂无下级地市!");
+          // this.message("暂无下级地市!");
         }
       });
       this.echartBindClick = true
