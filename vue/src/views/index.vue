@@ -1,14 +1,14 @@
 <template>
-<div style="padding:10px;">
-    <el-row :gutter="20" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
+<div style="padding:10px;background-color:#f8f8f8;">
+    <el-row :gutter="20" style="margin:10px 0px 60px 0px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-            <div style="overflow:hidden;">
+            <div style="overflow:hidden;border:1px solid #ccc;">
                 <div ref="map" style="height:650px;"></div>
             </div>
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-            <div style="padding:20px;">
+            <el-card shadow="none" style="">
                 <h3 style="font-weight:bold"><i class="el-icon-s-data"></i> 设备统计</h3>
                 <el-row :gutter="40" class="panel-group">
                     <el-col :span="12" class="card-panel-col">
@@ -90,8 +90,8 @@
                         </div>
                     </el-col>
                 </el-row>
-            </div>
-            <div style="padding:20px;">
+            </el-card>
+            <el-card shadow="none" style="margin-top:22px;">
                 <h3 style="font-weight:bold;margin-bottom:10px;"><i class="el-icon-s-order"></i> 信息栏</h3>
                 <div style="cursor:pointer;display:table;width:100%;line-height:36px;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
                     <div style="display:table-cell;padding-right:10px;">
@@ -101,180 +101,184 @@
                     </div>
                     <div style="display:table-cell;width:90px;font-size:14px;"><i class="el-icon-time"></i> {{ parseTime(item.createTime, '{y}-{m}-{d}') }}</div>
                 </div>
-            </div>
-
-        </el-col>
-    </el-row>
-
-    <el-row :gutter="80" v-if="isAdmin" style="background-color:#fafafa;margin:10px 10px 60px 10px;padding:20px 0;">
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="">
-            <h3 style="font-weight:bold">Mqtt 统计指标</h3>
-            <el-row :gutter="20" class="panel-group">
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-orange">
-                            <svg-icon icon-class="guide" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                发送字节
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-green">
-                            <svg-icon icon-class="receiver" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                接收字节
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-orange">
-                            <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                认证次数
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-green">
-                            <svg-icon icon-class="connect" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                连接次数
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-orange">
-                            <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                订阅次数
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
-                    <div class="card-panel">
-                        <div class="card-panel-icon-wrapper icon-green">
-                            <svg-icon icon-class="message" class-name="card-panel-icon" />
-                        </div>
-                        <div class="card-panel-description">
-                            <div class="card-panel-text">
-                                接收消息
-                            </div>
-                            <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
-        </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="">
-            <div ref="statsChart" style="height:275px;margin:20px 0 40px 0;"></div>
-            <el-table :data="tableData" border stripe size="mini" :show-header="false" style="width: 100%;margin-bottom:40px;">
-                <el-table-column prop="server" label="服务器信息" width="82">
-                </el-table-column>
-                <el-table-column prop="serverContent" label="详情" min-width="100">
-                </el-table-column>
-                <el-table-column prop="java" label="JAVA虚拟机" width="82">
-                </el-table-column>
-                <el-table-column prop="javaContent" label="详情" min-width="100">
-                </el-table-column>
-            </el-table>
-        </el-col>
-        <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" style="">
-            <div style="padding:20px;">
-                <div ref="pieCpu" style="height:161px;border-bottom:1px solid #ddd;"></div>
-            </div>
-            <div style="padding:20px;">
-                <div ref="pieMemery" style="height:161px;border-bottom:1px solid #ddd;"></div>
-            </div>
-            <div style="padding:20px;">
-                <div ref="pieDisk" style="height:161px;"></div>
-            </div>
-        </el-col>
-
-    </el-row>
-
-    <el-row :gutter="40" style="background-color:#fafafa;margin:10px 10px 60px 10px;">
-        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding:40px;">
-            <el-card shadow="hover" style="padding:20px 0;margin-bottom:20px;font-size:14px;">
-                <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
-                <div style="display:table;font-size:14px;margin-bottom:10px;">
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途</b></div>
-                </div>
-                <div style="display:table;margin-bottom:10px;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;">普通用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
-                </div>
-                <div style="display:table;">
-                    <div style="width:70px;font-weight: bold;display:table-cell;">赞助用户：</div>
-                    <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为3500元，项目不断完善后会对应增加费用。</div>
-                </div>
-            </el-card>
-            <el-card shadow="hover" style="padding:20px 0;margin-bottom:40px;font-size:14px;">
-                <div style="float:left;width:230px;">
-                    <el-image style="width:210px;" :src="require('@/assets/images/code.jpg')"></el-image>
-                </div>
-                <div style="float:left;">
-                    <div style="font-size:18px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
-                    <div style="font-size:14px;font-weight:bold;margin:16px 0;color:#F56C6C">右侧查看H5端演示 >>> </div>
-                    <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
-                        <div style="display:table-cell;">
-                            <el-link target="_blank" href="https://wumei.live/">www.wumei.live</el-link>
-                        </div>
-                    </div>
-                    <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">在线文档</div>
-                        <div style="display:table-cell;">
-                            <el-link target="_blank" href="https://wumei.live/doc">www.wumei.live/doc</el-link>
-                        </div>
-                    </div>
-                    <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
-                        <div style="display:table-cell;">
-                            <span>QQ 164770707</span>
-                        </div>
-                    </div>
-                    <div style="display:table;margin-bottom:15px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">系统源码</div>
-                        <div style="display:table-cell;">
-                            <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
-                            <el-link target="_blank" href="https://github.com/kerwincui/wumei-smart" style="margin-left:20px;">Github源码</el-link>
-                        </div>
-                    </div>
-                </div>
-
             </el-card>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="padding:40px;">
-            <div class="phone">
-                <iframe src="https://wumei.live/h5" id="iframe" frameborder="0" scrolling="auto" height="100%" width="100%" class="phone-container"></iframe>
-            </div>
-        </el-col>
     </el-row>
+
+    <el-card shadow="none" style="margin:10px 10px 60px 10px;padding:20px 0;">
+        <el-row :gutter="120" v-if="isAdmin">
+            <el-col :xs="24" :sm="24" :md="24" :lg="7" :xl="7">
+                <h3 style="font-weight:bold">Mqtt 统计指标</h3>
+                <el-row :gutter="20" class="panel-group">
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-orange">
+                                <svg-icon icon-class="guide" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    发送字节
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['bytes.sent']" :duration="3000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-green">
+                                <svg-icon icon-class="receiver" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    接收字节
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['bytes.received']" :duration="3000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-orange">
+                                <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    认证次数
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.authenticate']" :duration="1000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:18px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-green">
+                                <svg-icon icon-class="connect" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    连接次数
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.connected']" :duration="1000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-orange">
+                                <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    订阅次数
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['client.subscribe']" :duration="2000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="24" class="card-panel-col" style="margin-bottom:17px;">
+                        <div class="card-panel">
+                            <div class="card-panel-icon-wrapper icon-green">
+                                <svg-icon icon-class="message" class-name="card-panel-icon" />
+                            </div>
+                            <div class="card-panel-description">
+                                <div class="card-panel-text">
+                                    接收消息
+                                </div>
+                                <count-to :start-val="0" :end-val="this.static['messages.received']" :duration="2000" class="card-panel-num" />
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
+                <div ref="statsChart" style="height:275px;margin:20px 0 40px 0;"></div>
+                <el-table :data="tableData" border stripe size="mini" :show-header="false" style="width: 100%;margin-bottom:40px;">
+                    <el-table-column prop="server" label="服务器信息" width="82">
+                    </el-table-column>
+                    <el-table-column prop="serverContent" label="详情" min-width="100">
+                    </el-table-column>
+                    <el-table-column prop="java" label="JAVA虚拟机" width="82">
+                    </el-table-column>
+                    <el-table-column prop="javaContent" label="详情" min-width="100">
+                    </el-table-column>
+                </el-table>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
+                <div style="padding:20px;">
+                    <div ref="pieCpu" style="height:161px;border-bottom:1px solid #ddd;"></div>
+                </div>
+                <div style="padding:20px;">
+                    <div ref="pieMemery" style="height:161px;border-bottom:1px solid #ddd;"></div>
+                </div>
+                <div style="padding:20px;">
+                    <div ref="pieDisk" style="height:161px;"></div>
+                </div>
+            </el-col>
+
+        </el-row>
+    </el-card>
+
+    <el-card shadow="none" style="margin:10px 10px 60px 10px;">
+        <el-row :gutter="40">
+            <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding:40px;">
+                <div style="padding:30px;margin:20px 0;font-size:14px;">
+                    <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
+                    <div style="display:table;font-size:14px;margin-bottom:10px;">
+                        <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途。<br />为不影响用户体验，项目会小概率随机不定时弹窗</b></div>
+                    </div>
+                    <div style="display:table;margin-bottom:10px;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">普通用户：</div>
+                        <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途，有弹窗。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
+                    </div>
+                    <div style="display:table;">
+                        <div style="width:70px;font-weight: bold;display:table-cell;">赞助用户：</div>
+                        <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新，无弹窗。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为3500元，项目不断完善后会对应增加费用。</div>
+                    </div>
+                </div>
+                <div style="padding:30px;font-size:14px;">
+                    <div style="float:left;width:230px;">
+                        <el-image style="width:210px;" :src="require('@/assets/images/code.jpg')"></el-image>
+                    </div>
+                    <div style="float:left;">
+                        <div style="font-size:18px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
+                        <div style="font-size:14px;font-weight:bold;margin:16px 0;color:#F56C6C">右侧查看H5端演示 >>> </div>
+                        <div style="display:table;margin-bottom:10px;">
+                            <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
+                            <div style="display:table-cell;">
+                                <el-link target="_blank" href="https://wumei.live/">www.wumei.live</el-link>
+                            </div>
+                        </div>
+                        <div style="display:table;margin-bottom:10px;">
+                            <div style="width:70px;font-weight: bold;display:table-cell;">在线文档</div>
+                            <div style="display:table-cell;">
+                                <el-link target="_blank" href="https://wumei.live/doc">www.wumei.live/doc</el-link>
+                            </div>
+                        </div>
+                        <div style="display:table;margin-bottom:10px;">
+                            <div style="width:70px;font-weight: bold;display:table-cell;">联系作者</div>
+                            <div style="display:table-cell;">
+                                <span>QQ 164770707</span>
+                            </div>
+                        </div>
+                        <div style="display:table;margin-bottom:15px;">
+                            <div style="width:70px;font-weight: bold;display:table-cell;">系统源码</div>
+                            <div style="display:table-cell;">
+                                <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
+                                <el-link target="_blank" href="https://github.com/kerwincui/wumei-smart" style="margin-left:20px;">Github源码</el-link>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="padding:40px;">
+                <div class="phone">
+                    <iframe src="https://wumei.live/h5" id="iframe" frameborder="0" scrolling="auto" height="100%" width="100%" class="phone-container"></iframe>
+                </div>
+            </el-col>
+        </el-row>
+
+    </el-card>
 
     <!--通知公告详情 -->
     <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px" append-to-body>
@@ -981,7 +985,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .phone {
     height: 729px;
     width: 370px;
