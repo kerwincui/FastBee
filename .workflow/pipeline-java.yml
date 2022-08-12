@@ -22,7 +22,7 @@ stages:
         name: build_maven
         displayName: Maven 构建
         jdkVersion: '8'
-        mavenVersion: 3.6.1
+        mavenVersion: 3.6.3
         commands:
           - cd ./springboot
           - mvn -B clean package -Dmaven.test.skip=true
@@ -49,16 +49,12 @@ stages:
             name: springboot
             target: ~/gitee_go/deploy
             dependArtifact: BUILD_JAVA
-        script: |-
-          # 请在此输入部署脚本，如启动Java应用如下
-          # nohup java -jar test.jar > nohup.out &
-           echo 'Hello Gitee!'
-           touch springboot
+        script:
+          - '# 请在此输入部署脚本，如启动Java应用如下'
+          - '# nohup java -jar test.jar > nohup.out &'
+          - ' echo ''Hello Gitee!'''
+          - ' touch springboot'
         strategy:
           retry: '0'
 strategy:
   blocking: true
-permissions:
-  - role: admin
-    members:
-      - kerwincui
