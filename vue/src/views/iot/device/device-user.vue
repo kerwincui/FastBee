@@ -15,8 +15,8 @@
         <el-table-column label="手机号码" align="center" prop="phonenumber" width="150" />
         <el-table-column label="用户类型" align="center" prop="isOwner" width="150">
             <template slot-scope="scope">
-                <el-tag type="primary" v-if="scope.row.isOwner">设备主人</el-tag>
-                <el-tag type="success" v-else>分享用户</el-tag>
+                <el-tag type="primary" v-if="scope.row.isOwner">主人</el-tag>
+                <el-tag type="success" v-else>分享</el-tag>
             </template>
         </el-table-column>
         <el-table-column label="分享时间" align="center" prop="createTime" width="150">

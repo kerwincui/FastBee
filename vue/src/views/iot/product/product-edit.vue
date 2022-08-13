@@ -19,7 +19,7 @@
                                 <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="设备授权" prop="networkMethod">
+                        <el-form-item label="启用授权" prop="networkMethod">
                             <el-switch v-model="form.isAuthorize" @change="changeIsAuthorize(form.isAuthorize)" :active-value="1" :inactive-value="0" :disabled="form.status==2" />
                         </el-form-item>
                         <el-form-item label="备注信息" prop="remark">

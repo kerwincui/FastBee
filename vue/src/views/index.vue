@@ -91,7 +91,7 @@
                     </el-col>
                 </el-row>
             </el-card>
-            <el-card shadow="none" style="margin-top:22px;">
+            <el-card shadow="none" style="margin-top:22px;height:302px;">
                 <h3 style="font-weight:bold;margin-bottom:10px;"><i class="el-icon-s-order"></i> 信息栏</h3>
                 <div style="cursor:pointer;display:table;width:100%;line-height:36px;" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
                     <div style="display:table-cell;padding-right:10px;">
@@ -419,7 +419,7 @@ export default {
                 pageSize: 6,
             };
             listNotice(queryParams).then(response => {
-                this.noticeList = response.rows;
+                this.noticeList = response.rows.splice(0, 6);
             });
         },
         // 打开信息详情
