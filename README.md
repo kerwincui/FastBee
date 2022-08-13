@@ -1,14 +1,15 @@
 
 ### 一、项目简介
 
-#### 1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。[演示地址>>](https://iot.wumei.live/)
+1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。[演示地址>>](https://iot.wumei.live/)
 
-#### 2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途必须赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
+2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途必须赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
 
-#### 3. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
+3. 设备接入使用EMQX消息服务器，加密认证；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
 
-#### 4. 相关硬件
+4. 相关硬件
+
 |[空气检测仪](https://wumei.live/doc/pages/hardware/)  |   [物联网开发板](https://wumei.live/doc/pages/hardware/)  |  [Air724开发板](https://wumei.live/doc/pages/hardware/)  |  [智能开关](https://wumei.live/doc/pages/hardware/) | [查看更多>>](https://wumei.live/doc/pages/hardware/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
@@ -51,7 +52,7 @@
 
 
 ### 五、相关文档
-##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版，SDK示例使用ESP8266 Core For Arduino开发
+##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
 * [项目文档](https://wumei.live/doc/)
 * [物美智能官网](http://wumei.live/)
 * [若依权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
@@ -63,7 +64,7 @@
 ### 六、其他
 1. QQ交流群：&#x1F680;946029159    &#x1F680;1073236354
 2. 项目贡献者 
-  - [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)
+  - [小驿物联](https://gitee.com/iot-xiaoyi)、 [Guanshubiao](https://gitee.com/guanshubiao)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)
   - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、 [xxmfl](https://gitee.com/xxmfl)
 
 
