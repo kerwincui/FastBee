@@ -10,7 +10,10 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
-import com.ruoyi.iot.domain.*;
+import com.ruoyi.iot.domain.Device;
+import com.ruoyi.iot.domain.DeviceLog;
+import com.ruoyi.iot.domain.DeviceUser;
+import com.ruoyi.iot.domain.Product;
 import com.ruoyi.iot.mqtt.EmqxService;
 import com.ruoyi.iot.tdengine.service.ILogService;
 import com.ruoyi.iot.mapper.DeviceLogMapper;
@@ -81,9 +84,6 @@ public class DeviceServiceImpl implements IDeviceService {
     @Autowired
     @Lazy
     private EmqxService emqxService;
-
-    @Autowired
-    private com.ruoyi.iot.mapper.AreaCityGeoMapper areaCityGeoMapper;
 
     /**
      * 查询设备
@@ -765,7 +765,6 @@ public class DeviceServiceImpl implements IDeviceService {
             device.setProductId(null);
             device.setProductName(null);
         }
-        setArea(device);
         deviceMapper.updateDevice(device);
         // 设备取消禁用
         if (oldDevice.getStatus() == 2 && device.getStatus() == 4) {
@@ -892,30 +891,7 @@ public class DeviceServiceImpl implements IDeviceService {
             JSONObject location = baiduObject.getJSONObject("result").getJSONObject("location");
             device.setLongitude(location.getBigDecimal("lng"));
             device.setLatitude(location.getBigDecimal("lat"));
-
-            setArea(device);
-
             System.out.println(device.getSerialNumber() + "- 设置经度：" + location.getBigDecimal("lng") + "，设置纬度：" + location.getBigDecimal("lat"));
-        }
-    }
-
-    private void setArea(Device device){
-        try {
-            List<AreaCityGeo> areaList = areaCityGeoMapper.selectAreaCityGeoByPoint("POINT(" + device.getLongitude() + " " + device.getLatitude() + ")");
-            if (areaList != null && areaList.size() == 3) {
-                String geoProvince = areaList.stream().filter(en -> en.getDeep().equals("0")).findFirst().get().getName();
-                String geoCity = areaList.stream().filter(en -> en.getDeep().equals("1")).findFirst().get().getName();
-                String geoCounty = areaList.stream().filter(en -> en.getDeep().equals("2")).findFirst().get().getName();
-                device.setProvince(geoProvince);
-                if (geoProvince.equals(geoCity)) {
-                    device.setCity(geoCounty);
-                } else {
-                    device.setCity(geoCity);
-                    device.setCounty(geoCounty);
-                }
-            }
-        }catch (Exception ex){
-
         }
     }
 

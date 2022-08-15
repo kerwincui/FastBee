@@ -4,8 +4,6 @@ import com.ruoyi.iot.domain.Device;
 import com.ruoyi.iot.model.*;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesInput;
 import com.ruoyi.iot.model.ThingsModels.ThingsModelValuesOutput;
-import com.ruoyi.iot.model.bigscreen.dto.TotalDeviceArea;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -198,18 +196,5 @@ public interface DeviceMapper
      * @return 结果
      */
     public int resetDeviceStatus(String deviceNum);
-
-    /***
-     * 分组所有设备省
-     * @return 结果
-     */
-    List<TotalDeviceArea> groupDeviceProvince();
-
-    /***
-     * 分组所有设备city
-     * @param province  省
-     * @return 结果
-     */
-    List<TotalDeviceArea> groupDeviceCityByProvince(@Param("province") String province);
 
 }
