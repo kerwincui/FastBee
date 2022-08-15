@@ -69,6 +69,15 @@ public class Device extends BaseEntity
     /** 设备影子 */
     private Integer isShadow;
 
+    /** 设备省 */
+    private String province;
+
+    /** 设备市 */
+    private String city;
+
+    /** 设备区 */
+    private String county;
+
     /** 设备所在地址 */
     @Excel(name = "设备所在地址")
     private String networkAddress;
@@ -332,6 +341,30 @@ public class Device extends BaseEntity
     public Date getActiveTime() 
     {
         return activeTime;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
     }
 
     @Override
