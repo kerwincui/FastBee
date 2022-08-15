@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.iot.mapper.AreaCityGeoMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.iot.domain.AreaCityGeo">
+    <!--@mbg.generated-->
+    <!--@Table area_city_geo-->
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="deep" jdbcType="VARCHAR" property="deep" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, pid, deep, `name`
+  </sql>
+
+  <select id="selectAreaCityGeoByPoint" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/> from area_city_geo where
+    ST_Intersects(polygon, ST_GeomFromText(#{point,jdbcType=VARCHAR},0))=1
+  </select>
+</mapper>
