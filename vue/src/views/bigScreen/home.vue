@@ -10,7 +10,7 @@
           <div class="guang"></div>
           <div class="d-flex jc-center">
             <div class="title">
-              <span class="title-text">物美智能系统</span>
+              <span class="title-text">物美智能物联网平台</span>
             </div>
           </div>
           <div class="timers ">
