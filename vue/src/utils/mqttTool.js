@@ -16,9 +16,13 @@ mqttTool.connect = function () {
     connectTimeout: 10000
   }
   // 配置Mqtt地址
-  // let url = "ws://" + window.location.hostname + ":8083/mqtt";
-  console.log("mqtt地址：", process.env.VUE_APP_EMQX_SERVER_URL);
-  mqttTool.client = mqtt.connect(process.env.VUE_APP_EMQX_SERVER_URL, options);
+  let url = process.env.VUE_APP_EMQX_SERVER_URL;
+  if (url == '') {
+    url = "ws://" + window.location.hostname + ":8083/mqtt";
+    console.log('自动获取地址');
+  }
+  console.log("mqtt地址：", url);
+  mqttTool.client = mqtt.connect(url, options);
   mqttTool.client.on("connect", (e) => {
     console.log('mqtt连接成功');
   });
