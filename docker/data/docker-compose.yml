@@ -1,0 +1,101 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:7.0.0
+    ports:
+      - 6379:6379
+    privileged: true
+    networks:
+      - wumei-network
+    restart: unless-stopped
+    volumes:
+      - /var/data/redis:/usr/local/etc/redis
+      - /var/data/redis/data:/data
+    command: [ '-- requirepass wumei-smart', '-- appendonly yes' ]
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    privileged: true
+    networks:
+      - wumei-network
+    restart: unless-stopped
+    volumes:
+      - /var/data/mysql/mysql:/var/lib/mysql
+      - /var/data/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - /var/data/mysql/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: wumeismart
+      MYSQL_ROOT_PASSWORD: wumei-smart
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8',
+        '--collation-server=utf8_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1'
+      ]
+
+  emqx:
+    image: emqx/emqx:v4.0.0
+    ports:
+      - 1883:1883
+      - 8081:8081
+      - 8083:8083
+      - 8883:8883
+      - 8084:8084
+      - 18083:18083
+    privileged: true
+    networks:
+      - wumei-network
+    restart: unless-stopped
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+      - /var/data/emqx/conf/emqx_auth_http.conf:/opt/emqx/etc/plugins/emqx_auth_http.conf
+      - /var/data/emqx/conf/emqx_web_hook.conf:/opt/emqx/etc/plugins/emqx_web_hook.conf
+    environment:
+      EMQX_ALLOW__ANONYMOUS: "false"
+
+  java:
+    image: openjdk:8u265-jre-buster
+    ports:
+      - 8080:8080
+    privileged: true
+    networks:
+      - wumei-network
+    depends_on:
+      - emqx
+      - redis
+      - mysql
+    restart: unless-stopped
+    volumes:
+      - /var/data/java/server.jar:/server.jar
+      - /var/data/java/uploadPath:/uploadPath
+      - /var/data/java/logs:/logs
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+    environment:
+      TZ: Asia/Shanghai
+    entrypoint: java -jar /server.jar
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - 80:80
+    privileged: true
+    networks:
+      - wumei-network
+    depends_on:
+      - java
+    restart: unless-stopped
+    volumes:
+      - /var/data/nginx/html:/usr/share/nginx/html
+      - /var/data/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  wumei-network:
+    name: wumei-network
+    driver: bridge
