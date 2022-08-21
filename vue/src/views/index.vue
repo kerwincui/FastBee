@@ -1,6 +1,6 @@
 <template>
 <div style="padding:10px;background-color:#f8f8f8;">
-    <el-row :gutter="20" style="margin:10px 0px 60px 0px;">
+    <el-row :gutter="20" style="margin:10px 0px 20px 0px;">
         <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
             <div style="overflow:hidden;border:1px solid #ccc;">
                 <div ref="map" style="height:650px;"></div>
@@ -105,7 +105,7 @@
         </el-col>
     </el-row>
 
-    <el-card shadow="none" style="margin:10px 10px 60px 10px;padding:20px 0;">
+    <el-card shadow="none" style="margin:10px 10px 20px 10px;padding:20px 0;">
         <el-row :gutter="120" v-if="isAdmin">
             <el-col :xs="24" :sm="24" :md="24" :lg="7" :xl="7">
                 <h3 style="font-weight:bold">Mqtt 统计指标</h3>
@@ -224,15 +224,17 @@
                 <div style="padding:30px;margin:20px 0;font-size:14px;">
                     <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
                     <div style="display:table;font-size:14px;margin-bottom:10px;">
-                        <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途。<br />为不影响用户体验，项目会小概率随机不定时弹窗</b></div>
+                        <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途</b></div>
                     </div>
                     <div style="display:table;margin-bottom:10px;">
                         <div style="width:70px;font-weight: bold;display:table-cell;">普通用户：</div>
-                        <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于个人学习和使用，非商业用途，有弹窗。</b>不提供移动端源码，后期可以通过两种方式使用移动端：1.免费托管设备到平台；2.使用移动端开放的接口连接自己搭建的系统。</div>
+                        <div style="display:table-cell;line-height:22px;">可用于个人学习和使用，非商业用途，系统会有小概率不定时随机弹窗</div>
                     </div>
                     <div style="display:table;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">赞助用户：</div>
-                        <div style="display:table-cell;line-height:22px;"><b style="color:#F56C6C">可用于商业用途，并提供移动端源码，包含一年的更新，无弹窗。</b>但是不能低价或批量转售源码，不能随意分发源码。目前赞助费为3500元，项目不断完善后会对应增加费用。</div>
+                        <div style="width:70px;font-weight: bold;display:table-cell;">授权用户：</div>
+                        <div style="display:table-cell;line-height:22px;">可用于商业用途，并提供所有源码，无弹窗。
+                            <el-link target="_blank" href="https://wumei.live/doc/pages/sponsor">查看详情 >></el-link>
+                        </div>
                     </div>
                 </div>
                 <div style="padding:30px;font-size:14px;">
@@ -241,7 +243,7 @@
                     </div>
                     <div style="float:left;">
                         <div style="font-size:18px;font-weight:bold;margin:16px 0;">微信扫一扫，查看小程序端</div>
-                        <div style="font-size:14px;font-weight:bold;margin:16px 0;color:#F56C6C">右侧查看H5端演示 >>> </div>
+                        <div style="font-size:14px;font-weight:bold;margin:16px 0;color:#F56C6C">右侧是移动端H5版本演示 </div>
                         <div style="display:table;margin-bottom:10px;">
                             <div style="width:70px;font-weight: bold;display:table-cell;">官方网站</div>
                             <div style="display:table-cell;">
