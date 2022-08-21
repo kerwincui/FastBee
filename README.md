@@ -3,7 +3,7 @@
 
 1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。适用于智能家居、智慧办公、智慧社区、农业监测、工业控制等。
 
-2. 系统后端采用Spring boot；前端采用Vue；消息服务器采用EMQX；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；<br />
+2. 系统后端采用Spring boot；前端采用Vue；消息服务器采用EMQX；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；
 <img src="https://oscimg.oschina.net/oscnet/up-004a50200a81efff7530d2cf963052b4e8c.png" />
 
 3. 相关硬件
