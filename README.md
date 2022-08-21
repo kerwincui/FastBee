@@ -54,10 +54,10 @@
 * [EMQX4.0消息服务器文档](https://www.emqx.io/docs/zh/v4.0/)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 
-项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。
+项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。赞助过的用户请下载授权版本源码。
 - [授权详情](https://wumei.live/doc/pages/sponsor/)
 - [移动端源码](https://wumei.live/wumei-smart/wumei-app)
-- [赞助用户获取无弹窗源码](https://wumei.live/commercial-license/wumei-smart)
+- [授权版本源码](https://wumei.live/commercial-license/wumei-smart)
 
 
 ### 六、其他
