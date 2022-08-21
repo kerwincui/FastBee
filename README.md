@@ -1,20 +1,16 @@
 
 ### 一、项目介绍
 
-1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。适用于智能家居、智慧办公、智慧社区、农业监测、工业控制等领域。[演示地址>>](https://iot.wumei.live/)
+1. WumeiSmart是一个简单易用的生活物联网平台。可用于搭建物联网平台以及二次开发和学习。适用于智能家居、智慧办公、智慧社区、农业监测、工业控制等领域。
 
-2. 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。[查看详情 >>](https://wumei.live/doc/pages/sponsor/)
-
-3. 项目使用EMQX消息服务器；后端采用Spring boot；前端采用Vue；移动端采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；系统架构图如下：
+2. 项目使用EMQX消息服务器；后端采用Spring boot；前端采用Vue；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；系统架构图如下：
 <img src="https://oscimg.oschina.net/oscnet/up-98eefff896394066a60d664b875a3d05d1d.png" max-width="800" />
 
-4. 相关硬件
+3. 相关硬件
 
 |[空气检测仪](https://wumei.live/doc/pages/hardware/)  |   [物联网开发板](https://wumei.live/doc/pages/hardware/)  |  [Air724开发板](https://wumei.live/doc/pages/hardware/)  |  [智能开关](https://wumei.live/doc/pages/hardware/) | [查看更多>>](https://wumei.live/doc/pages/hardware/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
-
-
 
 ### 二、系统功能
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
@@ -35,7 +31,7 @@
 * Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
     - 开发工具：Visual Studio Code    
-* 移动端（Android / Ios / 微信小程序 / H5）
+* 移动端（微信小程序 / Android / Ios / H5）
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
     - 开发工具：HBuilder
 * 硬件端
@@ -48,17 +44,20 @@
 &nbsp;&nbsp;&nbsp;&nbsp; vue ----------------------- 前端<br />
 &nbsp;&nbsp;&nbsp;&nbsp; docker -------------------- docker部署文件<br />
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK,已集成多种设备<br />
-&nbsp;&nbsp;&nbsp;&nbsp; app ----------------------- 移动端打包文件
 
 
-### 五、相关文档
-##### 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
-* [项目文档](https://wumei.live/doc/)
-* [物美智能官网](http://wumei.live/)
-* [若依权限管理系统ruoyi-vue](https://gitee.com/y_project/RuoYi-Vue)
-* [Mqtt消息服务器EMQX4.0](https://github.com/emqx/emqx)
+### 五、授权和文档
+权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
+* [在线演示](https://iot.wumei.live/)
+* [项目使用文档](https://wumei.live/doc/)
+* [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
+* [EMQX4.0消息服务器文档](https://www.emqx.io/docs/zh/v4.0/)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
-* [TDengine时序数据库](https://www.taosdata.com/?zh)
+
+项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。
+- [授权详情](https://wumei.live/doc/pages/sponsor/)
+- [移动端源码](https://wumei.live/wumei-smart/wumei-app)
+- [赞助用户获取无弹窗源码](https://wumei.live/commercial-license/wumei-smart)
 
 
 ### 六、其他
