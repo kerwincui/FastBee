@@ -14,12 +14,7 @@
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
 
-<table>
-<tr>
-<td><img src="https://oscimg.oschina.net/oscnet/up-279a520a3d50d319c287de7b33d30483338.png"/></td>
-<td><img src="https://oscimg.oschina.net/oscnet/up-6c227a8bfdc88e5ef1fd5474e13c1af2a28.png"/></td>
-</tr>
-</table>
+![](https://oscimg.oschina.net/oscnet/up-b12236d9fc6f952b5a4d8856952d7306d9e.png)
 
 ### 二、系统功能
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
