@@ -17,7 +17,7 @@
 - 其他功能：多租户、统计、新闻资讯、通知公告、支持TDengine时序数据库
 - 开发中功能：设备告警、场景联动、云云对接智能音箱、第三方登录、短信登录、APP界面自定义、视频流处理等
 
-![](https://oscimg.oschina.net/oscnet/up-c0610cfc6ef97ab756db94d81912e812069.png)
+![](https://oscimg.oschina.net/oscnet/up-a9a7fdaf40208becd26c2485783bc0f86e6.png)
 
 |[空气检测仪](https://wumei.live/doc/pages/hardware/)  |   [物联网开发板](https://wumei.live/doc/pages/hardware/)  |  [Air724开发板](https://wumei.live/doc/pages/hardware/)  |  [智能开关](https://wumei.live/doc/pages/hardware/) | [查看更多>>](https://wumei.live/doc/pages/hardware/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
