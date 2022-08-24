@@ -9,4 +9,5 @@
 
 <br />
 
+##### docker-compose服务里面包含Redis、Mysql、Emqx、JRE、Nginx，可根据情况进行增减
 ##### [docker和docker-compose安装系统教程 >> ](https://wumei.live/doc/pages/docker)
