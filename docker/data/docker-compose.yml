@@ -60,7 +60,7 @@ services:
       EMQX_ALLOW__ANONYMOUS: "false"
 
   java:
-    image: openjdk:8u265-jre-buster
+    image: openjdk:8-jre
     ports:
       - 8080:8080
     privileged: true
