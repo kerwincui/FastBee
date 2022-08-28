@@ -46,18 +46,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK,已集成多种设备<br />
 
 
-### 五、授权和文档
+### 五、商用授权和文档
+项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。赞助过的用户请下载商业版本源码。
+- [授权详情](https://wumei.live/doc/pages/sponsor/)
+- [移动端源码](https://wumei.live/wumei-smart/wumei-app)
+- [商业版本源码](https://wumei.live/commercial-license/wumei-smart)
+
 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
 * [在线演示](https://iot.wumei.live/)
 * [项目使用文档](https://wumei.live/doc/)
 * [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
 * [EMQX4.0消息服务器文档](https://www.emqx.io/docs/zh/v4.0/)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
-
-项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。赞助过的用户请下载商业版本源码。
-- [授权详情](https://wumei.live/doc/pages/sponsor/)
-- [移动端源码](https://wumei.live/wumei-smart/wumei-app)
-- [商业版本源码](https://wumei.live/commercial-license/wumei-smart)
 
 
 ### 六、其他
