@@ -224,15 +224,17 @@
                 <div style="padding:30px;margin:20px 0;font-size:14px;">
                     <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
                     <div style="display:table;font-size:14px;margin-bottom:10px;">
-                        <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A">项目采用AGPL-3.0许可协议，获得作者许可才能用于商业用途</b></div>
+                        <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A;margin-right:10px;">开源版本采用AGPL-3.0许可协议，商业用途需要获得授权</b>
+                           
+                        </div>
                     </div>
                     <div style="display:table;margin-bottom:10px;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">普通用户：</div>
-                        <div style="display:table-cell;line-height:22px;">可用于个人学习和使用，非商业用途，系统会有小概率不定时随机弹窗</div>
+                        <div style="width:70px;font-weight: bold;display:table-cell;">开源版本：</div>
+                        <div style="display:table-cell;line-height:22px;">可用于个人学习和使用，非商业用途，系统会有小概率弹窗</div>
                     </div>
                     <div style="display:table;">
-                        <div style="width:70px;font-weight: bold;display:table-cell;">授权用户：</div>
-                        <div style="display:table-cell;line-height:22px;">可用于商业用途，并提供所有源码，无弹窗。
+                        <div style="width:70px;font-weight: bold;display:table-cell;">商业版本：</div>
+                        <div style="display:table-cell;line-height:22px;">可用于商业用途，并提供所有源码，无弹窗，功能优先开源版本发布。<br />
                             <el-link target="_blank" href="https://wumei.live/doc/pages/sponsor">查看详情 >></el-link>
                         </div>
                     </div>
