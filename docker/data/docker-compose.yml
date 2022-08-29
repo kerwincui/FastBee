@@ -52,12 +52,13 @@ services:
       - wumei-network
     restart: unless-stopped
     volumes:
-      - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
       - /var/data/emqx/conf/emqx_auth_http.conf:/opt/emqx/etc/plugins/emqx_auth_http.conf
       - /var/data/emqx/conf/emqx_web_hook.conf:/opt/emqx/etc/plugins/emqx_web_hook.conf
     environment:
       EMQX_ALLOW__ANONYMOUS: "false"
+      SET_CONTAINER_TIMEZONE: true
+      CONTAINER_TIMEZONE: Asia/Shanghai
 
   java:
     image: openjdk:8-jre
@@ -75,7 +76,6 @@ services:
       - /var/data/java/server.jar:/server.jar
       - /var/data/java/uploadPath:/uploadPath
       - /var/data/java/logs:/logs
-      - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
     environment:
       TZ: Asia/Shanghai
