@@ -9,7 +9,7 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径，以uploadPath结尾 示例（ Windows配置 D:/uploadPath，Linux配置 /uploadPath）
-  profile: /uploadPath
+  profile: /var/data/java/uploadPath
   # 获取ip地址开关
   addressEnabled: true
   # 验证码类型 math 数组计算 char 字符验证
