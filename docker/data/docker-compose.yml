@@ -57,7 +57,7 @@ services:
       - /var/data/emqx/conf/emqx_web_hook.conf:/opt/emqx/etc/plugins/emqx_web_hook.conf
     environment:
       EMQX_ALLOW__ANONYMOUS: "false"
-      SET_CONTAINER_TIMEZONE: true
+      SET_CONTAINER_TIMEZONE: "true"
       CONTAINER_TIMEZONE: Asia/Shanghai
 
   java:
