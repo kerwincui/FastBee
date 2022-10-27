@@ -64,8 +64,10 @@
 1. QQ交流群：&#x1F680;946029159    &#x1F680;1073236354(已满)
 2. 非常感谢贡献代码的用户，参与用户如下(如有遗漏请联系作者)：
   - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)
-  - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)
-- [Guanshubiao](https://gitee.com/guanshubiao) 项目主要参与用户，熟悉物联网前后端开发，帮助完善和优化系统的网关架构和部分功能
+  - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
+3. 主要参与用户
+- [Guanshubiao](https://gitee.com/guanshubiao) 熟悉物联网前后端开发，帮助完善和优化系统的网关架构和部分功能
+- [帐篷](https://gitee.com/zhuangpengli) 熟悉物联网后端开发，帮助完善视频监控模块和部分协议
 
 
 ### 七、部分图片
