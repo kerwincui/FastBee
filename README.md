@@ -9,13 +9,13 @@
 ### 二、系统功能
 - 权限管理： 用户管理、部门管理、岗位管理、菜单管理、角色管理、字典和参数管理等
 - 系统监控： 操作日志、登录日志、系统日志、在线用户、服务监控、连接池监控、缓存监控等
-- 产品管理： 产品、产品物模型、产品分类、产品固件、设备授权码等
+- 产品管理： 产品、产品物模型、产品分类、产品固件、设备授权码、自定义告警等
 - 设备管理： 设备控制、设备分组、设备定时、设备日志、监测统计、设备定位、设备分享、设备禁用、OTA升级、实时状态、影子模式、实时监测、加密认证等
 - EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理、规则引擎、资源
 - 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报数据、AES加密、NTP时间、AP配网等
 - 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
-- 其他功能：多租户、统计、新闻资讯、通知公告、支持TDengine时序数据库
-- 开发中功能：设备告警、场景联动、云云对接智能音箱、第三方登录、短信登录、设备管理界面自定义、视频流处理等
+- 其他功能：多租户、场景联动、视频监控、数据可视化平台、统计、新闻资讯、通知公告、支持TDengine时序数据库
+- 开发中功能：网关、TCP/Modbus协议支持、云云对接智能音箱、第三方登录、设备管理界面自定义等
 
 ![](https://oscimg.oschina.net/oscnet/up-a9a7fdaf40208becd26c2485783bc0f86e6.png)
 
@@ -26,7 +26,7 @@
 
 ### 三、技术栈    
 * 服务端
-    - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Mqtt等
+    - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Netty等
     - 开发工具：IDEA    
 * Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
@@ -47,9 +47,10 @@
 
 
 ### 五、商用授权和文档
-项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供移动端源码。赞助过的用户请下载商业版本源码。
+项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供商业版本源码、可视化平台和移动端源码。赞助过的用户请下载商业版本源码。
 - [授权详情](https://wumei.live/doc/pages/sponsor/)
 - [移动端源码](https://wumei.live/wumei-smart/wumei-app)
+- [可视化平台源码](https://wumei.live/commercial-license/wumei-smart-view)
 - [商业版本源码](https://wumei.live/commercial-license/wumei-smart)
 
 权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
@@ -63,11 +64,12 @@
 ### 六、其他
 1. QQ交流群：&#x1F680;946029159    &#x1F680;1073236354(已满)
 2. 非常感谢贡献代码的用户，参与用户如下(如有遗漏请联系作者)：
-  - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、 [Kami0314](https://github.com/kami0314)、 [YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)
+  - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)
   - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
 3. 主要参与用户
 - [Guanshubiao](https://gitee.com/guanshubiao) 熟悉物联网前后端开发，帮助完善和优化系统的网关架构和部分功能
 - [帐篷](https://gitee.com/zhuangpengli) 熟悉物联网前后端开发，帮助完善视频监控模块和部分协议
+- [Kami0314](https://github.com/kami0314) 熟悉物联网前后端开发，帮助完善可视化平台和其他功能
 
 
 ### 七、部分图片
@@ -78,7 +80,7 @@
 <table>
     <tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-19ef5b528bb044253848722118b694bef47.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5c755895fc1a7ba02d487b75cf493ffb0df.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-8b4c24353bc2340b8362438b87ceac27a9d.png"></td>
     </tr>
     <tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-a0c864679be6c4f9bb5547244aeb19657b4.png"/></td>
@@ -91,6 +93,9 @@
     <tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-3ae8cef86db794ff37d9186e83b12b88958.png"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-e20900a12e3781467d05163665ca04645fa.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-5c755895fc1a7ba02d487b75cf493ffb0df.png"/></td>
     </tr>
 </table>
 
