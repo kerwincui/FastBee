@@ -46,29 +46,30 @@
 &nbsp;&nbsp;&nbsp;&nbsp; sdk ----------------------- 硬件SDK,已集成多种设备<br />
 
 
-### 五、商用授权和文档
+### 五、商用授权
 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供商业版本源码、可视化平台和移动端源码。赞助过的用户请下载商业版本源码。
-- [授权详情](https://wumei.live/doc/pages/sponsor/)
-- [移动端源码>>](https://wumei.live/wumei-smart/wumei-app) &nbsp; [可视化平台源码>>](https://wumei.live/commercial-license/wumei-smart-view) &nbsp; [商业版本源码>>](https://wumei.live/commercial-license/wumei-smart)
-
-权限管理基于ruoyi-vue系统，Mqtt消息服务器基于EMQX4.0开源版
-* [在线演示](https://iot.wumei.live/)
-* [项目使用文档](https://wumei.live/doc/)
-* [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
-* [EMQX4.0消息服务器文档](https://www.emqx.io/docs/zh/v4.0/)
-* [uCharts高性能跨平台图表库](https://www.ucharts.cn)
+- [授权详情>>](https://wumei.live/doc/pages/sponsor/) &nbsp; [商业版本源码>>](https://wumei.live/commercial-license/wumei-smart)
+- [移动端源码>>](https://wumei.live/wumei-smart/wumei-app) &nbsp; [可视化平台源码>>](https://wumei.live/commercial-license/wumei-smart-view) 
 
 
 ### 六、其他
 1. QQ交流群：&#x1F680;946029159    &#x1F680;1073236354(已满)
-2. 非常感谢贡献代码的用户，参与用户如下(如有遗漏请联系作者)：
-  - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)
-  - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
-3. 主要参与用户
-- [Guanshubiao](https://gitee.com/guanshubiao) 熟悉物联网前后端开发，帮助完善和优化系统的网关架构和部分功能
-- [帐篷](https://gitee.com/zhuangpengli) 熟悉物联网前后端开发，帮助完善视频监控模块和部分协议
-- [Kami0314](https://github.com/kami0314) 熟悉物联网前后端开发，帮助完善可视化平台和其他功能
 
+2. 权限管理基于ruoyi-vue系统开发，Mqtt消息服务器使用EMQX4.0开源版
+    * [在线演示](https://iot.wumei.live/)
+    * [项目使用文档](https://wumei.live/doc/)
+    * [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
+    * [EMQX4.0消息服务器文档](https://www.emqx.io/docs/zh/v4.0/)
+    * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
+
+3. 项目贡献者(如有遗漏请联系作者)：
+    - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)
+    - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
+
+4. 主要参与用户：
+    - [Guanshubiao](https://gitee.com/guanshubiao)：主要参与用户，熟悉物联网开发，完善和优化系统的网关架构和部分功能等
+    - [帐篷](https://gitee.com/zhuangpengli)：主要参与用户，熟悉物联网开发，完善视频监控模块和部分协议等
+    - [Kami0314](https://github.com/kami0314)：主要参与用户，熟悉物联网开发，完善可视化平台和其他功能等
 
 ### 七、部分图片
 
