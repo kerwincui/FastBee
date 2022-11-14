@@ -67,9 +67,9 @@
     - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
 
 4. 主要参与用户：
-    - [Guanshubiao](https://gitee.com/guanshubiao)：主要参与用户，熟悉物联网开发，完善和优化系统的网关架构和部分功能等
-    - [帐篷](https://gitee.com/zhuangpengli)：主要参与用户，熟悉物联网开发，完善视频监控模块和部分协议等
-    - [Kami0314](https://github.com/kami0314)：主要参与用户，熟悉物联网开发，完善可视化平台和其他功能等
+    - [Guanshubiao](https://gitee.com/guanshubiao)：熟悉物联网开发，完善和优化系统的网关架构和部分功能等
+    - [帐篷](https://gitee.com/zhuangpengli)：熟悉物联网开发，完善视频监控模块和部分协议等
+    - [Kami0314](https://github.com/kami0314)：熟悉物联网开发，完善可视化平台和其他功能等
 
 ### 七、部分图片
 
