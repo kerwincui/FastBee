@@ -1,4 +1,4 @@
-![蜂信物联商标](https://oscimg.oschina.net/oscnet/up-7346fa8c524a3b8a72cfd08764ee5f8980e.png)
+![蜂信物联商标](https://oscimg.oschina.net/oscnet/up-786d8dfcd0be8f906add62f5934e5641e20.png)
 
 ### 一、项目介绍
 
