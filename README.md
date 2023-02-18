@@ -50,8 +50,8 @@
 
 ### 五、商用授权
 项目采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权，并提供商业版本源码、可视化平台和移动端源码。赞助过的用户请下载商业版本源码。
-- [授权详情>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; [商业版本源码>>](https://fastbee.cn/commercial-license/wumei-smart)
-- [移动端源码>>](https://fastbee.cn/wumei-smart/wumei-app) &nbsp; [可视化平台源码>>](https://fastbee.cn/commercial-license/wumei-smart-view) 
+- [授权详情>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; [商业版本源码>>](https://fastbee.cn/doc/pages/sponsor/)
+- [移动端源码>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; [可视化平台源码>>](https://fastbee.cn/doc/pages/sponsor/) 
 
 
 ### 六、其他
