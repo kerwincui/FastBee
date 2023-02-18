@@ -1,4 +1,4 @@
-![](https://oscimg.oschina.net/oscnet/up-6581dbf23ea54092b9b9a35a5199b0fd6d2.png)
+![](https://oscimg.oschina.net/oscnet/up-09e0fd4e7966a3049aa39e7ab2a99dc5586.png)
 
 ### 一、项目介绍
 0. 物美智能(wumei-smart)更名为蜂信物联(FastBee)。
