@@ -1,0 +1,738 @@
+/*
+ * 这个例程适用于`Linux`这类支持task的POSIX设备, 它演示了用SDK配置MQTT参数并建立连接, 之后创建2个线程
+ *
+ * + 一个线程用于保活长连接
+ * + 一个线程用于接收消息, 并在有消息到达时进入默认的数据回调, 在连接状态变化时进入事件回调
+ *
+ * 需要用户关注或修改的部分, 已经用 TODO 在注释中标明
+ *
+ */
+#include "common_api.h"
+#include <stdio.h>
+#include <string.h>
+#include "aiot_state_api.h"
+#include "aiot_sysdep_api.h"
+#include "aiot_mqtt_api.h"
+#include "luat_mobile.h"
+#include "luat_rtos.h"
+#include "luat_debug.h"
+#include "cJSON.h"
+#include "http_queue.h"
+#include "audio_task.h"
+
+// 阿里云系统自带数字语料
+const char *tone_0 = "SYS_TONE_0.amr";
+const char *tone_1 = "SYS_TONE_1.amr";
+const char *tone_2 = "SYS_TONE_2.amr";
+const char *tone_3 = "SYS_TONE_3.amr";
+const char *tone_4 = "SYS_TONE_4.amr";
+const char *tone_5 = "SYS_TONE_5.amr";
+const char *tone_6 = "SYS_TONE_6.amr";
+const char *tone_7 = "SYS_TONE_7.amr";
+const char *tone_8 = "SYS_TONE_8.amr";
+const char *tone_9 = "SYS_TONE_9.amr";
+
+/* TODO: 替换为自己设备的三元组 */
+char *product_key       = "${YourProductKey}";
+char *device_name       = "${YourDeviceName}";
+char *device_secret     = "${YourDeviceSecret}";
+extern luat_rtos_queue_t http_queue_handle;
+extern luat_rtos_queue_t audio_queue_handle;
+extern bool http_get_status;  // 这只是一个示例示例，没有对于多次下发动态报文的处理，简单使用一个变量来控制一下
+/*
+    TODO: 替换为自己实例的接入点
+
+    对于企业实例, 或者2021年07月30日之后（含当日）开通的物联网平台服务下公共实例
+    mqtt_host的格式为"${YourInstanceId}.mqtt.iothub.aliyuncs.com"
+    其中${YourInstanceId}: 请替换为您企业/公共实例的Id
+
+    对于2021年07月30日之前（不含当日）开通的物联网平台服务下公共实例
+    需要将mqtt_host修改为: mqtt_host = "${YourProductKey}.iot-as-mqtt.${YourRegionId}.aliyuncs.com"
+    其中, ${YourProductKey}：请替换为设备所属产品的ProductKey。可登录物联网平台控制台，在对应实例的设备详情页获取。
+    ${YourRegionId}：请替换为您的物联网平台设备所在地域代码, 比如cn-shanghai等
+    该情况下完整mqtt_host举例: a1TTmBPIChA.iot-as-mqtt.cn-shanghai.aliyuncs.com
+
+    详情请见: https://help.aliyun.com/document_detail/147356.html
+*/
+char  *mqtt_host = "${YourInstanceId}.mqtt.iothub.aliyuncs.com";
+
+/* 位于portfiles/aiot_port文件夹下的系统适配函数集合 */
+extern aiot_sysdep_portfile_t g_aiot_sysdep_portfile;
+
+/* 位于external/ali_ca_cert.c中的服务器证书 */
+extern const char *ali_ca_cert;
+
+static luat_rtos_task_handle g_mqtt_process_thread = NULL;
+static luat_rtos_task_handle g_mqtt_recv_thread = NULL;
+static uint8_t g_mqtt_process_thread_running = 0;
+static uint8_t g_mqtt_recv_thread_running = 0;
+
+luat_rtos_semaphore_t net_semaphore_handle;
+
+static luat_rtos_task_handle linksdk_task_handle;
+
+// 将金额字符串格式化为单个文件形式
+int fomatMoney(int num, audioQueueData *data, int *index, bool flag)
+{
+    uint32_t audioArray[10] =
+        {
+            tone_0,
+            tone_1,
+            tone_2,
+            tone_3,
+            tone_4,
+            tone_5,
+            tone_6,
+            tone_7,
+            tone_8,
+            tone_9,
+        };
+    int thousand = (num - num % 1000) / 1000;
+    int hundred = ((num % 1000) - ((num % 1000) % 100)) / 100;
+    int ten = ((num % 100) - ((num % 100) % 10)) / 10;
+    int unit = num % 10;
+    if (thousand == 0)
+    {
+        thousand = -1;
+        if (hundred == 0)
+        {
+            hundred = -1;
+            if (ten == 0)
+            {
+                ten = -1;
+                if (unit == 0)
+                {
+                    unit = -1;
+                }
+            }
+        }
+    }
+    if (unit == 0)
+    {
+        unit = -1;
+        if (ten == 0)
+        {
+            ten = -1;
+            if (hundred == 0)
+            {
+                hundred = -1;
+                if (thousand == 0)
+                {
+                    thousand = -1;
+                }
+            }
+        }
+    }
+    if (ten == 0 && hundred == 0)
+    {
+        ten = -1;
+    }
+    if (thousand != -1)
+    {
+        if (flag)
+        {
+            data->file.info[*index].path = audioArray[thousand];
+        }
+        *index += 1;
+        if (flag)
+        {
+            data->file.info[*index].path = "SYS_TONE_MEASURE_WORD_qian.amr";
+        }
+        *index += 1;
+    }
+    if (hundred != -1)
+    {
+        if (flag)
+        {
+            data->file.info[*index].path = audioArray[hundred];
+        }
+        *index += 1;
+        if (flag)
+        {
+            data->file.info[*index].path = "SYS_TONE_MEASURE_WORD_bai.amr";
+        }
+        *index += 1;
+    }
+    if (ten != -1)
+    {
+        if (!(ten == 1 && hundred == -1 && thousand == -1))
+        {
+            if (flag)
+            {
+                data->file.info[*index].path = audioArray[ten];
+            }
+            *index += 1;
+        }
+        if (ten != 0)
+        {
+            if (flag)
+            {
+                data->file.info[*index].path = "SYS_TONE_MEASURE_WORD_shi.amr";
+            }
+            *index += 1;
+        }
+    }
+    if (unit != -1)
+    {
+        if (flag)
+        {
+            data->file.info[*index].path = audioArray[unit];
+        }
+        *index += 1;
+    }
+    return 0;
+}
+// 将金额字符串格式化为单个文件形式
+static int strToFile(char *money, audioQueueData *data, int *index, bool flag)
+{
+    uint32_t audioArray[10] =
+        {
+            tone_0,
+            tone_1,
+            tone_2,
+            tone_3,
+            tone_4,
+            tone_5,
+            tone_6,
+            tone_7,
+            tone_8,
+            tone_9,
+        };
+    int count = 0;
+    int integer = 0;
+    char *str = NULL;
+    char intStr[8] = {0};
+    char decStr[3] = {0};
+    str = strstr(money, ".");
+    if (str != NULL)
+    {
+        memcpy(intStr, money, str - money);
+        str = str + 1;
+        memcpy(decStr, str, 2);
+        integer = atoi(intStr);
+    }
+    else
+    {
+        integer = atoi(money);
+    }
+    if (integer >= 10000)
+    {
+        int filecount = fomatMoney(integer / 10000, data, index, flag);
+        if (flag)
+        {
+            data->file.info[*index].path = "SYS_TONE_MEASURE_WORD_wan.amr";
+        }
+        *index += 1;
+        if (((integer % 10000) < 1000) && ((integer % 10000) != 0))
+        {
+            if (flag)
+            {
+                data->file.info[*index].path = audioArray[0];
+            }
+            *index += 1;
+        }
+    }
+    if ((integer % 10000) > 0)
+    {
+        int filecount = fomatMoney(integer % 10000, data, index, flag);
+    }
+    if (*index == 1)
+    {
+        if (flag)
+        {
+            data->file.info[*index].path = audioArray[0];
+        }
+        *index += 1;
+    }
+    int decial = atoi(decStr);
+    if (decial > 0)
+    {
+        if (flag)
+        {
+            data->file.info[*index].path = "SYS_TONE_dian.amr";
+        }
+        *index += 1;
+        if (decial > 10)
+        {
+
+            int ten = decial / 10;
+            int unit = decial % 10;
+            LUAT_DEBUG_PRINT("this is decial %d, %d, %d", decial, ten, unit);
+            if (ten != 0 && unit != 0)
+            {
+                if (flag)
+                {
+                    data->file.info[*index].path = audioArray[ten];
+                }
+                *index += 1;
+                if (flag)
+                {
+                    data->file.info[*index].path = audioArray[unit];
+                }
+                *index += 1;
+            }
+            else if (ten == 0 && unit != 0)
+            {
+                if (flag)
+                {
+                    data->file.info[*index].path = audioArray[0];
+                }
+                *index += 1;
+                if (flag)
+                {
+                    data->file.info[*index].path = audioArray[unit];
+                }
+                *index += 1;
+            }
+            else if (ten != 0 && unit == 0)
+            {
+                if (flag)
+                {
+                    data->file.info[*index].path = audioArray[0];
+                }
+                *index += 1;
+            }
+        }
+        else
+        {
+            if (flag)
+            {
+                data->file.info[*index].path = audioArray[decial];
+            }
+            *index += 1;
+        }
+    }
+    if (flag)
+    {
+        data->file.info[*index].path = "SYS_TONE_MONETARY_yuan.amr";
+    }
+    *index += 1;
+    return count;
+}
+
+void mobile_event_callback(LUAT_MOBILE_EVENT_E event, uint8_t index, uint8_t status)
+{
+    if (event == LUAT_MOBILE_EVENT_NETIF && status == LUAT_MOBILE_NETIF_LINK_ON)
+    {
+        LUAT_DEBUG_PRINT("netif acivated");
+        luat_rtos_semaphore_release(net_semaphore_handle);
+    }
+}
+
+/* TODO: 如果要关闭日志, 就把这个函数实现为空, 如果要减少日志, 可根据code选择不打印
+ *
+ * 例如: [1577589489.033][LK-0317] mqtt_basic_demo&gb80sFmX7yX
+ *
+ * 上面这条日志的code就是0317(十六进制), code值的定义见core/aiot_state_api.h
+ *
+ */
+
+/* 日志回调函数, SDK的日志会从这里输出 */
+int32_t demo_state_logcb(int32_t code, char *message)
+{
+    LUAT_DEBUG_PRINT("linksdk message: %s", message);
+    return 0;
+}
+
+/* MQTT事件回调函数, 当网络连接/重连/断开时被触发, 事件定义见core/aiot_mqtt_api.h */
+void demo_mqtt_event_handler(void *handle, const aiot_mqtt_event_t *event, void *userdata)
+{
+    switch (event->type)
+    {
+    /* SDK因为用户调用了aiot_mqtt_connect()接口, 与mqtt服务器建立连接已成功 */
+    case AIOT_MQTTEVT_CONNECT:
+    {
+        LUAT_DEBUG_PRINT("AIOT_MQTTEVT_CONNECT\n");
+        /* TODO: 处理SDK建连成功, 不可以在这里调用耗时较长的阻塞函数 */
+    }
+    break;
+
+    /* SDK因为网络状况被动断连后, 自动发起重连已成功 */
+    case AIOT_MQTTEVT_RECONNECT:
+    {
+        LUAT_DEBUG_PRINT("AIOT_MQTTEVT_RECONNECT\n");
+        /* TODO: 处理SDK重连成功, 不可以在这里调用耗时较长的阻塞函数 */
+    }
+    break;
+
+    /* SDK因为网络的状况而被动断开了连接, network是底层读写失败, heartbeat是没有按预期得到服务端心跳应答 */
+    case AIOT_MQTTEVT_DISCONNECT:
+    {
+        char *cause = (event->data.disconnect == AIOT_MQTTDISCONNEVT_NETWORK_DISCONNECT) ? ("network disconnect") : ("heartbeat disconnect");
+        LUAT_DEBUG_PRINT("AIOT_MQTTEVT_DISCONNECT: %s\n", cause);
+        /* TODO: 处理SDK被动断连, 不可以在这里调用耗时较长的阻塞函数 */
+    }
+    break;
+
+    default:
+    {
+    }
+    }
+}
+
+/* MQTT默认消息处理回调, 当SDK从服务器收到MQTT消息时, 且无对应用户回调处理时被调用 */
+void demo_mqtt_default_recv_handler(void *handle, const aiot_mqtt_recv_t *packet, void *userdata)
+{
+    switch (packet->type)
+    {
+    case AIOT_MQTTRECV_HEARTBEAT_RESPONSE:
+    {
+        LUAT_DEBUG_PRINT("heartbeat response\n");
+        /* TODO: 处理服务器对心跳的回应, 一般不处理 */
+    }
+    break;
+
+    case AIOT_MQTTRECV_SUB_ACK:
+    {
+        LUAT_DEBUG_PRINT("suback, res: -0x%04X, packet id: %d, max qos: %d\n",
+                         -packet->data.sub_ack.res, packet->data.sub_ack.packet_id, packet->data.sub_ack.max_qos);
+        /* TODO: 处理服务器对订阅请求的回应, 一般不处理 */
+    }
+    break;
+
+    case AIOT_MQTTRECV_PUB:
+    {
+        LUAT_DEBUG_PRINT("pub, qos: %d, topic: %.*s\n", packet->data.pub.qos, packet->data.pub.topic_len, packet->data.pub.topic);
+        LUAT_DEBUG_PRINT("pub, payload: %.*s\n", packet->data.pub.payload_len, packet->data.pub.payload);
+        /* 处理服务器下发的业务报文 */
+        // TODO: 换成自己的项目key和设备名
+        // 此主题为语料下载主题，阿里云推送语料会下发一个下载json文件的url，此json中包含语料下载地址
+        if (strcmp("/sys/${YourProductKey}/${YourDeviceName}/thing/service/SpeechPost", packet->data.pub.topic) == 0)
+        {
+            cJSON *boss = NULL;
+            boss = cJSON_Parse((const char *)packet->data.pub.payload);
+            if (boss == NULL)
+            {
+                LUAT_DEBUG_PRINT("PARES FAIL");
+            }
+            else
+            {
+                LUAT_DEBUG_PRINT("this is boss type %d", boss->type);
+                cJSON *method = cJSON_GetObjectItem(boss, "method");
+                cJSON *id = cJSON_GetObjectItem(boss, "id");
+                cJSON *version = cJSON_GetObjectItem(boss, "version");
+                cJSON *params = cJSON_GetObjectItem(boss, "params");
+
+                cJSON *url = cJSON_GetObjectItem(params, "url");
+                http_queue_t send_http_url = {0};
+                send_http_url.url = malloc(strlen(url->valuestring) + 1);
+                send_http_url.type = SPEECH_POST;
+                memset(send_http_url.url, 0x00, strlen(url->valuestring) + 1);
+                memcpy(send_http_url.url, url->valuestring, strlen(url->valuestring));
+                if (-1 == luat_rtos_queue_send(http_queue_handle, &send_http_url, NULL, 0))
+                {
+                    free(send_http_url.url);
+                    LUAT_DEBUG_PRINT("http send requet fail");
+                }
+                LUAT_DEBUG_PRINT("this is url %s", url->valuestring);
+            }
+            cJSON_Delete(boss);
+        }
+        // TODO: 换成自己的项目key和设备名
+        /* 
+        此主题为音频播报主题，阿里云推送音频播报会往此主题下发一个报文，这里只对金额做了解析
+        下发的内容需为"{$number}",其中number是一个不大于99999999.99的字符串
+        如"{$10000.11}",设备会播报一万点一一元 
+        */
+        else if (strcmp("/sys/${YourProductKey}/${YourDeviceName}/thing/service/SpeechBroadcast", packet->data.pub.topic) == 0)
+        {
+            cJSON *boss = NULL;
+            boss = cJSON_Parse((const char *)packet->data.pub.payload);
+            if (boss == NULL)
+            {
+                LUAT_DEBUG_PRINT("PARES FAIL");
+            }
+            else
+            {
+                cJSON *method = cJSON_GetObjectItem(boss, "method");
+                cJSON *params = cJSON_GetObjectItem(boss, "params");
+                cJSON *speech = cJSON_GetObjectItem(params, "speechs");
+                int array_cnt = cJSON_GetArraySize(speech);
+                char *head = NULL;
+                char *tail = NULL;
+                for (int i = 0; i < array_cnt; i++)
+                {
+                    cJSON *money = cJSON_GetArrayItem(speech, i);
+                    head = strstr(money->valuestring, "{$");
+                    if (head != NULL)
+                    {
+                        head++;
+                        head++;
+                        tail = strstr(head, "}");
+                    }
+                }
+                if (tail != NULL)
+                {
+                    audioQueueData moneyPlay = {0};
+                    int index = 0;
+                    char moneyValue[20] = {0};
+                    memcpy(moneyValue, head, tail - head);
+                    strToFile(moneyValue, &moneyPlay, &index, false);
+                    moneyPlay.file.info = (audio_play_info_t *)calloc(index, sizeof(audio_play_info_t));
+                    index = 0;
+                    strToFile(moneyValue, &moneyPlay, &index, true);
+                    moneyPlay.file.count = index;
+                    if (-1 == luat_rtos_queue_send(audio_queue_handle, &moneyPlay, NULL, 0))
+                    {
+                        free(moneyPlay.file.info);
+                        LUAT_DEBUG_PRINT("cloud_speaker_mqtt sub queue send error");
+                    }
+                }
+            }
+            cJSON_Delete(boss);
+        }
+        // TODO: 换成自己的项目key和设备名
+        /* 
+        此主题为动态音频播报主题，阿里云推送音频播报会往此主题下发一个音频下载url
+        这里解析url然后发送到httptask去下载音频
+        此示例播放完毕后会删掉音频
+        */
+        else if (strcmp("/sys/${YourProductKey}/${YourDeviceName}/thing/service/AudioPlayback", packet->data.pub.topic) == 0)
+        {
+            if (!http_get_status)
+            {
+                cJSON *boss = NULL;
+                boss = cJSON_Parse((const char *)packet->data.pub.payload);
+                if (boss == NULL)
+                {
+                    LUAT_DEBUG_PRINT("PARES FAIL");
+                }
+                else
+                {
+                    cJSON *params = cJSON_GetObjectItem(boss, "params");
+                    cJSON *format = cJSON_GetObjectItem(params, "format");
+                    cJSON *id = cJSON_GetObjectItem(params, "id");
+                    cJSON *url = cJSON_GetObjectItem(params, "url");
+                    http_queue_t send_http_url = {0};
+                    send_http_url.type = SPEECH_BY_SYNTHESIS;
+                    send_http_url.filename = malloc(strlen(id->valuestring) + strlen(format->valuestring) + 3);
+                    memset(send_http_url.filename, 0x00, strlen(id->valuestring) + strlen(format->valuestring) + 3);
+                    snprintf(send_http_url.filename, strlen(id->valuestring) + strlen(format->valuestring) + 3, "%s%s%s", id->valuestring, ".", format->valuestring);
+
+                    send_http_url.url = malloc(strlen(url->valuestring) + 1);
+
+                    memset(send_http_url.url, 0x00, strlen(url->valuestring) + 1);
+                    memcpy(send_http_url.url, url->valuestring, strlen(url->valuestring) + 1);
+
+                    if (-1 == luat_rtos_queue_send(http_queue_handle, &send_http_url, NULL, 0))
+                    {
+                        free(send_http_url.filename);
+                        free(send_http_url.url);
+                        LUAT_DEBUG_PRINT("http send requet fail");
+                    }
+
+                    LUAT_DEBUG_PRINT("this is url %s", url->valuestring);
+                    http_get_status = true;
+                }
+                cJSON_Delete(boss);
+            }
+        }
+    }
+    break;
+
+    case AIOT_MQTTRECV_PUB_ACK:
+    {
+        LUAT_DEBUG_PRINT("puback, packet id: %d\n", packet->data.pub_ack.packet_id);
+        /* TODO: 处理服务器对QoS1上报消息的回应, 一般不处理 */
+    }
+    break;
+
+    default:
+    {
+    }
+    }
+}
+
+/* 执行aiot_mqtt_process的线程, 包含心跳发送和QoS1消息重发 */
+void *demo_mqtt_process_thread(void *args)
+{
+    int32_t res = STATE_SUCCESS;
+
+    while (g_mqtt_process_thread_running)
+    {
+        res = aiot_mqtt_process(args);
+        if (res == STATE_USER_INPUT_EXEC_DISABLED)
+        {
+            break;
+        }
+        luat_rtos_task_sleep(1000);
+    }
+    luat_rtos_task_delete(g_mqtt_process_thread);
+    return NULL;
+}
+
+/* 执行aiot_mqtt_recv的线程, 包含网络自动重连和从服务器收取MQTT消息 */
+void *demo_mqtt_recv_thread(void *args)
+{
+    int32_t res = STATE_SUCCESS;
+
+    while (g_mqtt_recv_thread_running)
+    {
+        res = aiot_mqtt_recv(args);
+        if (res < STATE_SUCCESS)
+        {
+            if (res == STATE_USER_INPUT_EXEC_DISABLED)
+            {
+                break;
+            }
+            luat_rtos_task_sleep(1);
+        }
+    }
+    luat_rtos_task_delete(g_mqtt_recv_thread);
+    return NULL;
+}
+
+int linksdk_mqtt_task(void *param)
+{
+    int32_t res = STATE_SUCCESS;
+    void *mqtt_handle = NULL;
+    uint16_t port = 443;             /* 无论设备是否使用TLS连接阿里云平台, 目的端口都是443 */
+    aiot_sysdep_network_cred_t cred; /* 安全凭据结构体, 如果要用TLS, 这个结构体中配置CA证书等参数 */
+
+    luat_rtos_semaphore_create(&net_semaphore_handle, 1);
+
+    luat_mobile_event_register_handler(mobile_event_callback);
+
+    luat_rtos_semaphore_take(net_semaphore_handle, LUAT_WAIT_FOREVER);
+    /* 配置SDK的底层依赖 */
+    aiot_sysdep_set_portfile(&g_aiot_sysdep_portfile);
+    /* 配置SDK的日志输出 */
+    aiot_state_set_logcb(demo_state_logcb);
+
+    /* 创建SDK的安全凭据, 用于建立TLS连接 */
+    memset(&cred, 0, sizeof(aiot_sysdep_network_cred_t));
+    cred.option = AIOT_SYSDEP_NETWORK_CRED_SVRCERT_CA; /* 使用RSA证书校验MQTT服务端 */
+    cred.max_tls_fragment = 16384;                     /* 最大的分片长度为16K, 其它可选值还有4K, 2K, 1K, 0.5K */
+    cred.sni_enabled = 1;                              /* TLS建连时, 支持Server Name Indicator */
+    cred.x509_server_cert = ali_ca_cert;               /* 用来验证MQTT服务端的RSA根证书 */
+    cred.x509_server_cert_len = strlen(ali_ca_cert);   /* 用来验证MQTT服务端的RSA根证书长度 */
+
+    /* 创建1个MQTT客户端实例并内部初始化默认参数 */
+    mqtt_handle = aiot_mqtt_init();
+    if (mqtt_handle == NULL)
+    {
+        LUAT_DEBUG_PRINT("aiot_mqtt_init failed\n");
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+
+    /* TODO: 如果以下代码不被注释, 则例程会用TCP而不是TLS连接云平台 */
+
+    {
+        memset(&cred, 0, sizeof(aiot_sysdep_network_cred_t));
+        cred.option = AIOT_SYSDEP_NETWORK_CRED_NONE;
+    }
+
+    /* 配置MQTT服务器地址 */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_HOST, (void *)mqtt_host);
+    /* 配置MQTT服务器端口 */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_PORT, (void *)&port);
+    /* 配置设备productKey */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_PRODUCT_KEY, (void *)product_key);
+    /* 配置设备deviceName */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_DEVICE_NAME, (void *)device_name);
+    /* 配置设备deviceSecret */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_DEVICE_SECRET, (void *)device_secret);
+    /* 配置网络连接的安全凭据, 上面已经创建好了 */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_NETWORK_CRED, (void *)&cred);
+    /* 配置MQTT默认消息接收回调函数 */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_RECV_HANDLER, (void *)demo_mqtt_default_recv_handler);
+    /* 配置MQTT事件回调函数 */
+    aiot_mqtt_setopt(mqtt_handle, AIOT_MQTTOPT_EVENT_HANDLER, (void *)demo_mqtt_event_handler);
+
+    /* 与服务器建立MQTT连接 */
+    res = aiot_mqtt_connect(mqtt_handle);
+    if (res < STATE_SUCCESS)
+    {
+        /* 尝试建立连接失败, 销毁MQTT实例, 回收资源 */
+        aiot_mqtt_deinit(&mqtt_handle);
+        LUAT_DEBUG_PRINT("aiot_mqtt_connect failed: -0x%04X\n\r\n", -res);
+        LUAT_DEBUG_PRINT("please check variables like mqtt_host, produt_key, device_name, device_secret in demo\r\n");
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+
+    /* MQTT 订阅topic功能示例, 请根据自己的业务需求进行使用 */
+    /* {
+        char *sub_topic = "/sys/${YourProductKey}/${YourDeviceName}/thing/event/+/post_reply";
+        res = aiot_mqtt_sub(mqtt_handle, sub_topic, NULL, 1, NULL);
+        if (res < 0) {
+            DBG("aiot_mqtt_sub failed, res: -0x%04X\n", -res);
+            vTaskDelete(NULL);
+            return -1;
+        }
+    } */
+
+    /* MQTT 发布消息功能示例, 请根据自己的业务需求进行使用 */
+    /* {
+        char *pub_topic = "/sys/${YourProductKey}/${YourDeviceName}/thing/event/property/post";
+        char *pub_payload = "{\"id\":\"1\",\"version\":\"1.0\",\"params\":{\"LightSwitch\":0}}";
+        res = aiot_mqtt_pub(mqtt_handle, pub_topic, (uint8_t *)pub_payload, (uint32_t)strlen(pub_payload), 0);
+        if (res < 0) {
+            LUAT_DEBUG_PRINT("aiot_mqtt_sub failed, res: -0x%04X\n", -res);
+            luat_rtos_task_delete(linksdk_task_handle);
+            return -1;
+        }
+    } */
+
+    /* 创建一个单独的线程, 专用于执行aiot_mqtt_process, 它会自动发送心跳保活, 以及重发QoS1的未应答报文 */
+    g_mqtt_process_thread_running = 1;
+    luat_rtos_task_create(&g_mqtt_process_thread, 4096, 20, "", demo_mqtt_process_thread, mqtt_handle, NULL);
+    if (g_mqtt_process_thread == NULL)
+    {
+        LUAT_DEBUG_PRINT("task_create demo_mqtt_process_thread failed: %d\n", res);
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+
+    /* 创建一个单独的线程用于执行aiot_mqtt_recv, 它会循环收取服务器下发的MQTT消息, 并在断线时自动重连 */
+    g_mqtt_recv_thread_running = 1;
+    luat_rtos_task_create(&g_mqtt_recv_thread, 4096, 20, "", demo_mqtt_recv_thread, mqtt_handle, NULL);
+    if (g_mqtt_recv_thread == NULL)
+    {
+        LUAT_DEBUG_PRINT("task_create demo_mqtt_recv_thread failed: %d\n", res);
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+
+    /* 主循环进入休眠 */
+    while (1)
+    {
+        luat_rtos_task_sleep(1000);
+    }
+
+    /* 断开MQTT连接, 一般不会运行到这里 */
+    g_mqtt_process_thread_running = 0;
+    g_mqtt_recv_thread_running = 0;
+    luat_rtos_task_sleep(1);
+
+    res = aiot_mqtt_disconnect(mqtt_handle);
+    if (res < STATE_SUCCESS)
+    {
+        aiot_mqtt_deinit(&mqtt_handle);
+        LUAT_DEBUG_PRINT("aiot_mqtt_disconnect failed: -0x%04X\n", -res);
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+
+    /* 销毁MQTT实例, 一般不会运行到这里 */
+    res = aiot_mqtt_deinit(&mqtt_handle);
+    if (res < STATE_SUCCESS)
+    {
+        LUAT_DEBUG_PRINT("aiot_mqtt_deinit failed: -0x%04X\n", -res);
+        luat_rtos_task_delete(linksdk_task_handle);
+        return -1;
+    }
+    luat_rtos_task_delete(linksdk_task_handle);
+    return 0;
+}
+
+static void task_demo_init(void)
+{
+    luat_rtos_task_create(&linksdk_task_handle, 4096, 20, "", linksdk_mqtt_task, NULL, NULL);
+}
+extern void task_demo_https(void);
+extern void audio_task_init(void);
+INIT_TASK_EXPORT(audio_task_init, "1");
+INIT_TASK_EXPORT(task_demo_init, "1");
+INIT_TASK_EXPORT(task_demo_https, "1");

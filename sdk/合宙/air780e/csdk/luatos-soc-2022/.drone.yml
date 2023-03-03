@@ -1,0 +1,32 @@
+kind: pipeline
+type: exec
+name: shell
+
+concurrency:
+  limit: 1
+
+platform:
+  os: windows
+  arch: amd64
+
+steps:
+- name: build
+  commands:
+    - cd ..
+    - git clone https://gitee.com/openLuat/LuatOS.git
+    - cd src
+    - $env:PROJECT_NAME="luatos"
+    - $env:ROOT_PATH="$(Get-Location)/"
+    - $env:XMAKE_GLOBALDIR="C:/Users/14917/Desktop"
+    - xmake; if($?){echo success}else{echo fail; exit -1}
+
+- name: notify
+  when:
+    status:
+      - failure
+  environment:
+    token:
+      from_secret: github_token
+  commands:
+    - 'curl.exe -X POST -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/openLuat/LuatOS/dispatches -H "Authorization: token $env:token " -d "{`\`"event_type`\`": `\`"webhook_air780ci_notify`\`"}"'
+

@@ -1,0 +1,9 @@
+Fota CSDK样例使用说明
+1、差分包生成
+差分包使用移芯提供的FotaToolkit进行生成，具体使用说明见FotaToolkit使用指南。
+2、本样例通过url请求升级包的方式测试fota升级，升级成功标志除升级接口正确返回外，还可通过升级前后不同的打印内容来辅助判断升级成功。
+旧版本down start打印前面的打印为AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,新版本down start打印前面的打印为BBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBB。用户可以直接运行build.bat fota，将编译生成的固件下载进入模块。同时打开EPAT监测输出日志，发现用户第一次下载升级包
+校验ok,模块升级成功后重启打印日志中down start前AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA已经替换为BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBB。第二次再次请求升级包由于不匹配会提示升级包校验错误，不予升级。
+3、用户也可以自行生成差分包放入测试服务器，只需要修改fota_test_task函数中url为自己的差分包地址即可。

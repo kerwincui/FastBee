@@ -1,0 +1,16 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+
+enum UserStatus {
+	UNKNOWN = 0;
+	IDLE = 1;
+	BUSY = 2;
+}
+
+message UserInformation {
+	string name = 1;
+	uint32 age = 2;	
+	string phone = 3;
+	UserStatus stat = 4;
+	string email = 5;
+}

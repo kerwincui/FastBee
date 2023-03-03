@@ -1,0 +1,32 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+out/
+build/
+.xmake/
+*.o
+.sconsign.dblite
+__py_cache__/
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+/*.map
+tools//PLAT/core/ld/ec618_0h00_flash.ld
+/PLAT/core/ld/ec618_0h00_flash.ld
+tools/
+/PLAT/libs/libmbedtls.a
+/PLAT/libs/liblfs.a
+/PLAT/libs/libmbedtls.a
+/PLAT/libs/liblfs.a

@@ -1,0 +1,65 @@
+{
+    "version" : 1,
+    "chip" : {
+        "type" : "ec618",
+        "ram"  :  {
+            "total" : 384,
+            "sys" : 256,
+            "lua" : 128
+        }
+    },
+    "rom": {
+        "file" : "luatos.binpkg",
+        "fs" : {
+            "script" : {
+                "offset" : "0",
+                "size" : 448,
+				"type": "luadb"
+            }
+        },
+        "version-core": "v0001",
+        "version-bsp" : "v0001",
+        "mark" : "default",
+        "build" : {
+            "build_at" : "",
+            "build_by" : "",
+            "build_host" : "",
+            "build_system" : ""
+        }
+    },
+    "script" : {
+		"file" : "script.bin",
+        "lua" : "5.3",
+        "bitw" : 32,
+        "use-luac" : true,
+        "use-debug" : true
+    },
+	"fs" : {
+		"total_len" : 288,
+		"format_len" : "1000"
+	},
+    "user" : {
+        "project" : "",
+        "version" : "",
+        "log_br" : "921600"
+    },
+	"download" : {
+		"bl_addr" : "00004000",
+		"partition_addr" : "00008000",
+		"core_addr" : "00024000",
+		"app_addr" : "00000000",
+		"script_addr" : "0024D000",
+		"nvm_addr" : "00000000",
+		"fs_addr" : "003B0000",
+		"force_br" : "1152000",
+		"extra_param" : "002f0200"
+	},
+    "fota" : {
+        "magic_num" : "eaf18c16",
+        "block_len" : "40000", 
+        "core_type" : "diff",
+        "ap_type" : "diff",
+        "cp_type" : "diff",
+        "full_addr" : "002BD000"
+    }
+}
