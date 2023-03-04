@@ -1,0 +1,5 @@
+1.先把项目中的 docker/data/ 文件夹上传到服务器或本地的 /var/ 目录下
+
+2.进入服务器或本地的 /var/data/ 目录执行：docker-compose up -d 等待执行后完成部署
+
+3. 最后通过18083端口，访问EMQX控制台，默认账号密码 admin public，登录后在 管理 / 插件 菜单中启用 emqx_auth_http 、 emqx_web_hook、emqx_delayed_publish 插件
