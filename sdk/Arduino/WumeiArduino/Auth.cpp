@@ -117,6 +117,7 @@ String getTime()
     }
     delay(500);
   }
+  return "";
 }
 
 /*
