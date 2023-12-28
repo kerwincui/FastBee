@@ -16,6 +16,7 @@
 - EMQ管理： Mqtt客户端、监听器、消息主题、消息订阅、插件管理、规则引擎、资源
 - 硬件 SDK： 支持WIFI和MQTT连接、物模型响应、实时监测、定时上报数据、AES加密、NTP时间、AP配网等
 - 物模型管理： 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）
+- 扩展模块： 小度音箱、组态等
 - 其他功能：网关、TCP/Modbus/协议和netty-mqtt支持、视频监控、多租户、场景联动、数据可视化平台、统计、新闻资讯、通知公告、支持TDengine时序数据库
 
 ![](https://oscimg.oschina.net/oscnet/up-a9a7fdaf40208becd26c2485783bc0f86e6.png)
@@ -30,7 +31,7 @@
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Netty等
     - 开发工具：IDEA    
 * Web端
-    - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui等 
+    - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等 
     - 开发工具：Visual Studio Code    
 * 移动端（微信小程序 / Android / Ios / H5）
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
