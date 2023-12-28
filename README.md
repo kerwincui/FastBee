@@ -71,7 +71,7 @@
 4. 主要参与用户：
     - [Guanshubiao](https://gitee.com/guanshubiao)：熟悉物联网开发，完善和优化系统的网关架构和部分功能等
     - [帐篷](https://gitee.com/zhuangpengli)：熟悉物联网开发，完善视频监控模块和部分协议等
-    - [Kami0314](https://github.com/kami0314)：熟悉物联网开发，完善可视化平台和其他功能等
+    - [JaminDeng](https://gitee.com/jamin-deng)：熟悉物联网开发，完善平台前端设计可视化等
 
 ### 七、部分图片
 
