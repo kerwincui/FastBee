@@ -68,6 +68,7 @@ services:
       - /etc/localtime:/etc/localtime
       - /var/data/emqx/conf/emqx_auth_http.conf:/opt/emqx/etc/plugins/emqx_auth_http.conf
       - /var/data/emqx/conf/emqx_web_hook.conf:/opt/emqx/etc/plugins/emqx_web_hook.conf
+      - /var/data/emqx/data/loaded_plugins:/opt/emqx/data/loaded_plugins
     environment:
       EMQX_ALLOW__ANONYMOUS: "false"
       SET_CONTAINER_TIMEZONE: "true"
