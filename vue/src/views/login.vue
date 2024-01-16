@@ -6,13 +6,11 @@
             <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
                 <div class="login-top hidden-sm-and-down">
                     <h1>
-                        <a href="https://wumei.live/" target="_blank">物美智能 </a>
-                        -
-                        <a href="https://wumei.live/" target="_blank" style="">物联美好生活</a>
+                        <a href="https://wumei.live/" target="_blank">FastBee物联网平台</a>
                     </h1>
-                    <h2><a href="https://wumei.live/" target="_blank">wumei smart</a> open source living iot platform</h2>
+                    <h2><a href="https://wumei.live/" target="_blank">FastBee</a> open source living iot platform</h2>
 
-                    <div style="max-width:330px;text-align:left;margin:0 auto;">                        
+                    <div style="max-width:330px;text-align:left;margin:0 auto;">
                         <div v-if="!bindAccount" style="padding:25px 0;">
                             <span style="margin-right:10px;">登录方式</span>
                             <el-button type="success" title="微信登录" size="mini" @click="authLogin" style="border:1px solid #fff;" disabled>
@@ -63,7 +61,7 @@
             <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
                     <h3 class="title" v-if="!bindAccount">账号登录</h3>
-                    <h3 class="bindAccountTitle" v-else>绑定物美智能账户</h3>
+                    <h3 class="bindAccountTitle" v-else>绑定蜂信科技账户</h3>
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="input-icon" />
@@ -100,7 +98,7 @@
     </div>
     <!--  底部  -->
     <div class="el-login-footer">
-        <span>Copyright © 2018-2021 <a target="_blank" href="http://wumei.live">wumei smart</a> All Rights Reserved.</span>
+        <span>Copyright © 2021-2024 <a target="_blank" href="https://fastbee.cn/">蜂信物联</a> All Rights Reserved.</span>
     </div>
 </div>
 </template>

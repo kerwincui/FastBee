@@ -10,7 +10,7 @@
           <div class="guang"></div>
           <div class="d-flex jc-center">
             <div class="title">
-              <span class="title-text">物美智能物联网平台</span>
+              <span class="title-text">FastBee物联网平台</span>
             </div>
           </div>
           <div class="timers ">
@@ -56,10 +56,10 @@ export default {
     },
   },
   computed:{
-    
+
   },
   created(){
-   
+
   },
   mounted() {
     this.timeFn();
@@ -91,5 +91,5 @@ export default {
 <style lang="scss" >
 @import "./home.scss";
 @import '../../assets/bigScreen/css/theme/index.css';
-@import "../../assets/bigScreen/css/index.scss" 
+@import "../../assets/bigScreen/css/index.scss";
 </style>

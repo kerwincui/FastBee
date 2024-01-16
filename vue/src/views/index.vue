@@ -222,10 +222,10 @@
         <el-row :gutter="40">
             <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding:40px;">
                 <div style="padding:30px;margin:20px 0;font-size:14px;">
-                    <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">物美智能生活物联网平台</div>
+                    <div style="font-size:28px;font-weight:bold;margin-bottom:20px;">FastBee物联网平台</div>
                     <div style="display:table;font-size:14px;margin-bottom:10px;">
                         <div style="display:table-cell;line-height:22px;"><b style="color:#67C23A;margin-right:10px;">开源版本采用AGPL-3.0许可协议，商业用途需要获得授权</b>
-                           
+
                         </div>
                     </div>
                     <div style="display:table;margin-bottom:10px;">
@@ -300,8 +300,8 @@
     </el-dialog>
 
     <div style="width:100%;text-align:center;font-size:14px;color:#666;line-height:32px;margin-top:150px;">
-        <span>Copyright © 2021-2022 <a href="https://wumei.live/" target="_blank">Wumei Smart</a> | <a href="https://wumei.live/" target="_blank">物美智能</a> | Apache License</span><br />
-        <span>项目文档<a href="https://wumei.live/doc/" target="_blank"> https://wumei.live/doc/</a></span>
+        <span>Copyright © 2021-2024 <a href="https://fastbee.cn/" target="_blank">FastBee</a> | <a href="https://fastbee.cn/" target="_blank">蜂信物联</a> | Apache License</span><br />
+        <span>项目文档<a href="https://fastbee.cn/doc/" target="_blank"> https://fastbee.cn/doc/</a></span>
     </div>
 
 </div>
@@ -540,7 +540,6 @@ export default {
                         res.push({
                             name: data[i].deviceName,
                             value: geoCoord,
-                            serialNumber: data[i].serialNumber,
                             status: data[i].status,
                             isShadow: data[i].isShadow,
                             firmwareVersion: data[i].firmwareVersion,

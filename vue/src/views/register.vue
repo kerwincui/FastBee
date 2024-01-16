@@ -6,11 +6,9 @@
             <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
                 <div class="login-top hidden-sm-and-down">
                     <h1>
-                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物美智能</a>
-                        -
-                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">物联美好生活</a>
+                        <a href="https://wumei.live/" target="_blank" style="color:#FFF;">FastBee物联网平台</a>
                     </h1>
-                    <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">wumei smart</a> open source living iot platform</h2>
+                    <h2><a href="https://wumei.live/" target="_blank" style="color:#FFF;">FastBee</a> open source living iot platform</h2>
 
                     <div style="max-width:330px;text-align:left;margin:0 auto;">
                         <div v-if="!bindAccount" style="padding:25px 0;">
@@ -43,7 +41,7 @@
             <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
                 <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form" style="z-index:1000">
                     <h3 class="title" v-if="!bindAccount">注册账号</h3>
-                    <h3 class="title" v-else>注册绑定物美智能账户</h3>
+                    <h3 class="title" v-else>注册绑定蜂信科技账户</h3>
                     <el-form-item prop="username">
                         <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
                             <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -89,7 +87,7 @@
     </div>
     <!--  底部  -->
     <div class="el-register-footer">
-        <span>Copyright © 2018-2021 <a target="_blank" href="http://wumei.live">wumei smart</a> All Rights Reserved.</span>
+      <span>Copyright © 2021-2024 <a target="_blank" href="https://fastbee.cn/">蜂信物联</a> All Rights Reserved.</span>
     </div>
 </div>
 </template>
@@ -362,7 +360,7 @@ export default {
             color:#666;
         }
         // IE10-11版本
-        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
             color:#666;
         }
     }
