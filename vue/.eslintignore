@@ -6,5 +6,4 @@ src/assets
 public
 # 忽略当前目录下为js的文件的语法检查
 *.js
-# 忽略当前目录下为vue的文件的语法检查
 *.vue

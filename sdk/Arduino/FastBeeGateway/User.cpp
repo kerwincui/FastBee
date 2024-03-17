@@ -72,7 +72,8 @@ void mqttCallback(char *topic, byte *payload, unsigned int length) {
     printMsg("当前时间：" + String(now, 0));
   } else if (strcmp(topic, (prefix + sPropertyTopic).c_str()) == 0 || strcmp(topic, (prefix + sPropertyOnline).c_str()) == 0) {
     printMsg("订阅到属性指令...");
-    processProperty(data);
+    printMsg("新版本属性和功能合并为功能主题...");
+    // processProperty(data);
   } else if (strcmp(topic, (prefix + sFunctionTopic).c_str()) == 0 || strcmp(topic, (prefix + sFunctionOnline).c_str()) == 0) {
     printMsg("订阅到功能指令...");
     processFunction(data);
@@ -437,6 +438,8 @@ void processFunction(String msg) {
         delay(1000);
       }
     }
+    // 处理子设备的数据上报
+    processSubDeviceReport(id, value);
   }
   // 最后发布功能,服务端订阅存储（重要）
   publishFunction(msg);

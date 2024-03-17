@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.NewsCategoryMapper">
+    
+    <resultMap type="com.fastbee.iot.domain.NewsCategory" id="NewsCategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.model.IdAndName" id="CategoryShortResult">
+        <result property="id"    column="category_id"    />
+        <result property="name"    column="category_name"    />
+    </resultMap>
+
+    <sql id="selectNewsCategoryVo">
+        select category_id, category_name, order_num, del_flag, create_by, create_time, update_by, update_time, remark from news_category
+    </sql>
+
+    <select id="selectNewsCategoryList" parameterType="com.fastbee.iot.domain.NewsCategory" resultMap="NewsCategoryResult">
+        <include refid="selectNewsCategoryVo"/>
+        <where>  
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+        </where>
+        order by order_num
+    </select>
+
+    <select id="selectNewsCategoryShortList"  resultMap="CategoryShortResult">
+        select category_id, category_name
+        from news_category
+        order by order_num
+    </select>
+    
+    <select id="selectNewsCategoryByCategoryId" parameterType="Long" resultMap="NewsCategoryResult">
+        <include refid="selectNewsCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertNewsCategory" parameterType="com.fastbee.iot.domain.NewsCategory" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into news_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNewsCategory" parameterType="com.fastbee.iot.domain.NewsCategory">
+        update news_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteNewsCategoryByCategoryId" parameterType="Long">
+        delete from news_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteNewsCategoryByCategoryIds" parameterType="String">
+        delete from news_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+
+    <select id="newsCountInCategorys" parameterType="String" resultType="int">
+        select count(*) from news where category_id in
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </select>
+</mapper>

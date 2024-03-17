@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.FunctionLogMapper">
+    
+    <resultMap type="com.fastbee.iot.domain.FunctionLog" id="FunctionLogResult">
+        <result property="id"    column="id"    />
+        <result property="identify"    column="identify"    />
+        <result property="funType"    column="fun_type"    />
+        <result property="funValue"    column="fun_value"    />
+        <result property="messageId"    column="message_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="mode"    column="mode"    />
+        <result property="userId"    column="user_id"    />
+        <result property="resultMsg"    column="result_msg"    />
+        <result property="resultCode"    column="result_code"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="showValue" column="show_value"/>
+        <result property="modelName" column="model_name"/>
+        <result property="replyTime" column="reply_time"/>
+    </resultMap>
+
+    <sql id="selectFunctionLogVo">
+        select id, identify, fun_type, fun_value, message_id, device_name, serial_number, mode, user_id, result_msg, result_code, create_by,
+               create_time, remark,show_value,model_name,reply_time from iot_function_log
+    </sql>
+
+    <select id="selectFunctionLogList" parameterType="FunctionLog" resultMap="FunctionLogResult">
+        <include refid="selectFunctionLogVo"/>
+        <where>
+            <if test="prefixIdentify != null  and prefixIdentify != ''"> and identify like concat(#{prefixIdentify},'%')</if>
+            <if test="identify != null  and identify != ''"> and identify = #{identify}</if>
+            <if test="funType != null "> and fun_type = #{funType}</if>
+            <if test="funValue != null  and funValue != ''"> and fun_value = #{funValue}</if>
+            <if test="messageId != null  and messageId != ''"> and message_id = #{messageId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="mode != null "> and mode = #{mode}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="resultMsg != null  and resultMsg != ''"> and result_msg = #{resultMsg}</if>
+            <if test="resultCode != null "> and result_code = #{resultCode}</if>
+            <if test="beginTime != null and beginTime != ''">
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+            <if test="modelName != null and modelName != ''">and model_name = #{modelName}</if>
+        </where>
+        order by create_time DESC
+    </select>
+    
+    <select id="selectFunctionLogById" parameterType="Long" resultMap="FunctionLogResult">
+        <include refid="selectFunctionLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFunctionLog" parameterType="FunctionLog" useGeneratedKeys="true" keyProperty="id">
+        insert into iot_function_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="identify != null and identify != ''">identify,</if>
+            <if test="funType != null">fun_type,</if>
+            <if test="funValue != null and funValue != ''">fun_value,</if>
+            <if test="messageId != null">message_id,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="mode != null">mode,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="resultMsg != null">result_msg,</if>
+            <if test="resultCode != null">result_code,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="showValue != null">show_value,</if>
+            <if test="modelName != null and modelName !=''">model_name,</if>
+            <if test="replyTime != null">reply_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="identify != null and identify != ''">#{identify},</if>
+            <if test="funType != null">#{funType},</if>
+            <if test="funValue != null and funValue != ''">#{funValue},</if>
+            <if test="messageId != null">#{messageId},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+            <if test="mode != null">#{mode},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="resultMsg != null">#{resultMsg},</if>
+            <if test="resultCode != null">#{resultCode},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="showValue != null">#{showValue},</if>
+            <if test="modelName != null and modelName !=''">#{modelName},</if>
+            <if test="replyTime != null">#{replyTime},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="com.fastbee.iot.domain.FunctionLog">
+        insert into iot_function_log (identify,fun_type,fun_value,message_id,device_name,serial_number,mode,user_id,
+                                      result_msg,result_code,create_by,create_time,remark,show_value,model_name,reply_time)
+            values
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.identify},#{item.funType},#{item.funValue},#{item.messageId},#{item.deviceName},#{item.serialNumber},#{item.mode},#{item.userId},
+                #{item.resultMsg},#{item.resultCode},#{item.createBy},#{item.createTime},#{item.remark},#{item.showValue},#{item.modelName},#{item.replyTime})
+            </foreach>
+    </insert>
+
+    <update id="updateFunctionLog" parameterType="FunctionLog">
+        update iot_function_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="identify != null and identify != ''">identify = #{identify},</if>
+            <if test="funType != null">fun_type = #{funType},</if>
+            <if test="funValue != null and funValue != ''">fun_value = #{funValue},</if>
+            <if test="messageId != null">message_id = #{messageId},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="resultMsg != null">result_msg = #{resultMsg},</if>
+            <if test="resultCode != null">result_code = #{resultCode},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="showValue != null">show_value=#{showValue},</if>
+            <if test="modelName != null and modelName !=''">model_name=#{modelName},</if>
+            <if test="replyTime != null">reply_time = #{replyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFunctionLogById" parameterType="Long">
+        delete from iot_function_log where id = #{id}
+    </delete>
+    <delete id="deleteFunctionLogBySerialNumber" parameterType="String">
+        delete from iot_function_log where serial_number = #{serialNumber}
+    </delete>
+
+    <delete id="deleteFunctionLogByPreIdentify" parameterType="FunctionLog">
+        delete from iot_function_log where identify like concat(#{prefixIdentify},'%') and serial_number = #{serialNumber}
+    </delete>
+
+    <delete id="deleteFunctionLogByIds" parameterType="String">
+        delete from iot_function_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateFuncLogBatch" parameterType="com.fastbee.iot.domain.FunctionLog">
+        update iot_function_log l
+        set l.result_msg = #{resultMsg},
+            l.result_code = #{resultCode},
+            l.reply_time = #{replyTime}
+        where l.id in
+            <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+    </update>
+
+    <update id="updateByMessageId" parameterType="FunctionLog">
+        update iot_function_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="identify != null and identify != ''">identify = #{identify},</if>
+            <if test="funType != null">fun_type = #{funType},</if>
+            <if test="funValue != null and funValue != ''">fun_value = #{funValue},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="resultMsg != null">result_msg = #{resultMsg},</if>
+            <if test="resultCode != null">result_code = #{resultCode},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="showValue != null">show_value=#{showValue},</if>
+            <if test="modelName != null and modelName !=''">model_name=#{modelName},</if>
+            <if test="replyTime != null">reply_time = #{replyTime},</if>
+        </trim>
+        where message_id = #{messageId}
+    </update>
+</mapper>

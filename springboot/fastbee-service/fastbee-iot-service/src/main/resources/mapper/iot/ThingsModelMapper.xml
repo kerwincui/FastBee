@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.ThingsModelMapper">
+    <resultMap type="com.fastbee.iot.domain.ThingsModel" id="ThingsModelResult">
+        <result property="modelId" column="model_id"/>
+        <result property="modelName" column="model_name"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="tenantName" column="tenant_name"/>
+        <result property="identifier" column="identifier"/>
+        <result property="type" column="type"/>
+        <result property="datatype" column="datatype"/>
+        <result property="tempSlaveId" column="temp_slave_id"/>
+        <result property="formula" column="formula"/>
+        <result property="specs" column="specs"/>
+        <result property="isChart" column="is_chart"/>
+        <result property="isSharePerm" column="is_share_perm"/>
+        <result property="isHistory" column="is_history"/>
+        <result property="reverseFormula" column="reverse_formula"/>
+        <result property="regAddr" column="reg_addr"/>
+        <result property="isMonitor" column="is_monitor"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="bitOption" column="bit_option"/>
+        <result property="valueType" column="value_type"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="isReadonly" column="is_readonly"/>
+        <result property="modelOrder" column="model_order"/>
+        <result property="quantity" column="quantity"/>
+        <result property="code" column="code"/>
+        <result property="parseType" column="parse_type"/>
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.model.ThingsModelPerm" id="ThingsModelPermResult">
+        <result property="modelName" column="model_name"/>
+        <result property="identifier" column="identifier"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectThingsModelVo">
+        select model_id,
+               model_name,
+               product_id,
+               product_name,
+               tenant_id,
+               tenant_name,
+               identifier,
+               type,
+               datatype,
+               temp_slave_id,
+               formula,
+               specs,
+               is_chart,
+               is_share_perm,
+               is_history,
+               reverse_formula,
+               reg_addr,
+               is_monitor,
+               del_flag,
+               bit_option,
+               value_type,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark,
+               is_readonly,
+               model_order,
+               quantity,
+               code,
+               parse_type
+        from iot_things_model
+    </sql>
+
+    <select id="selectThingsModelList" parameterType="com.fastbee.iot.domain.ThingsModel" resultMap="ThingsModelResult">
+        <include refid="selectThingsModelVo"/>
+        <where>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="type!=null and type==4 ">
+                and type in(1,2)
+            </if>
+            <if test="isChart != null ">
+                and is_chart = #{isChart}
+            </if>
+            <if test="isHistory != null ">
+                and is_history = #{isHistory}
+            </if>
+            <if test="isMonitor != null ">
+                and is_monitor = #{isMonitor}
+            </if>
+            <if test="isReadonly != null ">
+                and is_readonly = #{isReadonly}
+            </if>
+            <if test="tempSlaveId != null ">
+                and temp_slave_id = #{tempSlaveId}
+            </if>
+        </where>
+        order by model_order desc,create_time desc
+    </select>
+
+    <select id="selectThingsModelPermList" parameterType="Long" resultMap="ThingsModelPermResult">
+        select model_name,identifier,is_share_perm,remark from iot_things_model
+        where product_id=#{productId} and is_share_perm=1
+        order by model_order desc,create_time desc
+    </select>
+
+    <select id="selectThingsModelListCache" parameterType="com.fastbee.common.core.iot.response.IdentityAndName" resultMap="ThingsModelResult">
+        select reg_addr as id,
+               temp_slave_id as tempSlaveId
+        from iot_things_model
+        <where>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+        </where>
+        order by reg_addr asc
+    </select>
+
+    <select id="selectThingsModelListByProductIds" parameterType="String" resultMap="ThingsModelResult">
+        <include refid="selectThingsModelVo"/>
+        where is_chart=1 and product_id in
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
+
+    <select id="selectThingsModelByModelId" parameterType="Long" resultMap="ThingsModelResult">
+        <include refid="selectThingsModelVo"/>
+        where model_id = #{modelId}
+    </select>
+
+    <select id="selectSingleThingsModel" parameterType="com.fastbee.iot.domain.ThingsModel" resultMap="ThingsModelResult">
+        <include refid="selectThingsModelVo"/>
+        <where>
+            <if test="productId != null">
+               and product_id = #{productId}
+            </if>
+            <if test="identifier !=null and identifier != ''">
+                and identifier = #{identifier}
+            </if>
+            <if test="tempSlaveId != null and tempSlaveId != ''">
+                and temp_slave_id = #{tempSlaveId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertThingsModel" parameterType="com.fastbee.iot.domain.ThingsModel" useGeneratedKeys="true"
+            keyProperty="modelId">
+        insert into iot_things_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="modelName != null and modelName != ''">
+                model_name,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="productName != null and productName != ''">
+                product_name,
+            </if>
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantName != null and tenantName != ''">
+                tenant_name,
+            </if>
+            <if test="identifier != null and identifier != ''">
+                identifier,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="datatype != null and datatype != ''">
+                datatype,
+            </if>
+            <if test="tempSlaveId != null">
+                temp_slave_id,
+            </if>
+            <if test="formula != null">
+                formula,
+            </if>
+            <if test="specs != null and specs != ''">
+                specs,
+            </if>
+            <if test="isChart != null">
+                is_chart,
+            </if>
+            <if test="isSharePerm != null">
+                is_share_perm,
+            </if>
+            <if test="isHistory != null">
+                is_history,
+            </if>
+            <if test="reverseFormula != null">
+                reverse_formula,
+            </if>
+            <if test="regAddr != null">
+                reg_addr,
+            </if>
+            <if test="isMonitor != null">
+                is_monitor,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="bitOption != null">
+                bit_option,
+            </if>
+            <if test="valueType != null">
+                value_type,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="isReadonly != null">
+                is_readonly,
+            </if>
+            <if test="modelOrder != null">
+                model_order,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="parseType != null">
+                parse_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="modelName != null and modelName != ''">
+                #{modelName},
+            </if>
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="productName != null and productName != ''">
+                #{productName},
+            </if>
+            <if test="tenantId != null">
+                #{tenantId},
+            </if>
+            <if test="tenantName != null and tenantName != ''">
+                #{tenantName},
+            </if>
+            <if test="identifier != null and identifier != ''">
+                #{identifier},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="datatype != null and datatype != ''">
+                #{datatype},
+            </if>
+            <if test="tempSlaveId != null">
+                #{tempSlaveId},
+            </if>
+            <if test="formula != null">
+                #{formula},
+            </if>
+            <if test="specs != null and specs != ''">
+                #{specs},
+            </if>
+            <if test="isChart != null">
+                #{isChart},
+            </if>
+            <if test="isSharePerm != null">
+                #{isSharePerm},
+            </if>
+            <if test="isHistory != null">
+                #{isHistory},
+            </if>
+            <if test="reverseFormula != null">
+                #{reverseFormula},
+            </if>
+            <if test="regAddr != null">
+                #{regAddr},
+            </if>
+            <if test="isMonitor != null">
+                #{isMonitor},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="bitOption != null">
+                #{bitOption},
+            </if>
+            <if test="valueType != null">
+                #{valueType},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="isReadonly != null">
+                #{isReadonly},
+            </if>
+            <if test="modelOrder != null">
+                #{modelOrder},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="code != null">
+                #{code},
+            </if>
+            <if test="parseType != null">
+                #{parseType},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatchThingsModel" parameterType="com.fastbee.iot.domain.ThingsModel" useGeneratedKeys="true"
+            keyProperty="modelId">
+        insert into iot_things_model (
+        model_name,product_id,product_name,tenant_id,tenant_name,identifier,type,
+        datatype,specs,is_chart,is_share_perm,is_history,is_monitor,is_readonly,create_by,create_time,temp_slave_id,formula,
+        reverse_formula,reg_addr,bit_option,value_type,quantity,code,parse_type
+        )
+        values
+        <foreach item="model" collection="list" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{model.modelName},#{model.productId},#{model.productName},#{model.tenantId},#{model.tenantName}
+                ,#{model.identifier},#{model.type},#{model.datatype},#{model.specs}
+                ,#{model.isChart},#{model.isSharePerm},#{model.isHistory},#{model.isMonitor},#{model.isReadonly},#{model.createBy},#{model.createTime},
+                #{model.tempSlaveId},#{model.formula},#{model.reverseFormula},#{model.regAddr},
+                #{model.bitOption},#{model.valueType},#{model.quantity},#{model.code},#{model.parseType}
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateThingsModel" parameterType="com.fastbee.iot.domain.ThingsModel">
+        update iot_things_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modelName != null and modelName != ''">
+                model_name = #{modelName},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="productName != null and productName != ''">
+                product_name = #{productName},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="tenantName != null and tenantName != ''">
+                tenant_name = #{tenantName},
+            </if>
+            <if test="identifier != null and identifier != ''">
+                identifier = #{identifier},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="datatype != null and datatype != ''">
+                datatype = #{datatype},
+            </if>
+            <if test="tempSlaveId != null">
+                temp_slave_id = #{tempSlaveId},
+            </if>
+            <if test="formula != null">
+                formula = #{formula},
+            </if>
+            <if test="specs != null and specs != ''">
+                specs = #{specs},
+            </if>
+            <if test="isChart != null">
+                is_chart = #{isChart},
+            </if>
+            <if test="isSharePerm != null">
+                is_share_perm = #{isSharePerm},
+            </if>
+            <if test="isHistory != null">
+                is_history = #{isHistory},
+            </if>
+            <if test="reverseFormula != null">
+                reverse_formula = #{reverseFormula},
+            </if>
+            <if test="regAddr != null">
+                reg_addr = #{regAddr},
+            </if>
+            <if test="isMonitor != null">
+                is_monitor = #{isMonitor},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="bitOption != null">
+                bit_option = #{bitOption},
+            </if>
+            <if test="valueType != null">
+                value_type = #{valueType},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="isReadonly != null">
+                is_readonly = #{isReadonly},
+            </if>
+            <if test="modelOrder != null">
+                model_order = #{modelOrder},
+            </if>
+            <if test="quantity != null">
+                quantity =#{quantity},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="parseType != null">
+                parse_type= #{parseType},
+            </if>
+        </trim>
+        where model_id = #{modelId}
+    </update>
+
+    <delete id="deleteThingsModelByModelId" parameterType="Long">
+        delete
+        from iot_things_model
+        where model_id = #{modelId}
+    </delete>
+
+    <delete id="deleteThingsModelByModelIds" parameterType="String">
+        delete from iot_things_model where model_id in
+        <foreach item="modelId" collection="array" open="(" separator="," close=")">
+            #{modelId}
+        </foreach>
+    </delete>
+
+    <select id="selectThingsModelIsMonitor" parameterType="com.fastbee.iot.model.ThingsModels.ThingsItems"
+            resultType="com.fastbee.common.core.iot.response.IdentityAndName">
+        select t.reg_addr as id,
+        t.is_monitor as isMonitor,
+        t.is_chart as isChart,
+        t.is_share_perm as isSharePerm,
+        t.is_history as isHistory,
+        t.specs as dataType,
+        t.model_name as name,
+        t.type as type,
+        t.is_params as isParams,
+        t.formula as formula,
+        t.quantity as quantity,
+        t.code as code
+        from iot_things_model t
+        where t.product_id = #{productId,jdbcType=BIGINT}
+        and t.identifier in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="slaveId != null">
+            and t.temp_slave_id = (
+            SELECT
+            s.id
+            FROM
+            iot_device_template temp
+            INNER JOIN iot_var_temp v ON temp.template_id = v.template_id
+            INNER JOIN iot_var_temp_salve s ON v.template_id = s.device_temp_id
+            WHERE
+            temp.product_id = t.product_id
+            AND s.slave_addr = #{slaveId} )
+        </if>
+    </select>
+
+    <select id="selectAllByTemplateId" resultMap="ThingsModelResult">
+        select m.*
+        from iot_var_temp t
+                 left join iot_var_temp_salve s
+                           on t.template_id = s.device_temp_id
+                 left join iot_things_model m on s.id = m.temp_slave_id
+        where t.template_id = #{templateId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteThingsModelByProductId" parameterType="long">
+        delete from iot_things_model where product_id = #{productId}
+    </delete>
+</mapper>

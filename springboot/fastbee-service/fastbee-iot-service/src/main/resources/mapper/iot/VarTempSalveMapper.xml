@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.VarTempSalveMapper">
+
+    <resultMap type="com.fastbee.iot.domain.VarTempSalve" id="VarTempSalveResult">
+        <result property="id"    column="id"    />
+        <result property="deviceTempId"    column="device_temp_id"    />
+        <result property="slaveAddr"    column="slave_addr"    />
+        <result property="slaveIp"    column="slave_ip"    />
+        <result property="slaveName"    column="slave_name"    />
+        <result property="addrStart"    column="addr_start"    />
+        <result property="addrEnd"    column="addr_end"    />
+        <result property="packetLength" column="packet_length"/>
+        <result property="timer"    column="timer"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectVarTempSalveVo">
+        select id, device_temp_id, slave_addr, slave_ip, slave_name, addr_start, addr_end,packet_length, timer, status, create_time, create_by, update_time, update_by, remark from iot_var_temp_salve
+    </sql>
+
+    <select id="selectVarTempSalveList" parameterType="com.fastbee.iot.domain.VarTempSalve" resultMap="VarTempSalveResult">
+        <include refid="selectVarTempSalveVo"/>
+        <where>
+            <if test="deviceTempId != null "> and device_temp_id = #{deviceTempId}</if>
+            <if test="slaveAddr != null "> and slave_addr = #{slaveAddr}</if>
+            <if test="slaveIp != null  and slaveIp != ''"> and slave_ip = #{slaveIp}</if>
+            <if test="slaveName != null  and slaveName != ''"> and slave_name like concat('%', #{slaveName}, '%')</if>
+            <if test="addrStart != null "> and addr_start = #{addrStart}</if>
+            <if test="addrEnd != null "> and addr_end = #{addrEnd}</if>
+            <if test="packetLength != null">and packet_length = #{packetLength}</if>
+            <if test="timer != null "> and timer = #{timer}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectVarTempSalveById" parameterType="Long" resultMap="VarTempSalveResult">
+        <include refid="selectVarTempSalveVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertVarTempSalve" parameterType="com.fastbee.iot.domain.VarTempSalve" useGeneratedKeys="true" keyProperty="id">
+        insert into iot_var_temp_salve
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceTempId != null">device_temp_id,</if>
+            <if test="slaveAddr != null">slave_addr,</if>
+            <if test="slaveIp != null">slave_ip,</if>
+            <if test="slaveName != null">slave_name,</if>
+            <if test="addrStart != null">addr_start,</if>
+            <if test="addrEnd != null">addr_end,</if>
+            <if test="packetLength != null">packet_length,</if>
+            <if test="timer != null">timer,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceTempId != null">#{deviceTempId},</if>
+            <if test="slaveAddr != null">#{slaveAddr},</if>
+            <if test="slaveIp != null">#{slaveIp},</if>
+            <if test="slaveName != null">#{slaveName},</if>
+            <if test="addrStart != null">#{addrStart},</if>
+            <if test="addrEnd != null">#{addrEnd},</if>
+            <if test="packetLength != null">#{packetLength},</if>
+            <if test="timer != null">#{timer},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateVarTempSalve" parameterType="com.fastbee.iot.domain.VarTempSalve">
+        update iot_var_temp_salve
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceTempId != null">device_temp_id = #{deviceTempId},</if>
+            <if test="slaveAddr != null">slave_addr = #{slaveAddr},</if>
+            <if test="slaveIp != null">slave_ip = #{slaveIp},</if>
+            <if test="slaveName != null">slave_name = #{slaveName},</if>
+            <if test="addrStart != null">addr_start = #{addrStart},</if>
+            <if test="addrEnd != null">addr_end = #{addrEnd},</if>
+            <if test="packetLength != null">packet_length = #{packetLength},</if>
+            <if test="timer != null">timer = #{timer},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteVarTempSalveById" parameterType="Long">
+        delete from iot_var_temp_salve where id = #{id}
+    </delete>
+
+    <delete id="deleteVarTempSalveByIds" parameterType="String">
+        delete from iot_var_temp_salve where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteVarTempSalveByTempIds" parameterType="String">
+        delete from iot_var_temp_salve where device_temp_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectVarTempSalveListByProductId" resultMap="VarTempSalveResult" parameterType="Long">
+        select s.* from iot_device_template t
+        inner join iot_var_temp_salve s on t.template_id = s.device_temp_id
+        where t.product_id = #{productId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByIds" resultType="com.fastbee.iot.model.varTemp.SlaveIdAndId" parameterType="java.util.List">
+        select s.id as id,
+               s.slave_addr as slaveId
+        from iot_var_temp_salve s
+        where s.id in
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

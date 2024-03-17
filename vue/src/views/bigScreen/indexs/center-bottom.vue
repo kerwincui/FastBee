@@ -1,179 +1,176 @@
 <template>
-  <div class="center_bottom">
-    <Echart :options="options" id="bottomLeftChart" class="echarts_bottom"></Echart>
-  </div>
+<div class="center_bottom">
+    <div>
+        <dv-scroll-board :config="config" style="width:360px;height:175px" />
+    </div>
+    <div style="display:flex;height:115px;margin-top:30px;">
+        <div>
+            <dv-water-level-pond :config="configCpu" style="width:115px;height:100%;" />
+            <div style="text-align: center;margin-top:10px;color:#23cdd8;font-weight:600;">CPU</div>
+        </div>
+        <div style="margin:0 20px;">
+            <dv-water-level-pond :config="configMemery" style="width:115px;height:100%;" />
+            <div style="text-align: center;margin-top:10px;color:#23cdd8;font-weight:600;">内存</div>
+        </div>
+        <div style="">
+            <dv-water-level-pond :config="configDisk" style="width:115px;height:100%;" />
+            <div style="text-align: center;margin-top:10px;color:#23cdd8;font-weight:600;">系统盘</div>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
-import {currentGET} from '@/api/bigScreen/modules'
+import {
+    getServer
+} from "@/api/monitor/server";
 export default {
-  data() {
-    return {
-      options: {},
-    };
-  },
-  props: {
-
-  },
-  mounted() {
-    this.getData()
-  },
-  methods: {
-    getData() {
-      this.pageflag = true
-      currentGET('big6', { companyName: this.companyName }).then(res => {
-        console.log('安装计划', res);
-        if (res.success) {
-          this.init(res.data)
-        } else {
-          this.pageflag = false
-          this.$Message({
-            text: res.msg,
-            type: 'warning'
-          })
-        }
-      })
+    data() {
+        return {
+            timer: null,
+            config: {},
+            data: [
+                ['服务器名称', ''],
+                ['服务器IP', ""],
+                ['操作系统', ''],
+                ['系统架构', ""],
+                ['CPU核心数', ''],
+                ['服务器内存', ""],
+                ['Java名称', ''],
+                ['Java版本', ''],
+                ['Java启动时间', ""],
+                ['Java运行时长', ""],
+                ['Java占用内存', ''],
+                ['Java总内存', ""]
+            ],
+            // 服务器信息
+            server: {
+                jvm: {
+                    name: "",
+                    version: "",
+                    startTime: "",
+                    runTime: "",
+                    used: "",
+                    total: 100
+                },
+                sys: {
+                    computerName: "",
+                    osName: "",
+                    computerIp: "",
+                    osArch: ""
+                },
+                cpu: {
+                    cpuNum: 1
+                },
+                mem: {
+                    total: 2
+                }
+            },
+            configCpu: {
+                data: [50],
+                shape: 'roundRect',
+                formatter: '{value}%',
+                waveHeight: 10
+            },
+            configMemery: {
+                data: [50],
+                shape: 'roundRect',
+                formatter: '{value}%',
+                waveHeight: 10
+            },
+            configDisk: {
+                data: [50],
+                shape: 'roundRect',
+                formatter: '{value}%',
+                waveHeight: 10
+            }
+        };
     },
-    init(newData) {
-      this.options = {
-        tooltip: {
-          trigger: "axis",
-          backgroundColor: "rgba(0,0,0,.6)",
-          borderColor: "rgba(147, 235, 248, .8)",
-          textStyle: {
-            color: "#FFF",
-          },
-          formatter: function (params) {
-              // 添加单位
-                var result = params[0].name + "<br>";
-                params.forEach(function (item) {
-                    if (item.value) {
-                      if(item.seriesName=="安装率"){
-                        result += item.marker + " " + item.seriesName + " : " + item.value + "%</br>";
-                      }else{
-                        result += item.marker + " " + item.seriesName + " : " + item.value + "个</br>";
-                      }
-                    } else {
-                        result += item.marker + " " + item.seriesName + " :  - </br>";
-                    }
-                });
-                return result;
-              }
+    props: {},
+    mounted() {
+        this.getServer();
+    },
+    beforeDestroy() {
+        this.clearData();
+    },
+    methods: {
+        /** 查询服务器信息 */
+        getServer() {
+            getServer().then(response => {
+                this.server = response.data;
+                this.config = {
+                    rowNum: 6,
+                    oddRowBGC: '',
+                    evenRowBGC: '',
+                    columnWidth: [105, 230],
+                    data: [
+                        ['服务器名：', this.server.sys.computerName],
+                        ['服务器IP：', this.server.sys.computerIp],
+                        ['操作系统：', this.server.sys.osName],
+                        ['系统架构：', this.server.sys.osArch],
+                        ['CPU核心：', this.server.cpu.cpuNum],
+                        ['系统内存：', this.server.mem.total],
+                        ['Java名称：', this.server.jvm.name],
+                        ['Java版本：', this.server.jvm.version],
+                        ['启动时间：', this.server.jvm.startTime],
+                        ['运行时长：', this.server.jvm.runTime],
+                        ['运行内存：', this.server.jvm.used],
+                        ['JVM总内存：', this.server.jvm.total],
+                    ],
+                };
+                // 计算CPU使用 
+                let cpu = (this.server.cpu.used + this.server.cpu.sys) / (this.server.cpu.used + this.server.cpu.sys + this.server.cpu.free) * 100;
+                this.configCpu = {
+                    data: [cpu.toFixed(1), cpu.toFixed(1) - 10],
+                    shape: 'roundRect',
+                    formatter: '{value}%',
+                    waveHeight: 10
+                };
+                // 计算内存
+                let memery = this.server.mem.used / (this.server.mem.used + this.server.mem.free) * 100;
+                this.configMemery = {
+                    data: [memery.toFixed(1), memery.toFixed(1) - 10],
+                    shape: 'roundRect',
+                    formatter: '{value}%',
+                    waveHeight: 10
+                };
+                // 计算硬盘
+                let disk = Number(this.server.sysFiles[0].used.replace("GB", "")) / (Number(this.server.sysFiles[0].used.replace("GB", "")) + Number(this.server.sysFiles[0].free.replace("GB", ""))) * 100;
+                this.configDisk = {
+                    data: [disk.toFixed(1), disk.toFixed(1) - 10],
+                    shape: 'roundRect',
+                    formatter: '{value}%',
+                    waveHeight: 10
+                };
+                // 轮询
+                this.switper()
+            });
         },
-        legend: {
-          data: ["已安装", "计划安装", "安装率"],
-          textStyle: {
-            color: "#B4B4B4"
-          },
-          top: "0"
-        },
-        grid: {
-          left: "50px",
-          right: "40px",
-          bottom: "30px",
-          top: "20px",
-        },
-        xAxis: {
-          data: newData.category,
-          axisLine: {
-            lineStyle: {
-              color: "#B4B4B4"
+        clearData() {
+            if (this.timer) {
+                clearInterval(this.timer)
+                this.timer = null
             }
-          },
-          axisTick: {
-            show: false
-          }
         },
-        yAxis: [
-          {
-            splitLine: { show: false },
-            axisLine: {
-              lineStyle: {
-                color: "#B4B4B4"
-              }
-            },
-
-            axisLabel: {
-              formatter: "{value}"
+        //轮询
+        switper() {
+            if (this.timer) {
+                return
             }
-          },
-          {
-            splitLine: { show: false },
-            axisLine: {
-              lineStyle: {
-                color: "#B4B4B4"
-              }
-            },
-            axisLabel: {
-              formatter: "{value}% "
-            }
-          }
-        ],
-        series: [
-          
-          {
-            name: "已安装",
-            type: "bar",
-            barWidth: 10,
-            itemStyle: {
-              normal: {
-                barBorderRadius: 5,
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#956FD4" },
-                  { offset: 1, color: "#3EACE5" }
-                ])
-              }
-            },
-            data: newData.barData
-          },
-          {
-            name: "计划安装",
-            type: "bar",
-            barGap: "-100%",
-            barWidth: 10,
-            itemStyle: {
-              normal: {
-                barBorderRadius: 5,
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "rgba(156,107,211,0.8)" },
-                  { offset: 0.2, color: "rgba(156,107,211,0.5)" },
-                  { offset: 1, color: "rgba(156,107,211,0.2)" }
-                ])
-              }
-            },
-            z: -12,
-            data: newData.lineData
-          },
-          {
-            name: "安装率",
-            type: "line",
-            smooth: true,
-            showAllSymbol: true,
-            symbol: "emptyCircle",
-            symbolSize: 8,
-            yAxisIndex: 1,
-            itemStyle: {
-              normal: {
-                color: "#F02FC2"
-              }
-            },
-            data: newData.rateData
-          },
-        ]
-      }
+            let looper = (a) => {
+                this.getServer();
+            };
+            this.timer = setInterval(looper, 60000);
+        },
     }
-  },
-
 }
 </script>
+
 <style lang="scss" scoped>
 .center_bottom {
-  width: 100%;
-  height: 100%;
-
-  .echarts_bottom {
     width: 100%;
     height: 100%;
-  }
+    padding: 10px;
+    display: flex;
 }
 </style>

@@ -21,7 +21,7 @@ export function loadBMap() {
         let script = document.createElement('script')
         script.type = 'text/javascript'
         script.src =
-            'http://api.map.baidu.com/api?v=2.0&ak='+ process.env.VUE_APP_BAI_DU_AK +'&__ec_v__=20190126&callback=onBMapCallback'
+            'http://api.map.baidu.com/api?v=2.0&ak='+ process.env.VUE_APP_BAI_DU_AK +'&s=1&__ec_v__=20190126&callback=onBMapCallback'
         script.onerror = reject
         document.head.appendChild(script)
     })

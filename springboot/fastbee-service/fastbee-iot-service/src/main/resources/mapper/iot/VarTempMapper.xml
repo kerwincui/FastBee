@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.VarTempMapper">
+    <resultMap type="com.fastbee.iot.domain.VarTemp" id="VarTempResult">
+        <result property="templateId" column="template_id"/>
+        <result property="templateName" column="template_name"/>
+        <result property="type" column="type"/>
+        <result property="pollingMethod" column="polling_method"/>
+        <result property="slaveTotal" column="slave_total"/>
+        <result property="pointTotal" column="point_total"/>
+        <result property="share" column="share"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <sql id="selectVarTempVo">
+        select template_id,
+               template_name,
+               type,
+               polling_method,
+               slave_total,
+               point_total,
+               share,
+               create_time,
+               create_by,
+               update_time,
+               update_by,
+               user_id
+        from iot_var_temp
+    </sql>
+
+    <select id="selectVarTempList" parameterType="VarTemp" resultMap="VarTempResult">
+        select template_id, template_name, type, polling_method,
+        (select count(s.device_temp_id)
+        FROM iot_var_temp_salve s
+        WHERE s.device_temp_id = t.template_id) as slave_total,
+        (select count(p.temp_slave_id)
+        from iot_var_temp_salve s
+        inner join
+        iot_things_model_template p on CONCAT(s.device_temp_id,'#',s.slave_addr) = p.temp_slave_id
+        where s.device_temp_id = t.template_id ) as point_total,
+        share, create_time, create_by, update_time, update_by, user_id from iot_var_temp t
+        <where>
+            <if test="templateName != null  and templateName != ''">
+                and t.template_name like concat('%', #{templateName}, '%')
+            </if>
+            <if test="type != null ">
+                and t.type = #{type}
+            </if>
+            <if test="pollingMethod != null ">
+                and t.polling_method = #{pollingMethod}
+            </if>
+            <if test="slaveTotal != null ">
+                and t.slave_total = #{slaveTotal}
+            </if>
+            <if test="pointTotal != null ">
+                and t.point_total = #{pointTotal}
+            </if>
+            <if test="share != null ">
+                and t.share = #{share}
+            </if>
+            <if test="userId != null ">
+                and t.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectVarTempByTemplateId" parameterType="Long" resultMap="VarTempResult">
+        <include refid="selectVarTempVo"/>
+        where template_id = #{templateId}
+    </select>
+
+    <insert id="insertVarTemp" parameterType="com.fastbee.iot.domain.VarTemp" useGeneratedKeys="true" keyProperty="templateId">
+        insert into iot_var_temp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">
+                template_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="pollingMethod != null">
+                polling_method,
+            </if>
+            <if test="slaveTotal != null">
+                slave_total,
+            </if>
+            <if test="pointTotal != null">
+                point_total,
+            </if>
+            <if test="share != null">
+                share,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">
+                #{templateName},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="pollingMethod != null">
+                #{pollingMethod},
+            </if>
+            <if test="slaveTotal != null">
+                #{slaveTotal},
+            </if>
+            <if test="pointTotal != null">
+                #{pointTotal},
+            </if>
+            <if test="share != null">
+                #{share},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateVarTemp" parameterType="VarTemp">
+        update iot_var_temp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">
+                template_name = #{templateName},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="pollingMethod != null">
+                polling_method = #{pollingMethod},
+            </if>
+            <if test="slaveTotal != null">
+                slave_total = #{slaveTotal},
+            </if>
+            <if test="pointTotal != null">
+                point_total = #{pointTotal},
+            </if>
+            <if test="share != null">
+                share = #{share},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </trim>
+        where template_id = #{templateId}
+    </update>
+
+    <delete id="deleteVarTempByTemplateId" parameterType="Long">
+        delete
+        from iot_var_temp
+        where template_id = #{templateId}
+    </delete>
+
+    <delete id="deleteVarTempByTemplateIds" parameterType="String">
+        delete from iot_var_temp where template_id in
+        <foreach item="templateId" collection="array" open="(" separator="," close=")">
+            #{templateId}
+        </foreach>
+    </delete>
+
+    <select id="selectVarTempByProductId" resultMap="VarTempResult" parameterType="java.lang.Long">
+        select v.template_id, v.template_name, v.type, v.polling_method from
+            iot_device_template t inner join
+            iot_var_temp v on t.template_id = v.template_id
+        where t.product_id = #{productId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByProductAndSlaveId" resultType="java.lang.Long">
+        select s.id
+         from iot_device_template t inner join
+             iot_var_temp v on t.template_id = v.template_id inner join
+             iot_var_temp_salve s on v.template_id = s.device_temp_id
+        where t.product_id = #{productId}
+        and s.slave_addr = #{slaveId}
+    </select>
+</mapper>

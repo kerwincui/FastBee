@@ -103,6 +103,10 @@ export default {
         getList() {
             this.loading = true;
             listProduct(this.queryParams).then(response => {
+                //产品列表初始化isSelect值，用于单选
+                for (let i = 0; i < response.rows.length; i++) {
+                    response.rows[i].isSelect = false;
+                }
                 this.productList = response.rows;
                 this.total = response.total;
                 if (this.productId != 0) {

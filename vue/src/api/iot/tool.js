@@ -27,3 +27,24 @@ export function listUser(query) {
     params: query
   })
 }
+
+// 获取所有下发的topic
+export function getTopics(params){
+  return request({
+    url: '/iot/tool/getTopics',
+    method: 'get',
+    params: params,
+  })
+}
+
+// 获取所有下发的topic
+export function decode(params){
+  return request({
+    url: '/iot/tool/decode',
+    method: 'get',
+    params: params,
+  })
+}
+
+
+

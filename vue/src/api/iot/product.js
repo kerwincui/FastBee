@@ -43,6 +43,14 @@ export function updateProduct(data) {
   })
 }
 
+// 获取产品下设备的数量
+export function deviceCount(productId) {
+  return request({
+    url: '/iot/product/deviceCount/' + productId,
+    method: 'get'
+  })
+}
+
 // 更新产品状态
 export function changeProductStatus(data) {
   return request({
@@ -57,5 +65,14 @@ export function delProduct(productId) {
   return request({
     url: '/iot/product/' + productId,
     method: 'delete'
+  })
+}
+
+// 根据采集点模板id查询所有产品
+export function selectByTempleId(params) {
+  return request({
+    url: '/iot/product/queryByTemplateId',
+    method: 'get',
+    params: params
   })
 }

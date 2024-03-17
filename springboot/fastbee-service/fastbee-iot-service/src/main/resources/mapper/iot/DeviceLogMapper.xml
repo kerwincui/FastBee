@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.DeviceLogMapper">
+
+    <resultMap type="com.fastbee.iot.model.MonitorModel" id="MonitorResult">
+        <result property="value"    column="log_value"    />
+        <result property="time"    column="create_time"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.domain.DeviceLog" id="DeviceLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="logType"    column="log_type"    />
+        <result property="logValue"    column="log_value"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="identity"    column="identity"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="isMonitor"    column="is_monitor"    />
+        <result property="mode"    column="mode"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">
+        <result property="value"    column="log_value"    />
+        <result property="time"    column="create_time"    />
+        <result property="identity" column="identity" />
+    </resultMap>
+
+    <sql id="selectDeviceLogVo">
+        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor,mode, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
+    </sql>
+
+    <select id="selectMonitorList" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="MonitorResult">
+        select log_value, create_time from iot_device_log
+        <where>
+            <if test="1==1"> and is_monitor=1</if>
+            <if test="identity != null and identity != ''"> and identity = #{identity}</if>
+            <if test="deviceId != null and deviceId !=0"> and device_id = #{deviceId}</if>
+            <if test="serialNumber != null and serialNumber !=''"> and serial_number = #{serialNumber}</if>
+            <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''"> and create_time between #{beginTime} and #{endTime}</if>
+        </where>
+        order by create_time desc
+        limit #{total}
+    </select>
+
+
+    <select id="selectDeviceLogByLogId" parameterType="Long" resultMap="DeviceLogResult">
+        <include refid="selectDeviceLogVo"/>
+        where log_id = #{logId}
+    </select>
+
+    <select id="selectCategoryLogCount" parameterType="com.fastbee.iot.domain.Device" resultType="com.fastbee.iot.model.DeviceStatistic">
+        SELECT
+        (select count(log_id)
+            from iot_device_log
+                <where>
+                    <if test="1==1"> and log_type=1</if>
+                    <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                    <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+                </where>
+        ) as propertyCount,
+        (select count(log_id)
+            from iot_device_log
+            <where>
+                <if test="1==1"> and log_type=2</if>
+                <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+            </where>
+        ) as functionCount,
+        (select count(log_id)
+            from iot_device_log
+            <where>
+                <if test="1==1"> and log_type=3</if>
+                <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+            </where>
+        ) as eventCount,
+        (select count(log_id)
+            from iot_device_log
+            <where>
+                <if test="1==1"> and log_type=1 and is_monitor=1</if>
+                <if test="userId != null and userId != 0"> and user_id = #{userId}</if>
+                <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+            </where>
+        ) as monitorCount
+        limit 1
+    </select>
+
+
+    <insert id="saveBatch" parameterType="com.fastbee.iot.domain.DeviceLog">
+        insert into iot_device_log (log_type,log_value,device_id,device_name,serial_number,identity,create_by,
+        is_monitor,mode,create_time,remark,user_id,user_name,tenant_id,tenant_name,model_name)
+            values
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.logType},#{item.logValue},#{item.deviceId},#{item.deviceName},#{item.serialNumber},
+                #{item.identity},#{item.createBy},#{item.isMonitor},#{item.mode},#{item.createTime},#{item.remark},
+                #{item.userId},#{item.userName},#{item.tenantId},#{item.tenantName},#{item.modelName})
+            </foreach>
+    </insert>
+
+    <update id="updateDeviceLog" parameterType="com.fastbee.iot.domain.DeviceLog">
+        update iot_device_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="logType != null">log_type = #{logType},</if>
+            <if test="logValue != null">log_value = #{logValue},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="identity != null">identity = #{identity},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deleteDeviceLogByLogId" parameterType="Long">
+        delete from iot_device_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteDeviceLogByLogIds" parameterType="String">
+        delete from iot_device_log where log_id in
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteDeviceLogByDeviceNumber" parameterType="String">
+        delete from iot_device_log where serial_number = #{deviceNumber}
+    </delete>
+
+</mapper>

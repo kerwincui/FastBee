@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>fastbee-server</artifactId>
+        <groupId>com.fastbee</groupId>
+        <version>3.8.5</version>
+    </parent>
+    <artifactId>boot-strap</artifactId>
+    <description>网关服务启动模块</description>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>mqtt-broker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-protocol-collect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>base-server</artifactId>
+            <version>3.8.5</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+
+
+
+</project>

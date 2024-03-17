@@ -4,20 +4,21 @@ import router from '@/router';
 export default {
   // 刷新当前tab页签
   refreshPage(obj) {
-    const { path, matched } = router.currentRoute;
+    const { path, query, matched } = router.currentRoute;
     if (obj === undefined) {
       matched.forEach((m) => {
         if (m.components && m.components.default && m.components.default.name) {
           if (!['Layout', 'ParentView'].includes(m.components.default.name)) {
-            obj = { name: m.components.default.name, path: path };
+            obj = { name: m.components.default.name, path: path, query: query };
           }
         }
       });
     }
     return store.dispatch('tagsView/delCachedView', obj).then(() => {
-      const { path } = obj
+      const { path, query } = obj
       router.replace({
-        path: '/redirect' + path
+        path: '/redirect' + path,
+        query: query
       })
     })
   },
@@ -54,10 +55,10 @@ export default {
     return store.dispatch('tagsView/delOthersViews', obj || router.currentRoute);
   },
   // 添加tab页签
-  openPage(title, url) {
+  openPage(title, url, params) {
     var obj = { path: url, meta: { title: title } }
     store.dispatch('tagsView/addView', obj);
-    return router.push(url);
+    return router.push({ path: url, query: params });
   },
   // 修改tab页签
   updatePage(obj) {

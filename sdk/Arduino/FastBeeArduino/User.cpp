@@ -97,7 +97,7 @@ String randomPropertyData() {
   int randInt = 0;
   StaticJsonDocument<1024> doc;
   JsonObject objTmeperature = doc.createNestedObject();
-  objTmeperature["id"] = "temperature";
+  objTmeperature["id"] = "light_current";
   randFloat = random(1000, 3000);
   objTmeperature["value"] = (String)(randFloat / 100);
   objTmeperature["remark"] = (String)millis();
@@ -159,7 +159,7 @@ void processFunction(String msg) {
     // 匹配云端定义的功能
     const char *id = object["id"];
     const char *value = object["value"];
-    if (strcmp(id, "switch") == 0) {
+    if (strcmp(id, "light_switch") == 0) {
       printMsg("开关 switch：" + (String)value);
       if (strcmp(value, "1") == 0) {
         // 打开继电器

@@ -1,157 +1,121 @@
 <template>
-  <div class="right_bottom">
-    <dv-capsule-chart :config="config" style="width:100%;height:260px" />
+  <div style="display: flex">
+    <dv-active-ring-chart :config="config" style="width: 250px; height: 250px" />
+    <div style="font-size: 14px; margin-top: 80px; line-height: 10px; margin-left: -20px">
+      <div style="margin-bottom: 20px; color: #23cdd8" v-if="mqtt">
+        <div style="margin-bottom: 20px; color: #23cdd8">
+          发送消息总数：
+          <span style="color: #fff">{{ formatter(this.static['send_total']) }}</span>
+          <dv-decoration-3 style="width: 200px; height: 20px; margin-top: 5px" />
+        </div>
+      </div>
+      <div style="margin-bottom: 20px; color: #23cdd8" v-else>
+        发送字节：
+        <span style="color: #fff">{{ formatter(this.static['bytes.sent']) }}</span>
+        <dv-decoration-3 style="width: 200px; height: 20px; margin-top: 5px" />
+      </div>
+      <div style="margin-bottom: 20px; color: #23cdd8" v-if="mqtt">
+        接收消息总数：
+        <span style="color: #fff">{{ formatter(this.static['receive_total']) }}</span>
+        <dv-decoration-3 style="width: 200px; height: 20px; margin-top: 5px" />
+      </div>
+      <div style="margin-bottom: 20px; color: #23cdd8" v-else>
+        接收字节：
+        <span style="color: #fff">{{ formatter(this.static['bytes.received']) }}</span>
+        <dv-decoration-3 style="width: 200px; height: 20px; margin-top: 5px" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { currentGET } from '@/api/bigScreen/modules'
+import { statisticNettyMqtt } from '@/api/iot/netty';
+
 export default {
   data() {
     return {
-      gatewayno: '',
-      config: {
-        showValue: true,
-        unit: "次",
-        data: []
-      },
-
+      // emqx统计信息
+      static: {},
+      config: {},
+      timer: null,
+      mqtt: this.$store.state.user.mqtt,
     };
   },
   created() {
-    this.getData()
-
+    this.statisticMqtt();
   },
-  computed: {
-  },
-  mounted() { },
+  computed: {},
   beforeDestroy() {
-    this.clearData()
+    this.clearData();
   },
   methods: {
+    /** 查询emqx统计*/
+    statisticMqtt() {
+      if (this.mqtt) {
+        statisticNettyMqtt().then((response) => {
+          this.static = response.data;
+          // 图标配置
+          this.config = {
+            data: [
+              {
+                name: '发送',
+                value: this.static['send_total'],
+              },
+              {
+                name: '接收',
+                value: this.static['receive_total'],
+              },
+            ],
+            color: ['#ffdb5c', '#67e0e3'],
+          };
+          // 轮询
+          this.switper();
+        });
+      } else {
+        // 图标配置
+        this.config = {
+          data: [
+            {
+              name: '发送',
+              value: 32761563,
+            },
+            {
+              name: '接收',
+              value: 31910071,
+            },
+          ],
+          color: ['#ffdb5c', '#67e0e3'],
+        };
+        // 轮询
+        this.switper();
+      }
+    },
+    // 数字格式化
+    formatter(number) {
+      if (number) {
+        const numbers = number.toString().split('').reverse();
+        const segs = [];
+        while (numbers.length) segs.push(numbers.splice(0, 3).join(''));
+        return segs.join(',').split('').reverse().join('');
+      }
+      return 1024;
+    },
     clearData() {
       if (this.timer) {
-        clearInterval(this.timer)
-        this.timer = null
+        clearInterval(this.timer);
+        this.timer = null;
       }
     },
     //轮询
     switper() {
       if (this.timer) {
-        return
+        return;
       }
       let looper = (a) => {
-        this.getData()
+        this.statisticMqtt();
       };
-      this.timer = setInterval(looper, this.$store.state.settings.echartsAutoTime);
-    },
-    getData() {
-      this.pageflag = true
-      // this.pageflag =false
-      currentGET('big7', { gatewayno: this.gatewayno }).then(res => {
-
-        if (!this.timer) {
-          console.log('报警排名', res);
-        }
-        if (res.success) {
-          this.config = {
-            ...this.config,
-            data: res.data
-          }
-          this.switper()
-        } else {
-          this.pageflag = false
-          this.srcList = []
-          this.$Message({
-            text: res.msg,
-            type: 'warning'
-          })
-        }
-      })
+      this.timer = setInterval(looper, 60000);
     },
   },
 };
 </script>
-<style lang='scss' scoped>
-.list_Wrap {
-  height: 100%;
-  overflow: hidden;
-
-  ::v-deep  .kong {
-    width: auto;
-  }
-}
-
-.sbtxSwiperclass {
-  .img_wrap {
-    overflow-x: auto;
-  }
-
-}
-
-.right_bottom {
-  box-sizing: border-box;
-  padding: 0 16px;
-
-  .searchform {
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .searchform_item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      label {
-        margin-right: 10px;
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      button {
-        margin-left: 30px;
-      }
-
-      input {}
-    }
-  }
-
-  .img_wrap {
-    display: flex;
-    // justify-content: space-around;
-    box-sizing: border-box;
-    padding: 0 0 20px;
-    // overflow-x: auto;
-
-    li {
-      width: 105px;
-      height: 137px;
-      border-radius: 6px;
-      overflow: hidden;
-      cursor: pointer;
-      // background: #84ccc9;
-      // border: 1px solid #ffffff;
-      overflow: hidden;
-      flex-shrink: 0;
-      margin: 0 10px;
-
-      img {
-        flex-shrink: 0;
-      }
-    }
-
-
-
-
-  }
-
-  .noData {
-    width: 100%;
-    line-height: 100px;
-    text-align: center;
-    color: rgb(129, 128, 128);
-
-  }
-}
-</style>

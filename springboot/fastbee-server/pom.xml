@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>fastbee</artifactId>
+        <groupId>com.fastbee</groupId>
+        <version>3.8.5</version>
+    </parent>
+
+    <packaging>pom</packaging>
+    <artifactId>fastbee-server</artifactId>
+    <description>服务集成模块</description>
+
+    <modules>
+        <!--服务基础模块-->
+        <module>base-server</module>
+        <!--服务启动模块-->
+        <module>boot-strap</module>
+        <!--mqttBroker-->
+        <module>mqtt-broker</module>
+        <!--服务核心，tcp udp服务搭建模块-->
+        <module>iot-server-core</module>
+    </modules>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
+            <version>4.1.56.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-common</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-iot-service</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

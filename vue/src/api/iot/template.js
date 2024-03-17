@@ -42,3 +42,12 @@ export function delTemplate(templateId) {
     method: 'delete'
   })
 }
+
+// 查询通用物模型详细
+export function getAllPoints(params) {
+  return request({
+    url: '/iot/template/getPoints',
+    method: 'get',
+    params: params,
+  })
+}

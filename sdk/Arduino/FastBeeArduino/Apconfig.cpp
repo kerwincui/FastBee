@@ -8,7 +8,7 @@
 
 #include "ApConfig.h"
 
-String randomName = "wumei-device" + (String)random(1000);
+String randomName = "fastbee-device" + (String)random(1000);
 const char *ap_ssid = randomName.c_str();
 //开放式网络，不设置密码
 const char *ap_password = "";

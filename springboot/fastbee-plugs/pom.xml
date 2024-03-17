@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>fastbee</artifactId>
+        <groupId>com.fastbee</groupId>
+        <version>3.8.5</version>
+    </parent>
+
+    <packaging>pom</packaging>
+    <artifactId>fastbee-plugs</artifactId>
+    <description>插件工具类整合</description>
+
+    <modules>
+        <module>fastbee-quartz</module>
+        <module>fastbee-generator</module>
+    </modules>
+
+
+</project>

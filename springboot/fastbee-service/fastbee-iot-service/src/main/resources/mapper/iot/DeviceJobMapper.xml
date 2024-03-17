@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.DeviceJobMapper">
+
+	<resultMap type="com.fastbee.iot.domain.DeviceJob" id="DeviceJobResult">
+		<id     property="jobId"          column="job_id"          />
+		<result property="jobName"        column="job_name"        />
+		<result property="jobGroup"       column="job_group"       />
+		<result property="serialNumber"    column="serial_number"  />
+		<result property="deviceId"       column="device_id"       />
+		<result property="deviceName"       column="device_name"   />
+		<result property="actions"       column="actions"          />
+		<result property="alertTrigger"      column="alertTrigger" />
+		<result property="isAdvance"       column="is_advance"     />
+		<result property="cronExpression" column="cron_expression" />
+		<result property="misfirePolicy"  column="misfire_policy"  />
+		<result property="concurrent"     column="concurrent"      />
+		<result property="status"         column="status"          />
+		<result property="createBy"       column="create_by"       />
+		<result property="createTime"     column="create_time"     />
+		<result property="updateBy"       column="update_by"       />
+		<result property="updateTime"     column="update_time"     />
+		<result property="remark"         column="remark"          />
+		<result property="jobType"    column="job_type"    />
+		<result property="productId"    column="product_id"    />
+		<result property="productName"    column="product_name"    />
+		<result property="sceneId"    column="scene_id"    />
+		<result property="alertId"    column="alert_id"    />
+	</resultMap>
+	
+	<sql id="selectJobVo">
+        select job_id, job_name, job_group,serial_number, device_id,device_name,actions,alert_trigger,is_advance, cron_expression, misfire_policy, concurrent, status, create_by, create_time, remark, job_type, product_id, product_name, scene_id, alert_id
+		from iot_device_job
+    </sql>
+	
+	<select id="selectShortJobListByDeviceIds" parameterType="Long" resultMap="DeviceJobResult">
+		select job_id, job_name, job_group from iot_device_job
+		where device_id in
+		<foreach collection="array" item="deviceId" open="(" separator="," close=")">
+			#{deviceId}
+		</foreach>
+	</select>
+
+	<select id="selectShortJobListByAlertIds" parameterType="Long" resultMap="DeviceJobResult">
+		select job_id, job_name, job_group from iot_device_job
+		where alert_id in
+		<foreach collection="array" item="alertId" open="(" separator="," close=")">
+			#{alertId}
+		</foreach>
+	</select>
+
+	<select id="selectShortJobListBySceneIds" parameterType="Long" resultMap="DeviceJobResult">
+		select job_id, job_name, job_group from iot_device_job
+		where scene_id in
+		<foreach collection="array" item="sceneId" open="(" separator="," close=")">
+			#{sceneId}
+		</foreach>
+	</select>
+
+	<select id="selectJobList" parameterType="com.fastbee.iot.domain.DeviceJob" resultMap="DeviceJobResult">
+		<include refid="selectJobVo"/>
+		<where>
+			<if test="1==1"> and device_id = #{deviceId}</if>
+			<if test="jobName != null and jobName != ''">
+				AND job_name like concat('%', #{jobName}, '%')
+			</if>
+			<if test="jobGroup != null and jobGroup != ''">
+				AND job_group = #{jobGroup}
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectJobAll" resultMap="DeviceJobResult">
+		<include refid="selectJobVo"/>
+	</select>
+	
+	<select id="selectJobById" parameterType="Long" resultMap="DeviceJobResult">
+		<include refid="selectJobVo"/>
+		where job_id = #{jobId}
+	</select>
+	
+	<delete id="deleteJobById" parameterType="Long">
+ 		delete from iot_device_job where job_id = #{jobId}
+ 	</delete>
+ 	
+ 	<delete id="deleteJobByIds" parameterType="Long">
+ 		delete from iot_device_job where job_id in
+ 		<foreach collection="array" item="jobId" open="(" separator="," close=")">
+ 			#{jobId}
+        </foreach> 
+ 	</delete>
+
+	<delete id="deleteJobByDeviceIds" parameterType="Long">
+		delete from iot_device_job where device_id in
+		<foreach collection="array" item="deviceId" open="(" separator="," close=")">
+			#{deviceId}
+		</foreach>
+	</delete>
+
+	<delete id="deleteJobByAlertIds" parameterType="Long">
+		delete from iot_device_job where alert_id in
+		<foreach collection="array" item="alertId" open="(" separator="," close=")">
+			#{alertId}
+		</foreach>
+	</delete>
+
+	<delete id="deleteJobBySceneIds" parameterType="Long">
+		delete from iot_device_job where scene_id in
+		<foreach collection="array" item="sceneId" open="(" separator="," close=")">
+			#{sceneId}
+		</foreach>
+	</delete>
+ 	
+ 	<update id="updateJob" parameterType="com.fastbee.iot.domain.DeviceJob">
+ 		update iot_device_job
+ 		<set>
+ 			<if test="jobName != null and jobName != ''">job_name = #{jobName},</if>
+ 			<if test="jobGroup != null and jobGroup != ''">job_group = #{jobGroup},</if>
+ 			<if test="deviceId != null and deviceId != ''">device_id = #{deviceId},</if>
+			<if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+			<if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+			<if test="actions != null and actions != ''">actions = #{actions},</if>
+			<if test="alertTrigger != null and alertTrigger != ''">alert_trigger = #{alertTrigger},</if>
+ 			<if test="cronExpression != null and cronExpression != ''">cron_expression = #{cronExpression},</if>
+ 			<if test="misfirePolicy != null and misfirePolicy != ''">misfire_policy = #{misfirePolicy},</if>
+ 			<if test="concurrent != null and concurrent != ''">concurrent = #{concurrent},</if>
+ 			<if test="status !=null">status = #{status},</if>
+ 			<if test="remark != null and remark != ''">remark = #{remark},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="jobType != null">job_type = #{jobType},</if>
+			<if test="productId != null and productId!=0">product_id = #{productId},</if>
+			<if test="productName != null and productName!=''">product_name = #{productName},</if>
+			<if test="sceneId != null and sceneId!=0">scene_id = #{sceneId},</if>
+			<if test="alertId != null and alertId!=0">alert_id = #{alertId},</if>
+			is_advance =#{isAdvance},
+ 			update_time = sysdate()
+ 		</set>
+ 		where job_id = #{jobId}
+	</update>
+ 	
+ 	<insert id="insertJob" parameterType="com.fastbee.iot.domain.DeviceJob" useGeneratedKeys="true" keyProperty="jobId">
+ 		insert into iot_device_job(
+ 			<if test="jobId != null and jobId != 0">job_id,</if>
+ 			<if test="jobName != null and jobName != ''">job_name,</if>
+ 			<if test="jobGroup != null and jobGroup != ''">job_group,</if>
+ 			<if test="deviceId != null and deviceId != ''">device_id,</if>
+			<if test="deviceName != null and deviceName != ''">device_name,</if>
+		    <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+			<if test="actions != null and actions != ''">actions,</if>
+			<if test="alertTrigger != null and alertTrigger != ''">alert_trigger,</if>
+ 			<if test="cronExpression != null and cronExpression != ''">cron_expression,</if>
+ 			<if test="misfirePolicy != null and misfirePolicy != ''">misfire_policy,</if>
+ 			<if test="concurrent != null and concurrent != ''">concurrent,</if>
+ 			<if test="status != null and status != ''">status,</if>
+ 			<if test="remark != null and remark != ''">remark,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="jobType != null and jobType!=''">job_type,</if>
+			<if test="productId != null and productId!=0">product_id,</if>
+			<if test="productName != null and productName!=''">product_name,</if>
+			<if test="sceneId != null and sceneId!=0">scene_id,</if>
+			<if test="alertId != null and alertId!=0">alert_id,</if>
+ 		    is_advance,
+ 			create_time
+ 		)values(
+ 			<if test="jobId != null and jobId != 0">#{jobId},</if>
+ 			<if test="jobName != null and jobName != ''">#{jobName},</if>
+ 			<if test="jobGroup != null and jobGroup != ''">#{jobGroup},</if>
+ 			<if test="deviceId != null and deviceId != ''">#{deviceId},</if>
+			<if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+		    <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+			<if test="actions != null and actions != ''">#{actions},</if>
+			<if test="alertTrigger != null and alertTrigger != ''">#{alertTrigger},</if>
+ 			<if test="cronExpression != null and cronExpression != ''">#{cronExpression},</if>
+ 			<if test="misfirePolicy != null and misfirePolicy != ''">#{misfirePolicy},</if>
+ 			<if test="concurrent != null and concurrent != ''">#{concurrent},</if>
+ 			<if test="status != null and status != ''">#{status},</if>
+ 			<if test="remark != null and remark != ''">#{remark},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="jobType != null and jobType!=''">#{jobType},</if>
+			<if test="productId != null and productId!=0">#{productId},</if>
+			<if test="productName != null and productName!=''">#{productName},</if>
+			<if test="sceneId != null and sceneId!=0">#{sceneId},</if>
+			<if test="alertId != null and alertId!=0">#{alertId},</if>
+ 		    #{isAdvance},
+ 			sysdate()
+ 		)
+	</insert>
+
+</mapper> 

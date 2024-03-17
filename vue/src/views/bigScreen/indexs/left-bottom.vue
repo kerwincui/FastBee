@@ -1,246 +1,100 @@
 <template>
-  <div
-    v-if="pageflag"
-    class="left_boottom_wrap beautify-scroll-def"
-    :class="{ 'overflow-y-auto': !sbtxSwiperFlag }"
-  >
-    <component :is="components" :data="list" :class-option="defaultOption">
-      <ul class="left_boottom">
-        <li class="left_boottom_item" v-for="(item, i) in list" :key="i">
-          <span class="orderNum doudong">{{ i + 1 }}</span>
-          <div class="inner_right">
-            <div class="dibu"></div>
-            <div class="flex">
-              <div class="info">
-                <span class="labels">设备ID：</span>
-                <span class="contents zhuyao doudong wangguan">
-                  {{ item.gatewayno }}</span
-                >
-              </div>
-              <div class="info">
-                <span class="labels">时间：</span>
-                <span class="contents " style="font-size: 12px">
-                  {{ item.createTime }}</span
-                >
-              </div>
+<div v-if="pageflag" style="overflow:hidden;width: 100%;height:250px;font-size:12px;line-height:24px;">
+    <vue-seamless-scroll :data="deviceLogList" :class-option="defaultOption">
+        <div style="display:flex;margin-bottom:10px;border-bottom:2px dashed #23cdd8;color:#bbb;" v-for="(item, i) in deviceLogList" :key="i">
+            <span style="width:50px;color:#23cdd8;font-size:16px;line-height:48px;font-weight:bolder;">{{ i + 1 }}</span>
+            <div style="display:flex;flex-wrap: wrap;">
+                <div style="width:200px;">
+                    <span>设备编号：</span>
+                    <span style="color:#23cdd8">{{ item.serialNumber }}</span>
+                </div>
+                <div style="width:150px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <span>标识符：</span>
+                    <span style="color:#fff;">{{item.identity}}</span>
+                </div>
+                <div style="width:60px;align-items: flex-end;text-align: right;">
+                    <span v-if="item.logType==1" style="color:#ffdb5c">属性上报</span>
+                    <span v-else-if="item.logType==2" style="color:#ffdb5c">功能调用</span>
+                    <span v-else-if="item.logType==3" style="color:#fb7293">事件上报</span>
+                    <span v-else-if="item.logType==4" style="color:#ffdb5c">设备升级</span>
+                    <span v-else-if="item.logType==5" style="color:#9fe6b8">设备上线</span>
+                    <span v-else-if="item.logType==6" style="color:#ff9f7f">设备离线</span>
+                </div>
+                <div style="width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                  <span>上报时间：</span>
+                  <span style="color:#fff;">{{ item.createTime }}</span>
+                </div>
+                <div style="margin-bottom:10px;width:210px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                  <span>上报值：</span>
+                  <span style="color:#fff;">{{item.logValue }}</span>
+                </div>
             </div>
+        </div>
+    </vue-seamless-scroll>
+</div>
 
-              <span
-                class="types doudong"
-                :class="{
-                  typeRed: item.onlineState == 0,
-                  typeGreen: item.onlineState == 1,
-                }"
-                >{{ item.onlineState == 1 ? "上线" : "下线" }}</span
-              >
-
-            <div class="info addresswrap">
-              <span class="labels">地址：</span>
-              <span class="contents ciyao" style="font-size: 12px">
-                {{ addressHandle(item) }}</span
-              >
-            </div>
-          </div>
-        </li>
-      </ul>
-    </component>
-  </div>
-
-  <Reacquire v-else @onclick="getData" style="line-height: 200px" />
+<Reacquire v-else @onclick="getData" style="line-height:200px;color:#23cdd8;margin-left:210px;">
+    重新获取
+</Reacquire>
 </template>
 
 <script>
-import { currentGET } from "@/api/bigScreen/modules";
-import vueSeamlessScroll from "vue-seamless-scroll"; // vue2引入方式
-import Kong from "../components/kong.vue";
+import vueSeamlessScroll from "vue-seamless-scroll";
+import {
+    listDeviceLog
+} from "@/api/iot/deviceLog";
 export default {
-  components: { vueSeamlessScroll, Kong },
-  data() {
-    return {
-      list: [],
-      pageflag: true,
-      components: vueSeamlessScroll,
-      defaultOption: {
-        ...this.$store.state.settings.defaultOption,
-        singleHeight: 240,
-        limitMoveNum: 5, 
-        step: 0,
-      },
-    };
-  },
-  computed: {
-    sbtxSwiperFlag() {
-      let sbtxSwiper = this.$store.state.settings.sbtxSwiper;
-      if (sbtxSwiper) {
-        this.components = vueSeamlessScroll;
-      } else {
-        this.components = Kong;
-      }
-      return sbtxSwiper;
+    components: {
+        vueSeamlessScroll,
     },
-  },
-  created() {
-    this.getData();
-  },
-
-  mounted() {},
-  methods: {
-    addressHandle(item) {
-      let name = item.provinceName;
-      if (item.cityName) {
-        name += "/" + item.cityName;
-        if (item.countyName) {
-          name += "/" + item.countyName;
-        }
-      }
-      return name;
+    data() {
+        return {
+            deviceLogList: [],
+            pageflag: true,
+            defaultOption: {
+                step: 2,
+                limitMoveNum: 4,
+                hoverStop: true,
+                singleHeight: 280,
+                openWatch: true,
+                waitTime: 3000,
+            },
+            queryParams: {
+                pageNum: 1,
+                pageSize: 20,
+            },
+        };
     },
-    getData() {
-      this.pageflag = true;
-      // this.pageflag =false
-      currentGET("big3", { limitNum: 20 }).then((res) => {
-        console.log("设备提醒", res);
-        if (res.success) {
-          this.countUserNumData = res.data;
-          this.list = res.data.list;
-          let timer = setTimeout(() => {
-            clearTimeout(timer);
-            this.defaultOption.step =
-              this.$store.state.settings.defaultOption.step;
-          }, this.$store.state.settings.defaultOption.waitTime);
-        } else {
-          this.pageflag = false;
-          this.$Message({
-            text: res.msg,
-            type: "warning",
-          });
-        }
-      });
+    created() {
+        this.getData();
     },
-  },
+    beforeDestroy() {
+        this.clearData()
+    },
+    methods: {
+        getData() {
+            listDeviceLog(this.queryParams).then(response => {
+                this.deviceLogList = response.rows;
+                // 轮询
+                this.switper()
+            });
+        },
+        clearData() {
+            if (this.timer) {
+                clearInterval(this.timer)
+                this.timer = null
+            }
+        },
+        //轮询
+        switper() {
+            if (this.timer) {
+                return
+            }
+            let looper = (a) => {
+                this.getData()
+            };
+            this.timer = setInterval(looper, 60000);
+        },
+    },
 };
 </script>
-<style lang='scss' scoped>
-.left_boottom_wrap {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-.doudong {
-  //  vertical-align:middle;
-  overflow: hidden;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
-.left_boottom {
-  width: 100%;
-  height: 100%;
-
-  .left_boottom_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    font-size: 14px;
-    margin: 10px 0;
-    .orderNum {
-      margin: 0 16px 0 -20px;
-    }
-
-    .info {
-      margin-right: 10px;
-      display: flex;
-      align-items: center;
-      color: #fff;
-
-      .labels {
-        flex-shrink: 0;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .zhuyao {
-        // color: $primary-color;
-        font-size: 15px;
-      }
-
-      .ciyao {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .warning {
-        color: #e6a23c;
-        font-size: 15px;
-      }
-    }
-
-    .inner_right {
-      position: relative;
-      height: 100%;
-      width: 380px;
-      flex-shrink: 0;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      .dibu {
-        position: absolute;
-        height: 2px;
-        width: 104%;
-        background-image: url("../../../assets/bigScreen/img/zuo_xuxian.png");
-        bottom: -10px;
-        left: -2%;
-        background-size: cover;
-      }
-      .addresswrap {
-        width: 100%;
-        display: flex;
-        margin-top: 8px;
-      }
-    }
-
-    .wangguan {
-      color: #1890ff;
-      font-weight: 900;
-      font-size: 15px;
-      width: 80px;
-      flex-shrink: 0;
-    }
-
-
-    .time {
-      font-size: 12px;
-      // color: rgba(211, 210, 210,.8);
-      color: #fff;
-    }
-
-    .address {
-      font-size: 12px;
-      cursor: pointer;
-      // @include text-overflow(1);
-    }
-
-    .types {
-      width: 30px;
-      flex-shrink: 0;
-    }
-
-    .typeRed {
-      color: #fc1a1a;
-    }
-
-    .typeGreen {
-      color: #29fc29;
-    }
-  }
-}
-</style>

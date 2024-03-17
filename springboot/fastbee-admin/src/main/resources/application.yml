@@ -1,0 +1,98 @@
+# 项目相关配置
+fastbee:
+  name: fastbee             # 名称
+  version: 3.8.5            # 版本
+  copyrightYear: 2023       # 版权年份
+  demoEnabled: true         # 实例演示开关
+  # 文件路径，以uploadPath结尾 示例（ Windows配置 D:/uploadPath，Linux配置 /uploadPath）
+  profile: /uploadPath
+  addressEnabled: true      # 获取ip地址开关
+  captchaType: math         # 验证码类型 math 数组计算 char 字符验证
+
+# 开发环境配置
+server:
+  port: 8080                # 服务器的HTTP端口，默认为8080
+  servlet:
+    context-path: /         # 应用的访问路径
+  tomcat:
+    uri-encoding: UTF-8     # tomcat的URI编码
+    accept-count: 1000      # 连接数满后的排队数，默认为100
+    threads:
+      max: 800              # tomcat最大线程数，默认为200
+      min-spare: 100        # Tomcat启动初始化的线程数，默认值10
+  # 基于netty的服务器
+  broker:
+    must-pass: false         # 客户端连接是否需要密码
+    enabled: true            # mqttBroker类型选择, true: 基于netty的mqttBroker和webSocket  false: emq的mqttBroker
+    broker-node: node1
+    port: 1883
+    websocket-port: 8083
+    websocket-path: /mqtt
+    keep-alive: 70          # 默认的全部客户端心跳上传时间
+
+# Spring配置
+spring:
+  # 环境配置，dev=开发环境，prod=生产环境
+  profiles:
+    active: dev               # 环境配置，dev=开发环境，prod=生产环境
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size:  10MB                             # 单个文件大小
+      max-request-size:  20MB                          # 设置总上传的文件大小
+  # 服务模块
+  devtools:
+    restart:
+      enabled: true                                    # 热部署开关
+  task:
+    execution:
+      pool:
+        core-size: 20                                  # 最小连接数
+        max-size: 200                                  # 最大连接数
+        queue-capacity: 3000                           # 最大容量
+        keep-alive: 60
+
+#集群配置
+cluster:
+  enable: true
+  type: redis
+
+
+# 用户配置
+user:
+  password:
+    maxRetryCount: 5                                    # 密码最大错误次数
+    lockTime: 10                                        # 密码锁定时间（默认10分钟）
+
+# token配置
+token:
+  header: Authorization                                 # 令牌自定义标识
+  secret: abcdefghijklfastbeesmartrstuvwxyz             # 令牌密钥
+  expireTime: 1440                                      # 令牌有效期（默认30分钟）1440为一天
+
+# mybatis-plus配置
+mybatis-plus:
+  typeAliasesPackage: com.fastbee.**.domain             # 搜索指定包别名
+  mapperLocations: classpath*:mapper/**/*Mapper.xml     # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  configLocation: classpath:mybatis/mybatis-config.xml  # 加载全局的配置文件
+  global-config:
+    db-config:
+      id-type: AUTO # 自增 ID
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+# 防止XSS攻击
+xss:
+  enabled: true                                         # 过滤开关
+  excludes: /system/notice                              # 排除链接（多个用逗号分隔）
+  urlPatterns: /system/*,/monitor/*,/tool/*             # 匹配链接

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.EventLogMapper">
+    
+    <resultMap type="com.fastbee.iot.domain.EventLog" id="EventLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="identity"    column="identity"    />
+        <result property="modelName"    column="model_name"    />
+        <result property="logType"    column="log_type"    />
+        <result property="logValue"    column="log_value"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="isMonitor"    column="is_monitor"    />
+        <result property="mode"    column="mode"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEventLogVo">
+        select log_id, identity, model_name, log_type, log_value, device_id, device_name, serial_number, is_monitor, mode, user_id, user_name, tenant_id, tenant_name, create_by, create_time, remark from iot_event_log
+    </sql>
+
+    <select id="selectEventLogList" parameterType="com.fastbee.iot.domain.EventLog" resultMap="EventLogResult">
+        <include refid="selectEventLogVo"/>
+        <where>  
+            <if test="identity != null  and identity != ''"> and identity = #{identity}</if>
+            <if test="modelName != null  and modelName != ''"> and model_name like concat('%', #{modelName}, '%')</if>
+            <if test="logType != null "> and log_type = #{logType}</if>
+            <if test="logValue != null  and logValue != ''"> and log_value = #{logValue}</if>
+            <if test="deviceId != null "> and device_id = #{deviceId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="isMonitor != null "> and is_monitor = #{isMonitor}</if>
+            <if test="mode != null "> and mode = #{mode}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+        order by create_time DESC
+    </select>
+    
+    <select id="selectEventLogByLogId" parameterType="Long" resultMap="EventLogResult">
+        <include refid="selectEventLogVo"/>
+        where log_id = #{logId}
+    </select>
+        
+    <insert id="insertEventLog" parameterType="com.fastbee.iot.domain.EventLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into iot_event_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="identity != null and identity != ''">identity,</if>
+            <if test="modelName != null">model_name,</if>
+            <if test="logType != null">log_type,</if>
+            <if test="logValue != null and logValue != ''">log_value,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="isMonitor != null">is_monitor,</if>
+            <if test="mode != null">mode,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null">tenant_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="identity != null and identity != ''">#{identity},</if>
+            <if test="modelName != null">#{modelName},</if>
+            <if test="logType != null">#{logType},</if>
+            <if test="logValue != null and logValue != ''">#{logValue},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="serialNumber != null">#{serialNumber},</if>
+            <if test="isMonitor != null">#{isMonitor},</if>
+            <if test="mode != null">#{mode},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null">#{tenantName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="com.fastbee.iot.domain.EventLog">
+        insert into iot_event_log (identity,model_name,log_type,log_value,device_id,device_name,serial_number,is_monitor,mode,user_id,
+                                   user_name,tenant_id,tenant_name,create_by,create_time,remark)
+            values
+            <foreach collection="list" separator="," index="index" item="item">
+                (#{item.identity},#{item.modelName},#{item.logType},#{item.logValue},#{item.deviceId},#{item.deviceName},#{item.serialNumber},#{item.isMonitor},
+                #{item.mode},#{item.userId},#{item.userName},#{item.tenantId},#{item.tenantName},#{item.createBy},#{item.createTime},#{item.remark})
+            </foreach>
+    </insert>
+
+    <update id="updateEventLog" parameterType="com.fastbee.iot.domain.EventLog">
+        update iot_event_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="identity != null and identity != ''">identity = #{identity},</if>
+            <if test="modelName != null">model_name = #{modelName},</if>
+            <if test="logType != null">log_type = #{logType},</if>
+            <if test="logValue != null and logValue != ''">log_value = #{logValue},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+            <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null">tenant_name = #{tenantName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deleteEventLogByLogId" parameterType="Long">
+        delete from iot_event_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteEventLogBySerialNumber" parameterType="String">
+        delete from iot_event_log where serial_number = #{serialNumber}
+    </delete>
+
+    <delete id="deleteEventLogByLogIds" parameterType="String">
+        delete from iot_event_log where log_id in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+</mapper>

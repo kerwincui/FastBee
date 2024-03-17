@@ -81,3 +81,34 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+//数值范围校验
+export function checkNumber(rule, value, callback) {
+  if (!value) {
+    return callback(new Error('输入不可以为空'));
+  }
+  setTimeout(() => {
+    if (!Number(value)) {
+    } else {
+      if (value < 1 || value > 64) {
+        callback(new Error('数值范围为1-64'));
+      } else {
+        callback();
+      }
+    }
+  }, 100);
+}
+export function checkNumberAddr(rule, value, callback) {
+  if (!value) {
+    return callback(new Error('输入不可以为空'));
+  }
+  setTimeout(() => {
+    if (!Number(value)) {
+    } else {
+      if (value < 1 || value > 65536) {
+        callback(new Error('数值范围为1-65536'));
+      } else {
+        callback();
+      }
+    }
+  }, 100);
+}

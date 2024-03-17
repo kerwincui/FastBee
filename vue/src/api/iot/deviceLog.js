@@ -18,6 +18,15 @@ export function listMonitor(query) {
   })
 }
 
+// 查询设备监测数据
+export function listHistory(query) {
+  return request({
+    url: '/iot/deviceLog/history',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询设备日志详细
 export function getDeviceLog(logId) {
   return request({

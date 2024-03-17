@@ -38,29 +38,29 @@ String pEventTopic = "/event/post";
 
 /********************************** begin 可配置的项 **********************************/
 // wifi信息
-char *wifiSsid = "MERCURY100";
-char *wifiPwd = "164770707";
+char *wifiSsid = "";
+char *wifiPwd = "";
 char *userId = "1";
 // 产品启用授权码，则授权码不能为空
 char *authCode = "";
 
 // 设备信息配置
-char *deviceNum = "D1H2584G22Q2";
-char *productId = "41";
+char *deviceNum = "D1FJTWOT3HIB";
+char *productId = "588";
 float firmwareVersion = 1.0;
 // 经度和纬度可选，如果产品使用设备定位，则必须传
 float latitude = 0;
 float longitude = 0;
 
 // Mqtt配置
-char *mqttHost = "43.143.82.218";
+char *mqttHost = "fastbee.cn";
 int mqttPort = 1883;
-char *mqttUserName = "wumei-smart";
-char *mqttPwd = "P47T6OD5IPFWHUM6";
-char mqttSecret[17] = "KX3TSH4Q4OS835DO";
+char *mqttUserName = "FastBee";
+char *mqttPwd = "P63653937TRQ8F27";
+char mqttSecret[17] = "KV52PPZ813EFCQD8";
 
 // NTP地址（用于获取时间,修改为自己部署项目的接口地址）
-String ntpServer = "http://wumei.live:8080/iot/tool/ntp?deviceSendTime=";
+String ntpServer = "http://fastbee.cn:8080/iot/tool/ntp?deviceSendTime=";
 
 /********************************** end 可配置的项 **********************************/
 

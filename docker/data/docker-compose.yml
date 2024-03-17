@@ -17,11 +17,10 @@ services:
     networks:
       network:
         ipv4_address: 177.7.0.10
-    restart: unless-stopped
     volumes:
       - /var/data/redis:/usr/local/etc/redis
       - /var/data/redis/data:/data
-    command: [ '-- requirepass wumei-smart', '-- appendonly yes' ]
+    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
 
   mysql:
     image: mysql:5.7
@@ -32,14 +31,13 @@ services:
     networks:
       network:
         ipv4_address: 177.7.0.11
-    restart: unless-stopped
     volumes:
       - /var/data/mysql/mysql:/var/lib/mysql
       - /var/data/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - /var/data/mysql/initdb:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_DATABASE: wumeismart
-      MYSQL_ROOT_PASSWORD: wumei-smart
+      MYSQL_DATABASE: fastbee
+      MYSQL_ROOT_PASSWORD: fastbee
     command:
       [
         'mysqld',
@@ -49,48 +47,27 @@ services:
         '--lower-case-table-names=1'
       ]
 
-  emqx:
-    image: emqx/emqx:v4.0.0
-    container_name: emqx
-    ports:
-      - 1883:1883
-      - 8081:8081
-      - 8083:8083
-      - 8883:8883
-      - 8084:8084
-      - 18083:18083
-    privileged: true
-    networks:
-      network:
-        ipv4_address: 177.7.0.12
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - /var/data/emqx/conf/emqx_auth_http.conf:/opt/emqx/etc/plugins/emqx_auth_http.conf
-      - /var/data/emqx/conf/emqx_web_hook.conf:/opt/emqx/etc/plugins/emqx_web_hook.conf
-      - /var/data/emqx/data/loaded_plugins:/opt/emqx/data/loaded_plugins
-    environment:
-      EMQX_ALLOW__ANONYMOUS: "false"
-      SET_CONTAINER_TIMEZONE: "true"
-      CONTAINER_TIMEZONE: Asia/Shanghai
-
   java:
     image: openjdk:8-jre
     container_name: java
     ports:
       - 8080:8080
+      - 1883:1883
+      - 8083:8083
+      - 8888:8888
+      - 8889:8889/udp
       - 5061:5061/udp
     privileged: true
     networks:
       network:
-        ipv4_address: 177.7.0.13
+        ipv4_address: 177.7.0.12
     depends_on:
-      - emqx
       - redis
       - mysql
-    restart: unless-stopped
+      - tdengine
     volumes:
-      - /var/data/java/wumei-admin.jar:/server.jar
+      - /var/data/java/fastbee-admin.jar:/server.jar
+      - /var/data/java/libtaos.so:/usr/lib/libtaos.so
       - /var/data/java/uploadPath:/uploadPath
       - /var/data/java/logs:/logs
       - /etc/localtime:/etc/localtime
@@ -103,17 +80,20 @@ services:
     container_name: nginx
     ports:
       - 80:80
-      - 15060:15060/udp
+      - 443:443
     privileged: true
     networks:
       network:
-        ipv4_address: 177.7.0.14
+        ipv4_address: 177.7.0.13
     depends_on:
       - java
-    restart: unless-stopped
     volumes:
-      - /var/data/nginx/html:/usr/share/nginx/html
+      - /var/data/nginx/vue:/usr/share/nginx/html
+      - /var/data/nginx/h5:/usr/share/nginx/h5
+      - /var/data/nginx/www:/usr/share/nginx/www
+      - /var/data/nginx/ssl:/usr/share/nginx/ssl
       - /var/data/nginx/nginx.conf:/etc/nginx/nginx.conf
       - /var/data/nginx:/var/log/nginx
+
 
 

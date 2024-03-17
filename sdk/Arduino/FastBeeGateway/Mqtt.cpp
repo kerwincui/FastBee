@@ -67,9 +67,9 @@ void publishProperty(String msg) {
 
 // 4.发布功能
 void publishFunction(String msg) {
-  printMsg("发布功能:" + prefix + pFunctionTopic);
+  printMsg("发布属性（功能）:" + prefix + pPropertyTopic);
   printMsg("消息:" + msg);
-  mqttClient.publish((prefix + pFunctionTopic).c_str(), msg.c_str());
+  mqttClient.publish((prefix + pPropertyTopic).c_str(), msg.c_str());
 }
 
 // 5.发布事件

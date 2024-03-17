@@ -37,7 +37,7 @@
 .mb10 {
 	margin-bottom: 10px;
 }
-.ml0 {
+.ml10 {
 	margin-left: 10px;
 }
 .mt20 {
@@ -49,7 +49,7 @@
 .mb20 {
 	margin-bottom: 20px;
 }
-.m20 {
+.ml20 {
 	margin-left: 20px;
 }
 
@@ -58,6 +58,10 @@
 	font-weight: 500;
 	line-height: 1.1;
 	color: inherit;
+}
+
+.el-message-box__status + .el-message-box__message{
+    word-break: break-word;
 }
 
 .el-dialog:not(.is-fullscreen) {
@@ -135,9 +139,8 @@
 }
 
 /** 表格更多操作下拉样式 */
-.el-table .el-dropdown-link {
+.el-table .el-dropdown-link,.el-table .el-dropdown-selfdefine {
 	cursor: pointer;
-	color: #409EFF;
 	margin-left: 5px;
 }
 
@@ -250,9 +253,10 @@
 }
 
 .avatar-upload-preview {
-	position: absolute;
+	position: relative;
 	top: 50%;
-	transform: translate(50%, -50%);
+	left: 50%;
+	transform: translate(-50%, -50%);
 	width: 200px;
 	height: 200px;
 	border-radius: 50%;
@@ -270,4 +274,19 @@
 .top-right-btn {
 	position: relative;
 	float: right;
+}
+
+/* 修改switch按钮样式 */
+.el-switch__core{
+	width:45px!important;
+	height:22px;
+	border-radius:2px;
+}
+.el-switch__core:after{
+	width:20px;
+	height:18px;
+	border-radius:2px;
+}
+.el-switch.is-checked .el-switch__core::after{
+	margin-left:-21px;
 }

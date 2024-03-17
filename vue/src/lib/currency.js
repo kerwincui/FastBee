@@ -7,7 +7,6 @@
  */
 import router from '@/router'
 import { isString, isHtmlElement } from './types'
-import UtilVar from "@/config/UtilVar";
 export const returnWeek = () => {
   var week = new Date().getDay();
   switch (week) {
@@ -274,7 +273,7 @@ export const readFile = (data) => {
       reader.onload = (e) => {
         console.log('--导出--', JSON.parse(reader.result))
         let result = JSON.parse(reader.result)
-        if (result.code == UtilVar.code) {
+        if (result.code == 401) {
           router.push("/login")
         }
         resole(result)

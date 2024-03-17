@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { praseStrEmpty } from "@/utils/ruoyi";
+import { parseStrEmpty } from "@/utils/ruoyi";
 
 // 查询用户列表
 export function listUser(query) {
@@ -13,7 +13,7 @@ export function listUser(query) {
 // 查询用户详细
 export function getUser(userId) {
   return request({
-    url: '/system/user/' + praseStrEmpty(userId),
+    url: '/system/user/' + parseStrEmpty(userId),
     method: 'get'
   })
 }
@@ -69,7 +69,21 @@ export function changeUserStatus(userId, status) {
     data: data
   })
 }
-
+// 获取微信二维码
+export function getLoginParam() {
+  return request({
+    url: '/wechat/getWxBindQr',
+    method: 'get',
+  });
+}
+// 解除绑定
+export function secureBind(data) {
+  return request({
+    url: '/wechat/cancelBind',
+    method: 'post',
+   data:data
+  })
+}
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
@@ -123,5 +137,13 @@ export function updateAuthRole(data) {
     url: '/system/user/authRole',
     method: 'put',
     params: data
+  })
+}
+
+// 查询部门下拉树结构
+export function deptTreeSelect() {
+  return request({
+    url: '/system/user/deptTree',
+    method: 'get'
   })
 }

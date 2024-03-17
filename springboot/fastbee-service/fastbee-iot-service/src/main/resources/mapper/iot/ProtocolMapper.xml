@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.ProtocolMapper">
+    <resultMap id="BaseResultMap" type="com.fastbee.iot.domain.Protocol">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="protocol_code" jdbcType="VARCHAR" property="protocolCode"/>
+        <result column="protocol_name" jdbcType="VARCHAR" property="protocolName"/>
+        <result column="protocol_file_url" jdbcType="VARCHAR" property="protocolFileUrl"/>
+        <result column="protocol_type" jdbcType="INTEGER" property="protocolType"/>
+        <result column="jar_sign" jdbcType="VARCHAR" property="jarSign"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="protocol_status" jdbcType="INTEGER" property="protocolStatus"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, protocol_code, protocol_name, protocol_file_url, protocol_type,
+    jar_sign, create_time, update_time, protocol_status, del_flag
+    </sql>
+
+    <sql id="selectProtocolVo">
+        select id, protocol_code, protocol_name, protocol_file_url, protocol_type,
+               jar_sign, create_time, update_time, protocol_status, del_flag from iot_protocol
+    </sql>
+
+
+    <select id="selectByUnion" parameterType="com.fastbee.iot.domain.Protocol" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from iot_protocol
+        where
+        1 = 1
+        <if test="protocolStatus != null">
+            AND protocol_status = #{protocolStatus}
+        </if>
+        <if test="delFlag != null">
+            AND del_flag = #{delFlag,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectAll" parameterType="com.fastbee.iot.domain.Protocol" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from iot_protocol
+        where
+        1 = 1
+        <if test="protocolCode != null">
+            AND protocol_code = #{protocolCode,jdbcType=VARCHAR}
+        </if>
+        <if test="protocolName != null">
+            AND protocol_name = #{protocolName,jdbcType=VARCHAR}
+        </if>
+
+        <if test="protocolFileUrl != null">
+            AND protocol_file_url = #{protocolFileUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="protocolType != null">
+            AND protocol_type = #{protocolType,jdbcType=INTEGER},
+        </if>
+        <if test="jarSign != null">
+            AND jar_sign = #{jarSign,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null">
+            AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="protocolStatus != null">
+            AND protocol_status = #{protocolStatus,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectProtocolList" parameterType="Protocol" resultMap="BaseResultMap">
+        <include refid="selectProtocolVo"/>
+        <where>
+            <if test="protocolCode != null  and protocolCode != ''"> and protocol_code = #{protocolCode}</if>
+            <if test="protocolName != null  and protocolName != ''"> and protocol_name like concat('%', #{protocolName}, '%')</if>
+            <if test="protocolFileUrl != null  and protocolFileUrl != ''"> and protocol_file_url = #{protocolFileUrl}</if>
+            <if test="protocolType != null "> and protocol_type = #{protocolType}</if>
+            <if test="jarSign != null  and jarSign != ''"> and jar_sign = #{jarSign}</if>
+            <if test="protocolStatus != null "> and protocol_status = #{protocolStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectProtocolById" parameterType="Long" resultMap="BaseResultMap">
+        <include refid="selectProtocolVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProtocol" parameterType="Protocol" useGeneratedKeys="true" keyProperty="id">
+        insert into iot_protocol
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="protocolCode != null and protocolCode != ''">protocol_code,</if>
+            <if test="protocolName != null and protocolName != ''">protocol_name,</if>
+            <if test="protocolFileUrl != null and protocolFileUrl != ''">protocol_file_url,</if>
+            <if test="protocolType != null">protocol_type,</if>
+            <if test="jarSign != null and jarSign != ''">jar_sign,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="protocolStatus != null">protocol_status,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="protocolCode != null and protocolCode != ''">#{protocolCode},</if>
+            <if test="protocolName != null and protocolName != ''">#{protocolName},</if>
+            <if test="protocolFileUrl != null and protocolFileUrl != ''">#{protocolFileUrl},</if>
+            <if test="protocolType != null">#{protocolType},</if>
+            <if test="jarSign != null and jarSign != ''">#{jarSign},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="protocolStatus != null">#{protocolStatus},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProtocol" parameterType="Protocol">
+        update iot_protocol
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="protocolCode != null and protocolCode != ''">protocol_code = #{protocolCode},</if>
+            <if test="protocolName != null and protocolName != ''">protocol_name = #{protocolName},</if>
+            <if test="protocolFileUrl != null and protocolFileUrl != ''">protocol_file_url = #{protocolFileUrl},</if>
+            <if test="protocolType != null">protocol_type = #{protocolType},</if>
+            <if test="jarSign != null and jarSign != ''">jar_sign = #{jarSign},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="protocolStatus != null">protocol_status = #{protocolStatus},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProtocolById" parameterType="Long">
+        delete from iot_protocol where id = #{id}
+    </delete>
+
+    <delete id="deleteProtocolByIds" parameterType="String">
+        delete from iot_protocol where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

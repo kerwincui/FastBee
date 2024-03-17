@@ -1,29 +1,23 @@
 <template>
-  <Echart
-    id="rightTop"
-    :options="option"
-    class="right_top_inner"
-    v-if="pageflag"
-    ref="charts"
-  />
-  <Reacquire v-else @onclick="getData" style="line-height: 200px">
-    重新获取
-  </Reacquire>
+  <div style="padding-top: 10px">
+    <dv-capsule-chart :config="config" style="width: 430px; height: 230px" />
+  </div>
 </template>
 
 <script>
-import { currentGET } from "@/api/bigScreen/modules";
-
+import { statisticNettyMqtt } from '@/api/iot/netty';
 export default {
   data() {
     return {
-      option: {},
-      pageflag: false,
+      // emqx统计信息
+      static: {},
+      config: {},
       timer: null,
+      mqtt: this.$store.state.user.mqtt,
     };
   },
   created() {
-    this.getData();
+    this.statisticMqtt();
   },
 
   mounted() {},
@@ -31,33 +25,90 @@ export default {
     this.clearData();
   },
   methods: {
+    /** 查询mqtt统计*/
+    statisticMqtt() {
+      if (this.mqtt) {
+        statisticNettyMqtt().then((response) => {
+          this.static = response.data;
+          this.config = {
+            data: [
+              {
+                name: '今日接收',
+                value: this.static['today_received'],
+              },
+              {
+                name: '今日发送',
+                value: this.static['today_send'],
+              },
+              {
+                name: '订阅总数',
+                value: this.static['subscribe_total'],
+              },
+              {
+                name: '发布消息',
+                value: this.static['send_total'],
+              },
+              {
+                name: '接收消息',
+                value: this.static['receive_total'],
+              },
+              {
+                name: '认证次数',
+                value: this.static['auth_total'],
+              },
+              {
+                name: '认证成功',
+                value: this.static['auth_total'],
+              },
+            ],
+            unit: '次数',
+            showValue: true,
+          };
+          this.switper();
+        });
+      } else {
+        this.config = {
+          data: [
+            {
+              name: '今日接收',
+              value: 6000,
+            },
+            {
+              name: '今日发送',
+              value: 5000,
+            },
+            {
+              name: '订阅总数',
+              value: 4000,
+            },
+            {
+              name: '发布消息',
+              value: 3000,
+            },
+            {
+              name: '接收消息',
+              value: 2000,
+            },
+            {
+              name: '认证次数',
+              value: 1000,
+            },
+            {
+              name: '认证成功',
+              value: 1000,
+            },
+          ],
+          unit: '次数',
+          showValue: true,
+        };
+        this.switper();
+      }
+    },
     clearData() {
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
       }
-    },
-    getData() {
-      this.pageflag = true;
-      // this.pageflag =false
-      currentGET("big4").then((res) => {
-        if (!this.timer) {
-          console.log("报警次数", res);
-        }
-        if (res.success) {
-          this.countUserNumData = res.data;
-          this.$nextTick(() => {
-            this.init(res.data.dateList, res.data.numList, res.data.numList2),
-              this.switper();
-          });
-        } else {
-          this.pageflag = false;
-          this.$Message({
-            text: res.msg,
-            type: "warning",
-          });
-        }
-      });
     },
     //轮询
     switper() {
@@ -65,230 +116,10 @@ export default {
         return;
       }
       let looper = (a) => {
-        this.getData();
+        this.statisticMqtt();
       };
-      this.timer = setInterval(
-        looper,
-        this.$store.state.settings.echartsAutoTime
-      );
-      let myChart = this.$refs.charts.chart;
-      myChart.on("mouseover", (params) => {
-        this.clearData();
-      });
-      myChart.on("mouseout", (params) => {
-        this.timer = setInterval(
-          looper,
-          this.$store.state.settings.echartsAutoTime
-        );
-      });
-    },
-    init(xData, yData, yData2) {
-      this.option = {
-        xAxis: {
-          type: "category",
-          data: xData,
-          boundaryGap: false, // 不留白，从原点开始
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "rgba(31,99,163,.2)",
-            },
-          },
-          axisLine: {
-            // show:false,
-            lineStyle: {
-              color: "rgba(31,99,163,.1)",
-            },
-          },
-          axisLabel: {
-            color: "#7EB7FD",
-            fontWeight: "500",
-          },
-        },
-        yAxis: {
-          type: "value",
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "rgba(31,99,163,.2)",
-            },
-          },
-          axisLine: {
-            lineStyle: {
-              color: "rgba(31,99,163,.1)",
-            },
-          },
-          axisLabel: {
-            color: "#7EB7FD",
-            fontWeight: "500",
-          },
-        },
-        tooltip: {
-          trigger: "axis",
-          backgroundColor: "rgba(0,0,0,.6)",
-          borderColor: "rgba(147, 235, 248, .8)",
-          textStyle: {
-            color: "#FFF",
-          },
-        },
-        grid: {
-          //布局
-          show: true,
-          left: "10px",
-          right: "30px",
-          bottom: "10px",
-          top: "28px",
-          containLabel: true,
-          borderColor: "#1F63A3",
-        },
-        series: [
-          {
-            data: yData,
-            type: "line",
-            smooth: true,
-            symbol: "none", //去除点
-            name: "报警1次数",
-            color: "rgba(252,144,16,.7)",
-            areaStyle: {
-              normal: {
-                //右，下，左，上
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(252,144,16,.7)",
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(252,144,16,.0)",
-                    },
-                  ],
-                  false
-                ),
-              },
-            },
-            markPoint: {
-              data: [
-                {
-                  name: "最大值",
-                  type: "max",
-                  valueDim: "y",
-                  symbol: "rect",
-                  symbolSize: [60, 26],
-                  symbolOffset: [0, -20],
-                  itemStyle: {
-                    color: "rgba(0,0,0,0)",
-                  },
-                  label: {
-                    color: "#FC9010",
-                    backgroundColor: "rgba(252,144,16,0.1)",
-                    borderRadius: 6,
-                    padding: [7, 14],
-                    borderWidth: 0.5,
-                    borderColor: "rgba(252,144,16,.5)",
-                    formatter: "报警1：{c}",
-                  },
-                },
-                {
-                  name: "最大值",
-                  type: "max",
-                  valueDim: "y",
-                  symbol: "circle",
-                  symbolSize: 6,
-                  itemStyle: {
-                    color: "#FC9010",
-                    shadowColor: "#FC9010",
-                    shadowBlur: 8,
-                  },
-                  label: {
-                    formatter: "",
-                  },
-                },
-              ],
-            },
-          },
-          {
-            data: yData2,
-            type: "line",
-            smooth: true,
-            symbol: "none", //去除点
-            name: "报警2次数",
-            color: "rgba(9,202,243,.7)",
-            areaStyle: {
-              normal: {
-                //右，下，左，上
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(9,202,243,.7)",
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(9,202,243,.0)",
-                    },
-                  ],
-                  false
-                ),
-              },
-            },
-            markPoint: {
-              data: [
-                {
-                  name: "最大值",
-                  type: "max",
-                  valueDim: "y",
-                  symbol: "rect",
-                  symbolSize: [60, 26],
-                  symbolOffset: [0, -20],
-                  itemStyle: {
-                    color: "rgba(0,0,0,0)",
-                  },
-                  label: {
-                    color: "#09CAF3",
-                    backgroundColor: "rgba(9,202,243,0.1)",
-
-                    borderRadius: 6,
-                    borderColor: "rgba(9,202,243,.5)",
-                    padding: [7, 14],
-                    formatter: "报警2：{c}",
-                    borderWidth: 0.5,
-                  },
-                },
-                {
-                  name: "最大值",
-                  type: "max",
-                  valueDim: "y",
-                  symbol: "circle",
-                  symbolSize: 6,
-                  itemStyle: {
-                    color: "#09CAF3",
-                    shadowColor: "#09CAF3",
-                    shadowBlur: 8,
-                  },
-                  label: {
-                    formatter: "",
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      };
+      this.timer = setInterval(looper, 60000);
     },
   },
 };
 </script>
-<style lang='scss' scoped>
-.right_top_inner {
-  margin-top: -8px;
-}
-</style>

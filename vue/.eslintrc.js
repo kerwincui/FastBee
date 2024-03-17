@@ -1,4 +1,14 @@
-// ESlint 检查配置
+
+/**
+ *
+ * 规则说明见 https://cn.eslint.org/docs/rules/
+ * eslint-plugin-vue 规则见 https://github.com/vuejs/eslint-plugin-vue
+ *
+ * "off" 或 0 - 关闭规则
+ * "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)
+ * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+ *
+ */
 module.exports = {
   root: true,
   parserOptions: {
@@ -13,19 +23,20 @@ module.exports = {
   extends: ['plugin:vue/recommended', 'eslint:recommended'],
 
   // add your custom rules here
-  //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
-    "vue/max-attributes-per-line": [2, {
-      "singleline": 10,
-      "multiline": {
-        "max": 1,
-        "allowFirstLine": false
+    'vue/max-attributes-per-line': [2, {
+      'singleline': 10,
+      'multiline': {
+        'max': 1,
+        'allowFirstLine': false
       }
     }],
-    "vue/singleline-html-element-content-newline": "off",
-    "vue/multiline-html-element-content-newline":"off",
-    "vue/name-property-casing": ["error", "PascalCase"],
-    "vue/no-v-html": "off",
+    'vue/html-self-closing': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/no-template-shadow': "off",
+    'vue/name-property-casing': ['error', 'PascalCase'],
+    'vue/no-v-html': 'off',
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
       'before': true,
@@ -38,7 +49,7 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
+    'comma-dangle': [2, 'always-multiline'],
     'comma-spacing': [2, {
       'before': false,
       'after': true
@@ -167,13 +178,13 @@ module.exports = {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    'semi': [2, 'never'],
+    'semi': [2, 'always'],
     'semi-spacing': [2, {
       'before': false,
       'after': true
     }],
     'space-before-blocks': [2, 'always'],
-    'space-before-function-paren': [2, 'never'],
+    'space-before-function-paren': 0,
     'space-in-parens': [2, 'never'],
     'space-infix-ops': 2,
     'space-unary-ops': [2, {

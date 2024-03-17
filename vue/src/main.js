@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
+import busEvent from '@/utils/busEvent'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
@@ -29,6 +30,8 @@ import Editor from "@/components/Editor"
 import FileUpload from "@/components/FileUpload"
 // 图片上传组件
 import ImageUpload from "@/components/ImageUpload"
+// 图片预览组件
+import ImagePreview from "@/components/ImagePreview"
 // 字典标签组件
 import DictTag from '@/components/DictTag'
 // 头部标签组件
@@ -36,7 +39,7 @@ import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
 // Echart
-import echarts from 'echarts'
+import * as echarts from 'echarts'
 // 一键复制粘贴板组件
 import VueClipboard from 'vue-clipboard2'
 // Mqtt工具
@@ -45,27 +48,25 @@ import mqttTool from '@/utils/mqttTool'
 import ItemWrap from './views/bigScreen/components/item-wrap/item-wrap.vue'
 import Message from './views/bigScreen/components/message/message.vue'
 import Reacquire from './views/bigScreen/components/reacquire/reacquire.vue'
-import Echart from './views/bigScreen/components/echart/index.vue'
+import {loading,borderBox13,digitalFlop,waterLevelPond,scrollBoard,capsuleChart,borderBox8,decoration12,decoration3,decoration9,activeRingChart} from '@jiaminghi/data-view'
 
-import {loading,borderBox13,digitalFlop,capsuleChart,borderBox8} from '@jiaminghi/data-view'
-import * as filters from '@/directive/filters'
-
-require('./mock/mock')//是否使用mock
-
-// datav组件
+// datav组件 ,会导致生成文件无法打开
 Vue.use(loading)
 Vue.use(borderBox13)
 Vue.use(borderBox8)
 Vue.use(digitalFlop)
 Vue.use(capsuleChart)
+Vue.use(waterLevelPond)
+Vue.use(scrollBoard)
+Vue.use(decoration12)
+Vue.use(activeRingChart)
+Vue.use(decoration3)
+Vue.use(decoration9)
 
 // 自定义组件
-Vue.component("Echart",Echart)
 Vue.component("ItemWrap",ItemWrap)
 Vue.component("Message",Message)
 Vue.component("Reacquire",Reacquire)
-
-
 
 
 // 全局方法挂载
@@ -80,6 +81,7 @@ Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.$echarts = echarts
 Vue.prototype.$mqttTool = mqttTool
+Vue.prototype.$busEvent = busEvent
 
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
@@ -88,14 +90,13 @@ Vue.component('RightToolbar', RightToolbar)
 Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
+Vue.component('ImagePreview', ImagePreview)
 Vue.use(VueClipboard)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
-// 全局数据过滤器
-Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -118,7 +119,7 @@ new Vue({
   render: h => h(App)
 })
 
-// 带有边框
+// 表格带边框
 Element.Table.props.border = {
   default:true,
   type:Boolean

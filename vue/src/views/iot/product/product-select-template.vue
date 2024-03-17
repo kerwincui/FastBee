@@ -1,49 +1,63 @@
 <template>
-<div style="margin-top:-50px;">
-    <el-divider></el-divider>
-    <el-form :model="queryParams" ref="product-select-template" :inline="true" label-width="48px">
-        <el-form-item label="名称" prop="templateName">
-            <el-input v-model="queryParams.templateName" placeholder="请输入物模型名称" clearable size="small" @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item label="类别" prop="type">
-            <el-select v-model="queryParams.type" placeholder="请选择模型类别" clearable size="small">
-                <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label" :value="dict.value" />
-            </el-select>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        </el-form-item>
-    </el-form>
+    <div style="margin-top:-50px;">
+        <el-divider></el-divider>
+        <el-form :model="queryParams" ref="product-select-template" :inline="true" label-width="48px">
+            <el-form-item label="名称" prop="templateName">
+                <el-input v-model="queryParams.templateName" placeholder="请输入物模型名称" clearable size="small"
+                    @keyup.enter.native="handleQuery" />
+            </el-form-item>
+            <el-form-item label="类别" prop="type">
+                <el-select v-model="queryParams.type" placeholder="请选择模型类别" clearable size="small">
+                    <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label"
+                        :value="dict.value" />
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
 
-    <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" ref="selectTemplateTable" size="small">
-        <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="名称" align="center" prop="templateName" />
-        <el-table-column label="标识符" align="center" prop="identifier" />
-        <el-table-column label="物模型类别" align="center" prop="type">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_things_type" :value="scope.row.type" />
-            </template>
-        </el-table-column>
-        <el-table-column label="首页显示" align="center" prop="isTop">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isTop" />
-            </template>
-        </el-table-column>
-        <el-table-column label="监测值" align="center" prop="isMonitor">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
-            </template>
-        </el-table-column>
-        <el-table-column label="数据类型" align="center" prop="datatype">
-            <template slot-scope="scope">
-                <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
-            </template>
-        </el-table-column>
-    </el-table>
+        <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange"
+            ref="selectTemplateTable" size="small">
+            <el-table-column type="selection" width="55" align="center" />
+            <el-table-column label="名称" align="center" prop="templateName" />
+            <el-table-column label="标识符" align="center" prop="identifier" />
+            <el-table-column label="物模型类别" align="center" prop="type">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_things_type" :value="scope.row.type" />
+                </template>
+            </el-table-column>
+            <el-table-column label="图表展示" align="center" prop="isChart" width="75">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isChart" />
+                </template>
+            </el-table-column>
+            <el-table-column label="实时监测" align="center" prop="isMonitor" width="75">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
+                </template>
+            </el-table-column>
+            <el-table-column label="只读" align="center" prop="isReadonly" width="75">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isReadonly" />
+                </template>
+            </el-table-column>
+            <el-table-column label="历史存储" align="center" prop="isHistory" width="75">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isHistory" />
+                </template>
+            </el-table-column>
+            <el-table-column label="数据类型" align="center" prop="datatype">
+                <template slot-scope="scope">
+                    <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
+                </template>
+            </el-table-column>
+        </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-</div>
+        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+            @pagination="getList" />
+    </div>
 </template>
 
 <script>
@@ -95,7 +109,7 @@ export default {
         },
         /** 重置按钮操作 */
         resetQuery() {
-            this.resetForm("queryForm");
+            this.resetForm("product-select-template");
             this.handleQuery();
         },
         // 多选框选中数据
@@ -104,9 +118,8 @@ export default {
             this.single = selection.length !== 1;
             this.multiple = !selection.length;
             // Id数组传递到父组件
-            this.$emit('idsToParentEvent', this.ids)
+            this.$emit('idsToParentEvent', this.ids);
         },
-
     },
 };
 </script>

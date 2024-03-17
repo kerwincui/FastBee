@@ -1,0 +1,117 @@
+version: '2'
+
+networks:
+  network:
+    ipam:
+      driver: default
+      config:
+        - subnet: '177.7.0.0/16'
+
+services:
+  redis:
+    image: redis:7.0.0
+    container_name: redis
+    ports:
+      - 6379:6379
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.10
+    volumes:
+      - /var/data/redis:/usr/local/etc/redis
+      - /var/data/redis/data:/data
+    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - 3306:3306
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.11
+    volumes:
+      - /var/data/mysql/mysql:/var/lib/mysql
+      - /var/data/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - /var/data/mysql/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: fastbee
+      MYSQL_ROOT_PASSWORD: fastbee
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8',
+        '--collation-server=utf8_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1'
+      ]
+
+  emqx:
+    image: emqx:5.1
+    container_name: emqx
+    ports:
+      - 1883:1883
+      - 8083:8083
+      - 8084:8084
+      - 18083:18083
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.12
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /var/data/emqx/etc/emqx.conf:/opt/emqx/etc/emqx.conf
+      - /var/data/emqx/etc/acl.conf:/opt/emqx/etc/acl.conf
+      - /var/data/emqx/etc/log:/opt/emqx/log
+      - /var/data/emqx/data/:/opt/emqx/data
+    environment:
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
+
+  java:
+    image: openjdk:8-jre
+    container_name: java
+    ports:
+      - 8080:8080
+      - 8888:8888
+      - 8889:8889/udp
+      - 5061:5061/udp
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.13
+    depends_on:
+      - emqx
+      - redis
+      - mysql
+      - tdengine
+    volumes:
+      - /var/data/java/fastbee-admin.jar:/server.jar
+      - /var/data/java/libtaos.so:/usr/lib/libtaos.so
+      - /var/data/java/uploadPath:/uploadPath
+      - /var/data/java/logs:/logs
+      - /etc/localtime:/etc/localtime
+    environment:
+      TZ: Asia/Shanghai
+    entrypoint: java -jar /server.jar
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.15
+    depends_on:
+      - java
+    volumes:
+      - /var/data/nginx/vue:/usr/share/nginx/html
+      - /var/data/nginx/h5:/usr/share/nginx/h5
+      - /var/data/nginx/www:/usr/share/nginx/www
+      - /var/data/nginx/ssl:/usr/share/nginx/ssl
+      - /var/data/nginx/nginx-emqx.conf:/etc/nginx/nginx.conf
+      - /var/data/nginx:/var/log/nginx
