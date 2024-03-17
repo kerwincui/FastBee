@@ -1,0 +1,29 @@
+name: 问题咨询
+description: 对本项目某个功能的问题咨询
+title: "[问题咨询]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你宝贵的建议，我们共同进步！
+  - type: textarea
+    id: related-problem
+    attributes:
+      label: 你对哪块的功能不了解，哪些流程不清楚，需要提供怎么样的帮助，需要提供哪块的技术文档？
+      description: 清晰并简洁地描述问题是什么，例如，当我...时，我总是感到困扰。
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 你有其他上下文或截图吗？
+      description: 在此处添加有关功能请求的任何其他上下文或截图。
+    validations:
+      required: false
+  - type: checkboxes
+    attributes:
+      label: 是否付费咨询
+      options:
+        - label: 我有意向付费咨询，希望快速解决该问题。
+          required: false

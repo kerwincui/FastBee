@@ -1,0 +1,22 @@
+name: 格式优化
+description: 格式（不影响代码运行的变动）
+title: "[格式优化]: "
+labels: ["style"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提出功能建议，我们将仔细考虑！
+  - type: textarea
+    id: related-problem
+    attributes:
+      label: 你觉得那个的代码格式需要优化？
+      description: 你觉得那个的代码格式需要优化？
+    validations:
+      required: false
+  - type: checkboxes
+    attributes:
+      label: 意向参与贡献
+      options:
+        - label: 我有意向参与具体功能的开发实现并将代码贡献到社区
+          required: false

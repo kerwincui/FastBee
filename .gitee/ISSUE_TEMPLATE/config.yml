@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: issue创建要求
+    url: https://fastbee.cn/doc/
+    about: 不符合模板要求不便定位问题，可能会被管理员直接关闭
+  - name: fastbee帮助文档
+    url: https://fastbee.cn/doc/
+    about: 提供fastbee平台基本功能使用、介绍和常见问题解答
+  - name: Gitee 帮助中心
+    url: https://help.gitee.com/
+    about: 提供 Git 使用指南、教程、Gitee.com 平台基本功能使用、介绍和常见问题解答

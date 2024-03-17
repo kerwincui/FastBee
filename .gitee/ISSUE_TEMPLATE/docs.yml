@@ -1,0 +1,22 @@
+name: 文档完善
+description: 开发或者使用文档完善
+title: "[文档]: "
+labels: ["docs"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提出功能建议，我们将仔细考虑！
+  - type: textarea
+    id: related-problem
+    attributes:
+      label: 你需要哪些开发或者使用文档？
+      description: 你需要哪些开发或者使用文档？
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: 意向参与贡献
+      options:
+        - label: 我有意向参与具体功能的开发实现并将代码贡献到社区
+          required: false
