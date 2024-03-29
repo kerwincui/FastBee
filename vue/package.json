@@ -5,7 +5,7 @@
   "author": "kerwincui",
   "license": "AGPL3.0",
   "scripts": {
-    "dev": "vue-cli-service serve --open",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open",
     "build:prod": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --report",
     "build:stage": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --mode staging",
     "preview": "set NODE_OPTIONS=--openssl-legacy-provider && node build/index.js --preview",

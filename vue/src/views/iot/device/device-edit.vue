@@ -178,6 +178,12 @@
         <device-monitor ref="deviceMonitor" :device="form" />
       </el-tab-pane>
 
+      <el-tab-pane name="deviceStastic" :disabled="form.deviceId == 0"
+        v-if="form.deviceType !== 3 && hasShrarePerm('statistic')">
+        <span slot="label">监测统计</span>
+        <device-statistic ref="deviceStatistic" :device="form" />
+      </el-tab-pane>
+
       <!-- 用于设置间距 -->
       <el-tab-pane disabled>
         <span slot="label">
