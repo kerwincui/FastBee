@@ -34,7 +34,7 @@ server:
 spring:
   # 环境配置，dev=开发环境，prod=生产环境
   profiles:
-    active: dev               # 环境配置，dev=开发环境，prod=生产环境
+    active: prod               # 环境配置，dev=开发环境，prod=生产环境
   # 资源信息
   messages:
     # 国际化资源文件路径
