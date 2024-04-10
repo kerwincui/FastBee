@@ -8,20 +8,6 @@ networks:
         - subnet: '177.7.0.0/16'
 
 services:
-  redis:
-    image: redis:7.0.0
-    container_name: redis
-    ports:
-      - 6379:6379
-    privileged: true
-    networks:
-      network:
-        ipv4_address: 177.7.0.10
-    volumes:
-      - /var/data/redis:/usr/local/etc/redis
-      - /var/data/redis/data:/data
-    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
-
   mysql:
     image: mysql:5.7
     container_name: mysql
@@ -47,6 +33,20 @@ services:
         '--lower-case-table-names=1'
       ]
 
+  redis:
+    image: redis:7.0.0
+    container_name: redis
+    ports:
+      - 6379:6379
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.10
+    volumes:
+      - /var/data/redis:/usr/local/etc/redis
+      - /var/data/redis/data:/data
+    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
+
   java:
     image: openjdk:8-jre
     container_name: java
@@ -54,9 +54,6 @@ services:
       - 8080:8080
       - 1883:1883
       - 8083:8083
-      - 8888:8888
-      - 8889:8889/udp
-      - 5061:5061/udp
     privileged: true
     networks:
       network:
@@ -66,7 +63,6 @@ services:
       - mysql
     volumes:
       - /var/data/java/fastbee-admin.jar:/server.jar
-      - /var/data/java/libtaos.so:/usr/lib/libtaos.so
       - /var/data/java/uploadPath:/uploadPath
       - /var/data/java/logs:/logs
       - /etc/localtime:/etc/localtime
