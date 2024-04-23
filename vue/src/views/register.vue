@@ -52,11 +52,6 @@
               <span v-if="!loading">注 册</span>
               <span v-else>注 册 中...</span>
             </el-button>
-            <el-button v-else :loading="loading" type="primary" style="width: 100%"
-              @click.native.prevent="handleRegister">
-              <span v-if="!loading">注 册 绑 定</span>
-              <span v-else>绑 定 中...</span>
-            </el-button>
           </el-form-item>
           <el-form-item>
             <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">返回官网</el-link>
