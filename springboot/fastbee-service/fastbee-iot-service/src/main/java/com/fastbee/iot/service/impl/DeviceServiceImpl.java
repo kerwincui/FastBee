@@ -1309,4 +1309,13 @@ public class DeviceServiceImpl implements IDeviceService {
         return valueList;
     }
 
+    /**
+     * 根据产品ID获取产品下所有编号
+     * @param productId
+     * @return
+     */
+    public String[] getDeviceNumsByProductId(Long productId){
+        return deviceMapper.getDeviceNumsByProductId(productId);
+    }
+
 }

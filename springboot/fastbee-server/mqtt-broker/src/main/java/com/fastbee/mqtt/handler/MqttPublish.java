@@ -5,7 +5,10 @@ import com.fastbee.common.core.mq.DeviceReportBo;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
+import com.fastbee.iot.ruleEngine.MsgContext;
+import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.mq.redischannel.producer.MessageProducer;
 import com.fastbee.mq.service.IDeviceReportMessageService;
 import com.fastbee.mqtt.annotation.Process;
@@ -25,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * 客户端消息推送处理类
@@ -43,6 +48,9 @@ public class MqttPublish implements MqttHandler {
     private RedisCache redisCache;
     @Resource
     private IDeviceReportMessageService deviceReportMessageService;
+
+    @Resource
+    private RuleProcess ruleProcess;
 
     @Override
     public void handler(ChannelHandlerContext ctx, MqttMessage message) {
@@ -81,6 +89,7 @@ public class MqttPublish implements MqttHandler {
     public void sendToMQ(MqttPublishMessage message) {
         /*获取topic*/
         String topicName = message.variableHeader().topicName();
+        byte[] source = ByteBufUtil.getBytes(message.content());
         /*只处理上报数据*/
         if (!topicName.endsWith(FastBeeConstant.MQTT.UP_TOPIC_SUFFIX)) {
             return;
@@ -101,6 +110,13 @@ public class MqttPublish implements MqttHandler {
         } else {
             /*设备上报数据*/
             reportBo.setReportType(1);
+        }
+        // 规则引擎脚本处理,完成后返回结果
+        MsgContext context = ruleProcess.processRuleScript(reportBo.getSerialNumber(),1, topicName, new String(source));
+        if (!Objects.isNull(context) && StringUtils.isNotEmpty(context.getPayload())
+                && StringUtils.isNotEmpty(context.getTopic())) {
+            reportBo.setTopicName(context.getTopic());
+            reportBo.setData(context.getPayload().getBytes(StandardCharsets.UTF_8));
         }
         if (topicName.contains("property")) {
             deviceReportMessageService.parseReportMsg(reportBo);

@@ -163,6 +163,11 @@ public interface FastBeeConstant {
         /**固件版本key*/
         String FIRMWARE_VERSION = "device:firmware:";
 
+        /**
+         * 设备信息
+         */
+        String DEVICE_MSG = "device:msg:";
+
         /**采集点变更记录缓存key*/
         String COLLECT_POINT_CHANGE = "collect:point:change:";
         /**属性下发回调*/

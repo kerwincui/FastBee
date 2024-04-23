@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.SceneDeviceMapper">
+    
+    <resultMap type="SceneDevice" id="SceneDeviceResult">
+        <result property="sceneDeviceId"    column="scene_device_id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="scriptId"    column="script_id"    />
+        <result property="sceneId"    column="scene_id"    />
+        <result property="source"    column="source"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.domain.Scene" id="SceneResult">
+        <result property="sceneId"    column="scene_id"    />
+        <result property="chainName"    column="chain_name"    />
+        <result property="elData"    column="el_data"    />
+    </resultMap>
+
+    <sql id="selectSceneDeviceVo">
+        select scene_device_id, serial_number, product_id, product_name, script_id, scene_id, source,type from iot_scene_device
+    </sql>
+
+    <select id="selectSceneDeviceList" parameterType="SceneDevice" resultMap="SceneDeviceResult">
+        <include refid="selectSceneDeviceVo"/>
+        <where>  
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="productName != null "> and product_name = #{productName}</if>
+            <if test="scriptId != null "> and script_id = #{scriptId}</if>
+            <if test="sceneId != null "> and scene_id = #{sceneId}</if>
+            <if test="source != null "> and source = #{source}</if>
+        </where>
+    </select>
+
+    <select id="selectTriggerDeviceRelateScenes" parameterType="SceneDevice" resultMap="SceneResult">
+        select s.scene_id,s.chain_name
+        from (select distinct scene_id from iot_scene_device where type = 2 and  (serial_number = #{serialNumber} OR product_id = #{productId})) d
+        left join iot_scene s on s.scene_id=d.scene_id
+        where s.`enable`= 1
+    </select>
+    
+    <select id="selectSceneDeviceBySceneDeviceId" parameterType="Long" resultMap="SceneDeviceResult">
+        <include refid="selectSceneDeviceVo"/>
+        where scene_device_id = #{sceneDeviceId}
+    </select>
+
+    <select id="listSceneProductBind" resultType="com.fastbee.iot.model.SceneDeviceBindVO">
+        select d.scene_id, s.scene_name, d.product_id
+        from iot_scene_device d
+        left join iot_scene s on d.scene_id = s.scene_id
+        where d.product_id in
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
+
+    <select id="listSceneDeviceBind" resultType="com.fastbee.iot.model.SceneDeviceBindVO">
+        select d.scene_id, s.scene_name, d.serial_number
+        from iot_scene_device d
+        left join iot_scene s on d.scene_id = s.scene_id
+        where d.serial_number = #{serialNumber}
+    </select>
+
+    <insert id="insertSceneDevice" parameterType="SceneDevice" useGeneratedKeys="true" keyProperty="sceneDeviceId" >
+        insert into iot_scene_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null">product_name,</if>
+            <if test="scriptId != null">script_id,</if>
+            <if test="sceneId != null">scene_id,</if>
+            <if test="source != null">source,</if>
+            <if test="type != null">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null">#{serialNumber},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="scriptId != null">#{scriptId},</if>
+            <if test="sceneId != null">#{sceneId},</if>
+            <if test="source != null">#{source},</if>
+            <if test="type != null">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSceneDevice" parameterType="SceneDevice">
+        update iot_scene_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="scriptId != null">script_id = #{scriptId},</if>
+            <if test="sceneId != null">scene_id = #{sceneId},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="type != null">type = #{type},</if>
+        </trim>
+        where scene_device_id = #{sceneDeviceId}
+    </update>
+
+    <delete id="deleteSceneDeviceBySceneDeviceId" parameterType="Long">
+        delete from iot_scene_device where scene_device_id = #{sceneDeviceId}
+    </delete>
+
+    <delete id="deleteSceneDeviceBySceneDeviceIds" parameterType="String">
+        delete from iot_scene_device where scene_device_id in 
+        <foreach item="sceneDeviceId" collection="array" open="(" separator="," close=")">
+            #{sceneDeviceId}
+        </foreach>
+    </delete>
+
+    <insert id="insertSceneDeviceList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="sceneDeviceId">
+        insert into iot_scene_device (serial_number,product_id,product_name, script_id,scene_id,source,type)
+        VALUES
+        <foreach collection ="list" item="sceneDevice" separator =",">
+            (#{sceneDevice.serialNumber},
+            #{sceneDevice.productId},
+            #{sceneDevice.productName},
+            #{sceneDevice.scriptId},
+            #{sceneDevice.sceneId},
+            #{sceneDevice.source},
+            #{sceneDevice.type})
+        </foreach >
+    </insert>
+
+    <delete id="deleteSceneDeviceBySceneIds" parameterType="String">
+        delete from iot_scene_device where scene_id in
+        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
+            #{sceneId}
+        </foreach>
+    </delete>
+</mapper>

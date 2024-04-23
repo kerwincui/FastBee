@@ -81,4 +81,11 @@ public class RedisKeyBuilder {
         return FastBeeConstant.REDIS.DEVICE_MESSAGE_ID;
     }
 
+    /**
+     * 缓存产品id，设备编号，协议编号
+     */
+    public static String buildDeviceMsgCacheKey(String serialNumber){
+        return FastBeeConstant.REDIS.DEVICE_MSG + serialNumber;
+    }
+
 }

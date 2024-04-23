@@ -15,6 +15,10 @@
         设备业务模块
     </description>
 
+    <properties>
+        <liteflow.version>2.11.3</liteflow.version>
+    </properties>
+
     <dependencies>
 
         <!-- 通用工具-->
@@ -100,6 +104,24 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>liteflow-spring-boot-starter</artifactId>
+            <version>${liteflow.version}</version>
+        </dependency>
+        <!--数据库规则配置源插件-->
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>liteflow-rule-sql</artifactId>
+            <version>${liteflow.version}</version>
+        </dependency>
+        <!--groovy脚本插件-->
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>liteflow-script-groovy</artifactId>
+            <version>${liteflow.version}</version>
         </dependency>
 
 

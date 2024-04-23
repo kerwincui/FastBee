@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.ScriptMapper">
+
+    <resultMap type="com.fastbee.iot.domain.Script" id="RuleScriptResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="sceneId"    column="scene_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="scriptEvent"    column="script_event"    />
+        <result property="scriptAction"    column="script_action"    />
+        <result property="scriptPurpose"    column="script_purpose"    />
+        <result property="scriptOrder"    column="script_order"    />
+        <result property="applicationName"    column="application_name"    />
+        <result property="scriptId"    column="script_id"    />
+        <result property="scriptName"    column="script_name"    />
+        <result property="scriptData"    column="script_data"    />
+        <result property="scriptType"    column="script_type"    />
+        <result property="scriptLanguage"    column="script_language"    />
+        <result property="enable"    column="enable"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectRuleScriptVo">
+        select user_id, user_name, scene_id,product_id,product_name,script_event,script_action,script_purpose,script_order,application_name, script_id, script_name, script_data, script_type, script_language,enable, del_flag, create_by, create_time, update_by, update_time, remark,product_id from iot_script
+    </sql>
+
+    <sql id="selectRuleScriptList">
+        select user_id, user_name, scene_id,product_id,product_name, script_event,script_action,script_purpose,script_order,application_name, script_id, script_name, script_type, script_language,enable, create_by, create_time, update_by, update_time,product_id from iot_script
+    </sql>
+
+    <select id="selectRuleScriptList" parameterType="com.fastbee.iot.model.ScriptCondition" resultMap="RuleScriptResult">
+        <include refid="selectRuleScriptList"/>
+        <where>
+            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
+            <if test="scriptId != null  and scriptId != ''"> and script_id = #{scriptId}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="sceneId != null  and sceneId != ''"> and scene_id = #{sceneId}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+            <if test="scriptEvent != null  and scriptEvent != ''"> and script_event = #{scriptEvent}</if>
+            <if test="scriptAction != null  and scriptAction != ''"> and script_action = #{scriptAction}</if>
+            <if test="scriptPurpose != null  and scriptPurpose != ''"> and script_purpose = #{scriptPurpose}</if>
+            <if test="scriptName != null  and scriptName != ''"> and script_name like concat('%', #{scriptName}, '%')</if>
+            <if test="scriptType != null  and scriptType != ''"> and script_type = #{scriptType}</if>
+            <if test="enable != null"> and enable = #{enable}</if>
+            <if test="scriptLanguage != null  and scriptLanguage != ''"> and script_language = #{scriptLanguage}</if>
+        </where>
+        order by script_order
+    </select>
+
+    <select id="selectRuleScriptIdArray" parameterType="com.fastbee.iot.model.ScriptCondition" resultType="String">
+        select script_id from iot_script
+        <where>
+            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
+            <if test="sceneId != null  and sceneId != ''"> and scene_id = #{sceneId}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+            <if test="scriptId != null  and scriptId != ''"> and script_id = #{scriptId}</if>
+            <if test="scriptEvent != null  and scriptEvent != ''"> and script_event = #{scriptEvent}</if>
+            <if test="scriptAction != null  and scriptAction != ''"> and script_action = #{scriptAction}</if>
+            <if test="scriptPurpose != null  and scriptPurpose != ''"> and script_purpose = #{scriptPurpose}</if>
+            <if test="enable != null"> and enable = #{enable}</if>
+            <if test="scriptLanguage != null  and scriptLanguage != ''"> and script_language = #{scriptLanguage}</if>
+            <if test="userId != null  and userId != ''"> and (user_id = #{userId} or user_id = #{tencentId})</if>
+        </where>
+        order by script_order
+    </select>
+
+    <select id="selectRuleScriptIdCount" parameterType="String" resultType="int">
+        select count(script_id) from iot_script where script_id = #{scriptId}
+    </select>
+
+    <select id="selectRuleScriptById" parameterType="String" resultMap="RuleScriptResult">
+        <include refid="selectRuleScriptVo"/>
+        where script_id = #{scriptId}
+    </select>
+
+    <insert id="insertRuleScript" parameterType="Script" useGeneratedKeys="false">
+        insert into iot_script
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="sceneId != null">scene_id,</if>
+            <if test="scriptEvent != null ">script_event,</if>
+            <if test="scriptAction != null ">script_action,</if>
+            <if test="scriptPurpose != null ">script_purpose,</if>
+            <if test="scriptOrder != null ">script_order,</if>
+            <if test="applicationName != null and applicationName != ''">application_name,</if>
+            <if test="scriptId != null and scriptId != ''">script_id,</if>
+            <if test="scriptName != null and scriptName != ''">script_name,</if>
+            <if test="scriptData != null">script_data,</if>
+            <if test="scriptType != null ">script_type,</if>
+            <if test="scriptLanguage != null and scriptLanguage != ''">script_language,</if>
+            <if test="enable != null">enable,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null">product_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="sceneId != null">#{sceneId},</if>
+            <if test="scriptEvent != null ">#{scriptEvent},</if>
+            <if test="scriptAction != null ">#{scriptAction},</if>
+            <if test="scriptPurpose != null ">#{scriptPurpose},</if>
+            <if test="scriptOrder != null ">#{scriptOrder},</if>
+            <if test="applicationName != null and applicationName != ''">#{applicationName},</if>
+            <if test="scriptId != null and scriptId != ''">#{scriptId},</if>
+            <if test="scriptName != null and scriptName != ''">#{scriptName},</if>
+            <if test="scriptData != null">#{scriptData},</if>
+            <if test="scriptType != null ">#{scriptType},</if>
+            <if test="scriptLanguage != null and scriptLanguage != ''">#{scriptLanguage},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null">#{productName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRuleScript" parameterType="Script">
+        update iot_script
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="sceneId != null and sceneId != ''">scene_id = #{sceneId},</if>
+            <if test="scriptEvent != null ">script_event = #{scriptEvent},</if>
+            <if test="scriptAction != null ">script_action = #{scriptAction},</if>
+            <if test="scriptPurpose != null ">script_purpose = #{scriptPurpose},</if>
+            <if test="scriptOrder != null ">script_order = #{scriptOrder},</if>
+            <if test="applicationName != null and applicationName != ''">application_name = #{applicationName},</if>
+            <if test="scriptId != null and scriptId != ''">script_id = #{scriptId},</if>
+            <if test="scriptName != null and scriptName != ''">script_name = #{scriptName},</if>
+            <if test="scriptData != null">script_data = #{scriptData},</if>
+            <if test="scriptType != null ">script_type = #{scriptType},</if>
+            <if test="scriptLanguage != null and scriptLanguage != ''">script_language = #{scriptLanguage},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+        </trim>
+        where script_id = #{scriptId}
+    </update>
+
+    <delete id="deleteRuleScriptById" parameterType="String">
+        delete from iot_script where script_id = #{scriptId}
+    </delete>
+
+    <delete id="deleteRuleScriptByIds" parameterType="String">
+        delete from iot_script where script_id in
+        <foreach item="scriptId" collection="array" open="(" separator="," close=")">
+            #{scriptId}
+        </foreach>
+    </delete>
+
+    <insert id="insertRuleScriptList" parameterType="java.util.List">
+        insert into iot_script (user_id,user_name,scene_id,script_event, script_action, script_purpose,script_order,
+                                     application_name,script_id,script_name,script_data,script_type,script_language,enable,create_by,create_time,product_id,product_name)
+        VALUES
+        <foreach collection ="list" item="ruleScript" separator =",">
+            (#{ruleScript.userId},
+            #{ruleScript.userName},
+            #{ruleScript.sceneId},
+            #{ruleScript.scriptEvent},
+            #{ruleScript.scriptAction},
+            #{ruleScript.scriptPurpose},
+            #{ruleScript.scriptOrder},
+            #{ruleScript.applicationName},
+            #{ruleScript.scriptId},
+            #{ruleScript.scriptName},
+            #{ruleScript.scriptData},
+            #{ruleScript.scriptType},
+            #{ruleScript.scriptLanguage},
+            #{ruleScript.enable},
+            #{ruleScript.createBy},
+            #{ruleScript.createTime},
+            #{ruleScript.productId},
+            #{ruleScript.productName})
+        </foreach >
+    </insert>
+
+    <delete id="deleteRuleScriptBySceneIds" parameterType="String">
+        delete from iot_script where scene_id in
+        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
+        #{sceneId}
+        </foreach>
+    </delete>
+</mapper>

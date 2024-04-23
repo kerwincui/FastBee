@@ -4,8 +4,11 @@ import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.mq.DeviceReportBo;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.gateway.mq.TopicsPost;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
+import com.fastbee.iot.ruleEngine.MsgContext;
+import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.mq.redischannel.producer.MessageProducer;
 import com.fastbee.mq.service.IDeviceReportMessageService;
 import com.fastbee.mq.service.IMessagePublishService;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 @Component
@@ -27,6 +31,9 @@ public class MqttService {
     private TopicsUtils topicsUtils;
     @Resource
     private IDeviceReportMessageService deviceReportMessageService;
+
+    @Resource
+    private RuleProcess ruleProcess;
 
 
 
@@ -48,6 +55,18 @@ public class MqttService {
         log.info("接收消息主题 : " + topic);
         log.info("接收消息Qos : " + mqttMessage.getQos());
         log.info("接收消息内容 : " + message);
+
+        //这里默认设备编号长度超过9位
+        String[] split = topic.split("/");
+        String clientId = Arrays.stream(split).filter(imei -> imei.length() > 9).findFirst().get();
+        // 规则引擎脚本处理,完成后返回结果
+        MsgContext context = ruleProcess.processRuleScript(clientId, 1, topic, message);
+        if (!Objects.isNull(context) && StringUtils.isNotEmpty(context.getPayload())
+                && StringUtils.isNotEmpty(context.getTopic())) {
+            topic = context.getTopic();
+            message = context.getPayload();
+        }
+
         String serialNumber = topicsUtils.parseSerialNumber(topic);
         Long productId = topicsUtils.parseProductId(topic);
         String name = topicsUtils.parseTopicName(topic);

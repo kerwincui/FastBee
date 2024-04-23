@@ -124,4 +124,11 @@ public interface IDeviceJobService
      * @return 结果
      */
     public boolean checkCronExpressionIsValid(String cronExpression);
+
+    /**
+     * 通过场景id查询关联定时任务
+     * @param sceneIds 场景id
+     * @return java.util.List<com.fastbee.iot.domain.DeviceJob>
+     */
+    List<DeviceJob> listShortJobBySceneId(Long[] sceneIds);
 }
