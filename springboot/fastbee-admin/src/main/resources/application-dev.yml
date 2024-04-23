@@ -80,3 +80,31 @@ logging:
 swagger:
   enabled: true                             # 是否开启swagger
   pathMapping: /dev-api                     # 请求前缀
+
+liteflow:
+  rule-source-ext-data-map:
+    # 应用名称，规则链和脚本组件名称需要一致，不要修改
+    applicationName: fastbee
+    #是否开启SQL日志
+    sqlLogEnabled: true
+    # 规则多时，启用快速加载模式
+    fast-load: false
+    #是否开启SQL数据轮询自动刷新机制 默认不开启
+    pollingEnabled: false
+    pollingIntervalSeconds: 60
+    pollingStartSeconds: 60
+    #以下是chain表的配置
+    chainTableName: iot_scene
+    chainApplicationNameField: application_name
+    chainNameField: chain_name
+    elDataField: el_data
+    chainEnableField: enable
+    #以下是script表的配置
+    scriptTableName: iot_script
+    scriptApplicationNameField: application_name
+    scriptIdField: script_id
+    scriptNameField: script_name
+    scriptDataField: script_data
+    scriptTypeField: script_type
+    scriptLanguageField: script_language
+    scriptEnableField: enable
