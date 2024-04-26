@@ -66,6 +66,11 @@ public class DataHandlerImpl implements IDataHandler {
             input.setSlaveId(bo.getSlaveId());
             List<ThingsModelSimpleItem> result = deviceService.reportDeviceThingsModelValue(input, bo.getType(), bo.isShadow());
 
+            //发送至前端
+            PushMessageBo messageBo = new PushMessageBo();
+            messageBo.setTopic(topicsUtils.buildTopic(bo.getProductId(), bo.getSerialNumber(), TopicType.WS_SERVICE_INVOKE));
+            messageBo.setMessage(JSON.toJSONString(result));
+            remoteManager.pushCommon(messageBo);
 
         } catch (Exception e) {
             log.error("接收属性数据，解析数据时异常 message={},e={}", e.getMessage(),e);
