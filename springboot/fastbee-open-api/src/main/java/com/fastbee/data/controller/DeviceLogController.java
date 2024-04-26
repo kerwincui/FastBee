@@ -46,4 +46,17 @@ public class DeviceLogController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 查询设备日志列表
+     */
+    @ApiOperation("查询设备日志列表")
+    @PreAuthorize("@ss.hasPermi('iot:device:list')")
+    @GetMapping("/list")
+    public TableDataInfo list(DeviceLog deviceLog)
+    {
+        startPage();
+        List<DeviceLog> list = deviceLogService.selectDeviceLogList(deviceLog);
+        return getDataTable(list);
+    }
+
 }
