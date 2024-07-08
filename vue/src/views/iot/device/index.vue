@@ -212,6 +212,7 @@
 import vueQr from 'vue-qr';
 import { listDeviceShort, delDevice } from '@/api/iot/device';
 import { listGroup } from '@/api/iot/group';
+import { delSipDeviceBySipId } from '@/api/iot/sipdevice';
 
 export default {
   name: 'Device',
