@@ -66,6 +66,14 @@ public class RedisKeyBuilder {
         return FastBeeConstant.REDIS.STREAM_KEY + steamId;
     }
 
+    public static String buildStreamCacheKey(String deviceId, String channelId, String stream, String ssrc){
+        return FastBeeConstant.REDIS.STREAM_KEY + deviceId + ":" + channelId + ":" + stream + ":" + ssrc;
+    }
+
+    public static String buildInviteCacheKey(String type, String deviceId, String channelId, String stream, String ssrc){
+        return FastBeeConstant.REDIS.INVITE_KEY + type + ":"+ deviceId + ":" + channelId + ":" + stream + ":" + ssrc;
+    }
+
     /**ipCSEQ缓存key*/
     public static String buildSipCSEQCacheKey(String CSEQ){
         return FastBeeConstant.REDIS.SIP_CSEQ_PREFIX + CSEQ;

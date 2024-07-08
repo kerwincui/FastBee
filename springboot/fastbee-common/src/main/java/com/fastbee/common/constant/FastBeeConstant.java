@@ -176,6 +176,7 @@ public interface FastBeeConstant {
         String RECORDINFO_KEY = "sip:recordinfo:";
         String DEVICEID_KEY = "sip:deviceid:";
         String STREAM_KEY = "sip:stream:";
+        String INVITE_KEY = "sip:invite:";
         String SIP_CSEQ_PREFIX = "sip:CSEQ:";
         String DEFAULT_SIP_CONFIG = "sip:config";
         String DEFAULT_MEDIA_CONFIG = "sip:mediaconfig";

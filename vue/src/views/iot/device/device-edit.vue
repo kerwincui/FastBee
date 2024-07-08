@@ -26,8 +26,13 @@
                   设备编号
                 </template>
                 <el-input v-model="form.serialNumber" placeholder="请输入设备编号" :disabled="form.status !== 1" maxlength="32">
-                  <el-button slot="append" @click="generateNum" :loading="genDisabled"
-                    :disabled="form.status !== 1">生成</el-button>
+                  <!-- <el-button slot="append" @click="generateNum" :loading="genDisabled"
+                    :disabled="form.status !== 1">生成</el-button> -->
+                    <el-button v-if="form.deviceType !== 3" slot="append" @click="generateNum"
+                                        :loading="genDisabled" :disabled="form.status != 1"
+                                        v-hasPermi="['iot:device:add']">生成</el-button>
+                                    <el-button v-if="form.deviceType === 3" slot="append" @click="genSipID()"
+                                        :disabled="form.status != 1" v-hasPermi="['iot:device:add']">生成</el-button>
                 </el-input>
               </el-form-item>
               <el-form-item v-if="openServerTip">
@@ -123,6 +128,8 @@
 
         <!-- 选择产品 -->
         <product-list ref="productList" :productId="form.productId" @productEvent="getProductData($event)" />
+
+        <sipid ref="sipidGen" :product="form" @addGenEvent="getSipIDData($event)" />
       </el-tab-pane>
 
       <el-tab-pane name="runningStatus" v-if="form.deviceType !== 3 && !isSubDev">
@@ -140,10 +147,14 @@
         <business ref="business"/>
       </el-tab-pane>
 
-      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">
+      <!-- <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">
         <span slot="label"><span style="color:red;">￥ </span>设备直播</span>
         <business ref="business"/>
-      </el-tab-pane>
+      </el-tab-pane> -->
+      <el-tab-pane name="videoLive" :disabled="form.deviceId == 0" v-if="form.deviceType === 3" >
+        <span slot="label">设备直播</span>
+        <device-live-stream ref="deviceLiveStream" :device="form" />
+    </el-tab-pane>
 
       <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipVideo">
         <span slot="label"><span style="color:red;">￥ </span>直播录像</span>
@@ -267,6 +278,13 @@ import { deviceSynchronization, getDevice, addDevice, updateDevice, generatorDev
 import { getDeviceRunningStatus } from '@/api/iot/device';
 import { cacheJsonThingsModel } from '@/api/iot/model';
 import { getDeviceTemp } from '@/api/iot/temp';
+import deviceVideo from '@/views/components/player/deviceVideo.vue';
+import deviceLiveStream from '@/views/components/player/deviceLiveStream';
+import sipid from '../sip/sipidGen.vue';
+import player from '@/views/components/player/player.vue';
+import channel from '../sip/channel';
+
+
 
 export default {
   name: 'DeviceEdit',
@@ -283,6 +301,11 @@ export default {
     deviceTimer,
     JsonViewer,
     vueQr,
+    deviceVideo,
+    deviceLiveStream,
+    player,
+    channel,
+    sipid,
   },
   watch: {
     activeName(val) {
@@ -512,21 +535,76 @@ export default {
     },
 
     // 获取子组件订阅的设备状态
-    getDeviceStatusData(status) {
-      this.form.status = status;
-    },
+    // getDeviceStatusData(status) {
+    //   this.form.status = status;
+    // },
+    getPlayerData(data) {
+            this.activeName = data.tabName;
+            this.channelId = data.channelId;
+            // this.$set(this.form, 'channelId', this.channelId);
+            if (this.channelId) {
+                this.$refs.deviceLiveStream.channelId = this.channelId;
+                this.$refs.deviceLiveStream.changeChannel();
+            }
+        },
 
     /** 选项卡改变事件*/
+    // tabChange(panel) {
+    //   this.$nextTick(() => {
+    //     // 获取监测统计数据
+    //     if (panel.name === 'deviceStastic' && !this.isSubDev) {
+    //       this.$refs.deviceStatistic.getListHistory();
+    //     } else if (panel.name === 'deviceTimer'&& !this.isSubDev) {
+    //       this.$refs.deviceTimer.getList();
+    //     }
+    //   });
+    // },
     tabChange(panel) {
-      this.$nextTick(() => {
-        // 获取监测统计数据
-        if (panel.name === 'deviceStastic' && !this.isSubDev) {
-          this.$refs.deviceStatistic.getListHistory();
-        } else if (panel.name === 'deviceTimer'&& !this.isSubDev) {
-          this.$refs.deviceTimer.getList();
-        }
-      });
-    },
+            if (this.form.deviceType == 3 && panel.name != 'deviceReturn') {
+                if (panel.name === 'videoLive') {
+                    this.$refs.deviceVideo.destroy();
+                    if (this.channelId) {
+                        this.$refs.deviceLiveStream.channelId = this.channelId;
+                        this.$refs.deviceLiveStream.changeChannel();
+                    }
+                    if (this.$refs.deviceLiveStream.channelId) {
+                        this.$refs.deviceLiveStream.changeChannel();
+                    }
+                } else if (panel.name === 'deviceVideo') {
+                    this.$refs.deviceLiveStream.destroy();
+                    if (this.$refs.deviceVideo.channelId && this.$refs.deviceVideo.queryDate) {
+                        this.$refs.deviceVideo.loadDevRecord();
+                    }
+                } else if (panel.name === 'sipChannel') {
+                  this.$refs.deviceChannel.getList();
+                }
+                //关闭直播流
+                if (panel.name !== 'sipVideo') {
+                  if(this.$refs.deviceLiveStream.playing) {
+                    this.$refs.deviceLiveStream.closeDestroy(false);
+                  }
+                }
+                //关闭录像流
+                if (panel.name !== 'deviceVideo') {
+                  if(this.$refs.deviceVideo.playing) {
+                    this.$refs.deviceVideo.closeDestroy();
+                  }
+                }
+            }
+            this.$nextTick(() => {
+                // 获取监测统计数据
+                if (panel.name === 'deviceStastic') {
+                    this.$refs.deviceStatistic.getListHistory();
+                } else if (panel.name === 'deviceTimer') {
+                    this.$refs.deviceTimer.getList();
+                } else if (panel.name === 'deviceSub') {
+                    if (this.form.serialNumber) {
+                        this.$refs.deviceSub.queryParams.gwDevCode = this.form.serialNumber;
+                        this.$refs.deviceSub.getList();
+                    }
+                }
+            });
+        },
     /** 数据同步*/
     deviceSynchronization() {
       deviceSynchronization(this.form.serialNumber).then(async (response) => {
@@ -843,6 +921,9 @@ export default {
         this.serverType = 1;
       }
     },
+    getSipIDData(devsipid) {
+            this.form.serialNumber = devsipid;
+        },
     // 获取选中的用户
     getUserData(user) { },
     /**关闭物模型 */

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.sip.mapper.SipDeviceChannelMapper">
+
+    <resultMap type="SipDeviceChannel" id="SipDeviceChannelResult">
+        <result property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="tenantName" column="tenant_name"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="deviceSipId" column="device_sip_id"/>
+        <result property="channelSipId" column="channel_sip_id"/>
+        <result property="channelName" column="channel_name"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="deviceType" column="device_type"/>
+        <result property="channelType" column="channel_type"/>
+        <result property="citycode" column="cityCode"/>
+        <result property="civilcode" column="civilCode"/>
+        <result property="manufacture" column="manufacture"/>
+        <result property="model" column="model"/>
+        <result property="owner" column="owner"/>
+        <result property="block" column="block"/>
+        <result property="address" column="address"/>
+        <result property="parentid" column="parentId"/>
+        <result property="ipaddress" column="ipAddress"/>
+        <result property="port" column="port"/>
+        <result property="password" column="password"/>
+        <result property="ptztype" column="PTZType"/>
+        <result property="ptztypetext" column="PTZTypeText"/>
+        <result property="status" column="status"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="streamid" column="streamId"/>
+        <result property="subcount" column="subCount"/>
+        <result property="parental" column="parental"/>
+        <result property="hasaudio" column="hasAudio"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectSipDeviceChannelVo">
+        select id,
+               tenant_id,
+               tenant_name,
+               product_id,
+               product_name,
+               user_id,
+               user_name,
+               device_sip_id,
+               channel_sip_id,
+               channel_name,
+               register_time,
+               device_type,
+               channel_type,
+               cityCode,
+               civilCode,
+               manufacture,
+               model,
+               owner,
+               block,
+               address,
+               parentId,
+               ipAddress,
+               port,
+               password,
+               PTZType,
+               PTZTypeText,
+               status,
+               longitude,
+               latitude,
+               streamId,
+               subCount,
+               parental,
+               hasAudio,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sip_device_channel
+    </sql>
+
+    <select id="selectSipDeviceChannelList" parameterType="SipDeviceChannel" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        <where>
+            <if test="tenantId != null ">and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''">and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and product_name like concat('%', #{productName},'%')</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''">and user_name like concat('%', #{userName}, '%')</if>
+            <if test="deviceSipId != null  and deviceSipId != ''">and device_sip_id = #{deviceSipId}</if>
+            <if test="channelSipId != null  and channelSipId != ''">and channel_sip_id = #{channelSipId}</if>
+            <if test="channelName != null  and channelName != ''">and channel_name like concat('%', #{channelName},'%')</if>
+            <if test="registerTime != null ">and register_time = #{registerTime}</if>
+            <if test="deviceType != null  and deviceType != ''">and device_type = #{deviceType}</if>
+            <if test="channelType != null  and channelType != ''">and channel_type = #{channelType}</if>
+            <if test="citycode != null  and citycode != ''">and cityCode = #{citycode}</if>
+            <if test="civilcode != null  and civilcode != ''">and civilCode = #{civilcode}</if>
+            <if test="manufacture != null  and manufacture != ''">and manufacture = #{manufacture}</if>
+            <if test="model != null  and model != ''">and model = #{model}</if>
+            <if test="owner != null  and owner != ''">and owner = #{owner}</if>
+            <if test="block != null  and block != ''">and block = #{block}</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="parentid != null  and parentid != ''">and parentId = #{parentid}</if>
+            <if test="ipaddress != null  and ipaddress != ''">and ipAddress = #{ipaddress}</if>
+            <if test="port != null ">and port = #{port}</if>
+            <if test="password != null  and password != ''">and password = #{password}</if>
+            <if test="ptztype != null ">and PTZType = #{ptztype}</if>
+            <if test="ptztypetext != null  and ptztypetext != ''">and PTZTypeText = #{ptztypetext}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="longitude != null ">and longitude = #{longitude}</if>
+            <if test="latitude != null ">and latitude = #{latitude}</if>
+            <if test="streamid != null  and streamid != ''">and streamId = #{streamid}</if>
+            <if test="subcount != null ">and subCount = #{subcount}</if>
+            <if test="parental != null ">and parental = #{parental}</if>
+            <if test="hasaudio != null ">and hasAudio = #{hasaudio}</if>
+        </where>
+    </select>
+
+    <select id="selectSipDeviceChannelById" parameterType="Long" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSipDeviceChannel" parameterType="SipDeviceChannel" useGeneratedKeys="true" keyProperty="id">
+        insert into sip_device_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="deviceSipId != null">device_sip_id,</if>
+            <if test="channelSipId != null and channelSipId != ''">channel_sip_id,</if>
+            <if test="channelName != null and channelName != ''">channel_name,</if>
+            <if test="registerTime != null">register_time,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="channelType != null">channel_type,</if>
+            <if test="citycode != null and citycode != ''">cityCode,</if>
+            <if test="civilcode != null and civilcode != ''">civilCode,</if>
+            <if test="manufacture != null and manufacture != ''">manufacture,</if>
+            <if test="model != null and model != ''">model,</if>
+            <if test="owner != null and owner != ''">owner,</if>
+            <if test="block != null and block != ''">block,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="parentid != null and parentid != ''">parentId,</if>
+            <if test="ipaddress != null">ipAddress,</if>
+            <if test="port != null">port,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="ptztype != null">PTZType,</if>
+            <if test="ptztypetext != null and ptztypetext != ''">PTZTypeText,</if>
+            <if test="status != null">status,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="streamid != null and streamid != ''">streamId,</if>
+            <if test="subcount != null">subCount,</if>
+            <if test="parental != null">parental,</if>
+            <if test="hasaudio != null">hasAudio,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="deviceSipId != null">#{deviceSipId},</if>
+            <if test="channelSipId != null and channelSipId != ''">#{channelSipId},</if>
+            <if test="channelName != null and channelName != ''">#{channelName},</if>
+            <if test="registerTime != null">#{registerTime},</if>
+            <if test="deviceType != null">#{deviceType},</if>
+            <if test="channelType != null">#{channelType},</if>
+            <if test="citycode != null and citycode != ''">#{citycode},</if>
+            <if test="civilcode != null and civilcode != ''">#{civilcode},</if>
+            <if test="manufacture != null and manufacture != ''">#{manufacture},</if>
+            <if test="model != null and model != ''">#{model},</if>
+            <if test="owner != null and owner != ''">#{owner},</if>
+            <if test="block != null and block != ''">#{block},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="parentid != null and parentid != ''">#{parentid},</if>
+            <if test="ipaddress != null">#{ipaddress},</if>
+            <if test="port != null">#{port},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="ptztype != null">#{ptztype},</if>
+            <if test="ptztypetext != null and ptztypetext != ''">#{ptztypetext},</if>
+            <if test="status != null">#{status},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="streamid != null and streamid != ''">#{streamid},</if>
+            <if test="subcount != null">#{subcount},</if>
+            <if test="parental != null">#{parental},</if>
+            <if test="hasaudio != null">#{hasaudio},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSipDeviceChannel" parameterType="SipDeviceChannel">
+        update sip_device_channel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="deviceSipId != null">device_sip_id = #{deviceSipId},</if>
+            <if test="channelSipId != null and channelSipId != ''">channel_sip_id = #{channelSipId},</if>
+            <if test="channelName != null and channelName != ''">channel_name = #{channelName},</if>
+            <if test="registerTime != null">register_time = #{registerTime},</if>
+            <if test="deviceType != null">device_type = #{deviceType},</if>
+            <if test="channelType != null">channel_type = #{channelType},</if>
+            <if test="citycode != null and citycode != ''">cityCode = #{citycode},</if>
+            <if test="civilcode != null and civilcode != ''">civilCode = #{civilcode},</if>
+            <if test="manufacture != null and manufacture != ''">manufacture = #{manufacture},</if>
+            <if test="model != null and model != ''">model = #{model},</if>
+            <if test="owner != null and owner != ''">owner = #{owner},</if>
+            <if test="block != null and block != ''">block = #{block},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="parentid != null and parentid != ''">parentId = #{parentid},</if>
+            <if test="ipaddress != null">ipAddress = #{ipaddress},</if>
+            <if test="port != null">port = #{port},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="ptztype != null">PTZType = #{ptztype},</if>
+            <if test="ptztypetext != null and ptztypetext != ''">PTZTypeText = #{ptztypetext},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="streamid != null and streamid != ''">streamId = #{streamid},</if>
+            <if test="subcount != null">subCount = #{subcount},</if>
+            <if test="parental != null">parental = #{parental},</if>
+            <if test="hasaudio != null">hasAudio = #{hasaudio},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where channel_sip_id = #{channelSipId}
+    </update>
+
+    <delete id="deleteSipDeviceChannelById" parameterType="Long">
+        delete
+        from sip_device_channel
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteSipDeviceChannelByIds" parameterType="String">
+        delete from sip_device_channel where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectSipDeviceChannelByDeviceSipId" parameterType="String" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where device_sip_id = #{deviceSipId}
+    </select>
+
+    <select id="selectSipDeviceChannelByChannelSipId" parameterType="String" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where channel_sip_id = #{channelSipId}
+    </select>
+
+    <select id="selectChannelWithCivilCodeAndLength" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where device_sip_id = #{deviceSipId}
+        <if test='parentId != null and length != null' > and parentId = #{parentid} or left(channel_sip_id, LENGTH(#{parentId})) = #{parentId} and length(channel_sip_id)=#{length} </if>
+        <if test='parentId == null and length != null' > and parentId = #{parentid} or length(channel_sip_id)=#{length} </if>
+        <if test='parentId == null and length == null' > and parentId = #{parentid} </if>
+        <if test='parentId != null and length == null' > and parentId = #{parentid} or left(channel_sip_id, LENGTH(#{parentId})) = #{parentId} </if>
+    </select>
+
+    <select id="selectChannelByCivilCode" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where device_sip_id = #{deviceSipId} and length(channel_sip_id)>14 and civilCode=#{parentId}
+    </select>
+
+    <select id="selectChannelWithoutCiviCode" resultMap="SipDeviceChannelResult">
+        <include refid="selectSipDeviceChannelVo"/>
+        where device_sip_id=#{deviceSipId} and civilCode not in (select civilCode from sip_device_channel where device_sip_id=#{deviceSipId} group by civilCode)
+    </select>
+
+    <select id="getChannelMinLength" resultType="Integer">
+        select min(length(channel_sip_id)) as minLength
+        from sip_device_channel
+        where device_sip_id = #{deviceSipId}
+    </select>
+
+    <update id="updateChannelStreamId" parameterType="SipDeviceChannel">
+        update sip_device_channel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="streamid != null and streamid != ''">streamId = #{streamid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSipDeviceChannelByDeviceId" parameterType="String">
+        delete
+        from sip_device_channel
+        where device_sip_id = #{deviceSipId}
+    </delete>
+
+</mapper>
