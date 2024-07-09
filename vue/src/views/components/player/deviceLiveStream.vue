@@ -138,16 +138,7 @@ export default {
       this.$refs.player.registercallback('loadingTimeout', this.TimeoutCallback);
       this.$refs.player.registercallback('delayTimeout', this.TimeoutCallback);
       if (this.playrecord) {
-        startPlayRecord(this.deviceId, this.channelId).then((response) => {
-          console.log('开始录像：' + this.deviceId + ' : ' + this.channelId);
-          const res = response.data;
-          this.streamId = res.streamId;
-          this.playurl = res.playurl;
-          this.$refs.player.play(res.playurl);
-          this.playing = true;
-          this.playrecording = true;
-          this.pushStream = true;
-        });
+       
       } else {
         startPlay(this.deviceId, this.channelId).then((response) => {
           console.log('开始推流: [' + this.streamId + ']');

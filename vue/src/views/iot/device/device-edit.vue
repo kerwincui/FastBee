@@ -562,18 +562,12 @@ export default {
     tabChange(panel) {
             if (this.form.deviceType == 3 && panel.name != 'deviceReturn') {
                 if (panel.name === 'videoLive') {
-                    this.$refs.deviceVideo.destroy();
                     if (this.channelId) {
                         this.$refs.deviceLiveStream.channelId = this.channelId;
                         this.$refs.deviceLiveStream.changeChannel();
                     }
                     if (this.$refs.deviceLiveStream.channelId) {
                         this.$refs.deviceLiveStream.changeChannel();
-                    }
-                } else if (panel.name === 'deviceVideo') {
-                    this.$refs.deviceLiveStream.destroy();
-                    if (this.$refs.deviceVideo.channelId && this.$refs.deviceVideo.queryDate) {
-                        this.$refs.deviceVideo.loadDevRecord();
                     }
                 } else if (panel.name === 'sipChannel') {
                   this.$refs.deviceChannel.getList();
@@ -582,12 +576,6 @@ export default {
                 if (panel.name !== 'sipVideo') {
                   if(this.$refs.deviceLiveStream.playing) {
                     this.$refs.deviceLiveStream.closeDestroy(false);
-                  }
-                }
-                //关闭录像流
-                if (panel.name !== 'deviceVideo') {
-                  if(this.$refs.deviceVideo.playing) {
-                    this.$refs.deviceVideo.closeDestroy();
                   }
                 }
             }

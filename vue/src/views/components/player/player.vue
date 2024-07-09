@@ -63,7 +63,7 @@ export default {
       if (useVconsole && window.VConsole) {
         new window.VConsole();
       }
-      this.$nextTick(() => {
+      this.$forceUpdate(() => {
         this.initplayer();
       });
     },
