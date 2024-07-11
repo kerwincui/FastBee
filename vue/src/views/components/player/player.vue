@@ -70,7 +70,7 @@ export default {
     initplayer() {
       this.isPlaybackPause = false;
       this.initconf();
-      jessibucaPlayer[this._uid] = new window.JessibucaPro({
+      jessibucaPlayer[this._uid] = new window.Jessibuca({
         container: this.$refs.container,
         decoder: '/js/jessibuca-pro/decoder-pro.js',
         videoBuffer: Number(0.2), // 缓存时长

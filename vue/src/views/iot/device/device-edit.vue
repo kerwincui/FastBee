@@ -278,7 +278,6 @@ import { deviceSynchronization, getDevice, addDevice, updateDevice, generatorDev
 import { getDeviceRunningStatus } from '@/api/iot/device';
 import { cacheJsonThingsModel } from '@/api/iot/model';
 import { getDeviceTemp } from '@/api/iot/temp';
-import deviceVideo from '@/views/components/player/deviceVideo.vue';
 import deviceLiveStream from '@/views/components/player/deviceLiveStream';
 import sipid from '../sip/sipidGen.vue';
 import player from '@/views/components/player/player.vue';
@@ -301,7 +300,6 @@ export default {
     deviceTimer,
     JsonViewer,
     vueQr,
-    deviceVideo,
     deviceLiveStream,
     player,
     channel,

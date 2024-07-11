@@ -21,6 +21,7 @@
         <module>mqtt-broker</module>
         <!--服务核心，tcp udp服务搭建模块-->
         <module>iot-server-core</module>
+        <module>sip-server</module>
     </modules>
 
 
