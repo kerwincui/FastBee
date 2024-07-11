@@ -72,7 +72,7 @@ export default {
       this.initconf();
       jessibucaPlayer[this._uid] = new window.Jessibuca({
         container: this.$refs.container,
-        decoder: '/js/jessibuca-pro/decoder-pro.js',
+        decoder: '/js/jessibuca/decoder.js',
         videoBuffer: Number(0.2), // 缓存时长
         isResize: false,
         useWCS: false,
