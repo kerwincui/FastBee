@@ -46,7 +46,9 @@ export default {
     if (this.playinfo && this.playinfo.playtype !== '') {
       this.playtype = this.playinfo.playtype;
     }
-    this.init();
+    this.$nextTick(() => {
+      this.init();
+    })
   },
   methods: {
     init() {
@@ -58,19 +60,12 @@ export default {
         console.log('暂不支持webGPU，降级到webgl渲染');
         this.useWebGPU = false;
       }
-
-      const useVconsole = this.isMobile() || this.isPad();
-      if (useVconsole && window.VConsole) {
-        new window.VConsole();
-      }
-      this.$forceUpdate(() => {
-        this.initplayer();
-      });
+      this.initplayer();
     },
     initplayer() {
       this.isPlaybackPause = false;
       this.initconf();
-      jessibucaPlayer[this._uid] = new window.Jessibuca({
+      let options = {
         container: this.$refs.container,
         decoder: '/js/jessibuca/decoder.js',
         videoBuffer: Number(0.2), // 缓存时长
@@ -80,19 +75,17 @@ export default {
         useSIMD: true,
         wcsUseVideoRender: false,
         loadingText: '加载中',
-        debug: false,
-        debugLevel: "debug",
+        debug: true,
         showBandwidth: true, // 显示网速
         showPlaybackOperate: true,
         operateBtns: this.operateBtns,
         forceNoOffscreen: true,
         isNotMute: false,
         showPerformance: false,
-        // playFailedAndReplay: true,
-        // networkDelayTimeoutReplay: true,
-        playbackForwardMaxRateDecodeIFrame: 4,
-        useWebGPU: this.useWebGPU, // 使用WebGPU
-      });
+        useWebGPU: this.useWebGPU,
+      };
+      jessibucaPlayer[this._uid] =  new window.Jessibuca({...options});
+      console.log('initplayer2');
       let jessibuca = jessibucaPlayer[this._uid];
       this.initcallback(jessibuca);
       this.isInit = true;
@@ -102,17 +95,13 @@ export default {
         //直播按钮配置
         this.operateBtns = {
           fullscreen: true,
-          zoom: true,
-          ptz: true,
           play: true,
         };
       } else {
         //录像回放按钮配置
         this.operateBtns = {
           fullscreen: true,
-          zoom: true,
           play: true,
-          ptz: false,
         };
       }
     },
@@ -151,22 +140,18 @@ export default {
       jessibuca.on('timeout', function (error) {
         console.log('timeout:', error);
       });
-      jessibuca.on('playbackPreRateChange', (rate) => {
-        jessibuca.forward(rate);
-      });
-
-      let pre = 0;
-      let cur = 0;
-      jessibuca.on('timeUpdate', function (ts) {
-        cur = parseInt(ts / 60000);
-        if (pre !== cur) {
-          pre++;
-        }
-      });
-      jessibuca.on(JessibucaPro.EVENTS.ptz, (arrow) => {
-        console.log('ptz arrow', arrow);
-        _this.handlePtz(arrow);
-      });
+      // let pre = 0;
+      // let cur = 0;
+      // jessibuca.on('timeUpdate', function (ts) {
+      //   cur = parseInt(ts / 60000);
+      //   if (pre !== cur) {
+      //     pre++;
+      //   }
+      // });
+      // jessibuca.on("ptz", (arrow) => {
+      //   console.log('ptz arrow', arrow);
+      //   _this.handlePtz(arrow);
+      // });
       jessibuca.on('crashLog', (data) => {
         console.log('crashLog is', data);
       });

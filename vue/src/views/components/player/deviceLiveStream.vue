@@ -137,8 +137,9 @@ export default {
       }
       this.$refs.player.registercallback('loadingTimeout', this.TimeoutCallback);
       this.$refs.player.registercallback('delayTimeout', this.TimeoutCallback);
+      // this.$refs.player.play("https://sample-videos.com/video321/flv/480/big_buck_bunny_480p_1mb.flv");
       if (this.playrecord) {
-       
+
       } else {
         startPlay(this.deviceId, this.channelId).then((response) => {
           console.log('开始推流: [' + this.streamId + ']');
