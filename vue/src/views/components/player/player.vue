@@ -85,7 +85,6 @@ export default {
         useWebGPU: this.useWebGPU,
       };
       jessibucaPlayer[this._uid] =  new window.Jessibuca({...options});
-      console.log('initplayer2');
       let jessibuca = jessibucaPlayer[this._uid];
       this.initcallback(jessibuca);
       this.isInit = true;
