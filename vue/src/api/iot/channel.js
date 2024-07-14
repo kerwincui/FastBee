@@ -59,13 +59,6 @@ export function getStreaminfo(deviceId, channelId) {
   })
 }
 
-export function playback(deviceId, channelId, query) {
-  return request({
-    url: '/sip/player/playback/' + deviceId + "/" + channelId,
-    method: 'get',
-    params: query
-  })
-}
 
 export function closeStream(deviceId, channelId, streamId){
   return request({
@@ -74,32 +67,3 @@ export function closeStream(deviceId, channelId, streamId){
   })
 }
 
-export function playbackPause(deviceId, channelId, streamId) {
-  return request({
-    url: '/sip/player/playbackPause/' + deviceId + "/" + channelId + "/" + streamId,
-    method: 'get'
-  })
-}
-
-export function playbackReplay(deviceId, channelId, streamId) {
-  return request({
-    url: '/sip/player/playbackReplay/' + deviceId + "/" + channelId + "/" + streamId,
-    method: 'get'
-  })
-}
-
-export function playbackSeek(deviceId, channelId, streamId, query) {
-  return request({
-    url: '/sip/player/playbackSeek/' + deviceId + "/" + channelId + "/" + streamId,
-    method: 'get',
-    params: query
-  })
-}
-
-export function playbackSpeed(deviceId, channelId, streamId, query) {
-  return request({
-    url: '/sip/player/playbackSpeed/' + deviceId + "/" + channelId + "/" + streamId,
-    method: 'get',
-    params: query
-  })
-}

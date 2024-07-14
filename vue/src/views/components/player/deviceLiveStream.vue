@@ -7,8 +7,6 @@
       </el-select>
       <span style="margin: 10px 10px 10px 30px">开启拉流:</span>
       <el-switch v-model="pushStream" active-color="#13ce66" inactive-color="#c4c6c9" style="border-radius: 10px" :disabled="channelId === ''" @change="startPushStream"></el-switch>
-      <span style="margin: 10px 10px 10px 30px">开启直播录像:</span>
-      <el-switch v-model="playrecord" active-color="#13ce66" inactive-color="#c4c6c9" style="border-radius: 10px" :disabled="channelId === ''" @change="startPlayRecord"></el-switch>
     </el-row>
     <player ref="player" :playerinfo="playinfo" class="components-container"></player>
   </div>
@@ -16,7 +14,6 @@
 <script>
 import player from '@/views/components/player/player.vue';
 import { startPlay, closeStream, listChannel } from '@/api/iot/channel';
-import { startPlayRecord } from '@/api/iot/record';
 
 export default {
   name: 'device-live-stream',
@@ -52,8 +49,6 @@ export default {
       ssrc: '',
       playurl: '',
       playinfo: {},
-      playrecord: false,
-      playrecording: false,
       playing: false,
       pushStream: false,
       retrycount: 0,
@@ -136,23 +131,18 @@ export default {
       if (!this.$refs.player.isInit) {
         this.$refs.player.init();
       }
-      // this.$refs.player.registercallback('loadingTimeout', this.TimeoutCallback);
-      // this.$refs.player.registercallback('delayTimeout', this.TimeoutCallback);
+      this.$refs.player.registercallback('loadingTimeout', this.TimeoutCallback);
+      this.$refs.player.registercallback('delayTimeout', this.TimeoutCallback);
       // this.$refs.player.play("https://sample-videos.com/video321/flv/480/big_buck_bunny_480p_1mb.flv");
-      if (this.playrecord) {
-
-      } else {
-        startPlay(this.deviceId, this.channelId).then((response) => {
-          const res = response.data;
-          this.streamId = res.streamId;
-          this.playurl = res.playurl;
-          console.log('开始推流: [' + this.streamId + ']');
-          this.$refs.player.play(res.playurl);
-          this.playing = true;
-          this.playrecording = false;
-          this.pushStream = true;
-        });;
-      }
+      startPlay(this.deviceId, this.channelId).then((response) => {
+        const res = response.data;
+        this.streamId = res.streamId;
+        this.playurl = res.playurl;
+        console.log('开始推流: [' + this.streamId + ']');
+        this.$refs.player.play(res.playurl);
+        this.playing = true;
+        this.pushStream = true;
+      });
     },
     closeStream(force) {
       if (force) {
@@ -165,12 +155,8 @@ export default {
             this.pushStream = false;
           });
           this.playing = false;
-          this.playrecording = false;
         }
       } else {
-        if (this.playrecording === true) {
-          return;
-        }
         if (this.playing && this.streamId) {
           console.log('关闭推流3: [' + this.streamId + ']');
           closeStream(this.deviceId, this.channelId, this.streamId).then((res) => {
@@ -180,7 +166,6 @@ export default {
             this.pushStream = false;
           });
           this.playing = false;
-          this.playrecording = false;
         }
       }
     },

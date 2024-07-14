@@ -39,9 +39,6 @@
                 <el-select v-model="mediaServerForm.protocol" style="width: 100%">
                   <el-option key="http" label="http" value="http"></el-option>
                   <el-option key="https" label="https" value="https"></el-option>
-                  <el-option key="ws" label="ws" value="ws"></el-option>
-                  <el-option key="rtmp" label="rtmp" value="rtmp"></el-option>
-                  <el-option key="rtsp" label="rtsp" value="rtsp"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="HookUrl" prop="hookurl">
