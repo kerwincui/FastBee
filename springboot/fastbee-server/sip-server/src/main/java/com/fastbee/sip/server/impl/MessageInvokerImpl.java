@@ -1,6 +1,5 @@
 package com.fastbee.sip.server.impl;
 
-import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.sip.domain.SipConfig;
 import com.fastbee.sip.domain.SipDevice;
 import com.fastbee.sip.server.MessageInvoker;
@@ -28,7 +27,6 @@ import javax.sip.message.Request;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Slf4j
@@ -38,10 +36,6 @@ public class MessageInvokerImpl implements MessageInvoker {
     private SipFactory sipFactory;
     @Autowired
     private ISipConfigService sipConfigService;
-
-    @Autowired
-    private RedisCache redisCache;
-
     @Autowired
     @Qualifier(value = "udpSipServer")
     private SipProvider sipserver;
@@ -59,15 +53,6 @@ public class MessageInvokerImpl implements MessageInvoker {
         createTransaction(requestMethod, bodyBuilder.apply(id), device.getDeviceSipId(), device, viaTag, fromTag, toTag, headers);
     }
 
-    private void sendRequest(String xml,
-                             String requestMethod,
-                             SipDevice device,
-                             String viaTag,
-                             String fromTag,
-                             String toTag,
-                             Header... headers) {
-        createTransaction(requestMethod, xml, device.getDeviceSipId(), device, viaTag, fromTag, toTag, headers);
-    }
     @SneakyThrows
     private ClientTransaction createTransaction(String method,
                                                 String xml,
@@ -176,33 +161,6 @@ public class MessageInvokerImpl implements MessageInvoker {
     }
 
     @Override
-    @SneakyThrows
-    public void subscribeCatalog(SipDevice device, Date from, Date to) {
-        String fromTimeString = SipUtil.dateToISO8601(from);
-        String toTimeString = SipUtil.dateToISO8601(to);
-        ;
-        int expires = (int) ((to.getTime() - from.getTime()) / 1000);
-
-        ExpiresHeader header = sipFactory.createHeaderFactory().createExpiresHeader(expires);
-        this.sendRequest(sn ->
-                        "<?xml version=\"1.0\" encoding=\"GB2312\"?>\r\n" +
-                                "<Query>\r\n" +
-                                "<CmdType>Catalog</CmdType>\r\n" +
-                                "<SN>" + sn + "</SN>\r\n" +
-                                "<DeviceID>" + device.getDeviceSipId() + "</DeviceID>\r\n" +
-                                "<StartTime>" + fromTimeString + "</StartTime>\r\n" +
-                                "<EndTime>" + toTimeString + "</EndTime>\r\n" +
-                                "</Query>\r\n",
-                Request.SUBSCRIBE,
-                device,
-                "ViaSubscribeCatalog",
-                "SubscribeCatalogTag",
-                null,
-                header
-        );
-    }
-
-    @Override
     public void deviceControl(SipDevice device, DeviceControl command) {
         this.sendRequest(sn -> command.toXml(sn, "GB2312"),
                 Request.MESSAGE,
@@ -248,70 +206,6 @@ public class MessageInvokerImpl implements MessageInvoker {
                 null
         );
         return true;
-    }
-
-    @Override
-    public boolean recordInfoQuery(SipDevice device, String sn, String channelId, Date start, Date end) {
-        String startTimeString = SipUtil.dateToISO8601(start);
-        String endTimeString = SipUtil.dateToISO8601(end);
-        ;
-        this.sendRequest("<?xml version=\"1.0\" encoding=\"GB2312\"?>\r\n" +
-                                "<Query>\r\n" +
-                                "<CmdType>RecordInfo</CmdType>\r\n" +
-                                "<SN>" + sn + "</SN>\r\n" +
-                                "<DeviceID>" + channelId + "</DeviceID>\r\n" +
-                                "<StartTime>" + startTimeString + "</StartTime>\r\n" +
-                                "<EndTime>" + endTimeString + "</EndTime>\r\n" +
-                                "<Secrecy>0</Secrecy>\r\n" +
-                                "<Type>all</Type>\r\n" +
-                                "</Query>\r\n",
-                Request.MESSAGE,
-                device,
-                "ViarecordInfoBranch",
-                "FromrecordInfoTag",
-                null
-        );
-        return true;
-    }
-
-    @Override
-    public ConfigDownload downloadConfig(SipDevice device, ConfigDownload.ConfigType... configType) {
-        return null;
-    }
-
-    @Override
-    public ClientTransaction request(SipDevice device, Request request, boolean awaitAck) {
-        return null;
-    }
-
-    @Override
-    public Object request(ClientTransaction transaction, Request request, boolean awaitAck) {
-        return null;
-    }
-
-    public <T> T getExecResult(String key, long timeout) {
-        long time = 0;
-        while (true) {
-            try {
-                T instance = redisCache.getCacheObject(key);
-                if (null == instance) {
-                    if (time >= timeout) {
-                        log.error("key:{} get Response timeout", key);
-                        return null;
-                    }
-                    time += 1000;
-                    TimeUnit.MILLISECONDS.sleep(1000L);
-                } else {
-                    return instance;
-                }
-            } catch (Exception e) {
-                log.error("", e);
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
-        log.error("key:{} can't get Response", key);
-        return null;
     }
 }
 

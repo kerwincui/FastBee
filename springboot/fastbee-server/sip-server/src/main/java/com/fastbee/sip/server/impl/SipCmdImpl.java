@@ -108,105 +108,6 @@ public class SipCmdImpl implements ISipCmd {
         return null;
     }
 
-    @Override
-    public VideoSessionInfo playbackStreamCmd(SipDevice device, String channelId, String startTime, String endTime) {
-        try {
-            SipConfig sipConfig = sipConfigService.selectSipConfigBydeviceSipId(device.getDeviceSipId());
-            if (sipConfig == null) {
-                log.error("playbackStreamCmd sipConfig is null");
-                return null;
-            }
-            MediaServer mediaInfo = mediaServerService.selectMediaServerBydeviceSipId(device.getDeviceSipId());
-            if (mediaInfo == null) {
-                log.error("playbackStreamCmd mediaInfo is null");
-                return null;
-            }
-            VideoSessionInfo info = VideoSessionInfo.builder()
-                    .mediaServerId(mediaInfo.getServerId())
-                    .deviceId(device.getDeviceSipId())
-                    .channelId(channelId)
-                    .streamMode(device.getStreammode().toUpperCase())
-                    .type(SessionType.playback)
-                    .startTime(startTime)
-                    .endTime(endTime)
-                    .build();
-            //创建rtp服务器
-            info = mediaServerService.createRTPServer(sipConfig, mediaInfo, device, info);
-            //创建Invite会话
-            String fromTag = "playback" + SipUtil.getNewFromTag();
-            String viaTag = SipUtil.getNewViaTag();
-            String content = buildRequestContent(sipConfig, mediaInfo, info);
-            Request request = headerBuilder.createPlaybackInviteRequest(device, sipConfig, channelId, content, viaTag, fromTag);
-            //发送消息
-            ClientTransaction transaction = transmitRequest(request);
-            log.info("playbackStreamCmd streamSession: {}", info);
-            InviteInfo invite = InviteInfo.builder()
-                    .ssrc(info.getSsrc())
-                    .fromTag(fromTag)
-                    .viaTag(viaTag)
-                    .callId(transaction.getDialog().getCallId().getCallId())
-                    .port(info.getPort()).build();
-            log.warn("playbackStreamCmd invite: {}", invite);
-            inviteService.updateInviteInfo(info, invite);
-            streamSession.put(info, transaction);
-            return info;
-        } catch (SipException | ParseException | InvalidArgumentException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public VideoSessionInfo downloadStreamCmd(SipDevice device, String channelId,
-                                              String startTime, String endTime, int downloadSpeed) {
-        try {
-            SipConfig sipConfig = sipConfigService.selectSipConfigBydeviceSipId(device.getDeviceSipId());
-            if (sipConfig == null) {
-                log.error("downloadStreamCmd sipConfig is null");
-                return null;
-            }
-            MediaServer mediaInfo = mediaServerService.selectMediaServerBydeviceSipId(device.getDeviceSipId());
-            if (mediaInfo == null) {
-                log.error("downloadStreamCmd mediaInfo is null");
-                return null;
-            }
-            VideoSessionInfo info = VideoSessionInfo.builder()
-                    .mediaServerId(mediaInfo.getServerId())
-                    .deviceId(device.getDeviceSipId())
-                    .channelId(channelId)
-                    .streamMode(device.getStreammode().toUpperCase())
-                    .type(SessionType.download)
-                    .startTime(startTime)
-                    .endTime(endTime)
-                    .downloadSpeed(downloadSpeed)
-                    .build();
-            ;
-            //创建rtp服务器
-            info = mediaServerService.createRTPServer(sipConfig, mediaInfo, device, info);
-            //创建Invite会话
-            String fromTag = "download" + SipUtil.getNewFromTag();;
-            String viaTag = SipUtil.getNewViaTag();
-            String content = buildRequestContent(sipConfig, mediaInfo, info);
-            Request request = headerBuilder.createPlaybackInviteRequest(device, sipConfig, channelId, content, viaTag, fromTag);
-            //发送消息
-            ClientTransaction transaction = transmitRequest(request);
-            log.info("downloadStreamCmd streamSession: {}", info);
-            InviteInfo invite = InviteInfo.builder()
-                    .ssrc(info.getSsrc())
-                    .fromTag(fromTag)
-                    .viaTag(viaTag)
-                    .callId(transaction.getDialog().getCallId().getCallId())
-                    .port(info.getPort()).build();
-            log.warn("downloadStreamCmd invite: {}", invite);
-            inviteService.updateInviteInfo(info, invite);
-            streamSession.put(info, transaction);
-            return info;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public void streamByeCmd(SipDevice device, String channelId, String stream, String ssrc) {
         SipConfig sipConfig = sipConfigService.selectSipConfigBydeviceSipId(device.getDeviceSipId());
         if (sipConfig == null) {
@@ -299,26 +200,6 @@ public class SipCmdImpl implements ISipCmd {
                 content.append("s=Play\r\n");
                 content.append("c=IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
                 content.append("t=0 0\r\n");
-                break;
-            case playrecord:
-                content.append("o=").append(info.getChannelId()).append(" 0 0 IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("s=Play\r\n");
-                content.append("c=IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("t=0 0\r\n");
-                break;
-            case playback:
-                content.append("o=").append(info.getChannelId()).append(" 0 0 IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("s=Playback\r\n");
-                content.append("u=").append(info.getChannelId()).append(":0\r\n");
-                content.append("c=IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("t=").append(info.getStartTime()).append(" ").append(info.getEndTime()).append("\r\n");
-                break;
-            case download:
-                content.append("o=").append(info.getChannelId()).append(" 0 0 IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("s=Download\r\n");
-                content.append("u=").append(info.getChannelId()).append(":0\r\n");
-                content.append("c=IN IP4 ").append(mediaInfo.getIp()).append("\r\n");
-                content.append("t=").append(info.getStartTime()).append(" ").append(info.getEndTime()).append("\r\n");
                 break;
         }
         if (sipConfig.getSeniorsdp() != null && sipConfig.getSeniorsdp() == 1) {

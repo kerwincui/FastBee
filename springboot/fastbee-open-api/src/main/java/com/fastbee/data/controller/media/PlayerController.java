@@ -28,35 +28,10 @@ public class PlayerController extends BaseController {
     public AjaxResult play(@PathVariable String deviceId, @PathVariable String channelId) {
         return AjaxResult.success("success!", playService.play(deviceId, channelId,false));
     }
-    @ApiOperation("回放播放")
-    @GetMapping("/playback/{deviceId}/{channelId}")
-    public AjaxResult playback(@PathVariable String deviceId,
-                               @PathVariable String channelId, String start, String end) {
-        return AjaxResult.success("success!", playService.playback(deviceId, channelId, start, end));
-    }
+
     @ApiOperation("停止推流")
     @GetMapping("/closeStream/{deviceId}/{channelId}/{streamId}")
     public AjaxResult closeStream(@PathVariable String deviceId, @PathVariable String channelId, @PathVariable String streamId) {
         return AjaxResult.success("success!", playService.closeStream(deviceId, channelId, streamId));
-    }
-    @ApiOperation("回放暂停")
-    @GetMapping("/playbackPause/{deviceId}/{channelId}/{streamId}")
-    public AjaxResult playbackPause(@PathVariable String deviceId, @PathVariable String channelId, @PathVariable String streamId) {
-        return AjaxResult.success("success!", playService.playbackPause(deviceId, channelId, streamId));
-    }
-    @ApiOperation("回放恢复")
-    @GetMapping("/playbackReplay/{deviceId}/{channelId}/{streamId}")
-    public AjaxResult playbackReplay(@PathVariable String deviceId, @PathVariable String channelId, @PathVariable String streamId) {
-        return AjaxResult.success("success!", playService.playbackReplay(deviceId, channelId, streamId));
-    }
-    @ApiOperation("录像回放定位")
-    @GetMapping("/playbackSeek/{deviceId}/{channelId}/{streamId}")
-    public AjaxResult playbackSeek(@PathVariable String deviceId, @PathVariable String channelId, @PathVariable String streamId, long seek) {
-        return AjaxResult.success("success!", playService.playbackSeek(deviceId, channelId, streamId, seek));
-    }
-    @ApiOperation("录像倍速播放")
-    @GetMapping("/playbackSpeed/{deviceId}/{channelId}/{streamId}")
-    public AjaxResult playbackSpeed(@PathVariable String deviceId, @PathVariable String channelId, @PathVariable String streamId, Integer speed) {
-        return AjaxResult.success("success!", playService.playbackSpeed(deviceId, channelId, streamId, speed));
     }
 }

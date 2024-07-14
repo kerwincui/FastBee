@@ -5,7 +5,6 @@ import com.fastbee.sip.domain.MediaServer;
 import com.fastbee.sip.domain.SipDevice;
 import com.fastbee.sip.model.Stream;
 import com.fastbee.sip.model.VideoSessionInfo;
-import com.fastbee.sip.server.IRtspCmd;
 import com.fastbee.sip.server.ISipCmd;
 import com.fastbee.sip.server.VideoSessionManager;
 import com.fastbee.sip.service.*;
@@ -20,9 +19,6 @@ public class PlayServiceImpl implements IPlayService {
 
     @Autowired
     private ISipCmd sipCmd;
-
-    @Autowired
-    private IRtspCmd rtspCmd;
 
     @Autowired
     private IZmlHookService zmlHookService;
@@ -95,60 +91,5 @@ public class PlayServiceImpl implements IPlayService {
             log.info("流详细信息：{}，错误码：{}", ret, code);
         }
         return "";
-    }
-
-    @Override
-    public Stream playback(String deviceId, String channelId, String startTime, String endTime) {
-        SipDevice dev = sipDeviceService.selectSipDeviceBySipId(deviceId);
-        VideoSessionInfo info = sipCmd.playbackStreamCmd(dev, channelId, startTime, endTime);
-        return zmlHookService.updateStream(info);
-    }
-
-    @Override
-    public String playbackPause(String deviceId, String channelId, String streamId) {
-        SipDevice dev = sipDeviceService.selectSipDeviceBySipId(deviceId);
-        VideoSessionInfo sinfo = streamSession.getSessionInfo(deviceId, channelId, streamId, null);
-        if (null == sinfo) {
-            return "streamId不存在";
-        }
-        rtspCmd.setCseq(sinfo.getStream());
-        rtspCmd.playPause(dev, channelId, streamId);
-        return null;
-    }
-
-    @Override
-    public String playbackReplay(String deviceId, String channelId, String streamId) {
-        SipDevice dev = sipDeviceService.selectSipDeviceBySipId(deviceId);
-        VideoSessionInfo sinfo = streamSession.getSessionInfo(deviceId, channelId, streamId, null);
-        if (null == sinfo) {
-            return "streamId不存在";
-        }
-        rtspCmd.setCseq(streamId);
-        rtspCmd.playReplay(dev, channelId, streamId);
-        return null;
-    }
-
-    @Override
-    public String playbackSeek(String deviceId, String channelId, String streamId, long seektime) {
-        SipDevice dev = sipDeviceService.selectSipDeviceBySipId(deviceId);
-        VideoSessionInfo sinfo = streamSession.getSessionInfo(deviceId, channelId, streamId, null);
-        if (null == sinfo) {
-            return "streamId不存在";
-        }
-        rtspCmd.setCseq(streamId);
-        rtspCmd.playBackSeek(dev, channelId, streamId, seektime);
-        return null;
-    }
-
-    @Override
-    public String playbackSpeed(String deviceId, String channelId, String streamId, Integer speed) {
-        SipDevice dev = sipDeviceService.selectSipDeviceBySipId(deviceId);
-        VideoSessionInfo sinfo = streamSession.getSessionInfo(deviceId, channelId, streamId, null);
-        if (null == sinfo) {
-            return "streamId不存在";
-        }
-        rtspCmd.setCseq(streamId);
-        rtspCmd.playBackSpeed(dev, channelId, streamId, speed);
-        return null;
     }
 }
