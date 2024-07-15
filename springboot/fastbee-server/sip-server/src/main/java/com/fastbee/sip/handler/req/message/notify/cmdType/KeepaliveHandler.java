@@ -59,9 +59,9 @@ public class KeepaliveHandler extends ReqAbstractHandler implements Initializing
                 log.info("设备:{} 心跳上报时间:{}",deviceId,device.getLastconnecttime());
                 //log.warn("设备:{} 心跳上报时间:{}",deviceId,device.getLastconnecttime());
                 // 更新在线状态
-                // sipDeviceService.updateSipDeviceStatus(device);
+                sipDeviceService.updateSipDeviceStatus(device);
                 // 更新在线状态到emqx
-                mqttService.publishStatus(device, 3);
+                // mqttService.publishStatus(device, 3);
                 // 更新通道状态
                 messageInvoker.catalogQuery(device);
                 // 回复200 OK
