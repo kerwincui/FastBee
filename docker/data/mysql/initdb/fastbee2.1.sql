@@ -1070,6 +1070,161 @@ INSERT INTO `iot_things_model_template` VALUES (341, '视频', 1, 'admin', 'vide
 INSERT INTO `iot_things_model_template` VALUES (342, '图片', 1, 'admin', 'image', 1, 'string', '{\"type\": \"string\", \"maxLength\": 1024}', 1, 0, 0, 1, 1, 0, 0, '0', '', '2023-08-30 23:21:48', '', '2023-08-30 23:25:22', NULL, '2#2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `iot_things_model_template` VALUES (343, '状态', 1, 'admin', 'status', 1, 'integer', '{\"max\": 100, \"min\": 0, \"step\": 1, \"type\": \"integer\", \"unit\": \"\"}', 1, 0, 0, 1, 1, 0, 0, '0', '', '2023-08-30 23:28:00', '', '2023-08-30 23:28:17', NULL, '2#1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+
+DROP TABLE IF EXISTS `media_server`;
+CREATE TABLE `media_server`  (
+                                 `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '流媒体配置ID',
+                                 `server_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器标识',
+                                 `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
+                                 `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+                                 `enabled` tinyint(1) NULL DEFAULT NULL COMMENT '使能开关',
+                                 `protocol` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '默认播放协议',
+                                 `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器ip',
+                                 `domain` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器域名',
+                                 `hookurl` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '回调服务器地址',
+                                 `secret` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '流媒体密钥',
+                                 `port_http` int(11) NOT NULL DEFAULT 0 COMMENT 'http端口',
+                                 `port_https` int(11) NOT NULL DEFAULT 0 COMMENT 'https端口',
+                                 `port_rtmp` int(11) NOT NULL DEFAULT 0 COMMENT 'rtmp端口',
+                                 `port_rtsp` int(11) NOT NULL DEFAULT 0 COMMENT 'rtsp端口',
+                                 `rtp_proxy_port` int(11) NOT NULL DEFAULT 0 COMMENT 'RTP收流端口',
+                                 `rtp_enable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否使用多端口模式',
+                                 `rtp_port_range` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'rtp端口范围',
+                                 `record_port` int(11) NOT NULL DEFAULT 0 COMMENT '录像服务端口',
+                                 `auto_config` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否自动同步配置ZLM',
+                                 `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态',
+                                 `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                                 `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime NOT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                 `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                                 `port_ws` int(11) NULL DEFAULT NULL COMMENT 'ws端口',
+                                 PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '流媒体服务器配置' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of media_server
+-- ----------------------------
+INSERT INTO `media_server` VALUES (7, 'fastbee', 1, 'admin', 1, 'http', '192.168.2.120', 'fastbee.com2', '192.168.2.15:8080', '035c73f7-bb6b-4889-a715-d9eb2d192xxx', 8082, 8443, 1935, 554, 0, 1, '30000,30103', 18081, 1, 0, '0', '', '2023-09-26 21:11:43', '', '2023-10-26 21:51:25', NULL, NULL);
+
+DROP TABLE IF EXISTS `sip_device_channel`;
+CREATE TABLE `sip_device_channel`  (
+                                       `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                       `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
+                                       `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
+                                       `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品ID',
+                                       `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',
+                                       `user_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品ID',
+                                       `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',
+                                       `device_sip_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备SipID',
+                                       `channel_sip_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '通道SipID',
+                                       `channel_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '通道名称',
+                                       `register_time` datetime NULL DEFAULT NULL COMMENT '注册时间',
+                                       `device_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '设备类型',
+                                       `channel_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '通道类型',
+                                       `cityCode` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '城市编码',
+                                       `civilCode` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '行政区域',
+                                       `manufacture` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '厂商名称',
+                                       `model` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品型号',
+                                       `owner` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设备归属',
+                                       `block` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '警区',
+                                       `address` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '安装地址',
+                                       `parentId` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '父级id',
+                                       `ipAddress` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '设备入网IP',
+                                       `port` bigint(10) NULL DEFAULT 0 COMMENT '设备接入端口号',
+                                       `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '密码',
+                                       `PTZType` bigint(20) NOT NULL DEFAULT 0 COMMENT 'PTZ类型',
+                                       `PTZTypeText` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'PTZ类型描述字符串',
+                                       `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '设备状态（1-未激活，2-禁用，3-在线，4-离线）',
+                                       `longitude` double(11, 6) NULL DEFAULT NULL COMMENT '设备经度',
+                                       `latitude` double(11, 6) NULL DEFAULT NULL COMMENT '设备纬度',
+                                       `streamId` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '流媒体ID',
+                                       `subCount` bigint(20) NOT NULL DEFAULT 0 COMMENT '子设备数',
+                                       `parental` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否有子设备（1-有, 0-没有）',
+                                       `hasAudio` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否含有音频（1-有, 0-没有）',
+                                       `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                                       `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+                                       `create_time` datetime NOT NULL COMMENT '创建时间',
+                                       `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
+                                       `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                       `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                                       PRIMARY KEY (`id`, `device_sip_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '监控设备通道信息' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sip_device_channel
+-- ----------------------------
+INSERT INTO `sip_device_channel` VALUES (84, 1, 'admin', 118, '监控设备', 1, 'admin', '11010200001320000001', '11010200001320000001', 'IPdome', '2024-01-08 22:16:32', '132', '132', '北京市/市辖区/西城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', 0, '', 0, '', 3, 0.000000, 0.000000, 'gb_play_11010200001320000001_11010200001320000001', 0, 0, 0, '0', '', '2023-04-11 21:12:33', '', NULL, NULL);
+INSERT INTO `sip_device_channel` VALUES (102, 1, 'admin', 135, '视频监控', 0, '', '11010100001320000001', '11010100001320000001', 'IPdome', '2024-01-09 23:35:00', '132', '132', '北京市/市辖区/东城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', 0, '', 0, '', 3, 0.000000, 0.000000, '', 0, 0, 0, '0', '', '2024-01-08 22:15:57', '', NULL, NULL);
+
+DROP TABLE IF EXISTS `sip_device`;
+CREATE TABLE `sip_device`  (
+                               `device_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备ID',
+                               `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品ID',
+                               `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',
+                               `device_sip_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备SipID',
+                               `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设备名称',
+                               `manufacturer` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '厂商名称',
+                               `model` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品型号',
+                               `firmware` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '固件版本',
+                               `transport` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UDP' COMMENT '传输模式',
+                               `streamMode` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UDP' COMMENT '流模式',
+                               `online` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '在线状态',
+                               `registerTime` datetime NOT NULL COMMENT '注册时间',
+                               `lastConnectTime` datetime NULL DEFAULT NULL COMMENT '最后上线时间',
+                               `active_time` datetime NULL DEFAULT NULL COMMENT '激活时间',
+                               `ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备入网IP',
+                               `port` bigint(10) NULL DEFAULT NULL COMMENT '设备接入端口号',
+                               `hostAddress` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备地址',
+                               `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                               `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                               `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                               PRIMARY KEY (`device_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '监控设备' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sip_device
+-- ----------------------------
+INSERT INTO `sip_device` VALUES (9, 0, '', '13030300001170000008', '8E085C3RAJE156F', 'Dahua', 'DH-3H3205-ADW', '2.810.0000027.0.R,2022-08-26', 'UDP', 'UDP', '', '2023-02-27 12:07:35', '2023-02-26 23:36:45', NULL, '177.7.0.1', 35332, '177.7.0.1:35332', '0', '', NULL, '', NULL, NULL);
+INSERT INTO `sip_device` VALUES (12, 0, '', '11010100001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-09 23:29:52', '2024-01-09 23:35:00', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
+INSERT INTO `sip_device` VALUES (13, 0, '', '11010200001320000017', '', '', '', '', 'UDP', 'UDP', '', '2023-03-16 21:41:45', '2023-03-16 21:52:50', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
+INSERT INTO `sip_device` VALUES (16, 0, '', '12010100001320000003', 'IP DOME', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2023-04-11 21:08:07', '2023-04-11 21:13:16', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
+INSERT INTO `sip_device` VALUES (18, 0, '', '13030100001320000001', '', 'ABCD', 'TEST001', 'V1.0', 'UDP', 'UDP', '', '2023-03-28 16:06:45', '2023-03-28 16:09:52', NULL, '192.168.205.250', 5063, '192.168.205.250:5063', '0', '', NULL, '', NULL, NULL);
+INSERT INTO `sip_device` VALUES (19, 0, '', '11010200001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-08 22:08:27', '2024-01-08 22:16:32', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
+
+DROP TABLE IF EXISTS `sip_config`;
+CREATE TABLE `sip_config`  (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                               `product_id` bigint(20) NOT NULL COMMENT '产品ID',
+                               `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',
+                               `enabled` tinyint(1) NULL DEFAULT NULL COMMENT '使能开关',
+                               `isdefault` tinyint(1) NULL DEFAULT NULL COMMENT '系统默认配置',
+                               `seniorSdp` tinyint(1) NULL DEFAULT NULL COMMENT '拓展sdp',
+                               `domain` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器域',
+                               `server_sipid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器sipid',
+                               `password` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'sip认证密码',
+                               `ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'sip接入IP',
+                               `port` bigint(10) NULL DEFAULT NULL COMMENT 'sip接入端口号',
+                               `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                               `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime NOT NULL COMMENT '创建时间',
+                               `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'sip系统配置' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sip_config
+-- ----------------------------
+INSERT INTO `sip_config` VALUES (38, 117, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-03-16 21:26:18', '', '2023-03-16 21:26:24', NULL);
+INSERT INTO `sip_config` VALUES (39, 118, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-04-11 21:11:54', '', NULL, NULL);
+INSERT INTO `sip_config` VALUES (41, 135, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2024-01-08 22:14:35', '', NULL, NULL);
+
 -- ----------------------------
 -- Table structure for news
 -- ----------------------------
