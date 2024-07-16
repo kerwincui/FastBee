@@ -2033,6 +2033,27 @@ INSERT INTO `sys_dict_data` VALUES (774, 1, '消息重发', '1', 'rule_script_ac
 INSERT INTO `sys_dict_data` VALUES (775, 2, '消息通知', '2', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:18', 'admin', '2023-12-19 11:43:38', NULL);
 INSERT INTO `sys_dict_data` VALUES (776, 3, 'Http推送', '3', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:33', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (777, 4, 'Mqtt桥接', '4', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:54', '', NULL, NULL);
+--视频模块新增字典
+INSERT INTO `sys_dict_data` VALUES (169, 0, 'DVR', '111', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:07:06', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (170, 1, 'NVR', '118', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:07:59', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (171, 2, '报警控制器', '117', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:08:13', 'admin', '2023-02-22 01:08:35', NULL);
+INSERT INTO `sys_dict_data` VALUES (172, 4, '摄像机', '131', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:08:52', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (173, 5, 'IPC', '132', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:09:11', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (174, 6, '显示器', '133', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:09:30', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (175, 7, '报警输入设备', '134', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:09:49', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (176, 8, '报警输出设备', '135', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:10:08', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (177, 9, '语音输入设备', '136', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:10:29', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (178, 10, '语音输出设备', '137', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:10:46', 'admin', '2023-02-22 01:10:51', NULL);
+INSERT INTO `sys_dict_data` VALUES (179, 11, '移动传输设备', '138', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:11:09', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (180, 0, '报警控制器', '117', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:12:09', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (181, 1, '摄像机', '131', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:12:24', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (182, 2, 'IPC', '132', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:12:39', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (183, 3, '显示器', '133', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:12:57', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (184, 5, '报警输入设备', '134', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:13:14', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (185, 6, '报警输出设备', '135', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:13:29', 'admin', '2023-02-22 01:13:49', NULL);
+INSERT INTO `sys_dict_data` VALUES (186, 7, '语音输入设备', '136', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:14:14', 'admin', '2023-02-22 01:14:24', NULL);
+INSERT INTO `sys_dict_data` VALUES (187, 8, '语音输出设备', '137', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:14:50', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (188, 9, '移动传输设备', '138', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:15:11', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -2365,6 +2386,12 @@ INSERT INTO `sys_menu` VALUES (3053, '规则脚本新增', 3051, 2, '', NULL, NU
 INSERT INTO `sys_menu` VALUES (3054, '规则脚本修改', 3051, 3, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:edit', '#', 'admin', '2024-04-22 16:32:04', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3056, '规则脚本导出', 3051, 5, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:export', '#', 'admin', '2024-04-22 16:33:25', 'admin', '2024-04-22 16:33:49', '');
 INSERT INTO `sys_menu` VALUES (3057, '规则脚本删除', 3051, 4, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:remove', '#', 'admin', '2024-04-22 16:35:01', '', NULL, '');
+--视频模块新增菜单
+INSERT INTO `sys_menu` VALUES (3058, '视频中心', 0, 2, 'video', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'live', 'admin', '2024-07-15 14:42:13', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3059, '通道管理', 3058, 1, 'sip', 'iot/sip/index', NULL, 1, 0, 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', '2024-07-15 14:43:22', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3060, '视频配置', 3058, 2, 'mediaServer', 'iot/sip/mediaServer', NULL, 1, 0, 'C', '0', '0', NULL, 'edit', 'admin', '2024-07-15 14:48:52', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (3061, '告警配置', 3050, 2, 'alert', 'iot/alert/index', NULL, 1, 0, 'C', '0', '0', 'iot:alert:list', 'alert', 'admin', '2024-07-16 10:01:34', '', NULL, '');
+
 
 -- ----------------------------
 -- Table structure for sys_notice
