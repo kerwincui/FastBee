@@ -54,6 +54,7 @@ services:
       - 8080:8080
       - 1883:1883
       - 8083:8083
+      - 5061:5061/udp
     privileged: true
     networks:
       network:
@@ -61,6 +62,7 @@ services:
     depends_on:
       - redis
       - mysql
+      - zlmedia
     volumes:
       - /var/data/java/fastbee-admin.jar:/server.jar
       - /var/data/java/uploadPath:/uploadPath
