@@ -1,60 +1,58 @@
 <template>
-<el-dialog title="选择产品" :visible.sync="open" width="600px" append-to-body>
-    <div style="margin-top:-55px;">
-        <el-divider style="margin-top:-30px;"></el-divider>
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-            <el-form-item label="产品名称" prop="productName">
-                <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            </el-form-item>
-        </el-form>
+    <el-dialog title="选择产品" :visible.sync="open" width="600px" append-to-body>
+        <div style="margin-top: -55px">
+            <el-divider style="margin-top: -30px"></el-divider>
+            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+                <el-form-item label="产品名称" prop="productName">
+                    <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                </el-form-item>
+            </el-form>
 
-        <el-table v-loading="loading" ref="singleTable" :data="productList" @row-click="rowClick" highlight-current-row size="mini">
-            <el-table-column label="选择" width="50" align="center">
-                <template slot-scope="scope">
-                    <input type="radio" :checked="scope.row.isSelect" name="product" />
-                </template>
-            </el-table-column>
-            <el-table-column label="产品名称" align="center" prop="productName" />
-            <el-table-column label="分类名称" align="center" prop="categoryName" />
-            <el-table-column label="租户名称" align="center" prop="tenantName" />
-            <el-table-column label="联网方式" align="center" prop="networkMethod">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.iot_network_method" :value="scope.row.networkMethod" />
-                </template>
-            </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="createTime" width="100">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-                </template>
-            </el-table-column>
-        </el-table>
+            <el-table v-loading="loading" ref="singleTable" :data="productList" @row-click="rowClick" highlight-current-row size="mini">
+                <el-table-column label="选择" width="50" align="center">
+                    <template slot-scope="scope">
+                        <input type="radio" :checked="scope.row.isSelect" name="product" />
+                    </template>
+                </el-table-column>
+                <el-table-column label="产品名称" align="center" prop="productName" />
+                <el-table-column label="分类名称" align="center" prop="categoryName" />
+                <el-table-column label="租户名称" align="center" prop="tenantName" />
+                <el-table-column label="联网方式" align="center" prop="networkMethod">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.iot_network_method" :value="scope.row.networkMethod" />
+                    </template>
+                </el-table-column>
+                <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                    </template>
+                </el-table-column>
+            </el-table>
 
-        <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-    </div>
-    <div slot="footer" class="dialog-footer">
-        <el-button @click="confirmSelectProduct" type="primary">确定</el-button>
-        <el-button @click="closeDialog" type="info">关 闭</el-button>
-    </div>
-</el-dialog>
+            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="confirmSelectProduct" type="primary">确定</el-button>
+            <el-button @click="closeDialog" type="info">关 闭</el-button>
+        </div>
+    </el-dialog>
 </template>
 
 <script>
-import {
-    listProduct,
-} from "@/api/iot/product";
+import { listProduct } from '@/api/iot/product';
 
 export default {
-    name: "SipProductList",
+    name: 'SipProductList',
     dicts: ['iot_vertificate_method', 'iot_network_method'],
     props: {
         productId: {
             type: Number,
-            default: 0
-        }
+            default: 0,
+        },
     },
     data() {
         return {
@@ -67,7 +65,7 @@ export default {
             // 产品列表
             productList: [],
             // 选中的产品
-            product: {},
+            product: null,
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -84,14 +82,12 @@ export default {
             },
         };
     },
-    created() {
-
-    },
+    created() {},
     methods: {
         /** 查询产品列表 */
         getList() {
             this.loading = true;
-            listProduct(this.queryParams).then(response => {
+            listProduct(this.queryParams).then((response) => {
                 //产品列表初始化isSelect值，用于单选
                 for (let i = 0; i < response.rows.length; i++) {
                     response.rows[i].isSelect = false;
@@ -111,7 +107,7 @@ export default {
         },
         /** 重置按钮操作 */
         resetQuery() {
-            this.resetForm("queryForm");
+            this.resetForm('queryForm');
             this.handleQuery();
         },
         /** 单选数据 */
@@ -133,13 +129,18 @@ export default {
         },
         /**确定选择产品，产品传递给父组件 */
         confirmSelectProduct() {
+            if (this.product == null) {
+                this.$message.error('请选择产品');
+                return;
+            }
             this.$emit('productEvent', this.product);
             this.open = false;
+            this.product = null;
         },
         /**关闭对话框 */
         closeDialog() {
             this.open = false;
-        }
-    }
+        },
+    },
 };
 </script>

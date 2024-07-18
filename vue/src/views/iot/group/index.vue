@@ -33,13 +33,13 @@
         <el-table-column label="备注" align="left" header-align="center" prop="remark" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="320">
           <template slot-scope="scope">
-            <el-button v-hasPermi="['iot:device:query']" size="small" type="warning" style="padding: 5px"
+            <el-button v-hasPermi="['iot:device:query']" size="small" type="text" style="padding: 5px"
               icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)">查看设备</el-button>
-            <el-button v-hasPermi="['iot:group:add']" size="small" type="success" style="padding: 5px" icon="el-icon-edit"
+            <el-button v-hasPermi="['iot:group:add']" size="small" type="text" style="padding: 5px" icon="el-icon-folder-add"
               @click="selectDevice(scope.row)">添加设备</el-button>
-            <el-button v-hasPermi="['iot:group:edit']" size="small" type="primary" style="padding: 5px"
+            <el-button v-hasPermi="['iot:group:edit']" size="small" type="text" style="padding: 5px"
               icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-            <el-button v-hasPermi="['iot:group:remove']" size="small" type="danger" style="padding: 5px"
+            <el-button v-hasPermi="['iot:group:remove']" size="small" type="text" style="padding: 5px"
               icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>

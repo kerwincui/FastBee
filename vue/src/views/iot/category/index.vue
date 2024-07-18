@@ -34,10 +34,10 @@
                 </el-table-column>
                 <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150">
                     <template slot-scope="scope">
-                        <el-button size="small" type="primary" style="padding:5px;" icon="el-icon-edit"
+                        <el-button size="small" type="text" style="padding:5px;" icon="el-icon-edit"
                             @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:query']"
                             v-if="scope.row.isSys == '0' ? true : !isTenant">修改</el-button>
-                        <el-button size="small" type="danger" style="padding:5px;" icon="el-icon-delete"
+                        <el-button size="small" type="text" style="padding:5px;" icon="el-icon-delete"
                             @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']"
                             v-if="scope.row.isSys == '0' ? true : !isTenant">删除</el-button>
                         <span style="font-size:10px;color:#999;" v-if="scope.row.isSys == '1' && isTenant">系统定义，不能修改</span>
