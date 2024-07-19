@@ -143,11 +143,6 @@
 
             <div style="margin-top: 200px"></div>
 
-            <el-tab-pane label="" name="alert" :disabled="form.productId == 0" v-if="form.deviceType !== 3">
-                <span slot="label"><span style="color:red;">￥ </span>告警配置</span>
-                <business ref="business"/>
-            </el-tab-pane>
-
 
             <div style="margin-top:200px;"></div>
 

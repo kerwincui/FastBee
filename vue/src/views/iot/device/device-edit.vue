@@ -131,22 +131,6 @@
 
         <sipid ref="sipidGen" :product="form" @addGenEvent="getSipIDData($event)" />
       </el-tab-pane>
-
-      <el-tab-pane name="runningStatus" v-if="form.deviceType !== 3 && !isSubDev">
-        <span slot="label">运行状态</span>
-        <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
-      </el-tab-pane>
-
-      <el-tab-pane name="runningStatus" v-if="isSubDev">
-        <span slot="label"><span style="color:red;">￥ </span>运行状态</span>
-        <business ref="business"/>
-      </el-tab-pane>
-
-      <el-tab-pane name="sipChannel" :disabled="form.deviceId === 0" v-if="form.deviceType === 3">
-        <span slot="label"><span style="color:red;">￥ </span>设备通道</span>
-        <business ref="business"/>
-      </el-tab-pane>
-
       <!-- <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">
         <span slot="label"><span style="color:red;">￥ </span>设备直播</span>
         <business ref="business"/>
@@ -155,11 +139,6 @@
         <span slot="label">设备直播</span>
         <device-live-stream ref="deviceLiveStream" :device="form" />
     </el-tab-pane>
-
-      <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipVideo">
-        <span slot="label"><span style="color:red;">￥ </span>直播录像</span>
-        <business ref="business"/>
-      </el-tab-pane>
 
       <el-tab-pane name="deviceTimer" :disabled="form.deviceId === 0"
         v-if="form.deviceType !== 3 && hasShrarePerm('timer')">
