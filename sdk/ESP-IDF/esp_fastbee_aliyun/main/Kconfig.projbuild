@@ -1,0 +1,65 @@
+menu "WIFI Configuration"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+endmenu
+
+menu "Platform Configuration"
+    choice ESP_MQTT_PLATFORM
+        prompt "The platform connected by mqtt"
+        default ESP_MQTT_PLATFORM_FASTBEE
+        help
+            The platform connected by mqtt.
+        config ESP_MQTT_PLATFORM_ALIYUN
+            bool "aliyun"
+        config ESP_MQTT_PLATFORM_FASTBEE
+            bool "fastbee"
+    endchoice
+
+    config ESP_MQTT_PLATFORM_FASTBEE_URL
+        string "MQTT URL"
+        default "fastbee.cn:1883"
+        help
+            MQTT URL.
+
+    config ESP_MQTT_PLATFORM_FASTBEE_USERNAME
+        string "MQTT Username"
+        default "FastBee"
+        help
+            MQTT Username.
+
+    config ESP_MQTT_PLATFORM_FASTBEE_PASSWORD
+        string "MQTT Password"
+        default "P63653937TRQ8F27"
+        help
+            MQTT Password.   
+
+    config ESP_MQTT_PLATFORM_FASTBEE_USERID
+        string "Platform user ID"
+        default "1"
+        help
+            Platform user ID.
+
+    config ESP_MQTT_PLATFORM_FASTBEE_PRODICTID
+        string "Platform product ID"
+        default "588"
+        help
+            Platform product ID.    
+
+    config ESP_MQTT_PLATFORM_FASTBEE_DEVICESN
+        string "Platform device serial number"
+        default "D1FJTWOT3HIB"
+        help
+            Platform device serial number        
+
+endmenu

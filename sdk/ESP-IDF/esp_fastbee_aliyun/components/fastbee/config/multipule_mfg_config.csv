@@ -1,0 +1,8 @@
+fastbee-key,namespace,
+MQTTUrl,data,string
+MQTTUsername,data,string
+MQTTPassword,data,string
+MQTTClientId,data,string
+UserId,data,string
+DeviceSN,data,string
+ProductId,data,string

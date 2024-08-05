@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ESP-IDF Debug: Launch",
+      "type": "espidf",
+      "request": "launch"
+    },
+    {
+        "name": "GDB",
+        "type": "cppdbg",
+        "request": "launch",
+        "MIMode": "gdb",
+        "miDebuggerPath": "${command:espIdf.getXtensaGdb}",
+        "program": "${workspaceFolder}/build/${command:espIdf.getProjectName}.elf",
+        "windows": {
+        "program": "${workspaceFolder}\\build\\${command:espIdf.getProjectName}.elf"
+        },
+        "cwd": "${workspaceFolder}",
+        "environment": [{ "name": "PATH", "value": "${config:idf.customExtraPaths}" }],
+        "setupCommands": [
+        { "text": "set remotetimeout 100" },
+        { "text": "target extended-remote :3333" },
+        { "text": "set remote hardware-watchpoint-limit 2"},
+        { "text": "mon reset halt" },
+        { "text": "thb app_main" },
+        { "text": "flushregs" }
+        ],
+        "externalConsole": false,
+        "logging": {
+        "engineLogging": true
+        }
+    }
+  ]
+}

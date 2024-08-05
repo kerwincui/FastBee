@@ -1,0 +1,15 @@
+menu "[Aliyun]Factory restore"
+
+    config FACTORY_QUICK_REBOOT_TIMEOUT
+        int "Quick reboot timeout, unit second"
+        default 6
+        help
+            Timeout for exiting quick reboot timer, users should reboot device before this timeout.
+
+    config FACTORY_QUICK_REBOOT_MAX_TIMES
+        int "Quick reboot times max record"
+        default 5
+        help
+            If quick reboot times reach this max value, device will do factory restore.
+
+endmenu

@@ -1,0 +1,143 @@
+menu "iotkit embedded"
+
+    menu "Aliyun linkkit device version"
+
+        config LINKKIT_FIRMWARE_VERSION
+            string "Device version"
+            default "0.0.1"
+            help
+                aliyun linkkit device version
+    endmenu
+
+    menu "Aliyun linkkit awss config"
+        config AWSS_ENCRYPT_TYPE
+            int "Get the security level of the `smartconfig` service"
+            range 1 5
+            default 3
+            help
+                Get the security level of the `smartconfig` service
+
+        config AWSS_CONN_ENCRYPT_TYPE
+            int "Get Security level for wifi configuration with connection.Used for AP solution of router and App"
+            range 3 5
+            default 4
+            help
+                Get Security level for wifi configuration with connection.Used for AP solution of router and App
+
+        config AWSS_TIMEOUT_INTERVAL_MS
+            int "Get the timeout period of the distribution service (`AWSS`), in milliseconds"
+            range 0 1800000
+            default 180000
+            help
+                Get the timeout period of the distribution service (`AWSS`), in milliseconds
+
+        config AWSS_CHANNELSCAN_INTERVAL_MS
+            int "Get the length of time scanned on each channel (`channel`), in milliseconds"
+            range 0 1000
+            default 200
+            help
+                Get the length of time scanned on each channel (`channel`), in milliseconds
+    endmenu
+
+    menu "Aliyun linkkit network config"
+        config SUPPORT_TCP
+            bool "Enable tcp connection"
+            default n
+            help
+                Select this option to enable tcp connection
+
+        config TCP_ESTABLISH_TIMEOUT_MS
+            int "Device tcp connection timeout wait time milliseconds"
+            range 0 100000
+            default 10000
+            help
+                Device tcp connection timeout wait time milliseconds
+
+        config TLS_ESTABLISH_TIMEOUT_MS
+            int "Device tls connection timeout wait time milliseconds"
+            range 0 100000
+            default 10000
+            help
+                Device tls connection timeout wait time milliseconds
+    endmenu
+
+    menu "Aliyun linkkit device model config"
+        config DEVICE_MODEL_GATEWAY
+            bool "Enable device model gateway"
+            default n
+            help
+                Select this option to enable device model gateway
+    endmenu
+
+    menu "Aliyun linkkit local control"
+        config DEVICE_ALCS_ENABLE
+            bool "Enable device local control"
+            default n
+            help
+                Select this option to enable device local control
+    endmenu
+
+    menu "Aliyun linkkit security OTA"
+        config SUPPORT_SECURITY_OTA
+            bool "Enable Security OTA"
+            default n
+            help
+                Select this option to enable security ota
+    endmenu
+
+    menu "Aliyun linkkit dynamic register"
+        config DYNAMIC_REGISTER
+            bool "Enable dynamic register"
+            default y
+            help
+                Select this option to enable dynamic register
+    endmenu
+
+    menu "Aliyun linkkit mqtt config"
+        config MQTT_DIRECT
+            bool "MQTT DIRECT"
+            default y
+            help
+                Directly connect MQTT server without perform HTTP authenticate to another HTTP server ahead
+
+                Switching to "y" leads to connect MQTT server directly and MQTT_DIRECT included into CFLAGS
+                Switching to "n" leads to legacy authenticate mode: connnect HTTP server first, then connect MQTT server afterwards
+    endmenu
+
+config HAL_SEM_MAX_COUNT
+    int "The maximum count value that can be reached of the semaphore"
+    default 255
+    range 0 255
+    help
+        The recommended value of maximum count of the semaphore is 255
+
+config HAL_SEM_INIT_COUNT
+    int "The count value assigned to the semaphore when it is created"
+    default 0
+    range 0 10
+    help
+        The recommended value of count of the semaphore is 0
+config HAL_TLS_HANDSHAKE_TIMEOUT
+    int "TLS Handsake Timeout"
+    default 180
+    range 0 65535
+    help
+        Default TLS handshake timeout to host in seconds
+config HAL_USE_CUSTOMER_AP_SSID
+    bool "Enable use customer softap SSID"
+    default n
+    help
+        Select this option to enable use customer softap SSID
+config AP_SSID_KEY
+    string "AP SSID KV Key value"
+    default "apssid"
+    help
+        The KV key value which store AP SSID
+
+config USE_SOFTAP_CONFIG
+    bool "Use softap config in smart light example"
+    default n
+    help
+        smart light example will use softap config when enable this option. Otherwise use smartconfig.
+
+endmenu

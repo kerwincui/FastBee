@@ -1,0 +1,5 @@
+aliyun-key,namespace,
+DeviceName,data,string
+DeviceSecret,data,string
+ProductKey,data,string
+ProductSecret,data,string

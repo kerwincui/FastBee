@@ -1,0 +1,9 @@
+key,type,encoding,value
+fastbee-key,namespace,,
+MQTTUrl,data,string,fastbee.cn:1883
+MQTTUsername,data,string,FastBee
+MQTTPassword,data,string,P63653937TRQ8F27
+MQTTClientId,data,string,S&DCDA0C11FEBC&588&1
+UserId,data,string,1
+DeviceSN,data,string,DCDA0C11FEBC
+ProductId,data,string,588
