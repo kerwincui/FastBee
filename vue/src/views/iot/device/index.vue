@@ -236,7 +236,7 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 12,
+                pageSize: 13,
                 deviceName: null,
                 productId: null,
                 groupId: null,
@@ -393,7 +393,7 @@ export default {
             this.getGroupList();
             listDeviceShort(this.queryParams).then((response) => {
                 this.deviceList = response.rows;
-                this.total = response.total;
+                this.total = response.total - 1;
                 // 订阅消息
                 if (this.deviceList && this.deviceList.length > 0) {
                     this.mqttSubscribe(this.deviceList);
