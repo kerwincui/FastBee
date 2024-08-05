@@ -122,6 +122,12 @@
 
                 <sipid ref="sipidGen" :product="form" @addGenEvent="getSipIDData($event)" />
             </el-tab-pane>
+
+            <el-tab-pane name="runningStatus" v-if="form.deviceType !== 3 && !isSubDev">
+                <span slot="label">运行状态</span>
+                <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
+              </el-tab-pane>
+
             <!-- <el-tab-pane :disabled="form.deviceId === 0" v-if="form.deviceType === 3" name="sipPlayer">
         <span slot="label"><span style="color:red;">￥ </span>设备直播</span>
         <business ref="business"/>
@@ -149,11 +155,6 @@
             <el-tab-pane name="deviceFuncLog" :disabled="form.deviceId == 0" v-if="form.deviceType !== 3 && hasShrarePerm('log')" lazy>
                 <span slot="label">指令日志</span>
                 <device-func ref="deviceFuncLog" :device="form" />
-            </el-tab-pane>
-
-            <el-tab-pane name="deviceMonitor" :disabled="form.deviceId == 0" v-if="form.deviceType !== 3 && hasShrarePerm('monitor')">
-                <span slot="label">实时监测</span>
-                <device-monitor ref="deviceMonitor" :device="form" />
             </el-tab-pane>
 
             <!-- 用于设置间距 -->
@@ -228,7 +229,6 @@ import productList from './product-list';
 import deviceLog from './device-log';
 import deviceUser from './device-user';
 import runningStatus from './running-status';
-import deviceMonitor from './device-monitor';
 
 import deviceTimer from './device-timer';
 import DeviceFunc from './device-functionlog';
@@ -252,8 +252,6 @@ export default {
         DeviceFunc,
         deviceLog,
         deviceUser,
-        deviceMonitor,
-
         runningStatus,
         productList,
         deviceTimer,
@@ -491,10 +489,10 @@ export default {
             this.$mqttTool.unsubscribe(topics);
         },
 
-        // 获取子组件订阅的设备状态
-        // getDeviceStatusData(status) {
-        //   this.form.status = status;
-        // },
+        //获取子组件订阅的设备状态
+        getDeviceStatusData(status) {
+          this.form.status = status;
+        },
         getPlayerData(data) {
             this.activeName = data.tabName;
             this.channelId = data.channelId;
