@@ -68,6 +68,12 @@
             <groupId>com.fastbee</groupId>
             <artifactId>fastbee-mq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-mqtt-client</artifactId>
+            <version>3.8.5</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

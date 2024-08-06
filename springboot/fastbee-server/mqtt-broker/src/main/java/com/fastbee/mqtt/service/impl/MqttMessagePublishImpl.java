@@ -2,6 +2,7 @@ package com.fastbee.mqtt.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.mq.DeviceReportBo;
 import com.fastbee.common.core.mq.MQSendMessageBo;
 import com.fastbee.common.core.mq.message.DeviceData;
@@ -10,7 +11,9 @@ import com.fastbee.common.core.mq.message.InstructionsMessage;
 import com.fastbee.common.core.mq.message.MqttBo;
 import com.fastbee.common.core.mq.ota.OtaUpgradeBo;
 import com.fastbee.common.core.protocol.modbus.ModbusCode;
+import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
+import com.fastbee.common.enums.FunctionReplyStatus;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.enums.TopicType;
 import com.fastbee.common.exception.ServiceException;
@@ -27,17 +30,17 @@ import com.fastbee.iot.model.ThingsModels.PropertyDto;
 import com.fastbee.iot.ruleEngine.MsgContext;
 import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.iot.service.IDeviceService;
+import com.fastbee.iot.service.IFunctionLogService;
 import com.fastbee.iot.service.IProductService;
 import com.fastbee.iot.service.IThingsModelService;
-import com.fastbee.iot.service.cache.IFirmwareCache;
 import com.fastbee.iot.util.SnowflakeIdWorker;
 import com.fastbee.json.JsonProtocolService;
 import com.fastbee.mq.model.ReportDataBo;
-import com.fastbee.mq.mqttClient.PubMqttClient;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import com.fastbee.mqtt.manager.MqttRemoteManager;
 import com.fastbee.mqtt.model.PushMessageBo;
+import com.fastbee.mqttclient.PubMqttClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -61,11 +64,11 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     @Resource
     private PubMqttClient mqttClient;
     @Resource
-    private IFirmwareCache firmwareCache;
-    @Resource
     private TopicsUtils topicsUtils;
     @Resource
     private IDeviceService deviceService;
+    @Resource
+    private IFunctionLogService functionLogService;
     @Resource
     private MqttRemoteManager remoteManager;
 
@@ -80,6 +83,8 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     @Resource
     private RuleProcess ruleProcess;
 
+    @Resource
+    private RedisCache redisCache;
 
     @Override
     public InstructionsMessage buildMessage(DeviceDownMessage downMessage, TopicType type) {
@@ -195,10 +200,30 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
                     instruction.setMessage(context.getPayload().getBytes());
                 }
 
-                mqttClient.publish(instruction.getTopicName(), instruction.getMessage(), funcLog);
+                publish(instruction.getTopicName(), instruction.getMessage(), funcLog);
                 log.debug("=>服务下发,topic=[{}],指令=[{}]", instruction.getTopicName(),new String(instruction.getMessage()));
                 break;
 
+        }
+    }
+    public void publish(String topic, byte[] pushMessage, FunctionLog log) {
+        try {
+            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TOTAL, -1L);
+            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TODAY, 60 * 60 * 24);
+            mqttClient.publish(pushMessage, topic, false, 0);
+            if (null != log) {
+                //存储服务下发成功
+                log.setResultMsg(FunctionReplyStatus.NORELY.getMessage());
+                log.setResultCode(FunctionReplyStatus.NORELY.getCode());
+                functionLogService.insertFunctionLog(log);
+            }
+        } catch (Exception e) {
+            if (null != log) {
+                //服务下发失败存储
+                log.setResultMsg(FunctionReplyStatus.FAIl.getMessage() + "原因: " + e.getMessage());
+                log.setResultCode(FunctionReplyStatus.FAIl.getCode());
+                functionLogService.insertFunctionLog(log);
+            }
         }
     }
 

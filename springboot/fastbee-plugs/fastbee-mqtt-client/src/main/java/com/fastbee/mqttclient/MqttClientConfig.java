@@ -1,4 +1,4 @@
-package com.fastbee.mq.mqttClient;
+package com.fastbee.mqttclient;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

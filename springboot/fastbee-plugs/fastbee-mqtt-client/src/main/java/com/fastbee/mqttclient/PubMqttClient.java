@@ -1,11 +1,9 @@
-package com.fastbee.mq.mqttClient;
+package com.fastbee.mqttclient;
 
 import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.redis.RedisCache;
-import com.fastbee.common.enums.FunctionReplyStatus;
 import com.fastbee.common.exception.ServiceException;
-import com.fastbee.iot.domain.FunctionLog;
-import com.fastbee.iot.service.IFunctionLogService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -22,6 +20,7 @@ public class PubMqttClient {
 
     @Resource
     private MqttClientConfig mqttConfig;
+
     @Resource(name = "pubMqttCallBack")
     private PubMqttCallBack mqttCallBack;
     /**
@@ -38,8 +37,9 @@ public class PubMqttClient {
     private boolean isConnected = false;
     @Resource
     private RedisCache redisCache;
-    @Resource
-    private IFunctionLogService functionLogService;
+
+    @Setter
+    private IMqttMessageListener listener;
 
     /**
      * 启动MQTT客户端
@@ -82,6 +82,7 @@ public class PubMqttClient {
                 mqttCallBack.setClient(client);
                 mqttCallBack.setOptions(this.options);
                 mqttCallBack.setEnabled(mqttConfig.getEnabled());
+                mqttCallBack.setListener(this.listener);
             }
         } catch (Exception e) {
             log.error("=>mqtt客户端创建错误");
@@ -141,30 +142,6 @@ public class PubMqttClient {
     }
 
     /**
-     * 发布qos=1，非持久化
-     */
-    public void publish(String topic, byte[] pushMessage, FunctionLog log) {
-        try {
-            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TOTAL, -1L);
-            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TODAY, 60 * 60 * 24);
-            publish(pushMessage, topic, false, 0);
-            if (null != log) {
-                //存储服务下发成功
-                log.setResultMsg(FunctionReplyStatus.NORELY.getMessage());
-                log.setResultCode(FunctionReplyStatus.NORELY.getCode());
-                functionLogService.insertFunctionLog(log);
-            }
-        } catch (Exception e) {
-            if (null != log) {
-                //服务下发失败存储
-                log.setResultMsg(FunctionReplyStatus.FAIl.getMessage() + "原因: " + e.getMessage());
-                log.setResultCode(FunctionReplyStatus.FAIl.getCode());
-                functionLogService.insertFunctionLog(log);
-            }
-        }
-    }
-
-    /**
      * 发布主题
      *
      * @param message  payload消息体
@@ -206,7 +183,6 @@ public class PubMqttClient {
     public void publish(int qos, boolean retained, String topic, String pushMessage) {
         redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TOTAL, -1L);
         redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TODAY, 60 * 60 * 24);
-        log.info("发布主题[{}],发布消息[{}]" + topic,pushMessage);
         MqttMessage message = new MqttMessage();
         message.setQos(qos);
         message.setRetained(retained);
@@ -215,6 +191,7 @@ public class PubMqttClient {
         try {
             IMqttDeliveryToken token = client.publish(topic, message);
             token.waitForCompletion();
+            log.info("发布主题[{}],发布消息[{}]" , topic,pushMessage);
         } catch (MqttPersistenceException e) {
             e.printStackTrace();
         } catch (MqttException e) {

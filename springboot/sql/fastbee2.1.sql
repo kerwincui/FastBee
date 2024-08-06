@@ -1111,7 +1111,7 @@ INSERT INTO `media_server` VALUES (7, 'fastbee', 1, 'admin', 1, 'http', '192.168
 DROP TABLE IF EXISTS `sip_device_channel`;
 CREATE TABLE `sip_device_channel`  (
                                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                                       `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
+                                       `tenant_id` bigint(20) NOT NULL DEFAULT 1 COMMENT '租户ID',
                                        `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
                                        `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品ID',
                                        `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',

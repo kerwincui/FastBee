@@ -6,8 +6,7 @@ import com.fastbee.common.enums.TopicType;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.mapper.DeviceMapper;
-
-import com.fastbee.mq.mqttClient.PubMqttClient;
+import com.fastbee.mqttclient.PubMqttClient;
 import com.fastbee.sip.domain.SipConfig;
 import com.fastbee.sip.domain.SipDevice;
 import com.fastbee.sip.domain.SipDeviceChannel;

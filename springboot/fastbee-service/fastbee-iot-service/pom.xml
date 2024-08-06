@@ -15,9 +15,6 @@
         设备业务模块
     </description>
 
-    <properties>
-        <liteflow.version>2.11.3</liteflow.version>
-    </properties>
 
     <dependencies>
 

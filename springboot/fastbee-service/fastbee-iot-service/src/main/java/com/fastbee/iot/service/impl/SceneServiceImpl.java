@@ -256,7 +256,7 @@ public class SceneServiceImpl implements ISceneService {
             // 规则引擎构建脚本组件
             if(ruleScript.getScriptPurpose() == 2) {
                 //脚本条件组件
-                LiteFlowNodeBuilder.createScriptIfNode().setId(ruleScript.getScriptId())
+                LiteFlowNodeBuilder.createScriptBooleanNode().setId(ruleScript.getScriptId())
                         .setName(ruleScript.getScriptName())
                         .setScript(ruleScript.getScriptData())
                         .build();

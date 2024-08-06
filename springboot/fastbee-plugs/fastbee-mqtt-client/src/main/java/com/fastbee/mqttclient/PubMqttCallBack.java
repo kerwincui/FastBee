@@ -1,13 +1,14 @@
-package com.fastbee.mq.mqttClient;
+package com.fastbee.mqttclient;
 
-
+import com.fastbee.common.utils.gateway.mq.TopicsPost;
+import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * mqtt客户端回调
@@ -17,8 +18,6 @@ import javax.annotation.Resource;
 @Data
 @NoArgsConstructor
 public class PubMqttCallBack implements MqttCallbackExtended {
-
-
     /**
      * mqtt客户端
      */
@@ -29,15 +28,18 @@ public class PubMqttCallBack implements MqttCallbackExtended {
     private MqttConnectOptions options;
 
     @Resource
-    private MqttService mqttService;
+    private TopicsUtils topicsUtils;
 
     private Boolean enabled;
 
+    private IMqttMessageListener listener;
 
-    public PubMqttCallBack(MqttAsyncClient client, MqttConnectOptions options,Boolean enabled) {
+
+    public PubMqttCallBack(MqttAsyncClient client, MqttConnectOptions options, Boolean enabled, IMqttMessageListener listener) {
         this.client = client;
         this.options = options;
         this.enabled = enabled;
+        this.listener = listener;
     }
 
     /**
@@ -47,7 +49,6 @@ public class PubMqttCallBack implements MqttCallbackExtended {
      */
     @Override
     public void connectionLost(Throwable cause) {
-
         // 连接丢失后，一般在这里面进行重连
         log.debug("=>mqtt 连接丢失", cause);
         int count = 1;
@@ -76,7 +77,7 @@ public class PubMqttCallBack implements MqttCallbackExtended {
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         // subscribe后得到的消息会执行到这里面
         try {
-            mqttService.subscribeCallback(topic, message);
+            listener.messageArrived(topic, message);
         } catch (Exception e) {
             log.warn("mqtt 订阅消息异常", e);
         }
@@ -95,20 +96,22 @@ public class PubMqttCallBack implements MqttCallbackExtended {
     public void connectComplete(boolean reconnect, String serverURI) {
         log.info("MQTT内部客户端已经连接!");
         System.out.print("" +
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *      \n" +
-        " *           _⚲_⚲_            ______        _     ____                   *       \n" +
-        " *     |   /       \\   |     |  ____|      | |   |  _ \\                  *     \n" +
-        " *     |  |  | ● |  |  |     | |__ __ _ ___| |_  | |_) | ___  ___        *       \n" +
-        " *     |   \\       /   |     |  __/ _` / __| __| |  _ < / _ \\/ _ \\       *    \n" +
-        " *           \\   /           | | | (_| \\__ \\ |_  | |_) |  __/  __/       *    \n" +
-        " *             V             |_|  \\__,_|___/\\__| |____/ \\___|\\___|       *   \n" +
-        " *                                                                       *       \n"+
-        " * * * * * * * * * * * * FastBee物联网平台[✔启动成功] * * * * * * * * * * * *        \n");
+                " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *      \n" +
+                " *           _⚲_⚲_            ______        _     ____                   *       \n" +
+                " *     |   /       \\   |     |  ____|      | |   |  _ \\                  *     \n" +
+                " *     |  |  | ● |  |  |     | |__ __ _ ___| |_  | |_) | ___  ___        *       \n" +
+                " *     |   \\       /   |     |  __/ _` / __| __| |  _ < / _ \\/ _ \\       *    \n" +
+                " *           \\   /           | | | (_| \\__ \\ |_  | |_) |  __/  __/       *    \n" +
+                " *             V             |_|  \\__,_|___/\\__| |____/ \\___|\\___|       *   \n" +
+                " *                                                                       *       \n" +
+                " * * * * * * * * * * * * FastBee物联网平台[✔启动成功] * * * * * * * * * * * *        \n");
 
         //连接后订阅, enable为false表示使用emq
         if (!enabled) {
             try {
-                mqttService.subscribe(client);
+                TopicsPost allPost = topicsUtils.getAllPost();
+                client.subscribe(allPost.getTopics(), allPost.getQos());
+                log.info("mqtt监控主题,{}", Arrays.asList(allPost.getTopics()));
             } catch (MqttException e) {
                 log.error("=>订阅主题失败 error={}", e.getMessage());
             }

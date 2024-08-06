@@ -12,13 +12,11 @@ import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.iot.service.IEventLogService;
 import com.fastbee.mq.model.ReportDataBo;
-import com.fastbee.mq.mqttClient.PubMqttClient;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import com.fastbee.mqtt.manager.MqttRemoteManager;
 import com.fastbee.mqtt.model.PushMessageBo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
