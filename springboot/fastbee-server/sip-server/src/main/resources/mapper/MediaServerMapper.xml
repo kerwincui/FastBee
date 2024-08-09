@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.sip.mapper.MediaServerMapper">
+
+    <resultMap type="MediaServer" id="MediaServerResult">
+        <result property="id"    column="id"    />
+        <result property="serverId"    column="server_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="enabled"    column="enabled"    />
+        <result property="protocol"    column="protocol"    />
+        <result property="ip"    column="ip"    />
+        <result property="domain"    column="domain"    />
+        <result property="hookurl"    column="hookurl"    />
+        <result property="secret"    column="secret"    />
+        <result property="portHttp"    column="port_http"    />
+        <result property="portHttps"    column="port_https"    />
+        <result property="portRtmp"    column="port_rtmp"    />
+        <result property="portRtsp"    column="port_rtsp"    />
+        <result property="rtpProxyPort"    column="rtp_proxy_port"    />
+        <result property="rtpEnable"    column="rtp_enable"    />
+        <result property="rtpPortRange"    column="rtp_port_range"    />
+        <result property="recordPort"    column="record_port"    />
+        <result property="autoConfig"    column="auto_config"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMediaServerVo">
+        select id, server_id, tenant_id, tenant_name, enabled, protocol, ip, domain, hookurl, secret, port_http, port_https, port_rtmp, port_rtsp, rtp_proxy_port, rtp_enable, rtp_port_range, record_port, auto_config, status, del_flag, create_by, create_time, update_by, update_time, remark from media_server
+    </sql>
+
+    <select id="selectMediaServerList" parameterType="MediaServer" resultMap="MediaServerResult">
+        <include refid="selectMediaServerVo"/>
+        <where>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="enabled != null "> and enabled = #{enabled}</if>
+            <if test="protocol != null  and protocol != ''"> and protocol = #{protocol}</if>
+            <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
+            <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
+            <if test="hookurl != null  and hookurl != ''"> and hookurl = #{hookurl}</if>
+            <if test="secret != null  and secret != ''"> and secret = #{secret}</if>
+            <if test="portHttp != null "> and port_http = #{portHttp}</if>
+            <if test="portHttps != null "> and port_https = #{portHttps}</if>
+            <if test="portRtmp != null "> and port_rtmp = #{portRtmp}</if>
+            <if test="portRtsp != null "> and port_rtsp = #{portRtsp}</if>
+            <if test="rtpProxyPort != null "> and rtp_proxy_port = #{rtpProxyPort}</if>
+            <if test="rtpEnable != null "> and rtp_enable = #{rtpEnable}</if>
+            <if test="rtpPortRange != null  and rtpPortRange != ''"> and rtp_port_range = #{rtpPortRange}</if>
+            <if test="recordPort != null "> and record_port = #{recordPort}</if>
+            <if test="autoConfig != null "> and auto_config = #{autoConfig}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectMediaServerById" parameterType="Long" resultMap="MediaServerResult">
+        <include refid="selectMediaServerVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMediaServer" parameterType="MediaServer" useGeneratedKeys="true" keyProperty="id">
+        insert into media_server
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serverId != null and serverId != ''">server_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="protocol != null and protocol != ''">protocol,</if>
+            <if test="ip != null and ip != ''">ip,</if>
+            <if test="domain != null and domain != ''">domain,</if>
+            <if test="hookurl != null and hookurl != ''">hookurl,</if>
+            <if test="secret != null and secret != ''">secret,</if>
+            <if test="portHttp != null">port_http,</if>
+            <if test="portHttps != null">port_https,</if>
+            <if test="portRtmp != null">port_rtmp,</if>
+            <if test="portRtsp != null">port_rtsp,</if>
+            <if test="rtpProxyPort != null">rtp_proxy_port,</if>
+            <if test="rtpEnable != null">rtp_enable,</if>
+            <if test="rtpPortRange != null and rtpPortRange != ''">rtp_port_range,</if>
+            <if test="recordPort != null">record_port,</if>
+            <if test="autoConfig != null">auto_config,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serverId != null and serverId != ''">#{serverId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="protocol != null and protocol != ''">#{protocol},</if>
+            <if test="ip != null and ip != ''">#{ip},</if>
+            <if test="domain != null and domain != ''">#{domain},</if>
+            <if test="hookurl != null and hookurl != ''">#{hookurl},</if>
+            <if test="secret != null and secret != ''">#{secret},</if>
+            <if test="portHttp != null">#{portHttp},</if>
+            <if test="portHttps != null">#{portHttps},</if>
+            <if test="portRtmp != null">#{portRtmp},</if>
+            <if test="portRtsp != null">#{portRtsp},</if>
+            <if test="rtpProxyPort != null">#{rtpProxyPort},</if>
+            <if test="rtpEnable != null">#{rtpEnable},</if>
+            <if test="rtpPortRange != null and rtpPortRange != ''">#{rtpPortRange},</if>
+            <if test="recordPort != null">#{recordPort},</if>
+            <if test="autoConfig != null">#{autoConfig},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMediaServer" parameterType="MediaServer">
+        update media_server
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serverId != null and serverId != ''">server_id = #{serverId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="protocol != null and protocol != ''">protocol = #{protocol},</if>
+            <if test="ip != null and ip != ''">ip = #{ip},</if>
+            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="hookurl != null and hookurl != ''">hookurl = #{hookurl},</if>
+            <if test="secret != null and secret != ''">secret = #{secret},</if>
+            <if test="portHttp != null">port_http = #{portHttp},</if>
+            <if test="portHttps != null">port_https = #{portHttps},</if>
+            <if test="portRtmp != null">port_rtmp = #{portRtmp},</if>
+            <if test="portRtsp != null">port_rtsp = #{portRtsp},</if>
+            <if test="rtpProxyPort != null">rtp_proxy_port = #{rtpProxyPort},</if>
+            <if test="rtpEnable != null">rtp_enable = #{rtpEnable},</if>
+            <if test="rtpPortRange != null and rtpPortRange != ''">rtp_port_range = #{rtpPortRange},</if>
+            <if test="recordPort != null">record_port = #{recordPort},</if>
+            <if test="autoConfig != null">auto_config = #{autoConfig},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMediaServerById" parameterType="Long">
+        delete from media_server where id = #{id}
+    </delete>
+
+    <delete id="deleteMediaServerByIds" parameterType="String">
+        delete from media_server where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMediaServer" resultMap="MediaServerResult" parameterType="MediaServer">
+        <include refid="selectMediaServerVo"/>
+        <where>
+            <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectMediaServerBytenantId" parameterType="Long" resultMap="MediaServerResult">
+        <include refid="selectMediaServerVo"/>
+        where tenant_id = #{tenantId}
+    </select>
+</mapper>

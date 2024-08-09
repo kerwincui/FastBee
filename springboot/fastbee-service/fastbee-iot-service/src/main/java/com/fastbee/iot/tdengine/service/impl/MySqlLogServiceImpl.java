@@ -52,4 +52,12 @@ public class MySqlLogServiceImpl implements ILogService {
         return deviceLogMapper.selectMonitorList(deviceLog);
     }
 
+    /***
+     * 日志列表
+     * @return
+     */
+    @Override
+    public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog) {
+        return deviceLogMapper.selectDeviceLogList(deviceLog);
+    }
 }

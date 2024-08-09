@@ -245,7 +245,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <select id="selectDeviceShortList" parameterType="com.fastbee.iot.domain.Device" resultMap="DeviceShortResult">
-        select d.device_id, d.device_name, d.product_id, d.product_name,p.device_type,
+        select d.device_id, d.device_name, p.product_id, p.product_name,p.device_type,
             d.user_id, d.user_name, d.tenant_id, d.tenant_name, d.serial_number,d.gw_dev_code,
             d.firmware_version, d.status,d.rssi,d.is_shadow,d.is_simulate ,d.location_way,
             d.things_model_value, d.active_time,d.create_time,d.img_url,max(u.is_owner) as is_owner,

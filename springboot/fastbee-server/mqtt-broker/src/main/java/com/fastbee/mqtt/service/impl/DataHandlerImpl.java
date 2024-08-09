@@ -12,13 +12,11 @@ import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.iot.service.IEventLogService;
 import com.fastbee.mq.model.ReportDataBo;
-import com.fastbee.mq.mqttClient.PubMqttClient;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import com.fastbee.mqtt.manager.MqttRemoteManager;
 import com.fastbee.mqtt.model.PushMessageBo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -66,6 +64,11 @@ public class DataHandlerImpl implements IDataHandler {
             input.setSlaveId(bo.getSlaveId());
             List<ThingsModelSimpleItem> result = deviceService.reportDeviceThingsModelValue(input, bo.getType(), bo.isShadow());
 
+            //发送至前端
+            PushMessageBo messageBo = new PushMessageBo();
+            messageBo.setTopic(topicsUtils.buildTopic(bo.getProductId(), bo.getSerialNumber(), TopicType.WS_SERVICE_INVOKE));
+            messageBo.setMessage(JSON.toJSONString(result));
+            remoteManager.pushCommon(messageBo);
 
         } catch (Exception e) {
             log.error("接收属性数据，解析数据时异常 message={},e={}", e.getMessage(),e);

@@ -38,4 +38,18 @@ public class DeviceLogServiceImpl implements IDeviceLogService
         return logService.selectMonitorList(deviceLog);
     }
 
+    /**
+     * 查询设备日志列表
+     *
+     * @param deviceLog 设备日志
+     * @return 设备日志
+     */
+    @Override
+    public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog)
+    {
+        if(deviceLog.getIsMonitor()==null){
+            deviceLog.setIsMonitor(0);
+        }
+        return logService.selectDeviceLogList(deviceLog);
+    }
 }

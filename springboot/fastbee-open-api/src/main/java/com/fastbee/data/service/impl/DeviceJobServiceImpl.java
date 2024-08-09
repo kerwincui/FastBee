@@ -331,4 +331,9 @@ public class DeviceJobServiceImpl implements IDeviceJobService
     {
         return CronUtils.isValid(cronExpression);
     }
+
+    @Override
+    public List<DeviceJob> listShortJobBySceneId(Long[] sceneIds) {
+        return jobMapper.selectShortJobListBySceneIds(sceneIds);
+    }
 }

@@ -2,6 +2,7 @@ package com.fastbee.mqtt.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.mq.DeviceReportBo;
 import com.fastbee.common.core.mq.MQSendMessageBo;
 import com.fastbee.common.core.mq.message.DeviceData;
@@ -10,7 +11,9 @@ import com.fastbee.common.core.mq.message.InstructionsMessage;
 import com.fastbee.common.core.mq.message.MqttBo;
 import com.fastbee.common.core.mq.ota.OtaUpgradeBo;
 import com.fastbee.common.core.protocol.modbus.ModbusCode;
+import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
+import com.fastbee.common.enums.FunctionReplyStatus;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.enums.TopicType;
 import com.fastbee.common.exception.ServiceException;
@@ -24,20 +27,21 @@ import com.fastbee.iot.domain.FunctionLog;
 import com.fastbee.iot.domain.Product;
 import com.fastbee.iot.model.NtpModel;
 import com.fastbee.iot.model.ThingsModels.PropertyDto;
+import com.fastbee.iot.ruleEngine.MsgContext;
+import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.iot.service.IDeviceService;
+import com.fastbee.iot.service.IFunctionLogService;
 import com.fastbee.iot.service.IProductService;
 import com.fastbee.iot.service.IThingsModelService;
-import com.fastbee.iot.service.cache.IFirmwareCache;
 import com.fastbee.iot.util.SnowflakeIdWorker;
 import com.fastbee.json.JsonProtocolService;
 import com.fastbee.mq.model.ReportDataBo;
-import com.fastbee.mq.mqttClient.PubMqttClient;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import com.fastbee.mqtt.manager.MqttRemoteManager;
 import com.fastbee.mqtt.model.PushMessageBo;
+import com.fastbee.mqttclient.PubMqttClient;
 import lombok.extern.slf4j.Slf4j;
-import org.java_websocket.protocols.IProtocol;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,11 +64,11 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     @Resource
     private PubMqttClient mqttClient;
     @Resource
-    private IFirmwareCache firmwareCache;
-    @Resource
     private TopicsUtils topicsUtils;
     @Resource
     private IDeviceService deviceService;
+    @Resource
+    private IFunctionLogService functionLogService;
     @Resource
     private MqttRemoteManager remoteManager;
 
@@ -76,6 +80,11 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     private JsonProtocolService jsonProtocolService;
     private SnowflakeIdWorker snowflakeIdWorker = new SnowflakeIdWorker(3);
 
+    @Resource
+    private RuleProcess ruleProcess;
+
+    @Resource
+    private RedisCache redisCache;
 
     @Override
     public InstructionsMessage buildMessage(DeviceDownMessage downMessage, TopicType type) {
@@ -145,19 +154,19 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
         }
 
         /* 下发服务数据存储对象*/
-        FunctionLog log = new FunctionLog();
-        log.setCreateTime(DateUtils.getNowDate());
-        log.setFunValue(bo.getValue().get(bo.getIdentifier()).toString());
-        log.setMessageId(bo.getMessageId());
-        log.setSerialNumber(bo.getSerialNumber());
-        log.setIdentify(bo.getIdentifier());
-        log.setShowValue(bo.getShowValue());
-        log.setFunType(1);
-        log.setModelName(bo.getModelName());
+        FunctionLog funcLog = new FunctionLog();
+        funcLog.setCreateTime(DateUtils.getNowDate());
+        funcLog.setFunValue(bo.getValue().get(bo.getIdentifier()).toString());
+        funcLog.setMessageId(bo.getMessageId());
+        funcLog.setSerialNumber(bo.getSerialNumber());
+        funcLog.setIdentify(bo.getIdentifier());
+        funcLog.setShowValue(bo.getShowValue());
+        funcLog.setFunType(1);
+        funcLog.setModelName(bo.getModelName());
         //兼容子设备
         if (null != bo.getSlaveId()) {
             PropertyDto thingModels = thingsModelService.getSingleThingModels(bo.getProductId(), bo.getIdentifier() + "#" + bo.getSlaveId());
-            log.setSerialNumber(bo.getSerialNumber() + "_" + bo.getSlaveId());
+            funcLog.setSerialNumber(bo.getSerialNumber() + "_" + bo.getSlaveId());
             bo.setCode(ModbusCode.Write06);
             if (!Objects.isNull(thingModels.getCode())){
                 bo.setCode(ModbusCode.getInstance(Integer.parseInt(thingModels.getCode())));
@@ -182,10 +191,39 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
             case MQTT:
                 //组建下发服务指令
                 InstructionsMessage instruction = buildMessage(downMessage, TopicType.FUNCTION_GET);
-                mqttClient.publish(instruction.getTopicName(), instruction.getMessage(), log);
-                MqttMessagePublishImpl.log.debug("=>服务下发,topic=[{}],指令=[{}]", instruction.getTopicName(),new String(instruction.getMessage()));
+
+                //  规则引擎脚本处理,完成后返回结果
+                MsgContext context = ruleProcess.processRuleScript(bo.getSerialNumber(), 2,instruction.getTopicName(),new String(instruction.getMessage()));
+                if (!Objects.isNull(context) && StringUtils.isNotEmpty(context.getPayload())
+                        && StringUtils.isNotEmpty(context.getTopic())) {
+                    instruction.setTopicName(context.getTopic());
+                    instruction.setMessage(context.getPayload().getBytes());
+                }
+
+                publish(instruction.getTopicName(), instruction.getMessage(), funcLog);
+                log.debug("=>服务下发,topic=[{}],指令=[{}]", instruction.getTopicName(),new String(instruction.getMessage()));
                 break;
 
+        }
+    }
+    public void publish(String topic, byte[] pushMessage, FunctionLog log) {
+        try {
+            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TOTAL, -1L);
+            redisCache.incr2(FastBeeConstant.REDIS.MESSAGE_SEND_TODAY, 60 * 60 * 24);
+            mqttClient.publish(pushMessage, topic, false, 0);
+            if (null != log) {
+                //存储服务下发成功
+                log.setResultMsg(FunctionReplyStatus.NORELY.getMessage());
+                log.setResultCode(FunctionReplyStatus.NORELY.getCode());
+                functionLogService.insertFunctionLog(log);
+            }
+        } catch (Exception e) {
+            if (null != log) {
+                //服务下发失败存储
+                log.setResultMsg(FunctionReplyStatus.FAIl.getMessage() + "原因: " + e.getMessage());
+                log.setResultCode(FunctionReplyStatus.FAIl.getCode());
+                functionLogService.insertFunctionLog(log);
+            }
         }
     }
 

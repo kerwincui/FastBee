@@ -136,10 +136,12 @@
                 <product-authorize ref="productAuthorize" :product="form" />
             </el-tab-pane>
 
-            <el-tab-pane label="" name="alert" :disabled="form.productId == 0" v-if="form.deviceType !== 3">
-                <span slot="label"><span style="color:red;">￥ </span>告警配置</span>
-                <business ref="business"/>
+            <el-tab-pane label="" name="sipConfig" :disabled="form.productId == 0" v-if="form.deviceType === 3">
+                <span slot="label">SIP配置</span>
+                <config-sip ref="configSip" :product="form" />
             </el-tab-pane>
+
+            <div style="margin-top: 200px"></div>
 
 
             <div style="margin-top:200px;"></div>
@@ -175,10 +177,11 @@
 
 <script>
 import productThingsModel from "./product-things-model";
-import productApp from "./product-app"
-import productAuthorize from "./product-authorize"
-import imageUpload from "../../../components/ImageUpload/index"
-import business from "../business/index"
+import productApp from "./product-app";
+import productAuthorize from "./product-authorize";
+import imageUpload from "../../../components/ImageUpload/index";
+import business from "../business/index";
+import configSip from '../sip/sipconfig.vue';
 import {
     listProtocol
 } from "@/api/iot/protocol";
@@ -207,6 +210,7 @@ export default {
         productAuthorize,
         imageUpload,
         business,
+        configSip,
     },
     data() {
         return {

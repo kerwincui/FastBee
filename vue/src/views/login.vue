@@ -35,7 +35,6 @@
               </el-row>
             </div>
           </el-form-item>
-          <div style="margin-bottom: 10px; font-size: 14px; font-family: '微软雅黑'; color: #f78e21">演示账号：fastbee 123456</div>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
               <svg-icon slot="prefix" icon-class="user" class="input-icon" />
@@ -66,26 +65,13 @@
                 <span v-if="!loading">登 录</span>
                 <span v-else>登 录 中...</span>
               </el-button>
-              <el-button v-else :loading="loading" type="primary" style="width: 100%" @click.native.prevent="handleBind">
-                <span v-if="!loading">绑 定</span>
-                <span v-else>绑 定 中...</span>
-              </el-button>
             </div>
             <el-row>
               <div>
-                <el-button v-if="loginForm.bindId == null" type="text" :wxloading="loading"
-                  @click.native.prevent="weChatLogin">
-                  <svg-icon icon-class="wechat" style="color: #13ce66" />
-                  微信登录
-                </el-button>
-                <el-button type="text" disabled>
-                  <i class="el-icon-mobile-phone"></i>
-                  短信登录
-                </el-button>
+               <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">返回官网</el-link>
+               <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank" style="float: left; margin-left: 20px">查看文档</el-link>
                 <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }"
-                  style="float: right">注册账号</router-link>
-                <router-link v-else :to="{ path: '/register', query: this.$route.query }"
-                  style="float: right">注册绑定账号</router-link>
+                  style="float: left;margin-left:20px;">注册账号</router-link>
               </div>
             </el-row>
           </el-form-item>

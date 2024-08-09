@@ -34,7 +34,7 @@
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
         <justAuth.version>1.16.5</justAuth.version>
-        <forest.version>1.5.19</forest.version>
+        <forest.version>1.5.36</forest.version>
         <lombok.version>1.18.22</lombok.version>
         <rocketmq.version>2.2.1</rocketmq.version>
         <hutool.version>5.8.20</hutool.version>
@@ -45,6 +45,7 @@
 <!--        <redisson.version>3.15.6</redisson.version>-->
         <lock4j.version>2.2.3</lock4j.version>
         <easyexcel.version>3.3.1</easyexcel.version>
+        <liteflow.version>2.12.2</liteflow.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -227,12 +228,6 @@
             <dependency>
                 <groupId>com.fastbee</groupId>
                 <artifactId>fastbee-gateway</artifactId>
-                <version>${fastbee.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fastbee</groupId>
-                <artifactId>fastbee-message-bus</artifactId>
                 <version>${fastbee.version}</version>
             </dependency>
 

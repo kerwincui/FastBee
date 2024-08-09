@@ -15,102 +15,56 @@
             </el-form>
         </el-card>
 
-        <el-tabs type="border-card" v-model="serverType" @tab-click="handleClick" style="flex: 1; height: 800px; margin-bottom: 5px">
-            <el-tab-pane label="MQTT客户端" name="MQTT">
-                <el-table v-loading="loading" :data="clientList">
-                    <el-table-column label="客户端ID" align="left" header-align="center" prop="clientId">
-                        <template slot-scope="scope">
-                            <el-link :underline="false" type="primary" @click.native="handleOpen(scope.row)">{{ scope.row.clientId }}</el-link>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="类型" align="center" prop="type">
-                        <template slot-scope="scope">
-                            <el-tag type="danger" v-if="scope.row.clientId.indexOf('server') == 0">服务端</el-tag>
-                            <el-tag type="success" v-else-if="scope.row.clientId.indexOf('web') == 0">Web端</el-tag>
-                            <el-tag type="warning" v-else-if="scope.row.clientId.indexOf('phone') == 0">移动端</el-tag>
-                            <el-tag type="info" v-else-if="scope.row.clientId.indexOf('test') == 0">测试端</el-tag>
-                            <el-tag type="primary" v-else>设备端</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="连接状态" align="center" prop="connected">
-                        <template slot-scope="scope">
-                            <el-tag type="success" v-if="scope.row.connected">已连接</el-tag>
-                            <el-tag type="info" v-else>已断开</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="心跳(秒)" align="center" prop="keepAlive" width="100" />
-                    <el-table-column label="账号" align="center" prop="username" width="100px" />
-                    <el-table-column label="当前订阅数量" align="center" prop="topicCount" width="100" />
-                    <el-table-column label="连接时间" align="center" prop="connected_at" />
+        <el-card style="padding-bottom:100px;">
+            <el-table v-loading="loading" :data="clientList">
+                <el-table-column label="客户端ID" align="left" header-align="center" prop="clientId">
+                    <template slot-scope="scope">
+                        <el-link :underline="false" type="primary" @click.native="handleOpen(scope.row)">{{ scope.row.clientId }}</el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="类型" align="center" prop="type">
+                    <template slot-scope="scope">
+                        <el-tag type="danger" v-if="scope.row.clientId.indexOf('server') == 0">服务端</el-tag>
+                        <el-tag type="success" v-else-if="scope.row.clientId.indexOf('web') == 0">Web端</el-tag>
+                        <el-tag type="warning" v-else-if="scope.row.clientId.indexOf('phone') == 0">移动端</el-tag>
+                        <el-tag type="info" v-else-if="scope.row.clientId.indexOf('test') == 0">测试端</el-tag>
+                        <el-tag type="primary" v-else>设备端</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="连接状态" align="center" prop="connected">
+                    <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.connected">已连接</el-tag>
+                        <el-tag type="info" v-else>已断开</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="心跳(秒)" align="center" prop="keepAlive" width="100" />
+                <el-table-column label="账号" align="center" prop="username" width="100px" />
+                <el-table-column label="当前订阅数量" align="center" prop="topicCount" width="100" />
+                <el-table-column label="连接时间" align="center" prop="connected_at" />
 
-                    <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-                        <template #default="scope">
-                            <el-button link type="primary" icon="Edit" @click="clickClientOut(scope.row)">踢出</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+                    <template #default="scope">
+                        <el-button type="primary" icon="edit" @click="clickClientOut(scope.row)" size="small">踢出</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
 
-                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
-                <!-- MQTT客户端详细 -->
-                <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
-                    <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
-                        <el-tab-pane name="subscribe">
-                            <span slot="label">订阅列表</span>
-                            <el-row :gutter="10" class="mb8"></el-row>
-                            <el-table :data="subscribeList" size="mini">
-                                <el-table-column label="主题" align="center" prop="topicName" />
-                                <el-table-column label="QoS" align="center" prop="qos" />
-                            </el-table>
-                        </el-tab-pane>
-                    </el-tabs>
-                </el-dialog>
-            </el-tab-pane>
-            <el-tab-pane label="TCP客户端" name="TCP">
-                <el-table v-loading="loading" :data="clientList">
-                    <el-table-column label="客户端ID" align="left" header-align="center" prop="clientId"></el-table-column>
-                    <el-table-column label="类型" align="center" prop="type">
-                        <template slot-scope="scope">
-                            <el-tag type="danger" v-if="scope.row.clientId.indexOf('server') == 0">服务端</el-tag>
-                            <el-tag type="success" v-else-if="scope.row.clientId.indexOf('web') == 0">Web端</el-tag>
-                            <el-tag type="warning" v-else-if="scope.row.clientId.indexOf('phone') == 0">移动端</el-tag>
-                            <el-tag type="info" v-else-if="scope.row.clientId.indexOf('test') == 0">测试端</el-tag>
-                            <el-tag type="primary" v-else>设备端</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="连接状态" align="center" prop="connected">
-                        <template slot-scope="scope">
-                            <el-tag type="success" v-if="scope.row.connected">已连接</el-tag>
-                            <el-tag type="info" v-else>已断开</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="心跳(秒)" align="center" prop="keepAlive" width="100" />
-                    <el-table-column label="连接时间" align="center" prop="connected_at" />
-
-                    <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-                        <template #default="scope">
-                            <el-button link type="primary" icon="Edit" @click="clickClientOut(scope.row)">踢出</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-
-                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-
-                <!-- MQTT客户端详细 -->
-                <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
-                    <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
-                        <el-tab-pane name="subscribe">
-                            <span slot="label">订阅列表</span>
-                            <el-row :gutter="10" class="mb8"></el-row>
-                            <el-table :data="subscribeList" size="mini">
-                                <el-table-column label="主题" align="center" prop="topicName" />
-                                <el-table-column label="QoS" align="center" prop="qos" />
-                            </el-table>
-                        </el-tab-pane>
-                    </el-tabs>
-                </el-dialog>
-            </el-tab-pane>
-        </el-tabs>
+            <!-- MQTT客户端详细 -->
+            <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+                <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
+                    <el-tab-pane name="subscribe">
+                        <span slot="label">订阅列表</span>
+                        <el-row :gutter="10" class="mb8"></el-row>
+                        <el-table :data="subscribeList" size="mini">
+                            <el-table-column label="主题" align="center" prop="topicName" />
+                            <el-table-column label="QoS" align="center" prop="qos" />
+                        </el-table>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-dialog>
+        </el-card>
 
         <!-- 添加或修改订阅对话框 -->
         <el-dialog title="添加订阅" :visible.sync="subscribeOpen" width="800px" append-to-body>

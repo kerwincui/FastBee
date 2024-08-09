@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.sip.mapper.SipConfigMapper">
+
+    <resultMap type="SipConfig" id="SipConfigResult">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="enabled" column="enabled"/>
+        <result property="isdefault" column="isdefault"/>
+        <result property="seniorsdp" column="seniorSdp"/>
+        <result property="domain" column="domain"/>
+        <result property="serverSipid" column="server_sipid"/>
+        <result property="password" column="password"/>
+        <result property="ip" column="ip"/>
+        <result property="port" column="port"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectSipConfigVo">
+        select id,
+               product_id,
+               product_name,
+               enabled,
+               isdefault,
+               seniorSdp,
+               domain,
+               server_sipid,
+               password,
+               ip,
+               port,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sip_config
+    </sql>
+
+    <select id="selectSipConfigList" parameterType="SipConfig" resultMap="SipConfigResult">
+        <include refid="selectSipConfigVo"/>
+        <where>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="enabled != null ">and enabled = #{enabled}</if>
+            <if test="isdefault != null ">and isdefault = #{isdefault}</if>
+            <if test="seniorsdp != null ">and seniorSdp = #{seniorsdp}</if>
+            <if test="domain != null  and domain != ''">and domain = #{domain}</if>
+            <if test="serverSipid != null  and serverSipid != ''">and server_sipid = #{serverSipid}</if>
+            <if test="password != null  and password != ''">and password = #{password}</if>
+            <if test="ip != null  and ip != ''">and ip = #{ip}</if>
+            <if test="port != null ">and port = #{port}</if>
+        </where>
+    </select>
+
+    <select id="selectSipConfigByProductId" parameterType="Long" resultMap="SipConfigResult">
+        <include refid="selectSipConfigVo"/>
+        where product_id = #{productId}
+    </select>
+
+    <select id="selectSipConfigByproductId" parameterType="Long" resultMap="SipConfigResult">
+        <include refid="selectSipConfigVo"/>
+        where product_id = #{productId}
+    </select>
+    <insert id="insertSipConfig" parameterType="SipConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into sip_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="isdefault != null">isdefault,</if>
+            <if test="seniorsdp != null">seniorSdp,</if>
+            <if test="domain != null and domain != ''">domain,</if>
+            <if test="serverSipid != null and serverSipid != ''">server_sipid,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="ip != null">ip,</if>
+            <if test="port != null">port,</if>
+            <if test="delFlag != null and delFlag != ''">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="isdefault != null">#{isdefault},</if>
+            <if test="seniorsdp != null">#{seniorsdp},</if>
+            <if test="domain != null and domain != ''">#{domain},</if>
+            <if test="serverSipid != null and serverSipid != ''">#{serverSipid},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="ip != null">#{ip},</if>
+            <if test="port != null">#{port},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSipConfig" parameterType="SipConfig">
+        update sip_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="isdefault != null">isdefault = #{isdefault},</if>
+            <if test="seniorsdp != null">seniorSdp = #{seniorsdp},</if>
+            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="serverSipid != null and serverSipid != ''">server_sipid = #{serverSipid},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="ip != null">ip = #{ip},</if>
+            <if test="port != null">port = #{port},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="resetDefaultSipConfig">
+        update sip_config
+        set isdefault = 0
+        where isdefault = 1
+    </update>
+
+    <delete id="deleteSipConfigById" parameterType="Long">
+        delete
+        from sip_config
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteSipConfigByIds" parameterType="String">
+        delete from sip_config where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSipConfigByProductId" parameterType="String">
+        delete from sip_config where product_id in
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+
+</mapper>

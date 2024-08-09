@@ -8,6 +8,7 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import java.security.MessageDigest;
+import java.util.Base64;
 
 /**
  *
@@ -38,7 +39,8 @@ public class AESUtils {
                 cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
             }
             byte[] encrypted = cipher.doFinal(plainText.getBytes("utf-8"));
-            String encryptedStr = new String(new BASE64Encoder().encode(encrypted));
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encryptedStr = new String(encoder.encode(encrypted));
             //此处使用BASE64做转码功能，同时能起到2次加密的作用。
             return encryptedStr;
         } catch (Exception ex) {
@@ -69,7 +71,8 @@ public class AESUtils {
                 cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             }
             //先用base64解密
-            byte[] encrypted = new BASE64Decoder().decodeBuffer(cipherText);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] encrypted = decoder.decode(cipherText);
             try {
                 byte[] original = cipher.doFinal(encrypted);
                 String originalString = new String(original, "utf-8");

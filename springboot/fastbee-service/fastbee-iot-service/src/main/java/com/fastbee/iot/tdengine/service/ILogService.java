@@ -31,5 +31,8 @@ public interface ILogService {
     /** 查询监测数据列表 **/
     List<MonitorModel> selectMonitorList(DeviceLog deviceLog);
 
+    /** 查询物模型日志列表 **/
+    List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);
+
 
 }

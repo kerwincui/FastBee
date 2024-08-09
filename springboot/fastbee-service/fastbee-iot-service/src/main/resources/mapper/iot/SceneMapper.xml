@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.SceneMapper">
+
+    <resultMap type="com.fastbee.iot.domain.Scene" id="SceneResult">
+        <result property="sceneId"    column="scene_id"    />
+        <result property="sceneName"    column="scene_name"    />
+        <result property="chainName"    column="chain_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="cond"    column="cond"    />
+        <result property="silentPeriod"    column="silent_period"    />
+        <result property="executeMode"    column="execute_mode"    />
+        <result property="executeDelay"    column="execute_delay"    />
+        <result property="hasAlert"    column="has_alert"    />
+        <result property="enable"    column="enable"    />
+        <result property="elData"    column="el_data"    />
+        <result property="applicationName"    column="application_name"    />
+    </resultMap>
+
+    <sql id="selectSceneVo">
+        select scene_id, scene_name,chain_name, user_id, user_name, create_by, create_time, update_by, update_time, remark, cond, silent_period, execute_mode, execute_delay, has_alert, enable, el_data, application_name from iot_scene
+    </sql>
+
+    <sql id="selectSceneListVo">
+        select scene_id, scene_name,chain_name, user_id, user_name, create_by, create_time, update_by, update_time, remark, cond, silent_period, execute_mode, execute_delay, has_alert, enable, application_name from iot_scene
+    </sql>
+
+    <select id="selectSceneList" parameterType="Scene" resultMap="SceneResult">
+        <include refid="selectSceneListVo"/>
+        <where>
+            <if test="sceneName != null  and sceneName != ''"> and scene_name like concat('%', #{sceneName}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="cond != null "> and cond = #{cond}</if>
+            <if test="silentPeriod != null "> and silent_period = #{silentPeriod}</if>
+            <if test="executeMode != null "> and execute_mode = #{executeMode}</if>
+            <if test="executeDelay != null "> and execute_delay = #{executeDelay}</if>
+            <if test="hasAlert != null "> and has_alert = #{hasAlert}</if>
+            <if test="enable != null "> and enable = #{enable}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSceneBySceneId" parameterType="Long" resultMap="SceneResult">
+        <include refid="selectSceneVo"/>
+        where scene_id = #{sceneId}
+    </select>
+
+    <select id="selectSceneListBySceneIds" parameterType="String" resultMap="SceneResult">
+        <include refid="selectSceneVo"/>
+        where scene_id in
+        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
+            #{sceneId}
+        </foreach>
+    </select>
+
+    <insert id="insertScene" parameterType="com.fastbee.iot.domain.Scene" useGeneratedKeys="true" keyProperty="sceneId">
+        insert into iot_scene
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sceneName != null and sceneName != ''">scene_name,</if>
+            <if test="chainName != null and chainName != ''">chain_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="cond != null">cond,</if>
+            <if test="silentPeriod != null">silent_period,</if>
+            <if test="executeMode != null">execute_mode,</if>
+            <if test="executeDelay != null">execute_delay,</if>
+            <if test="hasAlert != null">has_alert,</if>
+            <if test="enable != null">enable,</if>
+            <if test="elData != null">el_data,</if>
+            <if test="applicationName != null and applicationName != ''">application_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sceneName != null and sceneName != ''">#{sceneName},</if>
+            <if test="chainName != null and chainName != ''">#{chainName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="cond != null">#{cond},</if>
+            <if test="silentPeriod != null">#{silentPeriod},</if>
+            <if test="executeMode != null">#{executeMode},</if>
+            <if test="executeDelay != null">#{executeDelay},</if>
+            <if test="hasAlert != null">#{hasAlert},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="elData != null">#{elData},</if>
+            <if test="applicationName != null and applicationName != ''">#{applicationName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateScene" parameterType="com.fastbee.iot.domain.Scene">
+        update iot_scene
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sceneName != null and sceneName != ''">scene_name = #{sceneName},</if>
+            <if test="chainName != null and chainName != ''">chain_name = #{chainName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="cond != null">cond = #{cond},</if>
+            <if test="silentPeriod != null">silent_period = #{silentPeriod},</if>
+            <if test="executeMode != null">execute_mode = #{executeMode},</if>
+            <if test="executeDelay != null">execute_delay = #{executeDelay},</if>
+            <if test="hasAlert != null">has_alert = #{hasAlert},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="elData != null">el_data = #{elData},</if>
+            <if test="applicationName != null and applicationName != ''">application_name = #{applicationName},</if>
+        </trim>
+        where scene_id = #{sceneId}
+    </update>
+
+    <delete id="deleteSceneBySceneId" parameterType="Long">
+        delete from iot_scene where scene_id = #{sceneId}
+    </delete>
+
+    <delete id="deleteSceneBySceneIds" parameterType="String">
+        delete from iot_scene where scene_id in
+        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
+            #{sceneId}
+        </foreach>
+    </delete>
+</mapper>

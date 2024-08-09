@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.SceneScriptMapper">
+
+    <resultMap type="SceneScript" id="SceneScriptResult">
+        <result property="scriptId" column="script_id"/>
+        <result property="sceneId" column="scene_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="source" column="source"/>
+        <result property="scriptPurpose"    column="script_purpose"/>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="operator" column="operator"/>
+        <result property="type" column="type"/>
+        <result property="deviceCount" column="device_count"/>
+        <result property="jobId" column="job_id"/>
+        <result property="cronExpression" column="cron_expression"/>
+        <result property="isAdvance" column="is_advance"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="arrayIndex" column="array_index"/>
+        <result property="arrayIndexName" column="array_index_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectSceneScriptVo">
+        select script_id,
+               scene_id,
+               product_id,
+               product_name,
+               source,
+               script_purpose,
+               id,
+               name,
+               value,
+               operator,
+               type,
+               device_count,
+               job_id,
+               cron_expression,
+               is_advance,
+               parent_id,
+               parent_name,
+               array_index,
+               array_index_name,
+               create_by,
+               create_time
+        from iot_scene_script
+    </sql>
+
+    <select id="selectSceneScriptList" parameterType="SceneScript" resultMap="SceneScriptResult">
+        <include refid="selectSceneScriptVo"/>
+        <where>
+            <if test="scriptId != null ">and script_id = #{scriptId}</if>
+            <if test="sceneId != null ">and scene_id = #{sceneId}</if>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null ">and product_name = #{productName}</if>
+            <if test="source != null ">and source = #{source}</if>
+            <if test="scriptPurpose != null ">and script_purpose = #{scriptPurpose}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="value != null  and value != ''">and value = #{value}</if>
+            <if test="operator != null  and operator != ''">and operator = #{operator}</if>
+            <if test="type != null ">and type = #{type}</if>
+            <if test="jobId != null ">and job_id = #{jobId}</if>
+            <if test="cronExpression != null  and cronExpression != ''">and cron_expression = #{cronExpression}</if>
+            <if test="isAdvance != null ">and is_advance = #{isAdvance}</if>
+            <if test="parentId != null  and parentId != ''">and parent_id = #{parentId}</if>
+            <if test="parentName != null  and parentName != ''">and parent_name like concat('%', #{parentName}, '%')
+            </if>
+            <if test="arrayIndex != null  and arrayIndex != ''">and array_index = #{arrayIndex}</if>
+            <if test="arrayIndexName != null  and arrayIndexName != ''">and array_index_name like concat('%',
+                #{arrayIndexName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSceneScriptBySceneScriptId" parameterType="String" resultMap="SceneScriptResult">
+        <include refid="selectSceneScriptVo"/>
+        where script_id = #{scriptId}
+    </select>
+
+    <select id="listSceneScriptByPurpose" resultMap="SceneScriptResult">
+        <include refid="selectSceneScriptVo"/>
+        where scene_id in
+        <foreach collection="sceneIdList" item="sceneId" open="(" separator="," close=")">
+            #{sceneId}
+        </foreach>
+        and script_purpose = #{scriptPurpose}
+    </select>
+
+    <insert id="insertSceneScript" parameterType="SceneScript" useGeneratedKeys="false">
+        insert into iot_scene_script
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scriptId != null">script_id,</if>
+            <if test="sceneId != null">scene_id,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null">product_name,</if>
+            <if test="source != null">source,</if>
+            <if test="scriptPurpose != null">script_purpose,</if>
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="value != null">value,</if>
+            <if test="operator != null">operator,</if>
+            <if test="type != null">type,</if>
+            <if test="deviceCount != null">device_count,</if>
+            <if test="jobId != null">job_id,</if>
+            <if test="cronExpression != null">cron_expression,</if>
+            <if test="isAdvance != null">is_advance,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="parentName != null">parent_name,</if>
+            <if test="arrayIndex != null">array_index,</if>
+            <if test="arrayIndexName != null">array_index_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scriptId != null">#{scriptId},</if>
+            <if test="sceneId != null">#{sceneId},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="source != null">#{source},</if>
+            <if test="scriptPurpose != null">#{scriptPurpose},</if>
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="value != null">#{value},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="type != null">#{type},</if>
+            <if test="deviceCount != null">#{deviceCount},</if>
+            <if test="jobId != null">#{jobId},</if>
+            <if test="cronExpression != null">#{cronExpression},</if>
+            <if test="isAdvance != null">#{isAdvance},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="parentName != null">#{parentName},</if>
+            <if test="arrayIndex != null">#{arrayIndex},</if>
+            <if test="arrayIndexName != null">#{arrayIndexName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSceneScript" parameterType="SceneScript">
+        update iot_scene_script
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scriptId != null">script_id = #{scriptId},</if>
+            <if test="sceneId != null">scene_id = #{sceneId},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="scriptPurpose != null">script_purpose = #{scriptPurpose},</if>
+            <if test="id != null">id = #{id},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="value != null">value = #{value},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="deviceCount != null">device_count = #{deviceCount},</if>
+            <if test="jobId != null">job_id = #{jobId},</if>
+            <if test="cronExpression != null">cron_expression = #{cronExpression},</if>
+            <if test="isAdvance != null">is_advance = #{isAdvance},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="parentName != null">parent_name = #{parentName},</if>
+            <if test="arrayIndex != null">array_index = #{arrayIndex},</if>
+            <if test="arrayIndexName != null">array_index_name = #{arrayIndexName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where script_id = #{scriptId}
+    </update>
+
+    <delete id="deleteSceneScriptBySceneScriptId" parameterType="String">
+        delete
+        from iot_scene_script
+        where script_id = #{scriptId}
+    </delete>
+
+    <delete id="deleteSceneScriptBySceneScriptIds" parameterType="String">
+        delete from iot_scene_script where script_id in
+        <foreach item="sceneScriptId" collection="array" open="(" separator="," close=")">
+            #{scriptId}
+        </foreach>
+    </delete>
+
+    <insert id="insertSceneScriptList" parameterType="java.util.List">
+        insert into iot_scene_script (script_id,scene_id,product_id,product_name,source,script_purpose,id, name,value,operator,type,device_count,job_id,
+                                      cron_expression,is_advance,parent_id,parent_name,array_index,array_index_name,create_by,create_time)
+        VALUES
+        <foreach collection="list" item="sceneScript" separator=",">
+            (#{sceneScript.scriptId},
+            #{sceneScript.sceneId},
+            #{sceneScript.productId},
+            #{sceneScript.productName},
+            #{sceneScript.source},
+            #{sceneScript.scriptPurpose},
+            #{sceneScript.id},
+            #{sceneScript.name},
+            #{sceneScript.value},
+            #{sceneScript.operator},
+            #{sceneScript.type},
+            #{sceneScript.deviceCount},
+            #{sceneScript.jobId},
+            #{sceneScript.cronExpression},
+            #{sceneScript.isAdvance},
+            #{sceneScript.parentId},
+            #{sceneScript.parentName},
+            #{sceneScript.arrayIndex},
+            #{sceneScript.arrayIndexName},
+            #{sceneScript.createBy},
+            #{sceneScript.createTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSceneScriptBySceneIds" parameterType="String">
+        delete from iot_scene_script where scene_id in
+        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
+            #{sceneId}
+        </foreach>
+    </delete>
+</mapper>

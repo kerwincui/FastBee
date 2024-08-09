@@ -1,13 +1,12 @@
 package com.fastbee.mqtt.auth;
 
 import com.fastbee.common.constant.Constants;
-import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.iot.model.MqttAuthenticationModel;
 import com.fastbee.iot.service.IToolService;
-import com.fastbee.mq.mqttClient.MqttClientConfig;
+import com.fastbee.mqttclient.MqttClientConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;

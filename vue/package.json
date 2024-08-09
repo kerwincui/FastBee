@@ -73,6 +73,7 @@
     "vue-qr": "^4.0.9",
     "vue-router": "3.4.9",
     "vue-seamless-scroll": "^1.1.23",
+    "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "2.24.3",
     "vuex": "3.6.0"
   },

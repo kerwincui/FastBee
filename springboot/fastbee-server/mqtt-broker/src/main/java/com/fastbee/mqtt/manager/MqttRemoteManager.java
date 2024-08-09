@@ -1,13 +1,12 @@
 package com.fastbee.mqtt.manager;
 
-import com.alibaba.fastjson2.JSON;
 import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.common.enums.TopicType;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.service.IDeviceService;
-import com.fastbee.mq.mqttClient.PubMqttClient;
 import com.fastbee.mqtt.model.PushMessageBo;
+import com.fastbee.mqttclient.PubMqttClient;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.*;
 import org.springframework.beans.factory.annotation.Value;

@@ -295,4 +295,11 @@ public interface DeviceMapper
      * @return
      */
     DeviceRelateAlertLogVO selectRelateAlertLogBySerialNumber(String deviceNumber);
+
+    /**
+     * 根据产品ID获取产品下所有编号
+     * @param productId
+     * @return
+     */
+    public String[] getDeviceNumsByProductId(Long productId);
 }

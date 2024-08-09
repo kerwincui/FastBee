@@ -17,8 +17,12 @@
 			<groupId>com.fastbee</groupId>
 			<artifactId>mqtt-broker</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>sip-server</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 
 

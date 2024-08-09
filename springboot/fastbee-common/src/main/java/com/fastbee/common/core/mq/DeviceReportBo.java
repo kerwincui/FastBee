@@ -5,7 +5,6 @@ import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.common.enums.FunctionReplyStatus;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.enums.ThingsModelType;
-import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

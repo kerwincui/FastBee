@@ -24,4 +24,12 @@ public interface IDeviceLogService
      */
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog);
 
+    /**
+     * 查询设备日志列表
+     *
+     * @param deviceLog 设备日志
+     * @return 设备日志集合
+     */
+    public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);
+
 }
