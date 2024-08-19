@@ -2033,7 +2033,7 @@ INSERT INTO `sys_dict_data` VALUES (774, 1, '消息重发', '1', 'rule_script_ac
 INSERT INTO `sys_dict_data` VALUES (775, 2, '消息通知', '2', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:18', 'admin', '2023-12-19 11:43:38', NULL);
 INSERT INTO `sys_dict_data` VALUES (776, 3, 'Http推送', '3', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:33', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (777, 4, 'Mqtt桥接', '4', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', '2023-12-19 11:43:54', '', NULL, NULL);
---视频模块新增字典
+-- 视频模块新增字典
 INSERT INTO `sys_dict_data` VALUES (169, 0, 'DVR', '111', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:07:06', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (170, 1, 'NVR', '118', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:07:59', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (171, 2, '报警控制器', '117', 'video_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:08:13', 'admin', '2023-02-22 01:08:35', NULL);
@@ -2387,7 +2387,7 @@ INSERT INTO `sys_menu` VALUES (3053, '规则脚本新增', 3051, 2, '', NULL, NU
 INSERT INTO `sys_menu` VALUES (3054, '规则脚本修改', 3051, 3, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:edit', '#', 'admin', '2024-04-22 16:32:04', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3056, '规则脚本导出', 3051, 5, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:export', '#', 'admin', '2024-04-22 16:33:25', 'admin', '2024-04-22 16:33:49', '');
 INSERT INTO `sys_menu` VALUES (3057, '规则脚本删除', 3051, 4, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:remove', '#', 'admin', '2024-04-22 16:35:01', '', NULL, '');
---视频模块新增菜单
+-- 视频模块新增菜单
 INSERT INTO `sys_menu` VALUES (3058, '视频中心', 0, 2, 'video', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'live', 'admin', '2024-07-15 14:42:13', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3059, '通道管理', 3058, 1, 'sip', 'iot/sip/index', NULL, 1, 0, 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', '2024-07-15 14:43:22', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3060, '视频配置', 3058, 2, 'mediaServer', 'iot/sip/mediaServer', NULL, 1, 0, 'C', '0', '0', NULL, 'edit', 'admin', '2024-07-15 14:48:52', '', NULL, '');
