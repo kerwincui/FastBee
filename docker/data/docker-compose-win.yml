@@ -1,0 +1,133 @@
+version: '2'
+
+networks:
+  network:
+    ipam:
+      driver: default
+      config:
+        - subnet: '177.7.0.0/16'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - 13306:3306
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.11
+    volumes:
+      -  mysql_data:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./mysql/initdb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: fastbee
+      MYSQL_ROOT_PASSWORD: fastbee
+      TZ: Asia/Shanghai
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8',
+        '--collation-server=utf8_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1'
+      ]
+    restart: always
+
+  redis:
+    image: redis:7.0.0
+    container_name: redis
+    ports:
+      - 16379:6379
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.10
+    volumes:
+      - redis_data:/data
+    environment:
+      TZ: Asia/Shanghai
+    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
+    restart: always
+
+  java:
+    image: openjdk:8-jre
+    container_name: java
+    ports:
+      - 8080:8080
+      - 1883:1883
+      - 8083:8083
+      - 5061:5061/udp
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.12
+    depends_on:
+      - redis
+      - mysql
+      - zlmedia
+    volumes:
+      - ./java/fastbee-admin.jar:/server.jar
+      - ./java/uploadPath:/uploadPath
+      - ./java/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+    entrypoint: java -jar /server.jar
+    restart: always
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    privileged: true
+    networks:
+      network:
+        ipv4_address: 177.7.0.13
+    depends_on:
+      - java
+    volumes:
+      - ./nginx/vue:/usr/share/nginx/html
+      - ./nginx/h5:/usr/share/nginx/h5
+      - ./nginx/ssl:/usr/share/nginx/ssl
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx:/var/log/nginx
+    environment:
+      TZ: Asia/Shanghai
+    restart: always
+
+  zlmedia:
+    image: zlmediakit/zlmediakit:master
+    container_name: zlmedia
+    privileged: true
+    ports:
+      - 8082:80
+      - 8443:443
+      - 554:554
+      - 1935:1935
+      - 8000:8000
+      - 30000-30100:30000-30100/udp
+    expose:
+      - "80"
+      - "443"
+      - "554"
+      - "1935"
+    volumes:
+      - ./zlmedia/logs:/opt/media/bin/log
+      - ./zlmedia/data/www:/opt/media/bin/www
+      - ./zlmedia/conf/config.ini:/opt/media/conf/config.ini
+      - ./zlmedia/conf/default.pem:/opt/media/bin/default.pem
+    networks:
+      network:
+        ipv4_address: 177.7.0.15
+    environment:
+      TZ: Asia/Shanghai
+    restart: always
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
