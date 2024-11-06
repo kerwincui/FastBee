@@ -2386,7 +2386,7 @@ INSERT INTO `sys_menu` VALUES (3053, '规则脚本新增', 3051, 2, '', NULL, NU
 INSERT INTO `sys_menu` VALUES (3054, '规则脚本修改', 3051, 3, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:edit', '#', 'admin', '2024-04-22 16:32:04', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3056, '规则脚本导出', 3051, 5, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:export', '#', 'admin', '2024-04-22 16:33:25', 'admin', '2024-04-22 16:33:49', '');
 INSERT INTO `sys_menu` VALUES (3057, '规则脚本删除', 3051, 4, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iot:script:remove', '#', 'admin', '2024-04-22 16:35:01', '', NULL, '');
---视频模块新增菜单
+-- 视频模块新增菜单
 INSERT INTO `sys_menu` VALUES (3058, '视频中心', 0, 2, 'video', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'live', 'admin', '2024-07-15 14:42:13', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3059, '通道管理', 3058, 1, 'sip', 'iot/sip/index', NULL, 1, 0, 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', '2024-07-15 14:43:22', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3060, '视频配置', 3058, 2, 'mediaServer', 'iot/sip/mediaServer', NULL, 1, 0, 'C', '0', '0', NULL, 'edit', 'admin', '2024-07-15 14:48:52', '', NULL, '');
