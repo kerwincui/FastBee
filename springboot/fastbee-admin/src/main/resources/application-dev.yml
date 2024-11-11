@@ -72,7 +72,7 @@ spring:
 
 # sip 配置
 sip:
-  enabled: true                            # 是否启用视频监控SIP，true为启用
+  enabled: false                            # 是否启用视频监控SIP，true为启用
   ## 本地调试时，绑定网卡局域网IP，设备在同一局域网，设备接入IP填写绑定IP
   ## 部署服务端时，默认绑定容器IP，设备接入IP填写服务器公网IP
   #ip: 177.7.0.13
