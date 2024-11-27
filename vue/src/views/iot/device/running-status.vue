@@ -420,9 +420,6 @@ export default {
     /* Mqtt回调处理 */
     mqttCallback() {
       this.$mqttTool.client.on('message', (topic, message, buffer) => {
-        if (message instanceof  Uint8Array) {
-          message = new TextDecoder().decode(message);
-        }
         let topics = topic.split('/');
         let productId = topics[1];
         let deviceNum = topics[2];
