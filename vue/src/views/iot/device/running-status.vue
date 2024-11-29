@@ -442,29 +442,29 @@ export default {
         if (topics[4] == 'reply') {
           this.$modal.notifySuccess(message);
         }
-        if (topic.endsWith('ws/service')) {
+        if (topic.endsWith('ws/service') || topics[3] == 'monitor') {
           console.log('接收到【物模型】主题1：', topic);
           console.log('接收到【物模型】内容：', message);
           // 更新列表中设备的属性
           if (this.deviceInfo.serialNumber == deviceNum) {
-            for (let j = 0; j < message.message.length; j++) {
+            for (let j = 0; j < message.length; j++) {
               let isComplete = false;
               // 设备状态
               for (let k = 0; k < this.deviceInfo.thingsModels.length && !isComplete; k++) {
-                if (this.deviceInfo.thingsModels[k].id == message.message[j].id) {
+                if (this.deviceInfo.thingsModels[k].id == message[j].id) {
                   // 普通类型(小数/整数/字符串/布尔/枚举)
                   if (this.deviceInfo.thingsModels[k].datatype.type == 'decimal' || this.deviceInfo.thingsModels[k].datatype.type == 'integer') {
-                    this.deviceInfo.thingsModels[k].shadow = Number(message.message[j].value);
+                    this.deviceInfo.thingsModels[k].shadow = Number(message[j].value);
                   } else {
-                    this.deviceInfo.thingsModels[k].shadow = message.message[j].value;
+                    this.deviceInfo.thingsModels[k].shadow = message[j].value;
                   }
                   isComplete = true;
                   break;
                 } else if (this.deviceInfo.thingsModels[k].datatype.type == 'object') {
                   // 对象类型
                   for (let n = 0; n < this.deviceInfo.thingsModels[k].datatype.params.length; n++) {
-                    if (this.deviceInfo.thingsModels[k].datatype.params[n].id == message.message[j].id) {
-                      this.deviceInfo.thingsModels[k].datatype.params[n].shadow = message.message[j].value;
+                    if (this.deviceInfo.thingsModels[k].datatype.params[n].id == message[j].id) {
+                      this.deviceInfo.thingsModels[k].datatype.params[n].shadow = message[j].value;
                       isComplete = true;
                       break;
                     }
@@ -473,11 +473,11 @@ export default {
                   // 数组类型
                   if (this.deviceInfo.thingsModels[k].datatype.arrayType == 'object') {
                     // 1.对象类型数组,id为数组中一个元素,例如：array_01_gateway_temperature
-                    if (String(message.message[j].id).indexOf('array_') == 0) {
+                    if (String(message[j].id).indexOf('array_') == 0) {
                       for (let n = 0; n < this.deviceInfo.thingsModels[k].datatype.arrayParams.length; n++) {
                         for (let m = 0; m < this.deviceInfo.thingsModels[k].datatype.arrayParams[n].length; m++) {
-                          if (this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].id == message.message[j].id) {
-                            this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].shadow = message.message[j].value;
+                          if (this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].id == message[j].id) {
+                            this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].shadow = message[j].value;
                             isComplete = true;
                             break;
                           }
@@ -492,8 +492,8 @@ export default {
                         for (let m = 0; m < this.deviceInfo.thingsModels[k].datatype.arrayParams[n].length; m++) {
                           let index = n > 9 ? String(n) : '0' + k;
                           let prefix = 'array_' + index + '_';
-                          if (this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].id == prefix + message.message[j].id) {
-                            this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].shadow = message.message[j].value;
+                          if (this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].id == prefix + message[j].id) {
+                            this.deviceInfo.thingsModels[k].datatype.arrayParams[n][m].shadow = message[j].value;
                             isComplete = true;
                           }
                         }
@@ -505,8 +505,8 @@ export default {
                   } else {
                     // 整数、小数和字符串类型数组
                     for (let n = 0; n < this.deviceInfo.thingsModels[k].datatype.arrayModel.length; n++) {
-                      if (this.deviceInfo.thingsModels[k].datatype.arrayModel[n].id == message.message[j].id) {
-                        this.deviceInfo.thingsModels[k].datatype.arrayModel[n].shadow = message.message[j].value;
+                      if (this.deviceInfo.thingsModels[k].datatype.arrayModel[n].id == message[j].id) {
+                        this.deviceInfo.thingsModels[k].datatype.arrayModel[n].shadow = message[j].value;
                         isComplete = true;
                         break;
                       }
@@ -518,15 +518,15 @@ export default {
               for (let k = 0; k < this.deviceInfo.chartList.length; k++) {
                 if (this.deviceInfo.chartList[k].id.indexOf('array_') == 0) {
                   // 数组类型匹配,例如：array_00_gateway_temperature
-                  if (this.deviceInfo.chartList[k].id == message.message[j].id) {
-                    // let shadows = message.message[j].value.split(",");
-                    this.deviceInfo.chartList[k].shadow = message.message[j].value;
+                  if (this.deviceInfo.chartList[k].id == message[j].id) {
+                    // let shadows = message[j].value.split(",");
+                    this.deviceInfo.chartList[k].shadow = message[j].value;
                     // 更新图表
                     for (let m = 0; m < this.monitorChart.length; m++) {
-                      if (message.message[j].id == this.monitorChart[m].data.id) {
+                      if (message[j].id == this.monitorChart[m].data.id) {
                         let data = [
                           {
-                            value: message.message[j].value,
+                            value: message[j].value,
                             name: this.monitorChart[m].data.name,
                           },
                         ];
@@ -543,15 +543,15 @@ export default {
                   }
                 } else {
                   // 普通类型匹配
-                  if (this.deviceInfo.chartList[k].id == message.message[j].id) {
-                    this.deviceInfo.chartList[k].shadow = message.message[j].value;
+                  if (this.deviceInfo.chartList[k].id == message[j].id) {
+                    this.deviceInfo.chartList[k].shadow = message[j].value;
                     // 更新图表
                     for (let m = 0; m < this.monitorChart.length; m++) {
-                      if (message.message[j].id == this.monitorChart[m].data.id) {
+                      if (message[j].id == this.monitorChart[m].data.id) {
                         isComplete = true;
                         let data = [
                           {
-                            value: message.message[j].value,
+                            value: message[j].value,
                             name: this.monitorChart[m].data.name,
                           },
                         ];
