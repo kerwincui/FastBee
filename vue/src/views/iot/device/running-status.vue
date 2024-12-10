@@ -442,7 +442,7 @@ export default {
         if (topics[4] == 'reply') {
           this.$modal.notifySuccess(message);
         }
-        if (topic.endsWith('ws/service')) {
+        if (topic.endsWith('ws/service') || topics[3] == 'monitor') {
           console.log('接收到【物模型】主题1：', topic);
           console.log('接收到【物模型】内容：', message);
           // 更新列表中设备的属性

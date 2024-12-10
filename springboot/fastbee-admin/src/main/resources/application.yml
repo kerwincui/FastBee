@@ -2,7 +2,7 @@
 fastbee:
   name: fastbee             # 名称
   version: 3.8.5            # 版本
-  copyrightYear: 2023       # 版权年份
+  copyrightYear: 2024       # 版权年份
   demoEnabled: true         # 实例演示开关
   # 文件路径，以uploadPath结尾 示例（ Windows配置 D:/uploadPath，Linux配置 /uploadPath）
   profile: /uploadPath
@@ -23,12 +23,12 @@ server:
   # 基于netty的服务器
   broker:
     must-pass: false         # 客户端连接是否需要密码
-    enabled: true            # mqttBroker类型选择, true: 基于netty的mqttBroker和webSocket  false: emq的mqttBroker
+    enabled: true            # 需要配置为true
     broker-node: node1
     port: 1883
     websocket-port: 8083
     websocket-path: /mqtt
-    keep-alive: 70          # 默认的全部客户端心跳上传时间
+    keep-alive: 30          # 默认的全部客户端心跳上传时间
 
 # Spring配置
 spring:
