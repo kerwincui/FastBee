@@ -40,7 +40,7 @@
 
 ![](https://oscimg.oschina.net/oscnet/up-a9a7fdaf40208becd26c2485783bc0f86e6.png)
 
-|[空气检测仪](https://fastbee.cn/doc/pages/hardware/)  |   [物联网开发板](https://fastbee.cn/doc/pages/hardware/)  |  [Air724开发板](https://fastbee.cn/doc/pages/hardware/)  |  [智能开关](https://fastbee.cn/doc/pages/hardware/) | [查看更多>>](https://fastbee.cn/doc/pages/hardware/)  |
+|空气检测仪|   物联网开发板 |  Air724开发板 |  智能开关| [查看更多>>](https://fastbee.cn/doc/device/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
 
