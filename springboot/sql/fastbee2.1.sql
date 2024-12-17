@@ -1111,7 +1111,7 @@ INSERT INTO `media_server` VALUES (7, 'fastbee', 1, 'admin', 1, 'http', '192.168
 DROP TABLE IF EXISTS `sip_device_channel`;
 CREATE TABLE `sip_device_channel`  (
                                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                                       `tenant_id` bigint(20) NOT NULL DEFAULT 1 COMMENT '租户ID',
+                                       `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
                                        `tenant_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '租户名称',
                                        `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品ID',
                                        `product_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品名称',
@@ -2054,7 +2054,6 @@ INSERT INTO `sys_dict_data` VALUES (186, 7, '语音输入设备', '136', 'channe
 INSERT INTO `sys_dict_data` VALUES (187, 8, '语音输出设备', '137', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:14:50', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (188, 9, '移动传输设备', '138', 'channel_type', NULL, 'default', 'N', '0', 'admin', '2023-02-22 01:15:11', '', NULL, NULL);
 
-
 -- ----------------------------
 -- Table structure for sys_dict_type
 -- ----------------------------
@@ -2390,6 +2389,7 @@ INSERT INTO `sys_menu` VALUES (3058, '视频中心', 0, 2, 'video', NULL, NULL, 
 INSERT INTO `sys_menu` VALUES (3059, '通道管理', 3058, 1, 'sip', 'iot/sip/index', NULL, 1, 0, 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', '2024-07-15 14:43:22', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3060, '视频配置', 3058, 2, 'mediaServer', 'iot/sip/mediaServer', NULL, 1, 0, 'C', '0', '0', NULL, 'edit', 'admin', '2024-07-15 14:48:52', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (3061, '告警配置', 3050, 2, 'alert', 'iot/alert/index', NULL, 1, 0, 'C', '0', '0', 'iot:alert:list', 'alert', 'admin', '2024-07-16 10:01:34', '', NULL, '');
+
 
 -- ----------------------------
 -- Table structure for sys_notice
