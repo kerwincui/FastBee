@@ -74,7 +74,7 @@ public class MediaServerServiceImpl implements IMediaServerService {
     public MediaServer selectMediaServerBytenantId(Long tenantId) {
         List<MediaServer> list = mediaServerMapper.selectMediaServerBytenantId(tenantId);
         if (list.size() == 0) {
-            return selectMediaServerBytenantId(1L);
+            return null;
         } else if (list.size() == 1) {
             return list.get(0);
         } else {
