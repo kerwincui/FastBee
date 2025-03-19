@@ -32,11 +32,6 @@
             <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isChart" />
           </template>
         </el-table-column>
-        <el-table-column label="实时监测" align="center" prop="" width="75">
-          <template slot-scope="scope">
-            <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
-          </template>
-        </el-table-column>
         <el-table-column label="只读" align="center" prop="" width="75">
           <template slot-scope="scope">
             <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isReadonly" />

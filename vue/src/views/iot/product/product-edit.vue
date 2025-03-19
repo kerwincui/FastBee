@@ -17,7 +17,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="设备类型" prop="deviceType">
-                                <el-select v-model="form.deviceType" placeholder="请选择设备类型" :disabled="form.status == 2"
+                                <el-select v-model="form.deviceType" placeholder="请选择设备类型" @change="deviceTypeChange" :disabled="form.status == 2"
                                     style="width:100%">
                                     <el-option v-for="dict in dict.type.iot_device_type" :key="dict.value"
                                         :label="dict.label" :value="parseInt(dict.value)"></el-option>
@@ -25,7 +25,7 @@
                             </el-form-item>
                             <el-form-item label="传输协议" prop="transport">
                                 <el-select v-model="form.transport" placeholder="请选择传输协议" style="width: 100%"
-                                    :disabled="form.status == 2">
+                                    :disabled="true">
                                     <el-option v-for="dict in dict.type.iot_transport_type" :key="dict.value"
                                         :label="dict.label" :value="dict.value" />
                                 </el-select>
@@ -231,6 +231,7 @@ export default {
                 vertificateMethod: 3,
                 transport: 'MQTT',
                 imgUrl: "",
+                protocolCode: "JSON",
             },
             // 表单校验
             rules: {
@@ -496,6 +497,14 @@ export default {
             listProtocol(data).then(res => {
                 this.protocolList = res.rows;
             })
+        },
+        // 设备类型改变事件
+        deviceTypeChange(type){
+            if(type===3){
+                this.form.transport="GB28181";
+            }else{
+                this.form.transport="MQTT";
+            }
         },
         // 取消按钮
         cancel() {
