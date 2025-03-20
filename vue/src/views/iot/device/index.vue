@@ -452,7 +452,7 @@ export default {
                         deviceId: deviceId,
                         isSubDev: isSubDev,
                         pageNum: this.queryParams.pageNum,
-                        activeName: 'sipChannel',
+                        activeName: 'videoLive',
                     },
                 });
             } else {

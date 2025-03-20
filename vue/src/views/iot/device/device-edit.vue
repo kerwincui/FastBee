@@ -135,7 +135,7 @@
                 <device-timer ref="deviceTimer" :device="form" />
             </el-tab-pane>
 
-            <el-tab-pane name="deviceUser" key="4"  v-if="form.deviceId !==0">
+            <el-tab-pane name="deviceUser" key="4"  v-if="form.deviceId !=0">
                 <span slot="label">设备用户</span>
                 <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />
             </el-tab-pane>

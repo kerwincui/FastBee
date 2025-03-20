@@ -180,7 +180,6 @@ import productThingsModel from "./product-things-model";
 import productApp from "./product-app";
 import productAuthorize from "./product-authorize";
 import imageUpload from "../../../components/ImageUpload/index";
-import business from "../business/index";
 import configSip from '../sip/sipconfig.vue';
 import {
     listProtocol
@@ -209,7 +208,6 @@ export default {
         productApp,
         productAuthorize,
         imageUpload,
-        business,
         configSip,
     },
     data() {
