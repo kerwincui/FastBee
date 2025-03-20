@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>播放器</title>
+    <script src="./vconsole.js"></script>
+    <script src="./jessibuca-pro/jessibuca-pro.js"></script>
+    <link rel="stylesheet" href="./player.css">
+    <style>
+        .container-shell:before {
+            content: "";
+        }
+    </style>
+</head>
+<body class="page">
+    <div class="root">
+        <div class="container-shell">
+            <div id="container"></div>
+        </div>
+<!--        <br/>-->
+<!--        <br/>-->
+<!--        <div class="post-message-section">-->
+<!--            <p class="desc">网页向应用发送消息。test88</p>-->
+<!--            <div class="btn-list">-->
+<!--                <button class="btn btn-red" type="button" id="wxpostMessage">wxpostMessage</button>-->
+<!--&lt;!&ndash;                <button class="btn btn-red" type="button" id="unipostMessage">unipostMessage</button>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</body>
+<script src="./player.js"></script>
+<!-- uni 的 SDK -->
+<script src="./uni.webview.1.5.5.js"></script>
+<script type="text/javascript">
+    var userAgent = navigator.userAgent;
+    console.log("userAgent");
+    console.log(userAgent);
+    if (userAgent.indexOf('AlipayClient') > -1) {
+        // 支付宝小程序的 JS-SDK 防止 404 需要动态加载，如果不需要兼容支付宝小程序，则无需引用此 JS 文件。
+        document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
+    } else if (/QQ/i.test(userAgent) && /miniProgram/i.test(userAgent)) {
+        // QQ 小程序
+        document.write(
+            '<script type="text/javascript" src="https://qqq.gtimg.cn/miniprogram/webview_jssdk/qqjssdk-1.0.0.js"><\/script>'
+        );
+    } else if (/miniProgram/i.test(userAgent) && /micromessenger/i.test(userAgent)) {
+        console.log("微信小程序 JS-SDK");
+        // 微信小程序 JS-SDK 如果不需要兼容微信小程序，则无需引用此 JS 文件。
+        document.write('<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"><\/script>');
+        wx.miniProgram.getEnv(function(res) {
+            console.log(res.miniprogram) // true
+        })// true
+    } else if (/toutiaomicroapp/i.test(userAgent)) {
+        // 头条小程序 JS-SDK 如果不需要兼容头条小程序，则无需引用此 JS 文件。
+        document.write(
+            '<script type="text/javascript" src="https://s3.pstatp.com/toutiao/tmajssdk/jssdk-1.0.1.js"><\/script>');
+    } else if (/swan/i.test(userAgent)) {
+        // 百度小程序 JS-SDK 如果不需要兼容百度小程序，则无需引用此 JS 文件。
+        document.write(
+            '<script type="text/javascript" src="https://b.bdstatic.com/searchbox/icms/searchbox/js/swan-2.0.18.js"><\/script>'
+        );
+    } else if (/quickapp/i.test(userAgent)) {
+        // quickapp
+        document.write('<script type="text/javascript" src="https://quickapp/jssdk.webview.min.js"><\/script>');
+    }
+
+    if (!/toutiaomicroapp/i.test(userAgent)) {
+        console.log("webview post-message-section");
+        //document.querySelector('.post-message-section').style.visibility = 'visible';
+    }
+</script>
+
+<script type="text/javascript">
+    var container = document.getElementById('container');
+    var showOperateBtns = true; // 是否显示按钮
+    var jessibuca = null;
+    var rotate = 90;
+    var playTimes = null;
+    var playUrl = null;
+    console.log("jessibuca webview");
+    var data = getQuery('data');
+    if (data != null) {
+        console.log(data);
+        var json = JSON.parse(data);
+        playurl(json, json.playUrl);
+    }
+
+    function getQuery(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
+    }
+
+    function replay() {
+        if (jessibuca != null) {
+            jessibuca.destroy();
+        }
+        create()
+    }
+
+    function setplayTimes(times) {
+        console.log("set playTimes:" + times);
+        playTimes = times;
+    }
+
+    function setplayUrl(url) {
+        console.log("set playUrl:" + url);
+        playUrl = url;
+    }
+
+    function playurl(json, url) {
+        setplayUrl(url);
+        replay();
+        console.log(json.type);
+        if (json.type == "play") {
+            play(url);
+        } else if (json.type == "playback"){
+            playback(url,json.playTimes);
+        }
+    }
+
+    function create() {
+        console.log("jessibuca create");
+        jessibuca = new JessibucaPro({
+            container: container,
+            videoBuffer: 0.2, // 缓存时长
+            decoder: './jessibuca-pro/decoder-pro.js',
+            useSIMD: true,
+            //useWCS: true,
+            //useMSE: true,
+            isResize: false,
+            isFullResize: false,
+            forceNoOffscreen: true,
+            useWebFullScreen: true,
+            useVideoRender: true,
+            useCanvasRender: false,
+            isNotMute: false,
+            text: "",
+            loadingText: "加载中",
+            debug: true,
+            debugLevel: 'debug',
+            showBandwidth: showOperateBtns, // 显示网速
+            operateBtns: {
+                fullscreen: showOperateBtns,
+                screenshot: showOperateBtns,
+                play: showOperateBtns,
+                audio: showOperateBtns,
+                fullscreenFn: function () {
+                    console.log('fullscreenFn');
+                    jessibuca.setFullscreen(true);
+                },
+                fullscreenExitFn: function () {
+                    console.log('fullscreenExitFn');
+                    jessibuca.setFullscreen(false);
+                    jessibuca.setRotate(0);
+                    rotate = 90;
+                },
+            },
+            extendOperateBtns: [{
+                name: '横竖屏切换',
+                index: 3,
+                icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFw2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4wLWMwMDAgNzkuMTcxYzI3ZmFiLCAyMDIyLzA4LzE2LTIyOjM1OjQxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjQuMCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjQtMDgtMDNUMTE6MjY6MDUrMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDI0LTA4LTAzVDExOjM1OjA1KzA4OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDI0LTA4LTAzVDExOjM1OjA1KzA4OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpmZmFjMWM0ZC1mM2YzLTQyMzMtYWQxMS1iMjZjOTIwOGU4MDYiIHhtcE1NOkRvY3VtZW50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',
+                iconHover: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFw2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4wLWMwMDAgNzkuMTcxYzI3ZmFiLCAyMDIyLzA4LzE2LTIyOjM1OjQxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjQuMCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjQtMDgtMDNUMTE6MjY6MDUrMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDI0LTA4LTAzVDExOjM1OjA1KzA4OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDI0LTA4LTAzVDExOjM1OjA1KzA4OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpmZmFjMWM0ZC1mM2YzLTQyMzMtYWQxMS1iMjZjOTIwOGU4MDYiIHhtcE1NOkRvY3VtZW50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',
+                iconTitle: '横竖屏切换',
+                click: () => {
+                    console.log('点击了横竖屏切换');
+                    jessibuca.setRotate(rotate);
+                    if (rotate == 90) {
+                        rotate = 0
+                    } else if (rotate == 0) {
+                        rotate = 90
+                    }
+                }
+            },],
+
+        },);
+        console.log("jessibuca create   22222");
+        jessibuca.on('error', function (error) {
+            console.log('error')
+            console.log(error)
+        })
+        jessibuca.on("fetchError", function (data) {
+            console.log('fetchError:', data)
+        })
+        jessibuca.on("start", function () {
+            console.log('start render')
+        })
+        jessibuca.on("play", function (flag) {
+            console.log('play')
+        })
+        jessibuca.on('crashLog', (data) => {
+            console.log('crashLog is', data);
+        })
+        jessibuca.onLog = msg => console.error(msg);
+        jessibuca.onRecord = (status) => console.log('onRecord', status);
+        jessibuca.onPause = () => console.log('onPause');
+        jessibuca.onPlay = () => console.log('onPlay');
+        jessibuca.onMute = msg => console.log('onMute', msg);
+        jessibuca.on("fullscreen", function (flag) {
+            console.log('is fullscreen', flag)
+        })
+        jessibuca.on("webFullscreen", function (flag) {
+            console.log('is webFullscreen', flag)
+        })
+        console.log("jessibuca create2");
+    }
+
+    function seekPlay(timeObj) {
+        uni.postMessage({
+            data: {
+                action: 'seekPlay',
+                msg: timeObj
+            }
+        });
+    }
+
+    function play(url) {
+        console.log("play");
+        console.log(url);
+        if (url) {
+            const status = jessibuca.getStatus();
+            console.log(status);
+            jessibuca.play(url).then(() => {
+                console.log('play success')
+            }).catch((e) => {
+                console.log('play error', e)
+            })
+        }
+    }
+
+    function playback(url, times) {
+        if (url) {
+            jessibuca.playback(url, {
+                playList: times,
+                fps: 20, //FPS（定频(本地设置)生效）
+                showControl: true,
+                showRateBtn: true,
+                isUseFpsRender: true, // 是否使用固定的fps渲染，如果设置的fps小于流推过来的，会造成内存堆积甚至溢出
+                isCacheBeforeDecodeForFpsRender: false, // rfs渲染时，是否在解码前缓存数据
+                supportWheel: true, // 是否支持滚动轴切换精度。
+                rateConfig: [
+                    {label: '正常', value: 1},
+                    {label: '2倍', value: 2},
+                    {label: '4倍', value: 4},
+                    {label: '8倍', value: 8},
+                ],
+            })
+        }
+    }
+    function test() {
+        console.log("test");
+    }
+    function test2(msg) {
+        console.log("test1"+msg);
+    }
+    window.msgFromUniapp = (res) =>{
+        console.log("原生传递过来的数据：",res)
+    }
+
+
+    document.getElementById('wxpostMessage').addEventListener('click', function() {
+        console.log("wx postMessage");
+        wx.miniProgram.postMessage({
+            data: {
+                action: 'test'
+            }
+        });
+        console.log("wx navigateBack");
+        wx.miniProgram.navigateBack({delta: 1});
+    });
+    // document.getElementById('postMessage').addEventListener('click', function() {
+    //     console.log("postMessage");
+    //     //wx.miniProgram.navigateTo
+    //     //wx.miniProgram.navigateBack
+    //     //wx.miniProgram.switchTab
+    // });
+    // document.getElementById('unipostMessage').addEventListener('click', function() {
+    //     console.log("uni postMessage");
+    //     uni.postMessage({
+    //         data: {
+    //             action: 'test'
+    //         }
+    //     });
+    // });
+
+    document.addEventListener("UniAppJSBridgeReady", function () {
+        console.log("UniAppJSBridgeReady");
+        uni.postMessage({
+            data: {
+                action: 'message'
+            }
+        });
+
+        uni.getEnv(function(res) {
+            console.log('当前环境：' + JSON.stringify(res));
+        });
+        // uni.switchTab({
+        //     url: '/pages/tabBar/API/API'
+        // });
+        // uni.reLaunch({
+        //     url: '/pages/tabBar/component/component'
+        // });
+        // uni.navigateBack({
+        //     delta: 1
+        // });
+        // uni[action]({
+        //     url: '/pages/component/button/button'
+        // });
+
+    })
+    //微信小程序
+    function ready() {
+        console.log(window.__wxjs_environment === 'miniprogram')
+    }
+
+    if (!window.WeixinJSBridge || !WeixinJSBridge.invoke) {
+        document.addEventListener('WeixinJSBridgeReady', ready, false)
+    } else {
+        ready()
+    }
+
+    window.οnbefοreunlοad = function () {
+        alert("===οnbefοreunlοad===");
+        if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
+            alert("你关闭了浏览器");
+            jessibuca.destroy();
+        } else {
+            alert("你正在刷新页面");
+            replay();
+        }
+    }
+</script>
+
+
+</html>
