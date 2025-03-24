@@ -4,6 +4,7 @@ import com.fastbee.common.annotation.Anonymous;
 import com.fastbee.iot.mapper.DeviceMapper;
 import com.fastbee.iot.model.DeviceRelateAlertLogVO;
 import com.fastbee.iot.service.IDeviceService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  * @date 2023-09-13 11:42
  */
 @Anonymous
+@Api("测试方法")
 @RestController
 @RequestMapping("/test2")
 public class TestController2 {

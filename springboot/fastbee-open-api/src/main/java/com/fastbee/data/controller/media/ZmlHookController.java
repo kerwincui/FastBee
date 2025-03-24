@@ -2,6 +2,7 @@ package com.fastbee.data.controller.media;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fastbee.sip.service.IZmlHookService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@Api(tags = "流媒体Hook")
 @RestController
 @RequestMapping("/zlmhook")
 public class ZmlHookController

@@ -3,6 +3,7 @@ package com.fastbee.data.controller.media;
 import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.sip.service.IPlayService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@Api(tags = "播放器")
 @RestController
 @RequestMapping("/sip/player")
 public class PlayerController extends BaseController {
