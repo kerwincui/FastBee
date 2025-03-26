@@ -93,6 +93,14 @@ export function bindLogin(data) {
   });
 }
 
+export function getErrorMsg(errorId) {
+  return request({
+      url: '/auth/getErrorMsg/' + errorId,
+      method: 'get',
+  });
+}
+
+
 // 三方登录注册绑定
 export function bindRegister(data) {
   return request({
