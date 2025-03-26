@@ -228,6 +228,12 @@ public interface IDeviceService
     public List<Device> selectDevicesByProductId(Long productId,Integer hasSub);
 
     /**
+     * 获取所有已经激活并不是禁用的设备
+     * @return
+     */
+    List<DeviceStatusVO> selectDeviceActive();
+
+    /**
      * 查询子设备总数
      * @param gwDevCode 网关编号
      * @return 数量

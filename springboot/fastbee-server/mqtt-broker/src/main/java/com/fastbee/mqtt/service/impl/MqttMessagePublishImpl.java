@@ -13,6 +13,7 @@ import com.fastbee.common.core.mq.ota.OtaUpgradeBo;
 import com.fastbee.common.core.protocol.modbus.ModbusCode;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
+import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.common.enums.FunctionReplyStatus;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.enums.TopicType;
@@ -63,6 +64,10 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     private IProductService productService;
     @Resource
     private PubMqttClient mqttClient;
+
+    @Resource
+    private PubMqttClient pubMqttClient;
+
     @Resource
     private TopicsUtils topicsUtils;
     @Resource
@@ -78,6 +83,7 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
     private IThingsModelService thingsModelService;
     @Resource
     private JsonProtocolService jsonProtocolService;
+
     private SnowflakeIdWorker snowflakeIdWorker = new SnowflakeIdWorker(3);
 
     @Resource
@@ -366,6 +372,18 @@ public class MqttMessagePublishImpl implements IMqttMessagePublish {
         System.arraycopy(source, 0, result, 0, source.length);
         System.arraycopy(crc16Byte, 0, result, result.length - 2, 2);
         return result;
+    }
+
+    /**
+     * 推送设备状态
+     *
+     * @param device 设备
+     * @param status       状态
+     */
+    public void pushDeviceStatus(Device device, DeviceStatus status) {
+        String message = "{\"status\":" + status.getType() + ",\"isShadow\":" + device.getIsShadow() + ",\"rssi\":" + device.getRssi() + "}";
+        String topic = topicsUtils.buildTopic(device.getProductId(), device.getSerialNumber(), TopicType.STATUS_POST);
+        pubMqttClient.publish(0, false, topic, message);
     }
 
 

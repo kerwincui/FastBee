@@ -2,15 +2,8 @@ package com.fastbee.iot.mapper;
 
 import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.iot.domain.Device;
-import com.fastbee.iot.model.AuthenticateInputModel;
-import com.fastbee.iot.model.DeviceAllShortOutput;
-import com.fastbee.iot.model.DeviceMqttVO;
-import com.fastbee.iot.model.DeviceRelateAlertLogVO;
-import com.fastbee.iot.model.DeviceShortOutput;
-import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.ProductAuthenticateModel;
+import com.fastbee.iot.model.*;
 import com.fastbee.iot.model.ThingsModels.ThingsModelValuesOutput;
-import com.fastbee.iot.model.UserIdDeviceIdModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -248,6 +241,12 @@ public interface DeviceMapper
      * @return
      */
     public List<Device> selectDevicesByProductId(@Param("productId") Long productId,@Param("hasSub") Integer hasSub);
+
+    /**
+     * 获取所有已经激活并不是禁用的设备
+     * @return
+     */
+    List<DeviceStatusVO> selectDeviceActive();
 
     /**
      * 查询子设备总数

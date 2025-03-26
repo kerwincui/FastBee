@@ -1083,6 +1083,16 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     /**
+     * 获取所有已经激活并不是禁用的设备
+     *
+     * @return
+     */
+    @Override
+    public List<DeviceStatusVO> selectDeviceActive() {
+        return deviceMapper.selectDeviceActive();
+    }
+
+    /**
      * 查询子设备总数
      *
      * @param gwDevCode 网关编号

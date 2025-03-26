@@ -1,7 +1,12 @@
 package com.fastbee.data.service.impl;
 
+import com.fastbee.base.session.Session;
+import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.iot.domain.Device;
+import com.fastbee.iot.model.DeviceStatusVO;
 import com.fastbee.iot.service.IDeviceService;
+import com.fastbee.mq.service.IMqttMessagePublish;
+import com.fastbee.mqtt.manager.SessionManger;
 import com.fastbee.sip.domain.SipDevice;
 import com.fastbee.sip.domain.SipDeviceChannel;
 import com.fastbee.sip.enums.DeviceChannelStatus;
@@ -9,7 +14,9 @@ import com.fastbee.sip.mapper.SipDeviceChannelMapper;
 import com.fastbee.sip.mapper.SipDeviceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,6 +34,12 @@ public class DeviceJob {
 
     @Autowired
     private SipDeviceChannelMapper sipDeviceChannelMapper;
+
+    @Resource
+    private IMqttMessagePublish mqttMessagePublish;
+
+    @Value("${server.broker.enabled}")
+    private Boolean enabled;
 
     public void updateSipDeviceOnlineStatus(Integer timeout) {
         List<SipDevice> devs = sipDeviceMapper.selectOfflineSipDevice(timeout);
@@ -47,5 +60,38 @@ public class DeviceJob {
                 });
             }
         });
+    }
+
+    /**
+     * 定期同步设备状态
+     *  1.将异常在线设备变更为离线状态
+     *  2.将离线设备但实际在线设备变更为在线
+     */
+    public void syncDeviceStatus() {
+        if (enabled) {
+            //获取所有已激活并不是禁用的设备
+            List<DeviceStatusVO> deviceStatusVOList = deviceService.selectDeviceActive();
+            if (!CollectionUtils.isEmpty(deviceStatusVOList)) {
+                for (DeviceStatusVO statusVO : deviceStatusVOList) {
+                    Session session = SessionManger.getSession(statusVO.getSerialNumber());
+                    Device device = new Device();
+                    device.setSerialNumber(statusVO.getSerialNumber());
+                    device.setRssi(statusVO.getRssi());
+                    device.setProductId(statusVO.getProductId());
+                    device.setIsShadow(statusVO.getIsShadow());
+                    // 如果session中设备在线，数据库状态离线 ,则更新设备的状态为在线
+                    if (!Objects.isNull(session) && statusVO.getStatus() == DeviceStatus.OFFLINE.getType()) {
+                        device.setStatus(DeviceStatus.ONLINE.getType());
+                        deviceService.updateDeviceStatus(device);
+                        mqttMessagePublish.pushDeviceStatus(device, DeviceStatus.ONLINE);
+                    }
+                    if (Objects.isNull(session) && statusVO.getStatus() == DeviceStatus.ONLINE.getType()) {
+                        device.setStatus(DeviceStatus.OFFLINE.getType());
+                        deviceService.updateDeviceStatus(device);
+                        mqttMessagePublish.pushDeviceStatus(device, DeviceStatus.OFFLINE);
+                    }
+                }
+            }
+        }
     }
 }

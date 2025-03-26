@@ -565,6 +565,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
+    <select id="selectDeviceActive" resultType="com.fastbee.iot.model.DeviceStatusVO">
+        select d.status , d.serial_number as serialNumber, d.rssi,d.is_shadow, d.product_id
+        from iot_device d inner join iot_product p on d.product_id = p.product_id
+        where d.status in (3,4) and p.transport not in ('GB28181')
+          and d.del_flag = '0' and p.del_flag = '0'
+    </select>
+
     <select id="getSubDeviceCount" resultType="java.lang.Integer">
         select count(*) from iot_device d where d.gw_dev_code = #{gwDevCode,jdbcType=VARCHAR}
     </select>

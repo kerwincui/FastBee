@@ -6,6 +6,7 @@ import com.fastbee.common.core.mq.message.DeviceDownMessage;
 import com.fastbee.common.core.mq.message.InstructionsMessage;
 import com.fastbee.common.core.mq.ota.OtaUpgradeBo;
 import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
+import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.common.enums.TopicType;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.mq.model.ReportDataBo;
@@ -73,6 +74,14 @@ public interface IMqttMessagePublish {
      * @return 设备
      */
     public Device deviceSynchronization(String deviceNumber);
+
+    /**
+     * 推送设备状态
+     *
+     * @param device 设备
+     * @param status       状态
+     */
+    public void pushDeviceStatus(Device device, DeviceStatus status) ;
 
 
 }
