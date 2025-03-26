@@ -11,7 +11,7 @@
  Target Server Version : 50744 (5.7.44)
  File Encoding         : 65001
 
- Date: 20/03/2025 22:29:31
+ Date: 26/03/2025 17:52:29
 */
 
 SET NAMES utf8mb4;
@@ -2152,13 +2152,14 @@ CREATE TABLE `sys_job`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
 INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2021-12-15 21:36:18', '', NULL, '');
-INSERT INTO `sys_job` VALUES (5, '设备定时任务', 'SYSTEM', 'deviceJob.timingUpdateDeviceStatusStatus', '0 0/1 * * * ? ', '1', '1', '0', 'admin', '2023-03-24 10:57:48', 'admin', '2025-03-19 15:12:37', '');
+INSERT INTO `sys_job` VALUES (5, '监控在线状态更新', 'SYSTEM', 'deviceJob.updateSipDeviceOnlineStatus(90)', '0 0/2 * * * ?', '1', '0', '0', 'admin', '2023-03-24 10:57:48', 'admin', '2025-03-26 15:50:06', '');
+INSERT INTO `sys_job` VALUES (6, '设备定时同步', 'SYSTEM', 'deviceJob.syncDeviceStatus', '0 0/1 * * * ? ', '1', '0', '0', 'admin', '2025-03-26 17:44:26', 'admin', '2025-03-26 17:45:08', '');
 
 -- ----------------------------
 -- Table structure for sys_job_log
@@ -2174,12 +2175,13 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job_log
 -- ----------------------------
-INSERT INTO `sys_job_log` VALUES (1, '设备定时任务', 'SYSTEM', 'deviceJob.timingUpdateDeviceStatusStatus', '设备定时任务 总共耗时：1毫秒', '1', 'java.lang.NoSuchMethodException: com.fastbee.data.service.impl.DeviceJob.timingUpdateDeviceStatusStatus()\r\n	at java.lang.Class.getMethod(Class.java:1786)\r\n	at com.fastbee.quartz.util.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:60)\r\n	at com.fastbee.quartz.util.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:33)\r\n	at com.fastbee.quartz.util.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:19)\r\n	at com.fastbee.quartz.util.AbstractQuartzJob.execute(AbstractQuartzJob.java:43)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\n', '2025-03-20 22:30:00');
+INSERT INTO `sys_job_log` VALUES (1, '设备定时同步', 'SYSTEM', 'deviceJob.syncDeviceStatus', '设备定时同步 总共耗时：35毫秒', '0', '', '2025-03-26 17:52:59');
+INSERT INTO `sys_job_log` VALUES (2, '设备定时任务', 'SYSTEM', 'deviceJob.timingUpdateDeviceStatusStatus', '设备定时任务 总共耗时：0毫秒', '1', 'java.lang.NoSuchMethodException: com.fastbee.data.service.impl.DeviceJob.timingUpdateDeviceStatusStatus()\n	at java.lang.Class.getMethod(Class.java:1786)\n	at com.fastbee.quartz.util.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:60)\n	at com.fastbee.quartz.util.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:33)\n	at com.fastbee.quartz.util.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:19)\n	at com.fastbee.quartz.util.AbstractQuartzJob.execute(AbstractQuartzJob.java:43)\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\n', '2025-03-26 17:53:00');
 
 -- ----------------------------
 -- Table structure for sys_logininfor
@@ -2844,7 +2846,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '蜂信管理员', '00', '164770707@qq.com', '15888888888', '0', '', '$2a$10$QAow7ybs74fkSWJDJkVTNeogF7mhnihF7STErt78PxDhHiNno4IUu', '0', '0', '127.0.0.1', '2025-03-20 20:24:31', 'admin', '2021-12-15 21:36:18', '', '2025-03-20 20:24:31', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '蜂信管理员', '00', '164770707@qq.com', '15888888888', '0', '', '$2a$10$QAow7ybs74fkSWJDJkVTNeogF7mhnihF7STErt78PxDhHiNno4IUu', '0', '0', '183.225.40.49', '2025-03-26 11:18:01', 'admin', '2021-12-15 21:36:18', '', '2025-03-26 11:18:01', '管理员');
 INSERT INTO `sys_user` VALUES (2, 100, 'fastbee-t1', '蜂信租户壹', '00', '', '15888888880', '0', '', '$2a$10$BAWId9C2Nrcwklzl1Ikoau4iqL8XRGvfRjq6Wl.PXWpzwAw0sXMdK', '0', '0', '61.145.97.26', '2023-08-29 14:52:27', 'admin', '2022-04-15 16:21:25', 'admin', '2023-08-29 14:52:26', NULL);
 INSERT INTO `sys_user` VALUES (3, 100, 'fastbee-t2', '蜂信租户贰', '00', '', '15888888881', '0', '', '$2a$10$1zMlbW7hGpzA59gpzWGO/ObeASziQ296evjMjHrYdZnxKBLU4WUum', '0', '0', '127.0.0.1', '2022-06-12 00:54:28', 'admin', '2022-04-15 16:22:08', 'admin', '2022-06-12 00:54:30', NULL);
 INSERT INTO `sys_user` VALUES (4, 100, 'fastbee-u1', '蜂信用户壹', '00', '', '15888888882', '0', '', '$2a$10$691RJMXZ9HM4sgNTExLPfO5Nw6J6cWgCvcoF9V.jKMnPk5o/8c9VS', '0', '0', '127.0.0.1', '2023-04-12 22:26:39', 'admin', '2022-04-15 16:22:37', 'admin', '2023-04-12 22:26:39', NULL);
