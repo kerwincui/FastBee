@@ -60,16 +60,6 @@ spring:
         max-idle: 8                         # 连接池中的最大空闲连接
         max-active: 8                       # 连接池的最大数据库连接数
         max-wait: -1ms                      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-  # mqtt 配置
-  mqtt:
-    username: fastbee                       # 账号（仅用于后端自认证）
-    password: fastbee                       # 密码（仅用于后端自认证）
-    host-url: tcp://177.7.0.12:1883         # 连接消息服务器地址
-    client-id: ${random.int}                # 客户端Id，不能相同，采用随机数 ${random.value}
-    default-topic: test                     # 默认主题
-    timeout: 30                             # 超时时间
-    keepalive: 30                           # 保持连接
-    clearSession: true                      # 清除会话(设置为false,断开连接，重连后使用原来的会话 保留订阅的主题，能接收离线期间的消息)
 
 # sip 配置
 sip:
