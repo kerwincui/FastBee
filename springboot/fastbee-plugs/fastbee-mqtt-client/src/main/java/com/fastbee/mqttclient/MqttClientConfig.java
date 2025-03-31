@@ -1,16 +1,28 @@
 package com.fastbee.mqttclient;
 
+import com.fastbee.common.utils.uuid.UUID;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/** mqtt配置信息*/
+/**
+ * mqtt配置信息
+ */
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "spring.mqtt")
 public class MqttClientConfig {
+    public MqttClientConfig() {
+        this.username = "fastbee";
+        this.password = "fastbee";
+        this.hostUrl = "tcp://127.0.0.1:1883";
+        this.clientId = UUID.randomUUID().toString();
+        this.defaultTopic = "test";
+        this.timeout = 30;
+        this.keepalive = 30;
+        this.clearSession = true;
+    }
 
     /**
      * 用户名
@@ -41,11 +53,17 @@ public class MqttClientConfig {
      */
     private int keepalive;
 
-    /**是否清除session*/
+    /**
+     * 是否清除session
+     */
     private boolean clearSession;
-    /**是否共享订阅*/
+    /**
+     * 是否共享订阅
+     */
     private boolean isShared;
-    /**分组共享订阅*/
+    /**
+     * 分组共享订阅
+     */
     private boolean isSharedGroup;
 
     /**
