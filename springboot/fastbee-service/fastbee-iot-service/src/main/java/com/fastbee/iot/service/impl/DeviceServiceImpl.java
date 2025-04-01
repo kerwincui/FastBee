@@ -1174,6 +1174,8 @@ public class DeviceServiceImpl implements IDeviceService {
         String clientId = ProductAuthConstant.CLIENT_ID_AUTH_TYPE_SIMPLE + "&" + deviceMqttVO.getSerialNumber() + "&" + deviceMqttVO.getProductId() + "&" + deviceMqttVO.getUserId();
         // 组装返回结果
         connectVO.setClientId(clientId).setUsername(deviceMqttVO.getMqttAccount()).setPasswd(password).setPort(brokerPort);
+        connectVO.setSubscribeTopic("/" + deviceMqttVO.getProductId() + "/" + deviceMqttVO.getSerialNumber() + "/function/get");
+        connectVO.setReportTopic("/" + deviceMqttVO.getProductId() + "/" + deviceMqttVO.getSerialNumber() + "/property/post");
         return connectVO;
     }
 

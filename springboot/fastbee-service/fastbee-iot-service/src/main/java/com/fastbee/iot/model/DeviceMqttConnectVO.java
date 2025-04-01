@@ -28,6 +28,16 @@ public class DeviceMqttConnectVO {
     private String passwd;
 
     /**
+     * 订阅主题
+     */
+    private String subscribeTopic;
+
+    /**
+     * 下发主题
+     */
+    private String reportTopic;
+
+    /**
      * 连接端口号
      */
     private Long port;

@@ -45,9 +45,6 @@
                                     <template slot="prepend">Version</template>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="模拟设备" prop="isSimulate">
-                                <el-switch v-model="form.isSimulate" active-text="" inactive-text="" :active-value="1" :inactive-value="0" :disabled="form.deviceType === 3"></el-switch>
-                            </el-form-item>
                             <el-form-item label="设备影子" prop="isShadow">
                                 <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1" :inactive-value="0" :disabled="form.deviceType === 3"></el-switch>
                             </el-form-item>
@@ -63,7 +60,7 @@
                                 ></el-switch>
                             </el-form-item>
                             <el-form-item label="备注信息" prop="remark">
-                                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="1" />
+                                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
@@ -192,19 +189,25 @@
                 <div style="padding-bottom: 10px">设备二维码</div>
             </div>
         </el-dialog>
-        <el-dialog title="Mqtt连接参数" :visible.sync="openViewMqtt" width="600px" append-to-body>
+        <el-dialog title="Mqtt连接参数" :visible.sync="openViewMqtt" width="600px" show-close="true" append-to-body :close-on-click-modal="false">
             <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="150px">
-                <el-form-item label="clientId" prop="clientId">
-                    <el-input v-model="listQuery.clientId" disabled style="width: 80%" />
+                <el-form-item label="客户端ID" prop="clientId">
+                    <el-input v-model="listQuery.clientId" readonly style="width: 80%" />
                 </el-form-item>
-                <el-form-item label="username" prop="username">
-                    <el-input v-model="listQuery.username" disabled style="width: 80%" />
+                <el-form-item label="MQ账号" prop="username">
+                    <el-input v-model="listQuery.username" readonly style="width: 80%" />
                 </el-form-item>
-                <el-form-item label="passwd" prop="passwd">
-                    <el-input clearable v-model="listQuery.passwd" disabled style="width: 80%"></el-input>
+                <el-form-item label="MQ密码" prop="passwd">
+                    <el-input clearable v-model="listQuery.passwd" readonly style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="port" prop="port">
-                    <el-input clearable v-model="listQuery.port" disabled style="width: 80%"></el-input>
+                <el-form-item label="订阅主题" prop="subscribeTopic">
+                    <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item label="发布主题" prop="reportTopic">
+                    <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item label="连接端口" prop="port">
+                    <el-input clearable v-model="listQuery.port" readonly style="width: 80%"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -317,6 +320,8 @@ export default {
                 clientId: 0,
                 username: '',
                 passwd: '',
+                subscribeTopic: '',
+                reportTopic: '',
                 port: '',
             },
             openTip: false,
@@ -896,7 +901,20 @@ export default {
         doCopy(type) {
             if (type == 2) {
                 const input = document.createElement('input');
-                input.value = '{clientId:' + this.listQuery.clientId + ',username:' + this.listQuery.username + ',passwd:' + this.listQuery.passwd + ',port:' + this.listQuery.port + '}';
+                input.value =
+                    '{"clientId":"' +
+                    this.listQuery.clientId +
+                    '","username":"' +
+                    this.listQuery.username +
+                    '","passwd":"' +
+                    this.listQuery.passwd +
+                    '","subscribeTopic":"' +
+                    this.listQuery.subscribeTopic +
+                    '","reportTopic":"' +
+                    this.listQuery.reportTopic +
+                    '","port":"' +
+                    this.listQuery.port +
+                    '"}';
                 document.body.appendChild(input);
                 input.select(); //选中输入框
                 document.execCommand('Copy'); //复制当前选中文本到前切板
