@@ -146,7 +146,7 @@
             <div
                 ref="logContainer"
                 v-loading="logLoading"
-                :element-loading-text="加载中"
+                element-loading-text="加载中"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)"
                 style="border: 1px solid #ccc; border-radius: 4px; height: 450px; background-color: #181818; color: #fff; padding: 10px; line-height: 20px; overflow: auto"
