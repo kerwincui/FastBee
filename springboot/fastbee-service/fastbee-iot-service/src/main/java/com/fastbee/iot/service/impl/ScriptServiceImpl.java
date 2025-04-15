@@ -37,6 +37,7 @@ import static com.fastbee.common.utils.SecurityUtils.getLoginUser;
  * @author lizhuangpeng
  * @date 2023-07-01
  */
+@Slf4j
 @Service
 public class ScriptServiceImpl implements IScriptService
 {
