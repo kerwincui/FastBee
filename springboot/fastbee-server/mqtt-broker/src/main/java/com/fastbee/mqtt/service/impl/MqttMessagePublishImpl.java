@@ -28,7 +28,6 @@ import com.fastbee.iot.domain.FunctionLog;
 import com.fastbee.iot.domain.Product;
 import com.fastbee.iot.model.NtpModel;
 import com.fastbee.iot.model.ThingsModels.PropertyDto;
-import com.fastbee.iot.ruleEngine.MsgContext;
 import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.iot.service.IFunctionLogService;
@@ -42,6 +41,7 @@ import com.fastbee.mq.service.IMqttMessagePublish;
 import com.fastbee.mqtt.manager.MqttRemoteManager;
 import com.fastbee.mqtt.model.PushMessageBo;
 import com.fastbee.mqttclient.PubMqttClient;
+import com.fastbee.ruleEngine.context.MsgContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

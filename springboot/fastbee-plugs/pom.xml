@@ -17,6 +17,7 @@
         <module>fastbee-generator</module>
         <module>fastbee-http</module>
         <module>fastbee-mqtt-client</module>
+        <module>fastbee-ruleEngine</module>
     </modules>
 
     <dependencies>

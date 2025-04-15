@@ -46,6 +46,7 @@
         <lock4j.version>2.2.3</lock4j.version>
         <easyexcel.version>3.3.1</easyexcel.version>
         <liteflow.version>2.12.2</liteflow.version>
+        <commons.text.version>1.10.0</commons.text.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -340,6 +341,12 @@
             <dependency>
                 <groupId>com.fastbee</groupId>
                 <artifactId>gateway-boot</artifactId>
+                <version>${fastbee.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fastbee</groupId>
+                <artifactId>fastbee-ruleEngine</artifactId>
                 <version>${fastbee.version}</version>
             </dependency>
 

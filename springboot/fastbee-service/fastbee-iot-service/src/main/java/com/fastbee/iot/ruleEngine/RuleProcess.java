@@ -7,8 +7,9 @@ import com.fastbee.iot.model.ProductCode;
 import com.fastbee.iot.model.ScriptCondition;
 import com.fastbee.iot.service.IProductService;
 import com.fastbee.iot.service.IScriptService;
+import com.fastbee.ruleEngine.context.MsgContext;
+import com.fastbee.ruleEngine.core.FlowLogExecutor;
 import com.yomahub.liteflow.builder.el.LiteFlowChainELBuilder;
-import com.yomahub.liteflow.core.FlowExecutor;
 import com.yomahub.liteflow.flow.LiteflowResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ import java.util.Objects;
 public class RuleProcess {
 
     @Resource
-    private FlowExecutor flowExecutor;
+    private FlowLogExecutor flowLogExecutor;
     @Resource
     private IScriptService scriptService;
     @Resource
@@ -55,20 +56,29 @@ public class RuleProcess {
         scriptCondition.setScriptEvent(event);    // 事件 1=设备上报 2=平台下发 3=设备上线 4=设备下线
         scriptCondition.setScriptPurpose(1);  // 脚本用途：数据流=1
         String[] scriptIds = scriptService.selectRuleScriptIdArray(scriptCondition);
-        MsgContext context = new MsgContext(topic, payload, serialNumber, productCode.getProductId(), productCode.getProtocolCode());
+        MsgContext context = MsgContext.builder()
+                .serialNumber(serialNumber)
+                .productId(productCode.getProductId())
+                .protocolCode(productCode.getProtocolCode())
+                .payload(payload)
+                .topic(topic)
+                .build();
         //如果查询不到脚本，则认为是不用处理
         if (Objects.isNull(scriptIds) || scriptIds.length == 0) {
             return new MsgContext();
         }
         // 动态构造Chain和EL表达式
-        String el = String.join(",", scriptIds); // THEN（a,b,c,d）
-        LiteFlowChainELBuilder.createChain().setChainName("dataChain").setEL("THEN(" + el + ")").build();
-        // 执行规则脚本
-        LiteflowResponse response = flowExecutor.execute2Resp("dataChain", null, context);
-        if (!response.isSuccess()) {
-            log.error("规则脚本执行发生错误：" + response.getMessage());
+        for (String script : scriptIds) {
+            String eChainName = "dataChain_" + script;
+            String requestId = "script/" + script;
+            String el = "THEN(" + script + ")";
+            LiteFlowChainELBuilder.createChain().setChainName(eChainName).setEL(el).build();
+            // 执行规则脚本
+            LiteflowResponse response = flowLogExecutor.execute2RespWithRid(eChainName, null, requestId, context);
+            if (!response.isSuccess()) {
+                log.error("规则脚本执行发生错误：" + response.getMessage());
+            }
         }
-
         return context;
     }
 

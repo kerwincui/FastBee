@@ -1,12 +1,10 @@
 package com.fastbee.data.controller;
 
-import com.fastbee.common.annotation.Anonymous;
 import com.fastbee.common.annotation.Log;
 import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
-import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.model.DeviceRelateUserInput;
