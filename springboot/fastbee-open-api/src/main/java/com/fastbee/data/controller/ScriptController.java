@@ -86,6 +86,16 @@ public class ScriptController extends BaseController
     }
 
     /**
+     * 获取规则引擎脚本日志
+     */
+    @PreAuthorize("@ss.hasPermi('iot:script:query')")
+    @GetMapping(value = "/log/{scriptId}")
+    public AjaxResult getScriptLog(@PathVariable("scriptId") String scriptId) {
+        return success(scriptService.selectRuleScriptLog("script", scriptId));
+    }
+
+
+    /**
      * 删除规则引擎脚本
      */
     @PreAuthorize("@ss.hasPermi('iot:script:remove')")

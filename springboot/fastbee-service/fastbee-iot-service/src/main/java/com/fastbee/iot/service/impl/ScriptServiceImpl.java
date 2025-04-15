@@ -12,10 +12,18 @@ import com.fastbee.iot.model.ScriptCondition;
 import com.fastbee.iot.service.IScriptService;
 import com.yomahub.liteflow.core.FlowExecutor;
 import com.yomahub.liteflow.script.ScriptExecutorFactory;
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import ch.qos.logback.classic.LoggerContext;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +57,38 @@ public class ScriptServiceImpl implements IScriptService
     {
         return ruleScriptMapper.selectRuleScriptById(scriptId);
     }
+
+    /**
+     * 查询规则引擎脚本日志
+     *
+     * @param id 规则引擎脚本主键
+     * @return 规则引擎脚本
+     */
+
+    @Override
+    public String selectRuleScriptLog(String type, String id) {
+        // 获取日志存储路径
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        String path = loggerContext.getProperty("log.path");
+
+        // 倒叙读取500条日志
+        try {
+            List<String> lines = new ArrayList<>();
+            ReversedLinesFileReader reader = new ReversedLinesFileReader(new File(path + "/rule/" + type + ".log"));
+            String line = "";
+            while ((line = reader.readLine()) != null && lines.size() < 500) {
+                String requestId = type + "/" + id;
+                if (line.contains(requestId)) {
+                    lines.add(line);
+                }
+            }
+            Collections.reverse(lines);
+            return String.join("\n", lines);
+        } catch (IOException e) {
+            return "暂无日志,详情如下：\n" + e.toString();
+        }
+    }
+
 
     /**
      * 查询规则引擎脚本列表

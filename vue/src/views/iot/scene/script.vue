@@ -48,6 +48,7 @@
                 <el-table-column label="执行顺序" align="center" prop="scriptOrder" />
                 <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
                     <template slot-scope="scope">
+                        <el-button size="small" type="text" icon="el-icon-date" @click="handleLog(scope.row.scriptId)" v-hasPermi="['iot:script:query']">日志</el-button>
                         <el-button size="mini" type="text" icon="el-icon-view" @click="handleUpdate(scope.row)"
                             v-hasPermi="['iot:script:query']">查看</el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
@@ -140,13 +141,33 @@
                 </div>
             </el-dialog>
         </el-card>
+
+        <el-dialog :title="title" :visible.sync="openLog" width="700px" append-to-body :close-on-click-modal="false" :close-on-press-escape="false">
+            <div
+                ref="logContainer"
+                v-loading="logLoading"
+                :element-loading-text="加载中"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                style="border: 1px solid #ccc; border-radius: 4px; height: 450px; background-color: #181818; color: #fff; padding: 10px; line-height: 20px; overflow: auto"
+            >
+                <pre>
+                    {{ logs }}
+                    </pre
+                >
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelLog">关闭</el-button>
+            </div>
+        </el-dialog>
+
         <!-- 产品列表 -->
         <productList ref="productList" @productEvent="getSelectProduct($event)"></productList>
     </div>
 </template>
 
 <script>
-import { listScript, getScript, delScript, addScript, updateScript, validateScript } from '@/api/iot/script';
+import { listScript, getScript, getScriptLog, delScript, addScript, updateScript, validateScript } from '@/api/iot/script';
 import AceEditor from '@/views/components/editor/editor.vue';
 import productList from './product-list';
 export default {
@@ -167,6 +188,12 @@ export default {
             }
         };
         return {
+            // 日志
+            logs: '',
+            // 日志遮罩层
+            logLoading: true,
+            // 是否显示日志弹窗
+            openLog: false,
             // 脚本数据验证
             isValidate: false,
             // 脚本数据验证结果
@@ -235,6 +262,11 @@ export default {
             this.open = false;
             this.reset();
         },
+        // 取消日志按钮
+        cancelLog() {
+            this.logs = '';
+            this.openLog = false;
+        },
         // 表单重置
         reset() {
             this.validateMsg = '';
@@ -266,7 +298,7 @@ String payload = msgContext.getPayload();
 
 
 // 2. 数据转换(自己处理)
-println ("根据情况转换数据")
+msgContext.logger.debug("数据转换处理")
 String NewTopic = topic;
 String NewPayload = payload;
 
@@ -309,6 +341,29 @@ msgContext.setPayload(NewPayload);`,
                 this.title = '修改规则引擎脚本';
             });
         },
+        /** 日志按钮操作 */
+        handleLog(scriptId) {
+            this.logLoading = true;
+            getScriptLog(scriptId).then((response) => {
+                this.logs = response.msg;
+                this.form.scriptId = scriptId;
+                this.openLog = true;
+                this.title = "脚本日志";
+                this.logLoading = false;
+                // 滑动到底部
+                this.$nextTick(function () {
+                    let messageContent = this.$refs.logContainer;
+                    messageContent.scroll({
+                        top: messageContent.scrollHeight,
+                    });
+                });
+            });
+        },
+        /** 日志刷新操作 */
+        refreshLog() {
+            this.handleLog(this.form.scriptId);
+        },
+
         /**选择产品 */
         handleSelectProduct(data) {
             // 刷新子组建

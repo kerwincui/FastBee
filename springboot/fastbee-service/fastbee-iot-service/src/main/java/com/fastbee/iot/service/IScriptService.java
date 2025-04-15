@@ -23,6 +23,14 @@ public interface IScriptService
     public Script selectRuleScriptById(String scriptId);
 
     /**
+     * 查询规则引擎脚本日志
+     *
+     * @param id 规则引擎脚本主键
+     * @return 规则引擎脚本
+     */
+    public String selectRuleScriptLog(String type, String id);
+
+    /**
      * 查询规则引擎脚本列表
      *
      * @param ruleScript 规则引擎脚本

@@ -17,6 +17,15 @@ export function getScript(scriptId) {
     });
 }
 
+// 查询规则引擎脚本日志
+export function getScriptLog(scriptId) {
+    return request({
+        url: '/iot/script/log/' + scriptId,
+        method: 'get',
+    });
+}
+
+
 // 新增规则引擎脚本
 export function addScript(data) {
     return request({

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 日志存放路径 -->
-    <property name="log.path" value="/logs" />
+    <property name="log.path" value="D:/logs" />
     <!-- 日志输出格式 -->
     <property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
 
@@ -95,6 +95,24 @@
         </encoder>
     </appender>
 
+    <!-- 规则引擎日志输出  -->
+    <appender name="script" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/rule/script.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log.path}/rule/script.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 3天 -->
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%method,%line] - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+
     <!-- 系统模块日志级别控制  -->
     <logger name="com.fastbee" level="debug" />
     <!-- Spring日志级别控制  -->
@@ -115,4 +133,10 @@
     <logger name="sys-user" level="info">
         <appender-ref ref="sys-user"/>
     </logger>
+
+    <!--规则引擎日志-->
+    <logger name="script" level="info">
+        <appender-ref ref="script"/>
+    </logger>
+
 </configuration> 
