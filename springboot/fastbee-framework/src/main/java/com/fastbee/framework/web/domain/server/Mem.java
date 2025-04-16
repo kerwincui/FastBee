@@ -1,10 +1,11 @@
 package com.fastbee.framework.web.domain.server;
 
+
 import com.fastbee.common.utils.Arith;
 
 /**
  * 內存相关信息
- * 
+ *
  * @author ruoyi
  */
 public class Mem

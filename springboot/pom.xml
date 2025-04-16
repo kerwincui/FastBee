@@ -18,17 +18,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <spring-boot.version>2.5.15</spring-boot.version>
+
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-        <druid.version>1.2.15</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <swagger.version>3.0.0</swagger.version>
+        <io.swagger.version>1.6.2</io.swagger.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <mybatis-spring-boot.version>2.2.0</mybatis-spring-boot.version>
-        <pagehelper.boot.version>1.4.6</pagehelper.boot.version>
-        <fastjson.version>2.0.20</fastjson.version>
-        <oshi.version>6.1.6</oshi.version>
-        <jna.version>5.9.0</jna.version>
-        <commons.io.version>2.11.0</commons.io.version>
+        <oshi.version>6.6.5</oshi.version>
+        <jna.version>5.13.0</jna.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <commons.collections.version>3.2.2</commons.collections.version>
         <poi.version>4.1.2</poi.version>
@@ -42,12 +41,25 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
+        <tdengine.version>2.0.38</tdengine.version>
         <guava.version>32.0.1-jre</guava.version>
-<!--        <redisson.version>3.15.6</redisson.version>-->
         <lock4j.version>2.2.3</lock4j.version>
         <easyexcel.version>3.3.1</easyexcel.version>
         <liteflow.version>2.12.2</liteflow.version>
         <commons.text.version>1.10.0</commons.text.version>
+        <paho.mqtt.version>1.2.5</paho.mqtt.version>
+
+        <druid.version>1.2.23</druid.version>
+        <pagehelper.boot.version>1.4.7</pagehelper.boot.version>
+        <fastjson.version>2.0.53</fastjson.version>
+        <oshi.version>6.6.5</oshi.version>
+        <commons.io.version>2.13.0</commons.io.version>
+        <!-- override dependency version -->
+        <tomcat.version>9.0.102</tomcat.version>
+        <logback.version>1.2.13</logback.version>
+        <spring-security.version>5.7.12</spring-security.version>
+        <spring-framework.version>5.3.39</spring-framework.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -94,6 +106,25 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+
+            <!-- 动态数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.paho</groupId>
+                <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+                <version>${paho.mqtt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${io.swagger.version}</version>
             </dependency>
 
             <!-- pagehelper 分页插件 -->
@@ -147,6 +178,12 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons.text.version}</version>
             </dependency>
 
             <!-- excel工具 -->
@@ -272,12 +309,6 @@
                 <version>${fastbee.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.fastbee</groupId>
-                <artifactId>fastbee-oss</artifactId>
-                <version>${fastbee.version}</version>
-            </dependency>
-
             <!--基于netty的MqttBroker-->
             <dependency>
                 <groupId>com.fastbee</groupId>
@@ -332,12 +363,7 @@
                 <artifactId>boot-strap</artifactId>
                 <version>${fastbee.version}</version>
             </dependency>
-            <!--协议解析基础模块-->
-            <dependency>
-                <groupId>com.fastbee</groupId>
-                <artifactId>fastbee-protocol-base</artifactId>
-                <version>${fastbee.version}</version>
-            </dependency>
+
             <!--网关启动模块-->
             <dependency>
                 <groupId>com.fastbee</groupId>

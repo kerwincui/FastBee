@@ -1,12 +1,14 @@
 package com.fastbee.framework.web.domain.server;
 
-import java.lang.management.ManagementFactory;
+
 import com.fastbee.common.utils.Arith;
 import com.fastbee.common.utils.DateUtils;
 
+import java.lang.management.ManagementFactory;
+
 /**
  * JVM相关信息
- * 
+ *
  * @author ruoyi
  */
 public class Jvm
@@ -117,7 +119,7 @@ public class Jvm
      */
     public String getRunTime()
     {
-        return DateUtils.getDatePoor(DateUtils.getNowDate(), DateUtils.getServerStartDate());
+        return DateUtils.timeDistance(DateUtils.getNowDate(), DateUtils.getServerStartDate());
     }
 
     /**
