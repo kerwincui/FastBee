@@ -1,7 +1,7 @@
 # 项目相关配置
 fastbee:
   name: fastbee             # 名称
-  version: 3.8.5            # 版本
+  version: 2.1.0            # 版本
   copyrightYear: 2024       # 版权年份
   demoEnabled: true         # 实例演示开关
   # 文件路径，以uploadPath结尾 示例（ Windows配置 D:/uploadPath，Linux配置 /uploadPath）

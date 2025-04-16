@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>fastbee-server</artifactId>
 		<groupId>com.fastbee</groupId>
-		<version>3.8.5</version>
+		<version>${fastbee.version}</version>
 	</parent>
 
 	<artifactId>base-server</artifactId>

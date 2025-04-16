@@ -5,7 +5,7 @@
     <parent>
         <artifactId>fastbee-server</artifactId>
         <groupId>com.fastbee</groupId>
-        <version>3.8.5</version>
+        <version>${fastbee.version}</version>
     </parent>
     <artifactId>boot-strap</artifactId>
     <description>网关服务启动模块</description>
@@ -24,8 +24,6 @@
         <dependency>
             <groupId>com.fastbee</groupId>
             <artifactId>base-server</artifactId>
-            <version>3.8.5</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

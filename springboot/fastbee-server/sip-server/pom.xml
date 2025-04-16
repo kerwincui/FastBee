@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>fastbee-server</artifactId>
 		<groupId>com.fastbee</groupId>
-		<version>3.8.5</version>
+		<version>${fastbee.version}</version>
 	</parent>
 
 	<artifactId>sip-server</artifactId>
@@ -71,8 +71,6 @@
         <dependency>
             <groupId>com.fastbee</groupId>
             <artifactId>fastbee-mqtt-client</artifactId>
-            <version>3.8.5</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>

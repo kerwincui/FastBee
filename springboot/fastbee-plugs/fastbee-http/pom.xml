@@ -6,11 +6,10 @@
     <parent>
         <groupId>com.fastbee</groupId>
         <artifactId>fastbee-plugs</artifactId>
-        <version>3.8.5</version>
+        <version>${fastbee.version}</version>
     </parent>
 
     <artifactId>fastbee-http</artifactId>
-    <version>3.8.5</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -6,14 +6,15 @@
 
     <groupId>com.fastbee</groupId>
     <artifactId>fastbee</artifactId>
-    <version>3.8.5</version>
+    <version>${fastbee.version}</version>
 
     <name>fastbee</name>
     <url>http://fastbee.cn</url>
     <description>FastBee物联网平台</description>
 
     <properties>
-        <fastbee.version>3.8.5</fastbee.version>
+        <ruoyi.version>3.8.5</ruoyi.version>
+        <fastbee.version>2.1.0</fastbee.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -347,6 +348,12 @@
             <dependency>
                 <groupId>com.fastbee</groupId>
                 <artifactId>fastbee-ruleEngine</artifactId>
+                <version>${fastbee.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fastbee</groupId>
+                <artifactId>fastbee-mqtt-client</artifactId>
                 <version>${fastbee.version}</version>
             </dependency>
 
