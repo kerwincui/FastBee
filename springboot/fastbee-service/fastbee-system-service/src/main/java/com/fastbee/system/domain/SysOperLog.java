@@ -1,19 +1,18 @@
 package com.fastbee.system.domain;
 
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fastbee.common.annotation.Excel;
 import com.fastbee.common.annotation.Excel.ColumnType;
 import com.fastbee.common.core.domain.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
 
 /**
  * 操作日志记录表 oper_log
- * 
+ *
  * @author ruoyi
  */
-@ApiModel(value = "SysOperLog", description = "操作日志记录表 oper_log")
 public class SysOperLog extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -102,6 +101,10 @@ public class SysOperLog extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "操作时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date operTime;
+
+    /** 消耗时间 */
+    @Excel(name = "消耗时间", suffix = "毫秒")
+    private Long costTime;
 
     public Long getOperId()
     {
@@ -271,5 +274,15 @@ public class SysOperLog extends BaseEntity
     public void setOperTime(Date operTime)
     {
         this.operTime = operTime;
+    }
+
+    public Long getCostTime()
+    {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime)
+    {
+        this.costTime = costTime;
     }
 }

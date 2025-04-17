@@ -2,9 +2,11 @@ package com.fastbee.common.constant;
 
 import io.jsonwebtoken.Claims;
 
+import java.util.Locale;
+
 /**
  * 通用常量信息
- * 
+ *
  * @author ruoyi
  */
 public class Constants
@@ -18,6 +20,11 @@ public class Constants
      * GBK 字符集
      */
     public static final String GBK = "GBK";
+
+    /**
+     * 系统语言
+     */
+    public static final Locale DEFAULT_LOCALE = Locale.SIMPLIFIED_CHINESE;
 
     /**
      * www主域
@@ -63,7 +70,27 @@ public class Constants
      * 登录失败
      */
     public static final String LOGIN_FAIL = "Error";
- 
+
+    /**
+     * 所有权限标识
+     */
+    public static final String ALL_PERMISSION = "*:*:*";
+
+    /**
+     * 管理员角色权限标识
+     */
+    public static final String SUPER_ADMIN = "admin";
+
+    /**
+     * 角色权限分隔符
+     */
+    public static final String ROLE_DELIMETER = ",";
+
+    /**
+     * 权限标识分隔符
+     */
+    public static final String PERMISSION_DELIMETER = ",";
+
     /**
      * 验证码有效期（分钟）
      */
@@ -130,13 +157,18 @@ public class Constants
     public static final String LOOKUP_LDAPS = "ldaps:";
 
     /**
+     * 自动识别json对象白名单配置（仅允许解析的包名，范围越小越安全）
+     */
+    public static final String[] JSON_WHITELIST_STR = { "org.springframework", "com.ruoyi" };
+
+    /**
      * 定时任务白名单配置（仅允许访问的包名，如其他需要可以自行添加）
      */
-    public static final String[] JOB_WHITELIST_STR = { "com.fastbee" };
+    public static final String[] JOB_WHITELIST_STR = { "com.ruoyi.quartz.task" };
 
     /**
      * 定时任务违规的字符
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
-            "org.springframework", "org.apache", "com.fastbee.common.utils.file", "com.fastbee.common.config" };
+            "org.springframework", "org.apache", "com.ruoyi.common.utils.file", "com.ruoyi.common.config", "com.ruoyi.generator" };
 }
