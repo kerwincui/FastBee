@@ -16,6 +16,10 @@
     </description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-common</artifactId>
+        </dependency>
 
         <!-- SpringBoot Web容器 -->
          <dependency>

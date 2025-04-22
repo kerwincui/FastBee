@@ -55,6 +55,20 @@ spring:
         max-size: 200                                  # 最大连接数
         queue-capacity: 3000                           # 最大容量
         keep-alive: 60
+  datasource:
+    druid:
+      webStatFilter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        allow:
+        url-pattern: /druid/*
+        loginUsername: fastbee
+        loginPassword: fastbee
+    dynamic:
+      primary: master
+      strict: false
+      lazy: true
 
 #集群配置
 cluster:

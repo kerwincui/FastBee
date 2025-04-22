@@ -1,52 +1,42 @@
 # 数据源配置
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
-    druid:
-      # 主库数据源
-      master:
-        url: jdbc:mysql://177.7.0.11/fastbee?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: fastbee
-      # 从库数据源
-      slave:
-        enabled: false      # 从数据源开关/默认关闭
-        url:
-        username:
-        password:
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 10
+        max-wait: 60000
+        max-active: 20
+        timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间，单位是毫秒
+        maxEvictableIdleTimeMillis: 900000    # 配置一个连接在池中最大生存的时间，单位是毫秒
+        validation-query: 'SELECT 1'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+      datasource:
+        master:
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://177.7.0.11/fastbee?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+          username: root
+          password: fastbee
+          druid:
+            filters: stat,wall
+            stat:
+              # 慢SQL记录
+              log-slow-sql: true
+              slow-sql-millis: 1000
+              merge-sql: true
+            wall:
+              none-base-statement-allow: true
+  #        slave:
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3306/fastbee1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+  #          username: root
+  #          password: fastbee
 
-      initialSize: 5                        # 初始连接数
-      minIdle: 10                           # 最小连接池数量
-      maxActive: 20                         # 最大连接池数量
-      maxWait: 60000                        # 配置获取连接等待超时的时间
-      timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间，单位是毫秒
-      maxEvictableIdleTimeMillis: 900000    # 配置一个连接在池中最大生存的时间，单位是毫秒
-      validationQuery: SELECT 1 FROM DUAL   # 配置检测连接是否有效
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      webStatFilter:
-        enabled: true
-      statViewServlet:
-        enabled: true
-        # 设置白名单，不填则允许所有访问
-        allow:
-        url-pattern: /druid/*
-        # 控制台管理用户名和密码
-        login-username: fastbee
-        login-password: fastbee
-      filter:
-        stat:
-          enabled: true
-          # 慢SQL记录
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
   # redis 配置
   redis:
     host: 177.7.0.10                        # 地址
