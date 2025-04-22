@@ -23,6 +23,12 @@
             <artifactId>fastbee-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring</artifactId>
+            <version>${dynamic-datasource.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

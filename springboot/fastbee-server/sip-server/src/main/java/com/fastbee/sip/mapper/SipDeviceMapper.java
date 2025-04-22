@@ -31,7 +31,7 @@ public interface SipDeviceMapper
      * @return 监控设备集合
      */
     public List<SipDevice> selectSipDeviceList(SipDevice sipDevice);
-    public List<SipDevice> selectOfflineSipDevice(Integer timeout);
+    public List<SipDevice> selectOfflineSipDevice(String checkTimeCondition);
 
     /**
      * 新增监控设备
