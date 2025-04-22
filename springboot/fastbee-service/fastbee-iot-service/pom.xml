@@ -120,6 +120,13 @@
             <artifactId>fastbee-ruleEngine</artifactId>
         </dependency>
 
+        <!--引入DM8驱动-->
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>Dm8JdbcDriver18</artifactId>
+            <version>8.1.1.49</version>
+        </dependency>
+
     </dependencies>
 
 </project>

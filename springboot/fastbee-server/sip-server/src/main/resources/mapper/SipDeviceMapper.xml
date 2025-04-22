@@ -196,7 +196,7 @@
 
     <select id="selectOfflineSipDevice" parameterType="Integer" resultMap="SipDeviceResult">
         <include refid="selectSipDeviceVo"/>
-        where NOW() > DATE_ADD(lastconnecttime, INTERVAL #{timeout} SECOND )
+        ${checkTimeCondition}
     </select>
 
     <select id="selectSipDeviceBySipId" parameterType="String" resultMap="SipDeviceResult">
