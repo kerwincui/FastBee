@@ -38,8 +38,8 @@ public class DeviceInfoHandler extends ReqAbstractHandler implements Initializin
             device.setManufacturer(XmlUtil.getText(rootElement, "Manufacturer"));
             device.setModel(XmlUtil.getText(rootElement, "Model"));
             device.setFirmware(XmlUtil.getText(rootElement, "Firmware"));
-            if (StringUtils.isEmpty(device.getStreammode())) {
-                device.setStreammode("UDP");
+            if (StringUtils.isEmpty(device.getStreamMode())) {
+                device.setStreamMode("UDP");
             }
             // 更新到数据库
             sipDeviceService.updateDevice(device);

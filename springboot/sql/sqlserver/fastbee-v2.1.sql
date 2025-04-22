@@ -2772,7 +2772,7 @@ CREATE TABLE [dbo].[iot_script] (
   [application_name] nvarchar(32) NOT NULL,
   [script_name] nvarchar(64) NOT NULL,
   [script_data] nvarchar(max) NOT NULL,
-  [script_type] nchar(16) NOT NULL,
+  [script_type] nvarchar(16) NOT NULL,
   [script_language] nvarchar(16) NOT NULL,
   [enable] tinyint NOT NULL,
   [del_flag] nchar(1) NULL,
@@ -5934,14 +5934,14 @@ CREATE TABLE [dbo].[sip_device] (
   [model] nvarchar(64) NOT NULL,
   [firmware] nvarchar(64) NOT NULL,
   [transport] nvarchar(64) NOT NULL,
-  [streamMode] nvarchar(64) NOT NULL,
+  [stream_mode] nvarchar(64) NOT NULL,
   [online] nvarchar(64) NOT NULL,
-  [registerTime] datetime2 NOT NULL,
-  [lastConnectTime] datetime2 NULL,
+  [register_time] datetime2 NOT NULL,
+  [last_connect_time] datetime2 NULL,
   [active_time] datetime2 NULL,
   [ip] nvarchar(32) NULL,
   [port] bigint NULL,
-  [hostAddress] nvarchar(32) NULL,
+  [host_address] nvarchar(32) NULL,
   [del_flag] nchar(1) NULL,
   [create_by] nvarchar(64) NULL,
   [create_time] datetime2 NULL,
@@ -6018,7 +6018,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'流模式',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device',
-'COLUMN', N'streamMode'
+'COLUMN', N'stream_mode'
 GO
 
 EXEC sp_addextendedproperty
@@ -6032,14 +6032,14 @@ EXEC sp_addextendedproperty
 'MS_Description', N'注册时间',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device',
-'COLUMN', N'registerTime'
+'COLUMN', N'register_time'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'最后上线时间',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device',
-'COLUMN', N'lastConnectTime'
+'COLUMN', N'last_connect_time'
 GO
 
 EXEC sp_addextendedproperty
@@ -6067,7 +6067,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'设备地址',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device',
-'COLUMN', N'hostAddress'
+'COLUMN', N'host_address'
 GO
 
 EXEC sp_addextendedproperty
@@ -6125,7 +6125,7 @@ GO
 BEGIN TRANSACTION
 GO
 
-INSERT INTO [dbo].[sip_device] ([device_id], [product_id], [product_name], [device_sip_id], [device_name], [manufacturer], [model], [firmware], [transport], [streamMode], [online], [registerTime], [lastConnectTime], [active_time], [ip], [port], [hostAddress], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'9', N'0', N'', N'13030300001170000008', N'8E085C3RAJE156F', N'Dahua', N'DH-3H3205-ADW', N'2.810.0000027.0.R,2022-08-26', N'UDP', N'UDP', N'', N'2023-02-27 12:07:35', N'2023-02-26 23:36:45', NULL, N'177.7.0.1', N'35332', N'177.7.0.1:35332', N'0', N'', NULL, N'', NULL, NULL), (N'12', N'0', N'', N'11010100001320000001', N'海康威视摄像头', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2024-01-09 23:29:52', N'2024-01-09 23:35:00', NULL, N'192.168.2.119', N'5065', N'192.168.2.119:5065', N'0', N'', NULL, N'', NULL, NULL), (N'13', N'0', N'', N'11010200001320000017', N'', N'', N'', N'', N'UDP', N'UDP', N'', N'2023-03-16 21:41:45', N'2023-03-16 21:52:50', NULL, N'192.168.2.119', N'5060', N'192.168.2.119:5060', N'0', N'', NULL, N'', NULL, NULL), (N'16', N'0', N'', N'12010100001320000003', N'IP DOME', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2023-04-11 21:08:07', N'2023-04-11 21:13:16', NULL, N'192.168.2.119', N'5060', N'192.168.2.119:5060', N'0', N'', NULL, N'', NULL, NULL), (N'18', N'0', N'', N'13030100001320000001', N'', N'ABCD', N'TEST001', N'V1.0', N'UDP', N'UDP', N'', N'2023-03-28 16:06:45', N'2023-03-28 16:09:52', NULL, N'192.168.205.250', N'5063', N'192.168.205.250:5063', N'0', N'', NULL, N'', NULL, NULL), (N'19', N'0', N'', N'11010200001320000001', N'海康威视摄像头', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2024-01-08 22:08:27', N'2024-01-08 22:16:32', NULL, N'192.168.2.119', N'5065', N'192.168.2.119:5065', N'0', N'', NULL, N'', NULL, NULL)
+INSERT INTO [dbo].[sip_device] ([device_id], [product_id], [product_name], [device_sip_id], [device_name], [manufacturer], [model], [firmware], [transport], [stream_mode], [online], [register_time], [last_connect_time], [active_time], [ip], [port], [host_address], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'9', N'0', N'', N'13030300001170000008', N'8E085C3RAJE156F', N'Dahua', N'DH-3H3205-ADW', N'2.810.0000027.0.R,2022-08-26', N'UDP', N'UDP', N'', N'2023-02-27 12:07:35', N'2023-02-26 23:36:45', NULL, N'177.7.0.1', N'35332', N'177.7.0.1:35332', N'0', N'', NULL, N'', NULL, NULL), (N'12', N'0', N'', N'11010100001320000001', N'海康威视摄像头', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2024-01-09 23:29:52', N'2024-01-09 23:35:00', NULL, N'192.168.2.119', N'5065', N'192.168.2.119:5065', N'0', N'', NULL, N'', NULL, NULL), (N'13', N'0', N'', N'11010200001320000017', N'', N'', N'', N'', N'UDP', N'UDP', N'', N'2023-03-16 21:41:45', N'2023-03-16 21:52:50', NULL, N'192.168.2.119', N'5060', N'192.168.2.119:5060', N'0', N'', NULL, N'', NULL, NULL), (N'16', N'0', N'', N'12010100001320000003', N'IP DOME', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2023-04-11 21:08:07', N'2023-04-11 21:13:16', NULL, N'192.168.2.119', N'5060', N'192.168.2.119:5060', N'0', N'', NULL, N'', NULL, NULL), (N'18', N'0', N'', N'13030100001320000001', N'', N'ABCD', N'TEST001', N'V1.0', N'UDP', N'UDP', N'', N'2023-03-28 16:06:45', N'2023-03-28 16:09:52', NULL, N'192.168.205.250', N'5063', N'192.168.205.250:5063', N'0', N'', NULL, N'', NULL, NULL), (N'19', N'0', N'', N'11010200001320000001', N'海康威视摄像头', N'Hikvision', N'iDS-2DE2402IX-D3/W/XM', N'V5.7.4', N'UDP', N'UDP', N'', N'2024-01-08 22:08:27', N'2024-01-08 22:16:32', NULL, N'192.168.2.119', N'5065', N'192.168.2.119:5065', N'0', N'', NULL, N'', NULL, NULL)
 GO
 
 COMMIT

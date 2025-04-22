@@ -52,11 +52,11 @@ public class KeepaliveHandler extends ReqAbstractHandler implements Initializing
                     received = viaHeader.getHost();
                     rPort = viaHeader.getPort();
                 }
-                device.setLastconnecttime(DateUtils.getNowDate());
+                device.setLastConnectTime(DateUtils.getNowDate());
                 device.setIp(received);
                 device.setPort(rPort);
-                device.setHostaddress(received.concat(":").concat(String.valueOf(rPort)));
-                log.info("设备:{} 心跳上报时间:{}",deviceId,device.getLastconnecttime());
+                device.setHostAddress(received.concat(":").concat(String.valueOf(rPort)));
+                log.info("设备:{} 心跳上报时间:{}",deviceId,device.getLastConnectTime());
                 //log.warn("设备:{} 心跳上报时间:{}",deviceId,device.getLastconnecttime());
                 // 更新在线状态
                 sipDeviceService.updateSipDeviceStatus(device);

@@ -14,14 +14,14 @@
         <result property="model" column="model"/>
         <result property="firmware" column="firmware"/>
         <result property="transport" column="transport"/>
-        <result property="streammode" column="streamMode"/>
+        <result property="streamMode" column="stream_mode"/>
         <result property="online" column="online"/>
-        <result property="registertime" column="registerTime"/>
-        <result property="lastconnecttime" column="lastConnectTime"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="lastConnectTime" column="last_connect_time"/>
         <result property="activeTime" column="active_time"/>
         <result property="ip" column="ip"/>
         <result property="port" column="port"/>
-        <result property="hostaddress" column="hostAddress"/>
+        <result property="hostAddress" column="host_address"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -40,14 +40,14 @@
                model,
                firmware,
                transport,
-               streamMode,
+               stream_mode,
                online,
-               registerTime,
-               lastConnectTime,
+               register_time,
+               last_connect_time,
                active_time,
                ip,
                port,
-               hostAddress,
+               host_address,
                del_flag,
                create_by,
                create_time,
@@ -71,14 +71,14 @@
             <if test="model != null  and model != ''">and model = #{model}</if>
             <if test="firmware != null  and firmware != ''">and firmware = #{firmware}</if>
             <if test="transport != null  and transport != ''">and transport = #{transport}</if>
-            <if test="streammode != null  and streammode != ''">and streamMode = #{streammode}</if>
+            <if test="streamMode != null  and streamMode != ''">and stream_mode = #{streamMode}</if>
             <if test="online != null  and online != ''">and online = #{online}</if>
-            <if test="registertime != null ">and registerTime = #{registertime}</if>
-            <if test="lastconnecttime != null ">and lastConnectTime = #{lastconnecttime}</if>
+            <if test="registerTime != null ">and register_time = #{registerTime}</if>
+            <if test="lastConnectTime != null ">and last_connect_time = #{lastConnectTime}</if>
             <if test="activeTime != null ">and active_time = #{activeTime}</if>
             <if test="ip != null  and ip != ''">and ip = #{ip}</if>
             <if test="port != null ">and port = #{port}</if>
-            <if test="hostaddress != null  and hostaddress != ''">and hostAddress = #{hostaddress}</if>
+            <if test="hostAddress != null  and hostAddress != ''">and host_address = #{hostAddress}</if>
         </where>
     </select>
 
@@ -98,14 +98,14 @@
             <if test="model != null and model != ''">model,</if>
             <if test="firmware != null and firmware != ''">firmware,</if>
             <if test="transport != null and transport != ''">transport,</if>
-            <if test="streammode != null and streammode != ''">streamMode,</if>
+            <if test="streamMode != null and streamMode != ''">stream_mode,</if>
             <if test="online != null and online != ''">online,</if>
-            <if test="registertime != null">registerTime,</if>
-            <if test="lastconnecttime != null">lastConnectTime,</if>
+            <if test="registerTime != null">register_time,</if>
+            <if test="lastConnectTime != null">last_connect_time,</if>
             <if test="activeTime != null">active_time,</if>
             <if test="ip != null">ip,</if>
             <if test="port != null">port,</if>
-            <if test="hostaddress != null">hostAddress,</if>
+            <if test="hostAddress != null">host_address,</if>
             <if test="delFlag != null and delFlag != ''">del_flag,</if>
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -122,14 +122,14 @@
             <if test="model != null and model != ''">#{model},</if>
             <if test="firmware != null and firmware != ''">#{firmware},</if>
             <if test="transport != null and transport != ''">#{transport},</if>
-            <if test="streammode != null and streammode != ''">#{streammode},</if>
+            <if test="streamMode != null and streamMode != ''">#{streamMode},</if>
             <if test="online != null and online != ''">#{online},</if>
-            <if test="registertime != null">#{registertime},</if>
-            <if test="lastconnecttime != null">#{lastconnecttime},</if>
+            <if test="registerTime != null">#{registerTime},</if>
+            <if test="lastConnectTime != null">#{lastConnectTime},</if>
             <if test="activeTime != null">#{activeTime},</if>
             <if test="ip != null">#{ip},</if>
             <if test="port != null">#{port},</if>
-            <if test="hostaddress != null">#{hostaddress},</if>
+            <if test="hostAddress != null">#{hostAddress},</if>
             <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
             <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -150,14 +150,14 @@
             <if test="model != null and model != ''">model = #{model},</if>
             <if test="firmware != null and firmware != ''">firmware = #{firmware},</if>
             <if test="transport != null and transport != ''">transport = #{transport},</if>
-            <if test="streammode != null and streammode != ''">streamMode = #{streammode},</if>
+            <if test="streamMode != null and streamMode != ''">stream_mode = #{streamMode},</if>
             <if test="online != null and online != ''">online = #{online},</if>
-            <if test="registertime != null">registerTime = #{registertime},</if>
-            <if test="lastconnecttime != null">lastConnectTime = #{lastconnecttime},</if>
+            <if test="registerTime != null">register_time = #{registerTime},</if>
+            <if test="lastConnectTime != null">last_connect_time = #{lastConnectTime},</if>
             <if test="activeTime != null">active_time = #{activeTime},</if>
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
-            <if test="hostaddress != null">hostAddress = #{hostaddress},</if>
+            <if test="hostAddress != null">host_address = #{hostAddress},</if>
             <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -185,18 +185,20 @@
         update sip_device
         <trim prefix="SET" suffixOverrides=",">
             <if test="online != null">online = #{online},</if>
-            <if test="lastconnecttime != null">lastConnectTime = #{lastconnecttime},</if>
+            <if test="lastConnectTime != null">last_connect_time = #{lastConnectTime},</if>
             <if test="activeTime != null">active_time = #{activeTime},</if>
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
-            <if test="hostaddress != null">hostaddress = #{hostaddress},</if>
+            <if test="hostAddress != null">hostaddress = #{hostAddress},</if>
         </trim>
         where device_sip_id = #{deviceSipId}
     </update>
 
     <select id="selectOfflineSipDevice" parameterType="Integer" resultMap="SipDeviceResult">
         <include refid="selectSipDeviceVo"/>
-        ${checkTimeCondition}
+        <where>
+            ${checkTimeCondition}
+        </where>
     </select>
 
     <select id="selectSipDeviceBySipId" parameterType="String" resultMap="SipDeviceResult">

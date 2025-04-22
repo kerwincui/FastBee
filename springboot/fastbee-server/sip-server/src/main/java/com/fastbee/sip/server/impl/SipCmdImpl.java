@@ -75,7 +75,7 @@ public class SipCmdImpl implements ISipCmd {
                     .mediaServerId(mediaInfo.getServerId())
                     .deviceId(device.getDeviceSipId())
                     .channelId(channelId)
-                    .streamMode(device.getStreammode().toUpperCase())
+                    .streamMode(device.getStreamMode().toUpperCase())
                     .build();
             String fromTag;
             if (record) {
