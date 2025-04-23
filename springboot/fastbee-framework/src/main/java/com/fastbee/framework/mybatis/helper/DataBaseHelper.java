@@ -3,7 +3,7 @@ package com.fastbee.framework.mybatis.helper;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.fastbee.common.exception.ServiceException;
-import com.fastbee.common.mabatis.enums.DataBaseType;
+import com.fastbee.common.mybatis.enums.DataBaseType;
 import com.fastbee.common.utils.spring.SpringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

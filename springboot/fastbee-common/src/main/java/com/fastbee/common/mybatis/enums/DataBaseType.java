@@ -1,4 +1,4 @@
-package com.fastbee.common.mabatis.enums;
+package com.fastbee.common.mybatis.enums;
 
 import com.fastbee.common.utils.StringUtils;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.fastbee.framework.mybatis.utils;
+package com.fastbee.common.mybatis.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;

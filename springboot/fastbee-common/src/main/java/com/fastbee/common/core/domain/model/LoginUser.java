@@ -1,15 +1,16 @@
 package com.fastbee.common.core.domain.model;
 
-import java.util.Collection;
-import java.util.Set;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fastbee.common.core.domain.entity.SysUser;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 登录用户身份权限
- * 
+ *
  * @author ruoyi
  */
 public class LoginUser implements UserDetails
@@ -30,6 +31,9 @@ public class LoginUser implements UserDetails
      * 用户唯一标识
      */
     private String token;
+
+
+    private String requestToken;
 
     /**
      * 登录时间
@@ -71,6 +75,36 @@ public class LoginUser implements UserDetails
      */
     private SysUser user;
 
+    private String language;
+
+    private Long deptUserId;
+
+    private Boolean neverExpire = Boolean.FALSE;
+
+    public Boolean getNeverExpire() {
+        return neverExpire;
+    }
+
+    public void setNeverExpire(Boolean neverExpire) {
+        this.neverExpire = neverExpire;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public Long getDeptUserId() {
+        return deptUserId;
+    }
+
+    public void setDeptUserId(Long deptUserId) {
+        this.deptUserId = deptUserId;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public Long getUserId()
     {
         return userId;
@@ -101,6 +135,14 @@ public class LoginUser implements UserDetails
         this.token = token;
     }
 
+    public String getRequestToken() {
+        return requestToken;
+    }
+
+    public void setRequestToken(String requestToken) {
+        this.requestToken = requestToken;
+    }
+
     public LoginUser()
     {
     }
@@ -116,6 +158,15 @@ public class LoginUser implements UserDetails
         this.userId = userId;
         this.deptId = deptId;
         this.user = user;
+        this.permissions = permissions;
+    }
+
+    public LoginUser(Long userId, Long deptId, String language, SysUser user, Set<String> permissions)
+    {
+        this.userId = userId;
+        this.deptId = deptId;
+        this.user = user;
+        this.language = language;
         this.permissions = permissions;
     }
 
@@ -144,7 +195,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 指定用户是否解锁,锁定的用户无法进行身份验证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
@@ -156,7 +207,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
@@ -168,7 +219,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 是否可用 ,禁用的用户不能身份验证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
