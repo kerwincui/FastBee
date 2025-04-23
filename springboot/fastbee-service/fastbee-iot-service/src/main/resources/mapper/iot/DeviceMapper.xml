@@ -297,7 +297,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectDeviceProductAlertCount" parameterType="com.fastbee.iot.domain.Device" resultType="com.fastbee.iot.model.DeviceStatistic">
         select
             <!--设备数量-->
-            (select count(distinct d.device_id,d.user_id)
+            (select count(distinct concat(d.device_id, '|', d.tenant_id))
             from iot_device d
             inner join iot_device_user u on u.device_id = d.device_id
             <where>
@@ -307,7 +307,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ) as deviceCount,
 
             <!--在线设备数量-->
-            (select count(distinct d.device_id,d.user_id)
+            (select count(distinct concat(d.device_id, '|', d.tenant_id))
             from iot_device d
             inner join iot_device_user u on u.device_id = d.device_id
             <where>
@@ -320,7 +320,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            (
             <!--普通用户查询设备中的产品数量-->
             <if test="userId != null and userId != 0">
-               select count(distinct product_id)
+               select count(product_id)
                from iot_device
                where user_id = #{userId}
             </if>
