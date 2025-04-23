@@ -124,11 +124,11 @@ public class RegisterReqHandler extends ReqAbstractHandler implements Initializi
                 }
                 SipDevice device = new SipDevice();
                 ;
-                device.setStreammode("UDP");
+                device.setStreamMode("UDP");
                 device.setDeviceSipId(sipId);
                 device.setIp(received);
                 device.setPort(rPort);
-                device.setHostaddress(received.concat(":").concat(String.valueOf(rPort)));
+                device.setHostAddress(received.concat(":").concat(String.valueOf(rPort)));
                 // 注销成功
                 if (expiresHeader != null && expiresHeader.getExpires() == 0) {
                     registerFlag = 2;
@@ -147,7 +147,7 @@ public class RegisterReqHandler extends ReqAbstractHandler implements Initializi
                 // 注册成功
                 if (registerFlag == 1) {
                     log.info("注册成功! sipId:" + device.getDeviceSipId());
-                    device.setRegistertime(DateUtils.getNowDate());
+                    device.setRegisterTime(DateUtils.getNowDate());
                     sipDeviceService.updateDevice(device);
                     List<SipDeviceChannel> channels = sipDeviceChannelService.selectSipDeviceChannelByDeviceSipId(device.getDeviceSipId());
                     if (channels.size() > 0) {

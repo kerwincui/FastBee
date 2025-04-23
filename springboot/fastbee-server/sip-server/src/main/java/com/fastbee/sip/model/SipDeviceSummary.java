@@ -9,9 +9,9 @@ public class SipDeviceSummary {
         this.manufacturer = device.getManufacturer();
         this.firmware = device.getFirmware();
         this.transport = device.getTransport();
-        this.streammode = device.getStreammode();
+        this.streammode = device.getStreamMode();
         this.port = device.getPort();
-        this.hostaddress = device.getHostaddress();
+        this.hostaddress = device.getHostAddress();
     }
     public SipDeviceSummary() {
 

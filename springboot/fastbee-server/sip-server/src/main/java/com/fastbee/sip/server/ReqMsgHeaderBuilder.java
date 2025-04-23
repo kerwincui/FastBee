@@ -33,7 +33,7 @@ public class ReqMsgHeaderBuilder {
     public Request createInviteRequest(SipDevice device, SipConfig sipConfig, String channelId, String content, String ssrc, String fromTag) throws ParseException, InvalidArgumentException, PeerUnavailableException {
         Request request = null;
         // 请求行
-        SipURI requestLine = sipFactory.createAddressFactory().createSipURI(channelId, device.getHostaddress());
+        SipURI requestLine = sipFactory.createAddressFactory().createSipURI(channelId, device.getHostAddress());
         // via
         ArrayList<ViaHeader> viaHeaders = new ArrayList<ViaHeader>();
         ViaHeader viaHeader = sipFactory.createHeaderFactory().createViaHeader(device.getIp(), device.getPort(),
@@ -78,7 +78,7 @@ public class ReqMsgHeaderBuilder {
     public Request createByeRequest(SipDevice device, SipConfig sipConfig, String channelId, InviteInfo invite) throws ParseException, InvalidArgumentException, PeerUnavailableException {
         Request request = null;
         //请求行
-        SipURI requestLine = SipFactory.getInstance().createAddressFactory().createSipURI(channelId, device.getHostaddress());
+        SipURI requestLine = SipFactory.getInstance().createAddressFactory().createSipURI(channelId, device.getHostAddress());
         // via
         ArrayList<ViaHeader> viaHeaders = new ArrayList<ViaHeader>();
         ViaHeader viaHeader = sipFactory.createHeaderFactory().createViaHeader(device.getIp(), device.getPort(),
@@ -90,7 +90,7 @@ public class ReqMsgHeaderBuilder {
         Address fromAddress = SipFactory.getInstance().createAddressFactory().createAddress(fromSipURI);
         FromHeader fromHeader = SipFactory.getInstance().createHeaderFactory().createFromHeader(fromAddress, invite.getFromTag());
         //to
-        SipURI toSipURI = SipFactory.getInstance().createAddressFactory().createSipURI(channelId, device.getHostaddress());
+        SipURI toSipURI = SipFactory.getInstance().createAddressFactory().createSipURI(channelId, device.getHostAddress());
         Address toAddress = SipFactory.getInstance().createAddressFactory().createAddress(toSipURI);
         ToHeader toHeader = SipFactory.getInstance().createHeaderFactory().createToHeader(toAddress, SipUtil.getNewTag());
         //Forwards

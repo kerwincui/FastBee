@@ -889,7 +889,7 @@ CREATE TABLE "public"."iot_script" (
   "application_name" varchar(32) NOT NULL,
   "script_name" varchar(64) NOT NULL,
   "script_data" text NOT NULL,
-  "script_type" char(16) NOT NULL,
+  "script_type" varchar(16) NOT NULL,
   "script_language" varchar(16) NOT NULL,
   "enable" int2 NOT NULL,
   "del_flag" char(1),
@@ -2277,14 +2277,14 @@ CREATE TABLE "public"."sip_device" (
   "model" varchar(64) NOT NULL,
   "firmware" varchar(64) NOT NULL,
   "transport" varchar(64) NOT NULL,
-  "streamMode" varchar(64) NOT NULL,
+  "stream_mode" varchar(64) NOT NULL,
   "online" varchar(64) NOT NULL,
-  "registerTime" timestamp NOT NULL,
-  "lastConnectTime" timestamp,
+  "register_time" timestamp NOT NULL,
+  "last_connect_time" timestamp,
   "active_time" timestamp,
   "ip" varchar(32),
   "port" int8,
-  "hostAddress" varchar(32),
+  "host_address" varchar(32),
   "del_flag" char(1),
   "create_by" varchar(64),
   "create_time" timestamp,
@@ -2302,14 +2302,14 @@ COMMENT ON COLUMN "public"."sip_device"."manufacturer" IS '厂商名称';
 COMMENT ON COLUMN "public"."sip_device"."model" IS '产品型号';
 COMMENT ON COLUMN "public"."sip_device"."firmware" IS '固件版本';
 COMMENT ON COLUMN "public"."sip_device"."transport" IS '传输模式';
-COMMENT ON COLUMN "public"."sip_device"."streamMode" IS '流模式';
+COMMENT ON COLUMN "public"."sip_device"."stream_mode" IS '流模式';
 COMMENT ON COLUMN "public"."sip_device"."online" IS '在线状态';
-COMMENT ON COLUMN "public"."sip_device"."registerTime" IS '注册时间';
-COMMENT ON COLUMN "public"."sip_device"."lastConnectTime" IS '最后上线时间';
+COMMENT ON COLUMN "public"."sip_device"."register_time" IS '注册时间';
+COMMENT ON COLUMN "public"."sip_device"."last_connect_time" IS '最后上线时间';
 COMMENT ON COLUMN "public"."sip_device"."active_time" IS '激活时间';
 COMMENT ON COLUMN "public"."sip_device"."ip" IS '设备入网IP';
 COMMENT ON COLUMN "public"."sip_device"."port" IS '设备接入端口号';
-COMMENT ON COLUMN "public"."sip_device"."hostAddress" IS '设备地址';
+COMMENT ON COLUMN "public"."sip_device"."host_address" IS '设备地址';
 COMMENT ON COLUMN "public"."sip_device"."del_flag" IS '删除标志（0代表存在 2代表删除）';
 COMMENT ON COLUMN "public"."sip_device"."create_by" IS '创建者';
 COMMENT ON COLUMN "public"."sip_device"."create_time" IS '创建时间';
@@ -2322,12 +2322,12 @@ COMMENT ON TABLE "public"."sip_device" IS '监控设备';
 -- Records of sip_device
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (9, 0, '', '13030300001170000008', '8E085C3RAJE156F', 'Dahua', 'DH-3H3205-ADW', '2.810.0000027.0.R,2022-08-26', 'UDP', 'UDP', '', '2023-02-27 12:07:35', '2023-02-26 23:36:45', NULL, '177.7.0.1', 35332, '177.7.0.1:35332', '0', '', NULL, '', NULL, NULL);
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (12, 0, '', '11010100001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-09 23:29:52', '2024-01-09 23:35:00', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (13, 0, '', '11010200001320000017', '', '', '', '', 'UDP', 'UDP', '', '2023-03-16 21:41:45', '2023-03-16 21:52:50', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (16, 0, '', '12010100001320000003', 'IP DOME', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2023-04-11 21:08:07', '2023-04-11 21:13:16', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (18, 0, '', '13030100001320000001', '', 'ABCD', 'TEST001', 'V1.0', 'UDP', 'UDP', '', '2023-03-28 16:06:45', '2023-03-28 16:09:52', NULL, '192.168.205.250', 5063, '192.168.205.250:5063', '0', '', NULL, '', NULL, NULL);
-INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "streamMode", "online", "registerTime", "lastConnectTime", "active_time", "ip", "port", "hostAddress", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (19, 0, '', '11010200001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-08 22:08:27', '2024-01-08 22:16:32', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (9, 0, '', '13030300001170000008', '8E085C3RAJE156F', 'Dahua', 'DH-3H3205-ADW', '2.810.0000027.0.R,2022-08-26', 'UDP', 'UDP', '', '2023-02-27 12:07:35', '2023-02-26 23:36:45', NULL, '177.7.0.1', 35332, '177.7.0.1:35332', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (12, 0, '', '11010100001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-09 23:29:52', '2024-01-09 23:35:00', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (13, 0, '', '11010200001320000017', '', '', '', '', 'UDP', 'UDP', '', '2023-03-16 21:41:45', '2023-03-16 21:52:50', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (16, 0, '', '12010100001320000003', 'IP DOME', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2023-04-11 21:08:07', '2023-04-11 21:13:16', NULL, '192.168.2.119', 5060, '192.168.2.119:5060', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (18, 0, '', '13030100001320000001', '', 'ABCD', 'TEST001', 'V1.0', 'UDP', 'UDP', '', '2023-03-28 16:06:45', '2023-03-28 16:09:52', NULL, '192.168.205.250', 5063, '192.168.205.250:5063', '0', '', NULL, '', NULL, NULL);
+INSERT INTO "public"."sip_device" ("device_id", "product_id", "product_name", "device_sip_id", "device_name", "manufacturer", "model", "firmware", "transport", "stream_mode", "online", "register_time", "last_connect_time", "active_time", "ip", "port", "host_address", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (19, 0, '', '11010200001320000001', '海康威视摄像头', 'Hikvision', 'iDS-2DE2402IX-D3/W/XM', 'V5.7.4', 'UDP', 'UDP', '', '2024-01-08 22:08:27', '2024-01-08 22:16:32', NULL, '192.168.2.119', 5065, '192.168.2.119:5065', '0', '', NULL, '', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
