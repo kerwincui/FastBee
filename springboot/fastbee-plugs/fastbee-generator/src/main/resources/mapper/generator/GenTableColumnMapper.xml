@@ -124,4 +124,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <insert id="batchInsert"  useGeneratedKeys="true" keyProperty="columnId">
+        insert into gen_table_column (
+        table_id,column_name,column_comment,column_type,java_type,java_field,is_pk,is_increment,is_required,
+        is_insert,is_edit,is_list,is_query,query_type,html_type,dict_type,sort,create_by,create_time
+        )values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.tableId},
+            #{item.columnName},
+            #{item.columnComment},
+            #{item.columnType},
+            #{item.javaType},
+            #{item.javaField},
+            COALESCE(#{item.isPk}, '1'),
+            COALESCE(#{item.isIncrement}, '1'),
+            COALESCE(#{item.isRequired}, '1'),
+            COALESCE(#{item.isInsert}, '1'),
+            COALESCE(#{item.isEdit}, '1'),
+            COALESCE(#{item.isList}, '1'),
+            COALESCE(#{item.isQuery}, '1'),
+            COALESCE(#{item.queryType}, 'EQ'),
+            COALESCE(#{item.htmlType}, 'input'),
+            COALESCE(#{item.dictType}, 'default_dict_type'),
+            COALESCE(#{item.sort}, 0),
+            COALESCE(#{item.createBy}, 'admin'),
+            CURRENT_TIMESTAMP
+            )
+        </foreach>
+    </insert>
+
 </mapper>

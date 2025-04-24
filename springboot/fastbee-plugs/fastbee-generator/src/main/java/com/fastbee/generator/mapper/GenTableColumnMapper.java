@@ -1,6 +1,8 @@
 package com.fastbee.generator.mapper;
 
 import java.util.List;
+
+import com.fastbee.common.mybatis.mapper.BaseMapperX;
 import com.fastbee.generator.domain.GenTableColumn;
 
 /**
@@ -8,7 +10,7 @@ import com.fastbee.generator.domain.GenTableColumn;
  * 
  * @author ruoyi
  */
-public interface GenTableColumnMapper
+public interface GenTableColumnMapper extends BaseMapperX<GenTableColumn>
 {
     /**
      * 根据表名称查询列信息
@@ -57,4 +59,6 @@ public interface GenTableColumnMapper
      * @return 结果
      */
     public int deleteGenTableColumnByIds(Long[] ids);
+
+    boolean batchInsert(List<GenTableColumn> list);
 }

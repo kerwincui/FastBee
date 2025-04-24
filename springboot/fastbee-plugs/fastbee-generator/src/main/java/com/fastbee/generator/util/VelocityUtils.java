@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.fastbee.framework.mybatis.helper.DataBaseHelper;
 import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -126,7 +128,7 @@ public class VelocityUtils
      *
      * @return 模板列表
      */
-    public static List<String> getTemplateList(String tplCategory)
+    public static List<String> getTemplateList(String tplCategory,String dataName)
     {
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/domain.java.vm");
@@ -135,7 +137,17 @@ public class VelocityUtils
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
+        if (DataBaseHelper.isOracle(dataName)) {
+            templates.add("vm/sql/oracle/sql.vm");
+        } else if (DataBaseHelper.isPostgerSql(dataName)) {
+            templates.add("vm/sql/postgres/sql.vm");
+        } else if (DataBaseHelper.isSqlServer(dataName)) {
+            templates.add("vm/sql/sqlserver/sql.vm");
+        } else if (DataBaseHelper.isDm(dataName)) {
+            templates.add("vm/sql/dameng/sql.vm");
+        } else {
+            templates.add("vm/sql/sql.vm");
+        }
         templates.add("vm/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory))
         {

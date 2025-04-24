@@ -2,7 +2,11 @@ package com.fastbee.generator.service;
 
 import java.util.List;
 import java.util.Map;
+
+import com.fastbee.common.core.page.PageDomain;
+import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.generator.domain.GenTable;
+import com.fastbee.generator.domain.GenTableColumn;
 
 /**
  * 业务 服务层
@@ -25,7 +29,7 @@ public interface IGenTableService
      * @param genTable 业务信息
      * @return 数据库表集合
      */
-    public List<GenTable> selectDbTableList(GenTable genTable);
+    public TableDataInfo selectDbTableList(GenTable genTable, PageDomain page);
 
     /**
      * 查询据库列表
@@ -33,7 +37,7 @@ public interface IGenTableService
      * @param tableNames 表名称组
      * @return 数据库表集合
      */
-    public List<GenTable> selectDbTableListByNames(String[] tableNames);
+    public List<GenTable> selectDbTableListByNames(String[] tableNames,String dataName);
 
     /**
      * 查询所有表信息
@@ -71,7 +75,16 @@ public interface IGenTableService
      * 
      * @param tableList 导入表列表
      */
-    public void importGenTable(List<GenTable> tableList);
+    public void importGenTable(List<GenTable> tableList,String dataName);
+
+    /**
+     * 根据表名称查询列信息
+     *
+     * @param tableName 表名称
+     * @param dataName  数据源名称
+     * @return 列信息
+     */
+    List<GenTableColumn> selectDbTableColumnsByName(String tableName, String dataName);
 
     /**
      * 预览代码
