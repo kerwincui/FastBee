@@ -230,7 +230,7 @@ INSERT INTO `iot_device_job` VALUES (5, '告警定时触发', 'DEFAULT', '0 13 1
 DROP TABLE IF EXISTS `iot_device_log`;
 CREATE TABLE `iot_device_log`  (
   `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备监测信息ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
+  `identify` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
   `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（1=属性上报，2=调用功能，3=事件上报，4=设备升级，5=设备上线，6=设备离线）',
   `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',
@@ -327,7 +327,7 @@ INSERT INTO `iot_device_user` VALUES (140, 1, 1, 'admin', '￥视频监控', '15
 DROP TABLE IF EXISTS `iot_event_log`;
 CREATE TABLE `iot_event_log`  (
   `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备事件日志ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
+  `identify` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
   `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（3=事件上报，5=设备上线，6=设备离线）',
   `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',

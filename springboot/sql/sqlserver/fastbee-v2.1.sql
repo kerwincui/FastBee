@@ -1093,7 +1093,7 @@ GO
 
 CREATE TABLE [dbo].[iot_device_log] (
   [log_id] bigint NOT NULL,
-  [identity] nvarchar(64) NOT NULL,
+  [identify] nvarchar(64) NOT NULL,
   [model_name] nvarchar(255) NULL,
   [log_type] tinyint NOT NULL,
   [log_value] nvarchar(64) NOT NULL,
@@ -1123,7 +1123,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'标识符',
 'SCHEMA', N'dbo',
 'TABLE', N'iot_device_log',
-'COLUMN', N'identity'
+'COLUMN', N'identify'
 GO
 
 EXEC sp_addextendedproperty
@@ -1463,7 +1463,7 @@ GO
 
 CREATE TABLE [dbo].[iot_event_log] (
   [log_id] bigint NOT NULL,
-  [identity] nvarchar(64) NOT NULL,
+  [identify] nvarchar(64) NOT NULL,
   [model_name] nvarchar(255) NULL,
   [log_type] tinyint NOT NULL,
   [log_value] nvarchar(64) NOT NULL,
@@ -1493,7 +1493,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'标识符',
 'SCHEMA', N'dbo',
 'TABLE', N'iot_event_log',
-'COLUMN', N'identity'
+'COLUMN', N'identify'
 GO
 
 EXEC sp_addextendedproperty

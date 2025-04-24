@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceId"    column="device_id"    />
         <result property="deviceName"    column="device_name"    />
         <result property="serialNumber"    column="serial_number"    />
-        <result property="identity"    column="identity"    />
+        <result property="identity"    column="identify"    />
         <result property="createBy"    column="create_by"    />
         <result property="isMonitor"    column="is_monitor"    />
         <result property="mode"    column="mode"    />
@@ -31,18 +31,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">
         <result property="value"    column="log_value"    />
         <result property="time"    column="create_time"    />
-        <result property="identity" column="identity" />
+        <result property="identity" column="identify" />
     </resultMap>
 
     <sql id="selectDeviceLogVo">
-        select log_id, log_type, log_value, device_id, device_name,serial_number, identity, create_by, is_monitor,mode, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
+        select log_id, log_type, log_value, device_id, device_name,serial_number, identify, create_by, is_monitor,mode, user_id, user_name, tenant_id, tenant_name, create_time, remark from iot_device_log
     </sql>
 
     <select id="selectMonitorList" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="MonitorResult">
         select log_value, create_time from iot_device_log
         <where>
             <if test="1==1"> and is_monitor=1</if>
-            <if test="identity != null and identity != ''"> and identity = #{identity}</if>
+            <if test="identity != null and identity != ''"> and identify = #{identity}</if>
             <if test="deviceId != null and deviceId !=0"> and device_id = #{deviceId}</if>
             <if test="serialNumber != null and serialNumber !=''"> and serial_number = #{serialNumber}</if>
             <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''"> and create_time between #{beginTime} and #{endTime}</if>
@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <insert id="saveBatch" parameterType="com.fastbee.iot.domain.DeviceLog">
-        insert into iot_device_log (log_type,log_value,device_id,device_name,serial_number,identity,create_by,
+        insert into iot_device_log (log_type,log_value,device_id,device_name,serial_number,identify,create_by,
         is_monitor,mode,create_time,remark,user_id,user_name,tenant_id,tenant_name,model_name)
             values
             <foreach collection="list" item="item" index="index" separator=",">
@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">device_id = #{deviceId},</if>
             <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
             <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
-            <if test="identity != null">identity = #{identity},</if>
+            <if test="identity != null">identify = #{identity},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
             <if test="mode != null">mode = #{mode},</if>

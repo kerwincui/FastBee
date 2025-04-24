@@ -349,7 +349,7 @@ COMMIT;
 DROP TABLE IF EXISTS "public"."iot_device_log";
 CREATE TABLE "public"."iot_device_log" (
   "log_id" int8 NOT NULL,
-  "identity" varchar(64) NOT NULL,
+  "identify" varchar(64) NOT NULL,
   "model_name" varchar(255),
   "log_type" int2 NOT NULL,
   "log_value" varchar(64) NOT NULL,
@@ -368,7 +368,7 @@ CREATE TABLE "public"."iot_device_log" (
 )
 ;
 COMMENT ON COLUMN "public"."iot_device_log"."log_id" IS '设备监测信息ID';
-COMMENT ON COLUMN "public"."iot_device_log"."identity" IS '标识符';
+COMMENT ON COLUMN "public"."iot_device_log"."identify" IS '标识符';
 COMMENT ON COLUMN "public"."iot_device_log"."model_name" IS '物模型名称';
 COMMENT ON COLUMN "public"."iot_device_log"."log_type" IS '类型（1=属性上报，2=调用功能，3=事件上报，4=设备升级，5=设备上线，6=设备离线）';
 COMMENT ON COLUMN "public"."iot_device_log"."log_value" IS '日志值';
@@ -482,7 +482,7 @@ COMMIT;
 DROP TABLE IF EXISTS "public"."iot_event_log";
 CREATE TABLE "public"."iot_event_log" (
   "log_id" int8 NOT NULL,
-  "identity" varchar(64) NOT NULL,
+  "identify" varchar(64) NOT NULL,
   "model_name" varchar(255),
   "log_type" int2 NOT NULL,
   "log_value" varchar(64) NOT NULL,
@@ -501,7 +501,7 @@ CREATE TABLE "public"."iot_event_log" (
 )
 ;
 COMMENT ON COLUMN "public"."iot_event_log"."log_id" IS '设备事件日志ID';
-COMMENT ON COLUMN "public"."iot_event_log"."identity" IS '标识符';
+COMMENT ON COLUMN "public"."iot_event_log"."identify" IS '标识符';
 COMMENT ON COLUMN "public"."iot_event_log"."model_name" IS '物模型名称';
 COMMENT ON COLUMN "public"."iot_event_log"."log_type" IS '类型（3=事件上报，5=设备上线，6=设备离线）';
 COMMENT ON COLUMN "public"."iot_event_log"."log_value" IS '日志值';
