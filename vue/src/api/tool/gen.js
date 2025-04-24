@@ -74,3 +74,11 @@ export function synchDb(tableName) {
     method: 'get'
   })
 }
+
+// 查询数据源列表
+export function listDataSource() {
+  return request({
+      url: '/tool/gen/getDataNames',
+      method: 'get',
+  });
+}
