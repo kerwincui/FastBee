@@ -31,7 +31,7 @@
                enabled,
                isdefault,
                seniorSdp,
-               domain,
+               domain_alias,
                server_sipid,
                password,
                ip,
@@ -55,7 +55,7 @@
             <if test="enabled != null ">and enabled = #{enabled}</if>
             <if test="isdefault != null ">and isdefault = #{isdefault}</if>
             <if test="seniorsdp != null ">and seniorSdp = #{seniorsdp}</if>
-            <if test="domain != null  and domain != ''">and domain = #{domain}</if>
+            <if test="domain != null  and domain != ''">and domain_alias = #{domain}</if>
             <if test="serverSipid != null  and serverSipid != ''">and server_sipid = #{serverSipid}</if>
             <if test="password != null  and password != ''">and password = #{password}</if>
             <if test="ip != null  and ip != ''">and ip = #{ip}</if>
@@ -80,7 +80,7 @@
             <if test="enabled != null">enabled,</if>
             <if test="isdefault != null">isdefault,</if>
             <if test="seniorsdp != null">seniorSdp,</if>
-            <if test="domain != null and domain != ''">domain,</if>
+            <if test="domain != null and domain != ''">domain_alias,</if>
             <if test="serverSipid != null and serverSipid != ''">server_sipid,</if>
             <if test="password != null and password != ''">password,</if>
             <if test="ip != null">ip,</if>
@@ -120,7 +120,7 @@
             <if test="enabled != null">enabled = #{enabled},</if>
             <if test="isdefault != null">isdefault = #{isdefault},</if>
             <if test="seniorsdp != null">seniorSdp = #{seniorsdp},</if>
-            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="domain != null and domain != ''">domain_alias = #{domain},</if>
             <if test="serverSipid != null and serverSipid != ''">server_sipid = #{serverSipid},</if>
             <if test="password != null and password != ''">password = #{password},</if>
             <if test="ip != null">ip = #{ip},</if>

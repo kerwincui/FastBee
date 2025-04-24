@@ -33,6 +33,7 @@ public class GenTable extends BaseEntity
     /**
      * 数据源名称
      */
+    @ApiModelProperty("数据源名称")
     @NotBlank(message = "数据源名称不能为空")
     private String dataName;
 

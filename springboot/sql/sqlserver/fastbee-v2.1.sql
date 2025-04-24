@@ -25,6 +25,7 @@ GO
 CREATE TABLE [dbo].[gen_table] (
   [table_id] bigint NOT NULL,
   [table_name] nvarchar(200) NULL,
+  [data_name] nvarchar(200) NULL,
   [table_comment] nvarchar(500) NULL,
   [sub_table_name] nvarchar(64) NULL,
   [sub_table_fk_name] nvarchar(64) NULL,
@@ -58,6 +59,13 @@ EXEC sp_addextendedproperty
 'SCHEMA', N'dbo',
 'TABLE', N'gen_table',
 'COLUMN', N'table_name'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数据源名称',
+'SCHEMA', N'dbo',
+'TABLE', N'gen_table',
+'COLUMN', N'data_name'
 GO
 
 EXEC sp_addextendedproperty
@@ -5764,7 +5772,7 @@ CREATE TABLE [dbo].[sip_config] (
   [enabled] tinyint NULL,
   [isdefault] tinyint NULL,
   [seniorSdp] tinyint NULL,
-  [domain] nvarchar(10) NOT NULL,
+  [domain_alias] nvarchar(10) NOT NULL,
   [server_sipid] nvarchar(20) NOT NULL,
   [password] nvarchar(20) NOT NULL,
   [ip] nvarchar(32) NULL,
@@ -5824,7 +5832,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'服务器域',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_config',
-'COLUMN', N'domain'
+'COLUMN', N'domain_alias'
 GO
 
 EXEC sp_addextendedproperty
@@ -5910,7 +5918,7 @@ GO
 BEGIN TRANSACTION
 GO
 
-INSERT INTO [dbo].[sip_config] ([id], [product_id], [product_name], [enabled], [isdefault], [seniorSdp], [domain], [server_sipid], [password], [ip], [port], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'38', N'117', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2023-03-16 21:26:18', N'', N'2023-03-16 21:26:24', NULL), (N'39', N'118', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2023-04-11 21:11:54', N'', NULL, NULL), (N'41', N'135', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2024-01-08 22:14:35', N'', NULL, NULL), (N'42', N'131', N'', N'0', N'0', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'192.168.5.27', N'5061', N'0', N'', N'2025-03-19 16:26:04', N'', NULL, NULL)
+INSERT INTO [dbo].[sip_config] ([id], [product_id], [product_name], [enabled], [isdefault], [seniorSdp], [domain_alias], [server_sipid], [password], [ip], [port], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'38', N'117', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2023-03-16 21:26:18', N'', N'2023-03-16 21:26:24', NULL), (N'39', N'118', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2023-04-11 21:11:54', N'', NULL, NULL), (N'41', N'135', N'', N'1', N'1', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'177.7.0.13', N'5061', N'0', N'', N'2024-01-08 22:14:35', N'', NULL, NULL), (N'42', N'131', N'', N'0', N'0', NULL, N'3402000000', N'34020000002000000001', N'12345678', N'192.168.5.27', N'5061', N'0', N'', N'2025-03-19 16:26:04', N'', NULL, NULL)
 GO
 
 COMMIT

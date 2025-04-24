@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS "public"."gen_table";
 CREATE TABLE "public"."gen_table" (
   "table_id" int8 NOT NULL,
   "table_name" varchar(200),
+  "data_name" varchar(200),
   "table_comment" varchar(500),
   "sub_table_name" varchar(64),
   "sub_table_fk_name" varchar(64),
@@ -44,6 +45,7 @@ CREATE TABLE "public"."gen_table" (
 ;
 COMMENT ON COLUMN "public"."gen_table"."table_id" IS '编号';
 COMMENT ON COLUMN "public"."gen_table"."table_name" IS '表名称';
+COMMENT ON COLUMN "public"."gen_table"."data_name" IS '数据源名称';
 COMMENT ON COLUMN "public"."gen_table"."table_comment" IS '表描述';
 COMMENT ON COLUMN "public"."gen_table"."sub_table_name" IS '关联子表的表名';
 COMMENT ON COLUMN "public"."gen_table"."sub_table_fk_name" IS '子表关联的外键名';
@@ -2221,7 +2223,7 @@ CREATE TABLE "public"."sip_config" (
   "enabled" int2,
   "isdefault" int2,
   "seniorSdp" int2,
-  "domain" varchar(10) NOT NULL,
+  "domain_alias" varchar(10) NOT NULL,
   "server_sipid" varchar(20) NOT NULL,
   "password" varchar(20) NOT NULL,
   "ip" varchar(32),
@@ -2257,10 +2259,10 @@ COMMENT ON TABLE "public"."sip_config" IS 'sip系统配置';
 -- Records of sip_config
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (38, 117, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-03-16 21:26:18', '', '2023-03-16 21:26:24', NULL);
-INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (39, 118, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-04-11 21:11:54', '', NULL, NULL);
-INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (41, 135, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2024-01-08 22:14:35', '', NULL, NULL);
-INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (42, 131, '', 0, 0, NULL, '3402000000', '34020000002000000001', '12345678', '192.168.5.27', 5061, '0', '', '2025-03-19 16:26:04', '', NULL, NULL);
+INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain_alias", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (38, 117, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-03-16 21:26:18', '', '2023-03-16 21:26:24', NULL);
+INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain_alias", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (39, 118, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2023-04-11 21:11:54', '', NULL, NULL);
+INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain_alias", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (41, 135, '', 1, 1, NULL, '3402000000', '34020000002000000001', '12345678', '177.7.0.13', 5061, '0', '', '2024-01-08 22:14:35', '', NULL, NULL);
+INSERT INTO "public"."sip_config" ("id", "product_id", "product_name", "enabled", "isdefault", "seniorSdp", "domain_alias", "server_sipid", "password", "ip", "port", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES (42, 131, '', 0, 0, NULL, '3402000000', '34020000002000000001', '12345678', '192.168.5.27', 5061, '0', '', '2025-03-19 16:26:04', '', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
