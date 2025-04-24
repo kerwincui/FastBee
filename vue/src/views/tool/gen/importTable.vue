@@ -117,12 +117,16 @@ export default {
     },
     /** 导入按钮操作 */
     handleImportTable() {
-      const tableNames = this.tables.join(",");
-      if (tableNames == "") {
-        this.$modal.msgError("请选择要导入的表");
+      const tableNames = this.tables.join(',');
+      const params = {
+        tables: tableNames,
+        dataName: this.queryParams.dataName,
+      };
+      if (tableNames == '') {
+        this.$modal.msgError('请选择要导入的表');
         return;
       }
-      importTable({ tables: tableNames }).then(res => {
+      importTable(params).then((res) => {
         this.$modal.msgSuccess(res.msg);
         if (res.code === 200) {
           this.visible = false;
