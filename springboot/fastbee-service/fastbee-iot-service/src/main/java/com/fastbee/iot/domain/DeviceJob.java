@@ -12,13 +12,13 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Date;
 
 /**
  * 设备定时任务
- * 
+ *
  * @author kerwincui
  */
 @ApiModel(value = "DeviceJob", description = "设备定时任务 iot_device_job")

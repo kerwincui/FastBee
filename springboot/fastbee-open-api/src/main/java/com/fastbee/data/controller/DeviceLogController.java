@@ -1,13 +1,8 @@
 package com.fastbee.data.controller;
 
-import com.fastbee.common.annotation.Log;
 import com.fastbee.common.core.controller.BaseController;
-import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
-import com.fastbee.common.enums.BusinessType;
-import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.DeviceLog;
-import com.fastbee.iot.model.HistoryModel;
 import com.fastbee.iot.model.MonitorModel;
 import com.fastbee.iot.service.IDeviceLogService;
 import io.swagger.annotations.Api;
@@ -16,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 设备日志Controller

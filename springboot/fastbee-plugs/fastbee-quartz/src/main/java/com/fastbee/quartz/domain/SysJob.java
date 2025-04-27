@@ -1,8 +1,8 @@
 package com.fastbee.quartz.domain;
 
 import java.util.Date;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +18,7 @@ import com.fastbee.quartz.util.CronUtils;
 
 /**
  * 定时任务调度表 sys_job
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysJob", description = "定时任务调度表 sys_job")

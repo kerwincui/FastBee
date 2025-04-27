@@ -1,7 +1,7 @@
 package com.fastbee.data.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import com.fastbee.common.core.page.TableDataInfo;
 
 /**
  * 云云对接Controller
- * 
+ *
  * @author kerwincui
  * @date 2022-02-07
  */

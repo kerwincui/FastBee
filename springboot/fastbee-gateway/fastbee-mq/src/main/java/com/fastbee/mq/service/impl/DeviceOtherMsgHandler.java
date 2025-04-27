@@ -6,10 +6,9 @@ import com.fastbee.mq.model.ReportDataBo;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author gsb

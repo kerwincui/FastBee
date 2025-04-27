@@ -5,7 +5,6 @@ import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.mq.InvokeReqDto;
 import com.fastbee.common.core.page.TableDataInfo;
-import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.StringUtils;
@@ -19,10 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 设备运行时数据controller

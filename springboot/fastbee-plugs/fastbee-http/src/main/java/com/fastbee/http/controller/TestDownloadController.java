@@ -1,7 +1,7 @@
 package com.fastbee.http.controller;
 
 import com.fastbee.http.client.DownloadClient;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.bind.annotation.GetMapping;

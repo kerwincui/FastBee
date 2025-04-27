@@ -3,7 +3,7 @@ package com.fastbee.framework.interceptor.impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import com.fastbee.framework.interceptor.RepeatSubmitInterceptor;
 /**
  * 判断请求url和数据是否和上一次相同，
  * 如果和上次相同，则是重复提交表单。 有效时间为10秒内。
- * 
+ *
  * @author ruoyi
  */
 @Component

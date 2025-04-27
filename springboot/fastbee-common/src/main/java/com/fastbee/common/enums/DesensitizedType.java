@@ -1,8 +1,7 @@
 package com.fastbee.common.enums;
 
-import com.fastbee.common.utils.DesensitizedUtil;
-
 import java.util.function.Function;
+import com.fastbee.common.utils.DesensitizedUtil;
 
 /**
  * 脱敏类型

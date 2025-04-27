@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 客户端认证
@@ -49,7 +49,9 @@ public class AuthService {
      */
     public boolean auth(String clientId, String username, String password) {
         //不需要账号密码校验,直接返回true
-        if (!mustPass) return true;
+        if (!mustPass) {
+            return true;
+        }
         if (StringUtils.isEmpty(clientId) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             log.error("=>客户端参数缺少,clientId:{},username:{},password:{}", clientId, username, password);
             return false;

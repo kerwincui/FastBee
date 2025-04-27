@@ -1,5 +1,6 @@
 package com.fastbee;
 
+import com.dtflys.forest.springboot.annotation.ForestScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ruoyi
  */
 @SpringBootApplication
+@ForestScan(basePackages = "com.fastbee")
 public class FastBeeApplication
 {
     public static void main(String[] args)

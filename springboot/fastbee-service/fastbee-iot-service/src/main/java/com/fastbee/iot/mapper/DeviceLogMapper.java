@@ -3,13 +3,10 @@ package com.fastbee.iot.mapper;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
 import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.HistoryModel;
 import com.fastbee.iot.model.MonitorModel;
-import com.fastbee.iot.tdengine.service.model.TdLogDto;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -48,7 +45,7 @@ public interface DeviceLogMapper
     /**
      * 批量保存图片
      */
-    public int saveBatch(@Param("list") List<DeviceLog> list);
+    public int saveBatch(List<DeviceLog> list);
 
     /**
      * 修改设备日志

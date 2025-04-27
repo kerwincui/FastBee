@@ -2,11 +2,10 @@ package com.fastbee.base.core.hanler;
 
 import com.fastbee.common.core.protocol.Message;
 import com.fastbee.base.session.Session;
-
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 
 /**
  * 基础处理类
@@ -34,8 +33,9 @@ public abstract class BaseHandler {
         this.targetMethod = targetMethod;
         this.returnVoid = targetMethod.getReturnType().isAssignableFrom(Void.TYPE);
         this.async = async;
-        if (desc == null || desc.isEmpty())
+        if (desc == null || desc.isEmpty()) {
             desc = targetMethod.getName();
+        }
         this.desc = desc;
 
         Type[] types = targetMethod.getGenericParameterTypes();
@@ -44,8 +44,21 @@ public abstract class BaseHandler {
             for (int i = 0; i < types.length; i++) {
                 Type type = types[i];
                 Class<?> clazz;
-                if (type instanceof ParameterizedTypeImpl) {
-                    clazz = (Class<?>) ((ParameterizedTypeImpl) type).getActualTypeArguments()[0];
+                if (type instanceof ParameterizedType) {
+                    ParameterizedType pt = (ParameterizedType) type;
+                    // 检查是否为List/Collection等容器类型
+                    if (pt.getRawType() instanceof Class &&
+                            ((Class<?>) pt.getRawType()).isArray() ||
+                            Collection.class.isAssignableFrom((Class<?>) pt.getRawType())) {
+                        Type[] actualTypes = pt.getActualTypeArguments();
+                        if (actualTypes.length > 0) {
+                            clazz = (Class<?>) actualTypes[0];
+                        } else {
+                            clazz = Object.class; // 默认类型
+                        }
+                    } else {
+                        clazz = (Class<?>) pt.getRawType(); // 处理非容器类型的参数化类型
+                    }
                 } else {
                     clazz = (Class<?>) type;
                 }

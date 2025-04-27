@@ -1,8 +1,21 @@
 package com.fastbee.framework.web.service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import com.fastbee.common.core.domain.entity.SysUser;
+import com.fastbee.system.domain.SysClient;
+import com.fastbee.system.service.ISysClientService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import com.fastbee.common.constant.CacheConstants;
 import com.fastbee.common.constant.Constants;
-import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.utils.ServletUtils;
@@ -10,24 +23,10 @@ import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.ip.AddressUtils;
 import com.fastbee.common.utils.ip.IpUtils;
 import com.fastbee.common.utils.uuid.IdUtils;
-import com.fastbee.system.domain.SysClient;
-import com.fastbee.system.service.ISysClientService;
 import eu.bitwalker.useragentutils.UserAgent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 
 /**
  * token验证处理

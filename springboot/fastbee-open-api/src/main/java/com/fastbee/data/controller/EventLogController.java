@@ -1,7 +1,7 @@
 package com.fastbee.data.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.fastbee.iot.domain.EventLog;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ import com.fastbee.common.core.page.TableDataInfo;
 
 /**
  * 事件日志Controller
- * 
+ *
  * @author kerwincui
  * @date 2023-03-28
  */

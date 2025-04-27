@@ -33,6 +33,7 @@
             <groupId>com.fastbee</groupId>
             <artifactId>fastbee-common</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fastbee</groupId>
             <artifactId>fastbee-framework</artifactId>

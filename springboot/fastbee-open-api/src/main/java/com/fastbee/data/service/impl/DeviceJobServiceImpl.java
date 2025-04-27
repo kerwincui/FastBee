@@ -5,8 +5,6 @@ import com.fastbee.common.exception.job.TaskException;
 import com.fastbee.iot.domain.DeviceJob;
 import com.fastbee.iot.mapper.DeviceJobMapper;
 import com.fastbee.iot.service.IDeviceJobService;
-import com.fastbee.iot.service.IDeviceService;
-import com.fastbee.iot.service.cache.IDeviceCache;
 import com.fastbee.data.quartz.CronUtils;
 import com.fastbee.data.quartz.ScheduleUtils;
 import com.fastbee.quartz.domain.SysJob;
@@ -17,17 +15,16 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+
 import java.util.List;
 
 /**
  * 定时任务调度信息 服务层
- * 
+ *
  * @author kerwincui
  */
 @Service
@@ -68,7 +65,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 获取quartz调度器的计划任务列表
-     * 
+     *
      * @param job 调度信息
      * @return
      */
@@ -80,7 +77,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 通过调度任务ID查询调度信息
-     * 
+     *
      * @param jobId 调度任务ID
      * @return 调度任务对象信息
      */
@@ -92,7 +89,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 暂停任务
-     * 
+     *
      * @param job 调度信息
      */
     @Override
@@ -112,7 +109,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 恢复任务
-     * 
+     *
      * @param job 调度信息
      */
     @Override
@@ -132,7 +129,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 删除任务后，所对应的trigger也将被删除
-     * 
+     *
      * @param job 调度信息
      */
     @Override
@@ -151,7 +148,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 批量删除调度信息
-     * 
+     *
      * @param jobIds 需要删除的任务ID
      * @return 结果
      */
@@ -228,7 +225,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 任务调度状态修改
-     * 
+     *
      * @param job 调度信息
      */
     @Override
@@ -250,7 +247,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 立即运行任务
-     * 
+     *
      * @param job 调度信息
      */
     @Override
@@ -268,7 +265,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 新增任务
-     * 
+     *
      * @param deviceJob 调度信息 调度信息
      */
     @Override
@@ -285,7 +282,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 更新任务的时间表达式
-     * 
+     *
      * @param deviceJob 调度信息
      */
     @Override
@@ -303,7 +300,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 更新任务
-     * 
+     *
      * @param deviceJob 任务对象
      * @param jobGroup 任务组名
      */
@@ -322,7 +319,7 @@ public class DeviceJobServiceImpl implements IDeviceJobService
 
     /**
      * 校验cron表达式是否有效
-     * 
+     *
      * @param cronExpression 表达式
      * @return 结果
      */

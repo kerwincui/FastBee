@@ -90,11 +90,20 @@ token:
 
 # mybatis-plus配置
 mybatis-plus:
-  typeAliasesPackage: com.fastbee.**.domain             # 搜索指定包别名
-  mapperLocations: classpath*:mapper/**/*Mapper.xml     # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  # 自定义配置 是否全局开启逻辑删除 关闭后 所有逻辑删除功能将失效
+  enableLogicDelete: true
+  # 多包名使用 例如 org.dromara.**.mapper,org.xxx.**.mapper
+  mapperPackage: com.fastbee.**.mapper
+  # 对应的 XML 文件位置
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
   configLocation: classpath:mybatis/mybatis-config.xml  # 加载全局的配置文件
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: org.dromara.**.domain
   global-config:
-    db-config:
+    dbConfig:
+      # 主键类型
+      # AUTO 自增 NONE 空 INPUT 用户输入 ASSIGN_ID 雪花 ASSIGN_UUID 唯一 UUID
+      # 如需改为自增 需要将数据库表全部设置为自增
       id-type: AUTO # 自增 ID
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
@@ -110,3 +119,8 @@ xss:
   enabled: true                                         # 过滤开关
   excludes: /system/notice                              # 排除链接（多个用逗号分隔）
   urlPatterns: /system/*,/monitor/*,/tool/*             # 匹配链接
+
+forest:
+  max-connections: 1000        # 连接池最大连接数
+  connect-timeout: 3000        # 连接超时时间，单位为毫秒
+  read-timeout: 3000           # 数据读取超时时间，单位为毫秒

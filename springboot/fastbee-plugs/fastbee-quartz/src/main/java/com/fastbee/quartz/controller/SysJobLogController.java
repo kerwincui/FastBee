@@ -1,7 +1,7 @@
 package com.fastbee.quartz.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ import com.fastbee.quartz.service.ISysJobLogService;
 
 /**
  * 调度日志操作处理
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "调度日志操作处理")
@@ -61,7 +61,7 @@ public class SysJobLogController extends BaseController
         ExcelUtil<SysJobLog> util = new ExcelUtil<SysJobLog>(SysJobLog.class);
         util.exportExcel(response, list, "调度日志");
     }
-    
+
     /**
      * 根据调度编号获取详细信息
      */

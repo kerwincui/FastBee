@@ -1,13 +1,9 @@
 package com.fastbee.data.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
-import com.fastbee.common.core.domain.entity.SysRole;
-import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.core.page.TableDataInfo;
-import com.fastbee.iot.model.IdAndName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +26,7 @@ import com.fastbee.common.utils.poi.ExcelUtil;
 
 /**
  * 产品分类Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-12-16
  */

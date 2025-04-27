@@ -7,7 +7,7 @@ import com.fastbee.iot.domain.SocialUser;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthUser;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 第三方登录Service接口

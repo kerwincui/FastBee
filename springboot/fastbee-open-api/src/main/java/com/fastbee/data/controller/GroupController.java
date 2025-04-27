@@ -1,10 +1,8 @@
 package com.fastbee.data.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
-import com.fastbee.iot.domain.DeviceGroup;
 import com.fastbee.iot.model.DeviceGroupInput;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +27,7 @@ import com.fastbee.common.core.page.TableDataInfo;
 
 /**
  * 设备分组Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-12-16
  */

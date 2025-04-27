@@ -1,25 +1,16 @@
 package com.fastbee.mq.service.impl;
 
-import com.fastbee.common.core.mq.DeviceReplyBo;
 import com.fastbee.common.core.mq.InvokeReqDto;
 import com.fastbee.common.core.mq.MQSendMessageBo;
-import com.fastbee.common.core.mq.MessageReplyBo;
-import com.fastbee.common.core.protocol.modbus.ModbusCode;
-import com.fastbee.common.core.redis.RedisCache;
-import com.fastbee.common.core.redis.RedisKeyBuilder;
 import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.utils.bean.BeanUtils;
 import com.fastbee.iot.util.SnowflakeIdWorker;
-import com.fastbee.mq.redischannel.producer.MessageProducer;
 import com.fastbee.mq.service.IFunctionInvoke;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import jakarta.annotation.Resource;
 
 /**
  * @author gsb

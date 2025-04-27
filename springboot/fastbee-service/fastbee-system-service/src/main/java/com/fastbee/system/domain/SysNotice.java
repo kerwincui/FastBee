@@ -1,7 +1,7 @@
 package com.fastbee.system.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +12,7 @@ import com.fastbee.common.xss.Xss;
 
 /**
  * 通知公告表 sys_notice
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysNotice", description = "通知公告表 sys_notice")

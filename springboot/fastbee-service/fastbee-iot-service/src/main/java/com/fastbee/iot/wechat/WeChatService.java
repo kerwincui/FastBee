@@ -6,8 +6,8 @@ import com.fastbee.common.wechat.WeChatLoginResult;
 import com.fastbee.iot.wechat.vo.WxBindReqVO;
 import com.fastbee.iot.wechat.vo.WxCancelBindReqVO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 微信相关服务类

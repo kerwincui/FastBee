@@ -1,7 +1,7 @@
 package com.fastbee.quartz.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import com.fastbee.quartz.util.ScheduleUtils;
 
 /**
  * 调度任务信息操作处理
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "调度任务信息操作处理")

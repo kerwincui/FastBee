@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 import ch.qos.logback.classic.LoggerContext;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

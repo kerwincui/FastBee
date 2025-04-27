@@ -2,7 +2,7 @@ package com.fastbee.web.controller.system;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +27,7 @@ import com.fastbee.system.service.ISysDictTypeService;
 
 /**
  * 数据字典信息
- * 
+ *
  * @author ruoyi
  */
 @RestController

@@ -21,7 +21,7 @@
 
         <dependency>
             <groupId>com.dtflys.forest</groupId>
-            <artifactId>forest-spring-boot-starter</artifactId>
+            <artifactId>forest-spring-boot3-starter</artifactId>
             <version>${forest.version}</version>
         </dependency>
 

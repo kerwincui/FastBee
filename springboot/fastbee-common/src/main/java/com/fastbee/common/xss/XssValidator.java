@@ -1,8 +1,8 @@
 package com.fastbee.common.xss;
 
 import com.fastbee.common.utils.StringUtils;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

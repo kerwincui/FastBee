@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.fastbee.common.core.page.PageDomain;
 import com.fastbee.common.core.page.TableSupport;
@@ -36,7 +36,7 @@ import com.fastbee.generator.service.IGenTableService;
 
 /**
  * 代码生成 操作处理
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "代码生成模块")

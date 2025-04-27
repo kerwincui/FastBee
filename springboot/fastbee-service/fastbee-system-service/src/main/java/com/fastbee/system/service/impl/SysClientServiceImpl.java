@@ -13,7 +13,7 @@ import com.fastbee.system.mapper.SysClientMapper;
 import com.fastbee.system.service.ISysClientService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

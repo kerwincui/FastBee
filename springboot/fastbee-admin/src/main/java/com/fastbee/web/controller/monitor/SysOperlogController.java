@@ -1,7 +1,7 @@
 package com.fastbee.web.controller.monitor;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ import com.fastbee.system.service.ISysOperLogService;
 
 /**
  * 操作日志记录
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "日志管理：操作日志")

@@ -3,9 +3,9 @@ package com.fastbee.web.controller.common;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ import com.fastbee.system.service.ISysConfigService;
 
 /**
  * 验证码操作处理
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "验证码操作")
@@ -40,7 +40,7 @@ public class CaptchaController
 
     @Autowired
     private RedisCache redisCache;
-    
+
     @Autowired
     private ISysConfigService configService;
     /**

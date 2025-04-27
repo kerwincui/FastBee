@@ -2,7 +2,7 @@ package com.fastbee.sip.model;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.text.Collator;
 import java.util.Comparator;
 @Data

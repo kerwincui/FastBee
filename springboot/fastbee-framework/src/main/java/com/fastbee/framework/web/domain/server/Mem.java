@@ -1,6 +1,5 @@
 package com.fastbee.framework.web.domain.server;
 
-
 import com.fastbee.common.utils.Arith;
 
 /**

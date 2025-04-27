@@ -1,8 +1,9 @@
 package com.fastbee.common.core.domain.entity;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +15,7 @@ import com.fastbee.common.core.domain.BaseEntity;
 
 /**
  * 字典类型表 sys_dict_type
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysDictType", description = "字典类型表 sys_dict_type")
@@ -86,7 +87,7 @@ public class SysDictType extends BaseEntity
     {
         this.status = status;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

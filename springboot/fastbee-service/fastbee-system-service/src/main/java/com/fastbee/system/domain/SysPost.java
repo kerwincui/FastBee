@@ -1,8 +1,8 @@
 package com.fastbee.system.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import com.fastbee.common.core.domain.BaseEntity;
 
 /**
  * 岗位表 sys_post
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysPost", description = "岗位表 sys_post")
@@ -114,7 +114,7 @@ public class SysPost extends BaseEntity
     {
         this.flag = flag;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

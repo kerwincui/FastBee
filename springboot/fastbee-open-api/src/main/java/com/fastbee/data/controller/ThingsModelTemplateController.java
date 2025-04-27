@@ -1,12 +1,8 @@
 package com.fastbee.data.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
-import com.fastbee.common.core.domain.entity.SysRole;
-import com.fastbee.common.core.domain.entity.SysUser;
-import com.fastbee.iot.domain.ThingsModel;
 import com.fastbee.iot.domain.VarTemp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

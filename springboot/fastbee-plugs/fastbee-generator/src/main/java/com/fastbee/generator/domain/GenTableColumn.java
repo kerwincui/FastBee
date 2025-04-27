@@ -1,6 +1,6 @@
 package com.fastbee.generator.domain;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import com.fastbee.common.core.domain.BaseEntity;
 import com.fastbee.common.utils.StringUtils;
 import io.swagger.annotations.ApiModel;
@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 代码生成业务字段表 gen_table_column
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "GenTableColumn", description = "代码生成业务字段表 gen_table_column")

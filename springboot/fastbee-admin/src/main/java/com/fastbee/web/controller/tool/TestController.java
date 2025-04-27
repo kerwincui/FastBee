@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * swagger 用户测试方法

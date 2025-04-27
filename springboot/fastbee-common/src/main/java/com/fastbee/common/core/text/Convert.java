@@ -1,7 +1,5 @@
 package com.fastbee.common.core.text;
 
-import com.fastbee.common.utils.StringUtils;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -9,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Set;
+import com.fastbee.common.utils.StringUtils;
 
 /**
  * 类型转换器

@@ -1,6 +1,5 @@
 package com.fastbee.mqtt.handler;
 
-import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.utils.DateUtils;
@@ -21,7 +20,7 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.net.InetSocketAddress;
 
 

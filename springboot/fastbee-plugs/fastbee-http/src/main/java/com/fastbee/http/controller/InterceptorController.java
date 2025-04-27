@@ -1,8 +1,8 @@
 package com.fastbee.http.controller;
 
 import com.fastbee.http.client.TestInterceptorClient;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

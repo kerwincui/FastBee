@@ -5,7 +5,6 @@ import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
-import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.ThingsModel;
 import com.fastbee.iot.model.ImportThingsModelInput;
@@ -19,13 +18,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * 物模型Controller
- * 
+ *
  * @author kerwincui
  * @date 2021-12-16
  */

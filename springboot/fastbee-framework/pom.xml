@@ -42,7 +42,7 @@
         <!-- 阿里数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
         </dependency>
 
         <!-- 验证码 -->
@@ -66,8 +66,13 @@
         <!-- 动态数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic-datasource.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
         </dependency>
 
     </dependencies>

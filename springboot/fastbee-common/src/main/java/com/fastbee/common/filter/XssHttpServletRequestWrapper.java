@@ -2,10 +2,10 @@ package com.fastbee.common.filter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,7 +14,7 @@ import com.fastbee.common.utils.html.EscapeUtil;
 
 /**
  * XSS过滤处理
- * 
+ *
  * @author ruoyi
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper
@@ -100,7 +100,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper
 
     /**
      * 是否是Json请求
-     * 
+     *
      * @param request
      */
     public boolean isJsonRequest()

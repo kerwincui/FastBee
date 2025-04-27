@@ -1,12 +1,11 @@
 package com.fastbee.data.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.fastbee.iot.model.ProductAuthorizeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ import com.fastbee.common.core.page.TableDataInfo;
 
 /**
  * 产品授权码Controller
- * 
+ *
  * @author kami
  * @date 2022-04-11
  */

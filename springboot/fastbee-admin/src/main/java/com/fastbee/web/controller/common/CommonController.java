@@ -2,8 +2,8 @@ package com.fastbee.web.controller.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import com.fastbee.framework.config.ServerConfig;
 
 /**
  * 通用请求处理
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "通用请求处理")
@@ -43,7 +43,7 @@ public class CommonController
 
     /**
      * 通用下载请求
-     * 
+     *
      * @param fileName 文件名称
      * @param delete 是否删除
      */

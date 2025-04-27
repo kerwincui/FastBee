@@ -111,17 +111,17 @@ public class SecurityConfig
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // 注解标记允许匿名访问的url
             .authorizeHttpRequests((requests) -> {
-                permitAllUrl.getUrls().forEach(url -> requests.antMatchers(url).permitAll());
+                permitAllUrl.getUrls().forEach(url -> requests.requestMatchers(url).permitAll());
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 // 静态资源，可匿名访问
-                requests.antMatchers("/login", "/register", "/captchaImage","/iot/tool/register","/iot/tool/ntp","/iot/tool/download",
+                requests.requestMatchers("/login", "/register", "/captchaImage","/iot/tool/register","/iot/tool/ntp","/iot/tool/download",
                             "/iot/tool/mqtt/auth","/iot/tool/mqtt/authv5","/iot/tool/mqtt/webhook","/iot/tool/mqtt/webhookv5","/auth/**/**",
                             "/wechat/mobileLogin", "/wechat/miniLogin", "/wechat/wxBind/callback").permitAll()
-                    .antMatchers("/zlmhook/**").permitAll()
-                    .antMatchers("/goview/sys/login","/goview/project/getData").permitAll()
+                    .requestMatchers("/zlmhook/**").permitAll()
+                    .requestMatchers("/goview/sys/login","/goview/project/getData").permitAll()
                     // 静态资源，可匿名访问
-                    .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
-                    .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
+                    .requestMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
                     // 除上面外的所有请求全部需要鉴权认证
                     .anyRequest().authenticated();
             })

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +155,7 @@ public class VideoMqttService implements IMqttService {
         }
     }
 
+    @Override
     public void publishChannelsProperty(String DeviceSipId, List<SipDeviceChannel> channels) {
         SipConfig sipConfig = sipConfigService.selectSipConfigBydeviceSipId(DeviceSipId);
         if (null != sipConfig) {
@@ -180,6 +181,7 @@ public class VideoMqttService implements IMqttService {
         }
     }
 
+    @Override
     public void publishProperty(Long productId, String deviceNum, List<ThingsModelSimpleItem> thingsList, int delay) {
         String pre = "";
         if (delay > 0) {

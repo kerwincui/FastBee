@@ -1,12 +1,13 @@
 package com.fastbee.common.core.domain.entity;
 
 import java.util.Set;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fastbee.common.annotation.Excel;
@@ -15,7 +16,7 @@ import com.fastbee.common.core.domain.BaseEntity;
 
 /**
  * 角色表 sys_role
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysRole", description = "角色表 sys_role")

@@ -1,6 +1,5 @@
 package com.fastbee.framework.mybatis.config;
 
-
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.DialectFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;

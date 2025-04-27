@@ -1,7 +1,7 @@
 package com.fastbee.data.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.fastbee.iot.model.IdAndName;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ import com.fastbee.common.core.page.TableDataInfo;
 
 /**
  * 新闻分类Controller
- * 
+ *
  * @author kerwincui
  * @date 2022-04-09
  */

@@ -4,11 +4,13 @@ import cn.hutool.core.net.NetUtil;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.fastbee.framework.config.SqlFilterArgumentResolver;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,8 +19,8 @@ import java.util.List;
 /**
  * @author admin
  */
-@Configuration(proxyBeanMethods = false)
-@MapperScan("com.fastbee.**.mapper")
+@EnableTransactionManagement(proxyTargetClass = true)
+@MapperScan("${mybatis-plus.mapperPackage}")
 public class MybatisPlusConfig implements WebMvcConfigurer {
 
     /**
@@ -28,13 +30,6 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new SqlFilterArgumentResolver());
-    }
-
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(paginationInnerInterceptor());
-        return interceptor;
     }
 
     /**
@@ -63,5 +58,27 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
     public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
         return new MybatisPlusMetaObjectHandler();
     }
+
+
+    /**
+     * 乐观锁插件
+     */
+    public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor() {
+        return new OptimisticLockerInnerInterceptor();
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 数据权限处理
+        // interceptor.addInnerInterceptor(dataPermissionInterceptor());
+        // 分页插件
+        interceptor.addInnerInterceptor(paginationInnerInterceptor());
+        // 乐观锁插件
+        interceptor.addInnerInterceptor(optimisticLockerInnerInterceptor());
+        return interceptor;
+    }
+
+
 
 }

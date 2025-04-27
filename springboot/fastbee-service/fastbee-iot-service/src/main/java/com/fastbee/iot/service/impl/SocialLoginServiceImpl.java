@@ -41,8 +41,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -371,7 +371,7 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
         socialUser.setUsername(authUser.getUsername());
         socialUser.setNickname(authUser.getNickname());
     }
-
+    @Override
     public String genBindId(AuthUser authUser) {
         String bindId = Md5Utils.hash(authUser.getUuid() + authUser.getSource());
         String key = BIND_REDIS_KEY + bindId;
@@ -391,14 +391,14 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
         redisCache.setCacheObject(key, loginIdValue, LOGIN_SOCIAL_EXPIRE_TIME, TimeUnit.SECONDS);
         return loginId;
     }
-
+    @Override
     public String genErrorId(String msg) {
         String errorId = Md5Utils.hash(msg + RandomUtil.randomString(32));
         String key = LOGIN_ERROR_MSG_REDIS_KEY + errorId;
         redisCache.setCacheObject(key, msg, LOGIN_SOCIAL_EXPIRE_TIME, TimeUnit.SECONDS);
         return errorId;
     }
-
+    @Override
     public String genWxBindId(Long userId) {
         String wxBindId = Md5Utils.hash(userId + RandomUtil.randomString(32));
         String key = WX_BIND_REDIS_KEY + wxBindId;

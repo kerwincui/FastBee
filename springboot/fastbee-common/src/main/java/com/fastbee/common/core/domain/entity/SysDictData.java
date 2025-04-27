@@ -1,8 +1,7 @@
 package com.fastbee.common.core.domain.entity;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,7 +13,7 @@ import com.fastbee.common.core.domain.BaseEntity;
 
 /**
  * 字典数据表 sys_dict_data
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysDictData", description = "字典数据表 sys_dict_data")
@@ -166,7 +165,7 @@ public class SysDictData extends BaseEntity
     {
         this.status = status;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

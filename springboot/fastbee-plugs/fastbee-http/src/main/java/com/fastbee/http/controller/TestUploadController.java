@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -26,13 +26,13 @@ public class TestUploadController {
 
     private final static Logger logger = LoggerFactory.getLogger(TestUploadController.class);
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private FileService fileService;
 
     @Value("${fastbee.profile}")
     private String uploadPath;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private UploadClient uploadClient;
 
 

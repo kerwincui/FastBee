@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +117,7 @@ public class DataHandlerImpl implements IDataHandler {
     /**
      * 上报设备信息
      */
+    @Override
     public void reportDevice(ReportDataBo bo) {
         try {
             // 设备实体

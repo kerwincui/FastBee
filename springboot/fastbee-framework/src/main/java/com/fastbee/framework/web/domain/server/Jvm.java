@@ -1,10 +1,8 @@
 package com.fastbee.framework.web.domain.server;
 
-
+import java.lang.management.ManagementFactory;
 import com.fastbee.common.utils.Arith;
 import com.fastbee.common.utils.DateUtils;
-
-import java.lang.management.ManagementFactory;
 
 /**
  * JVM相关信息
