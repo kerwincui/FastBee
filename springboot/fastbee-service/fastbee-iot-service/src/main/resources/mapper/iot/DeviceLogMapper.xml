@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="tenantId != null and tenantId != 0"> and tenant_id = #{tenantId}</if>
             </where>
         ) as monitorCount
-        limit 1
+
     </select>
 
 

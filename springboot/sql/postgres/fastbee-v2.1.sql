@@ -3368,7 +3368,8 @@ CREATE TABLE "public"."sys_oper_log" (
   "json_result" varchar(2000),
   "status" int4,
   "error_msg" varchar(2000),
-  "oper_time" timestamp
+  "oper_time" timestamp,
+  "cost_time" int8 default 0
 )
 ;
 COMMENT ON COLUMN "public"."sys_oper_log"."oper_id" IS '操作日志ID';
@@ -3387,6 +3388,7 @@ COMMENT ON COLUMN "public"."sys_oper_log"."json_result" IS '返回参数';
 COMMENT ON COLUMN "public"."sys_oper_log"."status" IS '操作状态（0正常 1异常）';
 COMMENT ON COLUMN "public"."sys_oper_log"."error_msg" IS '错误消息';
 COMMENT ON COLUMN "public"."sys_oper_log"."oper_time" IS '操作时间';
+COMMENT ON COLUMN "public"."sys_oper_log"."cost_time" IS '消耗时间';
 COMMENT ON TABLE "public"."sys_oper_log" IS '操作日志记录';
 
 -- ----------------------------
