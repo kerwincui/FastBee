@@ -16,7 +16,7 @@ public class MqttClientConfig {
     public MqttClientConfig() {
         this.username = "fastbee";
         this.password = "fastbee";
-        this.hostUrl = "tcp://127.0.0.1:1883";
+        this.hostUrl = "tcp://127.0.0.1:1884";
         this.clientId = UUID.randomUUID().toString();
         this.defaultTopic = "test";
         this.timeout = 30;

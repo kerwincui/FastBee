@@ -2437,7 +2437,11 @@ CREATE TABLE `sys_oper_log`  (
   `status` int(1) NULL DEFAULT 0 COMMENT '操作状态（0正常 1异常）',
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
-  PRIMARY KEY (`oper_id`) USING BTREE
+  `cost_time` bigint(20) DEFAULT 0 COMMENT '消耗时间',
+ PRIMARY KEY (`oper_id`) USING BTREE,
+  KEY idx_sys_oper_log_bt (business_type),
+  KEY idx_sys_oper_log_s  (status),
+  KEY idx_sys_oper_log_ot (oper_time)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

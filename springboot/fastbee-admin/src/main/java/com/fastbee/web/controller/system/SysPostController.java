@@ -83,11 +83,11 @@ public class SysPostController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post)
     {
-        if (postService.checkPostNameUnique(post))
+        if (!postService.checkPostNameUnique(post))
         {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
-        else if (postService.checkPostCodeUnique(post))
+        else if (!postService.checkPostCodeUnique(post))
         {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
@@ -104,11 +104,11 @@ public class SysPostController extends BaseController
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post)
     {
-        if (postService.checkPostNameUnique(post))
+        if (!postService.checkPostNameUnique(post))
         {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
-        else if (postService.checkPostCodeUnique(post))
+        else if (!postService.checkPostCodeUnique(post))
         {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * 自定义xss校验注解实现
- * 
+ *
  * @author ruoyi
  */
 public class XssValidator implements ConstraintValidator<Xss, String>
@@ -27,8 +27,13 @@ public class XssValidator implements ConstraintValidator<Xss, String>
 
     public static boolean containsHtml(String value)
     {
+        StringBuilder sHtml = new StringBuilder();
         Pattern pattern = Pattern.compile(HTML_PATTERN);
         Matcher matcher = pattern.matcher(value);
-        return matcher.matches();
+        while (matcher.find())
+        {
+            sHtml.append(matcher.group());
+        }
+        return pattern.matcher(sHtml).matches();
     }
 }
