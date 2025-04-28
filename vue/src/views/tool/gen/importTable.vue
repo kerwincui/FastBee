@@ -2,6 +2,11 @@
   <!-- 导入表 -->
   <el-dialog title="导入表" :visible.sync="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+      <el-form-item label="数据源" prop="dataName">
+                <el-select v-model="queryParams.dataName" size="small" placeholder="请选择数据源" style="width: 100%" :clearable="true">
+                    <el-option v-for="(item, index) in dataSources" :key="index" :label="item" :value="item"></el-option>
+                </el-select>
+            </el-form-item>
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -47,7 +52,7 @@
 </template>
 
 <script>
-import { listDbTable, importTable } from "@/api/tool/gen";
+import { listDbTable, importTable, listDataSource } from '@/api/tool/gen';
 export default {
   data() {
     return {
@@ -59,12 +64,14 @@ export default {
       total: 0,
       // 表数据
       dbTableList: [],
+      dataSources: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         tableName: undefined,
-        tableComment: undefined
+        tableComment: undefined,
+        dataName: 'master',
       }
     };
   },
@@ -90,6 +97,14 @@ export default {
         }
       });
     },
+     //获取数据源
+     handleDataSource() {
+            this.loading = true;
+            listDataSource().then((response) => {
+                this.dataSources = response.data;
+                this.loading = false;
+            });
+        },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -102,12 +117,16 @@ export default {
     },
     /** 导入按钮操作 */
     handleImportTable() {
-      const tableNames = this.tables.join(",");
-      if (tableNames == "") {
-        this.$modal.msgError("请选择要导入的表");
+      const tableNames = this.tables.join(',');
+      const params = {
+        tables: tableNames,
+        dataName: this.queryParams.dataName,
+      };
+      if (tableNames == '') {
+        this.$modal.msgError('请选择要导入的表');
         return;
       }
-      importTable({ tables: tableNames }).then(res => {
+      importTable(params).then((res) => {
         this.$modal.msgSuccess(res.msg);
         if (res.code === 200) {
           this.visible = false;

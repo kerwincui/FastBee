@@ -1,13 +1,5 @@
 package com.fastbee.system.service.impl;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.fastbee.common.constant.UserConstants;
 import com.fastbee.common.core.domain.entity.SysDictData;
 import com.fastbee.common.core.domain.entity.SysDictType;
@@ -17,10 +9,19 @@ import com.fastbee.common.utils.StringUtils;
 import com.fastbee.system.mapper.SysDictDataMapper;
 import com.fastbee.system.mapper.SysDictTypeMapper;
 import com.fastbee.system.service.ISysDictTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 字典 业务层处理
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -43,7 +44,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 根据条件分页查询字典类型
-     * 
+     *
      * @param dictType 字典类型信息
      * @return 字典类型集合信息
      */
@@ -55,7 +56,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 根据所有字典类型
-     * 
+     *
      * @return 字典类型集合信息
      */
     @Override
@@ -66,7 +67,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 根据字典类型查询字典数据
-     * 
+     *
      * @param dictType 字典类型
      * @return 字典数据集合信息
      */
@@ -89,7 +90,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 根据字典类型ID查询信息
-     * 
+     *
      * @param dictId 字典类型ID
      * @return 字典类型
      */
@@ -101,7 +102,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 根据字典类型查询信息
-     * 
+     *
      * @param dictType 字典类型
      * @return 字典类型
      */
@@ -113,7 +114,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 批量删除字典类型信息
-     * 
+     *
      * @param dictIds 需要删除的字典ID
      */
     @Override
@@ -167,7 +168,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 新增保存字典类型信息
-     * 
+     *
      * @param dict 字典类型信息
      * @return 结果
      */
@@ -184,7 +185,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 修改保存字典类型信息
-     * 
+     *
      * @param dict 字典类型信息
      * @return 结果
      */
@@ -205,12 +206,12 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 校验字典类型称是否唯一
-     * 
+     *
      * @param dict 字典类型
      * @return 结果
      */
     @Override
-    public String checkDictTypeUnique(SysDictType dict)
+    public boolean checkDictTypeUnique(SysDictType dict)
     {
         Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());

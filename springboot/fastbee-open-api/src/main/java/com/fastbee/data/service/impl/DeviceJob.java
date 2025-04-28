@@ -2,6 +2,7 @@ package com.fastbee.data.service.impl;
 
 import com.fastbee.base.session.Session;
 import com.fastbee.common.enums.DeviceStatus;
+import com.fastbee.framework.mybatis.helper.DataBaseHelper;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.model.DeviceStatusVO;
 import com.fastbee.iot.service.IDeviceService;
@@ -42,7 +43,8 @@ public class DeviceJob {
     private Boolean enabled;
 
     public void updateSipDeviceOnlineStatus(Integer timeout) {
-        List<SipDevice> devs = sipDeviceMapper.selectOfflineSipDevice(timeout);
+        String checkTimeCondition = DataBaseHelper.checkTime(timeout);
+        List<SipDevice> devs = sipDeviceMapper.selectOfflineSipDevice(checkTimeCondition);
         devs.forEach(item -> {
             if (!Objects.equals(item.getDeviceSipId(), "")) {
                 //更新iot设备状态

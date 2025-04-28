@@ -20,16 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"         column="update_time"           />
 		<result property="remark"             column="remark"                />
 	</resultMap>
-	
+
 	<sql id="selectRoleVo">
 	    select distinct r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
-            r.status, r.del_flag, r.create_time, r.remark 
+            r.status, r.del_flag, r.create_time, r.remark
         from sys_role r
 	        left join sys_user_role ur on ur.role_id = r.role_id
 	        left join sys_user u on u.user_id = ur.user_id
 	        left join sys_dept d on u.dept_id = d.dept_id
     </sql>
-    
+
     <select id="selectRoleList" parameterType="SysRole" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		where r.del_flag = '0'
@@ -46,25 +46,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND r.role_key like concat('%', #{roleKey}, '%')
 		</if>
 		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-			and date_format(r.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			and date_format(r.create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
 		</if>
 		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-			and date_format(r.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			and date_format(r.create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
 		</if>
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 		order by r.role_sort
 	</select>
-    
+
 	<select id="selectRolePermissionByUserId" parameterType="Long" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		WHERE r.del_flag = '0' and ur.user_id = #{userId}
 	</select>
-	
+
 	<select id="selectRoleAll" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 	</select>
-	
+
 	<select id="selectRoleListByUserId" parameterType="Long" resultType="Long">
 		select r.role_id
         from sys_role r
@@ -72,27 +72,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        left join sys_user u on u.user_id = ur.user_id
 	    where u.user_id = #{userId}
 	</select>
-	
+
 	<select id="selectRoleById" parameterType="Long" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		where r.role_id = #{roleId}
 	</select>
-	
+
 	<select id="selectRolesByUserName" parameterType="String" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		WHERE r.del_flag = '0' and u.user_name = #{userName}
 	</select>
-	
+
 	<select id="checkRoleNameUnique" parameterType="String" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		 where r.role_name=#{roleName} and r.del_flag = '0' limit 1
 	</select>
-	
+
 	<select id="checkRoleKeyUnique" parameterType="String" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		 where r.role_key=#{roleKey} and r.del_flag = '0' limit 1
 	</select>
-	
+
  	<insert id="insertRole" parameterType="SysRole" useGeneratedKeys="true" keyProperty="roleId">
  		insert into sys_role(
  			<if test="roleId != null and roleId != 0">role_id,</if>
@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			sysdate()
  		)
 	</insert>
-	
+
 	<update id="updateRole" parameterType="SysRole">
  		update sys_role
  		<set>
@@ -137,16 +137,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		</set>
  		where role_id = #{roleId}
 	</update>
-	
+
 	<delete id="deleteRoleById" parameterType="Long">
  		update sys_role set del_flag = '2' where role_id = #{roleId}
  	</delete>
- 	
+
  	<delete id="deleteRoleByIds" parameterType="Long">
  	    update sys_role set del_flag = '2' where role_id in
  		<foreach collection="array" item="roleId" open="(" separator="," close=")">
  			#{roleId}
-        </foreach> 
+        </foreach>
  	</delete>
- 	
-</mapper> 
+
+</mapper>

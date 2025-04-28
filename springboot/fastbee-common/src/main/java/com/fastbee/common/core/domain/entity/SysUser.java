@@ -17,7 +17,7 @@ import com.fastbee.common.xss.Xss;
 
 /**
  * 用户对象 sys_user
- * 
+ *
  * @author ruoyi
  */
 @ApiModel(value = "SysUser", description = "用户对象 sys_user")
@@ -27,7 +27,7 @@ public class SysUser extends BaseEntity
 
     /** 用户ID */
     @ApiModelProperty("用户ID")
-    @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
+    @Excel(name = "用户序号", type = Type.EXPORT, cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
     /** 部门ID */
@@ -52,7 +52,7 @@ public class SysUser extends BaseEntity
 
     /** 手机号码 */
     @ApiModelProperty("手机号码")
-    @Excel(name = "手机号码")
+    @Excel(name = "手机号码", cellType = ColumnType.TEXT)
     private String phonenumber;
 
     /** 用户性别 */

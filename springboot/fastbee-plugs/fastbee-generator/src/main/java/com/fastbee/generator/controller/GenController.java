@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fastbee.common.core.page.PageDomain;
+import com.fastbee.common.core.page.TableSupport;
+import com.fastbee.framework.mybatis.helper.DataBaseHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -86,9 +89,8 @@ public class GenController extends BaseController
     @GetMapping("/db/list")
     public TableDataInfo dataList(GenTable genTable)
     {
-        startPage();
-        List<GenTable> list = genTableService.selectDbTableList(genTable);
-        return getDataTable(list);
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        return genTableService.selectDbTableList(genTable,pageDomain);
     }
 
     /**
@@ -113,12 +115,12 @@ public class GenController extends BaseController
     @PreAuthorize("@ss.hasPermi('tool:gen:import')")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
-    public AjaxResult importTableSave(String tables)
+    public AjaxResult importTableSave(String tables,String dataName)
     {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
-        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
-        genTableService.importGenTable(tableList);
+        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames,dataName);
+        genTableService.importGenTable(tableList,dataName);
         return success();
     }
 
@@ -226,5 +228,14 @@ public class GenController extends BaseController
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
         IOUtils.write(data, response.getOutputStream());
+    }
+
+    /**
+     * 查询数据源名称列表
+     */
+    @PreAuthorize("@ss.hasPermi('tool:gen:list')")
+    @GetMapping(value = "/getDataNames")
+    public AjaxResult getCurrentDataSourceNameList() {
+        return success(DataBaseHelper.getDataSourceNameList());
     }
 }

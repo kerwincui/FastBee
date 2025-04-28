@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeSet;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +27,7 @@ import com.fastbee.system.domain.SysCache;
 
 /**
  * 缓存监控
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "缓存监控")
@@ -87,7 +88,7 @@ public class CacheController
     public AjaxResult getCacheKeys(@PathVariable String cacheName)
     {
         Set<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-        return AjaxResult.success(cacheKeys);
+        return AjaxResult.success(new TreeSet<>(cacheKeys));
     }
 
     @ApiOperation("缓存内容")

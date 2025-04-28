@@ -1,4 +1,38 @@
 /**
+ * è·¯å¾„åŒ¹é…å™¨
+ * @param {string} pattern
+ * @param {string} path
+ * @returns {Boolean}
+ */
+export function isPathMatch(pattern, path) {
+  const regexPattern = pattern.replace(/\//g, '\\/').replace(/\*\*/g, '.*').replace(/\*/g, '[^\\/]*')
+  const regex = new RegExp(`^${regexPattern}$`)
+  return regex.test(path)
+}
+
+/**
+ * åˆ¤æ–­valueå­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©º 
+ * @param {string} value
+ * @returns {Boolean}
+ */
+export function isEmpty(value) {
+  if (value == null || value == "" || value == undefined || value == "undefined") {
+    return true
+  }
+  return false
+}
+
+/**
+ * åˆ¤æ–­urlæ˜¯å¦æ˜¯httpæˆ–https 
+ * @param {string} url
+ * @returns {Boolean}
+ */
+export function isHttp(url) {
+  return url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1
+}
+
+/**
+ * åˆ¤æ–­pathæ˜¯å¦ä¸ºå¤–é“¾
  * @param {string} path
  * @returns {Boolean}
  */
@@ -65,10 +99,7 @@ export function validEmail(email) {
  * @returns {Boolean}
  */
 export function isString(str) {
-  if (typeof str === 'string' || str instanceof String) {
-    return true
-  }
-  return false
+  return typeof str === 'string' || str instanceof String
 }
 
 /**
@@ -80,35 +111,4 @@ export function isArray(arg) {
     return Object.prototype.toString.call(arg) === '[object Array]'
   }
   return Array.isArray(arg)
-}
-//ÊýÖµ·¶Î§Ð£Ñé
-export function checkNumber(rule, value, callback) {
-  if (!value) {
-    return callback(new Error('ÊäÈë²»¿ÉÒÔÎª¿Õ'));
-  }
-  setTimeout(() => {
-    if (!Number(value)) {
-    } else {
-      if (value < 1 || value > 64) {
-        callback(new Error('ÊýÖµ·¶Î§Îª1-64'));
-      } else {
-        callback();
-      }
-    }
-  }, 100);
-}
-export function checkNumberAddr(rule, value, callback) {
-  if (!value) {
-    return callback(new Error('ÊäÈë²»¿ÉÒÔÎª¿Õ'));
-  }
-  setTimeout(() => {
-    if (!Number(value)) {
-    } else {
-      if (value < 1 || value > 65536) {
-        callback(new Error('ÊýÖµ·¶Î§Îª1-65536'));
-      } else {
-        callback();
-      }
-    }
-  }, 100);
 }

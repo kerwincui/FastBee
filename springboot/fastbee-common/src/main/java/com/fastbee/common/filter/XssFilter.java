@@ -16,7 +16,7 @@ import com.fastbee.common.enums.HttpMethod;
 
 /**
  * 防止XSS攻击的过滤器
- * 
+ *
  * @author ruoyi
  */
 public class XssFilter implements Filter
@@ -32,10 +32,10 @@ public class XssFilter implements Filter
         String tempExcludes = filterConfig.getInitParameter("excludes");
         if (StringUtils.isNotEmpty(tempExcludes))
         {
-            String[] url = tempExcludes.split(",");
-            for (int i = 0; url != null && i < url.length; i++)
+            String[] urls = tempExcludes.split(",");
+            for (String url : urls)
             {
-                excludes.add(url[i]);
+                excludes.add(url);
             }
         }
     }

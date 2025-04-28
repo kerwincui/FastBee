@@ -16,6 +16,10 @@
     </description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fastbee</groupId>
+            <artifactId>fastbee-common</artifactId>
+        </dependency>
 
         <!-- SpringBoot Web容器 -->
          <dependency>
@@ -57,6 +61,13 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
+        </dependency>
+
+        <!-- 动态数据源 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic-datasource.version}</version>
         </dependency>
 
     </dependencies>

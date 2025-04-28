@@ -1,0 +1,131 @@
+# 数据源配置
+spring:
+  datasource:
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 10
+        max-wait: 60000
+        max-active: 20
+        timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间，单位是毫秒
+        maxEvictableIdleTimeMillis: 900000    # 配置一个连接在池中最大生存的时间，单位是毫秒
+        validation-query: 'SELECT 1'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+      datasource:
+        master:
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: dm.jdbc.driver.DmDriver
+          url: jdbc:dm://192.168.5.12:5236/OPENSOURCE&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+          username: OPENSOURCE
+          password: fastbee@123
+          druid:
+            filters: stat
+            stat:
+              # 慢SQL记录
+              log-slow-sql: true
+              slow-sql-millis: 1000
+              merge-sql: true
+            wall:
+              none-base-statement-allow: true
+  #        sqlServer: # 配置 SQLServer 数据源
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #          url: jdbc:sqlserver://localhost:1433;databaseName=fastbee
+  #          username: sa
+  #          password: fastbee@123
+  #        postgres: # 配置 postgres 数据源
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: org.postgresql.Driver
+  #          url: jdbc:postgresql://101.33.237.12:5432/fastbee?useUnicode=true&characterEncoding=utf8&useSSL=true&autoReconnect=true&reWriteBatchedInserts=true
+  #          username: root
+  #          password: fastbee@123
+  #        dameng: # 配置达梦数据源
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: dm.jdbc.driver.DmDriver
+  #          url: jdbc:dm://192.168.5.28:5236/fastbee&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  #          username: root
+  #          password: fastbee@123
+  #          druid:
+  #            filters: stat
+  #        slave:
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3306/fastbee1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+  #          username: root
+  #          password: fastbee
+  #        slave:
+  #          type: com.alibaba.druid.pool.DruidDataSource
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3306/fastbee1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+  #          username: root
+  #          password: fastbee
+
+
+
+  # redis 配置
+  redis:
+    host: 81.71.97.58                         # 地址
+    port: 6379                              # 端口，默认为6379
+    database: 11                             # 数据库索引
+    password: fastbee                       # 密码
+    timeout: 10s                            # 连接超时时间
+    lettuce:
+      pool:
+        min-idle: 0                         # 连接池中的最小空闲连接
+        max-idle: 8                         # 连接池中的最大空闲连接
+        max-active: 8                       # 连接池的最大数据库连接数
+        max-wait: -1ms                      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+
+# sip 配置
+sip:
+  enabled: false                            # 是否启用视频监控SIP，true为启用
+  ## 本地调试时，绑定网卡局域网IP，设备在同一局域网，设备接入IP填写绑定IP
+  ## 部署服务端时，默认绑定容器IP，设备接入IP填写服务器公网IP
+  #ip: 177.7.0.13
+  ip: 192.168.5.27
+  port: 5061                                # SIP端口(保持默认)
+  domain: 3402000000                        # 由省级、市级、区级、基层编号组成
+  id: 34020000002000000001                  # 同上，另外增加编号，(可保持默认)
+  password: 12345678                        # 监控设备接入的密码
+
+# 日志配置
+logging:
+  level:
+    com.fastbee: debug
+    org.springframework: warn
+
+# Swagger配置
+swagger:
+  enabled: true                             # 是否开启swagger
+  pathMapping: /dev-api                     # 请求前缀
+
+liteflow:
+  rule-source-ext-data-map:
+    # 应用名称，规则链和脚本组件名称需要一致，不要修改
+    applicationName: fastbee
+    #是否开启SQL日志
+    sqlLogEnabled: true
+    # 规则多时，启用快速加载模式
+    fast-load: false
+    #是否开启SQL数据轮询自动刷新机制 默认不开启
+    pollingEnabled: false
+    pollingIntervalSeconds: 60
+    pollingStartSeconds: 60
+    #以下是chain表的配置
+    chainTableName: iot_scene
+    chainApplicationNameField: application_name
+    chainNameField: chain_name
+    elDataField: el_data
+    chainEnableField: enable
+    #以下是script表的配置
+    scriptTableName: iot_script
+    scriptApplicationNameField: application_name
+    scriptIdField: script_id
+    scriptNameField: script_name
+    scriptDataField: script_data
+    scriptTypeField: script_type
+    scriptLanguageField: script_language
+    scriptEnableField: enable

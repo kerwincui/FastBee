@@ -23,8 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"     column="update_by"    />
         <result property="updateTime"   column="update_time"  />
         <result property="remark"       column="remark"       />
-        <association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
-        <collection  property="roles"   javaType="java.util.List"           resultMap="RoleResult" />
+        <association property="dept"    javaType="SysDept"         resultMap="deptResult" />
+        <collection  property="roles"   javaType="java.util.List"  resultMap="RoleResult" />
     </resultMap>
 
     <resultMap id="deptResult" type="SysDept">
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="roleName"     column="role_name"      />
         <result property="roleKey"      column="role_key"       />
         <result property="roleSort"     column="role_sort"      />
-        <result property="dataScope"     column="data_scope"    />
+        <result property="dataScope"    column="data_scope"     />
         <result property="status"       column="role_status"    />
     </resultMap>
 
@@ -73,10 +73,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND u.phonenumber like concat('%', #{phonenumber}, '%')
 		</if>
 		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-			AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			AND date_format(u.create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
 		</if>
 		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-			AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			AND date_format(u.create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
 		</if>
 		<if test="deptId != null and deptId != 0">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
@@ -142,12 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select user_id, email from sys_user where email = #{email} and del_flag = '0' limit 1
 	</select>
 
-    <select id="selectUserByPhoneNumber" parameterType="String" resultMap="SysUserResult">
-		<include refid="selectUserVo"/>
-		where u.phonenumber = #{phoneNumber} and u.del_flag = '0'
-	</select>
-
-    <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(
  			<if test="userId != null and userId != 0">user_id,</if>
  			<if test="deptId != null and deptId != 0">dept_id,</if>
@@ -183,7 +178,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		update sys_user
  		<set>
  			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
- 			<if test="userName != null and userName != ''">user_name = #{userName},</if>
  			<if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
  			<if test="email != null ">email = #{email},</if>
  			<if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
@@ -222,30 +216,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			#{userId}
         </foreach>
  	</delete>
-
-	<delete id="deleteBySysUserIdAndSourceClient">
-		update iot_social_user
-		set del_flag = 1,
-		update_time = now()
-		where sys_user_id = #{sysUserId}
-		and source_client in
-		<foreach item="sourceClient" collection="sourceClientList" open="(" separator="," close=")">
-			#{sourceClient}
-		</foreach>
-	</delete>
-
-	<delete id="deleteBySysUserIdsAndSourceClient">
-		update iot_social_user
-		set del_flag = 1,
-		update_time = now()
-		where sys_user_id in
-		<foreach item="sysUserId" collection="sysUserIds" open="(" separator="," close=")">
-			#{sysUserId}
-		</foreach>
-		and source_client in
-		<foreach item="sourceClient" collection="sourceClientList" open="(" separator="," close=")">
-			#{sourceClient}
-		</foreach>
-	</delete>
 
 </mapper>

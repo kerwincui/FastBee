@@ -1,6 +1,9 @@
 package com.fastbee.generator.mapper;
 
 import java.util.List;
+
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.fastbee.common.mybatis.mapper.BaseMapperX;
 import com.fastbee.generator.domain.GenTable;
 
 /**
@@ -8,7 +11,7 @@ import com.fastbee.generator.domain.GenTable;
  * 
  * @author ruoyi
  */
-public interface GenTableMapper
+public interface GenTableMapper extends BaseMapperX<GenTable>
 {
     /**
      * 查询业务列表
@@ -80,4 +83,7 @@ public interface GenTableMapper
      * @return 结果
      */
     public int deleteGenTableByIds(Long[] ids);
+
+    @DS("")
+    List<String> selectTableNameList(String dataName);
 }

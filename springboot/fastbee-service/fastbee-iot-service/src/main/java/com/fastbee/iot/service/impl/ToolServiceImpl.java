@@ -144,10 +144,10 @@ public class ToolServiceImpl implements IToolService
         {
             msg = "密码长度必须在5到20个字符之间";
         }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser)))
+        else if (userService.checkUserNameUnique(sysUser))
         {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
-        }else if (UserConstants.NOT_UNIQUE.equals(checkPhoneUnique(phonenumber)))
+        }else if (checkPhoneUnique(phonenumber))
         {
             msg = "保存用户'" + username + "'失败，注册手机号码已存在";
         }
@@ -203,10 +203,10 @@ public class ToolServiceImpl implements IToolService
         {
             msg = "密码长度必须在5到20个字符之间";
         }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser)))
+        else if (userService.checkUserNameUnique(sysUser))
         {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
-        }else if (UserConstants.NOT_UNIQUE.equals(checkPhoneUnique(phonenumber)))
+        }else if (checkPhoneUnique(phonenumber))
         {
             msg = "保存用户'" + username + "'失败，注册手机号码已存在";
         }
@@ -252,7 +252,7 @@ public class ToolServiceImpl implements IToolService
      * @param phonenumber 手机号码
      * @return
      */
-    public String checkPhoneUnique(String phonenumber)
+    public boolean checkPhoneUnique(String phonenumber)
     {
         SysUser info = userMapper.checkPhoneUnique(phonenumber);
         if (StringUtils.isNotNull(info))

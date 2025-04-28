@@ -1,4 +1,4 @@
-package com.fastbee.framework.mybatis.mapper;
+package com.fastbee.common.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.fastbee.common.core.domain.PageParam;
 import com.fastbee.common.core.domain.PageResult;
-import com.fastbee.framework.mybatis.utils.MyBatisUtils;
+import com.fastbee.common.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;

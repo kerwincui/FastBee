@@ -27,15 +27,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select oper_id, title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time
         from sys_oper_log
     </sql>
-    
+
 	<insert id="insertOperlog" parameterType="SysOperLog">
 		insert into sys_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
-        values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{deptName}, #{operUrl}, #{operIp}, #{operLocation}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, sysdate())
+        values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{deptName}, #{operUrl}, #{operIp}, #{operLocation}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, CURRENT_TIMESTAMP)
 	</insert>
-	
+
 	<select id="selectOperLogList" parameterType="SysOperLog" resultMap="SysOperLogResult">
 		<include refid="selectOperLogVo"/>
 		<where>
+			<if test="operIp != null and operIp != ''">
+				AND oper_ip like concat('%', #{operIp}, '%')
+			</if>
 			<if test="title != null and title != ''">
 				AND title like concat('%', #{title}, '%')
 			</if>
@@ -46,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    AND business_type in
 			    <foreach collection="businessTypes" item="businessType" open="(" separator="," close=")">
 		 			#{businessType}
-		        </foreach> 
+		        </foreach>
 			</if>
 			<if test="status != null">
 				AND status = #{status}
@@ -55,29 +58,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND oper_name like concat('%', #{operName}, '%')
 			</if>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-				and date_format(oper_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+				AND oper_time &gt;= #{params.beginTime}
 			</if>
 			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-				and date_format(oper_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+				AND oper_time &lt;= #{params.endTime}
 			</if>
 		</where>
 		order by oper_id desc
 	</select>
-	
+
 	<delete id="deleteOperLogByIds" parameterType="Long">
  		delete from sys_oper_log where oper_id in
  		<foreach collection="array" item="operId" open="(" separator="," close=")">
  			#{operId}
-        </foreach> 
+        </foreach>
  	</delete>
- 	
+
  	<select id="selectOperLogById" parameterType="Long" resultMap="SysOperLogResult">
 		<include refid="selectOperLogVo"/>
 		where oper_id = #{operId}
 	</select>
-	
+
 	<update id="cleanOperLog">
         truncate table sys_oper_log
     </update>
 
-</mapper> 
+</mapper>

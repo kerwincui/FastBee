@@ -66,7 +66,7 @@
     <!--  底部  -->
     <div class="el-register-footer">
       <span>
-        Copyright © 2023
+        Copyright © 2021-2025
         <a target="_blank" href="http://fastbee.cn">FastBee</a>
         All Rights Reserved.
       </span>

@@ -1,50 +1,31 @@
 package com.fastbee.framework.config.properties;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * druid 配置属性
- * 
+ *
  * @author ruoyi
  */
+@Data
 @Configuration
+@ConfigurationProperties(prefix = "spring.datasource.dynamic.druid")
 public class DruidProperties
 {
-    @Value("${spring.datasource.druid.initialSize}")
-    private int initialSize;
-
-    @Value("${spring.datasource.druid.minIdle}")
-    private int minIdle;
-
-    @Value("${spring.datasource.druid.maxActive}")
-    private int maxActive;
-
-    @Value("${spring.datasource.druid.maxWait}")
-    private int maxWait;
-
-    @Value("${spring.datasource.druid.timeBetweenEvictionRunsMillis}")
-    private int timeBetweenEvictionRunsMillis;
-
-    @Value("${spring.datasource.druid.minEvictableIdleTimeMillis}")
-    private int minEvictableIdleTimeMillis;
-
-    @Value("${spring.datasource.druid.maxEvictableIdleTimeMillis}")
-    private int maxEvictableIdleTimeMillis;
-
-    @Value("${spring.datasource.druid.validationQuery}")
+    private Integer initialSize;
+    private Integer minIdle;
+    private Integer maxActive;
+    private Integer maxWait;
+    private Long timeBetweenEvictionRunsMillis;
+    private Long minEvictableIdleTimeMillis;
+    private Long maxEvictableIdleTimeMillis;
     private String validationQuery;
-
-    @Value("${spring.datasource.druid.testWhileIdle}")
-    private boolean testWhileIdle;
-
-    @Value("${spring.datasource.druid.testOnBorrow}")
-    private boolean testOnBorrow;
-
-    @Value("${spring.datasource.druid.testOnReturn}")
-    private boolean testOnReturn;
-
+    private Boolean testWhileIdle;
+    private Boolean testOnBorrow;
+    private Boolean testOnReturn;
     public DruidDataSource dataSource(DruidDataSource datasource)
     {
         /** 配置初始化大小、最小、最大 */

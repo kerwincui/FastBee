@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="com.fastbee.iot.domain.EventLog" id="EventLogResult">
         <result property="logId"    column="log_id"    />
-        <result property="identity"    column="identity"    />
+        <result property="identity"    column="identify"    />
         <result property="modelName"    column="model_name"    />
         <result property="logType"    column="log_type"    />
         <result property="logValue"    column="log_value"    />
@@ -25,13 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEventLogVo">
-        select log_id, identity, model_name, log_type, log_value, device_id, device_name, serial_number, is_monitor, mode, user_id, user_name, tenant_id, tenant_name, create_by, create_time, remark from iot_event_log
+        select log_id, identify, model_name, log_type, log_value, device_id, device_name, serial_number, is_monitor, mode, user_id, user_name, tenant_id, tenant_name, create_by, create_time, remark from iot_event_log
     </sql>
 
     <select id="selectEventLogList" parameterType="com.fastbee.iot.domain.EventLog" resultMap="EventLogResult">
         <include refid="selectEventLogVo"/>
         <where>  
-            <if test="identity != null  and identity != ''"> and identity = #{identity}</if>
+            <if test="identity != null  and identity != ''"> and identify = #{identity}</if>
             <if test="modelName != null  and modelName != ''"> and model_name like concat('%', #{modelName}, '%')</if>
             <if test="logType != null "> and log_type = #{logType}</if>
             <if test="logValue != null  and logValue != ''"> and log_value = #{logValue}</if>
@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertEventLog" parameterType="com.fastbee.iot.domain.EventLog" useGeneratedKeys="true" keyProperty="logId">
         insert into iot_event_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="identity != null and identity != ''">identity,</if>
+            <if test="identity != null and identity != ''">identify,</if>
             <if test="modelName != null">model_name,</if>
             <if test="logType != null">log_type,</if>
             <if test="logValue != null and logValue != ''">log_value,</if>
@@ -100,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <insert id="insertBatch" parameterType="com.fastbee.iot.domain.EventLog">
-        insert into iot_event_log (identity,model_name,log_type,log_value,device_id,device_name,serial_number,is_monitor,mode,user_id,
+        insert into iot_event_log (identify,model_name,log_type,log_value,device_id,device_name,serial_number,is_monitor,mode,user_id,
                                    user_name,tenant_id,tenant_name,create_by,create_time,remark)
             values
             <foreach collection="list" separator="," index="index" item="item">
@@ -112,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateEventLog" parameterType="com.fastbee.iot.domain.EventLog">
         update iot_event_log
         <trim prefix="SET" suffixOverrides=",">
-            <if test="identity != null and identity != ''">identity = #{identity},</if>
+            <if test="identity != null and identity != ''">identify = #{identity},</if>
             <if test="modelName != null">model_name = #{modelName},</if>
             <if test="logType != null">log_type = #{logType},</if>
             <if test="logValue != null and logValue != ''">log_value = #{logValue},</if>

@@ -4,6 +4,9 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ArrayUtils;
@@ -17,13 +20,23 @@ import com.fastbee.common.utils.StringUtils;
  * @author ruoyi
  */
 @ApiModel(value = "GenTable", description = "业务表 gen_table")
+@TableName("gen_table")
 public class GenTable extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 编号 */
     @ApiModelProperty("编号")
+    @TableId(value = "table_id")
     private Long tableId;
+
+    /**
+     * 数据源名称
+     */
+    @ApiModelProperty("数据源名称")
+    @NotBlank(message = "数据源名称不能为空")
+    private String dataName;
+
 
     /** 表名称 */
     @ApiModelProperty(value = "表名称", required = true)
@@ -121,6 +134,20 @@ public class GenTable extends BaseEntity
     /** 上级菜单名称字段 */
     @ApiModelProperty("上级菜单名称字段")
     private String parentMenuName;
+
+    /*
+     * 菜单id列表
+     */
+    @TableField(exist = false)
+    private List<Long> menuIds;
+
+    public List<Long> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Long> menuIds) {
+        this.menuIds = menuIds;
+    }
 
     public Long getTableId()
     {
@@ -395,5 +422,13 @@ public class GenTable extends BaseEntity
                     ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
         }
         return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_ENTITY);
+    }
+
+    public String getDataName() {
+        return dataName;
+    }
+
+    public void setDataName(String dataName) {
+        this.dataName = dataName;
     }
 }

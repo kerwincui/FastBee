@@ -22,21 +22,21 @@ public class Seq
     private static AtomicInteger uploadSeq = new AtomicInteger(1);
 
     // 机器标识
-    private static String machineCode = "A";
+    private static final String machineCode = "A";
 
     /**
      * 获取通用序列号
-     * 
+     *
      * @return 序列值
      */
     public static String getId()
     {
         return getId(commSeqType);
     }
-    
+
     /**
      * 默认16位序列号 yyMMddHHmmss + 一位机器标识 + 3长度循环递增字符串
-     * 
+     *
      * @return 序列值
      */
     public static String getId(String type)
@@ -51,7 +51,7 @@ public class Seq
 
     /**
      * 通用接口序列号 yyMMddHHmmss + 一位机器标识 + length长度循环递增字符串
-     * 
+     *
      * @param atomicInt 序列数
      * @param length 数值长度
      * @return 序列值
@@ -66,7 +66,7 @@ public class Seq
 
     /**
      * 序列循环递增字符串[1, 10 的 (length)幂次方), 用0左补齐length位数
-     * 
+     *
      * @return 序列值
      */
     private synchronized static String getSeq(AtomicInteger atomicInt, int length)

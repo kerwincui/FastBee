@@ -37,7 +37,7 @@ import com.fastbee.system.service.ISysUserService;
 
 /**
  * 角色信息
- * 
+ *
  * @author ruoyi
  */
 @Api(tags = "角色管理")
@@ -102,11 +102,11 @@ public class SysRoleController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role)
     {
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (!roleService.checkRoleNameUnique(role))
         {
             return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (!roleService.checkRoleKeyUnique(role))
         {
             return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
@@ -126,24 +126,24 @@ public class SysRoleController extends BaseController
     {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (!roleService.checkRoleNameUnique(role))
         {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (!roleService.checkRoleKeyUnique(role))
         {
             return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setUpdateBy(getUsername());
-        
+
         if (roleService.updateRole(role) > 0)
         {
             // 更新缓存用户权限
             LoginUser loginUser = getLoginUser();
             if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
             {
-                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
                 loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
                 tokenService.setLoginUser(loginUser);
             }
             return success();

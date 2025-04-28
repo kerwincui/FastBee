@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.system.mapper.SysClientMapper">
+
+    <resultMap type="SysClient" id="SysClientResult">
+        <result property="id"    column="id"    />
+        <result property="clientKey"    column="client_key"    />
+        <result property="clientSecret"    column="client_secret"    />
+        <result property="token"    column="token"    />
+        <result property="grantType"    column="grant_type"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="timeout"    column="timeout"    />
+        <result property="enable"    column="enable"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysClientVo">
+        select id, client_key, client_secret, token, grant_type, device_type, timeout, enable, del_flag, create_by, create_time, update_by, update_time, remark from sys_client
+    </sql>
+
+    <select id="selectSysClientList" parameterType="SysClient" resultMap="SysClientResult">
+        <include refid="selectSysClientVo"/>
+        <where>
+            <if test="clientKey != null  and clientKey != ''"> and client_key = #{clientKey}</if>
+            <if test="clientSecret != null  and clientSecret != ''"> and client_secret = #{clientSecret}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+            <if test="grantType != null  and grantType != ''"> and grant_type = #{grantType}</if>
+            <if test="deviceType != null  and deviceType != ''"> and device_type = #{deviceType}</if>
+            <if test="timeout != null "> and timeout = #{timeout}</if>
+            <if test="enable != null  and enable != ''"> and enable = #{enable}</if>
+            and del_flag = '0'
+        </where>
+    </select>
+
+    <select id="selectSysClientById" parameterType="Long" resultMap="SysClientResult">
+        <include refid="selectSysClientVo"/>
+        where id = #{id} and del_flag = '0'
+    </select>
+
+    <insert id="insertSysClient" parameterType="SysClient" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientKey != null">client_key,</if>
+            <if test="clientSecret != null">client_secret,</if>
+            <if test="token != null">token,</if>
+            <if test="grantType != null">grant_type,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="timeout != null">timeout,</if>
+            <if test="enable != null">enable,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientKey != null">#{clientKey},</if>
+            <if test="clientSecret != null">#{clientSecret},</if>
+            <if test="token != null">#{token},</if>
+            <if test="grantType != null">#{grantType},</if>
+            <if test="deviceType != null">#{deviceType},</if>
+            <if test="timeout != null">#{timeout},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysClient" parameterType="SysClient">
+        update sys_client
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientKey != null">client_key = #{clientKey},</if>
+            <if test="clientSecret != null">client_secret = #{clientSecret},</if>
+            <if test="token != null">token = #{token},</if>
+            <if test="grantType != null">grant_type = #{grantType},</if>
+            <if test="deviceType != null">device_type = #{deviceType},</if>
+            <if test="timeout != null">timeout = #{timeout},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>

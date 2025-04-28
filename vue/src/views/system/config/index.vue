@@ -107,7 +107,7 @@
       <el-table-column label="参数主键" align="center" prop="configId" />
       <el-table-column label="参数名称" align="center" prop="configName" :show-overflow-tooltip="true" />
       <el-table-column label="参数键名" align="center" prop="configKey" :show-overflow-tooltip="true" />
-      <el-table-column label="参数键值" align="center" prop="configValue" />
+      <el-table-column label="参数键值" align="center" prop="configValue" :show-overflow-tooltip="true" />
       <el-table-column label="系统内置" align="center" prop="configType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_yes_no" :value="scope.row.configType"/>
@@ -157,7 +157,7 @@
           <el-input v-model="form.configKey" placeholder="请输入参数键名" />
         </el-form-item>
         <el-form-item label="参数键值" prop="configValue">
-          <el-input v-model="form.configValue" placeholder="请输入参数键值" />
+          <el-input v-model="form.configValue" type="textarea" placeholder="请输入参数键值" />
         </el-form-item>
         <el-form-item label="系统内置" prop="configType">
           <el-radio-group v-model="form.configType">

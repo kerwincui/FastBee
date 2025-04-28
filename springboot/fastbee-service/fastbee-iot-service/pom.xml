@@ -46,12 +46,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
         </dependency>
-        <!-- oauth2-->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-            <version>2.5.1.RELEASE</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -123,6 +118,29 @@
         <dependency>
             <groupId>com.fastbee</groupId>
             <artifactId>fastbee-ruleEngine</artifactId>
+        </dependency>
+
+        <!--引入DM8驱动-->
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>Dm8JdbcDriver18</artifactId>
+            <version>8.1.1.49</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>8.4.1.jre8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>19.3.0.0</version>
         </dependency>
 
     </dependencies>

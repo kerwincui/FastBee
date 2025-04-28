@@ -14,7 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- 指定 MyBatis 所用日志的具体实现 -->
         <setting name="logImpl"                  value="SLF4J"  />
         <!-- 使用驼峰命名法转换字段 -->
-		<!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="autoMappingBehavior" value="FULL"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="NONE"/>
 	</settings>
-	
+
 </configuration>
