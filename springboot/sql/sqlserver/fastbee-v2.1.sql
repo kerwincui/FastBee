@@ -7750,7 +7750,8 @@ CREATE TABLE [dbo].[sys_oper_log] (
   [json_result] nvarchar(2000) NULL,
   [status] int NULL,
   [error_msg] nvarchar(2000) NULL,
-  [oper_time] datetime2 NULL
+  [oper_time] datetime2 NULL,
+  [cost_time] int default 0
 )
 GO
 
@@ -7864,6 +7865,13 @@ EXEC sp_addextendedproperty
 'SCHEMA', N'dbo',
 'TABLE', N'sys_oper_log',
 'COLUMN', N'oper_time'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'消耗时间',
+'SCHEMA', N'dbo',
+'TABLE', N'sys_oper_log',
+'COLUMN', N'cost_time'
 GO
 
 EXEC sp_addextendedproperty

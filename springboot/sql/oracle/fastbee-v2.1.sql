@@ -3368,7 +3368,8 @@ CREATE TABLE "sys_oper_log" (
   "json_result" NCLOB,
   "status" NUMBER(11),
   "error_msg" NCLOB,
-  "oper_time" DATE
+  "oper_time" DATE,
+  "cost_time" NUMBER(20) DEFAULT 0
 )
 ;
 COMMENT ON COLUMN "sys_oper_log"."oper_id" IS '操作日志ID';
@@ -3387,6 +3388,7 @@ COMMENT ON COLUMN "sys_oper_log"."json_result" IS '返回参数';
 COMMENT ON COLUMN "sys_oper_log"."status" IS '操作状态（0正常 1异常）';
 COMMENT ON COLUMN "sys_oper_log"."error_msg" IS '错误消息';
 COMMENT ON COLUMN "sys_oper_log"."oper_time" IS '操作时间';
+COMMENT ON COLUMN "sys_oper_log"."cost_time" IS '消耗时间';
 COMMENT ON TABLE "sys_oper_log" IS '操作日志记录';
 
 -- ----------------------------
