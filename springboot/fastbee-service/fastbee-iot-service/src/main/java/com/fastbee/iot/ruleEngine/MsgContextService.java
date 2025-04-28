@@ -1,7 +1,6 @@
 package com.fastbee.iot.ruleEngine;
 
 import com.fastbee.common.core.redis.RedisCache;
-import com.yomahub.liteflow.script.annotation.ScriptBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@ScriptBean("msgContextService")
 public class MsgContextService {
 
     private final RedisCache redisCache;
