@@ -7,10 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.fastbee.framework.config.SqlFilterArgumentResolver;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
-
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,8 +17,7 @@ import java.util.List;
 /**
  * @author admin
  */
-@EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan("${mybatis-plus.mapperPackage}")
+@Configuration(proxyBeanMethods = false)
 public class MybatisPlusConfig implements WebMvcConfigurer {
 
     /**
@@ -58,8 +55,6 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
     public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
         return new MybatisPlusMetaObjectHandler();
     }
-
-
     /**
      * 乐观锁插件
      */
@@ -78,7 +73,4 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
         interceptor.addInnerInterceptor(optimisticLockerInnerInterceptor());
         return interceptor;
     }
-
-
-
 }

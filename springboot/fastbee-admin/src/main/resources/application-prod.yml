@@ -38,6 +38,7 @@ spring:
   #          password: fastbee
 
   # redis 配置
+spring.data:
   redis:
     host: 177.7.0.10                        # 地址
     port: 6379                              # 端口，默认为6379

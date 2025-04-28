@@ -39,11 +39,12 @@ spring:
 
 
 
-  # redis 配置
+# redis 配置
+spring.data:
   redis:
     host: localhost                         # 地址
     port: 6379                              # 端口，默认为6379
-    database: 15                             # 数据库索引
+    database: 10                            # 数据库索引
     password: fastbee                       # 密码
     timeout: 10s                            # 连接超时时间
     lettuce:

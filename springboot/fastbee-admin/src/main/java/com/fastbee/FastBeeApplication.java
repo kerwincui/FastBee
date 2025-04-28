@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ruoyi
  */
 @SpringBootApplication
-@ForestScan(basePackages = "com.fastbee")
 public class FastBeeApplication
 {
     public static void main(String[] args)
