@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `gen_table`;
 CREATE TABLE `gen_table`  (
   `table_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `table_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '表名称',
+  `data_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '数据源名称',
   `table_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '表描述',
   `sub_table_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关联子表的表名',
   `sub_table_fk_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '子表关联的外键名',
@@ -230,7 +231,7 @@ INSERT INTO `iot_device_job` VALUES (5, '告警定时触发', 'DEFAULT', '0 13 1
 DROP TABLE IF EXISTS `iot_device_log`;
 CREATE TABLE `iot_device_log`  (
   `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备监测信息ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
+  `identify` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
   `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（1=属性上报，2=调用功能，3=事件上报，4=设备升级，5=设备上线，6=设备离线）',
   `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',
@@ -327,7 +328,7 @@ INSERT INTO `iot_device_user` VALUES (140, 1, 1, 'admin', '￥视频监控', '15
 DROP TABLE IF EXISTS `iot_event_log`;
 CREATE TABLE `iot_event_log`  (
   `log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '设备事件日志ID',
-  `identity` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
+  `identify` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标识符',
   `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物模型名称',
   `log_type` tinyint(1) NOT NULL COMMENT '类型（3=事件上报，5=设备上线，6=设备离线）',
   `log_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '日志值',
@@ -1530,7 +1531,7 @@ CREATE TABLE `sip_config`  (
   `enabled` tinyint(1) NULL DEFAULT NULL COMMENT '使能开关',
   `isdefault` tinyint(1) NULL DEFAULT NULL COMMENT '系统默认配置',
   `seniorSdp` tinyint(1) NULL DEFAULT NULL COMMENT '拓展sdp',
-  `domain` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器域',
+  `domain_alias` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器域',
   `server_sipid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '服务器sipid',
   `password` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'sip认证密码',
   `ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'sip接入IP',
@@ -1566,14 +1567,14 @@ CREATE TABLE `sip_device`  (
   `model` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '产品型号',
   `firmware` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '固件版本',
   `transport` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UDP' COMMENT '传输模式',
-  `streamMode` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UDP' COMMENT '流模式',
+  `stream_mode` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'UDP' COMMENT '流模式',
   `online` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '在线状态',
-  `registerTime` datetime NOT NULL COMMENT '注册时间',
-  `lastConnectTime` datetime NULL DEFAULT NULL COMMENT '最后上线时间',
+  `register_time` datetime NOT NULL COMMENT '注册时间',
+  `last_connect_time` datetime NULL DEFAULT NULL COMMENT '最后上线时间',
   `active_time` datetime NULL DEFAULT NULL COMMENT '激活时间',
   `ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备入网IP',
   `port` bigint(10) NULL DEFAULT NULL COMMENT '设备接入端口号',
-  `hostAddress` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备地址',
+  `host_address` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备地址',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
   `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -2436,7 +2437,11 @@ CREATE TABLE `sys_oper_log`  (
   `status` int(1) NULL DEFAULT 0 COMMENT '操作状态（0正常 1异常）',
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
-  PRIMARY KEY (`oper_id`) USING BTREE
+  `cost_time` bigint(20) DEFAULT 0 COMMENT '消耗时间',
+ PRIMARY KEY (`oper_id`) USING BTREE,
+  KEY idx_sys_oper_log_bt (business_type),
+  KEY idx_sys_oper_log_s  (status),
+  KEY idx_sys_oper_log_ot (oper_time)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
