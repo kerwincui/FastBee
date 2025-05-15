@@ -39,8 +39,7 @@ public class DeviceJob {
     @Resource
     private IMqttMessagePublish mqttMessagePublish;
 
-    @Value("${server.broker.enabled}")
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     public void updateSipDeviceOnlineStatus(Integer timeout) {
         String checkTimeCondition = DataBaseHelper.checkTime(timeout);

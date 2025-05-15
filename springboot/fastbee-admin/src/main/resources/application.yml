@@ -5,7 +5,7 @@ fastbee:
   copyrightYear: 2024       # 版权年份
   demoEnabled: true         # 实例演示开关
   # 文件路径，以uploadPath结尾 示例（ Windows配置 D:/uploadPath，Linux配置 /uploadPath）
-  profile: /uploadPath
+  profile: D:/uploadPath
   addressEnabled: true      # 获取ip地址开关
   captchaType: math         # 验证码类型 math 数组计算 char 字符验证
 
@@ -22,19 +22,17 @@ server:
       min-spare: 100        # Tomcat启动初始化的线程数，默认值10
   # 基于netty的服务器
   broker:
-    must-pass: false         # 客户端连接是否需要密码
-    enabled: true            # 需要配置为true
     broker-node: node1
     port: 1883
     websocket-port: 8083
     websocket-path: /mqtt
-    keep-alive: 30          # 默认的全部客户端心跳上传时间
+    keep-alive: 70           # 默认的全部客户端心跳上传时间
 
 # Spring配置
 spring:
   # 环境配置，dev=开发环境，prod=生产环境
   profiles:
-    active: prod               # 环境配置，dev=开发环境，prod=生产环境
+    active: dev              # 环境配置，dev=开发环境，prod=生产环境
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -69,12 +67,6 @@ spring:
       primary: master
       strict: false
       lazy: true
-
-#集群配置
-cluster:
-  enable: true
-  type: redis
-
 
 # 用户配置
 user:

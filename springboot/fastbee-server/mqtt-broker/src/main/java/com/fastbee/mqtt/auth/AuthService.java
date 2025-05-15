@@ -36,8 +36,7 @@ public class AuthService {
     // 令牌秘钥
     @Value("${token.secret}")
     private String secret;
-    @Value("${server.broker.must-pass}")
-    private boolean mustPass;
+
 
     /**
      * MQTT客户端认证
@@ -48,8 +47,6 @@ public class AuthService {
      * @return 结果
      */
     public boolean auth(String clientId, String username, String password) {
-        //不需要账号密码校验,直接返回true
-        if (!mustPass) return true;
         if (StringUtils.isEmpty(clientId) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             log.error("=>客户端参数缺少,clientId:{},username:{},password:{}", clientId, username, password);
             return false;

@@ -26,8 +26,7 @@ public class MqttRemoteManager {
     /**
      * true: 使用netty搭建的mqttBroker  false: 使用emq
      */
-    @Value("${server.broker.enabled}")
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @Resource
     private PubMqttClient pubMqttClient;

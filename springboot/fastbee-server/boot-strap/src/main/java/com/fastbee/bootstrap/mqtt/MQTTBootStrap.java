@@ -44,7 +44,6 @@ public class MQTTBootStrap {
      * 启动mqttBroker
      * @return server
      */
-    @ConditionalOnProperty(value = "server.broker.enabled", havingValue = "true")
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server mqttBroker() {
         return NettyConfig.custom()
@@ -56,7 +55,6 @@ public class MQTTBootStrap {
                 .build();
     }
 
-    @ConditionalOnProperty(value = "server.broker.enabled", havingValue = "true")
     @Bean(initMethod = "start",destroyMethod = "stop")
     public Server webSocket(){
         return NettyConfig.custom()

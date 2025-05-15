@@ -24,8 +24,7 @@ import java.util.*;
 @Component
 public class TopicsUtils {
 
-    @Value("${server.broker.enabled}")
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     /**
      * 拼接topic

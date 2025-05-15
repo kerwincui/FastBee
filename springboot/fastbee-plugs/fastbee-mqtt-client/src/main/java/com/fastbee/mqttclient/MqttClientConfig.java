@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * mqtt配置信息
  */
@@ -13,15 +15,20 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class MqttClientConfig {
-    public MqttClientConfig() {
+    @Value("${server.broker.port}")
+    private int port;
+
+    @PostConstruct
+    public void MqttClientConfig() {
         this.username = "fastbee";
         this.password = "fastbee";
-        this.hostUrl = "tcp://127.0.0.1:1884";
+        this.hostUrl = "tcp://127.0.0.1:" + port;
         this.clientId = UUID.randomUUID().toString();
         this.defaultTopic = "test";
         this.timeout = 30;
         this.keepalive = 30;
         this.clearSession = true;
+        this.enabled = true;
     }
 
     /**
@@ -69,7 +76,6 @@ public class MqttClientConfig {
     /**
      * true: 使用netty搭建的mqttBroker  false: 使用emq
      */
-    @Value("${server.broker.enabled}")
     private Boolean enabled;
 
 }
