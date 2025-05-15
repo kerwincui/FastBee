@@ -201,10 +201,10 @@
                     <el-input clearable v-model="listQuery.passwd" readonly style="width: 80%"></el-input>
                 </el-form-item>
                 <el-form-item label="订阅主题" prop="subscribeTopic">
-                    <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 400px"></el-input>
+                    <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 80%"></el-input>
                 </el-form-item>
                 <el-form-item label="发布主题" prop="reportTopic">
-                    <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 400px"></el-input>
+                    <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 80%"></el-input>
                 </el-form-item>
                 <el-form-item label="连接端口" prop="port">
                     <el-input clearable v-model="listQuery.port" readonly style="width: 80%"></el-input>
