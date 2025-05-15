@@ -189,7 +189,7 @@
                 <div style="padding-bottom: 10px">设备二维码</div>
             </div>
         </el-dialog>
-        <el-dialog title="Mqtt连接参数" :visible.sync="openViewMqtt" width="600px" show-close="true" append-to-body :close-on-click-modal="false">
+        <el-dialog title="Mqtt连接参数" :visible.sync="openViewMqtt" width="600px" :show-close="true" append-to-body :close-on-click-modal="false">
             <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="150px">
                 <el-form-item label="客户端ID" prop="clientId">
                     <el-input v-model="listQuery.clientId" readonly style="width: 80%" />
