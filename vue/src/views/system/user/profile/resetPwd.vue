@@ -66,7 +66,11 @@ export default {
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          updateUserPwd(this.user.oldPassword, this.user.newPassword).then(response => {
+          const params = {
+            oldPassword: this.user.oldPassword,
+            newPassword: this.user.newPassword
+          }
+          updateUserPwd(params).then(response => {
             this.$modal.msgSuccess("修改成功，请重新登录！");
             if (response.code == 200) {
               //清除登录缓存
