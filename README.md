@@ -14,7 +14,7 @@
 |           产品管理           | 产品详情、产品物模型、产品分类、设备授权、产品固件                       | 
 |           设备管理           | 设备详情、设备分组、设备日志、设备分享、设备实时控制、实时状态、数据监测            | 
 |          物模型管理           | 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）          | 
-|          MQTT接入          | emqx开源版、netty版本MqttBroker | 
+|          MQTT接入          | 基于netty开发的MqttBroker服务端 | 
 |          硬件 SDK          | ESP-IDF、Arduino、RaspberryPi、合宙等平台设备接入           | 
 |          视频监控接入          | 基于GB/T28181协议支持主流厂商监控设备接入，直播  | 
 |          权限管理          | 基于若依的权限管理系统，用户、部分、角色、岗位、权限、日志等  | 
@@ -30,7 +30,7 @@
 
 ### 三、技术栈
 * 服务端
-- 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、EMQX、Netty等
+- 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
 - 开发工具：IDEA
 * Web端
 - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等
@@ -70,7 +70,6 @@
 * [商业版本在线演示](https://iot.fastbee.cn/)
 * [项目使用文档](https://fastbee.cn/doc/)
 * [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
-* [EMQX5.0消息服务器文档](https://www.emqx.io/docs/zh/v5.0/)
 * [uCharts高性能跨平台图表库](https://www.ucharts.cn)
 
 3. 项目贡献者(如有遗漏请联系作者)：
