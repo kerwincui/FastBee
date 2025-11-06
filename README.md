@@ -6,6 +6,8 @@
 
 2. 系统后端采用Spring boot；前端采用Vue；Mqtt服务端使用netty搭建；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；
 
+3. [快速部署命令](https://fastbee.cn/doc/install/docker.html)：提前安装好docker和docker-compose，执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
+
 
 ### 二、系统功能
 
