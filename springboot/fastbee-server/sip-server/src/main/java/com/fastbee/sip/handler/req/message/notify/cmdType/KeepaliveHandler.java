@@ -16,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.xml.sax.SAXException;
 
 import javax.sip.InvalidArgumentException;
 import javax.sip.RequestEvent;
@@ -68,7 +69,7 @@ public class KeepaliveHandler extends ReqAbstractHandler implements Initializing
                 responseAck(evt);
             }
 
-        } catch (ParseException | SipException | InvalidArgumentException | DocumentException e) {
+        } catch (ParseException | SipException | InvalidArgumentException | DocumentException | SAXException e) {
             e.printStackTrace();
         }
     }

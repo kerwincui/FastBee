@@ -12,6 +12,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.xml.sax.SAXException;
 
 import javax.sip.*;
 import javax.sip.header.FromHeader;
@@ -105,15 +106,18 @@ public abstract class ReqAbstractHandler {
         return response;
     }
 
-    public Element getRootElement(RequestEvent evt) throws DocumentException {
+    public Element getRootElement(RequestEvent evt) throws DocumentException, SAXException {
         return getRootElement(evt, "gb2312");
     }
-    public Element getRootElement(RequestEvent evt, String charset) throws DocumentException {
+    public Element getRootElement(RequestEvent evt, String charset) throws DocumentException, SAXException {
         if (charset == null) {
             charset = "gb2312";
         }
         Request request = evt.getRequest();
         SAXReader reader = new SAXReader();
+        reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
         reader.setEncoding(charset);
         // 对海康出现的未转义字符做处理。
         String[] destStrArray = new String[]{"&lt;","&gt;","&amp;","&apos;","&quot;"};
