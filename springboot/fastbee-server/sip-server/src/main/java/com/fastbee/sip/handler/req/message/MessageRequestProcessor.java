@@ -7,6 +7,7 @@ import com.fastbee.sip.server.IGBListener;
 import com.fastbee.sip.service.ISipDeviceService;
 import com.fastbee.sip.util.SipUtil;
 import gov.nist.javax.sip.message.SIPRequest;
+import org.xml.sax.SAXException;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -85,7 +86,7 @@ public class MessageRequestProcessor extends ReqAbstractHandler implements Initi
             log.warn("SIP 回复错误", e);
         } catch (InvalidArgumentException e) {
             log.warn("参数无效", e);
-        } catch (ParseException e) {
+        } catch (ParseException | SAXException e) {
             log.warn("SIP回复时解析异常", e);
         }
     }
