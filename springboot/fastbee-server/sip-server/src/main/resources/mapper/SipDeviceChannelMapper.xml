@@ -18,26 +18,26 @@
         <result property="registerTime" column="register_time"/>
         <result property="deviceType" column="device_type"/>
         <result property="channelType" column="channel_type"/>
-        <result property="citycode" column="cityCode"/>
-        <result property="civilcode" column="civilCode"/>
+        <result property="citycode" column="city_code"/>
+        <result property="civilcode" column="civil_code"/>
         <result property="manufacture" column="manufacture"/>
         <result property="model" column="model"/>
         <result property="owner" column="owner"/>
         <result property="block" column="block"/>
         <result property="address" column="address"/>
-        <result property="parentid" column="parentId"/>
-        <result property="ipaddress" column="ipAddress"/>
+        <result property="parentid" column="parent_id"/>
+        <result property="ipaddress" column="ip_address"/>
         <result property="port" column="port"/>
         <result property="password" column="password"/>
-        <result property="ptztype" column="PTZType"/>
-        <result property="ptztypetext" column="PTZTypeText"/>
+        <result property="ptztype" column="ptz_type"/>
+        <result property="ptztypetext" column="ptz_type_text"/>
         <result property="status" column="status"/>
         <result property="longitude" column="longitude"/>
         <result property="latitude" column="latitude"/>
-        <result property="streamid" column="streamId"/>
-        <result property="subcount" column="subCount"/>
+        <result property="streamid" column="stream_id"/>
+        <result property="subcount" column="sub_count"/>
         <result property="parental" column="parental"/>
-        <result property="hasaudio" column="hasAudio"/>
+        <result property="hasaudio" column="has_audio"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -60,26 +60,26 @@
                register_time,
                device_type,
                channel_type,
-               cityCode,
-               civilCode,
+               city_code,
+               civil_code,
                manufacture,
                model,
                owner,
                block,
                address,
-               parentId,
-               ipAddress,
+               parent_id,
+               ip_address,
                port,
                password,
-               PTZType,
-               PTZTypeText,
+               ptz_type,
+               ptz_type_text,
                status,
                longitude,
                latitude,
-               streamId,
-               subCount,
+               stream_id,
+               sub_count,
                parental,
-               hasAudio,
+               has_audio,
                del_flag,
                create_by,
                create_time,
@@ -104,26 +104,26 @@
             <if test="registerTime != null ">and register_time = #{registerTime}</if>
             <if test="deviceType != null  and deviceType != ''">and device_type = #{deviceType}</if>
             <if test="channelType != null  and channelType != ''">and channel_type = #{channelType}</if>
-            <if test="citycode != null  and citycode != ''">and cityCode = #{citycode}</if>
-            <if test="civilcode != null  and civilcode != ''">and civilCode = #{civilcode}</if>
+            <if test="citycode != null  and citycode != ''">and city_code = #{citycode}</if>
+            <if test="civilcode != null  and civilcode != ''">and civil_code = #{civilcode}</if>
             <if test="manufacture != null  and manufacture != ''">and manufacture = #{manufacture}</if>
             <if test="model != null  and model != ''">and model = #{model}</if>
             <if test="owner != null  and owner != ''">and owner = #{owner}</if>
             <if test="block != null  and block != ''">and block = #{block}</if>
             <if test="address != null  and address != ''">and address = #{address}</if>
-            <if test="parentid != null  and parentid != ''">and parentId = #{parentid}</if>
-            <if test="ipaddress != null  and ipaddress != ''">and ipAddress = #{ipaddress}</if>
+            <if test="parentid != null  and parentid != ''">and parent_id = #{parentid}</if>
+            <if test="ipaddress != null  and ipaddress != ''">and ip_address = #{ipaddress}</if>
             <if test="port != null ">and port = #{port}</if>
             <if test="password != null  and password != ''">and password = #{password}</if>
-            <if test="ptztype != null ">and PTZType = #{ptztype}</if>
-            <if test="ptztypetext != null  and ptztypetext != ''">and PTZTypeText = #{ptztypetext}</if>
+            <if test="ptztype != null ">and ptz_type = #{ptztype}</if>
+            <if test="ptztypetext != null  and ptztypetext != ''">and ptz_type_text = #{ptztypetext}</if>
             <if test="status != null ">and status = #{status}</if>
             <if test="longitude != null ">and longitude = #{longitude}</if>
             <if test="latitude != null ">and latitude = #{latitude}</if>
-            <if test="streamid != null  and streamid != ''">and streamId = #{streamid}</if>
-            <if test="subcount != null ">and subCount = #{subcount}</if>
+            <if test="streamid != null  and streamid != ''">and stream_id = #{streamid}</if>
+            <if test="subcount != null ">and sub_count = #{subcount}</if>
             <if test="parental != null ">and parental = #{parental}</if>
-            <if test="hasaudio != null ">and hasAudio = #{hasaudio}</if>
+            <if test="hasaudio != null ">and has_audio = #{hasaudio}</if>
         </where>
     </select>
 
@@ -147,26 +147,26 @@
             <if test="registerTime != null">register_time,</if>
             <if test="deviceType != null">device_type,</if>
             <if test="channelType != null">channel_type,</if>
-            <if test="citycode != null and citycode != ''">cityCode,</if>
-            <if test="civilcode != null and civilcode != ''">civilCode,</if>
+            <if test="citycode != null and citycode != ''">city_code,</if>
+            <if test="civilcode != null and civilcode != ''">civil_code,</if>
             <if test="manufacture != null and manufacture != ''">manufacture,</if>
             <if test="model != null and model != ''">model,</if>
             <if test="owner != null and owner != ''">owner,</if>
             <if test="block != null and block != ''">block,</if>
             <if test="address != null and address != ''">address,</if>
-            <if test="parentid != null and parentid != ''">parentId,</if>
-            <if test="ipaddress != null">ipAddress,</if>
+            <if test="parentid != null and parentid != ''">parent_id,</if>
+            <if test="ipaddress != null">ip_address,</if>
             <if test="port != null">port,</if>
             <if test="password != null and password != ''">password,</if>
-            <if test="ptztype != null">PTZType,</if>
-            <if test="ptztypetext != null and ptztypetext != ''">PTZTypeText,</if>
+            <if test="ptztype != null">ptz_type,</if>
+            <if test="ptztypetext != null and ptztypetext != ''">ptz_type_text,</if>
             <if test="status != null">status,</if>
             <if test="longitude != null">longitude,</if>
             <if test="latitude != null">latitude,</if>
-            <if test="streamid != null and streamid != ''">streamId,</if>
-            <if test="subcount != null">subCount,</if>
+            <if test="streamid != null and streamid != ''">stream_id,</if>
+            <if test="subcount != null">sub_count,</if>
             <if test="parental != null">parental,</if>
-            <if test="hasaudio != null">hasAudio,</if>
+            <if test="hasaudio != null">has_audio,</if>
             <if test="delFlag != null and delFlag != ''">del_flag,</if>
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -231,26 +231,26 @@
             <if test="registerTime != null">register_time = #{registerTime},</if>
             <if test="deviceType != null">device_type = #{deviceType},</if>
             <if test="channelType != null">channel_type = #{channelType},</if>
-            <if test="citycode != null and citycode != ''">cityCode = #{citycode},</if>
-            <if test="civilcode != null and civilcode != ''">civilCode = #{civilcode},</if>
+            <if test="citycode != null and citycode != ''">city_code = #{citycode},</if>
+            <if test="civilcode != null and civilcode != ''">civil_code = #{civilcode},</if>
             <if test="manufacture != null and manufacture != ''">manufacture = #{manufacture},</if>
             <if test="model != null and model != ''">model = #{model},</if>
             <if test="owner != null and owner != ''">owner = #{owner},</if>
             <if test="block != null and block != ''">block = #{block},</if>
             <if test="address != null and address != ''">address = #{address},</if>
-            <if test="parentid != null and parentid != ''">parentId = #{parentid},</if>
-            <if test="ipaddress != null">ipAddress = #{ipaddress},</if>
+            <if test="parentid != null and parentid != ''">parent_id = #{parentid},</if>
+            <if test="ipaddress != null">ip_address = #{ipaddress},</if>
             <if test="port != null">port = #{port},</if>
             <if test="password != null and password != ''">password = #{password},</if>
-            <if test="ptztype != null">PTZType = #{ptztype},</if>
-            <if test="ptztypetext != null and ptztypetext != ''">PTZTypeText = #{ptztypetext},</if>
+            <if test="ptztype != null">ptz_type = #{ptztype},</if>
+            <if test="ptztypetext != null and ptztypetext != ''">ptz_type_text = #{ptztypetext},</if>
             <if test="status != null">status = #{status},</if>
             <if test="longitude != null">longitude = #{longitude},</if>
             <if test="latitude != null">latitude = #{latitude},</if>
-            <if test="streamid != null and streamid != ''">streamId = #{streamid},</if>
-            <if test="subcount != null">subCount = #{subcount},</if>
+            <if test="streamid != null and streamid != ''">stream_id = #{streamid},</if>
+            <if test="subcount != null">sub_count = #{subcount},</if>
             <if test="parental != null">parental = #{parental},</if>
-            <if test="hasaudio != null">hasAudio = #{hasaudio},</if>
+            <if test="hasaudio != null">has_audio = #{hasaudio},</if>
             <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -287,20 +287,20 @@
     <select id="selectChannelWithCivilCodeAndLength" resultMap="SipDeviceChannelResult">
         <include refid="selectSipDeviceChannelVo"/>
         where device_sip_id = #{deviceSipId}
-        <if test='parentId != null and length != null' > and parentId = #{parentid} or left(channel_sip_id, LENGTH(#{parentId})) = #{parentId} and length(channel_sip_id)=#{length} </if>
-        <if test='parentId == null and length != null' > and parentId = #{parentid} or length(channel_sip_id)=#{length} </if>
-        <if test='parentId == null and length == null' > and parentId = #{parentid} </if>
-        <if test='parentId != null and length == null' > and parentId = #{parentid} or left(channel_sip_id, LENGTH(#{parentId})) = #{parentId} </if>
+        <if test='parent_id != null and length != null' > and parent_id = #{parentid} or left(channel_sip_id, LENGTH(#{parent_id})) = #{parent_id} and length(channel_sip_id)=#{length} </if>
+        <if test='parent_id == null and length != null' > and parent_id = #{parentid} or length(channel_sip_id)=#{length} </if>
+        <if test='parent_id == null and length == null' > and parent_id = #{parentid} </if>
+        <if test='parent_id != null and length == null' > and parent_id = #{parentid} or left(channel_sip_id, LENGTH(#{parent_id})) = #{parentId} </if>
     </select>
 
     <select id="selectChannelByCivilCode" resultMap="SipDeviceChannelResult">
         <include refid="selectSipDeviceChannelVo"/>
-        where device_sip_id = #{deviceSipId} and length(channel_sip_id)>14 and civilCode=#{parentId}
+        where device_sip_id = #{deviceSipId} and length(channel_sip_id)>14 and civil_code=#{parent_id}
     </select>
 
     <select id="selectChannelWithoutCiviCode" resultMap="SipDeviceChannelResult">
         <include refid="selectSipDeviceChannelVo"/>
-        where device_sip_id=#{deviceSipId} and civilCode not in (select civilCode from sip_device_channel where device_sip_id=#{deviceSipId} group by civilCode)
+        where device_sip_id=#{deviceSipId} and civil_code not in (select civil_code from sip_device_channel where device_sip_id=#{deviceSipId} group by civil_code)
     </select>
 
     <select id="getChannelMinLength" resultType="Integer">
@@ -312,7 +312,7 @@
     <update id="updateChannelStreamId" parameterType="SipDeviceChannel">
         update sip_device_channel
         <trim prefix="SET" suffixOverrides=",">
-            <if test="streamid != null and streamid != ''">streamId = #{streamid},</if>
+            <if test="streamid != null and streamid != ''">stream_id = #{streamid},</if>
         </trim>
         where id = #{id}
     </update>

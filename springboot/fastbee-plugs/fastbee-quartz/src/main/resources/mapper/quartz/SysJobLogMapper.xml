@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="jobMessage != null and jobMessage != ''">#{jobMessage},</if>
  			<if test="status != null and status != ''">#{status},</if>
  			<if test="exceptionInfo != null and exceptionInfo != ''">#{exceptionInfo},</if>
- 			sysdate()
+			CURRENT_TIMESTAMP
  		)
 	</insert>
 

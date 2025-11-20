@@ -2350,26 +2350,26 @@ CREATE TABLE "sip_device_channel" (
   "register_time" DATE,
   "device_type" NVARCHAR2(64),
   "channel_type" NVARCHAR2(64),
-  "cityCode" NVARCHAR2(64) NOT NULL,
-  "civilCode" NVARCHAR2(64) NOT NULL,
+  "city_code" NVARCHAR2(64) NOT NULL,
+  "civil_code" NVARCHAR2(64) NOT NULL,
   "manufacture" NVARCHAR2(64) NOT NULL,
   "model" NVARCHAR2(64) NOT NULL,
   "owner" NVARCHAR2(64) NOT NULL,
   "block" NVARCHAR2(64) NOT NULL,
   "address" NVARCHAR2(64) NOT NULL,
-  "parentId" NVARCHAR2(64) NOT NULL,
-  "ipAddress" NVARCHAR2(32),
+  "parent_id" NVARCHAR2(64) NOT NULL,
+  "ip_address" NVARCHAR2(32),
   "port" NUMBER(20),
   "password" NVARCHAR2(64) NOT NULL,
-  "PTZType" NUMBER(20) NOT NULL,
-  "PTZTypeText" NVARCHAR2(64) NOT NULL,
+  "ptz_type" NUMBER(20) NOT NULL,
+  "ptz_type_text" NVARCHAR2(64) NOT NULL,
   "status" NUMBER(4) NOT NULL,
   "longitude" NUMBER(11,6),
   "latitude" NUMBER(11,6),
-  "streamId" NVARCHAR2(64) NOT NULL,
-  "subCount" NUMBER(20) NOT NULL,
+  "stream_id" NVARCHAR2(64) NOT NULL,
+  "sub_count" NUMBER(20) NOT NULL,
   "parental" NUMBER(4) NOT NULL,
-  "hasAudio" NUMBER(4) NOT NULL,
+  "has_audio" NUMBER(4) NOT NULL,
   "del_flag" NCHAR(1) NOT NULL,
   "create_by" NVARCHAR2(64) NOT NULL,
   "create_time" DATE NOT NULL,
@@ -2391,26 +2391,26 @@ COMMENT ON COLUMN "sip_device_channel"."channel_name" IS '通道名称';
 COMMENT ON COLUMN "sip_device_channel"."register_time" IS '注册时间';
 COMMENT ON COLUMN "sip_device_channel"."device_type" IS '设备类型';
 COMMENT ON COLUMN "sip_device_channel"."channel_type" IS '通道类型';
-COMMENT ON COLUMN "sip_device_channel"."cityCode" IS '城市编码';
-COMMENT ON COLUMN "sip_device_channel"."civilCode" IS '行政区域';
+COMMENT ON COLUMN "sip_device_channel"."city_code" IS '城市编码';
+COMMENT ON COLUMN "sip_device_channel"."civil_code" IS '行政区域';
 COMMENT ON COLUMN "sip_device_channel"."manufacture" IS '厂商名称';
 COMMENT ON COLUMN "sip_device_channel"."model" IS '产品型号';
 COMMENT ON COLUMN "sip_device_channel"."owner" IS '设备归属';
 COMMENT ON COLUMN "sip_device_channel"."block" IS '警区';
 COMMENT ON COLUMN "sip_device_channel"."address" IS '安装地址';
-COMMENT ON COLUMN "sip_device_channel"."parentId" IS '父级id';
-COMMENT ON COLUMN "sip_device_channel"."ipAddress" IS '设备入网IP';
+COMMENT ON COLUMN "sip_device_channel"."parent_id" IS '父级id';
+COMMENT ON COLUMN "sip_device_channel"."ip_address" IS '设备入网IP';
 COMMENT ON COLUMN "sip_device_channel"."port" IS '设备接入端口号';
 COMMENT ON COLUMN "sip_device_channel"."password" IS '密码';
-COMMENT ON COLUMN "sip_device_channel"."PTZType" IS 'PTZ类型';
-COMMENT ON COLUMN "sip_device_channel"."PTZTypeText" IS 'PTZ类型描述字符串';
+COMMENT ON COLUMN "sip_device_channel"."ptz_type" IS 'PTZ类型';
+COMMENT ON COLUMN "sip_device_channel"."ptx_type_text" IS 'PTZ类型描述字符串';
 COMMENT ON COLUMN "sip_device_channel"."status" IS '设备状态（1-未激活，2-禁用，3-在线，4-离线）';
 COMMENT ON COLUMN "sip_device_channel"."longitude" IS '设备经度';
 COMMENT ON COLUMN "sip_device_channel"."latitude" IS '设备纬度';
-COMMENT ON COLUMN "sip_device_channel"."streamId" IS '流媒体ID';
-COMMENT ON COLUMN "sip_device_channel"."subCount" IS '子设备数';
+COMMENT ON COLUMN "sip_device_channel"."stream_id" IS '流媒体ID';
+COMMENT ON COLUMN "sip_device_channel"."sub_count" IS '子设备数';
 COMMENT ON COLUMN "sip_device_channel"."parental" IS '是否有子设备（1-有, 0-没有）';
-COMMENT ON COLUMN "sip_device_channel"."hasAudio" IS '是否含有音频（1-有, 0-没有）';
+COMMENT ON COLUMN "sip_device_channel"."has_audio" IS '是否含有音频（1-有, 0-没有）';
 COMMENT ON COLUMN "sip_device_channel"."del_flag" IS '删除标志（0代表存在 2代表删除）';
 COMMENT ON COLUMN "sip_device_channel"."create_by" IS '创建者';
 COMMENT ON COLUMN "sip_device_channel"."create_time" IS '创建时间';
@@ -2422,8 +2422,8 @@ COMMENT ON TABLE "sip_device_channel" IS '监控设备通道信息';
 -- ----------------------------
 -- Records of sip_device_channel
 -- ----------------------------
-INSERT INTO "sip_device_channel" ("id", "tenant_id", "tenant_name", "product_id", "product_name", "user_id", "user_name", "device_sip_id", "channel_sip_id", "channel_name", "register_time", "device_type", "channel_type", "cityCode", "civilCode", "manufacture", "model", "owner", "block", "address", "parentId", "ipAddress", "port", "password", "PTZType", "PTZTypeText", "status", "longitude", "latitude", "streamId", "subCount", "parental", "hasAudio", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('84', '1', 'admin', '118', '监控设备', '1', 'admin', '11010200001320000001', '11010200001320000001', 'IPdome', TO_DATE('2024-01-08 22:16:32', 'SYYYY-MM-DD HH24:MI:SS'), '132', '132', '北京市/市辖区/西城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', '0', '', '0', '', '3', '0.000000', '0.000000', 'gb_play_11010200001320000001_11010200001320000001', '0', '0', '0', '0', '', TO_DATE('2023-04-11 21:12:33', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sip_device_channel" ("id", "tenant_id", "tenant_name", "product_id", "product_name", "user_id", "user_name", "device_sip_id", "channel_sip_id", "channel_name", "register_time", "device_type", "channel_type", "cityCode", "civilCode", "manufacture", "model", "owner", "block", "address", "parentId", "ipAddress", "port", "password", "PTZType", "PTZTypeText", "status", "longitude", "latitude", "streamId", "subCount", "parental", "hasAudio", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('102', '1', 'admin', '135', '视频监控', '0', '', '11010100001320000001', '11010100001320000001', 'IPdome', TO_DATE('2024-01-09 23:35:00', 'SYYYY-MM-DD HH24:MI:SS'), '132', '132', '北京市/市辖区/东城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', '0', '', '0', '', '3', '0.000000', '0.000000', '', '0', '0', '0', '0', '', TO_DATE('2024-01-08 22:15:57', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sip_device_channel" VALUES ('84', '1', 'admin', '118', '监控设备', '1', 'admin', '11010200001320000001', '11010200001320000001', 'IPdome', TO_DATE('2024-01-08 22:16:32', 'SYYYY-MM-DD HH24:MI:SS'), '132', '132', '北京市/市辖区/西城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', '0', '', '0', '', '3', '0.000000', '0.000000', 'gb_play_11010200001320000001_11010200001320000001', '0', '0', '0', '0', '', TO_DATE('2023-04-11 21:12:33', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sip_device_channel" VALUES ('102', '1', 'admin', '135', '视频监控', '0', '', '11010100001320000001', '11010100001320000001', 'IPdome', TO_DATE('2024-01-09 23:35:00', 'SYYYY-MM-DD HH24:MI:SS'), '132', '132', '北京市/市辖区/东城区', '3402000000', 'Hikvision', 'IP Camera', 'Owner', '', 'Address', '34020000002000000001', '', '0', '', '0', '', '3', '0.000000', '0.000000', '', '0', '0', '0', '0', '', TO_DATE('2024-01-08 22:15:57', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
 COMMIT;
 COMMIT;
 
