@@ -6161,26 +6161,26 @@ CREATE TABLE [dbo].[sip_device_channel] (
   [register_time] datetime2 NULL,
   [device_type] nvarchar(64) NULL,
   [channel_type] nvarchar(64) NULL,
-  [cityCode] nvarchar(64) NOT NULL,
-  [civilCode] nvarchar(64) NOT NULL,
+  [city_code] nvarchar(64) NOT NULL,
+  [civil_code] nvarchar(64) NOT NULL,
   [manufacture] nvarchar(64) NOT NULL,
   [model] nvarchar(64) NOT NULL,
   [owner] nvarchar(64) NOT NULL,
   [block] nvarchar(64) NOT NULL,
   [address] nvarchar(64) NOT NULL,
-  [parentId] nvarchar(64) NOT NULL,
-  [ipAddress] nvarchar(32) NULL,
+  [parent_id] nvarchar(64) NOT NULL,
+  [ip_address] nvarchar(32) NULL,
   [port] bigint NULL,
   [password] nvarchar(64) NOT NULL,
-  [PTZType] bigint NOT NULL,
-  [PTZTypeText] nvarchar(64) NOT NULL,
+  [ptz_type] bigint NOT NULL,
+  [ptz_type_text] nvarchar(64) NOT NULL,
   [status] tinyint NOT NULL,
   [longitude] float NULL,
   [latitude] float NULL,
-  [streamId] nvarchar(64) NOT NULL,
-  [subCount] bigint NOT NULL,
+  [stream_id] nvarchar(64) NOT NULL,
+  [sub_count] bigint NOT NULL,
   [parental] tinyint NOT NULL,
-  [hasAudio] tinyint NOT NULL,
+  [has_audio] tinyint NOT NULL,
   [del_flag] nchar(1) NOT NULL,
   [create_by] nvarchar(64) NOT NULL,
   [create_time] datetime2 NOT NULL,
@@ -6285,14 +6285,14 @@ EXEC sp_addextendedproperty
 'MS_Description', N'城市编码',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'cityCode'
+'COLUMN', N'city_code'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'行政区域',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'civilCode'
+'COLUMN', N'civil_code'
 GO
 
 EXEC sp_addextendedproperty
@@ -6334,14 +6334,14 @@ EXEC sp_addextendedproperty
 'MS_Description', N'父级id',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'parentId'
+'COLUMN', N'parent_id'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'设备入网IP',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'ipAddress'
+'COLUMN', N'ip_address'
 GO
 
 EXEC sp_addextendedproperty
@@ -6362,14 +6362,14 @@ EXEC sp_addextendedproperty
 'MS_Description', N'PTZ类型',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'PTZType'
+'COLUMN', N'ptz_type'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'PTZ类型描述字符串',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'PTZTypeText'
+'COLUMN', N'ptz_type_text'
 GO
 
 EXEC sp_addextendedproperty
@@ -6397,14 +6397,14 @@ EXEC sp_addextendedproperty
 'MS_Description', N'流媒体ID',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'streamId'
+'COLUMN', N'stream_id'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'子设备数',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'subCount'
+'COLUMN', N'sub_count'
 GO
 
 EXEC sp_addextendedproperty
@@ -6418,7 +6418,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'是否含有音频（1-有, 0-没有）',
 'SCHEMA', N'dbo',
 'TABLE', N'sip_device_channel',
-'COLUMN', N'hasAudio'
+'COLUMN', N'has_audio'
 GO
 
 EXEC sp_addextendedproperty
@@ -6476,7 +6476,7 @@ GO
 BEGIN TRANSACTION
 GO
 
-INSERT INTO [dbo].[sip_device_channel] ([id], [tenant_id], [tenant_name], [product_id], [product_name], [user_id], [user_name], [device_sip_id], [channel_sip_id], [channel_name], [register_time], [device_type], [channel_type], [cityCode], [civilCode], [manufacture], [model], [owner], [block], [address], [parentId], [ipAddress], [port], [password], [PTZType], [PTZTypeText], [status], [longitude], [latitude], [streamId], [subCount], [parental], [hasAudio], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'84', N'1', N'admin', N'118', N'监控设备', N'1', N'admin', N'11010200001320000001', N'11010200001320000001', N'IPdome', N'2024-01-08 22:16:32', N'132', N'132', N'北京市/市辖区/西城区', N'3402000000', N'Hikvision', N'IP Camera', N'Owner', N'', N'Address', N'34020000002000000001', N'', N'0', N'', N'0', N'', N'3', N'0.000000', N'0.000000', N'gb_play_11010200001320000001_11010200001320000001', N'0', N'0', N'0', N'0', N'', N'2023-04-11 21:12:33', N'', NULL, NULL), (N'102', N'1', N'admin', N'135', N'视频监控', N'0', N'', N'11010100001320000001', N'11010100001320000001', N'IPdome', N'2024-01-09 23:35:00', N'132', N'132', N'北京市/市辖区/东城区', N'3402000000', N'Hikvision', N'IP Camera', N'Owner', N'', N'Address', N'34020000002000000001', N'', N'0', N'', N'0', N'', N'3', N'0.000000', N'0.000000', N'', N'0', N'0', N'0', N'0', N'', N'2024-01-08 22:15:57', N'', NULL, NULL)
+INSERT INTO [dbo].[sip_device_channel] ([id], [tenant_id], [tenant_name], [product_id], [product_name], [user_id], [user_name], [device_sip_id], [channel_sip_id], [channel_name], [register_time], [device_type], [channel_type], [city_code], [civil_code], [manufacture], [model], [owner], [block], [address], [parent_id], [ip_address], [port], [password], [ptz_type], [ptz_type_text], [status], [longitude], [latitude], [stream_id], [sub_count], [parental], [has_audio], [del_flag], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'84', N'1', N'admin', N'118', N'监控设备', N'1', N'admin', N'11010200001320000001', N'11010200001320000001', N'IPdome', N'2024-01-08 22:16:32', N'132', N'132', N'北京市/市辖区/西城区', N'3402000000', N'Hikvision', N'IP Camera', N'Owner', N'', N'Address', N'34020000002000000001', N'', N'0', N'', N'0', N'', N'3', N'0.000000', N'0.000000', N'gb_play_11010200001320000001_11010200001320000001', N'0', N'0', N'0', N'0', N'', N'2023-04-11 21:12:33', N'', NULL, NULL), (N'102', N'1', N'admin', N'135', N'视频监控', N'0', N'', N'11010100001320000001', N'11010100001320000001', N'IPdome', N'2024-01-09 23:35:00', N'132', N'132', N'北京市/市辖区/东城区', N'3402000000', N'Hikvision', N'IP Camera', N'Owner', N'', N'Address', N'34020000002000000001', N'', N'0', N'', N'0', N'', N'3', N'0.000000', N'0.000000', N'', N'0', N'0', N'0', N'0', N'', N'2024-01-08 22:15:57', N'', NULL, NULL)
 GO
 
 COMMIT
