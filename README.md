@@ -8,6 +8,7 @@
 
 3. [快速部署命令](https://fastbee.cn/doc/install/docker.html)：提前安装好docker和docker-compose，执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
 
+4. 注意：开源版本不需要安装emqx，后端自带了mqtt服务端
 
 ### 二、系统功能
 
