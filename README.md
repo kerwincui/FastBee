@@ -4,11 +4,9 @@
 
 1. FastBee开源物联网平台，简单易用，更适合中小企业和个人学习使用。适用于智能家居、智慧办公、智慧社区、农业监测、水利监测、工业控制等。
 
-2. 系统后端采用Spring boot；前端采用Vue；Mqtt服务端使用netty搭建；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；
+2. 系统后端采用Spring boot框架，Mqtt服务端使用netty搭建；前端采用Vue+elementUI；移动端支持微信小程序、安卓、苹果和H5采用Uniapp框架；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；部署推荐使用docker,支持一条命令完成部署。
 
-3. [快速部署命令](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
-
-4. 注意：开源版本不需要安装emqx，后端自带了mqtt服务端
+3. 注意：开源版本不需要安装emqx，后端自带了mqtt服务端
 
 ### 二、系统功能
 
@@ -18,24 +16,32 @@
 |           设备管理           | 设备详情、设备分组、设备日志、设备分享、设备实时控制、实时状态、数据监测            | 
 |          物模型管理           | 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）          | 
 |          MQTT接入          | 基于netty开发的MqttBroker服务端 | 
-|          硬件 SDK          | ESP-IDF、Arduino、RaspberryPi、合宙等平台设备接入           | 
 |          视频监控接入          | 基于GB/T28181协议支持主流厂商监控设备接入，直播  | 
-|          权限管理          | 基于若依的权限管理系统，用户、部分、角色、岗位、权限、日志等  | 
+|          权限管理          | 基于[若依权限管理系统](http://doc.ruoyi.vip/ruoyi-vue/)，用户、部分、角色、岗位、权限、日志等  | 
+|          硬件 SDK          | ESP-IDF、Arduino、RaspberryPi、合宙等平台设备接入           | 
 
 
 ### 三、技术栈
 * 服务端
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
     - 开发工具：IDEA
+    - 源码目录：spring-boot文件夹下
 * Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等
     - 开发工具：Visual Studio Code
+    - 源码目录：vue文件夹下
 * 移动端（微信小程序 / Android / Ios / H5）
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
     - 开发工具：HBuilder
+    - 源码地址：[https://gitee.com/beecue/fastbee-app](https://gitee.com/beecue/fastbee-app) 
 * 硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
     - 开发工具：Visual Studio Code 和 Arduino等
+    - 源码地址：[https://gitee.com/beecue/fastbee-sdk](https://gitee.com/beecue/fastbee-sdk)
+* 部署
+    - 相关技术：docker、docker-compose、shell
+    - [快速部署](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
+
 
 ![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
 
@@ -45,36 +51,21 @@
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
 
 
-### 四、项目目录
-&nbsp;&nbsp;&nbsp;&nbsp; app         -------------------- 移动端（微信小程序 / Android / Ios / H5） 商业版开源<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; docker      ---------------- docker部署文件<br />
-&nbsp;&nbsp;&nbsp;&nbsp; spring-boot ----------   后端<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; vue         -------------------- 前端<br />
+
+### 四、商用授权
+开源版本采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。二开项目同样遵守AGPL3.0协议进行开源，可以申请授权。[商业授权说明>>](https://fastbee.cn/doc/pages/sponsor/) 
 
 
-### 五、商用授权
-开源版本采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。二开项目同样遵守AGPL3.0协议进行开源，可以向原作者申请授权。<br />
-[商业版本授权>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; 
-[移动端源码>>](https://gitee.com/beecue/fastbee-app) &nbsp; 
-[硬件SDK源码>>](https://gitee.com/beecue/fastbee-sdk) 
+
+### 五、其他
+1. QQ交流群：&#x1F680;720136372   &#x1F680;946029159    &#x1F680;1073236354  
+
+2. [商业版本在线演示,开源版本暂只支持mqtt协议](https://iot.fastbee.cn/)
+
+3. [系统说明文档](https://fastbee.cn/doc/)
 
 
-### 六、其他
-1. QQ交流群：&#x1F680;946029159(已满)    &#x1F680;1073236354  &#x1F680;720136372
-
-2. 权限管理基于ruoyi-vue系统开发
-
-* [商业版本在线演示](https://iot.fastbee.cn/)
-* [项目使用文档](https://fastbee.cn/doc/)
-* [若依权限管理系统文档](http://doc.ruoyi.vip/ruoyi-vue/)
-* [uCharts高性能跨平台图表库](https://www.ucharts.cn)
-
-3. 项目贡献者(如有遗漏请联系作者)：
-- [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)、[董晓龙-3715687@qq.com](https://fastbee.cn/)
-- [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
-
-
-### 七、部分图片
+### 六、部分图片
 
 ![](https://oscimg.oschina.net/oscnet/up-972dea7b54eca705dcc8bf2fe0680b12c09.png)
 ![](https://oscimg.oschina.net/oscnet/up-6d89f1558797a9becf07c20f92c1407a13a.png)
