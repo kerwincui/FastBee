@@ -40,7 +40,7 @@
     - 源码地址：[https://gitee.com/beecue/fastbee-sdk](https://gitee.com/beecue/fastbee-sdk)
 * 部署
     - 相关技术：docker、docker-compose、shell
-    - [快速部署](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
+    - [快速部署](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `  sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh  ` 然后选择开源版本，等待完成部署
 
 
 ![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
@@ -60,9 +60,9 @@
 ### 五、其他
 1. QQ交流群：&#x1F680;720136372   &#x1F680;946029159    &#x1F680;1073236354  
 
-2. [商业版本在线演示,开源版本暂只支持mqtt协议](https://iot.fastbee.cn/)
+2. 商业版本在线演示（开源版本暂只支持mqtt协议）：[https://iot.fastbee.cn/](https://iot.fastbee.cn/)
 
-3. [系统说明文档](https://fastbee.cn/doc/)
+3. 系统文档：[https://fastbee.cn/doc/](https://fastbee.cn/doc/)
 
 
 ### 六、部分图片
