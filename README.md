@@ -2,46 +2,57 @@
 
 ### 一、项目介绍
 
-1. FastBee开源物联网平台，简单易用，更适合中小企业和个人学习使用。适用于智能家居、智慧办公、智慧社区、农业监测、水利监测、工业控制等。
+1. FastBee是一款简单易用、轻量级的开源物联网平台，专为中小企业和个人开发者设计，适用于智能家居、智慧办公、智慧社区、农业监测、水利监测、工业控制等多种场景。
 
-2. 系统后端采用Spring boot框架，Mqtt服务端使用netty搭建；前端采用Vue+elementUI；移动端支持微信小程序、安卓、苹果和H5采用Uniapp框架；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；部署推荐使用docker,支持一条命令完成部署。
+2. 平台采用前后端分离架构：后端基于Spring Boot开发，<b>内置使用Netty搭建的高性能MQTT服务端，无需额外部署EMQX或其他mqtt服务端</b>；前端采用Vue与ElementUI，清晰易维护；移动端支持微信小程序、Android、iOS及H5，基于Uniapp实现多端兼容。设备端兼容ESP32、ESP8266、树莓派、合宙等常见硬件，接入灵活。数据存储支持MySQL、TDengine及Redis，兼顾事务处理、时序数据与缓存需求。项目推荐使用Docker部署，可 [一键快速搭建全套系统](https://fastbee.cn/doc/install/docker.html)，简化运维。
 
-3. 注意：开源版本不需要安装emqx，后端自带了mqtt服务端
 
-### 二、系统功能
+
+### 二、系统功能简述
 
 |           系统功能           | 功能说明                                            | 
 |:------------------------:|:-----------------------------------------------:|
-|           产品管理           | 产品详情、产品物模型、产品分类、设备授权、产品固件                       | 
-|           设备管理           | 设备详情、设备分组、设备日志、设备分享、设备实时控制、实时状态、数据监测            | 
-|          物模型管理           | 属性（设备状态和监测数据），功能（执行特定任务），事件（设备主动上报给云端）          | 
-|          MQTT接入          | 基于netty开发的MqttBroker服务端 | 
-|          视频监控接入          | 基于GB/T28181协议支持主流厂商监控设备接入，直播  | 
-|          权限管理          | 基于[若依权限管理系统](http://doc.ruoyi.vip/ruoyi-vue/)，用户、部分、角色、岗位、权限、日志等  | 
-|          硬件 SDK          | ESP-IDF、Arduino、RaspberryPi、合宙等平台设备接入           | 
+|           产品管理          | 支持创建产品、定义物模型、设置设备认证方式、管理产品分类及固件版本                       | 
+|           设备管理          | 设备注册、分组、实时状态监测、远程控制、操作日志追溯及设备分享功能            | 
+|          物模型管理         | 提供标准化的属性（监测与状态）、功能（服务调用）和事件（设备上报）定义，实现设备与平台的数据语义统一         | 
+|          MQTT接入          | 内置基于 Netty 开发的高性能 MQTT Broker，无需额外部署第三方服务，支持设备安全连接与通信 | 
+|          视频监控接入       | 支持 GB/T 28181 国家标准协议，可接入主流监控设备，实现视频直播、回放与设备管理  | 
+|          权限管理          | 基于成熟的 [若依权限框架](http://doc.ruoyi.vip/ruoyi-vue/)，实现用户、角色、部门、岗位及操作日志的精细化管控  | 
+|          多数据源          | 业务数据存储到关系型数据库，例如mysql、postgres、mssql；设备数据存储到时序数据库，例如tdengine、influxdb、iotDB           | 
+|          硬件 SDK         | 提供 ESP-IDF、Arduino、树莓派、合宙 等常见硬件平台的接入示例与 SDK，降低设备端开发门槛。           | 
+|          多端应用支持      | 提供 Web 控制台（Vue + ElementUI）、微信小程序、Android/iOS App 及 H5 界面，方便用户随时随地管理设备。          | 
+|          一键部署          | 推荐使用 Docker 容器化部署，支持一条命令[快速搭建完整环境](https://fastbee.cn/doc/install/docker.html)，大幅降低运维成本。         | 
 
 
 ### 三、技术栈
-* 服务端
+* 🖥️ 服务端
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
     - 开发工具：IDEA
     - 源码目录：spring-boot文件夹下
-* Web端
+* 🌐Web端
     - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等
     - 开发工具：Visual Studio Code
     - 源码目录：vue文件夹下
-* 移动端（微信小程序 / Android / Ios / H5）
+* 📱移动端（微信小程序 / Android / Ios / H5）
     - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
     - 开发工具：HBuilder
     - 源码地址：[https://gitee.com/beecue/fastbee-app](https://gitee.com/beecue/fastbee-app) 
-* 硬件端
+* 🔌硬件端
     - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
     - 开发工具：Visual Studio Code 和 Arduino等
     - 源码地址：[https://gitee.com/beecue/fastbee-sdk](https://gitee.com/beecue/fastbee-sdk)
-* 部署
+* 🚀部署与运维
     - 相关技术：docker、docker-compose、shell
     - [快速部署](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `  sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh  ` 然后选择开源版本，等待完成部署
 
+#### 📦 技术全景与特点
+- **全栈开源**：从设备 SDK、后端服务到前端应用，代码完全开放
+- **内置 MQTT Broker**：减少外部依赖，降低部署与运维复杂度
+- **多端覆盖**：统一技术栈支持 Web、小程序与原生 App
+- **时序数据优化**：专为物联网场景集成 TDengine，提升数据存储与查询效率
+- **容器化部署**：提供标准化 Docker 镜像与脚本，实现快速安装与迁移
+
+该技术选型兼顾了成熟度、性能与开发效率，既适合中小企业快速构建物联网业务，也便于开发者进行二次开发与学习研究。
 
 ![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
 
