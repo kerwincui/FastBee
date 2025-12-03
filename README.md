@@ -6,7 +6,7 @@
 
 2. 系统后端采用Spring boot；前端采用Vue；Mqtt服务端使用netty搭建；移动端支持微信小程序、安卓、苹果和H5采用Uniapp；数据库采用Mysql、TDengine和Redis；设备端支持ESP32、ESP8266、树莓派、合宙等；
 
-3. [快速部署命令](https://fastbee.cn/doc/install/docker.html)：提前安装好docker和docker-compose，执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
+3. [快速部署命令](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh` 然后选择开源版本，等待完成部署
 
 4. 注意：开源版本不需要安装emqx，后端自带了mqtt服务端
 
@@ -23,27 +23,26 @@
 |          权限管理          | 基于若依的权限管理系统，用户、部分、角色、岗位、权限、日志等  | 
 
 
+### 三、技术栈
+* 服务端
+    - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
+    - 开发工具：IDEA
+* Web端
+    - 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等
+    - 开发工具：Visual Studio Code
+* 移动端（微信小程序 / Android / Ios / H5）
+    - 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
+    - 开发工具：HBuilder
+* 硬件端
+    - 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
+    - 开发工具：Visual Studio Code 和 Arduino等
+
 ![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
 
 
 |空气检测仪|   物联网开发板 |  Air724开发板 |  智能开关| [查看更多>>](https://fastbee.cn/doc/device/)  |
 |  :----:  | :----------:  |:----------:  |:----------:  |:----------:  |
 | ![](https://oscimg.oschina.net/oscnet/up-ad98a81677e5e68d660866770e3266ca4cf.png) | ![](https://oscimg.oschina.net/oscnet/up-68caf860d0659444e73f42717a03d2fdf72.png) | ![](https://oscimg.oschina.net/oscnet/up-cf690f6058042dccb567ff382ea9432ebab.png) |![](https://oscimg.oschina.net/oscnet/up-c4a7971510127324d6566dd6ea95d571483.jpg) | ![](https://oscimg.oschina.net/oscnet/up-4ce09be3599e3ff7ed91fe182572abd258b.jpg) | 
-
-
-### 三、技术栈
-* 服务端
-- 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
-- 开发工具：IDEA
-* Web端
-- 相关技术：ES6、Vue、Vuex、Vue-router、Vue-cli、Axios、Element-ui、Echart等
-- 开发工具：Visual Studio Code
-* 移动端（微信小程序 / Android / Ios / H5）
-- 相关技术：uniapp、[uView](https://www.uviewui.com/)、[uChart](https://www.ucharts.cn/)
-- 开发工具：HBuilder
-* 硬件端
-- 相关技术： ESP-IDF、Arduino、FreeRTOS、Python、Lua等
-- 开发工具：Visual Studio Code 和 Arduino等
 
 
 ### 四、项目目录
@@ -54,17 +53,13 @@
 
 
 ### 五、商用授权
-开源版本采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。二开项目同样遵守AGPL3.0协议进行开源，可以向原作者申请授权。
-- [商业版本授权>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; 
-- [移动端源码>>](https://gitee.com/beecue/fastbee-app) &nbsp; 
-- [硬件SDK源码>>](https://gitee.com/beecue/fastbee-sdk) 
+开源版本采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。二开项目同样遵守AGPL3.0协议进行开源，可以向原作者申请授权。<br />
+[商业版本授权>>](https://fastbee.cn/doc/pages/sponsor/) &nbsp; 
+[移动端源码>>](https://gitee.com/beecue/fastbee-app) &nbsp; 
+[硬件SDK源码>>](https://gitee.com/beecue/fastbee-sdk) 
 
-### 六、贡献代码
-- [贡献者指南>>](./doc/贡献者指南.md)
-- [Git提交规范>>](./doc/Git提交规范.md)
-- [功能规划>>](./RoadMap.md)
 
-### 七、其他
+### 六、其他
 1. QQ交流群：&#x1F680;946029159(已满)    &#x1F680;1073236354  &#x1F680;720136372
 
 2. 权限管理基于ruoyi-vue系统开发
@@ -79,12 +74,8 @@
 - [小驿物联](https://gitee.com/iot-xiaoyi)、[CrazyDull](https://gitee.com/crazyDull)、[YBZX](https://github.com/YBZX)、 [CQAdu](https://gitee.com/iot.adu)、[孙阿龙](https://gitee.com/sunalong)、[xxmfl](https://gitee.com/xxmfl)、[董晓龙-3715687@qq.com](https://fastbee.cn/)
 - [SXH](https://gitee.com/sixiaohu)、 [Redamancy_zxp](https://gitee.com/redamancy-zxp)、 [LEE](https://gitee.com/yueming188)、 [LemonTree](https://gitee.com/fishhunterplus)、 [Tang](https://gitee.com/mexiaotang)、 [Tang](https://gitee.com/mexiaotang)、[KUN](https://gitee.com/L_KUN_KUN)
 
-4. 主要参与用户：
-    - [Guanshubiao](https://gitee.com/guanshubiao)：熟悉物联网开发，完善和优化系统的网关架构和部分功能等
-    - [帐篷](https://gitee.com/zhuangpengli)：熟悉物联网开发，完善视频监控模块和部分协议等
-    - [JaminDeng](https://gitee.com/jamin-deng)：熟悉物联网开发，完善平台前端设计可视化等
 
-### 八、部分图片
+### 七、部分图片
 
 ![](https://oscimg.oschina.net/oscnet/up-972dea7b54eca705dcc8bf2fe0680b12c09.png)
 ![](https://oscimg.oschina.net/oscnet/up-6d89f1558797a9becf07c20f92c1407a13a.png)
