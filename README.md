@@ -1,4 +1,4 @@
-[![gitee投票](./images/banner1.jpg)](https://gitee.com/activity/2025opensource?ident=IKKZS9)
+[![gitee投票](./images/banner1.png)](https://gitee.com/activity/2025opensource?ident=IKKZS9)
 
 
 FastBee 是一款面向中小企业与个人开发者的**轻量**、**易用**、**全栈**开源物联网平台。
