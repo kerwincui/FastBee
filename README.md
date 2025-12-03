@@ -53,7 +53,7 @@
 
 
 ### 四、商用授权
-开源版本采用AGPL3协议，可用于个人学习和使用，商业用途需要赞助项目，获得授权。二开项目同样遵守AGPL3.0协议进行开源，可以申请授权。[商业授权说明>>](https://fastbee.cn/doc/pages/sponsor/) 
+开源版本采用AGPL3协议，可用于个人学习和使用，商业用途可以购买[商业版本获得授权](https://fastbee.cn/doc/pages/sponsor/)。
 
 
 
