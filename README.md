@@ -22,6 +22,8 @@
 |          多端应用支持      | 提供 Web 控制台（Vue + ElementUI）、微信小程序、Android/iOS App 及 H5 界面，方便用户随时随地管理设备。          | 
 |          一键部署          | 推荐使用 Docker 容器化部署，支持一条命令[快速搭建完整环境](https://fastbee.cn/doc/install/docker.html)，大幅降低运维成本。         | 
 
+![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
+
 ### 三、快速开始
 
 1.  **环境准备**：确保服务器已安装 `Docker` 和 `Docker Compose`。
@@ -66,8 +68,6 @@
 - **容器化部署**：提供标准化 Docker 镜像与脚本，实现快速安装与迁移
 
 该技术选型兼顾了成熟度、性能与开发效率，既适合中小企业快速构建物联网业务，也便于开发者进行二次开发与学习研究。
-
-![](https://gitee.com/beecue/fastbee-sdk/raw/master/Arduino/FastBeeEsp32/device.png)
 
 
 |空气检测仪|   物联网开发板 |  Air724开发板 |  智能开关| [查看更多>>](https://fastbee.cn/doc/device/)  |
