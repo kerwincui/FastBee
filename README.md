@@ -62,7 +62,7 @@
     - [快速部署](https://fastbee.cn/doc/install/docker.html)：安装好docker和docker-compose后执行命令 `  sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh  ` 然后选择开源版本，等待完成部署
 
 #### 📦 技术全景与特点
-- **全栈开源**：从设备 SDK、后端服务到前端应用，代码完全开放
+- **全栈开源**：从设备 SDK、后端服务到前端应用和移动端，代码完全开放
 - **内置 MQTT Broker**：减少外部依赖，降低部署与运维复杂度
 - **多端覆盖**：统一技术栈支持 Web、小程序与原生 App
 - **多数据源支持**：支持常用关系型数据库，默认mysql
