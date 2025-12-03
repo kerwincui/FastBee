@@ -2,10 +2,9 @@
 
 ### 一、项目介绍
 
-1. FastBee是一款简单易用、轻量级的开源物联网平台，专为中小企业和个人开发者设计，适用于智能家居、智慧办公、智慧社区、农业监测、水利监测、工业控制等多种场景。
+1. FastBee 是一款面向中小企业与个人开发者的**轻量、易用、全栈开源**的物联网平台。它集设备管理、数据监控、多端应用于一体，支持一键容器化部署，助力快速构建物联网应用。适用于智能家居、智慧办公、智慧社区、农业监测、水利监测、工业控制等多种场景。
 
 2. 平台采用前后端分离架构：后端基于Spring Boot开发，<b>内置使用Netty搭建的高性能MQTT服务端，无需额外部署EMQX或其他mqtt服务端</b>；前端采用Vue与ElementUI，清晰易维护；移动端支持微信小程序、Android、iOS及H5，基于Uniapp实现多端兼容。设备端兼容ESP32、ESP8266、树莓派、合宙等常见硬件，接入灵活。数据存储支持MySQL、TDengine及Redis，兼顾事务处理、时序数据与缓存需求。项目推荐使用Docker部署，可 [一键快速搭建全套系统](https://fastbee.cn/doc/install/docker.html)，简化运维。
-
 
 
 ### 二、系统功能简述
@@ -23,8 +22,22 @@
 |          多端应用支持      | 提供 Web 控制台（Vue + ElementUI）、微信小程序、Android/iOS App 及 H5 界面，方便用户随时随地管理设备。          | 
 |          一键部署          | 推荐使用 Docker 容器化部署，支持一条命令[快速搭建完整环境](https://fastbee.cn/doc/install/docker.html)，大幅降低运维成本。         | 
 
+### 三、快速开始
 
-### 三、技术栈
+1.  **环境准备**：确保服务器已安装 `Docker` 和 `Docker Compose`。
+2.  **执行命令**：
+    ```bash
+    sudo wget -c https://hub.fastbee.cn/resource/install.sh && bash ./install.sh
+    ```
+    命令窗口根据提示，选择“**开源版本**”，脚本将自动完成所有服务的拉取与启动。
+3.  **访问系统**：部署完成后，通过浏览器访问 `http://你的服务器IP:端口` ，默认账号admin admin123。
+
+4. 详细步骤请查阅 [官方安装文档](https://fastbee.cn/doc/install/docker.html)。
+
+---
+
+
+### 四、技术栈
 * 🖥️ 服务端
     - 相关技术：Spring boot、MyBatis、Spring Security、Jwt、Mysql、Redis、TDengine、Netty等
     - 开发工具：IDEA
@@ -63,17 +76,15 @@
 
 
 
-### 四、商用授权
-开源版本采用AGPL3协议，可用于个人学习和使用，商业用途可以购买[商业版本获得授权](https://fastbee.cn/doc/pages/sponsor/)。
-
-
-
 ### 五、其他
-1. QQ交流群：&#x1F680;720136372   &#x1F680;946029159    &#x1F680;1073236354  
+1. 商用授权：开源版本采用AGPL3协议，可用于个人学习和使用，商业用途推荐购买[商业版本授权](https://fastbee.cn/doc/pages/sponsor/)
 
 2. 商业版本在线演示（开源版本暂只支持mqtt协议）：[https://iot.fastbee.cn/](https://iot.fastbee.cn/)
 
 3. 系统文档：[https://fastbee.cn/doc/](https://fastbee.cn/doc/)
+
+4. QQ交流群：&#x1F680;720136372   &#x1F680;946029159    &#x1F680;1073236354  
+
 
 
 ### 六、部分图片
