@@ -1,0 +1,70 @@
+version: '2'
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 177.7.0.0/16
+
+services:
+  tdengine:
+    image: 'tdengine/tdengine:3.3.5.8'
+    container_name: tdengine
+    privileged: true
+    hostname: fastbee
+    ports:
+      - 6030:6030
+      - 6041:6041
+      - 6043-6049:6043-6049
+      - 6043-6049:6043-6049/udp
+    volumes:
+      - /var/data/tdengine/log:/var/log/taos
+      - /var/data/tdengine/data:/var/lib/taos
+      - /var/data/tdengine/conf:/etc/taos
+      - /etc/localtime:/etc/localtime
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      network:
+        ipv4_address: 177.7.0.30
+
+  influxdb:
+    image: influxdb:2.7.5
+    container_name: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - ./influxdb2:/var/lib/influxdb2
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: "setup"
+      DOCKER_INFLUXDB_INIT_USERNAME: "admin"
+      DOCKER_INFLUXDB_INIT_PASSWORD: "admin123"
+      DOCKER_INFLUXDB_INIT_ORG: "fastbee"
+      DOCKER_INFLUXDB_INIT_BUCKET: "device_log"
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "inX0k-IPfSgKg6AIfoZm6Mv0DQyQOKCkfvs5ZF3a836Yzx2Ew9QgxsHev40_2gztuMn6tofwyS6nfbT4cD-SeA=="
+    networks:
+      network:
+        ipv4_address: 177.7.0.31
+
+  iotdb:
+    image: apache/iotdb:1.3.3-standalone
+    hostname: iotdb
+    container_name: iotdb
+    restart: always
+    ports:
+      - 6667:6667
+      - 5555:5555
+      - 8070:8070
+      - 9003:9003
+    privileged: true
+    volumes:
+      - /var/data/iotdb/data:/iotdb/data
+      - /var/data/iotdb/logs:/iotdb/logs
+      - /var/data/iotdb/conf:/iotdb/conf
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      network:
+        ipv4_address: 177.7.0.32

@@ -30,6 +30,34 @@ spring:
               merge-sql: true
             wall:
               none-base-statement-allow: true
+        taos: # 配置 taos 数据源
+          enabled: false
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
+          url: jdbc:TAOS-RS://fastbee:6041/fastbee_log?timezone=UTC-8&charset=utf-8
+          #          driver-class-name: com.taosdata.jdbc.TSDBDriver
+          #          url: jdbc:TAOS://fastbee:6030/fastbee_log?timezone=UTC-8&charset=utf-8
+          #          driver-class-name: com.taosdata.jdbc.ws.WebSocketDriver
+          #          url: jdbc:TAOS-WS://fastbee:6041/fastbee_log?timezone=UTC-8&charset=utf-8
+          username: root
+          password: taosdata
+          dbName: fastbee_log
+#        influx: # 配置 influx 数据源
+#          enabled: false
+#          url: http://81.71.97.58:8086
+#          token: inX0k-IPfSgKg6AIfoZm6Mv0DQyQOKCkfvs5ZF3a836Yzx2Ew9QgxsHev40_2gztuMn6tofwyS6nfbT4cD-SeA==
+#          bucket: device_log
+#          org: fastbee
+#          measurement: device_log
+#        iotdb:
+#          enabled: false
+#          driver-class-name: org.apache.iotdb.jdbc.IoTDBDriver
+#          url: jdbc:iotdb://81.71.97.58:6667/
+#          username: root
+#          password: root
+#          dbName: root.ln
+#          druid:
+#            validation-query: ''
   #        sqlServer: # 配置 SQLServer 数据源
   #          type: com.alibaba.druid.pool.DruidDataSource
   #          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

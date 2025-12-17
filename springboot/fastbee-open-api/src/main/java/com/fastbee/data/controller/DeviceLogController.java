@@ -59,4 +59,16 @@ public class DeviceLogController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 新增设备日志
+     */
+    @ApiOperation("新增设备日志")
+    @PreAuthorize("@ss.hasPermi('iot:device:add')")
+    @Log(title = "设备日志", businessType = BusinessType.INSERT)
+    @PostMapping
+    public AjaxResult add(@RequestBody DeviceLog deviceLog)
+    {
+        return toAjax(deviceLogService.insertDeviceLog(deviceLog));
+    }
+
 }

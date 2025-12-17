@@ -18,6 +18,10 @@ public class PropertyDto
     private String id;
     /** 物模型名称 */
     private String name;
+    /**
+     * 物模型值
+     */
+    private String value;
     /** 是否图表展示（0-否，1-是） */
     private Integer isChart;
     /** 是否历史存储（0-否，1-是） */

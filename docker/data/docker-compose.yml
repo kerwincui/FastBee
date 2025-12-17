@@ -63,6 +63,7 @@ services:
       - redis
       - mysql
       - zlmedia
+      - tdengine
     volumes:
       - /var/data/java/fastbee-admin.jar:/server.jar
       - /var/data/java/uploadPath:/uploadPath
@@ -117,5 +118,25 @@ services:
       network:
         ipv4_address: 177.7.0.15
 
+#  tdengine:
+#    image: 'tdengine/tdengine:3.3.5.8'
+#    container_name: tdengine
+#    privileged: true
+#    hostname: fastbee
+#    ports:
+#      - 6030:6030
+#      - 6041:6041
+#      - 6043-6049:6043-6049
+#      - 6043-6049:6043-6049/udp
+#    volumes:
+#      - /var/data/tdengine/log:/var/log/taos
+#      - /var/data/tdengine/data:/var/lib/taos
+#      - /var/data/tdengine/conf:/etc/taos
+#      - /etc/localtime:/etc/localtime
+#    environment:
+#      TZ: Asia/Shanghai
+#    networks:
+#      network:
+#        ipv4_address: 177.7.0.16
 
 

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.iot.mapper.IotDbLogMapper">
+    <resultMap type="com.fastbee.iot.model.MonitorModel" id="MonitorResult">
+        <result property="value"    column="root.ln.device_log.log_value"    />
+        <result property="time"    column="Time"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.domain.DeviceLog" id="DeviceLogResult">
+        <result property="createTime"    column="Time"    />
+        <result property="logType"    column="root.ln.device_log.log_type"    />
+        <result property="logValue"    column="root.ln.device_log.log_value"    />
+        <result property="deviceId"    column="root.ln.device_log.device_id"    />
+        <result property="deviceName"    column="root.ln.device_log.device_name"    />
+        <result property="serialNumber"    column="root.ln.device_log.serial_number"    />
+        <result property="identify"    column="root.ln.device_log.identify"    />
+        <result property="createBy"    column="root.ln.device_log.create_by"    />
+        <result property="isMonitor"    column="root.ln.device_log.is_monitor"    />
+        <result property="mode"    column="root.ln.device_log.mode"    />
+        <result property="remark"    column="root.ln.device_log.remark"    />
+        <result property="tenantId"    column="root.ln.device_log.tenant_id"    />
+    </resultMap>
+
+    <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">
+        <result property="time"    column="Time"    />
+        <result property="value"    column="root.ln.device_log.log_value"    />
+        <result property="identify" column="root.ln.device_log.identify" />
+    </resultMap>
+
+<!--    <resultMap type="com.fastbee.iot.model.HistoryBo" id="HistoryResultBo">-->
+<!--        <result property="value"    column="root.ln.device_log.log_value"    />-->
+<!--        <result property="time"    column="Time"    />-->
+<!--        <result property="identify" column="root.ln.device_log.identify" />-->
+<!--    </resultMap>-->
+
+<!--    <resultMap type="com.fastbee.iot.model.vo.ThingsModelLogCountVO" id="ThingsModelLogCountVO">-->
+<!--        <result property="identifier"    column="root.ln.device_log.identify"    />-->
+<!--    </resultMap>-->
+
+    <update id="createDB">
+        create database ${database}
+    </update>
+
+    <select id="countDB" resultType="Long">
+        count databases ${database}
+    </select>
+
+
+    <insert id="save" parameterType="com.fastbee.iot.domain.DeviceLog" useGeneratedKeys="false">
+        INSERT INTO root.ln.device_log (
+        <trim suffixOverrides=",">
+            <if test="logType != null">log_type</if>
+            <if test="logValue != null">, log_value</if>
+            <if test="deviceId != null">, device_id</if>
+            <if test="deviceName != null and deviceName != ''">, device_name</if>
+            <if test="serialNumber != null and serialNumber != ''">,serial_number</if>
+            <if test="identify != null">, identify</if>
+            <if test="createBy != null">, create_by</if>
+            <if test="isMonitor != null">, is_monitor</if>
+            <if test="mode != null">, mode</if>
+            <if test="remark != null">, remark</if>
+            <if test="tenantId != null">, tenant_id</if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="logType != null">#{logType}</if>
+            <if test="logValue != null">, #{logValue}</if>
+            <if test="deviceId != null">, #{deviceId}</if>
+            <if test="deviceName != null and deviceName != ''">, #{deviceName}</if>
+            <if test="serialNumber != null and serialNumber != ''">,#{serialNumber}</if>
+            <if test="identify != null">, #{identify}</if>
+            <if test="createBy != null">, #{createBy}</if>
+            <if test="isMonitor != null">, #{isMonitor}</if>
+            <if test="mode != null">, #{mode}</if>
+            <if test="remark != null">, #{remark}</if>
+            <if test="tenantId != null">, #{tenantId}</if>
+        </trim>
+        )
+    </insert>
+
+    <delete id="deleteDeviceLogByDeviceNumber" parameterType="String">
+        DELETE FROM root.ln.device_log.**
+    </delete>
+
+    <select id="selectPropertyLogCount" parameterType="com.fastbee.iot.domain.Device" resultType="Long">
+        SELECT COUNT(mode)
+        FROM root.ln.device_log
+        WHERE log_type = 1
+        <if test="device.tenantId != null">AND tenant_id = #{device.tenantId}</if>
+        <if test="device.createBy != null and device.createBy != ''"> AND create_by = #{device.createBy}</if>
+    </select>
+
+    <select id="selectFunctionLogCount" parameterType="com.fastbee.iot.domain.Device" resultType="Long">
+        select count(mode)
+        from root.ln.device_log
+        where log_type=2
+        <if test="device.tenantId != null"> and tenant_id = #{device.tenantId}</if>
+    </select>
+
+    <select id="selectEventLogCount" parameterType="com.fastbee.iot.domain.Device" resultType="Long">
+        select count(mode)
+        from root.ln.device_log
+        where log_type=3
+        <if test="device.tenantId != null"> and tenant_id = #{device.tenantId}</if>
+        <if test="device.createBy != null and device.createBy != ''"> AND create_by = #{device.createBy}</if>
+    </select>
+
+    <select id="selectMonitorLogCount" parameterType="com.fastbee.iot.domain.Device" resultType="Long">
+        select count(mode)
+        from root.ln.device_log
+        where log_type=1 and is_monitor=1
+        <if test="device.tenantId != null"> and tenant_id = #{device.tenantId}</if>
+        <if test="device.createBy != null and device.createBy != ''"> AND create_by = #{device.createBy}</if>
+    </select>
+
+    <select id="selectMonitorList" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="MonitorResult">
+        SELECT log_value FROM root.ln.device_log
+        <where>
+            is_monitor = 1
+            <if test="device.serialNumber != null and device.serialNumber != ''">
+                AND serial_number = '${device.serialNumber}'
+            </if>
+            <if test="device.identify != null and device.identify != ''">
+                AND identify LIKE '${device.identify}'
+            </if>
+            <if test="device.beginTime != null and device.endTime != null">
+                AND time <![CDATA[ >= ]]> ${device.beginTime} and time <![CDATA[ <= ]]> ${device.endTime}
+            </if>
+        </where>
+        ORDER BY time DESC
+        LIMIT #{device.total}
+    </select>
+
+    <select id="selectDeviceLogList" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="DeviceLogResult">
+        SELECT log_type, log_value, device_id, device_name, identify, create_by, is_monitor, mode, tenant_id, remark, model_name
+        FROM root.ln.device_log
+        <where>
+            <if test="device.serialNumber != null and device.serialNumber != ''">
+                and serial_number = #{device.serialNumber}
+            </if>
+            <if test="device.isMonitor != null">
+                AND is_monitor = #{device.isMonitor}
+            </if>
+            <if test="device.logType != null">
+                AND log_type = #{device.logType}
+            </if>
+            <if test="device.logType == null">
+                AND log_type != 7
+            </if>
+            <if test="device.identify != null and device.identify != ''">
+                AND identify LIKE '${device.identify}'
+            </if>
+        </where>
+        ORDER BY time DESC limit #{page.pageSize} offset #{page.pageNum}
+    </select>
+
+    <select id="selectEventLogList" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="DeviceLogResult">
+        SELECT log_type, log_value, device_id, device_name, serial_number, identify, create_by, is_monitor, mode, remark, tenant_id FROM root.ln.device_log
+        <where>
+            <if test="device.serialNumber != null and device.serialNumber != ''">
+                and serial_number = '${device.serialNumber}'
+            </if>
+            <if test="device.isMonitor != null"> and is_monitor = #{device.isMonitor}</if>
+            <if test="device.logType != null "> and log_type = #{device.logType}</if>
+            <if test="device.logType == null "> and log_type != 1
+                and log_type != 2
+                and log_type != 4
+                and log_type != 7
+            </if>
+            <if test="device.identify != null  and device.identify != ''"> and identify like  '${device.identify}' </if>
+            <if test="device.beginTime != null and device.beginTime != '' and device.endTime != null and device.endTime != ''">
+                and time <![CDATA[ >= ]]> ${device.beginTime} and time <![CDATA[ <= ]]> ${device.endTime}
+            </if>
+        </where>
+        order by time desc
+    </select>
+
+
+
+</mapper>

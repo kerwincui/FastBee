@@ -1,0 +1,67 @@
+# This is a automacically generated configuration file for Explorer in [TOML](https://toml.io/) format.
+#
+# Here is a full list of available options.
+
+# Explorer server port to listen on.
+# Default is 6060.
+#
+port = 6060
+
+# IPv4 listen address.
+# Default is 0.0.0.0
+addr = "0.0.0.0"
+
+# IPv6 listen address.
+
+# ipv6 = "::1"
+
+# Explorer server log level.
+# Default is "info"
+#
+log_level = "info"
+
+# REST API endpoint to connect to the cluster.
+# This configuration is also the target for data migration tasks.
+#
+# Default is "http://buildkitsandbox:6041" - the default endpoint for REST API.
+#
+cluster = "http://fastbee:6041"
+
+# native endpoint to connect to the cluster.
+# Default is disabled. To enable it, set it to the native API URL like "taos://buildkitsandbox:6030" and uncomment it.
+# If you enable it, you will get more performance for data migration tasks.
+#
+# cluster_native = "taos://buildkitsandbox:6030"
+
+# API endpoint for data replication/backup/data sources. No default option.
+#   Set it to API URL like "http://buildkitsandbox:6050".
+#
+x_api ="http://fastbee:6050"
+
+# GRPC endpoint for "Agent"s.
+#   Default is "http://buildkitsandbox:6055" - the default endpoint for taosX grpc API.
+#   You should set it to public IP or FQDN name like:
+#   "http://192.168.111.111:6055" or "http://node1.company.domain:6055" and
+#   ensure to add the port to the exception list of the firewall if it enabled.
+grpc = "http://fastbee:6055"
+
+# CORS configuration switch, it allows cross-origin access
+cors = true
+
+# cloud open api.
+# cloud_open_api = "https://pre.ali.cloud.taosdata.com/openapi"
+
+# Enable ssl
+# If the following two files exist, enable ssl protocol
+#
+[ssl]
+
+# SSL certificate
+#
+# certificate = "/path/to/ca.file" # on linux/macOS
+# certificate = "C:\\path\\to\\ca.file" # on windows
+
+# SSL certificate key
+#
+# certificate_key = "/path/to/key.file" # on linux/macOS
+# certificate_key = "C:\\path\\to\\key.file" # on windows
