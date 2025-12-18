@@ -3,6 +3,7 @@ package com.fastbee.iot.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.fastbee.common.constant.Constants;
 import com.fastbee.common.constant.ProductAuthConstant;
 import com.fastbee.common.core.domain.AjaxResult;
@@ -46,7 +47,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -216,7 +216,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public List<ThingsModelSimpleItem> reportDeviceThingsModelValue(ThingsModelValuesInput input, int type, boolean isShadow) {
         String key = RedisKeyBuilder.buildTSLVCacheKey(input.getProductId(), input.getDeviceNumber());
         Map<String, String> maps = new HashMap<String, String>();
@@ -670,7 +670,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public Device insertDevice(Device device) {
         // 设备编号唯一检查
         Device existDevice = deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
@@ -736,7 +736,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public AjaxResult deviceRelateUser(DeviceRelateUserInput deviceRelateUserInput) {
         // 查询用户信息
         SysUser sysUser = userService.selectUserById(deviceRelateUserInput.getUserId());
@@ -784,7 +784,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int insertDeviceAuto(String serialNumber, Long userId, Long productId) {
         // 设备编号唯一检查
         int count = deviceMapper.selectDeviceCountBySerialNumber(serialNumber);
@@ -952,7 +952,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int updateDeviceStatusAndLocation(Device device, String ipAddress) {
         // 设置自动定位和状态
         if (ipAddress != "") {
@@ -1028,7 +1028,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int reportDevice(Device device, Device deviceEntity) {
         // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
         if (deviceEntity.getLocationWay() != 2) {
@@ -1087,7 +1087,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int deleteDeviceByDeviceId(Long deviceId) throws SchedulerException {
         SysUser user = getLoginUser().getUser();
         // 是否为普通用户，普通用户如果不是设备所有者，只能删除设备用户和用户自己的设备关联分组信息

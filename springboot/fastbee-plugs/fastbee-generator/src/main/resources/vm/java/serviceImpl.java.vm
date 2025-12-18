@@ -21,19 +21,19 @@ import ${packageName}.service.I${ClassName}Service;
 
 /**
  * ${functionName}Service业务层处理
- * 
+ *
  * @author ${author}
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+public class ${ClassName}ServiceImpl implements I${ClassName}Service
 {
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
 
     /**
      * 查询${functionName}
-     * 
+     *
      * @param ${pkColumn.javaField} ${functionName}主键
      * @return ${functionName}
      */
@@ -45,7 +45,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 查询${functionName}列表
-     * 
+     *
      * @param ${className} ${functionName}
      * @return ${functionName}
      */
@@ -57,12 +57,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 新增${functionName}
-     * 
+     *
      * @param ${className} ${functionName}
      * @return 结果
      */
 #if($table.sub)
-    @Transactional
+    @DSTransactional
 #end
     @Override
     public int insert${ClassName}(${ClassName} ${className})
@@ -83,12 +83,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 修改${functionName}
-     * 
+     *
      * @param ${className} ${functionName}
      * @return 结果
      */
 #if($table.sub)
-    @Transactional
+    @DSTransactional
 #end
     @Override
     public int update${ClassName}(${ClassName} ${className})
@@ -107,12 +107,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 批量删除${functionName}
-     * 
+     *
      * @param ${pkColumn.javaField}s 需要删除的${functionName}主键
      * @return 结果
      */
 #if($table.sub)
-    @Transactional
+    @DSTransactional
 #end
     @Override
     public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s)
@@ -125,12 +125,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 删除${functionName}信息
-     * 
+     *
      * @param ${pkColumn.javaField} ${functionName}主键
      * @return 结果
      */
 #if($table.sub)
-    @Transactional
+    @DSTransactional
 #end
     @Override
     public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
@@ -144,7 +144,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 
     /**
      * 新增${subTable.functionName}信息
-     * 
+     *
      * @param ${className} ${functionName}对象
      */
     public void insert${subClassName}(${ClassName} ${className})
