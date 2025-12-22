@@ -6,11 +6,13 @@ import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import com.fastbee.iot.domain.Device;
+import com.fastbee.iot.domain.DeviceLog;
 import com.fastbee.iot.domain.EventLog;
 import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
 import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.iot.service.IEventLogService;
+import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.mq.model.ReportDataBo;
 import com.fastbee.mq.service.IDataHandler;
 import com.fastbee.mq.service.IMqttMessagePublish;
@@ -44,6 +46,8 @@ public class DataHandlerImpl implements IDataHandler {
     private MqttRemoteManager remoteManager;
     @Resource
     private TopicsUtils topicsUtils;
+    @Resource
+    private ILogService logService;
 
     /**
      * 上报属性或功能处理
@@ -86,30 +90,32 @@ public class DataHandlerImpl implements IDataHandler {
         try {
             List<ThingsModelSimpleItem> thingsModelSimpleItems = JSON.parseArray(bo.getMessage(), ThingsModelSimpleItem.class);
             Device device = deviceService.selectDeviceBySerialNumber(bo.getSerialNumber());
-            List<EventLog> results = new ArrayList<>();
+            List<DeviceLog> results = new ArrayList<>();
             for (int i = 0; i < thingsModelSimpleItems.size(); i++) {
-                // 添加到设备日志
-                EventLog event = new EventLog();
-                event.setDeviceId(device.getDeviceId());
-                event.setDeviceName(device.getDeviceName());
-                event.setLogValue(thingsModelSimpleItems.get(i).getValue());
-                event.setRemark(thingsModelSimpleItems.get(i).getRemark());
-                event.setSerialNumber(device.getSerialNumber());
-                event.setIdentity(thingsModelSimpleItems.get(i).getId());
-                event.setLogType(3);
-                event.setIsMonitor(0);
-                event.setUserId(device.getUserId());
-                event.setUserName(device.getUserName());
-                event.setTenantId(device.getTenantId());
-                event.setTenantName(device.getTenantName());
-                event.setCreateTime(DateUtils.getNowDate());
+                DeviceLog deviceLog = new DeviceLog();
+                deviceLog.setDeviceId(device.getDeviceId());
+                deviceLog.setDeviceName(device.getDeviceName());
+                deviceLog.setLogValue(thingsModelSimpleItems.get(i).getValue());
+                deviceLog.setRemark(thingsModelSimpleItems.get(i).getRemark());
+                deviceLog.setSerialNumber(device.getSerialNumber());
+                deviceLog.setIdentify(thingsModelSimpleItems.get(i).getId());
+                deviceLog.setLogType(3);
+                deviceLog.setIsMonitor(0);
+                deviceLog.setUserId(device.getTenantId());
+                deviceLog.setUserName(device.getTenantName());
+                deviceLog.setTenantId(device.getTenantId());
+                deviceLog.setTenantName(device.getTenantName());
+                deviceLog.setCreateBy(device.getCreateBy());
+                deviceLog.setCreateTime(DateUtils.getNowDate());
                 // 1=影子模式，2=在线模式，3=其他
-                event.setMode(2);
-                results.add(event);
-                //eventLogService.insertEventLog(event);
+                deviceLog.setMode(2);
+                results.add(deviceLog);
             }
-            eventLogService.insertBatch(results);
-        } catch (Exception e) {
+            for (DeviceLog deviceLog : results) {
+                logService.saveDeviceLog(deviceLog);
+            }
+
+        }catch (Exception e) {
             log.error("接收事件，解析数据时异常 message={}", e.getMessage());
         }
     }

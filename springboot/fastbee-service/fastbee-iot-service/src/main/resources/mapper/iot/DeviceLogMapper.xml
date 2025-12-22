@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceId"    column="device_id"    />
         <result property="deviceName"    column="device_name"    />
         <result property="serialNumber"    column="serial_number"    />
-        <result property="identity"    column="identify"    />
+        <result property="identify"    column="identify"    />
         <result property="createBy"    column="create_by"    />
         <result property="isMonitor"    column="is_monitor"    />
         <result property="mode"    column="mode"    />
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">
         <result property="value"    column="log_value"    />
         <result property="time"    column="create_time"    />
-        <result property="identity" column="identify" />
+        <result property="identify" column="identify" />
     </resultMap>
 
     <sql id="selectDeviceLogVo">
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select log_value, create_time from iot_device_log
         <where>
             <if test="1==1"> and is_monitor=1</if>
-            <if test="identity != null and identity != ''"> and identify = #{identity}</if>
+            <if test="identify != null and identify != ''"> and identify = #{identify}</if>
             <if test="deviceId != null and deviceId !=0"> and device_id = #{deviceId}</if>
             <if test="serialNumber != null and serialNumber !=''"> and serial_number = #{serialNumber}</if>
             <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''"> and create_time between #{beginTime} and #{endTime}</if>
@@ -94,6 +94,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
+    <insert id="insertDeviceLog" parameterType="com.fastbee.iot.domain.DeviceLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into iot_device_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logType != null">log_type,</if>
+            <if test="logValue != null">log_value,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="identify != null">identify,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="isMonitor != null">is_monitor,</if>
+            <if test="mode != null">mode,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
+            <if test="modelName != null and modelName != ''">model_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logType != null">#{logType},</if>
+            <if test="logValue != null">#{logValue},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+            <if test="identify != null">#{identify},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="isMonitor != null">#{isMonitor},</if>
+            <if test="mode != null">#{mode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
+            <if test="modelName != null and modelName != ''">#{modelName},</if>
+        </trim>
+    </insert>
 
     <insert id="saveBatch" parameterType="com.fastbee.iot.domain.DeviceLog">
         insert into iot_device_log (log_type,log_value,device_id,device_name,serial_number,identify,create_by,
@@ -101,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             values
             <foreach collection="list" item="item" index="index" separator=",">
                 (#{item.logType},#{item.logValue},#{item.deviceId},#{item.deviceName},#{item.serialNumber},
-                #{item.identity},#{item.createBy},#{item.isMonitor},#{item.mode},#{item.createTime},#{item.remark},
+                #{item.identify},#{item.createBy},#{item.isMonitor},#{item.mode},#{item.createTime},#{item.remark},
                 #{item.userId},#{item.userName},#{item.tenantId},#{item.tenantName},#{item.modelName})
             </foreach>
     </insert>
@@ -114,7 +153,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">device_id = #{deviceId},</if>
             <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
             <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
-            <if test="identity != null">identify = #{identity},</if>
+            <if test="identify != null">identify = #{identify},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="isMonitor != null">is_monitor = #{isMonitor},</if>
             <if test="mode != null">mode = #{mode},</if>
@@ -150,7 +189,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null and deviceId !=0"> and device_id = #{deviceId}</if>
             <if test="serialNumber != null and serialNumber !=''"> and serial_number = #{serialNumber}</if>
             <if test="logType != null "> and log_type = #{logType}</if>
-            <if test="identity != null  and identity != ''"> and identity like concat('%', #{identity}, '%')</if>
+            <if test="identify != null  and identify != ''"> and identify like concat('%', #{identify}, '%')</if>
         </where>
         order by create_time desc
     </select>

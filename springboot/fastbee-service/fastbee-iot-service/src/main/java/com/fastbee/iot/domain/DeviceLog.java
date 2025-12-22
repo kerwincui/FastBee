@@ -66,7 +66,7 @@ public class DeviceLog extends BaseEntity
     /** 标识符 */
     @ApiModelProperty("标识符")
     @Excel(name = "标识符")
-    private String identity;
+    private String identify;
 
     /** 是否监测数据（1=是，0=否） */
     @ApiModelProperty("是否监测数据（1=是，0=否）")
@@ -320,14 +320,14 @@ public class DeviceLog extends BaseEntity
     {
         return deviceName;
     }
-    public void setIdentity(String identity) 
+    public void setIdentify(String identify)
     {
-        this.identity = identity;
+        this.identify = identify;
     }
 
-    public String getIdentity() 
+    public String getIdentify()
     {
-        return identity;
+        return identify;
     }
     public void setIsMonitor(Integer isMonitor) 
     {
@@ -347,7 +347,7 @@ public class DeviceLog extends BaseEntity
             .append("logValue", getLogValue())
             .append("deviceId", getDeviceId())
             .append("deviceName", getDeviceName())
-            .append("identity", getIdentity())
+            .append("identify", getIdentify())
             .append("createBy", getCreateBy())
             .append("isMonitor", getIsMonitor())
             .append("createTime", getCreateTime())

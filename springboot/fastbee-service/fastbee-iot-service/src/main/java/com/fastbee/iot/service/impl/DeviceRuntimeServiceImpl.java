@@ -67,7 +67,7 @@ public class DeviceRuntimeServiceImpl implements IDeviceRuntimeService {
                 log.setModelName(specs.getName());
                 log.setLogType(type.getCode());
                 log.setSpecs(JSONObject.toJSONString(specs.getDatatype()));
-                log.setIdentity(specs.getId());
+                log.setIdentify(specs.getId());
                 log.setSerialNumber(serialNumber);
                 log.setSlaveId(specs.getSlaveId());
                 log.setIsMonitor(specs.getIsMonitor());

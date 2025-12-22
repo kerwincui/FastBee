@@ -30,6 +30,14 @@ spring:
               merge-sql: true
             wall:
               none-base-statement-allow: true
+        taos: # 配置 taos 数据源
+          enabled: false
+          type: com.alibaba.druid.pool.DruidDataSource
+          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
+          url: jdbc:TAOS-RS://fastbee:6041/fastbee_log?timezone=UTC-8&charset=utf-8
+          username: root
+          password: taosdata
+          dbName: fastbee_log
   #        slave:
   #          type: com.alibaba.druid.pool.DruidDataSource
   #          driver-class-name: com.mysql.cj.jdbc.Driver

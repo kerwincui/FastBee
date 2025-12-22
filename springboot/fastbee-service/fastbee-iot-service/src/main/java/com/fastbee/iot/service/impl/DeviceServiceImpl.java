@@ -3,6 +3,7 @@ package com.fastbee.iot.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.fastbee.common.constant.Constants;
 import com.fastbee.common.constant.ProductAuthConstant;
 import com.fastbee.common.core.domain.AjaxResult;
@@ -14,6 +15,7 @@ import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
 import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.common.enums.DataEnum;
 import com.fastbee.common.enums.DeviceStatus;
+import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
 import com.fastbee.common.utils.StringUtils;
@@ -34,7 +36,7 @@ import com.fastbee.iot.model.ThingsModels.ThingsModelValueItem;
 import com.fastbee.iot.model.ThingsModels.ValueItem;
 import com.fastbee.iot.service.*;
 import com.fastbee.iot.service.cache.IDeviceCache;
-import com.fastbee.iot.tdengine.service.ILogService;
+import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.system.service.ISysUserService;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -45,7 +47,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -215,11 +216,15 @@ public class DeviceServiceImpl implements IDeviceService {
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public List<ThingsModelSimpleItem> reportDeviceThingsModelValue(ThingsModelValuesInput input, int type, boolean isShadow) {
         String key = RedisKeyBuilder.buildTSLVCacheKey(input.getProductId(), input.getDeviceNumber());
         Map<String, String> maps = new HashMap<String, String>();
         List<ThingsModelSimpleItem> list = new ArrayList<>();
+        //属性存储集合
+        List<DeviceLog> deviceLogList = new ArrayList<>();
+        //指令存储集合
+        List<FunctionLog> functionLogList = new ArrayList<>();
         for (ThingsModelSimpleItem item : input.getThingsModelValueRemarkItem()) {
             String identity = item.getId();
             Integer slaveId = input.getSlaveId() == null ? item.getSlaveId() : input.getSlaveId();
@@ -281,12 +286,82 @@ public class DeviceServiceImpl implements IDeviceService {
             /* ★★★★★★★★★★★★★★★★★★★★★★  处理数据 - 结束 ★★★★★★★★★★★★★★★★★★★★★★*/
 
             /*★★★★★★★★★★★★★★★★★★★★★★  存储数据 - 开始 ★★★★★★★★★★★★★★★★★★★★★★*/
-            if (null != dto.getIsHistory()) {
-
-            }
+                ThingsModelType modelType = ThingsModelType.getType(dto.getType());
+                Device device = this.selectDeviceBySerialNumber(serialNumber);
+                switch (modelType) {
+                    case PROP:
+                        if (1 == dto.getIsHistory()) {
+                            DeviceLog deviceLog = new DeviceLog();
+                            deviceLog.setSerialNumber(serialNumber);
+                            deviceLog.setLogType(type);
+                            // 1=影子模式，2=在线模式，3=其他
+                            deviceLog.setMode(isShadow ? 1 : 2);
+                            // 设备日志值
+                            deviceLog.setLogValue(value);
+                            deviceLog.setRemark(item.getRemark());
+                            deviceLog.setIdentify(id);
+                            deviceLog.setCreateTime(DateUtils.getNowDate());
+                            deviceLog.setCreateBy(device.getCreateBy());
+                            deviceLog.setUserId(device.getTenantId());
+                            deviceLog.setUserName(device.getTenantName());
+                            deviceLog.setTenantId(device.getTenantId());
+                            deviceLog.setTenantName(device.getTenantName());
+                            deviceLog.setModelName(dto.getName());
+                            deviceLog.setIsMonitor(dto.getIsMonitor());
+                            deviceLogList.add(deviceLog);
+                        }
+                        break;
+                    case SERVICE:
+                        if (1 == dto.getIsHistory()) {
+                            FunctionLog function = new FunctionLog();
+                            function.setCreateTime(DateUtils.getNowDate());
+                            function.setFunValue(value);
+                            function.setSerialNumber(input.getDeviceNumber());
+                            function.setIdentify(id);
+                            function.setShowValue(value);
+                            // 属性获取
+                            function.setFunType(2);
+                            function.setUserId(device.getTenantId());
+                            function.setCreateBy(device.getCreateBy());
+                            function.setModelName(dto.getName());
+                            functionLogList.add(function);
+                        }
+                        break;
+                    case EVENT:
+                        DeviceLog event = new DeviceLog();
+                        event.setDeviceId(device.getDeviceId());
+                        event.setDeviceName(device.getDeviceName());
+                        event.setLogValue(value);
+                        event.setSerialNumber(serialNumber);
+                        event.setIdentify(id);
+                        event.setLogType(3);
+                        event.setIsMonitor(0);
+                        event.setUserId(device.getTenantId());
+                        event.setUserName(device.getTenantName());
+                        event.setTenantId(device.getTenantId());
+                        event.setTenantName(device.getTenantName());
+                        event.setCreateTime(DateUtils.getNowDate());
+                        event.setCreateBy(device.getCreateBy());
+                        // 1=影子模式，2=在线模式，3=其他
+                        event.setMode(2);
+                        event.setModelName(dto.getName());
+                        deviceLogList.add(event);
+                        break;
+                }
             list.add(item);
         }
         redisCache.hashPutAll(key, maps);
+        if (!CollectionUtils.isEmpty(functionLogList) && !isShadow) {
+            functionLogService.insertBatch(functionLogList);
+        }
+        if (!CollectionUtils.isEmpty(deviceLogList) && !isShadow) {
+            long baseTs = System.currentTimeMillis();
+            for (int i = 0; i < deviceLogList.size(); i++) {
+                // 每条间隔1毫秒，避免TDengine时间冲突
+                deviceLogList.get(i).setTs(new Date(baseTs + i));
+                logService.saveDeviceLog(deviceLogList.get(i));
+            }
+        }
         /* ★★★★★★★★★★★★★★★★★★★★★★  存储数据 - 结束 ★★★★★★★★★★★★★★★★★★★★★★*/
         return list;
     }
@@ -595,7 +670,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public Device insertDevice(Device device) {
         // 设备编号唯一检查
         Device existDevice = deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
@@ -661,7 +736,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public AjaxResult deviceRelateUser(DeviceRelateUserInput deviceRelateUserInput) {
         // 查询用户信息
         SysUser sysUser = userService.selectUserById(deviceRelateUserInput.getUserId());
@@ -709,7 +784,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int insertDeviceAuto(String serialNumber, Long userId, Long productId) {
         // 设备编号唯一检查
         int count = deviceMapper.selectDeviceCountBySerialNumber(serialNumber);
@@ -877,7 +952,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int updateDeviceStatusAndLocation(Device device, String ipAddress) {
         // 设置自动定位和状态
         if (ipAddress != "") {
@@ -891,31 +966,38 @@ public class DeviceServiceImpl implements IDeviceService {
             }
         }
         int result = deviceMapper.updateDeviceStatus(device);
-        // 添加到设备日志
-        EventLog event = new EventLog();
-        event.setDeviceId(device.getDeviceId());
-        event.setDeviceName(device.getDeviceName());
-        event.setSerialNumber(device.getSerialNumber());
-        event.setIsMonitor(0);
-        event.setUserId(device.getUserId());
-        event.setUserName(device.getUserName());
-        event.setTenantId(device.getTenantId());
-        event.setTenantName(device.getTenantName());
-        event.setCreateTime(DateUtils.getNowDate());
-        // 日志模式 1=影子模式，2=在线模式，3=其他
-        event.setMode(3);
+        DeviceLog deviceLog = new DeviceLog();
+        deviceLog.setDeviceId(device.getDeviceId());
+        deviceLog.setDeviceName(device.getDeviceName());
+        deviceLog.setSerialNumber(device.getSerialNumber());
+        deviceLog.setIsMonitor(0);
+        deviceLog.setTenantId(device.getTenantId());
+        deviceLog.setUserId(device.getTenantId());
+        deviceLog.setUserName(device.getTenantName());
+        deviceLog.setTenantName(device.getTenantName());
+        deviceLog.setCreateTime(DateUtils.getNowDate());
+        deviceLog.setCreateBy(device.getCreateBy());
+        deviceLog.setMode(3);
         if (device.getStatus() == 3) {
-            event.setLogValue("1");
-            event.setRemark("设备上线");
-            event.setIdentity("online");
-            event.setLogType(5);
+            deviceLog.setLogValue("1");
+            deviceLog.setRemark("设备上线");
+            deviceLog.setIdentify("online");
+            deviceLog.setLogType(5);
+            log.info("设备上线,sn：{}", device.getSerialNumber());
         } else if (device.getStatus() == 4) {
-            event.setLogValue("0");
-            event.setRemark("设备离线");
-            event.setIdentity("offline");
-            event.setLogType(6);
+            deviceLog.setLogValue("0");
+            deviceLog.setRemark("设备离线");
+            deviceLog.setIdentify("offline");
+            deviceLog.setLogType(6);
+            log.info("设备离线,sn：{}", device.getSerialNumber());
+        } else if (device.getStatus() == 2) {
+            deviceLog.setLogValue("2");
+            deviceLog.setRemark("设备禁用");
+            deviceLog.setIdentify("disable");
+            deviceLog.setLogType(8);
+            log.info("设备禁用,sn：{}", device.getSerialNumber());
         }
-        eventLogMapper.insertEventLog(event);
+        logService.saveDeviceLog(deviceLog);
         return result;
     }
 
@@ -946,7 +1028,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int reportDevice(Device device, Device deviceEntity) {
         // 未采用设备定位则清空定位，定位方式(1=ip自动定位，2=设备定位，3=自定义)
         if (deviceEntity.getLocationWay() != 2) {
@@ -1005,7 +1087,7 @@ public class DeviceServiceImpl implements IDeviceService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public int deleteDeviceByDeviceId(Long deviceId) throws SchedulerException {
         SysUser user = getLoginUser().getUser();
         // 是否为普通用户，普通用户如果不是设备所有者，只能删除设备用户和用户自己的设备关联分组信息

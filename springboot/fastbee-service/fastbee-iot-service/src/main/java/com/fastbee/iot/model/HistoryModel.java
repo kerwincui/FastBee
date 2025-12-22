@@ -16,5 +16,5 @@ public class HistoryModel {
 
     private String value;
 
-    private String identity;
+    private String identify;
 }

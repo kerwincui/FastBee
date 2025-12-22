@@ -23,7 +23,7 @@ public class EventLog extends BaseEntity {
     /** 标识符 */
     @ApiModelProperty("标识符")
     @Excel(name = "标识符")
-    private String identity;
+    private String identify;
 
     /** 物模型名称 */
     @ApiModelProperty("物模型名称")
@@ -94,14 +94,14 @@ public class EventLog extends BaseEntity {
     {
         return logId;
     }
-    public void setIdentity(String identity)
+    public void setIdentify(String identify)
     {
-        this.identity = identity;
+        this.identify = identify;
     }
 
-    public String getIdentity()
+    public String getIdentify()
     {
-        return identity;
+        return identify;
     }
     public void setModelName(String modelName)
     {
@@ -216,7 +216,7 @@ public class EventLog extends BaseEntity {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("logId", getLogId())
-                .append("identity", getIdentity())
+                .append("identify", getIdentify())
                 .append("modelName", getModelName())
                 .append("logType", getLogType())
                 .append("logValue", getLogValue())

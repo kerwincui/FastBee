@@ -4,23 +4,17 @@ import com.fastbee.common.core.mq.DeviceStatusBo;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.core.redis.RedisKeyBuilder;
 import com.fastbee.common.enums.DeviceStatus;
-import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.iot.service.cache.IDeviceCache;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author bill

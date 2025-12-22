@@ -32,4 +32,12 @@ public interface IDeviceLogService
      */
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);
 
+    /**
+     * 新增设备日志
+     *
+     * @param deviceLog 设备日志
+     * @return 结果
+     */
+    public int insertDeviceLog(DeviceLog deviceLog);
+
 }

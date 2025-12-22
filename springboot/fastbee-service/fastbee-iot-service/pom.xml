@@ -143,6 +143,28 @@
             <version>19.3.0.0</version>
         </dependency>
 
+        <!-- TDengine连接 START-->
+        <dependency>
+            <groupId>com.taosdata.jdbc</groupId>
+            <artifactId>taos-jdbcdriver</artifactId>
+            <version>${tdengine.version}</version>
+        </dependency>
+        <!-- TDengine连接  END-->
+
+        <!--influxdb-->
+        <dependency>
+            <groupId>com.influxdb</groupId>
+            <artifactId>influxdb-client-java</artifactId>
+            <version>6.7.0</version>
+        </dependency>
+
+        <!--iotdb-->
+        <dependency>
+            <groupId>org.apache.iotdb</groupId>
+            <artifactId>iotdb-jdbc</artifactId>
+            <version>${iotdb.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

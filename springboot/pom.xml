@@ -42,7 +42,8 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
-        <tdengine.version>2.0.38</tdengine.version>
+        <tdengine.version>3.4.0</tdengine.version>
+        <iotdb.version>1.3.3</iotdb.version>
         <guava.version>32.0.1-jre</guava.version>
         <lock4j.version>2.2.3</lock4j.version>
         <easyexcel.version>3.3.1</easyexcel.version>

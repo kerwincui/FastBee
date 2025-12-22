@@ -3,13 +3,10 @@ package com.fastbee.iot.mapper;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
 import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.HistoryModel;
 import com.fastbee.iot.model.MonitorModel;
-import com.fastbee.iot.tdengine.service.model.TdLogDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +41,13 @@ public interface DeviceLogMapper
      */
     public List<MonitorModel> selectMonitorList(DeviceLog deviceLog);
 
+    /**
+     * 新增设备日志
+     *
+     * @param deviceLog 设备日志
+     * @return 结果
+     */
+    public int insertDeviceLog(DeviceLog deviceLog);
 
     /**
      * 批量保存图片
