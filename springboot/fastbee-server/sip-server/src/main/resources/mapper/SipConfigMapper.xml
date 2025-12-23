@@ -11,7 +11,7 @@
         <result property="enabled" column="enabled"/>
         <result property="isdefault" column="isdefault"/>
         <result property="seniorsdp" column="seniorSdp"/>
-        <result property="domain" column="domain"/>
+        <result property="domain" column="domain_alias"/>
         <result property="serverSipid" column="server_sipid"/>
         <result property="password" column="password"/>
         <result property="ip" column="ip"/>
