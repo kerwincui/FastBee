@@ -345,6 +345,7 @@ public class DeviceServiceImpl implements IDeviceService {
                         // 1=影子模式，2=在线模式，3=其他
                         event.setMode(2);
                         event.setModelName(dto.getName());
+                        event.setRemark(item.getRemark());
                         deviceLogList.add(event);
                         break;
                 }
