@@ -1,4 +1,3 @@
-[![gitee投票](./images/banner1.png)](https://gitee.com/activity/2025opensource?ident=IKKZS9)
 
 
 
