@@ -4,6 +4,7 @@ import com.fastbee.common.annotation.DataScope;
 import com.fastbee.common.constant.UserConstants;
 import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
+import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.enums.SocialPlatformType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.SecurityUtils;
@@ -73,6 +74,16 @@ public class SysUserServiceImpl implements ISysUserService
     @DataScope(deptAlias = "d", userAlias = "u")
     public List<SysUser> selectUserList(SysUser user)
     {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser currentUser = loginUser.getUser();
+        Long currentUserId = currentUser.getUserId();
+        Long currentDeptId = currentUser.getDeptId();
+        if (!SecurityUtils.isAdmin(currentUserId)) {
+            user.setDeptId(currentDeptId);
+            user.setUserId(currentUserId);
+            return userMapper.selectUserList(user);
+        }
+
         return userMapper.selectUserList(user);
     }
 
@@ -236,15 +247,26 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public void checkUserDataScope(Long userId)
     {
-        if (!SysUser.isAdmin(SecurityUtils.getUserId()))
-        {
-            SysUser user = new SysUser();
-            user.setUserId(userId);
-            List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
-            if (StringUtils.isEmpty(users))
-            {
-                throw new ServiceException("没有权限访问用户数据！");
-            }
+        Long currentUserId = SecurityUtils.getUserId();
+        // 超管直接放行
+        if (SysUser.isAdmin(currentUserId)) {
+            return;
+        }
+
+
+        SysUser queryCondition = new SysUser();
+        List<SysUser> accessibleUsers = SpringUtils.getAopProxy(this).selectUserList(queryCondition);
+
+        boolean hasPermission = accessibleUsers.stream()
+                .anyMatch(u -> u.getUserId().equals(userId));
+
+        SysUser targetUser = this.selectUserById(userId);
+        if (targetUser != null && SysUser.isAdmin(targetUser.getUserId())) {
+            throw new ServiceException("禁止访问超级管理员信息！");
+        }
+
+        if (!hasPermission) {
+            throw new ServiceException("没有权限访问用户数据！");
         }
     }
 

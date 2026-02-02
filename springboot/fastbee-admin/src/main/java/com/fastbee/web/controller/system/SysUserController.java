@@ -6,8 +6,10 @@ import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.domain.entity.SysDept;
 import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
+import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
+import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
@@ -96,17 +98,53 @@ public class SysUserController extends BaseController
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
         AjaxResult ajax = AjaxResult.success();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser currentUser = loginUser.getUser();
+        Long currentUserId = currentUser.getUserId();
+
+        List<String> currentRoleKeys = currentUser.getRoles().stream()
+                .map(SysRole::getRoleKey)
+                .collect(Collectors.toList());
+        if (currentRoleKeys.contains("visitor")) {
+            return AjaxResult.error(403, "游客无权限访问用户信息！");
+        }
         if (StringUtils.isNotNull(userId))
         {
-            userService.checkUserDataScope(userId);
+            try {
+                userService.checkUserDataScope(userId);
+            } catch (ServiceException e) {
+                return AjaxResult.error(403, e.getMessage());
+            }
             SysUser sysUser = userService.selectUserById(userId);
+            // 非超管过滤超管角色信息
+            if (!SysUser.isAdmin(currentUserId)) {
+                List<SysRole> filterRoles = sysUser.getRoles().stream()
+                        .filter(r -> !r.isAdmin())
+                        .collect(Collectors.toList());
+                sysUser.setRoles(filterRoles);
+            }
+
+            // 封装数据
             ajax.put(AjaxResult.DATA_TAG, sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));
-            ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+            List<Long> roleIds = sysUser.getRoles().stream()
+                    .map(SysRole::getRoleId)
+                    .collect(Collectors.toList());
+            ajax.put("roleIds", roleIds);
         }
+        // 角色/岗位列表过滤
         List<SysRole> roles = roleService.selectRoleAll();
-        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
-        ajax.put("posts", postService.selectPostAll());
+        ajax.put("roles", SysUser.isAdmin(currentUserId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+
+        // ========== 8. 岗位列表：仅用selectPostListByUserId（适配现有方法） ==========
+        if (SysUser.isAdmin(currentUserId)) {
+            // 超管：返回所有岗位
+            ajax.put("posts", postService.selectPostAll());
+        } else {
+            // 非超管：仅返回当前登录用户自己的岗位
+            ajax.put("posts", postService.selectPostListByUserId(currentUserId));
+        }
+
         return ajax;
     }
 
@@ -217,10 +255,30 @@ public class SysUserController extends BaseController
     public AjaxResult authRole(@PathVariable("userId") Long userId)
     {
         AjaxResult ajax = AjaxResult.success();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser currentUser = loginUser.getUser();
+        Long currentUserId = currentUser.getUserId();
+
+        List<String> currentRoleKeys = currentUser.getRoles().stream()
+                .map(SysRole::getRoleKey)
+                .collect(Collectors.toList());
+        if (currentRoleKeys.contains("visitor")) {
+            return AjaxResult.error(403, "游客无权限访问用户授权角色信息！");
+        }
+
+        try {
+            userService.checkUserDataScope(userId);
+        } catch (ServiceException e) {
+            return AjaxResult.error(403, e.getMessage());
+        }
+
         SysUser user = userService.selectUserById(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
+        List<SysRole> filterRoles = SysUser.isAdmin(currentUserId)
+                ? roles  // 超管返回所有授权角色
+                : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()); // 非超管过滤超管角色
         ajax.put("user", user);
-        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("roles", filterRoles);
         return ajax;
     }
 

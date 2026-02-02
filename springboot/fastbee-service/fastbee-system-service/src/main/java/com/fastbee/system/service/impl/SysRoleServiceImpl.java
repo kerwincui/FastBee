@@ -4,6 +4,7 @@ import com.fastbee.common.annotation.DataScope;
 import com.fastbee.common.constant.UserConstants;
 import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
+import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
@@ -19,8 +20,10 @@ import com.fastbee.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 角色 业务层处理
@@ -52,7 +55,27 @@ public class SysRoleServiceImpl implements ISysRoleService
     @DataScope(deptAlias = "d")
     public List<SysRole> selectRoleList(SysRole role)
     {
-        return roleMapper.selectRoleList(role);
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        List<String> currentRoleKeys = loginUser.getUser().getRoles().stream()
+                .map(SysRole::getRoleKey)
+                .collect(Collectors.toList());
+        if (currentRoleKeys.contains("visitor")) {
+            return Collections.emptyList();
+        }
+
+        List<SysRole> roleList = roleMapper.selectRoleList(role);
+        if (CollectionUtils.isEmpty(roleList)) {
+            return Collections.emptyList();
+        }
+
+        Long currentUserId = loginUser.getUser().getUserId();
+        if (SysUser.isAdmin(currentUserId)) {
+            return roleList;
+        } else {
+            return roleList.stream()
+                    .filter(r -> !r.isAdmin())
+                    .collect(Collectors.toList());
+        }
     }
 
     /**

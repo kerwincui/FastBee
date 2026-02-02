@@ -1,7 +1,11 @@
 package com.fastbee.web.controller.system;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.fastbee.common.core.domain.model.LoginUser;
+import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -71,8 +75,20 @@ public class SysDeptController extends BaseController
     @GetMapping(value = "/{deptId}")
     public AjaxResult getInfo(@PathVariable Long deptId)
     {
-        deptService.checkDeptDataScope(deptId);
-        return success(deptService.selectDeptById(deptId));
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        List<String> currentRoleKeys = loginUser.getUser().getRoles().stream()
+                .map(role -> role.getRoleKey())
+                .collect(Collectors.toList());
+        if (currentRoleKeys.contains("visitor")) {
+            return AjaxResult.error(403, "游客无权限访问部门信息！");
+        }
+        try {
+            deptService.checkDeptDataScope(deptId);
+        } catch (ServiceException e) {
+            return AjaxResult.error(403, e.getMessage());
+        }
+        SysDept dept = deptService.selectDeptById(deptId);
+        return AjaxResult.success(dept);
     }
 
     /**
