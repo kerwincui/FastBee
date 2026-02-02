@@ -18,11 +18,12 @@ export function loadBMap() {
             document.head.appendChild(meta)
         }       
         // 引入百度地图
-        let script = document.createElement('script')
-        script.type = 'text/javascript'
-        script.src =
-            'http://api.map.baidu.com/api?v=2.0&ak='+ process.env.VUE_APP_BAI_DU_AK +'&s=1&__ec_v__=20190126&callback=onBMapCallback'
-        script.onerror = reject
-        document.head.appendChild(script)
+        const script = document.createElement('script');
+        const ak = process.env.VUE_APP_BAI_DU_AK
+        script.type = 'text/javascript';
+        script.src = `https://api.map.baidu.com/api?v=3.0&ak=${ak}&callback=onBMapCallback`;
+        script.onerror = reject;
+        document.head.appendChild(script);
+        
     })
 }

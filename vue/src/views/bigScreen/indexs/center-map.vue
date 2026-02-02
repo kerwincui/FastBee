@@ -161,130 +161,130 @@ export default {
                     zoom: 5,
                     // 大屏用zomm缩放，导致地图缩放中心点会偏移
                     roam: 'move',
-                    mapStyle: {
-                        styleJson: [{
-                                featureType: 'water',
-                                elementType: 'all',
-                                stylers: {
-                                    color: '#3863db'
-                                }
-                            },
-                            {
-                                featureType: 'land',
-                                elementType: 'all',
-                                stylers: {
-                                    color: '#0e2e87'
-                                }
-                            },
-                            {
-                                featureType: 'railway',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'highway',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#fdfdfd'
-                                }
-                            },
-                            {
-                                featureType: 'highway',
-                                elementType: 'labels',
-                                stylers: {
-                                    visibility: 'off',
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'arterial',
-                                elementType: 'geometry',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#fefefe'
-                                }
-                            },
-                            {
-                                featureType: 'arterial',
-                                elementType: 'geometry.fill',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#fefefe'
-                                }
-                            },
-                            {
-                                featureType: 'poi',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off',
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'green',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'subway',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'manmade',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#d1d1d1'
-                                }
-                            },
-                            {
-                                featureType: 'local',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#d1d1d1'
-                                }
-                            },
-                            {
-                                featureType: 'arterial',
-                                elementType: 'labels',
-                                stylers: {
-                                    visibility: 'off'
-                                }
-                            },
-                            {
-                                featureType: 'boundary',
-                                elementType: 'all',
-                                stylers: {
-                                    color: '#23cdd8'
-                                }
-                            },
-                            {
-                                featureType: 'building',
-                                elementType: 'all',
-                                stylers: {
-                                    visibility: 'off',
-                                    color: '#d1d1d1'
-                                }
-                            },
-                            {
-                                featureType: 'label',
-                                elementType: 'labels.text.fill',
-                                stylers: {
-                                    color: '#264194',
-                                    visibility: 'off'
-                                }
-                            }
-                        ]
-                    }
+                    // mapStyle: {
+                    //     styleJson: [{
+                    //             featureType: 'water',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 color: '#3863db'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'land',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 color: '#0e2e87'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'railway',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'highway',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#fdfdfd'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'highway',
+                    //             elementType: 'labels',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'arterial',
+                    //             elementType: 'geometry',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#fefefe'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'arterial',
+                    //             elementType: 'geometry.fill',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#fefefe'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'poi',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'green',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'subway',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'manmade',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#d1d1d1'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'local',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#d1d1d1'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'arterial',
+                    //             elementType: 'labels',
+                    //             stylers: {
+                    //                 visibility: 'off'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'boundary',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 color: '#23cdd8'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'building',
+                    //             elementType: 'all',
+                    //             stylers: {
+                    //                 visibility: 'off',
+                    //                 color: '#d1d1d1'
+                    //             }
+                    //         },
+                    //         {
+                    //             featureType: 'label',
+                    //             elementType: 'labels.text.fill',
+                    //             stylers: {
+                    //                 color: '#264194',
+                    //                 visibility: 'off'
+                    //             }
+                    //         }
+                    //     ]
+                    // }
                 },
                 series: [{
                         type: 'scatter',

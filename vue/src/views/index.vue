@@ -339,11 +339,11 @@ export default {
     },
     /**加载地图*/
     loadMap() {
-      this.$nextTick(() => {
-        loadBMap().then(() => {
-          this.getmap();
-        });
-      });
+      loadBMap().then(() => {
+        setTimeout(() => {
+          this.getmap();  // 里面有 setOption
+        }, 500);
+      })
     },
     /** 查询服务器信息 */
     getServer() {
@@ -494,122 +494,122 @@ export default {
           center: [133, 38],
           zoom: 5,
           roam: true,
-          mapStyle: {
-            styleJson: [
-              {
-                featureType: 'water',
-                elementType: 'all',
-                stylers: {
-                  color: '#a0cfff',
-                },
-              },
-              {
-                featureType: 'land',
-                elementType: 'all',
-                stylers: {
-                  color: '#fafafa', // #fffff8 淡黄色
-                },
-              },
-              {
-                featureType: 'railway',
-                elementType: 'all',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'highway',
-                elementType: 'all',
-                stylers: {
-                  color: '#fdfdfd',
-                },
-              },
-              {
-                featureType: 'highway',
-                elementType: 'labels',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'arterial',
-                elementType: 'geometry',
-                stylers: {
-                  color: '#fefefe',
-                },
-              },
-              {
-                featureType: 'arterial',
-                elementType: 'geometry.fill',
-                stylers: {
-                  color: '#fefefe',
-                },
-              },
-              {
-                featureType: 'poi',
-                elementType: 'all',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'green',
-                elementType: 'all',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'subway',
-                elementType: 'all',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'manmade',
-                elementType: 'all',
-                stylers: {
-                  color: '#d1d1d1',
-                },
-              },
-              {
-                featureType: 'local',
-                elementType: 'all',
-                stylers: {
-                  color: '#d1d1d1',
-                },
-              },
-              {
-                featureType: 'arterial',
-                elementType: 'labels',
-                stylers: {
-                  visibility: 'off',
-                },
-              },
-              {
-                featureType: 'boundary',
-                elementType: 'all',
-                stylers: {
-                  color: '#999999',
-                },
-              },
-              {
-                featureType: 'building',
-                elementType: 'all',
-                stylers: {
-                  color: '#d1d1d1',
-                },
-              },
-              {
-                featureType: 'label',
-                elementType: 'labels.text.fill',
-                stylers: {
-                  color: '#999999',
-                },
-              },
-            ],
-          },
+          // mapStyle: {
+          //   styleJson: [
+          //     {
+          //       featureType: 'water',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#a0cfff',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'land',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#fafafa', // #fffff8 淡黄色
+          //       },
+          //     },
+          //     {
+          //       featureType: 'railway',
+          //       elementType: 'all',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'highway',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#fdfdfd',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'highway',
+          //       elementType: 'labels',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'arterial',
+          //       elementType: 'geometry',
+          //       stylers: {
+          //         color: '#fefefe',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'arterial',
+          //       elementType: 'geometry.fill',
+          //       stylers: {
+          //         color: '#fefefe',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'poi',
+          //       elementType: 'all',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'green',
+          //       elementType: 'all',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'subway',
+          //       elementType: 'all',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'manmade',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#d1d1d1',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'local',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#d1d1d1',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'arterial',
+          //       elementType: 'labels',
+          //       stylers: {
+          //         visibility: 'off',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'boundary',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#999999',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'building',
+          //       elementType: 'all',
+          //       stylers: {
+          //         color: '#d1d1d1',
+          //       },
+          //     },
+          //     {
+          //       featureType: 'label',
+          //       elementType: 'labels.text.fill',
+          //       stylers: {
+          //         color: '#999999',
+          //       },
+          //     },
+          //   ],
+          // },
         },
         series: [
           {
