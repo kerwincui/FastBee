@@ -1,9 +1,7 @@
 package com.fastbee.system.service.impl;
 
 import com.fastbee.common.constant.UserConstants;
-import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.exception.ServiceException;
-import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.system.domain.SysPost;
 import com.fastbee.system.mapper.SysPostMapper;
@@ -11,11 +9,8 @@ import com.fastbee.system.mapper.SysUserPostMapper;
 import com.fastbee.system.service.ISysPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 岗位信息 服务层处理
@@ -40,15 +35,7 @@ public class SysPostServiceImpl implements ISysPostService
     @Override
     public List<SysPost> selectPostList(SysPost post)
     {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (loginUser.getUser().getRoles().stream()
-                .map(role -> role.getRoleKey())
-                .collect(Collectors.toList()).contains("visitor")) {
-            return Collections.emptyList();
-        }
-
-        List<SysPost> postList = postMapper.selectPostList(post);
-        return CollectionUtils.isEmpty(postList) ? Collections.emptyList() : postList;
+        return postMapper.selectPostList(post);
     }
 
     /**

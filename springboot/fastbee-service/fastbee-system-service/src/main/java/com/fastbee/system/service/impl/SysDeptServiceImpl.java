@@ -16,7 +16,6 @@ import com.fastbee.system.mapper.SysRoleMapper;
 import com.fastbee.system.service.ISysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -192,26 +191,15 @@ public class SysDeptServiceImpl implements ISysDeptService
     @Override
     public void checkDeptDataScope(Long deptId)
     {
-        if (SysUser.isAdmin(SecurityUtils.getUserId())) {
-            return;
-        }
-
-        SysDept queryDept = new SysDept();
-        List<SysDept> accessibleDepts = SpringUtils.getAopProxy(this).selectDeptList(queryDept);
-
-        if (CollectionUtils.isEmpty(accessibleDepts)) {
-            throw new ServiceException("没有权限访问部门数据！");
-        }
-
-        boolean hasPermission = accessibleDepts.stream()
-                .anyMatch(dept -> dept.getDeptId().equals(deptId));
-        if (!hasPermission) {
-            throw new ServiceException("没有权限访问该部门数据！");
-        }
-
-        SysDept targetDept = this.selectDeptById(deptId);
-        if (targetDept == null) {
-            throw new ServiceException("部门不存在！");
+        if (!SysUser.isAdmin(SecurityUtils.getUserId()) && StringUtils.isNotNull(deptId))
+        {
+            SysDept dept = new SysDept();
+            dept.setDeptId(deptId);
+            List<SysDept> depts = SpringUtils.getAopProxy(this).selectDeptList(dept);
+            if (StringUtils.isEmpty(depts))
+            {
+                throw new ServiceException("没有权限访问部门数据！");
+            }
         }
     }
 
