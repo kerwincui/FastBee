@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
 import com.fastbee.iot.mapper.IotDbLogMapper;
-import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.HistoryModel;
-import com.fastbee.iot.model.MonitorModel;
+import com.fastbee.iot.model.*;
 import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.iot.tsdb.model.TdLogDto;
 import lombok.extern.slf4j.Slf4j;
@@ -115,6 +113,18 @@ public class IotDbLogService implements ILogService {
             deviceLog.setIdentify("%" + deviceLog.getIdentify() + "%");
         }
         return iotDbLogMapper.selectMonitorList(deviceLog);
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(DeviceLog deviceLog) {
+        return iotDbLogMapper.listHistory(deviceLog);
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        List<ThingsModelLogCountVO> thingsModelLogCountVOS = iotDbLogMapper.countThingsModelInvoke(dataCenterParam);
+        thingsModelLogCountVOS.forEach(vo -> {vo.setCounts(thingsModelLogCountVOS.size());});
+        return thingsModelLogCountVOS;
     }
 
 }

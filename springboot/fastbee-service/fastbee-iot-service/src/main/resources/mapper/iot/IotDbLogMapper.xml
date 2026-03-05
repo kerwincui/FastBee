@@ -35,9 +35,9 @@
 <!--        <result property="identify" column="root.ln.device_log.identify" />-->
 <!--    </resultMap>-->
 
-<!--    <resultMap type="com.fastbee.iot.model.vo.ThingsModelLogCountVO" id="ThingsModelLogCountVO">-->
-<!--        <result property="identifier"    column="root.ln.device_log.identify"    />-->
-<!--    </resultMap>-->
+    <resultMap type="com.fastbee.iot.model.ThingsModelLogCountVO" id="ThingsModelLogCountVO">
+        <result property="identifier"    column="root.ln.device_log.identify"    />
+    </resultMap>
 
     <update id="createDB">
         create database ${database}
@@ -177,6 +177,40 @@
         order by time desc
     </select>
 
+    <select id="listHistory" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="HistoryResult">
+        select log_value,
+        identify
+        FROM root.ln.device_log
+        <where>
+            <if test="device.serialNumber != null and device.serialNumber != ''">
+                and serial_number = '${device.serialNumber}'
+            </if>
+            <if test="device.beginTime != null and device.beginTime != '' and device.endTime != null and device.endTime != ''">
+                and time <![CDATA[ >= ]]> ${device.beginTime} and time <![CDATA[ <= ]]> ${device.endTime}
+            </if>
+            <if test="device.identityList != null and device.identityList.size > 0">
+                and identify in
+                <foreach collection="device.identityList" item="identify" open="(" separator="," close=")">
+                    '${identify}'
+                </foreach>
+            </if>
+            <if test="device.logType != null">
+                and log_type = #{device.logType}
+            </if>
+        </where>
+        order by time desc
+    </select>
 
+    <select id="countThingsModelInvoke" resultMap="ThingsModelLogCountVO">
+        select identify
+        FROM root.ln.device_log
+        where log_type = 2
+        <if test="dataCenterParam.serialNumber != null and dataCenterParam.serialNumber != ''">
+            and serial_number = '${dataCenterParam.serialNumber}'
+        </if>
+        <if test="dataCenterParam.beginTime != null and dataCenterParam.beginTime != '' and dataCenterParam.endTime != null and dataCenterParam.endTime != ''">
+            and time <![CDATA[ >= ]]> ${dataCenterParam.beginTime} and time <![CDATA[ <= ]]> ${dataCenterParam.endTime}
+        </if>
+    </select>
 
 </mapper>

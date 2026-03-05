@@ -2,11 +2,11 @@ package com.fastbee.iot.mapper;
 
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
-import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.MonitorModel;
+import com.fastbee.iot.model.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,5 +93,20 @@ public interface DeviceLogMapper
      * @return 设备日志集合
      */
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog);
+
+    /**
+     * 查询物模型历史数据
+     * @param deviceLog 设备日志
+     * @return java.util.List<com.fastbee.iot.model.HistoryModel>
+     */
+    List<HistoryModel> listHistory(DeviceLog deviceLog);
+
+    /**
+     * 统计设备物模型指令下发数量
+     * @param dataCenterParam 传参
+     * @return com.fastbee.common.core.domain.AjaxResult
+     */
+    List<ThingsModelLogCountVO> countThingsModelInvoke(@Param("dataCenterParam") DataCenterParam dataCenterParam, @Param("beginTime") Date beginTime, @Param("endTime") Date endTime);
+
 
 }

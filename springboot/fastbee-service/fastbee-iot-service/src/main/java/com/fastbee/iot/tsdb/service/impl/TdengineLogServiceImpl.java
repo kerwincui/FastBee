@@ -1,11 +1,11 @@
 package com.fastbee.iot.tsdb.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.fastbee.common.utils.DateUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
-import com.fastbee.iot.model.DeviceStatistic;
+import com.fastbee.iot.model.*;
 import com.fastbee.iot.tsdb.service.ILogService;
-import com.fastbee.iot.model.MonitorModel;
 import com.fastbee.iot.mapper.TDDeviceLogMapper;
 import com.fastbee.iot.tsdb.model.TdLogDto;
 import com.fastbee.iot.util.SnowflakeIdWorker;
@@ -121,6 +121,20 @@ public class TdengineLogServiceImpl implements ILogService {
     @Override
     public int deleteDeviceLogByDeviceNumber(String deviceNumber) {
         return tDDeviceLogMapper.deleteDeviceLogByDeviceNumber(dbName, deviceNumber);
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(DeviceLog deviceLog) {
+        List<HistoryModel> historyModelList = tDDeviceLogMapper.listHistory(dbName, deviceLog);
+        for (HistoryModel historyModel : historyModelList) {
+            historyModel.setTime(DateUtils.dateRemoveMs(historyModel.getTime()));
+        }
+        return historyModelList;
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        return tDDeviceLogMapper.countThingsModelInvoke(dbName, dataCenterParam);
     }
 
 }

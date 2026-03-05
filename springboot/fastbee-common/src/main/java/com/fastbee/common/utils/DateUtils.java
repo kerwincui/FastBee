@@ -230,4 +230,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         System.out.println(s1);
 
     }
+
+    /**
+     * 日期去除毫秒
+     * @param time 时间
+     * @return java.util.Date
+     */
+    public static Date dateRemoveMs(Date time) {
+        String s = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, time);
+        return DateUtils.dateTime(DateUtils.YYYY_MM_DD_HH_MM_SS, s);
+    }
 }

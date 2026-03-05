@@ -5,6 +5,8 @@ import com.fastbee.iot.model.ThingsModelItem.*;
 import com.fastbee.iot.model.ThingsModels.ThingsModelValueItemDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fastbee.common.annotation.Excel;
@@ -21,7 +23,9 @@ import java.util.List;
  * @author kerwincui
  * @date 2022-01-13
  */
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "DeviceLog", description = "设备日志对象 iot_device_log")
+@Data
 public class DeviceLog extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -128,6 +132,8 @@ public class DeviceLog extends BaseEntity
 
     /*是否历史存储*/
     private Integer isHistory;
+
+    private List<String> identityList;
 
     public Integer getIsHistory() {
         return isHistory;

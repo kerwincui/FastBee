@@ -1,7 +1,14 @@
 package com.fastbee.iot.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.iot.model.DataCenterParam;
+import com.fastbee.iot.model.FunctionLogVO;
+import com.fastbee.iot.model.HistoryModel;
+import com.fastbee.iot.model.ThingsModelLogCountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fastbee.iot.mapper.FunctionLogMapper;
@@ -130,5 +137,30 @@ public class FunctionLogServiceImpl implements IFunctionLogService
     @Override
     public void updateByMessageId(FunctionLog log){
         functionLogMapper.updateByMessageId(log);
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(FunctionLogVO functionLogVO) {
+        return functionLogMapper.listHistory(functionLogVO);
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        Date beginTime = null;
+        Date endTime = null;
+        if (dataCenterParam.getBeginTime() != null && dataCenterParam.getBeginTime() != "" && dataCenterParam.getEndTime() != null && dataCenterParam.getEndTime() != "") {
+            beginTime = parseTime(dataCenterParam.getBeginTime());
+            endTime = parseTime(dataCenterParam.getEndTime());
+        }
+        return functionLogMapper.countThingsModelInvoke(dataCenterParam, beginTime, endTime);
+    }
+
+    private Date parseTime(String time) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return format.parse(time);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("时间格式错误: " + time, e);
+        }
     }
 }

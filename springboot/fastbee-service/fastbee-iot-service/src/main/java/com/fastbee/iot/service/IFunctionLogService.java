@@ -2,6 +2,10 @@ package com.fastbee.iot.service;
 
 import java.util.List;
 import com.fastbee.iot.domain.FunctionLog;
+import com.fastbee.iot.model.DataCenterParam;
+import com.fastbee.iot.model.FunctionLogVO;
+import com.fastbee.iot.model.HistoryModel;
+import com.fastbee.iot.model.ThingsModelLogCountVO;
 
 /**
  * 设备服务下发日志Service接口
@@ -84,4 +88,18 @@ public interface IFunctionLogService
      * @param log
      */
     public void updateByMessageId(FunctionLog log);
+
+    /**
+     * 查询物模型历史数据
+     * @param functionLogVO 功能日志
+     * @return java.util.List<com.fastbee.iot.model.HistoryModel>
+     */
+    List<HistoryModel> listHistory(FunctionLogVO functionLogVO);
+
+    /**
+     * 统计设备物模型指令下发数量
+     * @param dataCenterParam 传参
+     * @return com.fastbee.common.core.domain.AjaxResult
+     */
+    List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam);
 }

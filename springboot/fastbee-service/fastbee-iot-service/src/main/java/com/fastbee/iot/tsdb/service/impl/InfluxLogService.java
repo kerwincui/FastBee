@@ -4,9 +4,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
-import com.fastbee.iot.model.DeviceStatistic;
-import com.fastbee.iot.model.HistoryModel;
-import com.fastbee.iot.model.MonitorModel;
+import com.fastbee.iot.model.*;
 import com.fastbee.iot.tsdb.config.InfluxConfig;
 import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.iot.tsdb.model.TdLogDto;
@@ -509,6 +507,171 @@ public class InfluxLogService implements ILogService {
             }
         }
         return monitorList;
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(DeviceLog deviceLog) {
+        QueryApi queryApi = influxDBClient.getQueryApi();
+
+        StringBuilder fluxQuery = new StringBuilder();
+        fluxQuery.append("from(bucket: \"").append(influxConfig.getBucket()).append("\") ");
+
+        // 处理时间范围
+        if (deviceLog.getBeginTime() != null && !deviceLog.getBeginTime().isEmpty()
+                && deviceLog.getEndTime() != null && !deviceLog.getEndTime().isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date beginDate = sdf.parse(deviceLog.getBeginTime());
+                Date endDate = sdf.parse(deviceLog.getEndTime());
+                // 转换为RFC3339格式时间字符串
+                String startRFC3339 = beginDate.toInstant().toString();
+                String stopRFC3339 = endDate.toInstant().toString();
+
+                fluxQuery.append("|> range(start: ")
+                        .append(startRFC3339)
+                        .append(", stop: ")
+                        .append(stopRFC3339)
+                        .append(") ");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // 若解析失败，可使用默认时间范围
+                fluxQuery.append("|> range(start: 0) ");
+            }
+        } else {
+            fluxQuery.append("|> range(start: 0) ");
+        }
+
+        fluxQuery.append("|> filter(fn: (r) => r._measurement == \"").append(influxConfig.getMeasurement()).append("\") ");
+        fluxQuery.append("|> pivot(\n" +
+                "            rowKey:[\"_time\"], \n" +
+                "            columnKey: [\"_field\"], \n" +
+                "            valueColumn: \"_value\"\n" +
+                "        )");
+
+        List<String> filterConditions = new ArrayList<>();
+        if (deviceLog.getSerialNumber() != null && !deviceLog.getSerialNumber().isEmpty()) {
+            filterConditions.add("r.serialNumber == \"" + deviceLog.getSerialNumber() + "\"");
+        }
+        if (deviceLog.getIdentityList() != null && !deviceLog.getIdentityList().isEmpty()) {
+            StringBuilder identityFilter = new StringBuilder("r.identify =~ /^(");
+            for (int i = 0; i < deviceLog.getIdentityList().size(); i++) {
+                if (i > 0) {
+                    identityFilter.append("|");
+                }
+                identityFilter.append(deviceLog.getIdentityList().get(i));
+            }
+            identityFilter.append(")$/");
+            filterConditions.add(identityFilter.toString());
+        }
+        if (deviceLog.getLogType() != null) {
+            filterConditions.add("r.logType == " + deviceLog.getLogType());
+        }
+
+        if (!filterConditions.isEmpty()) {
+            fluxQuery.append("|> filter(fn: (r) => ");
+            for (int i = 0; i < filterConditions.size(); i++) {
+                if (i > 0) {
+                    fluxQuery.append(" and ");
+                }
+                fluxQuery.append(filterConditions.get(i));
+            }
+            fluxQuery.append(") ");
+        }
+
+        fluxQuery.append("|> sort(columns: [\"_time\"], desc: true) ");
+
+        // 分页处理
+        int offset = (deviceLog.getPageNum() - 1) * deviceLog.getPageSize();
+        fluxQuery.append("|> limit(n: ").append(deviceLog.getPageSize()).append(", offset: ").append(offset).append(") ");
+
+        fluxQuery.append("|> keep(columns: [\"logValue\", \"_time\", \"identify\"]) ");
+
+        List<FluxTable> tables = queryApi.query(fluxQuery.toString());
+
+        List<HistoryModel> historyList = new ArrayList<>();
+        for (FluxTable table : tables) {
+            for (FluxRecord record : table.getRecords()) {
+                HistoryModel historyModel = new HistoryModel();
+                historyModel.setValue((String) record.getValueByKey("logValue"));
+                historyModel.setTime(new Date(record.getTime().getEpochSecond() * 1000));
+                historyModel.setIdentify((String) record.getValueByKey("identify"));
+                historyList.add(historyModel);
+            }
+        }
+        return historyList;
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        QueryApi queryApi = influxDBClient.getQueryApi();
+
+        StringBuilder fluxQuery = new StringBuilder();
+        fluxQuery.append("from(bucket: \"").append(influxConfig.getBucket()).append("\") ");
+
+        // 处理时间范围
+        if (dataCenterParam.getBeginTime() != null && !dataCenterParam.getBeginTime().isEmpty()
+                && dataCenterParam.getEndTime() != null && !dataCenterParam.getEndTime().isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date beginDate = sdf.parse(dataCenterParam.getBeginTime());
+                Date endDate = sdf.parse(dataCenterParam.getEndTime());
+                // 转换为RFC3339格式时间字符串
+                String startRFC3339 = beginDate.toInstant().toString();
+                String stopRFC3339 = endDate.toInstant().toString();
+
+                fluxQuery.append("|> range(start: ")
+                        .append(startRFC3339)
+                        .append(", stop: ")
+                        .append(stopRFC3339)
+                        .append(") ");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // 若解析失败，可使用默认时间范围
+                fluxQuery.append("|> range(start: 0) ");
+            }
+        } else {
+            fluxQuery.append("|> range(start: 0) ");
+        }
+
+        fluxQuery.append("|> filter(fn: (r) => r._measurement == \"").append(influxConfig.getMeasurement()).append("\") ");
+        fluxQuery.append("|> pivot(\n" +
+                "            rowKey:[\"_time\"], \n" +
+                "            columnKey: [\"_field\"], \n" +
+                "            valueColumn: \"_value\"\n" +
+                "        )");
+        fluxQuery.append("|> filter(fn: (r) => r.log_type == 2) ");
+
+        List<String> filterConditions = new ArrayList<>();
+        if (dataCenterParam.getSerialNumber() != null && !dataCenterParam.getSerialNumber().isEmpty()) {
+            filterConditions.add("r.serial_number == \"" + dataCenterParam.getSerialNumber() + "\"");
+        }
+
+        if (!filterConditions.isEmpty()) {
+            fluxQuery.append("|> filter(fn: (r) => ");
+            for (int i = 0; i < filterConditions.size(); i++) {
+                if (i > 0) {
+                    fluxQuery.append(" and ");
+                }
+                fluxQuery.append(filterConditions.get(i));
+            }
+            fluxQuery.append(") ");
+        }
+        fluxQuery.append("|> group() ");
+        int counts = 0;
+        List<FluxTable> tables = queryApi.query(fluxQuery.toString());
+        if (!tables.isEmpty() && !tables.get(0).getRecords().isEmpty()) {
+            counts = tables.get(0).getRecords().size();
+        }
+        List<ThingsModelLogCountVO> resultList = new ArrayList<>();
+        for (FluxTable table : tables) {
+            for (FluxRecord record : table.getRecords()) {
+                ThingsModelLogCountVO vo = new ThingsModelLogCountVO();
+                vo.setIdentifier((String) record.getValueByKey("identify"));
+                vo.setCounts(counts);
+                resultList.add(vo);
+            }
+        }
+        return resultList;
     }
 
 }

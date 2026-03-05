@@ -3,8 +3,10 @@ package com.fastbee.iot.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
+import com.fastbee.iot.model.DataCenterParam;
 import com.fastbee.iot.model.HistoryModel;
 import com.fastbee.iot.model.MonitorModel;
+import com.fastbee.iot.model.ThingsModelLogCountVO;
 import com.fastbee.iot.tsdb.model.TdLogDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -80,5 +82,15 @@ public interface TDDeviceLogMapper {
      */
     int deleteDeviceLogByDeviceNumber(@Param("database") String dbName, @Param("serialNumber") String serialNumber);
 
+
+    List<HistoryModel> listHistory(@Param("database") String database, @Param("device") DeviceLog deviceLog);
+
+    /**
+     * 统计设备物模型指令下发数量
+     *
+     * @param dataCenterParam 传参
+     * @return com.fastbee.common.core.domain.AjaxResult
+     */
+    List<ThingsModelLogCountVO> countThingsModelInvoke(@Param("database") String database, @Param("dataCenterParam") DataCenterParam dataCenterParam);
 
 }

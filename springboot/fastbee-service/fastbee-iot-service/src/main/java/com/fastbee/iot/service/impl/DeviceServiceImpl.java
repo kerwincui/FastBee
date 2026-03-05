@@ -34,6 +34,7 @@ import com.fastbee.iot.model.ThingsModels.PropertyDto;
 import com.fastbee.iot.model.ThingsModels.ThingsModelShadow;
 import com.fastbee.iot.model.ThingsModels.ThingsModelValueItem;
 import com.fastbee.iot.model.ThingsModels.ValueItem;
+import com.fastbee.iot.model.dto.ThingsModelDTO;
 import com.fastbee.iot.service.*;
 import com.fastbee.iot.service.cache.IDeviceCache;
 import com.fastbee.iot.tsdb.service.ILogService;
@@ -52,6 +53,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.fastbee.common.utils.SecurityUtils.getLoginUser;
@@ -1411,6 +1413,24 @@ public class DeviceServiceImpl implements IDeviceService {
      */
     public String[] getDeviceNumsByProductId(Long productId){
         return deviceMapper.getDeviceNumsByProductId(productId);
+    }
+
+    @Override
+    public List<ThingsModel> listThingsModel(Long deviceId) {
+        Device device = deviceMapper.selectDeviceByDeviceId(deviceId);
+        JSONObject thingsModelObject = JSONObject.parseObject(thingsModelService.getCacheThingsModelByProductId(device.getProductId()));
+        JSONArray properties = thingsModelObject.getJSONArray("properties");
+        JSONArray functions = thingsModelObject.getJSONArray("functions");
+        List<ThingsModelValueItem> thingsModelValueItems = getCacheDeviceStatus(device.getProductId(), device.getSerialNumber());
+        // 物模型转换赋值
+        List<ThingsModel> thingsList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(properties)) {
+            thingsList.addAll(convertJsonToThingsList(properties, thingsModelValueItems, 1));
+        }
+        if (!CollectionUtils.isEmpty(functions)) {
+            thingsList.addAll(convertJsonToThingsList(functions, thingsModelValueItems, 2));
+        }
+        return thingsList;
     }
 
 }

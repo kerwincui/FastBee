@@ -5,9 +5,11 @@ import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
 import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.model.*;
+import com.fastbee.iot.model.ThingsModelItem.ThingsModel;
 import com.fastbee.iot.model.ThingsModels.ThingsModelShadow;
 import com.fastbee.iot.model.ThingsModels.ThingsModelValueItem;
 import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
+import com.fastbee.iot.model.dto.ThingsModelDTO;
 import org.quartz.SchedulerException;
 
 import java.util.List;
@@ -273,4 +275,6 @@ public interface IDeviceService
      * @return
      */
     public String[] getDeviceNumsByProductId(Long productId);
+
+    List<ThingsModel> listThingsModel(Long deviceId);
 }

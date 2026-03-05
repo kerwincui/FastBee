@@ -1,24 +1,35 @@
 package com.fastbee.data.controller;
 
 import com.fastbee.common.annotation.Log;
+import com.fastbee.common.constant.HttpStatus;
 import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
+import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.model.DeviceRelateUserInput;
+import com.fastbee.iot.model.ThingsModelItem.ThingsModel;
+import com.fastbee.iot.model.dto.ThingsModelDTO;
 import com.fastbee.iot.service.IDeviceService;
 import com.fastbee.mq.service.IMqttMessagePublish;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections4.CollectionUtils;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 设备Controller
@@ -260,6 +271,56 @@ public class DeviceController extends BaseController
     @ApiOperation("获取设备MQTT连接参数")
     public AjaxResult getMqttConnectData(Long deviceId){
         return AjaxResult.success(deviceService.getMqttConnectData(deviceId));
+    }
+
+    /**
+     * 查询变量概况
+     */
+    @PreAuthorize("@ss.hasPermi('iot:device:query')")
+    @GetMapping("/listThingsModel")
+    @ApiOperation("查询变量概况")
+    public TableDataInfo listThingsModel(Integer pageNum, Integer pageSize, Long deviceId, String modelName, Integer type, Integer isMonitor, Integer isReadonly) {
+        Device device = deviceService.selectDeviceByDeviceId(deviceId);
+        if (Objects.isNull(device)) {
+            return new TableDataInfo();
+        }
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setMsg("查询成功");
+        List<ThingsModel> thingsModelDTOList = deviceService.listThingsModel(deviceId);
+        if (CollectionUtils.isEmpty(thingsModelDTOList)) {
+            rspData.setRows(thingsModelDTOList);
+            rspData.setTotal(thingsModelDTOList.size());
+            return rspData;
+        }
+        List<Predicate<ThingsModel>> predicateList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(modelName)) {
+            predicateList.add(o -> o.getName().contains(modelName));
+        }
+        if (null != type) {
+            predicateList.add(o -> Objects.equals(o.getType(), type));
+        }
+        if (null != isMonitor) {
+            predicateList.add(o -> Objects.equals(isMonitor, o.getIsMonitor()));
+        }
+        if (null != isReadonly) {
+            predicateList.add(o -> Objects.equals(isReadonly, o.getIsReadonly()));
+            predicateList.add(o -> !Objects.equals(3, o.getType()));
+        }
+        Stream<ThingsModel> stream = thingsModelDTOList.stream();
+        for (Predicate<ThingsModel> predicate : predicateList) {
+            stream = stream.filter(predicate);
+        }
+        List<ThingsModel> filterList = stream.collect(Collectors.toList());
+        filterList.sort(Comparator.comparing(ThingsModel::getOrder).reversed().thenComparing(ThingsModel::getId));
+        if (CollectionUtils.isNotEmpty(filterList)) {
+            List resultList = com.fastbee.common.utils.collection.CollectionUtils.startPage(filterList, pageNum, pageSize);
+            rspData.setRows(resultList);
+        } else {
+            rspData.setRows(new ArrayList<>());
+        }
+        rspData.setTotal(filterList.size());
+        return rspData;
     }
 
 }

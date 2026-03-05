@@ -5,14 +5,16 @@ import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.domain.DeviceLog;
 import com.fastbee.iot.domain.EventLog;
 import com.fastbee.iot.mapper.EventLogMapper;
-import com.fastbee.iot.model.DeviceStatistic;
+import com.fastbee.iot.model.*;
 import com.fastbee.iot.tsdb.model.TdLogDto;
 import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.iot.mapper.DeviceLogMapper;
-import com.fastbee.iot.model.MonitorModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -105,5 +107,30 @@ public class MySqlLogServiceImpl implements ILogService {
     @Override
     public List<DeviceLog> selectDeviceLogList(DeviceLog deviceLog) {
         return deviceLogMapper.selectDeviceLogList(deviceLog);
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(DeviceLog deviceLog) {
+        return deviceLogMapper.listHistory(deviceLog);
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        Date beginTime = null;
+        Date endTime = null;
+        if (dataCenterParam.getBeginTime() != null && dataCenterParam.getEndTime() != null) {
+            beginTime = parseTime(dataCenterParam.getBeginTime());
+            endTime = parseTime(dataCenterParam.getEndTime());
+        }
+        return deviceLogMapper.countThingsModelInvoke(dataCenterParam, beginTime, endTime);
+    }
+
+    private Date parseTime(String time) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return format.parse(time);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("时间格式错误: " + time, e);
+        }
     }
 }

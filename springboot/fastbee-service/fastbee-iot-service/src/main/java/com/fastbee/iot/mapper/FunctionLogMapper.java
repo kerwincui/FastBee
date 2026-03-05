@@ -1,7 +1,13 @@
 package com.fastbee.iot.mapper;
 
+import java.util.Date;
 import java.util.List;
 import com.fastbee.iot.domain.FunctionLog;
+import com.fastbee.iot.model.DataCenterParam;
+import com.fastbee.iot.model.FunctionLogVO;
+import com.fastbee.iot.model.HistoryModel;
+import com.fastbee.iot.model.ThingsModelLogCountVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -94,4 +100,19 @@ public interface FunctionLogMapper
      * @param log
      */
     public void updateByMessageId(FunctionLog log);
+
+    /**
+     * 查询物模型历史数据
+     * @param functionLogVO 功能日志
+     * @return java.util.List<com.fastbee.iot.model.HistoryModel>
+     */
+    List<HistoryModel> listHistory(FunctionLogVO functionLogVO);
+
+    /**
+     * 统计设备物模型指令下发数量
+     * @param dataCenterParam 传参
+     * @return com.fastbee.common.core.domain.AjaxResult
+     */
+    List<ThingsModelLogCountVO> countThingsModelInvoke(@Param("dataCenterParam") DataCenterParam dataCenterParam, @Param("beginTime") Date beginTime, @Param("endTime") Date endTime);
+
 }

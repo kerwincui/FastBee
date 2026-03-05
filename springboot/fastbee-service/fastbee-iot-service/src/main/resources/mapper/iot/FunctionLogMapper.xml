@@ -182,4 +182,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where message_id = #{messageId}
     </update>
+
+    <select id="listHistory" parameterType="com.fastbee.iot.domain.FunctionLog" resultType="com.fastbee.iot.model.HistoryModel">
+        select create_time as time,
+        fun_value as value,
+        identify as identify,
+        model_name as moderName
+        from iot_function_log
+        <where>
+            <if test="serialNumber != null and serialNumber != ''">
+                and serial_number = #{serialNumber}
+            </if>
+            <if test="beginTime != null and endTime != null">
+                and create_time between #{beginTime} and #{endTime}
+            </if>
+            <if test="identifyList != null and identifyList != ''">
+                and identify in
+                <foreach collection="identifyList" item="identify" open="(" separator="," close=")">
+                    #{identify}
+                </foreach>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="countThingsModelInvoke" resultType="com.fastbee.iot.model.ThingsModelLogCountVO">
+        select identify identifier, min(model_name) modelName, count(identify) counts
+        from iot_function_log
+        where fun_type = 1
+        <if test="dataCenterParam.serialNumber != null and dataCenterParam.serialNumber != ''">
+            and serial_number = #{dataCenterParam.serialNumber}
+        </if>
+        <if test="beginTime != null and endTime != null ">
+            and create_time between #{beginTime} and #{endTime}
+        </if>
+        group by identify
+    </select>
 </mapper>

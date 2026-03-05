@@ -4,6 +4,9 @@ import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.utils.DateUtils;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.iot.domain.DeviceLog;
+import com.fastbee.iot.model.DataCenterParam;
+import com.fastbee.iot.model.HistoryModel;
+import com.fastbee.iot.model.ThingsModelLogCountVO;
 import com.fastbee.iot.tsdb.service.ILogService;
 import com.fastbee.iot.model.MonitorModel;
 import com.fastbee.iot.service.IDeviceLogService;
@@ -66,5 +69,15 @@ public class DeviceLogServiceImpl implements IDeviceLogService
         deviceLog.setUserId(loginUser.getUserId());
         deviceLog.setCreateBy(loginUser.getUsername());
         return logService.saveDeviceLog(deviceLog);
+    }
+
+    @Override
+    public List<HistoryModel> listHistory(DeviceLog deviceLog) {
+        return logService.listHistory(deviceLog);
+    }
+
+    @Override
+    public List<ThingsModelLogCountVO> countThingsModelInvoke(DataCenterParam dataCenterParam) {
+        return logService.countThingsModelInvoke(dataCenterParam);
     }
 }

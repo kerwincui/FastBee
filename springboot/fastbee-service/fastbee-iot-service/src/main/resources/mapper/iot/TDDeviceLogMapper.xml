@@ -27,12 +27,11 @@
         <result property="remark"    column="remark"    />
     </resultMap>
 
-<!--    <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">-->
-<!--        <result property="time"    column="ts"    />-->
-<!--        <result property="value"    column="log_value"    />-->
-<!--        <result property="identify" column="identify" />-->
-<!--        <result property="moderName" column="mode" />-->
-<!--    </resultMap>-->
+    <resultMap type="com.fastbee.iot.model.HistoryModel" id="HistoryResult">
+        <result property="time"    column="ts"    />
+        <result property="value"    column="log_value"    />
+        <result property="identify" column="identify" />
+    </resultMap>
 
 <!--    <resultMap type="com.fastbee.iot.model.HistoryBo" id="HistoryResultBo">-->
 <!--        <result property="value"    column="log_value"    />-->
@@ -171,6 +170,44 @@
             </if>
         </where>
         order by ts desc
+    </select>
+
+    <select id="listHistory" parameterType="com.fastbee.iot.domain.DeviceLog" resultMap="HistoryResult">
+        select  ts,
+        log_value,
+        identify
+        from ${database}.device_log
+        <where>
+            <if test="device.beginTime != null and device.beginTime != '' and device.endTime != null and device.endTime != ''">
+                and ts between #{device.beginTime} and #{device.endTime}
+            </if>
+            <if test="device.serialNumber != null and device.serialNumber !=''">
+                and serial_number = #{device.serialNumber}
+            </if>
+            <if test="device.identityList != null and device.identityList.size > 0">
+                and identify in
+                <foreach collection="device.identityList" item="identify" open="(" separator="," close=")">
+                    #{identify}
+                </foreach>
+            </if>
+            <if test="device.logType != null">
+                and log_type = #{device.logType}
+            </if>
+        </where>
+        order by ts desc
+    </select>
+
+    <select id="countThingsModelInvoke" resultType="com.fastbee.iot.model.ThingsModelLogCountVO">
+        select identify identifier, count(identify) counts
+        from ${database}.device_log
+        where log_type = 2
+        <if test="dataCenterParam.serialNumber != null and dataCenterParam.serialNumber != ''">
+            and serial_number = #{dataCenterParam.serialNumber}
+        </if>
+        <if test="dataCenterParam.beginTime != null and dataCenterParam.beginTime != '' and dataCenterParam.endTime != null and dataCenterParam.endTime != ''">
+            and ts between #{dataCenterParam.beginTime} and #{dataCenterParam.endTime}
+        </if>
+        group by identify
     </select>
 
 </mapper>
