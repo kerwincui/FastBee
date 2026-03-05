@@ -36,6 +36,15 @@ export function listDeviceShort(query) {
   });
 }
 
+// 查询设备变量概况
+export function listThingsModel(query) {
+    return request({
+        url: '/iot/device/listThingsModel',
+        method: 'get',
+        params: query,
+    });
+}
+
 // 查询所有设备简短列表
 export function listAllDeviceShort() {
   return request({
