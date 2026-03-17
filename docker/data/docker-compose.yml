@@ -23,7 +23,7 @@ services:
       - /var/data/mysql/initdb:/docker-entrypoint-initdb.d
     environment:
       MYSQL_DATABASE: fastbee
-      MYSQL_ROOT_PASSWORD: fastbee
+      MYSQL_ROOT_PASSWORD: iot@admin123
     command:
       [
         'mysqld',
@@ -45,7 +45,7 @@ services:
     volumes:
       - /var/data/redis:/usr/local/etc/redis
       - /var/data/redis/data:/data
-    command: [ '-- requirepass fastbee', '-- appendonly yes' ]
+    command: [ '-- requirepass iot@admin123', '-- appendonly yes' ]
 
   java:
     image: openjdk:8-jre
