@@ -1,0 +1,11 @@
+{
+  "error.401.774006-0": "return",
+  "error.401.774006-1": "401 error!",
+  "error.401.774006-2": "You do not have access rights!",
+  "error.401.774006-3": "Sorry, you do not have access rights. Please do not engage in illegal operations! You can return to the main page",
+  "error.401.774006-4": "Home ",
+  "error.404.817532-0": "404 Error!",
+  "error.404.817532-1": "Sorry, the page you are looking for does not exist. Try checking for errors in the URL, then press the refresh button on the browser or try to find other content in our application.",
+  "error.404.817532-2": "Return to homepage",
+  "error.404.817532-3": "Unable to find webpage!"
+}

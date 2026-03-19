@@ -4,12 +4,12 @@
             <div class="form-wrap">
                 <el-form @submit.native.prevent :model="devQueryParams" ref="devQueryForm" :inline="true" label-width="68px">
                     <el-form-item prop="deviceId">
-                        <el-select style="width: 100%" v-model="devQueryParams.deviceId" placeholder="请选择设备名称" filterable @change="handleDevDeviceChange" clearable>
+                        <el-select style="width: 100%" v-model="devQueryParams.deviceId" :placeholder="$t('dataCenter.history.384934-2')" filterable @change="handleDevDeviceChange" clearable>
                             <el-option v-for="(item, index) in devDeviceList" :key="index" :label="item.deviceName" :value="item.deviceId"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item prop="identifiers">
-                        <el-select style="width: 100%" v-model="devQueryParams.identifiers" placeholder="请选择变量名称" filterable multiple collapse-tags>
+                        <el-select style="width: 100%" v-model="devQueryParams.identifiers" :placeholder="$t('dataCenter.history.384934-4')" filterable multiple collapse-tags>
                             <el-option v-for="(item, index) in devIdentifierList" :key="index" :label="item.name" :value="item.id" :disabled="item.isHistory === 0"></el-option>
                         </el-select>
                     </el-form-item>
@@ -20,20 +20,17 @@
                             value-format="yyyy-MM-dd HH:mm:ss"
                             type="datetimerange"
                             range-separator="-"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            :start-placeholder="$t('dataCenter.history.384934-6')"
+                            :end-placeholder="$t('dataCenter.history.384934-7')"
                             :picker-options="pickerOptions"
                         ></el-date-picker>
                     </el-form-item>
                 </el-form>
                 <div class="search-btn-group">
-                    <el-button type="primary" icon="el-icon-search" @click="handleDevQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" @click="handleDevResetQuery">重置</el-button>
-                    <el-button
-                        icon="el-icon-download"
-                        @click="handleDeviceExport"
-                        :disabled="devQueryParams.deviceId === '' || devQueryParams.identifiers.length === 0 || devQueryParams.dayDaterange === null"
-                    > 导出
+                    <el-button type="primary" icon="el-icon-search" @click="handleDevQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" @click="handleDevResetQuery">{{ $t('reset') }}</el-button>
+                    <el-button icon="el-icon-download" @click="handleDeviceExport" :disabled="devQueryParams.deviceId === '' || devQueryParams.identifiers.length === 0 || devQueryParams.dayDaterange === null">
+                        {{ $t('export') }}
                     </el-button>
                 </div>
             </div>
@@ -42,31 +39,22 @@
                 <el-col :span="24">
                     <el-card v-loading="loading" shadow="never">
                         <div slot="header">
-                            <span>曲线趋势图</span>
+                            <span>{{ $t('dataCenter.history.384934-10') }}</span>
                         </div>
                         <div class="el-table--enable-row-hover el-table--medium">
                             <div v-show="devDatas.length !== 0" ref="devLineChart" style="width: 100%; height: 480px; background: #fff"></div>
-                            <el-empty v-if="devDatas.length === 0" style="height: 480px" description="暂无数据"></el-empty>
+                            <el-empty v-if="devDatas.length === 0" style="height: 480px" :description="$t('noData')"></el-empty>
                             <el-table v-show="devTotal > 0" style="margin-top: 50px" :data="devTableList" :border="false">
-                                <el-table-column label="更新时间" prop="time" width="200" />
+                                <el-table-column :label="$t('dataCenter.history.384934-13')" prop="time" width="200" />
                                 <el-table-column v-for="item in this.devTableHeaderTemp" :key="item.value" :label="item.name" :prop="item.value" />
                             </el-table>
-                            <pagination
-                                style="margin-bottom: 20px"
-                                v-show="devTotal > 0"
-                                :autoScroll="false"
-                                :total="devTotal"
-                                :page.sync="devPageNum"
-                                :limit.sync="devPageSize"
-                                @pagination="getDevTableList"
-                            />
+                            <pagination style="margin-bottom: 20px" v-show="devTotal > 0" :autoScroll="false" :total="devTotal" :page.sync="devPageNum" :limit.sync="devPageSize" @pagination="getDevTableList" />
                         </div>
                     </el-card>
                 </el-col>
             </el-row>
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -83,7 +71,7 @@ export default {
             pickerOptions: {
                 shortcuts: [
                     {
-                        text: "最近2小时",
+                        text: this.$t('dataCenter.history.384934-19'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -92,7 +80,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近1天",
+                        text: this.$t('dataCenter.history.384934-20'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -101,7 +89,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近7天",
+                        text: this.$t('dataCenter.history.384934-21'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -110,7 +98,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近30天",
+                        text: this.$t('dataCenter.history.384934-22'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -145,7 +133,7 @@ export default {
         this.getDevDeviceList();
         const deviceId = this.$route.query.deviceId || this.$route.params.deviceId;
         const identifier = this.$route.query.identifier || this.$route.params.identifier;
-        
+
         if (deviceId) {
             this.devQueryParams.deviceId = Number(deviceId);
             this.getDevIdentifierList(Number(deviceId));
@@ -161,7 +149,7 @@ export default {
     },
     methods: {
         getDevDeviceList() {
-            console.log("11",this.devDeviceList);
+            console.log('11', this.devDeviceList);
             const params = {
                 showChild: true,
                 pageNum: 1,
@@ -243,7 +231,7 @@ export default {
                 const devices = this.devDeviceList.find((item) => item.deviceId === this.devQueryParams.deviceId);
                 const identifierList = this.devQueryParams.identifiers.map((item) => {
                     const identifiers = this.devIdentifierList.find((chil) => chil.id === item);
-                    return {  id: identifiers.id, type: identifiers.type };
+                    return { id: identifiers.id, type: identifiers.type };
                 });
                 const params = {
                     deviceId: devices.deviceId,
@@ -317,7 +305,7 @@ export default {
                 return {
                     name: this.devIdentifierList.find((chil) => chil.id === item).modelName,
                     type: 'line',
-                    stack: '总量' + index,
+                    stack: this.$t('dataCenter.history.384934-23', [index]),
                     data: this.devDatas.map((d) => {
                         const ide = Object.values(d)[0].find((f) => Object.keys(f)[0] === item);
                         return Object.values(ide)[0];
@@ -355,7 +343,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.data-center-history{
+.data-center-history {
     padding: 20px;
     .device-wrap {
         margin-top: 5px;

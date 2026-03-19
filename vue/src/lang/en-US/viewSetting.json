@@ -1,0 +1,23 @@
+{
+  "iot.view.setting-23209-0": "Parameter configuration",
+  "iot.view.setting-23209-1": "The data parameters will be configured on the large screen. Select a condition parameter to generate the corresponding URL.",
+  "iot.view.setting-23209-2": "Condition parameters",
+  "iot.view.setting-23209-3": "equipment",
+  "iot.view.setting-23209-4": "Please select a device",
+  "iot.view.setting-23209-5": "Slave machine",
+  "iot.view.setting-23209-6": "Please select a slave device",
+  "iot.view.setting-23209-7": "Device properties",
+  "iot.view.setting-23209-8": "Please select Device Properties",
+  "iot.view.setting-23209-9": "Components type",
+  "iot.view.setting-23209-10": "Please select a chart type",
+  "iot.view.setting-23209-11": "Production",
+  "iot.view.setting-23209-12": "A response is returned",
+  "iot.view.setting-23209-13": "copy",
+  "iot.view.setting-23209-14": "data structure",
+  "iot.view.setting-23209-15": "The device cannot be empty",
+  "iot.view.setting-23209-16": "The slave cannot be empty",
+  "iot.view.setting-23209-17": "The property cannot be empty",
+  "iot.view.setting-23209-18": "The chart type cannot be empty",
+  "iot.view.setting-23209-19": "The build succeeded",
+  "iot.view.setting-23209-20": "The build failed"
+}

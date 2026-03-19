@@ -1,101 +1,101 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
-import Element from 'element-ui'
-import './assets/styles/element-variables.scss'
-import busEvent from '@/utils/busEvent'
+import Element from 'element-ui';
+import './assets/styles/element-variables.scss';
+import busEvent from '@/utils/busEvent';
 
-import '@/assets/styles/index.scss' // global css
-import '@/assets/styles/ruoyi.scss' // ruoyi css
-import App from './App'
-import store from './store'
-import router from './router'
-import directive from './directive' // directive
-import plugins from './plugins' // plugins
-import { download } from '@/utils/request'
+import '@/assets/styles/index.scss'; // global css
+import '@/assets/styles/ruoyi.scss'; // ruoyi css
+import App from './App';
+import store from './store';
+import router from './router';
+import directive from './directive'; // directive
+import plugins from './plugins'; // plugins
+import { download } from '@/utils/request';
+import { i18n } from '@/lang';
 
-import './assets/icons' // icon
-import './permission' // permission control
-import { getDicts } from "@/api/system/dict/data";
-import { getConfigKey } from "@/api/system/config";
-import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
+import './assets/icons'; // icon
+import './permission'; // permission control
+import { getDicts } from '@/api/system/dict/data';
+import { getConfigKey } from '@/api/system/config';
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from '@/utils/ruoyi';
 // 分页组件
-import Pagination from "@/components/Pagination";
+import Pagination from '@/components/Pagination';
 // 自定义表格工具组件
-import RightToolbar from "@/components/RightToolbar"
+import RightToolbar from '@/components/RightToolbar';
 // 富文本组件
-import Editor from "@/components/Editor"
+import Editor from '@/components/Editor';
 // 文件上传组件
-import FileUpload from "@/components/FileUpload"
+import FileUpload from '@/components/FileUpload';
 // 图片上传组件
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from '@/components/ImageUpload';
 // 图片预览组件
-import ImagePreview from "@/components/ImagePreview"
+import ImagePreview from '@/components/ImagePreview';
 // 字典标签组件
-import DictTag from '@/components/DictTag'
+import DictTag from '@/components/DictTag';
 // 头部标签组件
-import VueMeta from 'vue-meta'
+import VueMeta from 'vue-meta';
 // 字典数据组件
-import DictData from '@/components/DictData'
+import DictData from '@/components/DictData';
 // Echart
-import * as echarts from 'echarts'
+import * as echarts from 'echarts';
 // 一键复制粘贴板组件
-import VueClipboard from 'vue-clipboard2'
+import VueClipboard from 'vue-clipboard2';
 // Mqtt工具
-import mqttTool from '@/utils/mqttTool'
+import mqttTool from '@/utils/mqttTool';
 
-import ItemWrap from './views/bigScreen/components/item-wrap/item-wrap.vue'
-import Message from './views/bigScreen/components/message/message.vue'
-import Reacquire from './views/bigScreen/components/reacquire/reacquire.vue'
-import {loading,borderBox13,digitalFlop,waterLevelPond,scrollBoard,capsuleChart,borderBox8,decoration12,decoration3,decoration9,activeRingChart} from '@jiaminghi/data-view'
+import ItemWrap from './views/bigScreen/components/item-wrap/item-wrap.vue';
+import Message from './views/bigScreen/components/message/message.vue';
+import Reacquire from './views/bigScreen/components/reacquire/reacquire.vue';
+import { loading, borderBox13, digitalFlop, waterLevelPond, scrollBoard, capsuleChart, borderBox8, decoration12, decoration3, decoration9, activeRingChart } from '@jiaminghi/data-view';
 
 // datav组件 ,会导致生成文件无法打开
-Vue.use(loading)
-Vue.use(borderBox13)
-Vue.use(borderBox8)
-Vue.use(digitalFlop)
-Vue.use(capsuleChart)
-Vue.use(waterLevelPond)
-Vue.use(scrollBoard)
-Vue.use(decoration12)
-Vue.use(activeRingChart)
-Vue.use(decoration3)
-Vue.use(decoration9)
+Vue.use(loading);
+Vue.use(borderBox13);
+Vue.use(borderBox8);
+Vue.use(digitalFlop);
+Vue.use(capsuleChart);
+Vue.use(waterLevelPond);
+Vue.use(scrollBoard);
+Vue.use(decoration12);
+Vue.use(activeRingChart);
+Vue.use(decoration3);
+Vue.use(decoration9);
 
 // 自定义组件
-Vue.component("ItemWrap",ItemWrap)
-Vue.component("Message",Message)
-Vue.component("Reacquire",Reacquire)
-
+Vue.component('ItemWrap', ItemWrap);
+Vue.component('Message', Message);
+Vue.component('Reacquire', Reacquire);
 
 // 全局方法挂载
-Vue.prototype.getDicts = getDicts
-Vue.prototype.getConfigKey = getConfigKey
-Vue.prototype.parseTime = parseTime
-Vue.prototype.resetForm = resetForm
-Vue.prototype.addDateRange = addDateRange
-Vue.prototype.selectDictLabel = selectDictLabel
-Vue.prototype.selectDictLabels = selectDictLabels
-Vue.prototype.download = download
-Vue.prototype.handleTree = handleTree
-Vue.prototype.$echarts = echarts
-Vue.prototype.$mqttTool = mqttTool
-Vue.prototype.$busEvent = busEvent
+Vue.prototype.getDicts = getDicts;
+Vue.prototype.getConfigKey = getConfigKey;
+Vue.prototype.parseTime = parseTime;
+Vue.prototype.resetForm = resetForm;
+Vue.prototype.addDateRange = addDateRange;
+Vue.prototype.selectDictLabel = selectDictLabel;
+Vue.prototype.selectDictLabels = selectDictLabels;
+Vue.prototype.download = download;
+Vue.prototype.handleTree = handleTree;
+Vue.prototype.$echarts = echarts;
+Vue.prototype.$mqttTool = mqttTool;
+Vue.prototype.$busEvent = busEvent;
 
 // 全局组件挂载
-Vue.component('DictTag', DictTag)
-Vue.component('Pagination', Pagination)
-Vue.component('RightToolbar', RightToolbar)
-Vue.component('Editor', Editor)
-Vue.component('FileUpload', FileUpload)
-Vue.component('ImageUpload', ImageUpload)
-Vue.component('ImagePreview', ImagePreview)
-Vue.use(VueClipboard)
-Vue.use(directive)
-Vue.use(plugins)
-Vue.use(VueMeta)
-DictData.install()
+Vue.component('DictTag', DictTag);
+Vue.component('Pagination', Pagination);
+Vue.component('RightToolbar', RightToolbar);
+Vue.component('Editor', Editor);
+Vue.component('FileUpload', FileUpload);
+Vue.component('ImageUpload', ImageUpload);
+Vue.component('ImagePreview', ImagePreview);
+Vue.use(VueClipboard);
+Vue.use(directive);
+Vue.use(plugins);
+Vue.use(VueMeta);
+DictData.install();
 
 /**
  * If you don't want to use mock-server
@@ -107,20 +107,22 @@ DictData.install()
  */
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
-})
+    size: Cookies.get('size') || 'medium', // set element-ui default size
+    i18n: (key, value) => i18n.t(key, value), // 这里会根据选的语言切换Element-ui的语言
+});
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+    el: '#app',
+    router,
+    store,
+    i18n,
+    render: (h) => h(App),
+});
 
 // 表格带边框
 Element.Table.props.border = {
-  default:true,
-  type:Boolean
-}
+    default: true,
+    type: Boolean,
+};

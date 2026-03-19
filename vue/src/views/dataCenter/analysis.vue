@@ -3,7 +3,7 @@
         <el-card class="search-card">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" class="search-form">
                 <el-form-item prop="deviceId">
-                    <el-select v-model="queryParams.deviceId" placeholder="请选择设备名称" filterable @change="handleDevDeviceChange">
+                    <el-select v-model="queryParams.deviceId" :placeholder="$t('dataCenter.analysis.349202-1')" filterable @change="handleDevDeviceChange">
                         <el-option v-for="(item, index) in deviceList" :key="index" :label="item.deviceName" :value="item.deviceId"></el-option>
                     </el-select>
                 </el-form-item>
@@ -14,14 +14,14 @@
                         value-format="yyyy-MM-dd HH:mm:ss"
                         type="datetimerange"
                         range-separator="-"
-                        start-placeholder="开始时间"
-                        end-placeholder="结束时间"
+                        :start-placeholder="$t('dataCenter.analysis.349202-3')"
+                        :end-placeholder="$t('dataCenter.analysis.349202-4')"
                         :picker-options="pickerOptions"
                     ></el-date-picker>
                 </el-form-item>
                 <div style="float: right">
-                    <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" @click="handleResetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" @click="handleResetQuery">{{ $t('reset') }}</el-button>
                 </div>
             </el-form>
         </el-card>
@@ -31,10 +31,10 @@
             <el-col :span="24">
                 <el-card class="card-box" style="margin-bottom: 20px">
                     <div slot="header" class="clearfix">
-                        <span>变量历史数据折线图</span>
+                        <span>{{ $t('dataCenter.analysis.349202-21') }}</span>
                     </div>
                     <div v-show="deviceLineList.length !== 0" ref="deviceLineChart" style="width: 100%; height: 400px"></div>
-                    <el-empty v-if="deviceLineList.length === 0" style="height: 400px" description="暂无数据"></el-empty>
+                    <el-empty v-if="deviceLineList.length === 0" style="height: 400px" :description="$t('noData')"></el-empty>
                 </el-card>
             </el-col>
         </el-row>
@@ -44,21 +44,21 @@
             <el-col :span="12">
                 <el-card class="card-box" style="margin-bottom: 0">
                     <div slot="header" class="clearfix">
-                        <span>变量下发次数统计</span>
+                        <span>{{ $t('dataCenter.analysis.349202-23') }}</span>
                     </div>
                     <div v-show="deviceBarList.length !== 0" ref="deviceBarChart" style="width: 100%; height: 480px"></div>
-                    <el-empty v-if="deviceBarList.length === 0" style="height: 480px" description="暂无数据"></el-empty>
+                    <el-empty v-if="deviceBarList.length === 0" style="height: 480px" :description="$t('noData')"></el-empty>
                 </el-card>
             </el-col>
 
             <el-col :span="12">
                 <el-card class="card-box" style="margin-bottom: 0">
                     <div slot="header" class="clearfix">
-                        <span>变量实时数值表</span>
+                        <span>{{ $t('dataCenter.analysis.349202-24') }}</span>
                     </div>
                     <div class="scroll-board-wrap">
                         <dv-scroll-board v-show="realTimeConfig.data && realTimeConfig.data.length !== 0" :config="realTimeConfig" style="width: 100%; height: 100%" />
-                        <el-empty v-if="!realTimeConfig.data || realTimeConfig.data.length === 0" style="height: 100%" description="暂无数据"></el-empty>
+                        <el-empty v-if="!realTimeConfig.data || realTimeConfig.data.length === 0" style="height: 100%" :description="$t('noData')"></el-empty>
                     </div>
                 </el-card>
             </el-col>
@@ -84,7 +84,7 @@ export default {
             pickerOptions: {
                 shortcuts: [
                     {
-                        text: "最近2小时",
+                        text: this.$t('dataCenter.analysis.349202-8'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -93,7 +93,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近1天",
+                        text: this.$t('dataCenter.analysis.349202-9'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -102,7 +102,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近7天",
+                        text: this.$t('dataCenter.analysis.349202-10'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -111,7 +111,7 @@ export default {
                         },
                     },
                     {
-                        text: "最近30天",
+                        text: this.$t('dataCenter.analysis.349202-11'),
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -237,7 +237,7 @@ export default {
                     return {
                         name: this.identifierList.find((chil) => chil.id === item).name,
                         type: 'line',
-                        stack: '总量' + index,
+                        stack: this.$t('dataCenter.analysis.349202-12', [index]),
                         data: this.deviceLineList.map((d) => {
                             const ide = d[Object.keys(d)[0]].find((itm) => Object.keys(itm)[0] === item);
                             return Object.values(ide)[0];
@@ -274,7 +274,7 @@ export default {
             this.deviceBarChart.clear();
             this.deviceBarChart.setOption({
                 title: {
-                    text: "设备使用统计",
+                    text: this.$t('dataCenter.analysis.349202-14'),
                     left: 'center',
                 },
                 color: ['#1890FF'],
@@ -344,7 +344,7 @@ export default {
             };
             listThingsModel(params).then((res) => {
                 if (res.code === 200) {
-                    const header = ["变量名称", "当前值", "更新时间"];
+                    const header = [this.$t('dataCenter.analysis.349202-15'), this.$t('dataCenter.analysis.349202-16'), this.$t('dataCenter.analysis.349202-17')];
                     let data = [];
                     if (res.rows && res.rows.length !== 0) {
                         data = res.rows.map((item) => {

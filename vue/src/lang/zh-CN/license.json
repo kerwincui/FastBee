@@ -1,0 +1,23 @@
+{
+  "license.index.654891-0": "蜂信物联",
+  "license.index.654891-1": "FastBee物联网平台授权认证",
+  "license.index.654891-2": "授权认证",
+  "license.index.654891-3": "提示：",
+  "license.index.654891-4": "请选择授权类型",
+  "license.index.654891-5": "请输入公司名称",
+  "license.index.654891-6": "请输入证书名称",
+  "license.index.654891-7": "上传",
+  "license.index.654891-8": "认证过期或者未认证，请上传许可证书进行认证！",
+  "license.index.654891-9": "开始安装",
+  "license.index.654891-10": "区域校验（公司）",
+  "license.index.654891-11": "IP白名单（个人）",
+  "license.index.654891-12": "试用",
+  "license.index.654891-13": "请上传文件",
+  "license.index.654891-14": "文件格式不正确，请上传.lic文件！",
+  "license.index.654891-15": "证书上传成功",
+  "license.index.654891-16": "上传失败",
+  "license.index.654891-17": "证书安装中...",
+  "license.index.654891-18": "安装成功，请登录",
+  "license.index.654891-19": "安装失败，请重试",
+  "license.index.654891-20": "证书安装失败"
+}

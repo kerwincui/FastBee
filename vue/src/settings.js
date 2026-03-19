@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 module.exports = {
   /**
    * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
@@ -40,5 +41,9 @@ module.exports = {
    * The default is only used in the production env
    * If you want to also use it in dev, you can pass ['production', 'development']
    */
-  errorLog: 'production'
+  errorLog: 'production',
+    /**
+   * 默认语言 先從cookies拿，沒有從瀏覽器語言拿，最後用'zh-CN'
+   */
+  language: Cookies.get('language') || navigator.language || navigator.browserLanguage || 'zh-CN',
 }
