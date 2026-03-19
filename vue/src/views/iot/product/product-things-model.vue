@@ -3,70 +3,70 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-if="productInfo.status == 1">新增</el-button>
+          v-if="productInfo.status == 1">{{ $t('product.product-things-model.142341-0') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="el-icon-upload2" size="mini" @click="handleSelect"
-          v-if="productInfo.status == 1">导入通用物模型</el-button>
+          v-if="productInfo.status == 1">{{ $t('product.product-things-model.142341-1') }}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+        <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">{{ $t('refresh') }}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="el-icon-view" size="mini" @click="handleOpenThingsModel">查看物模型</el-button>
+        <el-button type="info" plain icon="el-icon-view" size="mini" @click="handleOpenThingsModel">{{ $t('product.product-things-model.142341-3') }}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-link type="danger" style="padding-top: 5px" :underline="false">注意：标识符不能重复</el-link>
+        <el-link type="danger" style="padding-top: 5px" :underline="false">{{ $t('product.product-things-model.142341-4') }}</el-link>
       </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="modelList" size="mini">
-      <el-table-column label="名称" align="center" prop="modelName" width="230" />
-      <el-table-column label="标识符" align="center" prop="identifier" />
-      <el-table-column label="图表展示" align="center" prop="" width="80">
+      <el-table-column :label="$t('product.product-things-model.142341-8')" align="center" prop="modelName" width="230" />
+      <el-table-column :label="$t('product.product-things-model.142341-9')" align="center" prop="identifier" />
+      <el-table-column :label="$t('product.product-things-model.142341-12')" align="center" prop="" width="80">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isChart" />
         </template>
       </el-table-column>
-      <el-table-column label="实时监测" align="center" prop="" width="75">
+      <el-table-column :label="$t('product.product-things-model.142341-13')" align="center" prop="" width="75">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
         </template>
       </el-table-column>
-      <el-table-column label="只读" align="center" prop="" width="75">
+      <el-table-column :label="$t('product.product-things-model.142341-14')" align="center" prop="" width="75">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isReadonly" />
         </template>
       </el-table-column>
-      <el-table-column label="历史存储" align="center" prop="" width="75">
+      <el-table-column :label="$t('product.product-things-model.142341-15')" align="center" prop="" width="75">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isHistory" />
         </template>
       </el-table-column>
-      <el-table-column label="物模型类别" align="center" prop="type" width="100">
+      <el-table-column :label="$t('product.product-things-model.142341-16')" align="center" prop="type" width="100">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_things_type" :value="scope.row.type" />
         </template>
       </el-table-column>
-      <el-table-column label="数据类型" align="center" prop="datatype" width="80">
+      <el-table-column :label="$t('product.product-things-model.142341-17')" align="center" prop="datatype" width="80">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
         </template>
       </el-table-column>
-      <el-table-column label="数据定义" align="left" header-align="center" prop="specs" min-width="150"
+      <el-table-column :label="$t('product.product-things-model.142341-18')" align="left" header-align="center" prop="specs" min-width="150"
         class-name="specsColor">
         <template slot-scope="scope">
           <div v-html="formatSpecsDisplay(scope.row.specs)"></div>
         </template>
       </el-table-column>
-      <el-table-column label="计算公式" align="center" prop="formula" />
-      <el-table-column label="排序" align="center" prop="modelOrder" width="80" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('product.product-things-model.142341-19')" align="center" prop="formula" />
+      <el-table-column :label="$t('product.product-things-model.142341-20')" align="center" prop="modelOrder" width="80" />
+      <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-if="productInfo.status != 2">修改</el-button>
+            v-if="productInfo.status != 2">{{ $t('product.product-things-model.142341-84') }}</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-if="productInfo.status != 2">删除</el-button>
+            v-if="productInfo.status != 2">{{ $t('del') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,101 +74,101 @@
     <!-- 添加或修改物模型对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="模型名称" prop="modelName">
-          <el-input v-model="form.modelName" placeholder="请输入物模型名称，例如：温度" style="width: 385px" />
+        <el-form-item :label="$t('product.product-things-model.142341-24')" prop="modelName">
+          <el-input v-model="form.modelName" :placeholder="$t('product.product-things-model.142341-25')" style="width: 385px" />
         </el-form-item>
-        <el-form-item label="模型标识" prop="identifier">
-          <el-input v-model="form.identifier" placeholder="请输入标识符，例如：temperature" style="width: 385px" />
+        <el-form-item :label="$t('product.product-things-model.142341-26')" prop="identifier">
+          <el-input v-model="form.identifier" :placeholder="$t('product.product-things-model.142341-27')" style="width: 385px" />
         </el-form-item>
-        <el-form-item label="模型排序" prop="modelOrder">
-          <el-input-number v-model="form.modelOrder" placeholder="请输入排序" type="number" style="width: 386px"
+        <el-form-item :label="$t('product.product-things-model.142341-28')" prop="modelOrder">
+          <el-input-number v-model="form.modelOrder" :placeholder="$t('product.product-things-model.142341-29')" type="number" style="width: 386px"
             controls-position="right" />
         </el-form-item>
-        <el-form-item label="模型类别" prop="type">
+        <el-form-item :label="$t('product.product-things-model.142341-30')" prop="type">
           <el-radio-group v-model="form.type" @change="typeChange(form.type)">
-            <el-radio-button label="1">属性</el-radio-button>
-            <el-radio-button label="2">功能</el-radio-button>
-            <el-radio-button label="3">事件</el-radio-button>
+            <el-radio-button label="1">{{ $t('product.product-things-model.142341-31') }}</el-radio-button>
+            <el-radio-button label="2">{{ $t('product.product-things-model.142341-32') }}</el-radio-button>
+            <el-radio-button label="3">{{ $t('product.product-things-model.142341-33') }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="模型特性" prop="property">
-          <el-checkbox name="isChart" label="图表展示" @change="isChartChange" v-show="form.type == 1" v-model="form.isChart"
+        <el-form-item :label="$t('product.product-things-model.142341-34')" prop="property">
+          <el-checkbox name="isChart" :label="$t('product.product-things-model.142341-12')" @change="isChartChange" v-show="form.type == 1" v-model="form.isChart"
             :true-label="1" :false-label="0"></el-checkbox>
-          <el-checkbox name="isMonitor" label="实时监测" @change="isMonitorChange" v-show="form.type == 1"
+          <el-checkbox name="isMonitor" :label="$t('product.product-things-model.142341-13')" @change="isMonitorChange" v-show="form.type == 1"
             v-model="form.isMonitor" :true-label="1" :false-label="0"></el-checkbox>
-          <el-checkbox name="isReadonly" label="只读数据" @change="isReadonlyChange" :disabled="form.type == 3"
+          <el-checkbox name="isReadonly" :label="$t('product.product-things-model.142341-35')" @change="isReadonlyChange" :disabled="form.type == 3"
             v-model="form.isReadonly" :true-label="1" :false-label="0"></el-checkbox>
-          <el-checkbox name="isHistory" label="历史存储" v-model="form.isHistory" :true-label="1"
+          <el-checkbox name="isHistory" :label="$t('product.product-things-model.142341-15')" v-model="form.isHistory" :true-label="1"
             :false-label="0"></el-checkbox>
-          <el-checkbox name="isSharePerm" label="分享权限" v-model="form.isSharePerm" :true-label="1"
+          <el-checkbox name="isSharePerm" :label="$t('product.product-things-model.142341-36')" v-model="form.isSharePerm" :true-label="1"
             :false-label="0"></el-checkbox>
         </el-form-item>
         <el-divider></el-divider>
-        <el-form-item label="数据类型" prop="datatype">
-          <el-select v-model="form.datatype" placeholder="请选择数据类型" @change="dataTypeChange" style="width: 175px">
-            <el-option key="integer" label="整数" value="integer"></el-option>
-            <el-option key="decimal" label="小数" value="decimal"></el-option>
-            <el-option key="bool" label="布尔" value="bool" :disabled="form.isChart == 1"></el-option>
-            <el-option key="enum" label="枚举" value="enum" :disabled="form.isChart == 1"></el-option>
-            <el-option key="string" label="字符串" value="string" :disabled="form.isChart == 1"></el-option>
-            <el-option key="array" label="数组" value="array" :disabled="form.isChart == 1"></el-option>
-            <el-option key="object" label="对象" value="object" :disabled="form.isChart == 1"></el-option>
+        <el-form-item :label="$t('product.product-things-model.142341-17')" prop="datatype">
+          <el-select v-model="form.datatype" :placeholder="$t('product.product-things-model.142341-37')" @change="dataTypeChange" style="width: 175px">
+            <el-option key="integer" :label="$t('product.product-things-model.142341-38')" value="integer"></el-option>
+            <el-option key="decimal" :label="$t('product.product-things-model.142341-39')" value="decimal"></el-option>
+            <el-option key="bool" :label="$t('product.product-things-model.142341-40')" value="bool" :disabled="form.isChart == 1"></el-option>
+            <el-option key="enum" :label="$t('product.product-things-model.142341-41')" value="enum" :disabled="form.isChart == 1"></el-option>
+            <el-option key="string" :label="$t('product.product-things-model.142341-42')" value="string" :disabled="form.isChart == 1"></el-option>
+            <el-option key="array" :label="$t('product.product-things-model.142341-43')" value="array" :disabled="form.isChart == 1"></el-option>
+            <el-option key="object" :label="$t('product.product-things-model.142341-44')" value="object" :disabled="form.isChart == 1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="取值范围" v-if="form.datatype == 'integer'">
+        <el-form-item :label="$t('product.product-things-model.142341-45')" v-if="form.datatype == 'integer'">
               <el-row>
                 <el-col :span="9">
-                  <el-input v-model="form.specs.min" placeholder="最小值" controls-position="right" type="number"
+                  <el-input v-model="form.specs.min" :placeholder="$t('product.product-things-model.142341-46')" controls-position="right" type="number"
                     style="width: 174px;" @input="handleEdit" />
                 </el-col>
-                <el-col :span="2" align="center">到</el-col>
+                <el-col :span="2" align="center">{{ $t('product.product-things-model.142341-47') }}</el-col>
                 <el-col :span="9">
-                  <el-input v-model="form.specs.max" placeholder="最大值" type="number" controls-position="right"
+                  <el-input v-model="form.specs.max" :placeholder="$t('product.product-things-model.142341-48')" type="number" controls-position="right"
                     style="width: 174px;" @input="handleEditmax" />
                 </el-col>
               </el-row>
-            </el-form-item>
-            <el-form-item label="取值范围" v-if="form.datatype == 'decimal'">
+         </el-form-item>
+            <el-form-item :label="$t('product.product-things-model.142341-45')" v-if="form.datatype == 'decimal'">
               <el-row>
                 <el-col :span="9">
-                  <el-input v-model="form.specs.min" placeholder="最小值" controls-position="right" type="number"
+                  <el-input v-model="form.specs.min" :placeholder="$t('product.product-things-model.142341-46')" controls-position="right" type="number"
                     style="width: 174px;" />
                 </el-col>
-                <el-col :span="2" align="center">到</el-col>
+                <el-col :span="2" align="center">{{ $t('product.product-things-model.142341-47') }}</el-col>
                 <el-col :span="9">
-                  <el-input v-model="form.specs.max" placeholder="最大值" type="number" controls-position="right"
+                  <el-input v-model="form.specs.max" :placeholder="$t('product.product-things-model.142341-48')" type="number" controls-position="right"
                     style="width: 174px;" />
                 </el-col>
               </el-row>
             </el-form-item>
           <div v-if="form.datatype == 'integer' || form.datatype == 'decimal'">
-          <el-form-item label="单位">
-            <el-input v-model="form.specs.unit" placeholder="请输入单位，例如：℃" style="width: 385px" />
+          <el-form-item :label="$t('product.product-things-model.142341-49')">
+            <el-input v-model="form.specs.unit" :placeholder="$t('product.product-things-model.142341-50')" style="width: 385px" />
           </el-form-item>
-          <el-form-item label="步长">
-            <el-input-number v-model="form.specs.step" placeholder="请输入步长，例如：1" type="number" style="width: 386px"
+          <el-form-item :label="$t('product.product-things-model.142341-51')">
+            <el-input-number v-model="form.specs.step" :placeholder="$t('product.product-things-model.142341-52')" type="number" style="width: 386px"
               controls-position="right" />
           </el-form-item>
-          <el-form-item label="计算公式" prop="formula">
+          <el-form-item :label="$t('product.product-things-model.142341-19')" prop="formula">
             <template slot="label">
-              <span>计算公式</span>
-              <el-tooltip style="cursor: pointer" effect="light" placement="top">
+              <span>{{ $t('product.product-things-model.142341-19') }}</span>
+             <el-tooltip style="cursor: pointer" effect="light" placement="top">
                 <div slot="content">
-                  设备上行数据经计算公式计算后显示 。
+                  {{ $t('product.product-things-model.142341-53') }}
                   <br />
-                  公式中的%s为占位符，是固定字段。
+                  {{ $t('product.product-things-model.142341-54') }}
                   <br />
-                  如：
+                  {{ $t('product.product-things-model.142341-55') }}
                   <br />
-                  加：%s+10
+                  {{ $t('product.product-things-model.142341-56') }}
                   <br />
-                  减：%s-10
+                  {{ $t('product.product-things-model.142341-57') }}
                   <br />
-                  乘：%s*10
+                  {{ $t('product.product-things-model.142341-58') }}
                   <br />
-                  除：%s/10
+                  {{ $t('product.product-things-model.142341-59') }}
                   <br />
-                  余数：%s%10
+                  {{ $t('product.product-things-model.142341-60') }}
                   <br />
                 </div>
                 <i class="el-icon-question" />
@@ -179,132 +179,132 @@
         </div>
 
         <div v-if="form.datatype == 'bool'">
-          <el-form-item label="布尔值" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-63')" prop="">
             <el-row style="margin-bottom: 10px">
               <el-col :span="9">
-                <el-input v-model="form.specs.falseText" placeholder="例如：关闭" />
+                <el-input v-model="form.specs.falseText" :placeholder="$t('product.product-things-model.142341-64')" />
               </el-col>
-              <el-col :span="10" :offset="1">（0 值对应文本）</el-col>
+              <el-col :span="10" :offset="1">{{ $t('product.product-things-model.142341-65') }}</el-col>
             </el-row>
             <el-row>
               <el-col :span="9">
-                <el-input v-model="form.specs.trueText" placeholder="例如：打开" />
+                <el-input v-model="form.specs.trueText" :placeholder="$t('product.product-things-model.142341-66')" />
               </el-col>
-              <el-col :span="10" :offset="1">（1 值对应文本）</el-col>
+              <el-col :span="10" :offset="1">{{ $t('product.product-things-model.142341-67') }}</el-col>
             </el-row>
           </el-form-item>
         </div>
 
         <div v-if="form.datatype == 'enum'">
-          <el-form-item label="展示方式">
-            <el-select v-model="form.specs.showWay" placeholder="请选择展示方式" style="width: 175px">
-              <el-option key="select" label="下拉框" value="select"></el-option>
-              <el-option key="button" label="按钮" value="button"></el-option>
+          <el-form-item :label="$t('product.product-things-model.142341-68')">
+            <el-select v-model="form.specs.showWay" :placeholder="$t('product.product-things-model.142341-69')" style="width: 175px">
+              <el-option key="select" :label="$t('product.product-things-model.142341-70')" value="select"></el-option>
+              <el-option key="button" :label="$t('product.product-things-model.142341-71')" value="button"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="枚举项" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-72')" prop="">
             <el-row v-for="(item, index) in form.specs.enumList" :key="'enum' + index" style="margin-bottom: 10px">
               <el-col :span="9">
-                <el-input v-model="item.value" placeholder="参数值，例如：0" />
+                <el-input v-model="item.value" :placeholder="$t('product.product-things-model.142341-73')" />
               </el-col>
               <el-col :span="11" :offset="1">
-                <el-input v-model="item.text" placeholder="参数描述，例如：中速档位" />
+                <el-input v-model="item.text" :placeholder="$t('product.product-things-model.142341-74')" />
               </el-col>
               <el-col :span="2" :offset="1" v-if="index != 0"><a style="color: #f56c6c"
-                  @click="removeEnumItem(index)">删除</a></el-col>
+                  @click="removeEnumItem(index)">{{ $t('del') }}</a></el-col>
             </el-row>
             <div>
               +
-              <a style="color: #409eff" @click="addEnumItem()">添加枚举项</a>
+              <a style="color: #409eff" @click="addEnumItem()">{{ $t('product.product-things-model.142341-75') }}</a>
             </div>
           </el-form-item>
         </div>
 
         <div v-if="form.datatype == 'string'">
-          <el-form-item label="最大长度" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-76')" prop="">
             <el-row>
               <el-col :span="9">
-                <el-input v-model="form.specs.maxLength" placeholder="例如：1024" type="number" />
+                <el-input v-model="form.specs.maxLength" :placeholder="$t('product.product-things-model.142341-77')" type="number" />
               </el-col>
-              <el-col :span="14" :offset="1">（字符串的最大长度）</el-col>
+              <el-col :span="14" :offset="1">{{ $t('product.product-things-model.142341-78') }}</el-col>
             </el-row>
           </el-form-item>
         </div>
 
         <div v-if="form.datatype == 'array'">
-          <el-form-item label="元素个数" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-79')" prop="">
             <el-row>
               <el-col :span="9">
-                <el-input v-model="form.specs.arrayCount" placeholder="例如：5" type="number" />
+                <el-input v-model="form.specs.arrayCount" :placeholder="$t('product.product-things-model.142341-80')" type="number" />
               </el-col>
             </el-row>
           </el-form-item>
-          <el-form-item label="数组类型" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-81')" prop="">
             <el-radio-group v-model="form.specs.arrayType">
-              <el-radio label="integer">整数</el-radio>
-              <el-radio label="decimal">小数</el-radio>
-              <el-radio label="string">字符串</el-radio>
-              <el-radio label="object">对象</el-radio>
+              <el-radio label="integer">{{ $t('product.product-things-model.142341-38') }}</el-radio>
+              <el-radio label="decimal">{{ $t('product.product-things-model.142341-39') }}</el-radio>
+              <el-radio label="string">{{ $t('product.product-things-model.142341-42') }}</el-radio>
+              <el-radio label="object">{{ $t('product.product-things-model.142341-44') }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="对象参数" v-if="form.specs.arrayType == 'object'">
+          <el-form-item :label="$t('product.product-things-model.142341-82')" v-if="form.specs.arrayType == 'object'">
             <div style="background-color: #f8f8f8; border-radius: 5px">
               <el-row style="padding: 0 10px 5px" v-for="(item, index) in form.specs.params" :key="index">
                 <div style="margin-top: 5px" v-if="index == 0"></div>
                 <el-col :span="18">
-                  <el-input readonly v-model="item.name" size="mini" placeholder="请选择设备" style="margin-top: 3px">
+                  <el-input readonly v-model="item.name" size="mini" :placeholder="$t('product.product-things-model.142341-83')" style="margin-top: 3px">
                     <template slot="prepend">
                       <el-tag size="mini" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{
                         item.order }}</el-tag>
                       {{ form.identifier + '_' + item.id }}
                     </template>
-                    <el-button slot="append" @click="editParameter(item, index)" size="small">编辑</el-button>
+                    <el-button slot="append" @click="editParameter(item, index)" size="small">{{ $t('product.product-things-model.142341-84') }}</el-button>
                   </el-input>
                 </el-col>
                 <el-col :span="2" :offset="2">
                   <el-button size="small" plain type="danger" style="padding: 5px" icon="el-icon-delete"
-                    @click="removeParameter(index)">删除</el-button>
+                    @click="removeParameter(index)">{{ $t('del') }}</el-button>
                 </el-col>
               </el-row>
             </div>
             <div>
               +
-              <a style="color: #409eff" @click="addParameter()">添加参数</a>
+              <a style="color: #409eff" @click="addParameter()">{{ $t('product.product-things-model.142341-85') }}</a>
             </div>
           </el-form-item>
         </div>
         <div v-if="form.datatype == 'object'">
-          <el-form-item label="对象参数" prop="">
+          <el-form-item :label="$t('product.product-things-model.142341-87')" prop="">
             <div style="background-color: #f8f8f8; border-radius: 5px">
               <el-row style="padding: 0 10px 5px" v-for="(item, index) in form.specs.params" :key="index">
                 <div style="margin-top: 5px" v-if="index == 0"></div>
                 <el-col :span="18">
-                  <el-input readonly v-model="item.name" size="mini" placeholder="请选择设备" style="margin-top: 3px">
+                  <el-input readonly v-model="item.name" size="mini" :placeholder="$t('product.product-things-model.142341-88')" style="margin-top: 3px">
                     <template slot="prepend">
                       <el-tag size="mini" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{
                         item.order }}</el-tag>
                       {{ form.identifier + '_' + item.id }}
                     </template>
-                    <el-button slot="append" @click="editParameter(item, index)" size="small">编辑</el-button>
+                    <el-button slot="append" @click="editParameter(item, index)" size="small">{{ $t('product.product-things-model.142341-84') }}</el-button>
                   </el-input>
                 </el-col>
                 <el-col :span="2" :offset="2">
                   <el-button size="small" plain type="danger" style="padding: 5px" icon="el-icon-delete"
-                    @click="removeParameter(index)">删除</el-button>
+                    @click="removeParameter(index)">{{ $t('del') }}</el-button>
                 </el-col>
               </el-row>
             </div>
             <div>
               +
-              <a style="color: #409eff" @click="addParameter()">添加参数</a>
+              <a style="color: #409eff" @click="addParameter()">{{ $t('product.product-things-model.142341-85') }}</a>
             </div>
           </el-form-item>
         </div>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
+        <el-button @click="cancel">{{ $t('cancel') }}</el-button>
       </div>
     </el-dialog>
 
@@ -315,8 +315,8 @@
     <el-dialog :title="title" :visible.sync="openSelect" width="800px" append-to-body>
       <product-select-template ref="productSelectTemplate" @idsToParentEvent="getChildData($event)" />
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="importSelect">导 入</el-button>
-        <el-button @click="cancelSelect">取 消</el-button>
+        <el-button type="primary" @click="importSelect">{{ $t('import') }}</el-button>
+        <el-button @click="cancelSelect">{{ $t('cancel') }}</el-button>
       </div>
     </el-dialog>
 
@@ -324,14 +324,15 @@
     <el-dialog :title="title" :visible.sync="openThingsModel" width="600px" append-to-body>
       <div style="border: 1px solid #ccc; margin-top: -15px; height: 600px; overflow: scroll">
         <json-viewer :value="thingsModel" :expand-depth="10" copyable>
-          <template v-slot:copy>复制</template>
+          <template v-slot:copy>{{ $t('product.product-things-model.142341-92') }}</template>
         </json-viewer>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="info" @click="handleCloseThingsModel">关 闭</el-button>
+        <el-button type="info" @click="handleCloseThingsModel">{{ $t('close') }}</el-button>
       </div>
     </el-dialog>
   </div>
+
 </template>
 
 <style>
@@ -425,46 +426,46 @@ export default {
         modelName: [
           {
             required: true,
-            message: '物模型名称不能为空',
+            message: this.$t('product.product-things-model.142341-94'),
             trigger: 'blur',
           },
           {
             min: 1,
             max: 64,
-            message: '物模型名称不能少于1个字符和超过64字符',
+            message: this.$i18n.t('product.product-things-model.142341-94'),
             trigger: 'blur',
           },
         ],
         identifier: [
           {
             required: true,
-            message: '标识符，产品下唯一不能为空',
+            message: this.$t('product.product-things-model.142341-95'),
             trigger: 'blur',
           },
           {
             min: 1,
             max: 32,
-            message: '模型标识不能少于1个字符和超过32字符',
+            message: this.$i18n.t('product.product-things-model.142341-95'),
             trigger: 'blur',
           },
         ],
         modelOrder: [
           {
             required: true,
-            message: '模型排序不能为空',
+            message: this.$t('product.product-things-model.142341-96'),
             trigger: 'blur',
           }, {
             type: 'number',
             min: -2147483648,
             max: 2147483647,
-            message: '排序不能超过int型的范围值( -2^31——2^31-1)',
+            message: this.$t('product.product-things-model.142341-96'),
             trigger: 'blur',
           },
         ],
         type: [
           {
             required: true,
-            message: '模型类别不能为空',
+            message: this.$t('product.product-things-model.142341-97'),
             trigger: 'change',
           },
 
@@ -472,7 +473,7 @@ export default {
         datatype: [
           {
             required: true,
-            message: '数据类型不能为空',
+            message: this.$t('product.product-things-model.142341-98'),
             trigger: 'change',
           },
         ],
@@ -481,7 +482,7 @@ export default {
   },
   created() { },
   methods: {
-    /** 查询产品物模型列表 */
+    /**查询产品物模型列表 */
     getList() {
       this.loading = true;
       listModel(this.queryParams).then((response) => {
@@ -549,7 +550,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = '添加物模型';
+      this.title = this.$t('product.product-things-model.142341-99');
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -558,7 +559,7 @@ export default {
       getModel(modelId).then((response) => {
         let tempForm = response.data;
         this.open = true;
-        this.title = '修改物模型';
+        this.title = this.$t('product.product-things-model.142341-100');
         // Json转对象
         tempForm.specs = JSON.parse(tempForm.specs);
         if (!tempForm.specs.enumList) {
@@ -590,7 +591,7 @@ export default {
     },
     /**查看物模型 */
     handleOpenThingsModel() {
-      this.title = '物模型';
+      this.title = this.$t('product.product-things-model.142341-101');
       // 生成物模型
       this.thingsModel = {
         properties: [],
@@ -636,7 +637,7 @@ export default {
     /** 选择物模型 */
     handleSelect() {
       this.openSelect = true;
-      this.title = '导入通用物模型';
+      this.title = this.$t('product.product-things-model.142341-1');
       this.form.type = 1;
       this.form.datatype = 'integer';
       this.form.specs = {
@@ -675,7 +676,7 @@ export default {
           // 验证对象或对象数组中的参数不能为空
           if (this.form.datatype == 'object' || (this.form.datatype == 'array' && this.form.specs.arrayType == 'object')) {
             if (!this.form.specs.params || this.form.specs.params == 0) {
-              this.$modal.msgError('对象的参数不能为空');
+              this.$modal.msgError(this.$t('product.product-things-model.142341-102'));
               return;
             }
           }
@@ -684,7 +685,7 @@ export default {
             let arr = this.form.specs.params.map((item) => item.id).sort();
             for (let i = 0; i < arr.length; i++) {
               if (arr[i] == arr[i + 1]) {
-                this.$modal.msgError('参数标识 ' + arr[i] + ' 重复');
+                this.$modal.msgError(this.$i18n.t('product.product-things-model.142341-105', [arr[i]]));
                 return;
               }
             }
@@ -692,7 +693,7 @@ export default {
           //验证输入的取值范围最大值不能小于最小值
           if (this.form.datatype == 'integer' || this.form.datatype == 'decimal') {
             if (parseFloat(this.form.specs.min) > parseFloat(this.form.specs.max)) {
-              this.$modal.msgError('请重新输入取值范围,最大值不能比最小值小!');
+              this.$modal.msgError(this.$t('product.product-things-model.142341-143'));
               return;
             }
           }
@@ -700,13 +701,13 @@ export default {
             this.hasDecimalPoint();
             this.hasDecimalPointMax();
             if (this.isDecimal === false || this.isDecimalMax === false) {
-              this.$modal.msgError('取值范围必须输入小数,请重新输入!');
+              this.$modal.msgError(this.$t('product.product-things-model.142341-144'));
               return;
             }
           }
           //验证模型特性为图表展示时，数据类型是否为整数或者小数
           if ((this.form.isChart == 1 && this.form.datatype != 'integer') && (this.form.isChart == 1 && this.form.datatype != 'decimal')) {
-            this.$modal.msgError('请重新选择数据类型！');
+            this.$modal.msgError(this.$t('product.product-things-model.142341-106'));
           }
           else if (this.form.modelId != null) {
             // 格式化specs
@@ -720,7 +721,7 @@ export default {
               tempForm.isChart = 0;
             }
             updateModel(tempForm).then((response) => {
-              this.$modal.msgSuccess('修改成功');
+              this.$modal.msgSuccess(this.$t('product.product-things-model.142341-107'));
               this.open = false;
               this.getList();
             });
@@ -737,7 +738,7 @@ export default {
               tempForm.isChart = 0;
             }
             addModel(tempForm).then((response) => {
-              this.$modal.msgSuccess('新增成功');
+              this.$modal.msgSuccess(this.$t('product.product-things-model.142341-108'));
               this.open = false;
               this.getList();
             });
@@ -750,13 +751,13 @@ export default {
       const modelIds = row.modelId;
       // if (!this.queryParams.isModbus) {
       this.$modal
-        .confirm('是否确认删除物模型编号为"' + modelIds + '"的数据项？')
+        .confirm(this.$i18n.t('product.product-things-model.142341-109', [modelIds]))
         .then(function () {
           return delModel(modelIds);
         })
         .then(() => {
           this.getList();
-          this.$modal.msgSuccess('删除成功');
+          this.$modal.msgSuccess(this.$t('product.product-things-model.142341-111'));
         })
         .catch(() => { });
       // } else {
@@ -830,8 +831,8 @@ export default {
       } else if (this.form.datatype == 'string') {
         data.maxLength = Number(this.form.specs.maxLength ? this.form.specs.maxLength : 1024);
       } else if (this.form.datatype == 'bool') {
-        data.falseText = this.form.specs.falseText ? this.form.specs.falseText : '关闭';
-        data.trueText = this.form.specs.trueText ? this.form.specs.trueText : '打开';
+        data.falseText = this.form.specs.falseText ? this.form.specs.falseText : this.$t('product.product-things-model.142341-113');
+        data.trueText = this.form.specs.trueText ? this.form.specs.trueText : this.$t('product.product-things-model.142341-114');
       } else if (this.form.datatype == 'enum') {
         data.showWay = this.form.specs.showWay;
         if (this.form.specs.enumList && this.form.specs.enumList[0].text != '') {
@@ -841,11 +842,11 @@ export default {
           data.enumList = [
             {
               value: '0',
-              text: '低',
+              text: this.$t('product.product-things-model.142341-115'),
             },
             {
               value: '1',
-              text: '高',
+              text: this.$t('product.product-things-model.142341-116'),
             },
           ];
         }
@@ -886,19 +887,19 @@ export default {
       let specs = JSON.parse(json);
       if (specs.type === 'integer' || specs.type === 'decimal' || specs.type === 'INT16' || specs.type === 'INT') {
         return (
-          '<span style=\'width:50%;display:inline-block;\'>最大值：<span style="color:#F56C6C">' +
+          '<span style=\'width:50%;display:inline-block;\'>' + this.$t('product.product-things-model.142341-117') + '<span style="color:#F56C6C">' +
           specs.max +
-          '</span></span>最小值：<span style="color:#F56C6C">' +
+          '</span></span>' + this.$t('product.product-things-model.142341-118') + '<span style="color:#F56C6C">' +
           specs.min +
-          '</span><br /><span style=\'width:50%;display:inline-block;\'>步长：<span style="color:#F56C6C">' +
+          '</span><br /><span style=\'width:50%;display:inline-block;\'>' + this.$t('product.product-things-model.142341-119') + '<span style="color:#F56C6C">' +
           specs.step +
-          '</span></span>单位：<span style="color:#F56C6C">' +
+          '</span></span>' + this.$t('product.product-things-model.142341-120') + '<span style="color:#F56C6C">' +
           specs.unit
         );
       } else if (specs.type === 'string') {
-        return '最大长度：<span style="color:#F56C6C">' + specs.maxLength + '</span>';
+        return this.$t('product.product-things-model.142341-121') + '<span style="color:#F56C6C">' + specs.maxLength + '</span>';
       } else if (specs.type === 'array') {
-        return '<span style=\'width:50%;display:inline-block;\'>数组类型：<span style="color:#F56C6C">' + specs.arrayType + '</span></span>元素个数：<span style="color:#F56C6C">' + specs.arrayCount;
+        return '<span style=\'width:50%;display:inline-block;\'>' + this.$t('product.product-things-model.142341-122') + '<span style="color:#F56C6C">' + specs.arrayType + '</span></span>' + this.$t('product.product-things-model.142341-123') + '<span style="color:#F56C6C">' + specs.arrayCount;
       } else if (specs.type === 'enum') {
         let items = '';
         for (let i = 0; i < specs.enumList.length; i++) {

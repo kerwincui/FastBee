@@ -3,7 +3,7 @@
     <el-card style="margin-bottom: 6px">
       <el-row :gutter="120">
         <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
-          <h3 style="font-weight: bold">Mqtt 统计指标</h3>
+          <h3 style="font-weight: bold">{{ $t('netty.mqtt.564432-0') }}</h3>
           <el-row :gutter="20" class="panel-group">
             <el-col :span="24" class="card-panel-col" style="margin-bottom: 17px">
               <div class="card-panel">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-panel-description">
                   <div>
-                    <div class="card-panel-text">发送消息</div>
+                    <div class="card-panel-text">{{ $t('netty.mqtt.564432-1') }}</div>
                     <count-to :start-val="0" :end-val="this.static['send_total']" :duration="3000" class="card-panel-num" />
                   </div>
                 </div>
@@ -26,7 +26,7 @@
 
                 <div class="card-panel-description">
                   <div>
-                    <div class="card-panel-text">接收消息</div>
+                    <div class="card-panel-text">{{ $t('netty.mqtt.564432-2') }}</div>
                     <count-to :start-val="0" :end-val="this.static['receive_total']" :duration="3000" class="card-panel-num" />
                   </div>
                 </div>
@@ -38,7 +38,7 @@
                   <svg-icon icon-class="authenticate" class-name="card-panel-icon" />
                 </div>
                 <div class="card-panel-description">
-                  <div class="card-panel-text">认证次数</div>
+                  <div class="card-panel-text">{{ $t('netty.mqtt.564432-3') }}</div>
                   <count-to :start-val="0" :end-val="this.static['auth_total']" :duration="1000" class="card-panel-num" />
                 </div>
               </div>
@@ -49,7 +49,7 @@
                   <svg-icon icon-class="connect" class-name="card-panel-icon" />
                 </div>
                 <div class="card-panel-description">
-                  <div class="card-panel-text">连接次数</div>
+                  <div class="card-panel-text">{{ $t('netty.mqtt.564432-4') }}</div>
                   <count-to :start-val="0" :end-val="this.static['connect_total']" :duration="1000" class="card-panel-num" />
                 </div>
               </div>
@@ -60,7 +60,7 @@
                   <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
                 </div>
                 <div class="card-panel-description">
-                  <div class="card-panel-text">订阅次数</div>
+                  <div class="card-panel-text">{{ $t('netty.mqtt.564432-5') }}</div>
                   <count-to :start-val="0" :end-val="this.static['subscribe_total']" :duration="2000" class="card-panel-num" />
                 </div>
               </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="card-panel-description">
                   <div>
-                    <div class="card-panel-text">今日接收</div>
+                    <div class="card-panel-text">{{ $t('netty.mqtt.564432-6') }}</div>
                     <count-to :start-val="0" :end-val="this.static['today_received']" :duration="3000" class="card-panel-num" />
                   </div>
                 </div>
@@ -85,7 +85,7 @@
                   <svg-icon icon-class="subscribe1" class-name="card-panel-icon" />
                 </div>
                 <div class="card-panel-description">
-                  <div class="card-panel-text">今日发送</div>
+                  <div class="card-panel-text">{{ $t('netty.mqtt.564432-7') }}</div>
                   <count-to :start-val="0" :end-val="this.static['today_send']" :duration="2000" class="card-panel-num" />
                 </div>
               </div>
@@ -147,7 +147,7 @@ export default {
       var option;
       option = {
         title: {
-          text: 'Mqtt消息',
+          text: this.$t('netty.mqtt.564432-8'),
           left: 'left',
           textStyle: {
             fontSize: 16,
@@ -163,7 +163,7 @@ export default {
         color: ['#E6A23C', '#F56C6C', '#DDD'],
         series: [
           {
-            name: 'Mqtt消息 %',
+            name: this.$t('netty.mqtt.564432-9'),
             type: 'pie',
             radius: '55%',
             label: {
@@ -178,11 +178,11 @@ export default {
             data: [
               {
                 value: this.static['send_total'],
-                name: '发送消息总数',
+                name: this.$t('netty.mqtt.564432-10'),
               },
               {
                 value: this.static['receive_total'],
-                name: '接收消息总数',
+                name: this.$t('netty.mqtt.564432-11'),
               },
             ],
           },
@@ -198,7 +198,7 @@ export default {
 
       option = {
         title: {
-          text: 'Mqtt 状态数据',
+          text: this.$t('netty.mqtt.564432-12'),
           textStyle: {
             fontSize: 18,
             color: '#000',
@@ -227,11 +227,17 @@ export default {
           axisLabel: {
             fontSize: 14,
           },
-          data: ['连接数量', '会话数量', '订阅数量', '路由数量', '保留消息'],
+          data: [
+            this.$t('netty.mqtt.564432-13'),
+            this.$t('netty.mqtt.564432-14'),
+            this.$t('netty.mqtt.564432-15'),
+            this.$t('netty.mqtt.564432-16'),
+            this.$t('netty.mqtt.564432-17'),
+          ],
         },
         series: [
           {
-            name: '当前数量',
+            name: this.$t('netty.mqtt.564432-18'),
             type: 'bar',
             data: [this.stats['connection_count'], this.stats['session_count'], this.stats['subscription_count'], this.stats['retain_count'], this.stats['retain_count']],
             itemStyle: {
@@ -239,7 +245,7 @@ export default {
             },
           },
           {
-            name: '累计总数',
+            name: this.$t('netty.mqtt.564432-19'),
             type: 'bar',
             data: [this.stats['connection_total'], this.stats['session_total'], this.stats['subscription_total'], this.stats['retain_total'], this.stats['retain_total']],
             itemStyle: {

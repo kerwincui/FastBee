@@ -3,56 +3,56 @@
         <el-card v-show="showSearch" style="margin-bottom: 6px">
             <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
                 label-width="68px" style="margin-bottom: -20px">
-                <el-form-item label="脚本标识" prop="scriptId">
-                    <el-input v-model="queryParams.scriptId" placeholder="请输入脚本名" clearable
+                <el-form-item :label="$t('script.349087-0')" prop="scriptId">
+                    <el-input v-model="queryParams.scriptId" :placeholder="$t('script.349087-1')" clearable
                         @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="脚本名" prop="scriptName">
-                    <el-input v-model="queryParams.scriptName" placeholder="请输入脚本名" clearable
+                <el-form-item :label="$t('script.349087-2')" prop="scriptName">
+                    <el-input v-model="queryParams.scriptName" :placeholder="$t('script.349087-3')" clearable
                         @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('common.search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
                     <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                        v-hasPermi="['iot:script:add']">新增</el-button>
+                        v-hasPermi="['iot:script:add']">{{ $t('common.add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
             <el-table v-loading="loading" :data="scriptList" @selection-change="handleSelectionChange">
-                <el-table-column label="脚本名称" align="center" prop="scriptName" />
-                <el-table-column label="所属产品" align="center" prop="productName" />
-                <el-table-column label="脚本标识" align="center" prop="scriptId" width="180" />
-                <el-table-column label="脚本事件" align="center" prop="status">
+                <el-table-column :label="$t('script.index.470901-0')" align="center" prop="scriptName" />
+                <el-table-column :label="$t('script.index.470901-2')" align="center" prop="productName" />
+                <el-table-column :label="$t('script.349087-0')" align="center" prop="scriptId" width="180" />
+                <el-table-column :label="$t('script.349087-6')" align="center" prop="status">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.rule_script_event" :value="scope.row.scriptEvent" size="small" />
                     </template>
                 </el-table-column>
-                <el-table-column label="脚本动作" align="center" prop="status">
+                <el-table-column :label="$t('script.index.470901-5')" align="center" prop="status">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.rule_script_action" :value="scope.row.scriptAction"
                             size="small" />
                     </template>
                 </el-table-column>
-                <el-table-column label="脚本语言" align="center" prop="scriptLanguage" />
-                <el-table-column label="状态" align="center" prop="enable" width="120">
+                <el-table-column :label="$t('script.index.470901-7')" align="center" prop="scriptLanguage" />
+                <el-table-column :label="$t('script.index.470901-8')" align="center" prop="enable" width="120">
                     <template slot-scope="scope">
-                        <el-tag v-if="scope.row.enable == 1" type="success" size="small">启动</el-tag>
-                        <el-tag v-if="scope.row.enable == 0" type="danger" size="small">暂停</el-tag>
+                        <el-tag v-if="scope.row.enable == 1" type="success" size="small">{{ $t('script.index.470901-11') }}</el-tag>
+                        <el-tag v-if="scope.row.enable == 0" type="danger" size="small">{{ $t('script.index.470901-12') }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="执行顺序" align="center" prop="scriptOrder" />
-                <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
+                <el-table-column :label="$t('script.index.470901-9')" align="center" prop="scriptOrder" />
+                <el-table-column :label="$t('common.opation')" align="center" class-name="small-padding fixed-width" width="200">
                     <template slot-scope="scope">
-                        <el-button size="small" type="text" icon="el-icon-date" @click="handleLog(scope.row.scriptId)" v-hasPermi="['iot:script:query']">日志</el-button>
+                        <el-button size="small" type="text" icon="el-icon-date" @click="handleLog(scope.row.scriptId)" v-hasPermi="['iot:script:query']">{{ $t('script.index.470901-23') }}</el-button>
                         <el-button size="mini" type="text" icon="el-icon-view" @click="handleUpdate(scope.row)"
-                            v-hasPermi="['iot:script:query']">查看</el-button>
+                            v-hasPermi="['iot:script:query']">{{ $t('script.index.470901-24') }}</el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-                            v-hasPermi="['iot:script:remove']">删除</el-button>
+                            v-hasPermi="['iot:script:remove']">{{ $t('common.del') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -66,19 +66,19 @@
                 <el-form ref="form" :model="form" :rules="rules" label-width="90px">
                     <el-row :gutter="50">
                         <el-col :span="12">
-                            <el-form-item label="脚本名称" prop="scriptName">
-                                <el-input v-model="form.scriptName" placeholder="请输入脚本名" />
+                            <el-form-item :label="$t('script.index.470901-0')" prop="scriptName">
+                                <el-input v-model="form.scriptName" :placeholder="$t('script.349087-3')" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="执行顺序" prop="scriptOrder">
-                                <el-input-number v-model="form.scriptOrder" placeholder="请输入脚本名" type="number"
+                            <el-form-item :label="$t('script.index.470901-9')" prop="scriptOrder">
+                                <el-input-number v-model="form.scriptOrder" :placeholder="$t('script.index.470901-10')" type="number"
                                     controls-position="right" style="width: 100%" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="脚本事件" prop="scriptEvent">
-                                <el-select v-model="form.scriptEvent" placeholder="请选择脚本事件" style="width: 100%">
+                            <el-form-item :label="$t('script.349087-6')" prop="scriptEvent">
+                                <el-select v-model="form.scriptEvent" :placeholder="$t('script.349087-11')" style="width: 100%">
                                     <el-option v-for="dict in dict.type.rule_script_event" :key="dict.label"
                                         :label="dict.label" :value="Number(dict.value)"
                                         :disabled="dict.value !== '1' && dict.value !== '2'"></el-option>
@@ -87,8 +87,8 @@
                         </el-col>
 
                         <el-col :span="12">
-                            <el-form-item label="脚本动作" prop="scriptAction">
-                                <el-select v-model="form.scriptAction" placeholder="请选择脚本动作" style="width: 100%">
+                            <el-form-item :label="$t('script.index.470901-5')" prop="scriptAction">
+                                <el-select v-model="form.scriptAction" :placeholder="$t('script.index.470901-6')" style="width: 100%">
                                     <el-option v-for="dict in dict.type.rule_script_action" :key="dict.label"
                                         :label="dict.label" :value="Number(dict.value)"
                                         :disabled="dict.value !== '1'"></el-option>
@@ -96,16 +96,16 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="脚本状态" prop="enable">
+                            <el-form-item :label="$t('script.349087-13')" prop="enable">
                                 <el-switch v-model="form.enable" :active-value="1" :inactive-value="0" disabled />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="所属产品" prop="productName">
-                                <el-input readonly v-model="form.productName" size="small" placeholder="请选择产品"
+                            <el-form-item :label="$t('script.index.470901-2')" prop="productName">
+                                <el-input readonly v-model="form.productName" size="small" :placeholder="$t('script.index.470901-3')"
                                     style="margin-top: 3px">
                                     <el-button slot="append" @click="handleSelectProduct()"
-                                        size="small">选择产品</el-button>
+                                        size="small">{{ $t('script.index.470901-4') }}</el-button>
                                 </el-input>
                             </el-form-item>
                         </el-col>
@@ -127,17 +127,15 @@
                         <el-link style="line-height: 40px; padding-left: 20px" icon="el-icon-question"
                             :underline="false" type="primary" href="https://fastbee.cn/doc/pages/rule_engine/"
                             target="_blank">
-                            脚本使用Groovy引擎，查看教程>>>
+                            {{ $t('script.index.470901-17') }}
                         </el-link>
                     </span>
-                    <el-button type="success" @click="handleValidate">验 证</el-button>
+                    <el-button type="success" @click="handleValidate">{{ $t('script.index.470901-18') }}</el-button>
                     <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:edit']"
-                        v-show="form.scriptId" :disabled="!isValidate">修
-                        改</el-button>
+                        v-show="form.scriptId" :disabled="!isValidate">{{ $t('script.index.470901-19') }}</el-button>
                     <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:add']"
-                        v-show="!form.scriptId" :disabled="!isValidate">新
-                        增</el-button>
-                    <el-button @click="cancel">取 消</el-button>
+                        v-show="!form.scriptId" :disabled="!isValidate">{{ $t('common.add') }}</el-button>
+                    <el-button @click="cancel">{{ $t('script.index.470901-20') }}</el-button>
                 </div>
             </el-dialog>
         </el-card>
@@ -146,7 +144,7 @@
             <div
                 ref="logContainer"
                 v-loading="logLoading"
-                element-loading-text="加载中"
+                :element-loading-text="$t('script.index.470901-13')"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)"
                 style="border: 1px solid #ccc; border-radius: 4px; height: 450px; background-color: #181818; color: #fff; padding: 10px; line-height: 20px; overflow: auto"
@@ -157,7 +155,7 @@
                 >
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancelLog">关闭</el-button>
+                <el-button @click="cancelLog">{{ $t('script.index.470901-21') }}</el-button>
             </div>
         </el-dialog>
 
@@ -182,7 +180,7 @@ export default {
         var checkScriptId = (rule, value, callback) => {
             const regex = /^[a-zA-Z]+[0-9]*[a-zA-Z]*$/; // 定义只包含字母和数字，且字母开头的正则表达式
             if (!regex.test(value)) {
-                return callback(new Error('脚本标识只能输入字母和数字，且字母开头'));
+                return callback(new Error(this.$i18n.t('script.index.470901-22')));
             } else {
                 callback();
             }
@@ -232,15 +230,15 @@ export default {
             form: {},
             // 表单校验
             rules: {
-                scriptId: [{ required: true, message: '脚本标识不能为空', trigger: 'blur' }],
-                productName: [{ required: true, message: '所属产品不能为空', trigger: 'blur' }],
-                scriptName: [{ required: true, message: '脚本名不能为空', trigger: 'blur' }],
-                scriptType: [{ required: true, message: '脚本类型不能为空', trigger: 'change' }],
-                scriptLanguage: [{ required: true, message: '脚本语言不能为空', trigger: 'change' }],
+                scriptId: [{ required: true, message: this.$i18n.t('script.index.470901-29'), trigger: 'blur' }],
+                productName: [{ required: true, message: this.$i18n.t('script.index.470901-30'), trigger: 'blur' }],
+                scriptName: [{ required: true, message: this.$i18n.t('script.index.470901-31'), trigger: 'blur' }],
+                scriptType: [{ required: true, message: '', trigger: 'change' }],
+                scriptLanguage: [{ required: true, message: '', trigger: 'change' }],
                 scriptEvent: [{ required: true, message: '', trigger: 'change' }],
                 scriptAction: [{ required: true, message: '', trigger: 'change' }],
                 scriptOrder: [{ required: true, message: '', trigger: 'change' }],
-                enable: [{ required: true, message: '状态不能为空', trigger: 'blur' }],
+                enable: [{ required: true, message: '', trigger: 'blur' }],
             },
         };
     },
@@ -329,7 +327,7 @@ msgContext.setPayload(NewPayload);`,
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = '编辑规则脚本';
+            this.title = this.$i18n.t('script.index.470901-14');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -338,7 +336,7 @@ msgContext.setPayload(NewPayload);`,
             getScript(scriptId).then((response) => {
                 this.form = response.data;
                 this.open = true;
-                this.title = '修改规则引擎脚本';
+                this.title = this.$i18n.t('script.index.470901-15');
             });
         },
         /** 日志按钮操作 */
@@ -348,7 +346,7 @@ msgContext.setPayload(NewPayload);`,
                 this.logs = response.msg;
                 this.form.scriptId = scriptId;
                 this.openLog = true;
-                this.title = "脚本日志";
+                this.title = this.$i18n.t('script.index.470901-16');
                 this.logLoading = false;
                 // 滑动到底部
                 this.$nextTick(function () {
@@ -382,13 +380,13 @@ msgContext.setPayload(NewPayload);`,
                 if (valid) {
                     if (this.form.scriptId != null) {
                         updateScript(this.form).then((response) => {
-                            this.$modal.msgSuccess('修改成功');
+                            this.$modal.msgSuccess(this.$i18n.t('script.index.470901-26'));
                             this.open = false;
                             this.getList();
                         });
                     } else {
                         addScript(this.form).then((response) => {
-                            this.$modal.msgSuccess('新增成功');
+                            this.$modal.msgSuccess(this.$i18n.t('script.index.470901-25'));
                             this.open = false;
                             this.getList();
                         });
@@ -400,13 +398,13 @@ msgContext.setPayload(NewPayload);`,
         handleDelete(row) {
             const scriptIds = row.scriptId || this.scriptIds;
             this.$modal
-                .confirm('是否确认删除规则引擎脚本编号为"' + scriptIds + '"的数据项？')
+                .confirm(this.$i18n.t('script.index.470901-28', [scriptIds]))
                 .then(function () {
                     return delScript(scriptIds);
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess('删除成功');
+                    this.$modal.msgSuccess(this.$i18n.t('script.index.470901-27'));
                 })
                 .catch(() => { });
         },

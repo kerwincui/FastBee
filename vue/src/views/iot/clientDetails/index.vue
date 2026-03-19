@@ -2,101 +2,101 @@
 <div style="padding: 6px">
     <el-card v-show="showSearch" style="margin-bottom: 6px">
         <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px" style="margin-bottom:-20px;">
-            <el-form-item label="客户端ID" prop="clientId">
-                <el-input v-model="queryParams.clientId" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-form-item :label="$t('speaker.clientDetails.index.893021-0')" prop="clientId">
+                <el-input v-model="queryParams.clientId" :placeholder="$t('speaker.clientDetails.index.893021-1')" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="授权平台" prop="type">
-                <el-select v-model="queryParams.type" placeholder="请选择平台" clearable size="small">
+            <el-form-item :label="$t('speaker.clientDetails.index.893021-2')" prop="type">
+                <el-select v-model="queryParams.type" :placeholder="$t('speaker.clientDetails.index.893021-3')" clearable size="small">
                     <el-option v-for="dict in dict.type.oauth_platform" :key="dict.value" :label="dict.label" :value="dict.value" />
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-tag type="danger" style="margin-left:15px;">{{ $t('system.clientDetails.293742-0') }}</el-tag>
             </el-form-item>
             <el-form-item style="float:right;">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">新增</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">{{ $t('add') }}</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom: 100px">
         <el-table v-loading="loading" :data="clientDetailsList" @selection-change="handleSelectionChange">
-            <el-table-column label="客户端ID" align="center" prop="clientId" />
-            <el-table-column label="资源" align="center" prop="resourceIds" />
-            <el-table-column label="权限范围" align="center" prop="scope" />
-            <el-table-column label="授权平台" align="center" prop="type">
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-0')" align="center" prop="clientId" />
+            <el-table-column :label="$t('system.clientDetails.293742-1')" align="center" prop="resourceIds" />
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-12')" align="center" prop="scope" />
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-2')" align="center" prop="type">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.oauth_platform" :value="scope.row.type" />
                 </template>
             </el-table-column>
-            <el-table-column label="自动授权" align="center" prop="autoapprove">
+            <el-table-column :label="$t('system.clientDetails.293742-2')" align="center" prop="autoapprove">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.autoapprove=='true'">自动授权</span>
-                    <span v-if="scope.row.autoapprove=='false'">用户验证</span>
+                    <span v-if="scope.row.autoapprove=='true'">{{ $t('system.clientDetails.293742-3') }}</span>
+                    <span v-if="scope.row.autoapprove=='false'">{{ $t('system.clientDetails.293742-4') }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="授权模式" align="center" prop="authorizedGrantTypes">
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-14')" align="center" prop="authorizedGrantTypes">
                 <template slot-scope="scope">
                     <div v-html="formatGrantTypesDisplay(scope.row.authorizedGrantTypes)"></div>
                 </template>
             </el-table-column>
-            <el-table-column label="回调地址" align="center" prop="webServerRedirectUri" min-width="130" />
-            <el-table-column label="权限" align="center" prop="authorities" />
-            <el-table-column label="Token有效期" align="center" prop="accessTokenValidity" />
-            <el-table-column label="Token刷新时间" align="center" prop="refreshTokenValidity" />
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-15')" align="center" prop="webServerRedirectUri" min-width="130" />
+            <el-table-column :label="$t('system.clientDetails.293742-5')" align="center" prop="authorities" />
+            <el-table-column :label="$t('speaker.clientDetails.index.893021-16')" align="center" prop="accessTokenValidity" />
+            <el-table-column :label="$t('system.clientDetails.293742-6')" align="center" prop="refreshTokenValidity" />
 
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+            <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:clientDetails:edit']">修改</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:clientDetails:remove']" disabled>删除</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:clientDetails:edit']">{{ $t('update') }}</el-button>
+                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:clientDetails:remove']" disabled>{{ $t('del') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
-        <!-- 添加或修改云云对接对话框 -->
+        <!-- 添加或修改对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-                <el-form-item label="授权平台" prop="type">
-                    <el-select v-model="form.type" placeholder="请选择授权平台">
+                <el-form-item :label="$t('speaker.clientDetails.index.893021-2')" prop="type">
+                    <el-select v-model="form.type" :placeholder="$t('speaker.clientDetails.detail-dialog.455323-5')">
                         <el-option v-for="dict in dict.type.oauth_platform" :key="dict.value" :label="dict.label" :value="parseInt(dict.value)"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="客户端ID" prop="clientId">
-                    <el-input v-model="form.clientId" placeholder="请输入客户端ID" />
+                <el-form-item :label="$t('speaker.clientDetails.index.893021-0')" prop="clientId">
+                    <el-input v-model="form.clientId" :placeholder="$t('speaker.clientDetails.index.893021-1')" />
                 </el-form-item>
-                <el-form-item label="资源集合" prop="resourceIds">
-                    <el-input v-model="form.resourceIds" placeholder="请输入资源" />
+                <el-form-item :label="$t('system.clientDetails.293742-7')" prop="resourceIds">
+                    <el-input v-model="form.resourceIds" :placeholder="$t('system.clientDetails.293742-8')" />
                 </el-form-item>
-                <el-form-item label="授权模式" prop="authorizedGrantTypes">
-                    <el-input v-model="form.authorizedGrantTypes" type="textarea" placeholder="请输入授权模式" />
+                <el-form-item :label="$t('speaker.clientDetails.index.893021-14')" prop="authorizedGrantTypes">
+                    <el-input v-model="form.authorizedGrantTypes" type="textarea" :placeholder="$t('system.clientDetails.293742-9')" />
                 </el-form-item>
-                <el-form-item label="秘钥" prop="clientSecret">
-                    <el-input v-model="form.clientSecret" placeholder="请输入客户端秘钥" />
+                <el-form-item :label="$t('speaker.clientDetails.detail-dialog.455323-15')" prop="clientSecret">
+                    <el-input v-model="form.clientSecret" :placeholder="$t('system.clientDetails.293742-10')" />
                 </el-form-item>
-                <el-form-item label="回调地址" prop="webServerRedirectUri">
-                    <el-input v-model="form.webServerRedirectUri" type="textarea" placeholder="请输入回调地址" />
+                <el-form-item :label="$t('speaker.clientDetails.index.893021-15')" prop="webServerRedirectUri">
+                    <el-input v-model="form.webServerRedirectUri" type="textarea" :placeholder="$t('speaker.clientDetails.detail-dialog.455323-24')" />
                 </el-form-item>
-                <el-form-item label="权限" prop="authorities">
-                    <el-input v-model="form.authorities" placeholder="请输入权限" />
+                <el-form-item :label="$t('system.clientDetails.293742-5')" prop="authorities">
+                    <el-input v-model="form.authorities" :placeholder="$t('system.clientDetails.293742-11')" />
                 </el-form-item>
-                <el-form-item label="Token有效期" prop="accessTokenValidity">
-                    <el-input v-model="form.accessTokenValidity" placeholder="请输入Token有效时间" />
+                <el-form-item :label="$t('speaker.clientDetails.index.893021-16')" prop="accessTokenValidity">
+                    <el-input v-model="form.accessTokenValidity" :placeholder="$t('system.clientDetails.293742-12')" />
                 </el-form-item>
-                <el-form-item label="Token刷新时间" prop="refreshTokenValidity">
-                    <el-input v-model="form.refreshTokenValidity" placeholder="请输入Token刷新有效时间" />
+                <el-form-item :label="$t('system.clientDetails.293742-6')" prop="refreshTokenValidity">
+                    <el-input v-model="form.refreshTokenValidity" :placeholder="$t('system.clientDetails.293742-13')" />
                 </el-form-item>
-                <el-form-item label="预留信息" prop="additionalInformation">
-                    <el-input v-model="form.additionalInformation" type="textarea" placeholder="请输入内容" />
+                <el-form-item :label="$t('speaker.clientDetails.detail-dialog.455323-25')" prop="additionalInformation">
+                    <el-input v-model="form.additionalInformation" type="textarea" :placeholder="$t('product.category.142342-3')" />
                 </el-form-item>
 
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm" disabled>确 定</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button type="primary" @click="submitForm" disabled>{{ $t('confirm') }}</el-button>
+                <el-button @click="cancel">{{ $t('cancel') }}</el-button>
             </div>
         </el-dialog>
     </el-card>
@@ -154,7 +154,7 @@ export default {
         this.getList();
     },
     methods: {
-        /** 查询云云对接列表 */
+        /** 查询列表 */
         getList() {
             this.loading = true;
             listClientDetails(this.queryParams).then((response) => {
@@ -206,7 +206,7 @@ export default {
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = "添加云云对接";
+            this.title = this.$t('system.clientDetails.293742-14');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -215,7 +215,7 @@ export default {
             getClientDetails(clientId).then((response) => {
                 this.form = response.data;
                 this.open = true;
-                this.title = "修改云云对接";
+                this.title = this.$t('system.clientDetails.293742-15');
             });
         },
         /** 提交按钮 */
@@ -224,13 +224,13 @@ export default {
                 if (valid) {
                     if (this.form.clientId != null) {
                         updateClientDetails(this.form).then((response) => {
-                            this.$modal.msgSuccess("修改成功");
+                            this.$modal.msgSuccess(this.$t('updateSuccess'));
                             this.open = false;
                             this.getList();
                         });
                     } else {
                         addClientDetails(this.form).then((response) => {
-                            this.$modal.msgSuccess("新增成功");
+                            this.$modal.msgSuccess(this.$t('addSuccess'));
                             this.open = false;
                             this.getList();
                         });
@@ -242,13 +242,13 @@ export default {
         handleDelete(row) {
             const clientIds = row.clientId || this.ids;
             this.$modal
-                .confirm('是否确认删除云云对接编号为"' + clientIds + '"的数据项？')
+                .confirm(this.$t('speaker.clientDetails.index.893021-21', [clientIds]))
                 .then(function () {
                     return delClientDetails(clientIds);
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess("删除成功");
+                    this.$modal.msgSuccess(this.$t('delSuccess'));
                 })
                 .catch(() => {});
         },
@@ -273,15 +273,15 @@ export default {
         /** 授权模式转换 */
         convertGrantType(type) {
             if (type == "client_credentials") {
-                return "客户端模式"
+                return this.$t('system.clientDetails.293742-16')
             } else if (type == "password") {
-                return "密码模式";
+                return this.$t('system.clientDetails.293742-17');
             } else if (type == "authorization_code") {
-                return "授权码模式";
+                return this.$t('system.clientDetails.293742-18');
             } else if (type == "implicit") {
-                return "简化模式";
+                return this.$t('system.clientDetails.293742-19');
             } else if (type == "refresh_token") {
-                return "刷新Token";
+                return this.$t('system.clientDetails.293742-20');
             } else {
                 return "";
             }

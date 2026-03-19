@@ -1,31 +1,31 @@
 <template>
   <div style="padding: 6px">
     <!-- 添加或修改通用物模型对话框 -->
-    <el-dialog title="编辑参数" :visible.sync="openEdit" width="900px" append-to-body>
+    <el-dialog :title="$t('template.paramter.038405-0')" :visible.sync="openEdit" width="900px" append-to-body>
       <div style="margin: -30px 0 30px; background-color: #ddd; height: 1px"></div>
       <el-row>
         <el-col :span="12" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #eee">
           <el-form :model="queryParams" :inline="true" label-width="48px" size="small">
             <el-form-item label="" prop="templateName">
-              <el-input v-model="queryParams.templateName" placeholder="请输入物模型名称" style="width: 160px" clearable size="mini" @keyup.enter.native="handleQuery" />
+              <el-input v-model="queryParams.templateName" :placeholder="$t('template.paramter.038405-1')" style="width: 160px" clearable size="mini" @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
-              <el-button type="info" icon="el-icon-search" size="mini" @click="handleQuery" style="padding: 5px">搜索</el-button>
+              <el-button type="info" icon="el-icon-search" size="mini" @click="handleQuery" style="padding: 5px">{{ $t('template.paramter.038405-2') }}</el-button>
             </el-form-item>
             <el-form-item>
-              <el-link :underline="false" icon="el-icon-info" type="primary" style="margin-left: 20px">单击应用模板</el-link>
+              <el-link :underline="false" icon="el-icon-info" type="primary" style="margin-left: 20px">{{ $t('template.paramter.038405-3') }}</el-link>
             </el-form-item>
           </el-form>
 
           <el-table v-loading="loading" :data="templateList" size="mini" @row-click="rowClick" highlight-current-row :border="false" :show-header="false" :row-style="{ backgroundColor: '#eee' }">
-            <el-table-column label="选择" width="30" align="center">
+            <el-table-column :label="$t('template.paramter.038405-4')" width="30" align="center">
               <template slot-scope="scope">
                 <input type="radio" :checked="scope.row.isSelect" :disabled="scope.row.datatype == 'array' || scope.row.datatype == 'object'" name="template" />
               </template>
             </el-table-column>
-            <el-table-column label="名称" align="left" prop="templateName" />
-            <el-table-column label="标识符" align="left" prop="identifier" />
-            <el-table-column label="数据类型" align="center" prop="datatype" width="60">
+            <el-table-column :label="$t('template.paramter.038405-5')" align="left" prop="templateName" />
+            <el-table-column :label="$t('template.paramter.038405-6')" align="left" prop="identifier" />
+            <el-table-column :label="$t('template.paramter.038405-7')" align="center" prop="datatype" width="60">
               <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
               </template>
@@ -46,97 +46,97 @@
 
         <el-col :span="11" :offset="1">
           <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-            <el-form-item label="参数名称" prop="name">
-              <el-input v-model="form.name" placeholder="例如：温度" style="width: 270px" size="small" />
+            <el-form-item :label="$t('template.paramter.038405-8')" prop="name">
+              <el-input v-model="form.name" :placeholder="$t('template.paramter.038405-9')" style="width: 270px" size="small" />
             </el-form-item>
-            <el-form-item label="参数标识" prop="id">
-              <el-input v-model="form.id" placeholder="例如：temperature" style="width: 270px" size="small"></el-input>
+            <el-form-item :label="$t('template.paramter.038405-10')" prop="id">
+              <el-input v-model="form.id" :placeholder="$t('template.paramter.038405-11')" style="width: 270px" size="small"></el-input>
             </el-form-item>
-            <el-form-item label="参数排序" prop="order">
-              <el-input-number controls-position="right" v-model="form.order" placeholder="请输入排序" type="number" style="width: 270px" size="small" />
+            <el-form-item :label="$t('template.paramter.038405-12')" prop="order">
+              <el-input-number controls-position="right" v-model="form.order" :placeholder="$t('template.paramter.038405-13')" type="number" style="width: 270px" size="small" />
             </el-form-item>
 
-            <el-form-item label="参数特性" prop="property">
-              <el-checkbox name="isChart" label="图表展示" @change="isChartChange" v-model="form.isChart" :true-label="1" :false-label="0"></el-checkbox>
-              <el-checkbox name="isMonitor" label="实时监测" @change="isMonitorChange" v-model="form.isMonitor" :true-label="1" :false-label="0"></el-checkbox>
-              <el-checkbox name="isReadonly" label="只读数据" @change="isReadonlyChange" v-model="form.isReadonly" :true-label="1" :false-label="0"></el-checkbox>
-              <el-checkbox name="isHistory" label="历史存储" v-model="form.isHistory" :true-label="1" :false-label="0"></el-checkbox>
-              <el-checkbox name="isSharePerm" label="分享权限" v-model="form.isSharePerm" :true-label="1" :false-label="0"></el-checkbox>
+            <el-form-item :label="$t('template.paramter.038405-14')" prop="property">
+              <el-checkbox name="isChart" :label="$t('template.paramter.038405-15')" @change="isChartChange" v-model="form.isChart" :true-label="1" :false-label="0"></el-checkbox>
+              <el-checkbox name="isMonitor" :label="$t('template.paramter.038405-16')" @change="isMonitorChange" v-model="form.isMonitor" :true-label="1" :false-label="0"></el-checkbox>
+              <el-checkbox name="isReadonly" :label="$t('template.paramter.038405-17')" @change="isReadonlyChange" v-model="form.isReadonly" :true-label="1" :false-label="0"></el-checkbox>
+              <el-checkbox name="isHistory" :label="$t('template.paramter.038405-18')" v-model="form.isHistory" :true-label="1" :false-label="0"></el-checkbox>
+              <el-checkbox name="isSharePerm" :label="$t('template.paramter.038405-19')" v-model="form.isSharePerm" :true-label="1" :false-label="0"></el-checkbox>
             </el-form-item>
 
             <div style="margin-bottom: 20px; background-color: #ddd; height: 1px"></div>
-            <el-form-item label="数据类型" prop="datatype">
-              <el-select v-model="form.datatype" placeholder="请选择数据类型" style="width: 125px" size="small">
-                <el-option key="integer" label="整数" value="integer"></el-option>
-                <el-option key="decimal" label="小数" value="decimal"></el-option>
-                <el-option key="bool" label="布尔" value="bool" :disabled="form.isChart == 1"></el-option>
-                <el-option key="enum" label="枚举" value="enum" :disabled="form.isChart == 1"></el-option>
-                <el-option key="string" label="字符串" value="string" :disabled="form.isChart == 1"></el-option>
+            <el-form-item :label="$t('template.paramter.038405-20')" prop="datatype">
+              <el-select v-model="form.datatype" :placeholder="$t('template.paramter.038405-21')" style="width: 125px" size="small">
+                <el-option key="integer" :label="$t('template.paramter.038405-22')" value="integer"></el-option>
+                <el-option key="decimal" :label="$t('template.paramter.038405-23')" value="decimal"></el-option>
+                <el-option key="bool" :label="$t('template.paramter.038405-24')" value="bool" :disabled="form.isChart == 1"></el-option>
+                <el-option key="enum" :label="$t('template.paramter.038405-25')" value="enum" :disabled="form.isChart == 1"></el-option>
+                <el-option key="string" :label="$t('template.paramter.038405-26')" value="string" :disabled="form.isChart == 1"></el-option>
               </el-select>
             </el-form-item>
             <div v-if="form.datatype == 'integer' || form.datatype == 'decimal'">
-              <el-form-item label="取值范围">
+              <el-form-item :label="$t('template.paramter.038405-27')">
                 <el-row>
                   <el-col :span="10">
-                    <el-input v-model="form.specs.min" placeholder="最小值" type="number" size="small" />
+                    <el-input v-model="form.specs.min" :placeholder="$t('template.paramter.038405-28')" type="number" size="small" />
                   </el-col>
-                  <el-col :span="4" align="center">到</el-col>
+                  <el-col :span="4" align="center">{{ $t('template.paramter.038405-29') }}</el-col>
                   <el-col :span="10">
-                    <el-input v-model="form.specs.max" placeholder="最大值" type="number" size="small" />
+                    <el-input v-model="form.specs.max" :placeholder="$t('template.paramter.038405-30')" type="number" size="small" />
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-form-item label="单位">
-                <el-input v-model="form.specs.unit" placeholder="例如：℃" style="width: 308px" size="small" />
+              <el-form-item :label="$t('template.paramter.038405-31')">
+                <el-input v-model="form.specs.unit" :placeholder="$t('template.paramter.038405-32')" style="width: 308px" size="small" />
               </el-form-item>
-              <el-form-item label="步长">
-                <el-input-number controls-position="right" v-model="form.specs.step" placeholder="例如：1" type="number" style="width: 308px" size="small" />
+              <el-form-item :label="$t('template.paramter.038405-33')">
+                <el-input-number controls-position="right" v-model="form.specs.step" :placeholder="$t('template.paramter.038405-34')" type="number" style="width: 308px" size="small" />
               </el-form-item>
             </div>
             <div v-if="form.datatype == 'bool'">
-              <el-form-item label="布尔值" prop="">
+              <el-form-item :label="$t('template.paramter.038405-35')" prop="">
                 <el-row style="margin-bottom: 10px">
                   <el-col :span="10">
-                    <el-input v-model="form.specs.falseText" placeholder="例如：关闭" size="small" />
+                    <el-input v-model="form.specs.falseText" :placeholder="$t('template.paramter.038405-36')" size="small" />
                   </el-col>
-                  <el-col :span="10" :offset="1">（0 值对应文本）</el-col>
+                  <el-col :span="10" :offset="1">{{ $t('template.paramter.038405-37') }}</el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="10">
-                    <el-input v-model="form.specs.trueText" placeholder="例如：打开" size="small" />
+                    <el-input v-model="form.specs.trueText" :placeholder="$t('template.paramter.038405-38')" size="small" />
                   </el-col>
-                  <el-col :span="10" :offset="1">（1 值对应文本）</el-col>
+                  <el-col :span="10" :offset="1">{{ $t('template.paramter.038405-39') }}</el-col>
                 </el-row>
               </el-form-item>
             </div>
             <div v-if="form.datatype == 'enum'">
-              <el-form-item label="展示方式">
-                <el-select v-model="form.specs.showWay" placeholder="请选择展示方式" style="width: 175px">
-                  <el-option key="select" label="下拉框" value="select"></el-option>
-                  <el-option key="button" label="按钮" value="button"></el-option>
+              <el-form-item :label="$t('template.paramter.038405-40')">
+                <el-select v-model="form.specs.showWay" :placeholder="$t('template.paramter.038405-41')" style="width: 175px">
+                  <el-option key="select" :label="$t('template.paramter.038405-42')" value="select"></el-option>
+                  <el-option key="button" :label="$t('template.paramter.038405-43')" value="button"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="枚举项" prop="">
+              <el-form-item :label="$t('template.paramter.038405-44')" prop="">
                 <el-row v-for="(item, index) in form.specs.enumList" :key="'enum' + index" style="margin-bottom: 10px">
                   <el-col :span="8">
-                    <el-input v-model="item.value" placeholder="例如：0" size="small" />
+                    <el-input v-model="item.value" :placeholder="$t('template.paramter.038405-45')" size="small" />
                   </el-col>
                   <el-col :span="11" :offset="1">
-                    <el-input v-model="item.text" placeholder="例如：中速挡位" size="small" />
+                    <el-input v-model="item.text" :placeholder="$t('template.paramter.038405-46')" size="small" />
                   </el-col>
-                  <el-col :span="3" :offset="1" v-if="index != 0"><a style="color: #f56c6c" @click="removeEnumItem(index)">删除</a></el-col>
+                  <el-col :span="3" :offset="1" v-if="index != 0"><a style="color: #f56c6c" @click="removeEnumItem(index)">{{ $t('template.paramter.038405-47') }}</a></el-col>
                 </el-row>
                 <div>
                   +
-                  <a style="color: #409eff" @click="addEnumItem()">添加枚举项</a>
+                  <a style="color: #409eff" @click="addEnumItem()">{{ $t('template.paramter.038405-48') }}</a>
                 </div>
               </el-form-item>
             </div>
             <div v-if="form.datatype == 'string'">
-              <el-form-item label="最大长度" prop="">
+              <el-form-item :label="$t('template.paramter.038405-49')" prop="">
                 <el-row>
                   <el-col :span="10">
-                    <el-input v-model="form.specs.maxLength" placeholder="例如：1024" type="number" size="small" />
+                    <el-input v-model="form.specs.maxLength" :placeholder="$t('template.paramter.038405-50')" type="number" size="small" />
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -146,8 +146,8 @@
       </el-row>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">{{ $t('template.paramter.038405-51') }}</el-button>
+        <el-button @click="cancel">{{ $t('template.paramter.038405-52') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -226,28 +226,28 @@ export default {
         name: [
           {
             required: true,
-            message: '参数名称不能为空',
+            message: this.$t('template.paramter.038405-53'),
             trigger: 'blur',
           },
         ],
         id: [
           {
             required: true,
-            message: '参数标识符不能为空',
+            message: this.$t('template.paramter.038405-54'),
             trigger: 'blur',
           },
         ],
         order: [
           {
             required: true,
-            message: '模型排序不能为空',
+            message: this.$t('template.paramter.038405-55'),
             trigger: 'blur',
           },
         ],
         datatype: [
           {
             required: true,
-            message: '数据类型不能为空',
+            message: this.$t('template.paramter.038405-56'),
             trigger: 'change',
           },
         ],
@@ -400,8 +400,8 @@ export default {
       } else if (this.form.datatype == 'string') {
         data.maxLength = Number(this.form.specs.maxLength ? this.form.specs.maxLength : 1024);
       } else if (this.form.datatype == 'bool') {
-        data.falseText = this.form.specs.falseText ? this.form.specs.falseText : '关闭';
-        data.trueText = this.form.specs.trueText ? this.form.specs.trueText : '打开';
+        data.falseText = this.form.specs.falseText ? this.form.specs.falseText : this.$t('template.paramter.038405-57');
+        data.trueText = this.form.specs.trueText ? this.form.specs.trueText : this.$t('template.paramter.038405-58');
       } else if (this.form.datatype == 'array') {
         data.arrayType = this.form.specs.arrayType;
       } else if (this.form.datatype == 'enum') {
@@ -413,11 +413,11 @@ export default {
           data.enumList = [
             {
               value: '0',
-              text: '低',
+              text: this.$t('template.paramter.038405-59'),
             },
             {
               value: '1',
-              text: '高',
+              text: this.$t('template.paramter.038405-60'),
             },
           ];
         }

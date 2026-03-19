@@ -2,13 +2,13 @@
   <div style="padding-left: 20px">
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+        <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">{{ $t('refresh') }}</el-button>
       </el-col>
     </el-row>
     <el-table v-loading="loading" :data="channelList" size="mini">
-      <el-table-column label="设备ID" align="center" prop="deviceSipId" />
-      <el-table-column label="通道ID" align="center" prop="channelSipId" />
-      <el-table-column label="快照" min-width="120">
+      <el-table-column :label="$t('sip.channel.998532-0')" align="center" prop="deviceSipId" />
+      <el-table-column :label="$t('sip.channel.998532-1')" align="center" prop="channelSipId" />
+      <el-table-column :label="$t('sip.channel.998532-2')" min-width="120">
         <template v-slot:default="scope">
           <el-image v-if="isVideoChannel(scope.row)" :src="getSnap(scope.row)" :preview-src-list="getBigSnap(scope.row)" :fit="'contain'" style="width: 60px">
             <div slot="error" class="image-slot">
@@ -17,34 +17,34 @@
           </el-image>
         </template>
       </el-table-column>
-      <el-table-column label="通道名称" align="center" prop="channelName" />
-      <el-table-column label="产品型号" align="center" prop="model" />
-      <el-table-column label="推流状态" align="center" prop="streamPush" >
+      <el-table-column :label="$t('sip.channel.998532-3')" align="center" prop="channelName" />
+      <el-table-column :label="$t('sip.channel.998532-4')" align="center" prop="model" />
+      <el-table-column :label="$t('sip.channel.998532-9')" align="center" prop="streamPush" >
         <template slot-scope="scope">
-          <el-tag type="warning" v-if="scope.row.streamPush === 0">无</el-tag>
-          <el-tag type="success" v-if="scope.row.streamPush === 1">推流中</el-tag>
+          <el-tag type="warning" v-if="scope.row.streamPush === 0">{{ $t('sip.channel.998532-10') }}</el-tag>
+          <el-tag type="success" v-if="scope.row.streamPush === 1">{{ $t('sip.channel.998532-11') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="直播录像状态" align="center" prop="streamRecord" >
+      <el-table-column :label="$t('sip.channel.998532-12')" align="center" prop="streamRecord" >
         <template slot-scope="scope">
-          <el-tag type="warning" v-if="scope.row.streamRecord === 0">无</el-tag>
-          <el-tag type="success" v-if="scope.row.streamRecord === 1">录像中</el-tag>
+          <el-tag type="warning" v-if="scope.row.streamRecord === 0">{{ $t('sip.channel.998532-10') }}</el-tag>
+          <el-tag type="success" v-if="scope.row.streamRecord === 1">{{ $t('sip.channel.998532-14') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="录像转存状态" align="center" prop="videoRecord" >
+      <el-table-column :label="$t('sip.channel.998532-15')" align="center" prop="videoRecord" >
         <template slot-scope="scope">
-          <el-tag type="warning" v-if="scope.row.videoRecord === 0">无</el-tag>
-          <el-tag type="success" v-if="scope.row.videoRecord === 1">转存中</el-tag>
+          <el-tag type="warning" v-if="scope.row.videoRecord === 0">{{ $t('sip.channel.998532-10') }}</el-tag>
+          <el-tag type="success" v-if="scope.row.videoRecord === 1">{{ $t('sip.channel.998532-17') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="80">
+      <el-table-column :label="$t('sip.channel.998532-5')" align="center" prop="status" width="80">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sip_gen_status" :value="scope.row.status" size="mini" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('opation')" align="center" width="120" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="small" type="success" icon="el-icon-video-play" style="padding: 5px" :disabled="scope.row.status !== 2" @click="sendDevicePush(scope.row)">查看直播</el-button>
+          <el-button size="small" type="success" icon="el-icon-video-play" style="padding: 5px" :disabled="scope.row.status !== 2" @click="sendDevicePush(scope.row)">{{ $t('sip.channel.998532-6') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -165,30 +165,30 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const channelId = row.channelId || this.ids;
-      getChannel(channelId).then((response) => {
-        this.form = response.data;
-        this.open = true;
-        this.title = '修改监控设备通道信息';
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const channelIds = row.channelId || this.ids;
-      this.$modal
-        .confirm('是否确认删除监控设备通道信息编号为"' + channelIds + '"的数据项？')
-        .then(function () {
-          return delChannel(channelIds);
-        })
-        .then(() => {
-          this.getList();
-          this.$modal.msgSuccess('删除成功');
-        })
-        .catch(() => {});
-    },
+        /** 修改按钮操作 */
+        handleUpdate(row) {
+            this.reset();
+            const channelId = row.channelId || this.ids;
+            getChannel(channelId).then((response) => {
+                this.form = response.data;
+                this.open = true;
+                this.title = this.$t('sip.channel.998532-7');
+            });
+        },
+        /** 删除按钮操作 */
+        handleDelete(row) {
+            const channelIds = row.channelId || this.ids;
+            this.$modal
+                .confirm(this.$t('sip.channel.998532-8', [channelIds]))
+                .then(function () {
+                    return delChannel(channelIds);
+                })
+                .then(() => {
+                    this.getList();
+                    this.$modal.msgSuccess(this.$t('sip.channel.998532-18'));
+                })
+                .catch(() => {});
+        },
     getSnap: function (row) {
       console.log('getSnap:' + process.env.VUE_APP_BASE_API + '/profile/snap/' + row.deviceSipId + '_' + row.channelSipId + '.jpg');
       return process.env.VUE_APP_BASE_API + '/profile/snap/' + row.deviceSipId + '_' + row.channelSipId + '.jpg';

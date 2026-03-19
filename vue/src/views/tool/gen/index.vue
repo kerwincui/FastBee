@@ -1,36 +1,36 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="表名称" prop="tableName">
+      <el-form-item :label="$t('gen.import.832346-1')" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
-          placeholder="请输入表名称"
+          :placeholder="$t('gen.import.832346-2')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="表描述" prop="tableComment">
+      <el-form-item :label="$t('gen.import.832346-3')" prop="tableComment">
         <el-input
           v-model="queryParams.tableComment"
-          placeholder="请输入表描述"
+          :placeholder="$t('gen.import.832346-4')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建时间">
+      <el-form-item :label="$t('creatTime')">
         <el-date-picker
           v-model="dateRange"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('system.job.log.085689-5')"
+          :end-placeholder="$t('system.job.log.085689-5')"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,7 +44,7 @@
           :disabled="multiple"
           @click="handleGenTable"
           v-hasPermi="['tool:gen:code']"
-        >生成</el-button>
+        >{{ $t('build.index.2090840-3') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -54,7 +54,7 @@
           size="mini"
           @click="openCreateTable"
           v-hasRole="['admin']"
-        >创建</el-button>
+        >{{ $t('add') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -64,7 +64,7 @@
           size="mini"
           @click="openImportTable"
           v-hasPermi="['tool:gen:import']"
-        >导入</el-button>
+        >{{ $t('import') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -75,7 +75,7 @@
           :disabled="single"
           @click="handleEditTable"
           v-hasPermi="['tool:gen:edit']"
-        >修改</el-button>
+        >{{ $t('update') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,42 +86,42 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['tool:gen:remove']"
-        >删除</el-button>
+        >{{ $t('del') }}</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
-      <el-table-column label="序号" type="index" width="50" align="center">
+      <el-table-column :label="$t('system.cache.list.093478-1')" type="index" width="50" align="center">
         <template slot-scope="scope">
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="表名称"
+        :label="$t('gen.import.832346-1')"
         align="center"
         prop="tableName"
         :show-overflow-tooltip="true"
         width="120"
       />
       <el-table-column
-        label="表描述"
+        :label="$t('gen.import.832346-3')"
         align="center"
         prop="tableComment"
         :show-overflow-tooltip="true"
         width="120"
       />
       <el-table-column
-        label="实体"
+        :label="$t('gen.index.467583-1')"
         align="center"
         prop="className"
         :show-overflow-tooltip="true"
         width="120"
       />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
-      <el-table-column label="更新时间" align="center" prop="updateTime" width="160" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="160" />
+      <el-table-column :label="$t('updateTime')" align="center" prop="updateTime" width="160" />
+      <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -129,35 +129,35 @@
             icon="el-icon-view"
             @click="handlePreview(scope.row)"
             v-hasPermi="['tool:gen:preview']"
-          >预览</el-button>
+          >{{ $t('preview') }}</el-button>
           <el-button
             type="text"
             size="small"
             icon="el-icon-edit"
             @click="handleEditTable(scope.row)"
             v-hasPermi="['tool:gen:edit']"
-          >编辑</el-button>
+          >{{ $t('edit') }}</el-button>
           <el-button
             type="text"
             size="small"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['tool:gen:remove']"
-          >删除</el-button>
+          >{{ $t('del') }}</el-button>
           <el-button
             type="text"
             size="small"
             icon="el-icon-refresh"
             @click="handleSynchDb(scope.row)"
             v-hasPermi="['tool:gen:edit']"
-          >同步</el-button>
+          >{{ $t('gen.index.467583-3') }}</el-button>
           <el-button
             type="text"
             size="small"
             icon="el-icon-download"
             @click="handleGenTable(scope.row)"
             v-hasPermi="['tool:gen:code']"
-          >生成代码</el-button>
+          >{{ $t('gen.index.467583-4') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -168,7 +168,7 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-    <!-- 预览界面 -->
+    <!-- Preview -->
     <el-dialog :title="preview.title" :visible.sync="preview.open" width="80%" top="5vh" append-to-body class="scrollbar">
       <el-tabs v-model="preview.activeName">
         <el-tab-pane
@@ -177,7 +177,7 @@
           :name="key.substring(key.lastIndexOf('/')+1,key.indexOf('.vm'))"
           :key="key"
         >
-          <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="value" v-clipboard:success="clipboardSuccess" style="float:right">复制</el-link>
+          <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="value" v-clipboard:success="clipboardSuccess" style="float:right">{{ $t('device.device-edit.148398-55') }}</el-link>
           <pre><code class="hljs" v-html="highlightedCode(value, key)"></code></pre>
         </el-tab-pane>
       </el-tabs>
@@ -235,7 +235,7 @@ export default {
       // 预览参数
       preview: {
         open: false,
-        title: "代码预览",
+        title: this.$t('gen.index.467583-5'),
         data: {},
         activeName: "domain.java"
       }
@@ -272,12 +272,12 @@ export default {
     handleGenTable(row) {
       const tableNames = row.tableName || this.tableNames;
       if (tableNames == "") {
-        this.$modal.msgError("请选择要生成的数据");
+        this.$modal.msgError(this.$t('gen.index.467583-6'));
         return;
       }
       if(row.genType === "1") {
         genCode(row.tableName).then(response => {
-          this.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
+          this.$modal.msgSuccess(this.$t('gen.index.467583-7') + row.genPath);
         });
       } else {
         this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi.zip");
@@ -286,10 +286,10 @@ export default {
     /** 同步数据库操作 */
     handleSynchDb(row) {
       const tableName = row.tableName;
-      this.$modal.confirm('确认要强制同步"' + tableName + '"表结构吗？').then(function() {
+      this.$modal.confirm(this.$t('gen.index.467583-8') + tableName + this.$t('gen.index.467583-9')).then(function() {
         return synchDb(tableName);
       }).then(() => {
-        this.$modal.msgSuccess("同步成功");
+        this.$modal.msgSuccess(this.$t('gen.index.467583-10'));
       }).catch(() => {});
     },
     /** 打开导入表弹窗 */
@@ -323,7 +323,7 @@ export default {
     },
     /** 复制代码成功 */
     clipboardSuccess() {
-      this.$modal.msgSuccess("复制成功");
+      this.$modal.msgSuccess(this.$t('gen.index.467583-11'));
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -337,18 +337,13 @@ export default {
       const tableId = row.tableId || this.ids[0];
       const tableName = row.tableName || this.tableNames[0];
       const params = { pageNum: this.queryParams.pageNum };
-      this.$tab.openPage("修改[" + tableName + "]生成配置", '/tool/gen-edit/index/' + tableId, params);
+      this.$tab.openPage(this.$t('update') + "[" + tableName + "]" + this.$t('gen.index.467583-4'), '/tool/gen-edit/index/' + tableId, params);
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       const tableIds = row.tableId || this.ids;
-      this.$modal.confirm('是否确认删除表编号为"' + tableIds + '"的数据项？').then(function() {
+      this.$modal.confirm(this.$t('gen.index.467583-12', [tableIds])).then(function() {
         return delTable(tableIds);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
-    }
-  }
-};
-</script>
+        this.$modal.msgSucc

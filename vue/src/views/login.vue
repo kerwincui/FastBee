@@ -7,7 +7,7 @@
                         <img :src="logo" alt="logo" style="width: 100px; height: 100px; float: left" />
                         <div style="float: left; margin-top: 13px; width: 200px; text-align: left">
                             <div>FastBee</div>
-                            <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">开源物联网平台</div>
+                            <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">{{ $t('login.989807-0') }}</div>
                         </div>
                     </div>
                 </div>
@@ -17,36 +17,34 @@
                         <div class="alert-box-wrap" v-if="loginForm.bindId != null">
                             <div v-if="loginForm.bindId != null" class="alert-message-wrap">
                                 <i class="el-icon-warning" />
-                                如果你已经有账号,请直接输入账号进行绑定，
+                                {{ $t('login.989807-10') }}
                             </div>
                             <el-row>
                                 <el-col :span="10.5">
-                                    <div v-if="loginForm.bindId != null" class="alert-message-wrap">如果还没有账号，请先去</div>
+                                    <div v-if="loginForm.bindId != null" class="alert-message-wrap">{{ $t('login.989807-11') }}</div>
                                 </el-col>
-                                <!-- <el-col :span="4"> -->
                                 <router-link
                                     v-if="loginForm.bindId != null"
                                     :to="{ path: '/register', query: this.$route.query }"
                                     style="margin-left: 10px; font-size: 14px; font-family: '微软雅黑'; color: rgba(41, 96, 197, 0.856)"
                                 >
-                                    注册
+                                    {{ $t('login.989807-12') }}
                                 </router-link>
-                                <!-- </el-col> -->
                             </el-row>
                         </div>
                     </el-form-item>
                     <el-form-item prop="username">
-                        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+                        <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('login.989807-20')">
                             <svg-icon slot="prefix" icon-class="user" class="input-icon" />
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="password">
-                        <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
+                        <el-input v-model="loginForm.password" type="password" auto-complete="off" :placeholder="$t('login.989807-21')" @keyup.enter.native="handleLogin">
                             <svg-icon slot="prefix" icon-class="password" class="input-icon" />
                         </el-input>
                     </el-form-item>
                     <el-form-item v-if="captchaOnOff" prop="code">
-                        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
+                        <el-input v-model="loginForm.code" auto-complete="off" :placeholder="$t('login.989807-22')" style="width: 63%" @keyup.enter.native="handleLogin">
                             <svg-icon slot="prefix" icon-class="validCode" class="input-icon" />
                         </el-input>
 
@@ -54,8 +52,10 @@
                             <img :src="codeUrl" @click="getCode" />
                         </div>
                     </el-form-item>
-                    <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px; color: #000">记住密码</el-checkbox>
-
+                    <div style="display: flex; justify-content: space-between">
+                        <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px; color: #000">{{ $t('login.989807-7') }}</el-checkbox>
+                        <langSelect class="lang"></langSelect>
+                    </div>
                     <el-form-item style="width: 100%">
                         <div style="margin-bottom: 10px">
                             <!-- <el-button v-if="!bindAccount" :loading="loading" type="primary" style="width: 100%"
@@ -65,28 +65,28 @@
               </el-button> -->
                             <div v-if="!bindId">
                                 <el-button class="btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">
-                                    <span v-if="!loading">登 录</span>
-                                    <span v-else>登 录 中...</span>
+                                    <span v-if="!loading">{{ $t('login.989807-3') }}</span>
+                                    <span v-else>{{ $t('login.989807-13') }}</span>
                                 </el-button>
                             </div>
                             <div v-else>
                                 <el-button class="btn" :loading="loading" type="primary" @click.native.prevent="handleBindLogin">
-                                    <span v-if="!loading">绑定并登录</span>
-                                    <span v-else>绑定中...</span>
+                                    <span v-if="!loading">{{ $t('login.989807-15') }}</span>
+                                    <span v-else>{{ $t('login.989807-16') }}</span>
                                 </el-button>
                                 <el-button style="margin: 16px 0 0 0" class="btn" @click.native.prevent="handleBackLogin">
-                                    <span>返回登录</span>
+                                    <span>{{ $t('login.989807-44') }}</span>
                                 </el-button>
                             </div>
                             <el-row>
                                 <div>
-                                    <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">返回官网</el-link>
-                                    <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank" style="float: left; margin-left: 20px">查看文档</el-link>
-                                    <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }" style="float: left; margin-left: 20px">注册账号</router-link>
+                                    <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">{{ $t('login.989807-41') }}</el-link>
+                                    <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank" style="float: left; margin-left: 20px">{{ $t('login.989807-40') }}</el-link>
+                                    <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }" style="float: left; margin-left: 20px">{{ $t('login.989807-18') }}</router-link>
                                 </div>
                             </el-row>
                             <div class="other-login">
-                                <span class="text">其他登录方式：</span>
+                                <span class="text">{{ $t('login.989807-42') }}</span>
                                 <svg-icon class="icon" icon-class="wechat" style="color: #07c160" @click="handleGotoWeChatLogin" />
                             </div>
                         </div>
@@ -112,9 +112,11 @@ import { getCodeImg, checkBindId, getErrorMsg, socialLogin, bindLogin } from '@/
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
 import { setToken } from '@/utils/auth';
+import langSelect from '@/layout/components/langSelect';
 
 export default {
     name: 'Login',
+    components: { langSelect },
     data() {
         return {
             logo,
@@ -133,21 +135,21 @@ export default {
                     {
                         required: true,
                         trigger: 'blur',
-                        message: '请输入您的账号',
+                        message: this.$t('login.989807-20'),
                     },
                 ],
                 password: [
                     {
                         required: true,
                         trigger: 'blur',
-                        message: '请输入您的密码',
+                        message: this.$t('login.989807-21'),
                     },
                 ],
                 code: [
                     {
                         required: true,
                         trigger: 'change',
-                        message: '请输入验证码',
+                        message: this.$t('login.989807-22'),
                     },
                 ],
             },
@@ -376,8 +378,8 @@ export default {
             window.location.href = baseURL + '/auth/render/wechat_open_web';
         },
         authLogin() {
-            this.$alert('第三方登录正在集成中...', '提示消息', {
-                confirmButtonText: '确定',
+            this.$alert(this.$t('login.989807-63'), this.$t('login.989807-32'), {
+                confirmButtonText: this.$t('confirm'),
                 callback: (action) => {
                     this.$message({
                         type: 'info',

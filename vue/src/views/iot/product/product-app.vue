@@ -4,34 +4,36 @@
         <el-col :span="14">
             <el-row :gutter="10" class="mb8">
                 <el-col :span="1.5">
-                    <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">刷新</el-button>
+                    <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getList">{{ $t('refresh') }}</el-button>
                 </el-col>
-                <el-tag type="danger" style="margin-left:15px;">该功能暂不可用,后面版本发布</el-tag>
+                <el-col :span="1.5">
+                    <el-tag type="danger" style="margin-left:15px;">{{ $t('product.product-app.045891-1') }}</el-tag>
+                </el-col>
             </el-row>
             <el-table v-loading="loading" :data="modelList" border style="margin-bottom:60px;margin-top:20px;" size="small">
-                <el-table-column label="名称" align="center" prop="modelName" />
-                <el-table-column label="标识符" align="center" prop="identifier" />
-                <el-table-column label="物模型类别" align="center" prop="type">
+                <el-table-column :label="$t('product.product-app.045891-2')" align="center" prop="modelName" />
+                <el-table-column :label="$t('product.product-app.045891-3')" align="center" prop="identifier" />
+                <el-table-column :label="$t('product.product-app.045891-4')" align="center" prop="type">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_things_type" :value="scope.row.type" />
                     </template>
                 </el-table-column>
-                <el-table-column label="数据类型" align="center" prop="datatype">
+                <el-table-column :label="$t('product.product-app.045891-5')" align="center" prop="datatype">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
                     </template>
                 </el-table-column>
-                <el-table-column label="部件" align="center" prop="part">
+                <el-table-column :label="$t('product.product-app.045891-6')" align="center" prop="part">
                     <template slot-scope="scope">
-                        {{scope.row.part}} 系统定义的部件
+                        {{scope.row.part}} {{ $t('product.product-app.045891-7') }}
                     </template>
                 </el-table-column>
             </el-table>
 
-            <el-divider>高级功能</el-divider>
+            <el-divider>{{ $t('product.product-app.045891-8') }}</el-divider>
             <el-form ref="form" :model="form" label-width="100px">
-                <el-form-item label="自定义页面" prop="page">
-                    <el-input v-model="form.page" placeholder="请输入自定义页面" />
+                <el-form-item :label="$t('product.product-app.045891-9')" prop="page">
+                    <el-input v-model="form.page" :placeholder="$t('product.product-app.045891-10')" />
                 </el-form-item>
             </el-form>
 
@@ -40,7 +42,7 @@
             <div class="phone">
                 <div class="phone-container"></div>
             </div>
-            <div style="text-align:center;margin-top:15px;width:370px;">界面展示</div>
+            <div style="text-align:center;margin-top:15px;width:370px;">{{ $t('product.product-app.045891-11') }}</div>
         </el-col>
 
     </el-row>

@@ -2,53 +2,53 @@
     <div style="margin-top:-50px;">
         <el-divider></el-divider>
         <el-form :model="queryParams" ref="product-select-template" :inline="true" label-width="48px">
-            <el-form-item label="名称" prop="templateName">
-                <el-input v-model="queryParams.templateName" placeholder="请输入物模型名称" clearable size="small"
+            <el-form-item :label="$t('product.product-select-template.318012-0')" prop="templateName">
+                <el-input v-model="queryParams.templateName" :placeholder="$t('product.product-select-template.318012-1')" clearable size="small"
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="类别" prop="type">
-                <el-select v-model="queryParams.type" placeholder="请选择模型类别" clearable size="small">
+            <el-form-item :label="$t('product.product-select-template.318012-2')" prop="type">
+                <el-select v-model="queryParams.type" :placeholder="$t('product.product-select-template.318012-3')" clearable size="small">
                     <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label"
                         :value="dict.value" />
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
         </el-form>
 
         <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange"
             ref="selectTemplateTable" size="small">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="名称" align="center" prop="templateName" />
-            <el-table-column label="标识符" align="center" prop="identifier" />
-            <el-table-column label="物模型类别" align="center" prop="type">
+            <el-table-column :label="$t('product.product-select-template.318012-0')" align="center" prop="templateName" />
+            <el-table-column :label="$t('product.product-select-template.318012-6')" align="center" prop="identifier" />
+            <el-table-column :label="$t('product.product-select-template.318012-7')" align="center" prop="type">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_things_type" :value="scope.row.type" />
                 </template>
             </el-table-column>
-            <el-table-column label="图表展示" align="center" prop="isChart" width="75">
+            <el-table-column :label="$t('product.product-select-template.318012-8')" align="center" prop="isChart" width="75">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isChart" />
                 </template>
             </el-table-column>
-            <el-table-column label="实时监测" align="center" prop="isMonitor" width="75">
+            <el-table-column :label="$t('product.product-select-template.318012-9')" align="center" prop="isMonitor" width="75">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isMonitor" />
                 </template>
             </el-table-column>
-            <el-table-column label="只读" align="center" prop="isReadonly" width="75">
+            <el-table-column :label="$t('product.product-select-template.318012-10')" align="center" prop="isReadonly" width="75">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isReadonly" />
                 </template>
             </el-table-column>
-            <el-table-column label="历史存储" align="center" prop="isHistory" width="75">
+            <el-table-column :label="$t('product.product-select-template.318012-11')" align="center" prop="isHistory" width="75">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isHistory" />
                 </template>
             </el-table-column>
-            <el-table-column label="数据类型" align="center" prop="datatype">
+            <el-table-column :label="$t('product.product-select-template.318012-12')" align="center" prop="datatype">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_data_type" :value="scope.row.datatype" />
                 </template>

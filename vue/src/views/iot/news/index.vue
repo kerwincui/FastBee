@@ -1,105 +1,105 @@
 <template>
     <div class="app-container">
         <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="60px" v-if="isAdmin">
-            <el-form-item label="标题" prop="title">
-                <el-input v-model="queryParams.title" placeholder="请输入标题" clearable size="small"
+            <el-form-item :label="$t('system.news.893410-0')" prop="title">
+                <el-input v-model="queryParams.title" :placeholder="$t('system.news.893410-1')" clearable size="small"
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="分类" prop="categoryName">
-                <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable size="small"
+            <el-form-item :label="$t('system.news.893410-2')" prop="categoryName">
+                <el-input v-model="queryParams.categoryName" :placeholder="$t('system.news.893410-3')" clearable size="small"
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="置顶" prop="isTop">
-                <el-select v-model="queryParams.isTop" placeholder="是否置顶" clearable size="small" style="width:100px;">
+            <el-form-item :label="$t('system.news.893410-4')" prop="isTop">
+                <el-select v-model="queryParams.isTop" :placeholder="$t('system.news.893410-5')" clearable size="small" style="width:100px;">
                     <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label"
                         :value="dict.value" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="轮播" prop="isBanner">
-                <el-select v-model="queryParams.isBanner" placeholder="是否轮播" clearable size="small" style="width:100px;">
+            <el-form-item :label="$t('system.news.893410-6')" prop="isBanner">
+                <el-select v-model="queryParams.isBanner" :placeholder="$t('system.news.893410-7')" clearable size="small" style="width:100px;">
                     <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label"
                         :value="dict.value" />
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="发布" prop="status">
-                <el-select v-model="queryParams.status" placeholder="选择状态" clearable size="small" style="width:100px;">
+            <el-form-item :label="$t('system.news.893410-8')" prop="status">
+                <el-select v-model="queryParams.status" :placeholder="$t('system.news.893410-9')" clearable size="small" style="width:100px;">
                     <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label"
                         :value="dict.value" />
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
             </el-form-item>
         </el-form>
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                    v-hasPermi="['iot:news:add']">新增</el-button>
+                    v-hasPermi="['iot:news:add']">{{ $t('system.sysclient.652154-4') }}</el-button>
             </el-col>
             <el-col :span="1.5">
                 <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-                    v-hasPermi="['iot:news:edit']">修改</el-button>
+                    v-hasPermi="['iot:news:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
             </el-col>
             <el-col :span="1.5">
                 <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-                    v-hasPermi="['iot:news:remove']">删除</el-button>
+                    v-hasPermi="['iot:news:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
             </el-col>
             <el-col :span="1.5">
                 <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-                    v-hasPermi="['iot:news:export']">导出</el-button>
+                    v-hasPermi="['iot:news:export']">{{ $t('system.sysclient.652154-7') }}</el-button>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
         <el-table v-loading="loading" :data="newsList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="图片" align="center" prop="imgUrl" width="140px;">
+            <el-table-column :label="$t('system.news.893410-10')" align="center" prop="imgUrl" width="140px;">
                 <template slot-scope="scope">
                     <el-image style="border-radius:5px;height:80px;width:120px;margin-bottom:-5px;" lazy
                         :preview-src-list="[baseUrl + scope.row.imgUrl]" :src="baseUrl + scope.row.imgUrl"
                         fit="cover"></el-image>
                 </template>
             </el-table-column>
-            <el-table-column label="标题" align="center" prop="title" />
-            <el-table-column label="分类" align="center" prop="categoryName">
+            <el-table-column :label="$t('system.news.893410-0')" align="center" prop="title" />
+            <el-table-column :label="$t('system.news.893410-2')" align="center" prop="categoryName">
                 <template slot-scope="scope">
                     <el-tag type="info">{{ scope.row.categoryName }}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="作者" align="center" prop="author" width="100" />
-            <el-table-column label="置顶" align="center" prop="isTop" width="80">
+            <el-table-column :label="$t('system.news.893410-11')" align="center" prop="author" width="100" />
+            <el-table-column :label="$t('system.news.893410-4')" align="center" prop="isTop" width="80">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isTop" />
                 </template>
             </el-table-column>
-            <el-table-column label="轮播" align="center" prop="isBanner" width="80">
+            <el-table-column :label="$t('system.news.893410-6')" align="center" prop="isBanner" width="80">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.isBanner" />
                 </template>
             </el-table-column>
-            <el-table-column label="发布" align="center" prop="status" width="80">
+            <el-table-column :label="$t('system.news.893410-8')" align="center" prop="status" width="80">
                 <template slot-scope="scope">
                     <dict-tag :options="dict.type.iot_yes_no" :value="scope.row.status" />
                 </template>
             </el-table-column>
 
-            <el-table-column label="创建时间" align="center" prop="createTime" width="120">
+            <el-table-column :label="$t('device.index.105953-33')" align="center" prop="createTime" width="120">
                 <template slot-scope="scope">
                     <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="备注" align="center" prop="remark" />
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+            <el-table-column :label="$t('iot.group.index.637432-9')" align="center" prop="remark" />
+            <el-table-column :label="$t('device.index.105953-34')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-view"
-                        @click="openDetailDialog(scope.row.newsId)">查看</el-button>
+                        @click="openDetailDialog(scope.row.newsId)">{{ $t('system.news.893410-25') }}</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-                        v-hasPermi="['iot:news:edit']">修改</el-button>
+                        v-hasPermi="['iot:news:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
                     <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-                        v-hasPermi="['iot:news:remove']">删除</el-button>
+                        v-hasPermi="['iot:news:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -112,30 +112,30 @@
             <el-form ref="form" :model="form" :rules="rules" label-width="60px">
                 <el-row :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="标题" prop="title">
-                            <el-input v-model="form.title" placeholder="请输入标题" />
+                        <el-form-item :label="$t('system.news.893410-0')" prop="title">
+                            <el-input v-model="form.title" :placeholder="$t('system.news.893410-1')" />
                         </el-form-item>
-                        <el-form-item label="作者" prop="author">
-                            <el-input v-model="form.author" placeholder="请输入作者" />
+                        <el-form-item :label="$t('system.news.893410-11')" prop="author">
+                            <el-input v-model="form.author" :placeholder="$t('system.news.893410-12')" />
                         </el-form-item>
-                        <el-form-item label="摘要" prop="remark">
-                            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
+                        <el-form-item :label="$t('system.news.893410-13')" prop="remark">
+                            <el-input v-model="form.remark" type="textarea" :placeholder="$t('iot.group.index.637432-16')" rows="3" />
                         </el-form-item>
                         <el-row>
                             <el-col :span="8">
-                                <el-form-item label="置顶" prop="isTop">
+                                <el-form-item :label="$t('system.news.893410-4')" prop="isTop">
                                     <el-switch v-model="form.isTop" active-text="" inactive-text="" :active-value="1"
                                         :inactive-value="0"></el-switch>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item label="轮播" prop="isBanner">
+                                <el-form-item :label="$t('system.news.893410-6')" prop="isBanner">
                                     <el-switch v-model="form.isBanner" active-text="" inactive-text="" :active-value="1"
                                         :inactive-value="0"></el-switch>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item label="发布" prop="status">
+                                <el-form-item :label="$t('system.news.893410-8')" prop="status">
                                     <el-switch v-model="form.status" active-text="" inactive-text="" :active-value="1"
                                         :inactive-value="0"></el-switch>
                                 </el-form-item>
@@ -144,25 +144,25 @@
 
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="分类" prop="categoryId">
-                            <el-select v-model="form.categoryId" placeholder="请选择分类" @change="selectCategory">
+                        <el-form-item :label="$t('system.news.893410-2')" prop="categoryId">
+                            <el-select v-model="form.categoryId" :placeholder="$t('system.news.893410-14')" @change="selectCategory">
                                 <el-option v-for="category in categoryList" :key="category.id" :label="category.name"
                                     :value="category.id"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="图片">
+                        <el-form-item :label="$t('system.news.893410-10')">
                             <imageUpload ref="image-upload" :value="form.imgUrl" :limit="1" :fileSize="1"
                                 @input="getImagePath($event)"></imageUpload>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item label="内容">
+                <el-form-item :label="$t('system.news.893410-15')">
                     <editor v-model="form.content" :min-height="192" />
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">确 定</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button type="primary" @click="submitForm">{{ $t('device.index.105953-56') }}</el-button>
+                <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
             </div>
         </el-dialog>
 
@@ -176,7 +176,7 @@
                 <div v-html="form.content"></div>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="closeDetail"> 关 闭 </el-button>
+                <el-button type="primary" @click="closeDetail"> {{ $t('device.device-edit.148398-57') }} </el-button>
             </div>
         </el-dialog>
     </div>
@@ -246,35 +246,24 @@ export default {
             rules: {
                 title: [{
                     required: true,
-                    message: "标题不能为空",
+                    message: this.$t('system.news.893410-16'),
                     trigger: "blur"
-                },
-                {
-                    min: 1,
-                    max: 64,
-                    message: '标题不能少于1个字符和超过64字符',
-                },
-                ],
+                }],
                 content: [{
                     required: true,
-                    message: "内容不能为空",
+                    message: this.$t('system.news.893410-17'),
                     trigger: "blur"
                 }],
                 categoryId: [{
                     required: true,
-                    message: "分类不能为空",
+                    message: this.$t('system.news.893410-18'),
                     trigger: "blur"
                 }],
                 author: [{
                     required: true,
-                    message: "作者不能为空",
+                    message: this.$t('system.news.893410-19'),
                     trigger: "blur"
-                },
-                {
-                    min: 1,
-                    max: 50,
-                    message: '作者名称不能少于1个字符和超过50字符',
-                },],
+                }],
             }
         };
     },
@@ -316,7 +305,7 @@ export default {
             this.form = {
                 newsId: null,
                 title: null,
-                content: "暂无内容",
+                content: this.$t('system.news.893410-20'),
                 imgUrl: "",
                 isTop: null,
                 isBanner: null,
@@ -353,7 +342,7 @@ export default {
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = "添加新闻资讯";
+            this.title = this.$t('system.news.893410-21');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -362,27 +351,27 @@ export default {
             getNews(newsId).then(response => {
                 this.form = response.data;
                 this.open = true;
-                this.title = "修改新闻资讯";
+                this.title = this.$t('system.news.893410-22');
             });
         },
         /** 提交按钮 */
         submitForm() {
             console.log(this.form);
             if (this.form.imgUrl == null || this.form.imgUrl == "") {
-                this.$modal.msgError("请上传图片");
+                this.$modal.msgError(this.$t('system.news.893410-23'));
                 return;
             }
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     if (this.form.newsId != null) {
                         updateNews(this.form).then(response => {
-                            this.$modal.msgSuccess("修改成功");
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'));
                             this.open = false;
                             this.getList();
                         });
                     } else {
                         addNews(this.form).then(response => {
-                            this.$modal.msgSuccess("新增成功");
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-25'));
                             this.open = false;
                             this.getList();
                         });
@@ -393,11 +382,11 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const newsIds = row.newsId || this.ids;
-            this.$modal.confirm('是否确认删除新闻资讯编号为"' + newsIds + '"的数据项？').then(function () {
+            this.$modal.confirm(this.$t('system.news.893410-24', [newsIds])).then(function () {
                 return delNews(newsIds);
             }).then(() => {
                 this.getList();
-                this.$modal.msgSuccess("删除成功");
+                this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'));
             }).catch(() => { });
         },
         /** 导出按钮操作 */
@@ -427,7 +416,7 @@ export default {
         },
         // 取消按钮
         closeDetail() {
-            this.titleDetail = "详情";
+            this.titleDetail = this.$t('system.news.893410-25');
             this.openDetail = false;
             this.reset();
         },

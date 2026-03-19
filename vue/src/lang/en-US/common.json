@@ -130,5 +130,7 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
     "batchCancelAuth": "Batch Cancel Authorization",
-    "cancelAuth": "Cancel Authorization"
+    "cancelAuth": "Cancel Authorization",
+    "clean": "Clear",
+    "cleanSuccess": "Clear Successful"
 }

@@ -1,40 +1,40 @@
 <template>
   <!-- 导入表 -->
-  <el-dialog title="导入表" :visible.sync="visible" width="800px" top="5vh" append-to-body>
+  <el-dialog :title="$t('tool.import.670901-0')" :visible.sync="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
-      <el-form-item label="数据源" prop="dataName">
-                <el-select v-model="queryParams.dataName" size="small" placeholder="请选择数据源" style="width: 100%" :clearable="true">
+      <el-form-item :label="$t('tool.import.670901-1')" prop="dataName">
+                <el-select v-model="queryParams.dataName" size="small" :placeholder="$t('tool.import.670901-2')" style="width: 100%" :clearable="true">
                     <el-option v-for="(item, index) in dataSources" :key="index" :label="item" :value="item"></el-option>
                 </el-select>
             </el-form-item>
-      <el-form-item label="表名称" prop="tableName">
+      <el-form-item :label="$t('tool.import.670901-3')" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
-          placeholder="请输入表名称"
+          :placeholder="$t('tool.import.670901-4')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="表描述" prop="tableComment">
+      <el-form-item :label="$t('tool.import.670901-5')" prop="tableComment">
         <el-input
           v-model="queryParams.tableComment"
-          placeholder="请输入表描述"
+          :placeholder="$t('tool.import.670901-6')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('common.search') }}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
       </el-form-item>
     </el-form>
     <el-row>
       <el-table @row-click="clickRow" ref="table" :data="dbTableList" @selection-change="handleSelectionChange" height="260px">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="tableName" label="表名称" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="tableComment" label="表描述" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间"></el-table-column>
-        <el-table-column prop="updateTime" label="更新时间"></el-table-column>
+        <el-table-column prop="tableName" :label="$t('tool.import.670901-3')" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="tableComment" :label="$t('tool.import.670901-5')" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="createTime" :label="$t('tool.import.670901-7')"></el-table-column>
+        <el-table-column prop="updateTime" :label="$t('tool.import.670901-8')"></el-table-column>
       </el-table>
       <pagination
         v-show="total>0"
@@ -45,8 +45,8 @@
       />
     </el-row>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleImportTable">确 定</el-button>
-      <el-button @click="visible = false">取 消</el-button>
+      <el-button type="primary" @click="handleImportTable">{{ $t('common.confirm') }}</el-button>
+      <el-button @click="visible = false">{{ $t('common.cancel') }}</el-button>
     </div>
   </el-dialog>
 </template>
@@ -123,7 +123,7 @@ export default {
         dataName: this.queryParams.dataName,
       };
       if (tableNames == '') {
-        this.$modal.msgError('请选择要导入的表');
+        this.$modal.msgError(this.$i18n.t('tool.import.670901-9'));
         return;
       }
       importTable(params).then((res) => {

@@ -313,12 +313,12 @@ export default {
             rules: {
                 userName: [
                     { required: true, message: this.$t('system.user.index.userNameRequired'), trigger: 'blur' },
-                    { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间', trigger: 'blur' },
+                    { min: 2, max: 20, message: this.$t('system.user.index.userNameLength'), trigger: 'blur' },
                 ],
                 nickName: [{ required: true, message: this.$t('system.user.index.nickNameRequired'), trigger: 'blur' }],
                 password: [
                     { required: true, message: this.$t('system.user.index.userPasswordRequired'), trigger: 'blur' },
-                    { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' },
+                    { min: 5, max: 20, message: this.$t('system.user.index.passwordLength'), trigger: 'blur' },
                 ],
                 email: [
                     {
@@ -380,7 +380,7 @@ export default {
         handleStatusChange(row) {
             let text = row.status === '0' ? this.$t('system.user.index.disable') : this.$t('system.user.index.enable');
             this.$modal
-                .confirm('确认要"' + text + '""' + row.userName + '"用户吗？')
+                .confirm(this.$t('system.user.index.confirmStatusChange', [text, row.userName]))
                 .then(function () {
                     return changeUserStatus(row.userId, row.status);
                 })
@@ -479,7 +479,7 @@ export default {
                 cancelButtonText: this.$t('cancel'),
                 closeOnClickModal: false,
                 inputPattern: /^.{5,20}$/,
-                inputErrorMessage: '用户密码长度必须介于 5 和 20 之间',
+                inputErrorMessage: this.$t('user.index.098976-35'),
             })
                 .then(({ value }) => {
                     resetUserPwd(row.userId, value).then((response) => {

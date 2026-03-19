@@ -1,13 +1,13 @@
 <template>
   <div id="mediaServer" style="padding: 6px">
     <el-card style="margin-bottom: 6px">
-      <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom: -20px">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom: -20px">
         <el-form-item>
           <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="add"
-            v-hasPermi="['iot:video:add']">新增节点</el-button>
+            v-hasPermi="['iot:video:add']">{{ $t('sip.mediaServer.998535-0') }}</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getServerList">刷新</el-button>
+          <el-button type="warning" plain icon="el-icon-refresh" size="mini" @click="getServerList">{{ $t('refresh') }}</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -20,16 +20,16 @@
             <el-row :gutter="10">
               <el-col :span="15">
                 <el-descriptions :column="1" size="mini" style="white-space: nowrap">
-                  <el-descriptions-item label="配置名称">
+                  <el-descriptions-item :label="$t('sip.mediaServer.998535-1')">
                     {{ item.serverId }}
                   </el-descriptions-item>
-                  <el-descriptions-item label="服务器IP">
+                  <el-descriptions-item :label="$t('sip.mediaServer.998535-2')">
                     {{ item.ip }}
                   </el-descriptions-item>
-                  <el-descriptions-item label="播放协议">
+                  <el-descriptions-item :label="$t('sip.mediaServer.998535-3')">
                     {{ item.protocol }}
                   </el-descriptions-item>
-                  <el-descriptions-item label="创建时间">
+                  <el-descriptions-item :label="$t('sip.mediaServer.998535-4')">
                     {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
                   </el-descriptions-item>
                 </el-descriptions>
@@ -42,20 +42,20 @@
             </el-row>
             <el-button-group style="margin-top: 10px">
               <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete"
-                v-hasPermi="['iot:video:remove']" @click="del(item)">删除</el-button>
+                v-hasPermi="['iot:video:remove']" @click="del(item)">{{ $t('del') }}</el-button>
               <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="view(item)"
-                v-hasPermi="['iot:video:query']">查看</el-button>
+                v-hasPermi="['iot:video:query']">{{ $t('look') }}</el-button>
               <el-button v-if="!istrue" type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer"
-                @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">编辑
+                @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">{{ $t('edit') }}
               </el-button>
               <el-button v-else type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer"
-                :loading="true" disabled>重启中...
+                :loading="true" disabled>{{ $t('sip.mediaServer.998535-5') }}
               </el-button>
             </el-button-group>
           </el-card>
         </el-col>
       </el-row>
-      <el-empty description="暂无数据，请添加流媒体服务器节点" v-if="total == 0"></el-empty>
+      <el-empty :description="$t('sip.mediaServer.998535-6')" v-if="total == 0"></el-empty>
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
         :pageSizes="[12, 24, 36, 60]" @pagination="getServerList" />
     </el-card>
@@ -147,13 +147,13 @@ export default {
     del: function (row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除流媒体服务器配置编号为"' + ids + '"的数据项？')
+        .confirm(this.$t('sip.mediaServer.998535-7', [ids]))
         .then(function () {
           delmediaServer(ids);
         })
         .then(() => {
           this.getServerList();
-          this.$modal.msgSuccess('删除成功');
+          this.$modal.msgSuccess(this.$t('delSuccess'));
         })
         .catch(() => { });
     },

@@ -211,5 +211,10 @@
   "oauthLogin.oauth.989807-3": "Authorized...",
   "oauthLogin.oauth.989807-4": "deny",
   "oauthLogin.oauth.989807-5": "Access to your personal information",
-  "oauthLogin.oauth.989807-6": "Modify your personal information"
+  "oauthLogin.oauth.989807-6": "Modify your personal information",
+  "login.989807-62": "Password must contain at least 2 types of: uppercase letters, lowercase letters, numbers, special characters",
+  "login.989807-63": "Third-party login is being integrated...",
+  "register.974236-18": "Congratulations, your account",
+  "register.974236-19": "registered successfully!",
+  "register.974236-20": "System Prompt"
 }

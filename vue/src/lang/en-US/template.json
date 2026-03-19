@@ -165,5 +165,13 @@
   "template.paramter.038405-57": "close",
   "template.paramter.038405-58": "open",
   "template.paramter.038405-59": "low",
-  "template.paramter.038405-60": "high"
+  "template.paramter.038405-60": "high",
+  "template.index.891112-125": "Please re-enter the value range. The maximum value cannot be less than the minimum value!",
+  "template.index.891112-126": "The value range must be a decimal. Please re-enter!",
+  "template.index.891112-127": "Parameter identifier {0} is duplicated",
+  "template.index.891112-128": "Modified successfully",
+  "template.index.891112-129": "Added successfully",
+  "template.index.891112-130": "Deleted successfully",
+  "template.index.891112-131": "Edit",
+  "template.index.891112-132": "Minimum value must be decimal"
 }

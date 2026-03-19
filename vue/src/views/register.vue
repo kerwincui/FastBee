@@ -9,36 +9,36 @@
             <div style="float: left; margin-top: 13px; width: 200px; text-align: left">
               <div>FastBee</div>
               <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">
-                开源物联网平台</div>
+                {{ $t('login.989807-0') }}</div>
             </div>
           </div>
         </div>
         <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form"
           style="z-index: 1000;">
           <el-form-item prop="username">
-            <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
+            <el-input v-model="registerForm.username" type="text" auto-complete="off" :placeholder="$t('login.989807-20')">
               <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
             </el-input>
           </el-form-item>
           <el-form-item prop="phonenumber">
-            <el-input v-model="registerForm.phonenumber" type="text" auto-complete="off" placeholder="手机号码">
+            <el-input v-model="registerForm.phonenumber" type="text" auto-complete="off" :placeholder="$t('register.974236-14')">
               <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon" />
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="registerForm.password" type="password" auto-complete="off" placeholder="密码"
+            <el-input v-model="registerForm.password" type="password" auto-complete="off" :placeholder="$t('login.989807-21')"
               @keyup.enter.native="handleRegister">
               <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
             </el-input>
           </el-form-item>
           <el-form-item prop="confirmPassword">
-            <el-input v-model="registerForm.confirmPassword" type="password" auto-complete="off" placeholder="确认密码"
+            <el-input v-model="registerForm.confirmPassword" type="password" auto-complete="off" :placeholder="$t('login.989807-48')"
               @keyup.enter.native="handleRegister">
               <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
             </el-input>
           </el-form-item>
           <el-form-item v-if="captchaOnOff" prop="code">
-            <el-input v-model="registerForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
+            <el-input v-model="registerForm.code" auto-complete="off" :placeholder="$t('login.989807-22')" style="width: 63%"
               @keyup.enter.native="handleRegister">
               <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
             </el-input>
@@ -49,16 +49,16 @@
           <el-form-item style="width: 100%">
             <el-button v-if="!bindAccount" :loading="loading" type="primary" style="width: 100%"
               @click.native.prevent="handleRegister">
-              <span v-if="!loading">注 册</span>
-              <span v-else>注 册 中...</span>
+              <span v-if="!loading">{{ $t('register.974236-4') }}</span>
+              <span v-else>{{ $t('register.974236-5') }}</span>
             </el-button>
           </el-form-item>
           <el-form-item>
-            <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">返回官网</el-link>
+            <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">{{ $t('login.989807-41') }}</el-link>
             <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank"
-              style="float: left; margin-left: 20px">查看文档</el-link>
+              style="float: left; margin-left: 20px">{{ $t('login.989807-40') }}</el-link>
             <router-link :to="{ path: '/login', query: this.$route.query }"
-              style="float: left; margin-left: 20px">账号登录</router-link>
+              style="float: left; margin-left: 20px">{{ $t('register.974236-9') }}</router-link>
           </el-form-item>
         </el-form>
       </el-col>
@@ -85,7 +85,7 @@ export default {
   data() {
     const equalToPassword = (rule, value, callback) => {
       if (this.registerForm.password !== value) {
-        callback(new Error('两次输入的密码不一致'));
+        callback(new Error(this.$t('pwdNotMatch')));
       } else {
         callback();
       }
@@ -107,12 +107,12 @@ export default {
           {
             required: true,
             trigger: 'blur',
-            message: '请输入您的账号',
+            message: this.$t('login.989807-20'),
           },
           {
             min: 2,
             max: 20,
-            message: '用户账号长度必须介于 2 和 20 之间',
+            message: this.$t('register.974236-13'),
             trigger: 'blur',
           },
         ],
@@ -120,12 +120,12 @@ export default {
           {
             required: true,
             trigger: 'blur',
-            message: '请输入您的手机号码',
+            message: this.$t('register.974236-14'),
           },
           {
             min: 11,
             max: 11,
-            message: '手机号码长度为11',
+            message: this.$t('register.974236-15'),
             trigger: 'blur',
           },
         ],
@@ -133,12 +133,12 @@ export default {
           {
             required: true,
             trigger: 'blur',
-            message: '请输入您的密码',
+            message: this.$t('login.989807-21'),
           },
           {
             min: 5,
             max: 20,
-            message: '用户密码长度必须介于 5 和 20 之间',
+            message: this.$t('register.974236-16'),
             trigger: 'blur',
           },
           {
@@ -146,7 +146,7 @@ export default {
             validator: (rule, value, callback) => {
               var passwordreg = /(?![A-Z]*$)(?![a-z]*$)(?![0-9]*$)(?![^a-zA-Z0-9]*$)/
               if (!passwordreg.test(value)) {
-                callback(new Error('密码须由大写,小写字母,数字,特殊符中的2种及以上类型组成'))
+                callback(new Error(this.$t('login.989807-62')))
               }
               else {
                 callback()
@@ -158,7 +158,7 @@ export default {
           {
             required: true,
             trigger: 'blur',
-            message: '请再次输入您的密码',
+            message: this.$t('register.974236-17'),
           },
           {
             required: true,
@@ -170,7 +170,7 @@ export default {
           {
             required: true,
             trigger: 'change',
-            message: '请输入验证码',
+            message: this.$t('login.989807-22'),
           },
         ],
       },
@@ -218,8 +218,8 @@ export default {
       window.location.href = 'http://localhost:8080/auth/render/qq';
     },
     authLogin() {
-      this.$alert('第三方登录正在集成中...', '提示消息', {
-        confirmButtonText: '确定',
+      this.$alert(this.$t('login.989807-63'), this.$t('login.989807-32'), {
+        confirmButtonText: this.$t('confirm'),
         callback: (action) => {
           this.$message({
             type: 'info',
@@ -260,7 +260,7 @@ export default {
     },
     innerRegister(res) {
       const username = this.registerForm.username;
-      this.$alert("<font color='red'>恭喜你，您的账号 " + username + ' 注册成功！</font>', '系统提示', {
+      this.$alert("<font color='red'>" + this.$t('register.974236-18') + username + this.$t('register.974236-19') + "</font>", this.$t('register.974236-20'), {
         dangerouslyUseHTMLString: true,
         type: 'success',
       })

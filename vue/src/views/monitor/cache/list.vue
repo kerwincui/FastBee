@@ -4,7 +4,7 @@
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <div slot="header">
-            <span>缓存列表</span>
+            <span>{{ $t('monitor.cache.list.501235-0') }}</span>
             <el-button
               style="float: right; padding: 3px 0"
               type="text"
@@ -21,13 +21,13 @@
             style="width: 100%"
           >
             <el-table-column
-              label="序号"
+              :label="$t('monitor.cache.list.501235-1')"
               width="60"
               type="index"
             ></el-table-column>
 
             <el-table-column
-              label="缓存名称"
+              :label="$t('monitor.cache.list.501235-2')"
               align="center"
               prop="cacheName"
               :show-overflow-tooltip="true"
@@ -35,13 +35,13 @@
             ></el-table-column>
 
             <el-table-column
-              label="备注"
+              :label="$t('common.remark')"
               align="center"
               prop="remark"
               :show-overflow-tooltip="true"
             />
             <el-table-column
-              label="操作"
+              :label="$t('common.opation')"
               width="60"
               align="center"
               class-name="small-padding fixed-width"
@@ -62,7 +62,7 @@
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <div slot="header">
-            <span>键名列表</span>
+            <span>{{ $t('monitor.cache.list.501235-5') }}</span>
             <el-button
               style="float: right; padding: 3px 0"
               type="text"
@@ -79,19 +79,19 @@
             style="width: 100%"
           >
             <el-table-column
-              label="序号"
+              :label="$t('monitor.cache.list.501235-1')"
               width="60"
               type="index"
             ></el-table-column>
             <el-table-column
-              label="缓存键名"
+              :label="$t('monitor.cache.list.501235-6')"
               align="center"
               :show-overflow-tooltip="true"
               :formatter="keyFormatter"
             >
             </el-table-column>
             <el-table-column
-              label="操作"
+              :label="$t('common.opation')"
               width="60"
               align="center"
               class-name="small-padding fixed-width"
@@ -112,29 +112,29 @@
       <el-col :span="8">
         <el-card :bordered="false" style="height: calc(100vh - 125px)">
           <div slot="header">
-            <span>缓存内容</span>
+            <span>{{ $t('monitor.cache.list.501235-7') }}</span>
             <el-button
               style="float: right; padding: 3px 0"
               type="text"
               icon="el-icon-refresh-right"
               @click="handleClearCacheAll()"
-              >清理全部</el-button
+              >{{ $t('monitor.cache.list.501235-11') }}</el-button
             >
           </div>
           <el-form :model="cacheForm">
             <el-row :gutter="32">
               <el-col :offset="1" :span="22">
-                <el-form-item label="缓存名称:" prop="cacheName">
+                <el-form-item :label="$t('monitor.cache.list.501235-8')" prop="cacheName">
                   <el-input v-model="cacheForm.cacheName" :readOnly="true" />
                 </el-form-item>
               </el-col>
               <el-col :offset="1" :span="22">
-                <el-form-item label="缓存键名:" prop="cacheKey">
+                <el-form-item :label="$t('monitor.cache.list.501235-9')" prop="cacheKey">
                   <el-input v-model="cacheForm.cacheKey" :readOnly="true" />
                 </el-form-item>
               </el-col>
               <el-col :offset="1" :span="22">
-                <el-form-item label="缓存内容:" prop="cacheValue">
+                <el-form-item :label="$t('monitor.cache.list.501235-10')" prop="cacheValue">
                   <el-input
                     v-model="cacheForm.cacheValue"
                     type="textarea"
@@ -182,12 +182,12 @@ export default {
     /** 刷新缓存名称列表 */
     refreshCacheNames() {
       this.getCacheNames();
-      this.$modal.msgSuccess("刷新缓存列表成功");
+      this.$modal.msgSuccess(this.$i18n.t('monitor.cache.list.501235-12'));
     },
     /** 清理指定名称缓存 */
     handleClearCacheName(row) {
       clearCacheName(row.cacheName).then(response => {
-        this.$modal.msgSuccess("清理缓存名称[" + this.nowCacheName + "]成功");
+        this.$modal.msgSuccess(this.$i18n.t('monitor.cache.list.501235-13', [this.nowCacheName]));
         this.getCacheKeys();
       });
     },
@@ -207,12 +207,12 @@ export default {
     /** 刷新缓存键名列表 */
     refreshCacheKeys() {
       this.getCacheKeys();
-      this.$modal.msgSuccess("刷新键名列表成功");
+      this.$modal.msgSuccess(this.$i18n.t('monitor.cache.list.501235-14'));
     },
     /** 清理指定键名缓存 */
     handleClearCacheKey(cacheKey) {
       clearCacheKey(cacheKey).then(response => {
-        this.$modal.msgSuccess("清理缓存键名[" + cacheKey + "]成功");
+        this.$modal.msgSuccess(this.$i18n.t('monitor.cache.list.501235-15', [cacheKey]));
         this.getCacheKeys();
       });
     },
@@ -233,7 +233,7 @@ export default {
     /** 清理全部缓存 */
     handleClearCacheAll() {
       clearCacheAll().then(response => {
-        this.$modal.msgSuccess("清理全部缓存成功");
+        this.$modal.msgSuccess(this.$i18n.t('monitor.cache.list.501235-16'));
       });
     }
   },

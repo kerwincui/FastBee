@@ -7,7 +7,7 @@
           <el-descriptions-item :labelStyle="statusColor">
             <template slot="label">
               <i class="el-icon-menu"></i>
-              设备模式
+              {{ $t('device.running-status.866086-0') }}
             </template>
             <el-link :underline="false" style="line-height: 28px; font-size: 16px; padding-right: 10px">{{ title }}</el-link>
           </el-descriptions-item>
@@ -43,13 +43,13 @@
                   {{ subItem.text }}
                 </el-button>
               </div>
-              <el-select v-else v-model="item.shadow" placeholder="请选择" @change="mqttPublish(deviceInfo, item)" :disabled="shadowUnEnable || item.isReadonly == 1">
+              <el-select v-else v-model="item.shadow" :placeholder="$t('device.running-status.866086-3')" @change="mqttPublish(deviceInfo, item)" :disabled="shadowUnEnable || item.isReadonly == 1">
                 <el-option v-for="subItem in item.datatype.enumList" :key="subItem.value" :label="subItem.text" :value="subItem.value" />
               </el-select>
             </div>
             <div v-if="item.datatype.type == 'string'">
               <el-input v-model="item.shadow" :placeholder="'请输入字符串 ' + (item.datatype.unit ? '，单位：' + item.datatype.unit : '')" :disabled="shadowUnEnable || item.isReadonly == 1">
-                <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, item)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && item.isReadonly == 0"></el-button>
+                <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, item)" style="font-size: 20px" :title="$t('device.running-status.866086-6')" v-if="!shadowUnEnable && item.isReadonly == 0"></el-button>
               </el-input>
             </div>
             <div v-if="item.datatype.type == 'decimal'">
@@ -206,17 +206,17 @@
                         </el-select>
                       </div>
                       <div v-if="param.datatype.type == 'string'">
-                        <el-input v-model="param.shadow" placeholder="请输入字符串" :disabled="shadowUnEnable || param.isReadonly == 1">
+              <el-input v-model="param.shadow" :placeholder="$t('device.running-status.866086-4')" :disabled="shadowUnEnable || param.isReadonly == 1">
                           <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
                         </el-input>
                       </div>
                       <div v-if="param.datatype.type == 'decimal'">
-                        <el-input v-model="param.shadow" type="number" placeholder="请输入小数 " :disabled="shadowUnEnable || param.isReadonly == 1">
+                        <el-input v-model="param.shadow" type="number" :placeholder="$t('device.running-status.866086-7')" :disabled="shadowUnEnable || param.isReadonly == 1">
                           <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
                         </el-input>
                       </div>
                       <div v-if="param.datatype.type == 'integer'">
-                        <el-input v-model="param.shadow" type="integer" placeholder="请输入整数 " :disabled="shadowUnEnable || param.isReadonly == 1">
+                        <el-input v-model="param.shadow" type="integer" :placeholder="$t('device.running-status.866086-8')" :disabled="shadowUnEnable || param.isReadonly == 1">
                           <el-button slot="append" icon="el-icon-s-promotion" @click="mqttPublish(deviceInfo, param)" style="font-size: 20px" title="指令发送" v-if="!shadowUnEnable && param.isReadonly == 0"></el-button>
                         </el-input>
                       </div>
@@ -231,7 +231,7 @@
         <!---设备状态(影子模式，value值不会更新)-->
         <el-descriptions :column="1" border size="mini" v-if="deviceInfo.isShadow == 1 && deviceInfo.status != 3">
           <template slot="title">
-            <span style="font-size: 14px; color: #606266">设备离线时状态</span>
+            <span style="font-size: 14px; color: #606266">{{ $t('device.running-status.866086-9') }}</span>
           </template>
 
           <!-- 设备物模型-->
@@ -375,7 +375,7 @@ export default {
   data() {
     return {
       // 控制模块标题
-      title: '设备控制 ',
+      title: this.$t('device.running-status.866086-48'),
       // 未启用设备影子
       shadowUnEnable: false,
       // 控制项标题背景
@@ -428,8 +428,8 @@ export default {
           return;
         }
         if (topics[3] == 'status') {
-          console.log('接收到【设备状态-运行】主题：', topic);
-          console.log('接收到【设备状态-运行】内容：', message);
+          console.log(this.$t('device.running-status.866086-21'), topic);
+          console.log(this.$t('device.running-status.866086-22'), message);
           // 更新列表中设备的状态
           if (this.deviceInfo.serialNumber == deviceNum) {
             this.deviceInfo.status = message.status;
@@ -594,7 +594,7 @@ export default {
         if (response.code === 200) {
           this.$message({
             type: 'success',
-            message: '服务调用成功!',
+            message: this.$t('device.running-status.866086-25'),
           });
         }
       });
@@ -654,14 +654,14 @@ export default {
     updateDeviceStatus(device) {
       if (device.status == 3) {
         this.statusColor.background = '#12d09f';
-        this.title = '在线模式';
+        this.title = this.$t('device.running-status.866086-26');
       } else {
         if (device.isShadow == 1) {
           this.statusColor.background = '#409EFF';
-          this.title = '影子模式';
+          this.title = this.$t('device.running-status.866086-27');
         } else {
           this.statusColor.background = '#909399';
-          this.title = '离线模式';
+          this.title = this.$t('device.running-status.866086-28');
           this.shadowUnEnable = true;
         }
       }
@@ -832,4 +832,4 @@ export default {
 .el-slider__button-wrapper {
   top: -9px;
 }
-</style>
+</

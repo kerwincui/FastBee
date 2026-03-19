@@ -1,22 +1,22 @@
 <template>
   <div style="padding-left: 20px">
     <el-form :inline="true" label-width="100px">
-      <el-form-item label="监测间隔(ms)">
-        <el-tooltip class="item" effect="light" content="取值范围500-10000毫秒" placement="top">
-          <el-input v-model="monitorInterval" placeholder="请输入监测间隔" type="number" clearable size="small" style="width: 180px" />
+      <el-form-item :label="$t('device.device-monitor.817489-0') + '(ms)'">
+        <el-tooltip class="item" effect="light" :content="$t('device.device-monitor.817489-1')" placement="top">
+          <el-input v-model="monitorInterval" :placeholder="$t('device.device-monitor.817489-2')" type="number" clearable size="small" style="width: 180px" />
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="监测次数">
-        <el-tooltip class="item" effect="light" content="取值方位1-300" placement="top">
-          <el-input v-model="monitorNumber" placeholder="请输入监测次数" type="number" clearable size="small" style="width: 180px" />
+      <el-form-item :label="$t('device.device-monitor.817489-3')">
+        <el-tooltip class="item" effect="light" :content="$t('device.device-monitor.817489-4')" placement="top">
+          <el-input v-model="monitorNumber" :placeholder="$t('device.device-monitor.817489-5')" type="number" clearable size="small" style="width: 180px" />
         </el-tooltip>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" icon="el-icon-video-play" size="mini" @click="beginMonitor()" style="margin-left: 30px">开始监测</el-button>
-        <el-button type="danger" icon="el-icon-video-pause" size="mini" @click="stopMonitor()">停止监测</el-button>
+        <el-button type="success" icon="el-icon-video-play" size="mini" @click="beginMonitor()" style="margin-left: 30px">{{ $t('device.device-monitor.817489-6') }}</el-button>
+        <el-button type="danger" icon="el-icon-video-pause" size="mini" @click="stopMonitor()">{{ $t('device.device-monitor.817489-7') }}</el-button>
       </el-form-item>
     </el-form>
-    <el-row :gutter="20" v-loading="chartLoading" element-loading-text="正在接收设备数据，请耐心等待......" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">
+    <el-row :gutter="20" v-loading="chartLoading" :element-loading-text="$t('device.device-monitor.817489-8')" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">
       <el-col :span="12" v-for="(item, index) in monitorThings" :key="index" style="margin-bottom: 20px">
         <el-card shadow="hover" :body-style="{ paddingTop: '10px', marginBottom: '-20px' }">
           <div ref="monitor" style="height: 210px; padding: 0"></div>
@@ -128,8 +128,8 @@ export default {
           }
         }
         if (topics[3] == 'monitor') {
-          console.log('接收到【实时监测】主题：', topic);
-          console.log('接收到【实时监测】内容：', message);
+          console.log(this.$t('device.device-monitor.817489-11'), topic);
+          console.log(this.$t('device.device-monitor.817489-12'), message);
           // 实时监测
           this.chartLoading = false;
           for (let k = 0; k < message.length; k++) {
@@ -190,10 +190,10 @@ export default {
         this.dataList[i].data = [];
       }
       if (this.monitorInterval < 500 || this.monitorInterval > 10000) {
-        this.$modal.alertError('实时监测的间隔范围500-10000毫秒');
+        this.$modal.alertError(this.$t('device.device-monitor.817489-14'));
       }
       if (this.monitorNumber == 0 || this.monitorNumber > 300) {
-        this.$modal.alertError('实时监测数量范围1-300');
+        this.$modal.alertError(this.$t('device.device-monitor.817489-15'));
       }
       // Mqtt发布实时监测消息
       let model = {};
@@ -212,7 +212,7 @@ export default {
       this.chartLoading = false;
       // Mqtt发布实时监测
       let model = {};
-      model.name = '关闭实时监测';
+      model.name = this.$t('device.device-monitor.817489-17');
       model.value = 0;
       model.type = 4;
       this.mqttPublish(this.deviceInfo, model);
@@ -228,7 +228,7 @@ export default {
         option = {
           title: {
             left: 'center',
-            text: this.monitorThings[i].name + ' （单位 ' + (this.monitorThings[i].datatype.unit != undefined ? this.monitorThings[i].datatype.unit : '无') + '）',
+            text: this.monitorThings[i].name + ' ' + this.$t('device.device-monitor.817489-18') + ' ' + (this.monitorThings[i].datatype.unit != undefined ? this.monitorThings[i].datatype.unit : this.$t('device.device-monitor.817489-19')) + '）',
             textStyle: {
               fontSize: 14,
             },

@@ -2,49 +2,49 @@
     <div style="padding: 6px">
         <el-card v-show="showSearch" style="margin-bottom: 6px">
             <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
-                <el-form-item label="客户端" prop="clientId">
-                    <el-input v-model="queryParams.clientId" placeholder="请输入客户端ID" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-form-item :label="$t('netty.clients.654908-0')" prop="clientId">
+                    <el-input v-model="queryParams.clientId" :placeholder="$t('netty.clients.654908-1')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item prop="isClient">
-                    <el-checkbox v-model="queryParams.isClient" true-label="1" false-label="0">只看设备端</el-checkbox>
+                    <el-checkbox v-model="queryParams.isClient" true-label="1" false-label="0">{{ $t('netty.clients.654908-2') }}</el-checkbox>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom:100px;">
             <el-table v-loading="loading" :data="clientList">
-                <el-table-column label="客户端ID" align="left" header-align="center" prop="clientId">
+                <el-table-column :label="$t('netty.clients.654908-4')" align="left" header-align="center" prop="clientId">
                     <template slot-scope="scope">
                         <el-link :underline="false" type="primary" @click.native="handleOpen(scope.row)">{{ scope.row.clientId }}</el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="类型" align="center" prop="type">
+                <el-table-column :label="$t('netty.clients.654908-5')" align="center" prop="type">
                     <template slot-scope="scope">
-                        <el-tag type="danger" v-if="scope.row.clientId.indexOf('server') == 0">服务端</el-tag>
-                        <el-tag type="success" v-else-if="scope.row.clientId.indexOf('web') == 0">Web端</el-tag>
-                        <el-tag type="warning" v-else-if="scope.row.clientId.indexOf('phone') == 0">移动端</el-tag>
-                        <el-tag type="info" v-else-if="scope.row.clientId.indexOf('test') == 0">测试端</el-tag>
-                        <el-tag type="primary" v-else>设备端</el-tag>
+                        <el-tag type="danger" v-if="scope.row.clientId.indexOf('server') == 0">{{ $t('netty.clients.654908-6') }}</el-tag>
+                        <el-tag type="success" v-else-if="scope.row.clientId.indexOf('web') == 0">{{ $t('netty.clients.654908-7') }}</el-tag>
+                        <el-tag type="warning" v-else-if="scope.row.clientId.indexOf('phone') == 0">{{ $t('netty.clients.654908-8') }}</el-tag>
+                        <el-tag type="info" v-else-if="scope.row.clientId.indexOf('test') == 0">{{ $t('netty.clients.654908-9') }}</el-tag>
+                        <el-tag type="primary" v-else>{{ $t('netty.clients.654908-10') }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="连接状态" align="center" prop="connected">
+                <el-table-column :label="$t('netty.clients.654908-11')" align="center" prop="connected">
                     <template slot-scope="scope">
-                        <el-tag type="success" v-if="scope.row.connected">已连接</el-tag>
-                        <el-tag type="info" v-else>已断开</el-tag>
+                        <el-tag type="success" v-if="scope.row.connected">{{ $t('netty.clients.654908-12') }}</el-tag>
+                        <el-tag type="info" v-else>{{ $t('netty.clients.654908-13') }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="心跳(秒)" align="center" prop="keepAlive" width="100" />
-                <el-table-column label="账号" align="center" prop="username" width="100px" />
-                <el-table-column label="当前订阅数量" align="center" prop="topicCount" width="100" />
-                <el-table-column label="连接时间" align="center" prop="connected_at" />
+                <el-table-column :label="$t('netty.clients.654908-14')" align="center" prop="keepAlive" width="100" />
+                <el-table-column :label="$t('netty.clients.654908-15')" align="center" prop="username" width="100px" />
+                <el-table-column :label="$t('netty.clients.654908-16')" align="center" prop="topicCount" width="100" />
+                <el-table-column :label="$t('netty.clients.654908-17')" align="center" prop="connected_at" />
 
-                <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+                <el-table-column :label="$t('iot.group.index.637432-10')" align="center" class-name="small-padding fixed-width">
                     <template #default="scope">
-                        <el-button type="primary" icon="edit" @click="clickClientOut(scope.row)" size="small">踢出</el-button>
+                        <el-button type="primary" icon="edit" @click="clickClientOut(scope.row)" size="small">{{ $t('netty.clients.654908-18') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -55,10 +55,10 @@
             <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
                 <el-tabs v-model="activeName" tab-position="top" style="padding: 10px">
                     <el-tab-pane name="subscribe">
-                        <span slot="label">订阅列表</span>
+                        <span slot="label">{{ $t('netty.clients.654908-19') }}</span>
                         <el-row :gutter="10" class="mb8"></el-row>
                         <el-table :data="subscribeList" size="mini">
-                            <el-table-column label="主题" align="center" prop="topicName" />
+                            <el-table-column :label="$t('netty.clients.654908-20')" align="center" prop="topicName" />
                             <el-table-column label="QoS" align="center" prop="qos" />
                         </el-table>
                     </el-tab-pane>
@@ -67,15 +67,15 @@
         </el-card>
 
         <!-- 添加或修改订阅对话框 -->
-        <el-dialog title="添加订阅" :visible.sync="subscribeOpen" width="800px" append-to-body>
+        <el-dialog :title="$t('netty.clients.654908-22')" :visible.sync="subscribeOpen" width="800px" append-to-body>
             <el-form ref="subscribeForm" :model="subscribeForm" :rules="rules" label-width="60px">
                 <el-row :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="主题" prop="topic">
-                            <el-input v-model="subscribeForm.topic" placeholder="请输入主题" />
+                        <el-form-item :label="$t('netty.clients.654908-20')" prop="topic">
+                            <el-input v-model="subscribeForm.topic" :placeholder="$t('netty.clients.654908-23')" />
                         </el-form-item>
                         <el-form-item label="Qos" prop="qos">
-                            <el-select v-model="subscribeForm.qos" placeholder="请选择消息类型">
+                            <el-select v-model="subscribeForm.qos" :placeholder="$t('netty.clients.654908-24')">
                                 <el-option key="0" label="0" value="0"></el-option>
                                 <el-option key="1" label="1" value="1"></el-option>
                                 <el-option key="2" label="2" value="2"></el-option>
@@ -85,8 +85,8 @@
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">添 加 订 阅</el-button>
-                <el-button @click="cancelSubscribe">取 消</el-button>
+                <el-button type="primary" @click="submitForm">{{ $t('netty.clients.654908-25') }}</el-button>
+                <el-button @click="cancelSubscribe">{{ $t('iot.group.device-list.849593-12') }}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -148,7 +148,7 @@ export default {
                 topic: [
                     {
                         required: true,
-                        message: '主题不能为空',
+                        message: this.$t('netty.clients.654908-26'),
                         trigger: 'blur',
                     },
                 ],
@@ -213,13 +213,13 @@ export default {
         handleDelete(row) {
             const clientId = row.clientId;
             this.$modal
-                .confirm('是否确认删除MQTT客户端编号为"' + clientId + '"的数据项？')
+                .confirm(this.$t('netty.clients.654908-27', [clientId]))
                 .then(function () {
                     return eliminateClient(clientId);
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess('删除成功');
+                    this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'));
                 })
                 .catch(() => {});
         },
@@ -228,7 +228,7 @@ export default {
             const clientId = row.clientId;
             const topic = row.topic;
             this.$modal
-                .confirm('是否确认取消订阅主题为"' + topic + '"的数据项？')
+                .confirm(this.$t('netty.clients.654908-28', [topic]))
                 .then(function () {
                     const param = {};
                     param.topic = topic;
@@ -237,14 +237,14 @@ export default {
                 })
                 .then(() => {
                     this.getSubscribeList(clientId);
-                    this.$modal.msgSuccess('取消订阅成功');
+                    this.$modal.msgSuccess(this.$t('netty.clients.654908-29'));
                 })
                 .catch(() => {});
         },
         //查看客户端详情
         handleOpen(row) {
             this.open = true;
-            this.title = '详情';
+            this.title = this.$t('iot.group.index.637432-13');
             this.subscribeList = row.topics;
             console.log(this.subscribeList);
         },
@@ -260,7 +260,7 @@ export default {
             this.$refs['subscribeForm'].validate((valid) => {
                 if (valid) {
                     addSubscribe(this.subscribeForm).then((response) => {
-                        this.$modal.msgSuccess('新增订阅成功');
+                        this.$modal.msgSuccess(this.$t('netty.clients.654908-30'));
                         this.subscribeOpen = false;
                         this.getSubscribeList(this.clientId);
                     });

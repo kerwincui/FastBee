@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="任务名称" prop="jobName">
+      <el-form-item :label="$t('monitor.jobLog.670911-0')" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
-          placeholder="请输入任务名称"
+          :placeholder="$t('monitor.jobLog.670911-1')"
           clearable
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="任务组名" prop="jobGroup">
+      <el-form-item :label="$t('monitor.jobLog.670911-2')" prop="jobGroup">
         <el-select
           v-model="queryParams.jobGroup"
-          placeholder="请选择任务组名"
+          :placeholder="$t('monitor.jobLog.670911-3')"
           clearable
           style="width: 240px"
         >
@@ -25,10 +25,10 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="执行状态" prop="status">
+      <el-form-item :label="$t('monitor.jobLog.670911-4')" prop="status">
         <el-select
           v-model="queryParams.status"
-          placeholder="请选择执行状态"
+          :placeholder="$t('monitor.jobLog.670911-5')"
           clearable
           style="width: 240px"
         >
@@ -40,20 +40,20 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="执行时间">
+      <el-form-item :label="$t('monitor.jobLog.670911-6')">
         <el-date-picker
           v-model="dateRange"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('monitor.jobLog.670911-7')"
+          :end-placeholder="$t('monitor.jobLog.670911-8')"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -67,7 +67,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['monitor:job:remove']"
-        >删除</el-button>
+        >{{ $t('del') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -77,7 +77,7 @@
           size="mini"
           @click="handleClean"
           v-hasPermi="['monitor:job:remove']"
-        >清空</el-button>
+        >{{ $t('clean') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -87,7 +87,7 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['monitor:job:export']"
-        >导出</el-button>
+        >{{ $t('export') }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -96,33 +96,33 @@
           icon="el-icon-close"
           size="mini"
           @click="handleClose"
-        >关闭</el-button>
+        >{{ $t('close') }}</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="jobLogList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="日志编号" width="80" align="center" prop="jobLogId" />
-      <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
-      <el-table-column label="任务组名" align="center" prop="jobGroup" :show-overflow-tooltip="true">
+      <el-table-column :label="$t('monitor.jobLog.670911-9')" width="80" align="center" prop="jobLogId" />
+      <el-table-column :label="$t('monitor.jobLog.670911-0')" align="center" prop="jobName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('monitor.jobLog.670911-2')" align="center" prop="jobGroup" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_job_group" :value="scope.row.jobGroup"/>
         </template>
       </el-table-column>
-      <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
-      <el-table-column label="日志信息" align="center" prop="jobMessage" :show-overflow-tooltip="true" />
-      <el-table-column label="执行状态" align="center" prop="status">
+      <el-table-column :label="$t('monitor.jobLog.670911-10')" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('monitor.jobLog.670911-11')" align="center" prop="jobMessage" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('monitor.jobLog.670911-4')" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="执行时间" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('monitor.jobLog.670911-6')" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -130,7 +130,7 @@
             icon="el-icon-view"
             @click="handleView(scope.row)"
             v-hasPermi="['monitor:job:query']"
-          >详细</el-button>
+          >{{ $t('detail') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -144,36 +144,36 @@
     />
 
     <!-- 调度日志详细 -->
-    <el-dialog title="调度日志详细" :visible.sync="open" width="700px" append-to-body>
+    <el-dialog :title="$t('monitor.jobLog.670911-12')" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" label-width="100px" size="mini">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="日志序号：">{{ form.jobLogId }}</el-form-item>
-            <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-13')">：{{ form.jobLogId }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-0')">：{{ form.jobName }}</el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
-            <el-form-item label="执行时间：">{{ form.createTime }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-14')">：{{ form.jobGroup }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-15')">：{{ form.createTime }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="调用方法：">{{ form.invokeTarget }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-16')">：{{ form.invokeTarget }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="日志信息：">{{ form.jobMessage }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-11')">：{{ form.jobMessage }}</el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="执行状态：">
-              <div v-if="form.status == 0">正常</div>
-              <div v-else-if="form.status == 1">失败</div>
+            <el-form-item :label="$t('monitor.jobLog.670911-4')">：
+              <div v-if="form.status == 0">{{ $t('monitor.jobLog.670911-17') }}</div>
+              <div v-else-if="form.status == 1">{{ $t('monitor.jobLog.670911-18') }}</div>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
+            <el-form-item :label="$t('monitor.jobLog.670911-19')" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="open = false">关 闭</el-button>
+        <el-button @click="open = false">{{ $t('close') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -268,20 +268,20 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const jobLogIds = this.ids;
-      this.$modal.confirm('是否确认删除调度日志编号为"' + jobLogIds + '"的数据项？').then(function() {
+      this.$modal.confirm(this.$t('monitor.jobLog.670911-20', [jobLogIds])).then(function() {
         return delJobLog(jobLogIds);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.$modal.msgSuccess(this.$t('delSuccess'));
       }).catch(() => {});
     },
     /** 清空按钮操作 */
     handleClean() {
-      this.$modal.confirm('是否确认清空所有调度日志数据项？').then(function() {
+      this.$modal.confirm(this.$t('monitor.jobLog.670911-21')).then(function() {
         return cleanJobLog();
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("清空成功");
+        this.$modal.msgSuccess(this.$t('cleanSuccess'));
       }).catch(() => {});
     },
     /** 导出按钮操作 */

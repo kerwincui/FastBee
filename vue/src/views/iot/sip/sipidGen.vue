@@ -1,26 +1,26 @@
 <template>
-    <el-dialog :title="title" :visible.sync="open" width="400px" append-to-body :close-on-click-modal="false">
+    <el-dialog :title="$t('sip.sipidGen.998538-1')" :visible.sync="open" width="400px" append-to-body :close-on-click-modal="false">
         <el-form ref="createForm" :model="createForm" label-width="100px" :rules="rules">
-            <el-form-item label="行政区划" prop="city">
+            <el-form-item :label="$t('sip.sipidGen.998538-0')" prop="city">
                 <el-cascader :options="cityOptions" v-model="createForm.city" @change="changeProvince" change-on-select :props="{ checkStrictly: false }"></el-cascader>
             </el-form-item>
-            <el-form-item label="设备类型" prop="deviceType">
-                <el-select v-model="createForm.deviceType" placeholder="请选择设备类型">
+            <el-form-item :label="$t('sip.sipidGen.998538-4')" prop="deviceType">
+                <el-select v-model="createForm.deviceType" :placeholder="$t('sip.sipidGen.998538-4')">
                     <el-option v-for="dict in dict.type.video_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="通道类型" prop="channelType">
-                <el-select v-model="createForm.channelType" placeholder="请选择设备类型">
+            <el-form-item :label="$t('sip.sipidGen.998538-5')" prop="channelType">
+                <el-select v-model="createForm.channelType" :placeholder="$t('sip.sipidGen.998538-4')">
                     <el-option v-for="dict in dict.type.channel_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="通道数量" prop="createNum">
-                <el-input-number controls-position="right" :min="1" :max="10" v-model="createForm.createNum" placeholder="请输入生成通道数量" type="number" style="width: 220px" />
+            <el-form-item :label="$t('sip.sipidGen.998538-6')" prop="createNum">
+                <el-input-number controls-position="right" :min="1" :max="10" v-model="createForm.createNum" :placeholder="$t('sip.index.998533-19')" type="number" style="width: 220px" />
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="submitForm">生 成</el-button>
-            <el-button @click="closeDialog">取 消</el-button>
+            <el-button type="primary" @click="submitForm">{{ $t('sip.index.998533-21') }}</el-button>
+            <el-button @click="closeDialog">{{ $t('cancel') }}</el-button>
         </div>
     </el-dialog>
 </template>
@@ -43,7 +43,7 @@ export default {
         return {
             // 遮罩层
             loading: true,
-            title: '生成设备编号和通道',
+            title: this.$t('sip.sipidGen.998538-1'),
             // 总条数
             total: 0,
             // 打开选择产品对话框
@@ -62,10 +62,10 @@ export default {
 
             // 表单校验
             rules: {
-                city: [{ required: true, message: '行政区划不能为空', trigger: 'change' }],
-                deviceType: [{ required: true, message: '设备类型不能为空', trigger: 'change' }],
-                channelType: [{ required: true, message: '通道类型不能为空', trigger: 'change' }],
-                createNum: [{ required: true, message: '请输入生成通道数量', trigger: 'change' }],
+                city: [{ required: true, message: this.$t('sip.sipidGen.998538-7'), trigger: 'change' }],
+                deviceType: [{ required: true, message: this.$t('sip.sipidGen.998538-8'), trigger: 'change' }],
+                channelType: [{ required: true, message: this.$t('sip.sipidGen.998538-9'), trigger: 'change' }],
+                createNum: [{ required: true, message: this.$t('sip.index.998533-19'), trigger: 'change' }],
             },
         };
     },
@@ -89,7 +89,7 @@ export default {
                     this.createForm.deviceSipId = this.createForm.city[2] + '0000' + this.createForm.deviceType + '0';
                     this.createForm.channelSipId = this.createForm.city[2] + '0000' + this.createForm.channelType + '0';
                     addChannel(this.createForm.createNum, this.createForm).then((response) => {
-                        this.$modal.msgSuccess('已生成设备编号和通道');
+                        this.$modal.msgSuccess(this.$t('sip.sipidGen.998538-2'));
                         this.devsipid = response.data;
                         this.confirmSelectProduct();
                     });

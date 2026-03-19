@@ -2,24 +2,24 @@
     <div style="padding: 6px">
         <el-card style="margin-bottom: 6px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="60px" style="margin-bottom: -20px">
-                <el-form-item label="设备ID" prop="deviceSipId">
-                    <el-input v-model="queryParams.deviceSipId" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-form-item :label="$t('sip.index.998533-0')" prop="deviceSipId">
+                    <el-input v-model="queryParams.deviceSipId" :placeholder="$t('sip.index.998533-1')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="通道ID" prop="channelSipId">
-                    <el-input v-model="queryParams.channelSipId" placeholder="请输入通道ID" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-form-item :label="$t('sip.index.998533-2')" prop="channelSipId">
+                    <el-input v-model="queryParams.channelSipId" :placeholder="$t('sip.index.998533-3')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
-                    <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+                <el-form-item :label="$t('sip.index.998533-4')" prop="status">
+                    <el-select v-model="queryParams.status" :placeholder="$t('sip.index.998533-5')" clearable size="small">
                         <el-option v-for="dict in dict.type.sip_gen_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser">批量生成</el-button>
-                    <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']">批量删除</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser">{{ $t('sip.index.998533-6') }}</el-button>
+                    <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']">{{ $t('del') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -27,30 +27,30 @@
         <el-card style="margin-bottom: 5px">
             <el-table v-loading="loading" :data="sipidList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="">
                 <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
-                <el-table-column label="设备编号" align="center" prop="deviceSipId">
+                <el-table-column :label="$t('sip.index.998533-0')" align="center" prop="deviceSipId">
                     <template slot-scope="scope">
                         <el-link :underline="false" type="primary" @click="handleViewDevice(scope.row.deviceSipId)">{{ scope.row.deviceSipId }}</el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="通道ID" align="center" prop="channelSipId" />
-                <el-table-column label="状态" align="center" prop="status" width="80">
+                <el-table-column :label="$t('sip.index.998533-2')" align="center" prop="channelSipId" />
+                <el-table-column :label="$t('sip.index.998533-4')" align="center" prop="status" width="80">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.sip_gen_status" :value="scope.row.status" size="mini" />
                     </template>
                 </el-table-column>
-                <el-table-column label="所属产品" align="center" prop="productName" />
-                <el-table-column label="设备类型" align="center" prop="deviceType">
+                <el-table-column :label="$t('sip.index.998533-8')" align="center" prop="productName" />
+                <el-table-column :label="$t('sip.index.998533-9')" align="center" prop="deviceType">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.video_type" :value="scope.row.deviceType" />
                     </template>
                 </el-table-column>
-                <el-table-column label="通道类型" align="center" prop="channelType">
+                <el-table-column :label="$t('sip.index.998533-15')" align="center" prop="channelType">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.channel_type" :value="scope.row.channelType" />
                     </template>
                 </el-table-column>
-                <el-table-column label="行政区域" align="center" prop="citycode" />
-                <el-table-column label="注册时间" align="center" prop="registerTime" width="180">
+                <el-table-column :label="$t('sip.index.998533-10')" align="center" prop="citycode" />
+                <el-table-column :label="$t('sip.index.998533-11')" align="center" prop="registerTime" width="180">
                     <template slot-scope="scope">
                         <span>{{ parseTime(scope.row.registerTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
                     </template>
@@ -69,31 +69,31 @@
 
         <el-dialog :title="title" :visible.sync="open" width="450px" append-to-body :close-on-click-modal="false">
             <el-form :model="createForm" :rules="createFormrules" label-width="80px" ref="createForm">
-                <el-form-item label="行政区划" prop="city">
+                <el-form-item :label="$t('sip.index.998533-13')" prop="city">
                     <el-cascader :options="cityOptions" v-model="createForm.city" @change="changeProvince" change-on-select style="width: 330px" :props="{ checkStrictly: false }"></el-cascader>
                 </el-form-item>
-                <el-form-item label="设备类型" prop="deviceType">
-                    <el-select v-model="createForm.deviceType" placeholder="请选择设备类型" style="width: 330px">
+                <el-form-item :label="$t('sip.index.998533-9')" prop="deviceType">
+                    <el-select v-model="createForm.deviceType" :placeholder="$t('sip.index.998533-14')" style="width: 330px">
                         <el-option v-for="dict in dict.type.video_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="通道类型" prop="channelType">
-                    <el-select v-model="createForm.channelType" placeholder="请选择设备类型" style="width: 330px">
+                <el-form-item :label="$t('sip.index.998533-15')" prop="channelType">
+                    <el-select v-model="createForm.channelType" :placeholder="$t('sip.index.998533-16')" style="width: 330px">
                         <el-option v-for="dict in dict.type.channel_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属产品" prop="productName">
-                    <el-input readonly v-model="createForm.productName" placeholder="请选择产品">
-                        <el-button slot="append" @click="selectProduct()">选择</el-button>
+                <el-form-item :label="$t('sip.index.998533-8')" prop="productName">
+                    <el-input readonly v-model="createForm.productName" :placeholder="$t('sip.index.998533-17')">
+                        <el-button slot="append" @click="selectProduct()">{{ $t('sip.index.998533-18') }}</el-button>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="通道数量" prop="createNum">
-                    <el-input-number controls-position="right" v-model="createForm.createNum" :min="1" :max="10" placeholder="请输入生成通道数量" type="number" style="width: 330px" />
+                <el-form-item :label="$t('sip.index.998533-20')" prop="createNum">
+                    <el-input-number controls-position="right" v-model="createForm.createNum" :min="1" :max="10" :placeholder="$t('sip.index.998533-19')" type="number" style="width: 330px" />
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">生 成</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button type="primary" @click="submitForm">{{ $t('sip.index.998533-21') }}</el-button>
+                <el-button @click="cancel">{{ $t('cancel') }}</el-button>
             </div>
         </el-dialog>
 
@@ -185,11 +185,11 @@ export default {
             // 表单校验
             //createForm表单校验
             createFormrules: {
-                city: [{ required: true, message: '行政区划不能为空', trigger: 'change' }],
-                deviceType: [{ required: true, message: '设备类型不饿能为空', trigger: 'change' }],
-                channelType: [{ required: true, message: '通道类型不能为空', trigger: 'change' }],
-                productName: [{ required: true, message: '产品类型不能为空', trigger: 'blur' }],
-                createNum: [{ required: true, message: '请输入生成通道数量', trigger: 'change' }],
+                city: [{ required: true, message: this.$t('sip.index.998533-44'), trigger: 'change' }],
+                deviceType: [{ required: true, message: this.$t('sip.index.998533-44'), trigger: 'change' }],
+                channelType: [{ required: true, message: this.$t('sip.index.998533-44'), trigger: 'change' }],
+                productName: [{ required: true, message: this.$t('sip.index.998533-43'), trigger: 'blur' }],
+                createNum: [{ required: true, message: this.$t('sip.index.998533-19'), trigger: 'change' }],
             },
             rules: {
                 protocol: [
@@ -377,7 +377,7 @@ export default {
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = '生成设备通道';
+            this.title = this.$t('sip.index.998533-38');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -387,17 +387,16 @@ export default {
             getChannel(id).then((response) => {
                 this.createForm = response.data;
                 this.open = true;
-                this.title = '修改产品分类';
+                this.title = this.$t('sip.index.998533-39');
             });
         },
-        /** 提交按钮 */
         submitForm() {
             this.$refs['createForm'].validate((valid) => {
                 if (valid) {
                     this.createForm.deviceSipId = this.createForm.city[2] + '0000' + this.createForm.deviceType + '0';
                     this.createForm.channelSipId = this.createForm.city[2] + '0000' + this.createForm.channelType + '0';
                     addChannel(this.createForm.createNum, this.createForm).then((response) => {
-                        this.$modal.msgSuccess('新增成功');
+                        this.$modal.msgSuccess(this.$t('addSuccess'));
                         this.open = false;
                         this.getList();
                     });
@@ -408,13 +407,13 @@ export default {
         handleDelete(row) {
             const sipIds = row.id || this.ids;
             this.$modal
-                .confirm('是否确认删除ID为"' + sipIds + '"的数据项？')
+                .confirm(this.$t('sip.index.998533-45', [sipIds]))
                 .then(function () {
                     return delChannel(sipIds);
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess('删除成功');
+                    this.$modal.msgSuccess(this.$t('delSuccess'));
                 })
                 .catch(() => {});
         },
@@ -438,8 +437,8 @@ export default {
         },
         onCopy() {
             this.$notify({
-                title: '成功',
-                message: '复制成功！',
+                title: this.$t('success'),
+                message: this.$t('sip.index.998533-46'),
                 type: 'success',
                 offset: 50,
                 duration: 2000,
@@ -447,8 +446,8 @@ export default {
         },
         onError() {
             this.$notify({
-                title: '失败',
-                message: '复制失败！',
+                title: this.$t('fail'),
+                message: this.$t('sip.index.998533-47'),
                 type: 'error',
                 offset: 50,
                 duration: 2000,

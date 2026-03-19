@@ -2,53 +2,53 @@
     <el-card style="margin: 6px; padding-bottom: 100px">
         <el-tabs v-model="activeName" tab-position="left" @tab-click="tabChange" style="padding: 10px; min-height: 400px">
             <el-tab-pane name="basic">
-                <span slot="label">* 基本信息</span>
+                <span slot="label">* {{ $t('device.device-edit.148398-0') }}</span>
                 <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                     <el-row :gutter="100">
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                            <el-form-item label="设备名称" prop="deviceName">
-                                <el-input v-model="form.deviceName" placeholder="请输入设备名称">
-                                    <el-button slot="append" @click="openSummaryDialog" v-if="form.deviceId != 0">摘要</el-button>
+                            <el-form-item :label="$t('device.device-edit.148398-1')" prop="deviceName">
+                                <el-input v-model="form.deviceName" :placeholder="$t('device.device-edit.148398-2')">
+                                    <el-button slot="append" @click="openSummaryDialog" v-if="form.deviceId != 0">{{ $t('device.device-edit.148398-3') }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="" prop="productName">
                                 <template slot="label">
                                     <span style="color: red">*</span>
-                                    所属产品
+                                    {{ $t('device.device-edit.148398-4') }}
                                 </template>
-                                <el-input readonly v-model="form.productName" placeholder="请选择产品" :disabled="form.status != 1">
-                                    <el-button slot="append" @click="selectProduct()" :disabled="form.status != 1">选择</el-button>
+                                <el-input readonly v-model="form.productName" :placeholder="$t('device.device-edit.148398-95')" :disabled="form.status != 1">
+                                    <el-button slot="append" @click="selectProduct()" :disabled="form.status != 1">{{ $t('device.device-edit.148398-6') }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="" prop="serialNumber">
                                 <template slot="label">
                                     <span style="color: red">*</span>
-                                    设备编号
+                                    {{ $t('device.device-edit.148398-7') }}
                                 </template>
-                                <el-input v-model="form.serialNumber" placeholder="请输入设备编号" :disabled="form.status !== 1" maxlength="32">
-                                    <el-button v-if="form.deviceType !== 3" slot="append" @click="generateNum" :loading="genDisabled" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">生成</el-button>
-                                    <el-button v-if="form.deviceType === 3" slot="append" @click="genSipID()" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">生成</el-button>
+                                <el-input v-model="form.serialNumber" :placeholder="$t('device.device-edit.148398-8')" :disabled="form.status !== 1" maxlength="32">
+                                    <el-button v-if="form.deviceType !== 3" slot="append" @click="generateNum" :loading="genDisabled" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">{{ $t('device.device-edit.148398-9') }}</el-button>
+                                    <el-button v-if="form.deviceType === 3" slot="append" @click="genSipID()" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">{{ $t('device.device-edit.148398-9') }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item v-if="openServerTip">
                                 <template>
-                                    <el-alert type="info" show-icon description="当前选择TCP协议,设备编号生成为HEX格式"></el-alert>
+                                    <el-alert type="info" show-icon :description="$t('device.device-edit.148398-10')"></el-alert>
                                 </template>
                             </el-form-item>
                             <el-form-item v-if="openTip">
                                 <template>
-                                    <el-alert type="success" show-icon description="当前选择的产品属于modbus协议,将在网关设备创建后根据采集点模板生成子设备"></el-alert>
+                                    <el-alert type="success" show-icon :description="$t('device.device-edit.148398-11')"></el-alert>
                                 </template>
                             </el-form-item>
-                            <el-form-item label="固件版本" prop="firmwareVersion">
-                                <el-input v-model="form.firmwareVersion" placeholder="请输入固件版本" type="number" step="0.1" :disabled="form.status != 1 || form.deviceType === 3">
+                            <el-form-item :label="$t('device.device-edit.148398-12')" prop="firmwareVersion">
+                                <el-input v-model="form.firmwareVersion" :placeholder="$t('device.device-edit.148398-12')" type="number" step="0.1" :disabled="form.status != 1 || form.deviceType === 3">
                                     <template slot="prepend">Version</template>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="设备影子" prop="isShadow">
+                            <el-form-item :label="$t('device.device-edit.148398-15')" prop="isShadow">
                                 <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1" :inactive-value="0" :disabled="form.deviceType === 3"></el-switch>
                             </el-form-item>
-                            <el-form-item label="禁用设备" prop="deviceStatus">
+                            <el-form-item :label="$t('device.device-edit.148398-16')" prop="deviceStatus">
                                 <el-switch
                                     v-model="deviceStatus"
                                     active-text=""
@@ -59,47 +59,47 @@
                                     active-color="#F56C6C"
                                 ></el-switch>
                             </el-form-item>
-                            <el-form-item label="备注信息" prop="remark">
-                                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" rows="3" />
+                            <el-form-item :label="$t('device.device-edit.148398-17')" prop="remark">
+                                <el-input v-model="form.remark" type="textarea" :placeholder="$t('device.device-edit.148398-18')" rows="3" />
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                            <el-form-item label="定位方式" prop="locationWay">
-                                <el-select v-model="form.locationWay" placeholder="请选择设备状态" clearable size="small" style="width: 100%" :disabled="form.deviceType === 3">
+                            <el-form-item :label="$t('device.device-edit.148398-19')" prop="locationWay">
+                                <el-select v-model="form.locationWay" :placeholder="$t('device.device-edit.148398-20')" clearable size="small" style="width: 100%" :disabled="form.deviceType === 3">
                                     <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="设备经度" prop="longitude">
-                                <el-input v-model="form.longitude" placeholder="请输入设备经度" type="number" :disabled="form.locationWay != 3">
-                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">坐标拾取</el-link>
+                            <el-form-item :label="$t('device.device-edit.148398-21')" prop="longitude">
+                                <el-input v-model="form.longitude" :placeholder="$t('device.device-edit.148398-22')" type="number" :disabled="form.locationWay != 3">
+                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23') }}</el-link>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="设备纬度" prop="latitude">
-                                <el-input v-model="form.latitude" placeholder="请输入设备纬度" type="number" :disabled="form.locationWay != 3">
-                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">坐标拾取</el-link>
+                            <el-form-item :label="$t('device.device-edit.148398-24')" prop="latitude">
+                                <el-input v-model="form.latitude" :placeholder="$t('device.device-edit.148398-25')" type="number" :disabled="form.locationWay != 3">
+                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23') }}</el-link>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="所在地址" prop="networkAddress">
-                                <el-input v-model="form.networkAddress" placeholder="请输入设备所在地址" :disabled="form.locationWay != 3" />
+                            <el-form-item :label="$t('device.device-edit.148398-26')" prop="networkAddress">
+                                <el-input v-model="form.networkAddress" :placeholder="$t('device.device-edit.148398-27')" :disabled="form.locationWay != 3" />
                             </el-form-item>
-                            <el-form-item label="入网地址" prop="networkIp">
-                                <el-input v-model="form.networkIp" placeholder="设备入网IP" disabled />
+                            <el-form-item :label="$t('device.device-edit.148398-28')" prop="networkIp">
+                                <el-input v-model="form.networkIp" :placeholder="$t('device.device-edit.148398-29')" disabled />
                             </el-form-item>
-                            <el-form-item label="激活时间" prop="activeTime">
-                                <el-date-picker clearable v-model="form.activeTime" type="date" value-format="yyyy-MM-dd" placeholder="设备激活时间" disabled style="width: 100%"></el-date-picker>
+                            <el-form-item :label="$t('device.device-edit.148398-30')" prop="activeTime">
+                                <el-date-picker clearable v-model="form.activeTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('device.device-edit.148398-31')" disabled style="width: 100%"></el-date-picker>
                             </el-form-item>
-                            <el-form-item label="设备信号" prop="rssi">
-                                <el-input v-model="form.rssi" placeholder="设备信号强度" disabled />
+                            <el-form-item :label="$t('device.device-edit.148398-32')" prop="rssi">
+                                <el-input v-model="form.rssi" :placeholder="$t('device.device-edit.148398-33')" disabled />
                             </el-form-item>
-                            <el-form-item label="其他信息" prop="remark" v-if="form.deviceId != 0">
+                            <el-form-item :label="$t('device.device-edit.148398-34')" prop="remark" v-if="form.deviceId != 0">
                                 <dict-tag :options="dict.type.iot_device_status" :value="form.status" style="display: inline-block; margin-right: 8px" />
-                                <el-button size="small" @click="handleViewMqtt()">认证信息</el-button>
-                                <el-button size="small" @click="openCodeDialog()">二维码</el-button>
+                                <el-button size="small" @click="handleViewMqtt()">{{ $t('device.device-edit.148398-35') }}</el-button>
+                                <el-button size="small" @click="openCodeDialog()">{{ $t('device.device-edit.148398-36') }}</el-button>
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8" v-if="form.deviceId != 0">
                             <div style="border: 1px solid #dfe4ed; border-radius: 5px; padding: 5px; text-align: center; line-height: 400px">
-                                <div id="map" style="height: 435px; width: 100%">地图展示区域，新增后显示</div>
+                                <div id="map" style="height: 435px; width: 100%">{{ $t('device.device-edit.148398-37') }}</div>
                             </div>
                         </el-col>
                     </el-row>
@@ -107,8 +107,8 @@
 
                 <el-form label-width="100px" style="margin-top: 50px">
                     <el-form-item style="text-align: center; margin-left: -100px; margin-top: 10px">
-                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:edit']" v-show="form.deviceId != 0">修 改</el-button>
-                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:add']" v-show="form.deviceId == 0">新 增</el-button>
+                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:edit']" v-show="form.deviceId != 0">{{ $t('device.device-timer.433369-33') }}</el-button>
+                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:add']" v-show="form.deviceId == 0">{{ $t('device.device-timer.433369-32') }}</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -119,31 +119,31 @@
             </el-tab-pane>
 
             <el-tab-pane name="runningStatus" key="1" v-if="form.deviceType !== 3 && form.deviceId !=0  && !isSubDev">
-                <span slot="label">运行状态</span>
+                <span slot="label">{{ $t('device.device-edit.148398-42') }}</span>
                 <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
               </el-tab-pane>
             <el-tab-pane name="videoLive" key="2" v-if="form.deviceType === 3 && form.deviceId !=0 ">
-                <span slot="label">设备直播</span>
+                <span slot="label">{{ $t('device.device-edit.148398-45') }}</span>
                 <device-live-stream ref="deviceLiveStream" :device="form" />
             </el-tab-pane>
 
             <el-tab-pane name="deviceTimer" key="3" v-if="form.deviceType !== 3 && form.deviceId !=0  && hasShrarePerm('timer')">
-                <span slot="label">设备定时</span>
+                <span slot="label">{{ $t('device.device-edit.148398-47') }}</span>
                 <device-timer ref="deviceTimer" :device="form" />
             </el-tab-pane>
 
             <el-tab-pane name="deviceUser" key="4"  v-if="form.deviceId !=0">
-                <span slot="label">设备用户</span>
+                <span slot="label">{{ $t('device.device-user.037521-12') }}</span>
                 <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />
             </el-tab-pane>
 
             <el-tab-pane name="deviceLog" key="5"  v-if="form.deviceType !== 3 && form.deviceId !=0 && hasShrarePerm('log')" lazy>
-                <span slot="label">事件日志</span>
+                <span slot="label">{{ $t('device.device-edit.148398-49') }}</span>
                 <device-log ref="deviceLog" :device="form" />
             </el-tab-pane>
 
             <el-tab-pane name="deviceFuncLog" key="6" v-if="form.deviceType !== 3 && form.deviceId !=0 && hasShrarePerm('log')" lazy>
-                <span slot="label">指令日志</span>
+                <span slot="label">{{ $t('device.device-edit.148398-50') }}</span>
                 <device-func ref="deviceFuncLog" :device="form" />
             </el-tab-pane>
 
@@ -156,63 +156,63 @@
 
             <el-tab-pane name="deviceReturn" disabled>
                 <span slot="label">
-                    <el-button type="info" size="mini" @click="goBack()">返回列表</el-button>
+                    <el-button type="info" size="mini" @click="goBack()">{{ $t('device.device-edit.148398-53') }}</el-button>
                 </span>
             </el-tab-pane>
         </el-tabs>
 
         <!-- 设备配置JSON -->
-        <el-dialog title="摘要（设备上传的只读数据）" :visible.sync="openSummary" width="700px" append-to-body>
+        <el-dialog :title="$t('device.device-edit.148398-54')" :visible.sync="openSummary" width="700px" append-to-body>
             <el-row :gutter="20">
                 <el-col :span="14">
                     <div style="border: 1px solid #ccc; margin-top: -15px; height: 350px; width: 360px; overflow: scroll">
                         <json-viewer :value="summary" :expand-depth="10" copyable>
-                            <template v-slot:copy>复制</template>
+                            <template v-slot:copy>{{ $t('device.device-edit.148398-55') }}</template>
                         </json-viewer>
                     </div>
                 </el-col>
                 <el-col :span="10">
                     <div style="border: 1px solid #ccc; width: 200px; text-align: center; margin-left: 20px; margin-top: -10px">
                         <vue-qr :text="qrText" :size="200"></vue-qr>
-                        <div style="padding-bottom: 10px">设备二维码</div>
+                        <div style="padding-bottom: 10px">{{ $t('device.device-edit.148398-56') }}</div>
                     </div>
                 </el-col>
             </el-row>
             <div slot="footer" class="dialog-footer">
-                <el-button type="info" @click="closeSummaryDialog">关 闭</el-button>
+                <el-button type="info" @click="closeSummaryDialog">{{ $t('device.device-edit.148398-57') }}</el-button>
             </div>
         </el-dialog>
         <!-- 二维码 -->
         <el-dialog :visible.sync="openCode" width="300px" append-to-body>
             <div style="border: 1px solid #ccc; width: 220px; text-align: center; margin: 0 auto; margin-top: -15px">
                 <vue-qr :text="qrText" :size="200"></vue-qr>
-                <div style="padding-bottom: 10px">设备二维码</div>
+                <div style="padding-bottom: 10px">{{ $t('device.device-edit.148398-56') }}</div>
             </div>
         </el-dialog>
-        <el-dialog title="Mqtt连接参数" :visible.sync="openViewMqtt" width="600px" :show-close="true" append-to-body :close-on-click-modal="false">
+        <el-dialog :title="$t('device.device-edit.148398-58')" :visible.sync="openViewMqtt" width="600px" :show-close="true" append-to-body :close-on-click-modal="false">
             <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="150px">
-                <el-form-item label="客户端ID" prop="clientId">
+                <el-form-item :label="$t('device.device-edit.148398-88')" prop="clientId">
                     <el-input v-model="listQuery.clientId" readonly style="width: 80%" />
                 </el-form-item>
-                <el-form-item label="MQ账号" prop="username">
+                <el-form-item :label="$t('device.device-edit.148398-92')" prop="username">
                     <el-input v-model="listQuery.username" readonly style="width: 80%" />
                 </el-form-item>
-                <el-form-item label="MQ密码" prop="passwd">
+                <el-form-item :label="$t('device.device-edit.148398-93')" prop="passwd">
                     <el-input clearable v-model="listQuery.passwd" readonly style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="订阅主题" prop="subscribeTopic">
+                <el-form-item :label="$t('device.device-edit.148398-87')" prop="subscribeTopic">
                     <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="发布主题" prop="reportTopic">
+                <el-form-item :label="$t('device.device-edit.148398-106')" prop="reportTopic">
                     <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="连接端口" prop="port">
+                <el-form-item :label="$t('device.device-edit.148398-90')" prop="port">
                     <el-input clearable v-model="listQuery.port" readonly style="width: 80%"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button class="btns" type="primary" @click="doCopy(2)">一键复制</el-button>
-                <el-button @click="closeSummaryDialog">关 闭</el-button>
+                <el-button class="btns" type="primary" @click="doCopy(2)">{{ $t('device.device-edit.148398-59') }}</el-button>
+                <el-button @click="closeSummaryDialog">{{ $t('device.device-edit.148398-57') }}</el-button>
             </div>
         </el-dialog>
     </el-card>
@@ -343,20 +343,20 @@ export default {
                 deviceName: [
                     {
                         required: true,
-                        message: '设备名称不能为空',
+                        message: this.$t('device.device-edit.148398-60'),
                         trigger: 'blur',
                     },
                     {
                         min: 2,
                         max: 32,
-                        message: '设备名称长度在 2 到 32 个字符',
+                        message: this.$t('device.device-edit.148398-61'),
                         trigger: 'blur',
                     },
                 ],
                 firmwareVersion: [
                     {
                         required: true,
-                        message: '固件版本不能为空',
+                        message: this.$t('device.device-edit.148398-62'),
                         trigger: 'blur',
                     },
                 ],
@@ -407,8 +407,8 @@ export default {
                     return;
                 }
                 if (topics[3] == 'status' || topics[2] == 'status') {
-                    console.log('接收到【设备状态-详情】主题：', topic);
-                    console.log('接收到【设备状态-详情】内容：', message);
+                    console.log(this.$t('device.device-edit.148398-63'), topic);
+                    console.log(this.$t('device.device-edit.148398-64'), message);
                     // 更新列表中设备的状态
                     if (this.form.serialNumber == deviceNum) {
                         this.oldDeviceStatus = message.status;
@@ -782,16 +782,16 @@ export default {
         /** 提交按钮 */
         async submitForm() {
             if (this.form.serialNumber == null || this.form.serialNumber == 0) {
-                this.$modal.alertError('设备编号不能为空');
+                this.$modal.alertError(this.$t('device.device-edit.148398-65'));
                 return;
             }
             let reg = /^[0-9a-zA-Z]+$/;
             if (!reg.test(this.form.serialNumber)) {
-                this.$modal.alertError('设备编号只能是字母和数字');
+                this.$modal.alertError(this.$t('device.device-edit.148398-66'));
                 return;
             }
             if (this.form.productId == null || this.form.productId == 0) {
-                this.$modal.alertError('所属产品不能为空');
+                this.$modal.alertError(this.$t('device.device-edit.148398-67'));
                 return;
             }
 
@@ -802,7 +802,7 @@ export default {
                             if (response.data == 0) {
                                 this.$modal.alertError(response.msg);
                             } else {
-                                this.$modal.alertSuccess('修改成功');
+                                this.$modal.alertSuccess(this.$t('device.device-edit.148398-68'));
                                 this.form = JSON.parse(JSON.stringify(this.form));
                                 this.loadMap();
                             }
@@ -812,13 +812,13 @@ export default {
                             // 获取设备状态
                             await this.getDeviceStatusWitchThingsModel(response);
                             if (this.form.deviceId == null || this.form.deviceId == 0) {
-                                this.$modal.alertError('设备编号已经存在，添加设备失败');
+                                this.$modal.alertError(this.$t('device.device-edit.148398-69'));
                             } else {
                                 if (this.form.status == 2) {
                                     this.deviceStatus = 1;
                                 }
 
-                                this.$modal.alertSuccess('添加设备成功');
+                                this.$modal.alertSuccess(this.$t('device.device-edit.148398-70'));
                                 this.loadMap();
                             }
                         });
@@ -953,7 +953,7 @@ export default {
         // 生成随机字母和数字
         generateNum() {
             if (!this.form.productId || this.form.productId == 0) {
-                this.$modal.alertError('请先选择产品');
+                this.$modal.alertError(this.$t('device.device-edit.148398-72'));
                 return;
             }
             this.genDisabled = true;

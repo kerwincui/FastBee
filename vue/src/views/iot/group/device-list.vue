@@ -1,26 +1,26 @@
 <template>
-<el-dialog title="选择设备" :visible.sync="openDeviceList" width="800px" append-to-body>
+<el-dialog :title="$t('iot.group.device-list.849593-0')" :visible.sync="openDeviceList" width="800px" append-to-body>
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-        <el-form-item label="设备名称" prop="deviceName">
-            <el-input v-model="queryParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" />
+        <el-form-item :label="$t('iot.group.device-list.849593-1')" prop="deviceName">
+            <el-input v-model="queryParams.deviceName" :placeholder="$t('iot.group.device-list.849593-2')" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('iot.group.device-list.849593-3') }}</el-button>
         </el-form-item>
     </el-form>
 
     <el-table v-loading="loading" :data="deviceList" @select="handleSelectionChange" @select-all="handleSelectionAll" ref="multipleTable" size="mini" border>
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="设备名称" align="center" prop="deviceName" />
-        <el-table-column label="设备编号" align="center" prop="serialNumber" />
-        <el-table-column label="产品名称" align="center" prop="productName" />
-        <el-table-column label="设备类型" align="center">
+        <el-table-column :label="$t('iot.group.device-list.849593-4')" align="center" prop="deviceName" />
+        <el-table-column :label="$t('iot.group.device-list.849593-5')" align="center" prop="serialNumber" />
+        <el-table-column :label="$t('iot.group.device-list.849593-6')" align="center" prop="productName" />
+        <el-table-column :label="$t('iot.group.device-list.849593-7')" align="center">
             <template slot-scope="scope">
-                <el-tag type="success" v-if="scope.row.isOwner==0">分享</el-tag>
-                <el-tag type="primary" v-else>拥有</el-tag>
+                <el-tag type="success" v-if="scope.row.isOwner==0">{{ $t('iot.group.device-list.849593-8') }}</el-tag>
+                <el-tag type="primary" v-else>{{ $t('iot.group.device-list.849593-9') }}</el-tag>
             </template>
         </el-table-column>
-        <el-table-column label="设备状态" align="center" prop="status">
+        <el-table-column :label="$t('iot.group.device-list.849593-10')" align="center" prop="status">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" />
             </template>
@@ -29,8 +29,8 @@
     <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
     <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleDeviceSelected">确 定</el-button>
-        <el-button @click="closeSelectDeviceList">取 消</el-button>
+        <el-button type="primary" @click="handleDeviceSelected">{{ $t('iot.group.device-list.849593-11') }}</el-button>
+        <el-button @click="closeSelectDeviceList">{{ $t('iot.group.device-list.849593-12') }}</el-button>
     </div>
 </el-dialog>
 </template>
@@ -182,7 +182,7 @@ export default {
         handleDeviceSelected() {
             this.group.deviceIds = this.ids;
             updateDeviceGroups(this.group).then(response => {
-                this.$modal.msgSuccess("更新分组下的设备成功");
+                this.$modal.msgSuccess(this.$t('iot.group.device-list.849593-13'));
                 this.openDeviceList = false;
             })
         }

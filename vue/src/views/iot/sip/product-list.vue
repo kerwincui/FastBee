@@ -1,32 +1,32 @@
 <template>
-    <el-dialog title="选择产品" :visible.sync="open" width="600px" append-to-body>
+    <el-dialog :title="$t('sip.product-list.998536-0')" :visible.sync="open" width="600px" append-to-body>
         <div style="margin-top: -55px">
             <el-divider style="margin-top: -30px"></el-divider>
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-                <el-form-item label="产品名称" prop="productName">
-                    <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
+                <el-form-item :label="$t('product.index.671004-0')" prop="productName">
+                    <el-input v-model="queryParams.productName" :placeholder="$t('product.index.671004-1')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
             </el-form>
 
             <el-table v-loading="loading" ref="singleTable" :data="productList" @row-click="rowClick" highlight-current-row size="mini">
-                <el-table-column label="选择" width="50" align="center">
+                <el-table-column :label="$t('sip.index.998533-18')" width="50" align="center">
                     <template slot-scope="scope">
                         <input type="radio" :checked="scope.row.isSelect" name="product" />
                     </template>
                 </el-table-column>
-                <el-table-column label="产品名称" align="center" prop="productName" />
-                <el-table-column label="分类名称" align="center" prop="categoryName" />
-                <el-table-column label="租户名称" align="center" prop="tenantName" />
-                <el-table-column label="联网方式" align="center" prop="networkMethod">
+                <el-table-column :label="$t('product.index.671004-0')" align="center" prop="productName" />
+                <el-table-column :label="$t('product.index.671004-6')" align="center" prop="categoryName" />
+                <el-table-column :label="$t('sip.product-list.998536-1')" align="center" prop="tenantName" />
+                <el-table-column :label="$t('sip.product-list.998536-2')" align="center" prop="networkMethod">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_network_method" :value="scope.row.networkMethod" />
                     </template>
                 </el-table-column>
-                <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+                <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="100">
                     <template slot-scope="scope">
                         <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                     </template>
@@ -36,8 +36,8 @@
             <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
         </div>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="confirmSelectProduct" type="primary">确定</el-button>
-            <el-button @click="closeDialog" type="info">关 闭</el-button>
+            <el-button @click="confirmSelectProduct" type="primary">{{ $t('confirm') }}</el-button>
+            <el-button @click="closeDialog" type="info">{{ $t('close') }}</el-button>
         </div>
     </el-dialog>
 </template>
@@ -130,7 +130,7 @@ export default {
         /**确定选择产品，产品传递给父组件 */
         confirmSelectProduct() {
             if (this.product == null) {
-                this.$message.error('请选择产品');
+                this.$message.error(this.$t('sip.index.998533-17'));
                 return;
             }
             this.$emit('productEvent', this.product);

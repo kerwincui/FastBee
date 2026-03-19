@@ -1,29 +1,29 @@
 <template>
-<el-dialog title="选择用户" :visible.sync="openSelectUser" width="800px">
+<el-dialog :title="$t('device.user-list.041943-0')" :visible.sync="openSelectUser" width="800px">
     <div style="margin-top:-50px;">
         <el-divider></el-divider>
     </div>
     <!--用户数据-->
     <el-form :model="queryParams" ref="queryForm" :rules="rules" :inline="true" label-width="80px">
-        <el-form-item label="手机号码" prop="phonenumber">
-            <el-input type="text" placeholder="请输入用户手机号码" v-model="queryParams.phonenumber" minlength="10" clearable size="small" show-word-limit style="width: 240px" @keyup.enter.native="handleQuery"></el-input>
+        <el-form-item :label="$t('device.user-list.041943-1')" prop="phonenumber">
+            <el-input type="text" :placeholder="$t('device.user-list.041943-2')" v-model="queryParams.phonenumber" minlength="10" clearable size="small" show-word-limit style="width: 240px" @keyup.enter.native="handleQuery"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.user-list.041943-3') }}</el-button>
         </el-form-item>
     </el-form>
 
     <el-table v-loading="loading" :data="userList" highlight-current-row size="mini" @current-change="handleCurrentChange" border>
-        <el-table-column label="选择" width="50" align="center">
+        <el-table-column :label="$t('device.device-edit.148398-6')" width="50" align="center">
             <template slot-scope="scope">
                 <input type="radio" :checked="scope.row.isSelect" name="user" />
             </template>
         </el-table-column>
-        <el-table-column label="用户编号" align="center" key="userId" prop="userId" width="120" />
-        <el-table-column label="用户名称" align="center" key="userName" prop="userName"  />
-        <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" />
-        <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" width="120" />
-        <el-table-column label="创建时间" align="center" prop="createTime" width="160">
+        <el-table-column :label="$t('device.user-list.041943-5')" align="center" key="userId" prop="userId" width="120" />
+        <el-table-column :label="$t('device.user-list.041943-6')" align="center" key="userName" prop="userName"  />
+        <el-table-column :label="$t('device.user-list.041943-7')" align="center" key="nickName" prop="nickName" />
+        <el-table-column :label="$t('device.user-list.041943-1')" align="center" key="phonenumber" prop="phonenumber" width="120" />
+        <el-table-column :label="$t('device.user-list.041943-8')" align="center" prop="createTime" width="160">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
@@ -31,8 +31,8 @@
 
     </el-table>
     <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addDeviceUser">分享</el-button>
-        <el-button @click="closeSelectUser">关 闭</el-button>
+        <el-button type="primary" @click="addDeviceUser">{{ $t('device.user-list.041943-9') }}</el-button>
+        <el-button @click="closeSelectUser">{{ $t('device.user-list.041943-10') }}</el-button>
     </div>
 </el-dialog>
 </template>
@@ -89,12 +89,12 @@ export default {
             rules: {
                 phonenumber: [{
                     required: true,
-                    message: "手机号码不能为空",
+                    message: this.$t('device.user-list.041943-11'),
                     trigger: "blur"
                 }, {
                     min: 11,
                     max: 11,
-                    message: '手机号码长度为11位',
+                    message: this.$t('device.user-list.041943-12'),
                     trigger: 'blur'
                 }],
             },
@@ -160,7 +160,7 @@ export default {
                     form.userName = this.user.userName;
                     form.phonenumber=this.user.phonenumber;
                     addDeviceUser(form).then(response => {
-                        this.$modal.msgSuccess("新增成功");
+                        this.$modal.msgSuccess(this.$t('device.user-list.041943-13'));
                         this.resetQuery();
                         this.openSelectUser = false;
                         this.$parent.getList();
@@ -178,7 +178,7 @@ export default {
                     });
 
                     addDeviceUsers(form).then(response => {
-                        this.$modal.msgSuccess("新增成功");
+                        this.$modal.msgSuccess(this.$t('device.user-list.041943-13'));
                         this.resetQuery();
                         this.openSelectUser = false;
                         this.$parent.getList();

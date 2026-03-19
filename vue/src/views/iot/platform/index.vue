@@ -3,18 +3,18 @@
         <el-card v-show="showSearch" class="search-card">
             <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="85px" class="search-form">
                 <el-form-item prop="platform">
-                    <el-select v-model="queryParams.platform" clearable placeholder="请选择平台">
+                    <el-select v-model="queryParams.platform" clearable :placeholder="$t('system.platform.675309-1')">
                         <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item prop="status">
-                    <el-select v-model="queryParams.status" clearable placeholder="请选择状态">
+                    <el-select v-model="queryParams.status" clearable :placeholder="$t('system.platform.675309-2')">
                         <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
                 <div style="float: right">
-                    <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
+                    <el-button icon="el-icon-refresh" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
                 </div>
             </el-form>
         </el-card>
@@ -22,38 +22,38 @@
         <el-card>
             <el-row :gutter="10" style="margin-bottom: 16px">
                 <el-col :span="1.5">
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:platform:add']">新增</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:platform:add']">{{ $t('system.sysclient.652154-4') }}</el-button>
                 </el-col>
                 <el-col :span="1.5">
-                    <el-button plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:platform:edit']">修改</el-button>
+                    <el-button plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['iot:platform:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
                 </el-col>
                 <el-col :span="1.5">
-                    <el-button plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:platform:remove']">删除</el-button>
+                    <el-button plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:platform:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
                 </el-col>
                 <el-col :span="1.5">
-                    <el-button plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['iot:platform:export']">导出</el-button>
+                    <el-button plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['iot:platform:export']">{{ $t('system.sysclient.652154-7') }}</el-button>
                 </el-col>
                 <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             </el-row>
 
             <el-table v-loading="loading" :data="platformList" :border="false" @selection-change="handleSelectionChange" ref="multipleTable" :row-key="getRowKeys">
                 <el-table-column :reserve-selection="true" type="selection" width="55" align="center" />
-                <el-table-column align="left" label="平台名称" prop="platform" min-width="200">
+                <el-table-column align="left" :label="$t('system.platform.675309-3')" prop="platform" min-width="200">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_social_platform" :value="scope.row.platform" />
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="状态" prop="status" width="80">
+                <el-table-column align="center" :label="$t('device.device-timer.433369-11')" prop="status" width="80">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_social_platform_status" :value="scope.row.status" />
                     </template>
                 </el-table-column>
-                <el-table-column label="平台申请ID" align="center" prop="clientId" min-width="180" />
-                <el-table-column label="跳转地址" align="left" prop="redirectUri" min-width="250" :show-overflow-tooltip="true" />
-                <el-table-column align="left" label="绑定登录uri" prop="bindUri" :show-tooltip-when-overflow="true" :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.bindId)" min-width="250" />
+                <el-table-column :label="$t('system.platform.675309-4')" align="center" prop="clientId" min-width="180" />
+                <el-table-column :label="$t('system.platform.675309-5')" align="left" prop="redirectUri" min-width="250" :show-overflow-tooltip="true" />
+                <el-table-column align="left" :label="$t('system.platform.675309-6')" prop="bindUri" :show-tooltip-when-overflow="true" :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.bindId)" min-width="250" />
                 <el-table-column
                     align="left"
-                    label="跳转登录uri"
+                    :label="$t('system.platform.675309-7')"
                     prop="redirectLoginUri"
                     :show-tooltip-when-overflow="true"
                     :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.redirectLogin)"
@@ -61,21 +61,21 @@
                 />
                 <el-table-column
                     align="left"
-                    label="错误提示uri"
+                    :label="$t('system.platform.675309-8')"
                     prop="errorMsgUri"
                     :show-tooltip-when-overflow="true"
                     :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.errorId)"
                     min-width="250"
                 />
-                <el-table-column align="center" label="创建时间" prop="createTime" width="100">
+                <el-table-column align="center" :label="$t('device.index.105953-33')" prop="createTime" width="100">
                     <template slot-scope="scope">
                         <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" align="center" width="125">
+                <el-table-column fixed="right" :label="$t('device.index.105953-34')" align="center" width="125">
                     <template slot-scope="scope">
-                        <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:platform:edit']">修改</el-button>
-                        <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:platform:remove']">删除</el-button>
+                        <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:platform:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
+                        <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:platform:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -86,41 +86,41 @@
         <!-- 添加或修改第三方登录平台控制对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="630px" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="130px">
-                <el-form-item label="平台名称" prop="platform">
-                    <el-select v-model="form.platform" placeholder="请选择平台" style="width: 400px">
+                <el-form-item :label="$t('system.platform.675309-9')" prop="platform">
+                    <el-select v-model="form.platform" :placeholder="$t('system.platform.675309-10')" style="width: 400px">
                         <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="平台状态" prop="status">
-                    <el-select v-model="form.status" placeholder="请选择状态" style="width: 400px">
+                <el-form-item :label="$t('system.platform.675309-11')" prop="status">
+                    <el-select v-model="form.status" :placeholder="$t('system.platform.675309-2')" style="width: 400px">
                         <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="Number(dict.value)"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="平台申请ID" prop="clientId">
-                    <el-input v-model="form.clientId" placeholder="请输入平台申请ID" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-12')" prop="clientId">
+                    <el-input v-model="form.clientId" :placeholder="$t('system.platform.675309-13')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="平台密钥" prop="secretKey">
-                    <el-input v-model="form.secretKey" placeholder="请输入平台密钥" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-14')" prop="secretKey">
+                    <el-input v-model="form.secretKey" :placeholder="$t('system.platform.675309-15')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="认证跳转地址" prop="redirectUri">
-                    <el-input v-model="form.redirectUri" placeholder="请输入认证跳转地址" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-16')" prop="redirectUri">
+                    <el-input v-model="form.redirectUri" :placeholder="$t('system.platform.675309-17')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="绑定注册urL" prop="bindUri">
-                    <el-input v-model="form.bindUri" placeholder="请输入绑定注册 url, http://localhost/login?bindId=" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-18')" prop="bindUri">
+                    <el-input v-model="form.bindUri" :placeholder="$t('system.platform.675309-19')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="跳转登录URL" prop="redirectLoginUri">
-                    <el-input v-model="form.redirectLoginUri" placeholder="请输入跳转登录 url, http://localhost/login?loginId=" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-20')" prop="redirectLoginUri">
+                    <el-input v-model="form.redirectLoginUri" :placeholder="$t('system.platform.675309-21')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="错误提示URL" prop="errorMsgUri">
-                    <el-input v-model="form.errorMsgUri" placeholder="请输入错误提示 url, http://localhost/login?errorId=" style="width: 400px" />
+                <el-form-item :label="$t('system.platform.675309-22')" prop="errorMsgUri">
+                    <el-input v-model="form.errorMsgUri" :placeholder="$t('system.platform.675309-23')" style="width: 400px" />
                 </el-form-item>
-                <el-form-item label="备注" prop="remark">
-                    <el-input v-model="form.remark" placeholder="请输入" type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" style="width: 400px" />
+                <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
+                    <el-input v-model="form.remark" :placeholder="$t('iot.group.index.637432-16')" type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" style="width: 400px" />
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">确定</el-button>
-                <el-button @click="cancel">取消</el-button>
+                <el-button type="primary" @click="submitForm">{{ $t('device.index.105953-56') }}</el-button>
+                <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -160,9 +160,9 @@ export default {
                 status: null,
             },
             columnTips: {
-                bindId: '绑定登录uri, http://localhost/login?bindId=,域名换成对应域名即可，本地开发不需要更改',
-                redirectLogin: '跳转登录uri,http://localhost/login?loginId=,域名换成对应域名即可，本地开发不需要更改',
-                errorId: '错误提示获取uri,http://localhost/login?errorId=,域名换成对应域名即可，本地开发不需要更改',
+                bindId: this.$t('system.platform.675309-24'),
+                redirectLogin: this.$t('system.platform.675309-25'),
+                errorId: this.$t('system.platform.675309-26'),
             },
             // 表单参数
             form: {},
@@ -171,56 +171,56 @@ export default {
                 platform: [
                     {
                         required: true,
-                        message: '第三方平台不能为空',
+                        message: this.$t('system.platform.675309-27'),
                         trigger: 'change',
                     },
                 ],
                 status: [
                     {
                         required: true,
-                        message: ' 0:启用 ,1:禁用不能为空',
+                        message: this.$t('system.platform.675309-28'),
                         trigger: 'change',
                     },
                 ],
                 clientId: [
                     {
                         required: true,
-                        message: '第三方平台申请Id不能为空',
+                        message: this.$t('system.platform.675309-29'),
                         trigger: 'blur',
                     },
                 ],
                 secretKey: [
                     {
                         required: true,
-                        message: '第三方平台密钥不能为空',
+                        message: this.$t('system.platform.675309-30'),
                         trigger: 'blur',
                     },
                 ],
                 redirectUri: [
                     {
                         required: true,
-                        message: '用户认证后跳转地址不能为空',
+                        message: this.$t('system.platform.675309-31'),
                         trigger: 'blur',
                     },
                 ],
                 bindUri: [
                     {
                         required: true,
-                        message: '绑定注册登录uri,http://localhost/login?bindId=不能为空',
+                        message: this.$t('system.platform.675309-32'),
                         trigger: 'blur',
                     },
                 ],
                 redirectLoginUri: [
                     {
                         required: true,
-                        message: '跳转登录uri,http://localhost/login?loginId=不能为空',
+                        message: this.$t('system.platform.675309-33'),
                         trigger: 'blur',
                     },
                 ],
                 errorMsgUri: [
                     {
                         required: true,
-                        message: '错误提示uri,http://localhost/login?errorId=不能为空',
+                        message: this.$t('system.platform.675309-34'),
                         trigger: 'blur',
                     },
                 ],
@@ -306,7 +306,7 @@ export default {
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = '添加平台控制';
+            this.title = this.$t('system.platform.675309-35');
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -315,7 +315,7 @@ export default {
             getPlatform(socialPlatformId).then((response) => {
                 this.form = response.data;
                 this.open = true;
-                this.title = '修改平台控制';
+                this.title = this.$t('system.platform.675309-36');
             });
         },
         /** 提交按钮 */
@@ -324,13 +324,13 @@ export default {
                 if (valid) {
                     if (this.form.socialPlatformId != null) {
                         updatePlatform(this.form).then((response) => {
-                            this.$modal.msgSuccess('修改成功');
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'));
                             this.open = false;
                             this.getList();
                         });
                     } else {
                         addPlatform(this.form).then((response) => {
-                            this.$modal.msgSuccess('新增成功');
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-25'));
                             this.open = false;
                             this.getList();
                         });
@@ -342,13 +342,13 @@ export default {
         handleDelete(row) {
             const socialPlatformIds = row.socialPlatformId || this.ids;
             this.$modal
-                .confirm('是否确认删除平台控制编号为"' + socialPlatformIds + '"的数据项')
+                .confirm(this.$t('system.platform.675309-37', [socialPlatformIds]))
                 .then(function () {
                     return delPlatform(socialPlatformIds);
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess('删除成功');
+                    this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'));
                     this.$refs.multipleTable.clearSelection();
                 })
                 .catch(() => {});

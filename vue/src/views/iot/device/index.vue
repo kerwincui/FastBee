@@ -2,58 +2,58 @@
     <div style="padding: 6px">
         <el-card style="margin-bottom: 6px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom: -20px">
-                <el-form-item label="设备名称" prop="deviceName">
-                    <el-input v-model="queryParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" style="width: 150px" />
+                <el-form-item :label="$t('device.index.105953-0')" prop="deviceName">
+                    <el-input v-model="queryParams.deviceName" :placeholder="$t('device.index.105953-1')" clearable size="small" @keyup.enter.native="handleQuery" style="width: 150px" />
                 </el-form-item>
-                <el-form-item label="设备编号" prop="serialNumber">
-                    <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" style="width: 150px" />
+                <el-form-item :label="$t('device.index.105953-2')" prop="serialNumber">
+                    <el-input v-model="queryParams.serialNumber" :placeholder="$t('device.index.105953-3')" clearable size="small" @keyup.enter.native="handleQuery" style="width: 150px" />
                 </el-form-item>
-                <el-form-item label="设备状态" prop="status">
-                    <el-select v-model="queryParams.status" placeholder="请选择设备状态" clearable size="small" style="width: 150px">
+                <el-form-item :label="$t('device.index.105953-4')" prop="status">
+                    <el-select v-model="queryParams.status" :placeholder="$t('device.index.105953-5')" clearable size="small" style="width: 150px">
                         <el-option v-for="dict in dict.type.iot_device_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="我的分组">
-                    <el-select v-model="queryParams.groupId" placeholder="请选择我的分组" clearable size="small" style="width: 150px">
+                <el-form-item :label="$t('device.index.105953-6')">
+                    <el-select v-model="queryParams.groupId" :placeholder="$t('device.index.105953-7')" clearable size="small" style="width: 150px">
                         <el-option v-for="group in myGroupList" :key="group.groupId" :label="group.groupName" :value="group.groupId" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditDevice(0)" v-hasPermi="['iot:device:add']">新增</el-button>
-                    <el-button type="primary" plain icon="el-icon-s-grid" size="mini" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">切换</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditDevice(0)" v-hasPermi="['iot:device:add']">{{ $t('add') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-s-grid" size="mini" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-17') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px" v-if="showType == 'list'">
             <el-table v-loading="loading" :data="deviceList" border>
-                <el-table-column label="编号" align="center" header-align="center" prop="deviceId" width="50" />
-                <el-table-column label="设备名称" align="center" header-align="center" prop="deviceName" min-width="120" />
-                <el-table-column label="设备编号" align="center" prop="serialNumber" min-width="130" />
-                <el-table-column label="所属产品" align="center" prop="productName" min-width="120" />
-                <el-table-column label="协议" align="center" prop="transport" min-width="50" />
-                <el-table-column label="通讯协议" align="center" prop="protocolCode" min-width="100" />
-                <el-table-column label="子设备数" align="center" prop="subDeviceCount" width="80">
+                <el-table-column :label="$t('device.index.105953-20')" align="center" header-align="center" prop="deviceId" width="50" />
+                <el-table-column :label="$t('device.index.105953-0')" align="center" header-align="center" prop="deviceName" min-width="120" />
+                <el-table-column :label="$t('device.index.105953-2')" align="center" prop="serialNumber" min-width="130" />
+                <el-table-column :label="$t('device.index.105953-21')" align="center" prop="productName" min-width="120" />
+                <el-table-column :label="$t('device.index.105953-22')" align="center" prop="transport" min-width="50" />
+                <el-table-column :label="$t('device.index.105953-23')" align="center" prop="protocolCode" min-width="100" />
+                <el-table-column :label="$t('device.index.105953-24')" align="center" prop="subDeviceCount" width="80">
                     <template slot-scope="scope">
                         {{ scope.row.subDeviceCount }}
                     </template>
                 </el-table-column>
-                <el-table-column label="设备影子" align="center" prop="isShadow" width="80">
+                <el-table-column :label="$t('device.device-edit.148398-15')" align="center" prop="isShadow" width="80">
                     <template slot-scope="scope">
-                        <el-tag type="success" size="small" v-if="scope.row.isShadow == 1">启用</el-tag>
-                        <el-tag type="info" size="small" v-else>禁用</el-tag>
+                        <el-tag type="success" size="small" v-if="scope.row.isShadow == 1">{{ $t('device.index.105953-26') }}</el-tag>
+                        <el-tag type="info" size="small" v-else>{{ $t('device.index.105953-27') }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" align="center" prop="status" width="80">
+                <el-table-column :label="$t('status')" align="center" prop="status" width="80">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" size="small" />
                     </template>
                 </el-table-column>
-                <el-table-column label="信号" align="center" prop="rssi" width="60">
+                <el-table-column :label="$t('device.index.105953-29')" align="center" prop="rssi" width="60">
                     <template slot-scope="scope">
                         <svg-icon v-if="scope.row.status == 3 && scope.row.rssi >= '-55'" icon-class="wifi_4" />
                         <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-70' && scope.row.rssi < '-55'" icon-class="wifi_3" />
@@ -62,32 +62,32 @@
                         <svg-icon v-else icon-class="wifi_0" />
                     </template>
                 </el-table-column>
-                <el-table-column label="定位方式" align="center" prop="locationWay">
+                <el-table-column :label="$t('device.index.105953-30')" align="center" prop="locationWay">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_location_way" :value="scope.row.locationWay" size="small" />
                     </template>
                 </el-table-column>
-                <el-table-column label="固件版本" align="center" prop="firmwareVersion">
+                <el-table-column :label="$t('device.index.105953-31')" align="center" prop="firmwareVersion">
                     <template slot-scope="scope">
                         <el-tag size="mini" type="info">Ver {{ scope.row.firmwareVersion }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="激活时间" align="center" prop="activeTime">
+                <el-table-column :label="$t('device.index.105953-32')" align="center" prop="activeTime">
                     <template slot-scope="scope">
                         <span>{{ parseTime(scope.row.activeTime, '{y}-{m}-{d}') }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="创建时间" align="center" prop="createTime">
+                <el-table-column :label="$t('creatTime')" align="center" prop="createTime">
                     <template slot-scope="scope">
                         <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width" width="200">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small" style="padding: 5px" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">删除</el-button>
-                        <el-button type="primary" size="small" style="padding: 5px" icon="el-icon-view" @click="handleEditDevice(scope.row)" v-hasPermi="['iot:device:add']">查看</el-button>
-                        <el-button type="primary" size="small" style="padding: 5px" @click="openSummaryDialog(scope.row)" v-if="form.deviceId != 0">二维码</el-button>
+                        <el-button type="danger" size="small" style="padding: 5px" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
+                        <el-button type="primary" size="small" style="padding: 5px" icon="el-icon-view" @click="handleEditDevice(scope.row)" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
+                        <el-button type="primary" size="small" style="padding: 5px" @click="openSummaryDialog(scope.row)" v-if="form.deviceId != 0">{{ $t('device.index.105953-37') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -101,7 +101,7 @@
                         <el-row type="flex" :gutter="10" justify="space-between">
                             <el-col :span="20" style="text-align: left">
                                 <el-link type="" :underline="false" @click="handleEditDevice(item)" style="font-weight: bold; font-size: 16px; line-height: 32px">
-                                    <el-tooltip class="item" effect="dark" content="分享的设备" placement="top-start">
+                                    <el-tooltip class="item" effect="dark" :content="$t('device.index.105953-38')" placement="top-start">
                                         <svg-icon icon-class="share" style="font-size: 20px" v-if="item.isOwner != 1" />
                                     </el-tooltip>
                                     <svg-icon icon-class="device" v-if="item.isOwner == 1" />
@@ -137,13 +137,13 @@
                                     <!-- <dict-tag :options="dict.type.iot_transport_type" :value="item.transport" size="small" style="display: inline-block" /> -->
                                 </div>
                                 <el-descriptions :column="1" size="mini" style="white-space: nowrap">
-                                    <el-descriptions-item label="编号">
+                                    <el-descriptions-item :label="$t('device.index.105953-20')">
                                         {{ item.serialNumber }}
                                     </el-descriptions-item>
-                                    <el-descriptions-item label="产品">
+                                    <el-descriptions-item :label="$t('device.index.105953-21')">
                                         {{ item.productName }}
                                     </el-descriptions-item>
-                                    <el-descriptions-item label="激活时间">
+                                    <el-descriptions-item :label="$t('device.index.105953-32')">
                                         {{ parseTime(item.activeTime, '{y}-{m}-{d}') }}
                                     </el-descriptions-item>
                                 </el-descriptions>
@@ -183,21 +183,21 @@
                             </el-col>
                         </el-row>
                         <el-button-group style="margin-top: 15px">
-                            <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:device:remove']">删除</el-button>
-                            <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="handleEditDevice(item, 'basic')" v-hasPermi="['iot:device:add']">查看</el-button>
-                            <el-button type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">运行状态</el-button>
+                            <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
+                            <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="handleEditDevice(item, 'basic')" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
+                            <el-button type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-40') }}</el-button>
                         </el-button-group>
                     </el-card>
                 </el-col>
             </el-row>
-            <el-empty description="暂无数据，请添加设备" v-if="total == 0"></el-empty>
+            <el-empty :description="$t('device.index.105953-41')" v-if="total == 0"></el-empty>
             <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
         </el-card>
         <!-- 二维码 -->
         <el-dialog :visible.sync="openSummary" width="300px" append-to-body>
             <div style="border: 1px solid #ccc; width: 220px; text-align: center; margin: 0 auto; margin-top: -15px">
                 <vue-qr :text="qrText" :size="200"></vue-qr>
-                <div style="padding-bottom: 10px">设备二维码</div>
+                <div style="padding-bottom: 10px">{{ $t('device.index.105953-42') }}</div>
             </div>
         </el-dialog>
     </div>
@@ -340,8 +340,8 @@ export default {
                     return;
                 }
                 if (topics[3] == 'status') {
-                    console.log('接收到【设备状态】主题：', topic);
-                    console.log('接收到【设备状态】内容：', message);
+                    console.log(this.$t('device.index.105953-43'), topic);
+                    console.log(this.$t('device.index.105953-44'), message);
                     // 更新列表中设备的状态
                     for (let i = 0; i < this.deviceList.length; i++) {
                         if (this.deviceList[i].serialNumber == deviceNum) {
@@ -471,7 +471,7 @@ export default {
         handleDelete(row) {
             const deviceIds = row.deviceId || this.ids;
             this.$modal
-                .confirm('是否确认删除设备编号为"' + deviceIds + '"的数据项？')
+                .confirm(this.$t('device.index.105953-45', [deviceIds]))
                 .then(function () {
                     if (row.deviceType === 3) {
                         delSipDeviceBySipId(row.serialNumber);
@@ -480,7 +480,7 @@ export default {
                 })
                 .then(() => {
                     this.getList();
-                    this.$modal.msgSuccess('删除成功');
+                    this.$modal.msgSuccess(this.$t('delSuccess'));
                 })
                 .catch(() => {});
         },

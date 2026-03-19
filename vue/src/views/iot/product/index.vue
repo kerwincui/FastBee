@@ -2,23 +2,23 @@
 <div style="padding:6px;">
     <el-card style="margin-bottom:5px;">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom:-20px;">
-            <el-form-item label="产品名称" prop="productName">
-                <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-form-item :label="$t('product.index.091251-0')" prop="productName">
+                <el-input v-model="queryParams.productName" :placeholder="$t('product.index.091251-1')" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="分类名称" prop="categoryName">
-                <el-input v-model="queryParams.categoryName" placeholder="请输入产品分类名称" clearable size="small" @keyup.enter.native="handleQuery" />
+            <el-form-item :label="$t('product.index.091251-2')" prop="categoryName">
+                <el-input v-model="queryParams.categoryName" :placeholder="$t('product.index.091251-3')" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="状态" prop="status">
-                <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+            <el-form-item :label="$t('product.index.091251-4')" prop="status">
+                <el-select v-model="queryParams.status" :placeholder="$t('product.index.091251-5')" clearable size="small">
                     <el-option v-for="dict in dict.type.iot_product_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
             <el-form-item style="float:right;">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditProduct(0)" v-hasPermi="['iot:product:add']">新增</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditProduct(0)" v-hasPermi="['iot:product:add']">{{ $t('add') }}</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -30,33 +30,33 @@
                         <el-col :span="20" style="text-align:left;">
                             <el-link type="" :underline="false" @click="handleEditProduct(item)" style="font-weight:bold;font-size:16px;line-height:32px;white-space:nowrap;">
                                 <svg-icon icon-class="product" /> {{item.productName}}
-                                <el-tag type="info" size="mini" style="margin-left:5px;font-weight:200" v-if="item.isSys==1">系统</el-tag>
+                                <el-tag type="info" size="mini" style="margin-left:5px;font-weight:200" v-if="item.isSys==1">{{ $t('product.index.091251-47') }}</el-tag>
                             </el-link>
                         </el-col>
                         <el-col :span="4">
-                            <el-tooltip class="item" effect="dark" content="取消发布" placement="top-start" v-if="item.status==2">
-                                <el-button type="success" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,1,item.deviceType)">已发布</el-button>
+                            <el-tooltip class="item" effect="dark" :content="$t('product.index.091251-12')" placement="top-start" v-if="item.status==2">
+                                <el-button type="success" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,1,item.deviceType)">{{ $t('product.index.091251-13') }}</el-button>
                             </el-tooltip>
-                            <el-tooltip class="item" effect="dark" content="现在发布" placement="top-start" v-if="item.status==1">
-                                <el-button type="info" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,2,item.deviceType)">未发布</el-button>
+                            <el-tooltip class="item" effect="dark" :content="$t('product.index.091251-14')" placement="top-start" v-if="item.status==1">
+                                <el-button type="info" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,2,item.deviceType)">{{ $t('product.index.091251-15') }}</el-button>
                             </el-tooltip>
                         </el-col>
                     </el-row>
                     <el-row :gutter="10">
                         <el-col :span="14">
                             <el-descriptions :column="1" size="small" style="margin-top:10px;white-space:nowrap;">
-                                <el-descriptions-item label="所属分类">
+                                <el-descriptions-item :label="$t('product.index.091251-16')">
                                     <el-link type="primary" :underline="false">{{item.categoryName}}</el-link>
                                 </el-descriptions-item>
-                                <el-descriptions-item label="产品类型">
+                                <el-descriptions-item :label="$t('product.index.091251-17')">
                                     <dict-tag :options="dict.type.iot_device_type" :value="item.deviceType" />
                                 </el-descriptions-item>
-                                <el-descriptions-item label="联网方式">
+                                <el-descriptions-item :label="$t('product.index.091251-18')">
                                     <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" />
                                 </el-descriptions-item>
-                                <el-descriptions-item label="设备授权">
-                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">已启用</el-tag>
-                                    <el-tag type="info" size="mini" v-else>未启用</el-tag>
+                                <el-descriptions-item :label="$t('product.index.091251-19')">
+                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">{{ $t('product.index.091251-20') }}</el-tag>
+                                    <el-tag type="info" size="mini" v-else>{{ $t('product.index.091251-21') }}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                         </el-col>
@@ -70,31 +70,31 @@
                         </el-col>
                     </el-row>
                     <el-button-group style="margin-top:15px;height:28px;">
-                        <el-button size="mini" type="primary" icon="el-icon-view" @click="handleEditProduct(item)" v-hasPermi="['iot:product:query']">详情</el-button>
-                        <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">删除</el-button>
-                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">设备授权</el-button>
-                        <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">查看设备</el-button>
+                        <el-button size="mini" type="primary" icon="el-icon-view" @click="handleEditProduct(item)" v-hasPermi="['iot:product:query']">{{ $t('product.index.091251-48') }}</el-button>
+                        <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">{{ $t('product.index.091251-23') }}</el-button>
+                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">{{ $t('product.index.091251-19') }}</el-button>
+                        <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">{{ $t('product.index.091251-24') }}</el-button>
                     </el-button-group>
                 </el-card>
             </el-col>
         </el-row>
 
-        <el-empty description="暂无数据，请添加产品" v-if="total==0"></el-empty>
+        <el-empty :description="$t('product.index.091251-25')" v-if="total==0"></el-empty>
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
 
         <!-- 下载SDK -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-            <el-link type="danger" style="padding-left:10px;" :underline="false">该功能暂未实现，参考教程和项目的SDK示例</el-link>
+            <el-link type="danger" style="padding-left:10px;" :underline="false">{{ $t('product.index.091251-26') }}</el-link>
             <el-form label-width="80px">
-                <el-form-item label="设备类型">
+                <el-form-item :label="$t('product.index.091251-27')">
                     <el-radio-group v-model="form.datatype">
                         <el-radio v-for="dict in dict.type.iot_device_chip" :key="dict.value" :label="dict.value" style="margin-top:15px;width:160px;">{{dict.label}}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="downloadSdk" disabled>下 载</el-button>
-                <el-button @click="cancel">取 消</el-button>
+                <el-button type="primary" @click="downloadSdk" disabled>{{ $t('product.index.091251-28') }}</el-button>
+                <el-button @click="cancel">{{ $t('product.index.091251-29') }}</el-button>
             </div>
         </el-dialog>
 
@@ -181,30 +181,30 @@ export default {
         },
         /** 更新产品状态 */
         async changeProductStatus(productId, status, deviceType) {
-            let message = "确定取消发布？";
+            let message = this.$t('product.index.091251-30');
             if (status == 2) {
                 // 发布
                 let hasPermission = checkPermi(['iot:product:add']);
                 if (!hasPermission) {
-                    this.$modal.alertError("没有操作权限");
+                    this.$modal.alertError(this.$t('product.index.091251-31'));
                     return;
                 }
-                message = "产品发布后，可以创建对应的设备";
+                message = this.$t('product.index.091251-32');
             } else if (status == 1) {
                 // 取消发布
                 let hasPermission = checkPermi(['iot:product:edit']);
                 if (!hasPermission) {
-                    this.$modal.alertError("没有操作权限");
+                    this.$modal.alertError(this.$t('product.index.091251-31'));
                     return;
                 }
                 let result = await this.getDeviceCountByProductId(productId);
                 if (result.data > 0) {
-                    message = "重要提示：产品下已有 " + result.data + " 个设备，取消发布可以修改产品信息和模型，重新发布后对应设备状态将会被重置！"
+                    message = this.$i18n.t('product.index.091251-33', [result.data]);
                 }
             }
-            this.$confirm(message, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+            this.$confirm(message, this.$t('product.index.091251-34'), {
+                confirmButtonText: this.$t('product.index.091251-35'),
+                cancelButtonText: this.$t('cancel'),
                 type: 'warning'
             }).then(() => {
                 let data = {};
@@ -245,7 +245,7 @@ export default {
         },
         /** 生成SDK */
         handleGeneratorSDK(row) {
-            this.title = "生成SDK"
+            this.title = this.$t('product.index.091251-38')
             this.open = true;
         },
         /** 下载SDK */
@@ -256,7 +256,7 @@ export default {
         handleDelete(row) {
             const productIds = row.productId || this.ids;
             let msg = "";
-            this.$modal.confirm('是否确认删除产品编号为"' + productIds + '"的数据项？').then(function () {
+            this.$modal.confirm(this.$i18n.t('product.index.091251-39', [productIds])).then(function () {
                 // // 删除SIP配置
                 // delSipconfigByProductId(productIds).then(response => {});
                 return delProduct(productIds);

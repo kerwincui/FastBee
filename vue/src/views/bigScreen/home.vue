@@ -10,7 +10,7 @@
                 <div class="guang"></div>
                 <div class="d-flex jc-center">
                     <div class="title">
-                        <span class="title-text">FastBee物联网平台</span>
+                        <span class="title-text">{{ $t('bigScreen.home.platformTitle') }}</span>
                     </div>
                 </div>
                 <div class="timers ">
@@ -48,7 +48,7 @@ export default {
             dateDay: null,
             dateYear: null,
             dateWeek: null,
-            weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+            weekday: [this.$t('bigScreen.home.sunday'), this.$t('bigScreen.home.monday'), this.$t('bigScreen.home.tuesday'), this.$t('bigScreen.home.wednesday'), this.$t('bigScreen.home.thursday'), this.$t('bigScreen.home.friday'), this.$t('bigScreen.home.saturday')],
         };
     },
     filters: {

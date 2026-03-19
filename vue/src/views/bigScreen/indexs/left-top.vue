@@ -2,19 +2,19 @@
 <div style="display:flex;margin-top:60px;">
     <div style="margin-left:10px;color:#32c5e9;">
         <dv-decoration-9 style="width:90px;height:90px;font-weight:600;" :dur="10" :color="['#32c5e9', '#238aa4']">{{deviceStatistic.deviceCount}}</dv-decoration-9>
-        <div style="text-align: center;margin-top:25px;">设备总数</div>
+        <div style="text-align: center;margin-top:25px;">{{ $t('bigScreen.leftTop.totalDevices') }}</div>
     </div>
     <div style="margin:0 30px;color:#9fe6b8">
         <dv-decoration-9 style="width:90px;height:90px;font-weight:600;" :dur="10" :color="['#9fe6b8', '#70a181']">{{deviceStatistic.deviceOnlineCount}}</dv-decoration-9>
-        <div style="text-align: center;margin-top:25px;font-weight:400;">在线设备</div>
+        <div style="text-align: center;margin-top:25px;font-weight:400;">{{ $t('bigScreen.leftTop.onlineDevices') }}</div>
     </div>
     <div style="margin-right:30px;color:#ffdb5c">
         <dv-decoration-9 style="width:90px;height:90px;font-weight:600;" :dur="10" :color="['#ffdb5c', '#b39a41']">{{deviceStatistic.deviceCount-deviceStatistic.deviceOnlineCount}}</dv-decoration-9>
-        <div style="text-align: center;margin-top:25px;font-weight:400;">离线设备</div>
+        <div style="text-align: center;margin-top:25px;font-weight:400;">{{ $t('bigScreen.leftTop.offlineDevices') }}</div>
     </div>
     <div style="color:#fb7293;">
         <dv-decoration-9 style="width:90px;height:90px;font-weight:600;" :dur="10" :color="['#fb7293', '#ad4f65']">{{deviceStatistic.alertCount}}</dv-decoration-9>
-        <div style="text-align: center;margin-top:25px;font-weight:400;">告警数量</div>
+        <div style="text-align: center;margin-top:25px;font-weight:400;">{{ $t('bigScreen.leftTop.alertCount') }}</div>
     </div>
 </div>
 </template>

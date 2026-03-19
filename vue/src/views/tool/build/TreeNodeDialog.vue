@@ -18,24 +18,24 @@
         >
           <el-col :span="24">
             <el-form-item
-              label="选项名"
+              :label="$t('tool.treeNode.670908-0')"
               prop="label"
             >
               <el-input
                 v-model="formData.label"
-                placeholder="请输入选项名"
+                :placeholder="$t('tool.treeNode.670908-1')"
                 clearable
               />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item
-              label="选项值"
+              :label="$t('tool.treeNode.670908-2')"
               prop="value"
             >
               <el-input
                 v-model="formData.value"
-                placeholder="请输入选项值"
+                :placeholder="$t('tool.treeNode.670908-3')"
                 clearable
               >
                 <el-select
@@ -61,10 +61,10 @@
           type="primary"
           @click="handleConfirm"
         >
-          确定
+          {{ $t('tool.treeNode.670908-6') }}
         </el-button>
         <el-button @click="close">
-          取消
+          {{ $t('tool.treeNode.670908-7') }}
         </el-button>
       </div>
     </el-dialog>
@@ -88,14 +88,14 @@ export default {
         label: [
           {
             required: true,
-            message: '请输入选项名',
+            message: this.$t('tool.treeNode.670908-1'),
             trigger: 'blur'
           }
         ],
         value: [
           {
             required: true,
-            message: '请输入选项值',
+            message: this.$t('tool.treeNode.670908-3'),
             trigger: 'blur'
           }
         ]
@@ -103,11 +103,11 @@ export default {
       dataType: 'string',
       dataTypeOptions: [
         {
-          label: '字符串',
+          label: this.$t('tool.treeNode.670908-4'),
           value: 'string'
         },
         {
-          label: '数字',
+          label: this.$t('tool.treeNode.670908-5'),
           value: 'number'
         }
       ]

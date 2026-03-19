@@ -1,44 +1,44 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="请选择设备从机:" label-width="120px" v-if="isSubDev">
-        <el-select v-model="queryParams.slaveId" placeholder="请选择设备从机" @change="selectSlave">
-          <el-option v-for="slave in slaveList" :key="slave.slaveId" :label="`${slave.deviceName}   (从机地址:${slave.slaveId})`" :value="slave.slaveId"></el-option>
+      <el-form-item :label="$t('device.device-functionlog.399522-0')" label-width="120px" v-if="isSubDev">
+        <el-select v-model="queryParams.slaveId" :placeholder="$t('device.device-functionlog.399522-1')" @change="selectSlave">
+          <el-option v-for="slave in slaveList" :key="slave.slaveId" :label="`${slave.deviceName}   (${ $t('device.device-functionlog.399522-2').replace('$', slave.slaveId) })`" :value="slave.slaveId"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="日志类型" prop="funType">
-        <el-select v-model="queryParams.funType" placeholder="请选择类型" clearable size="small">
+      <el-form-item :label="$t('device.device-functionlog.399522-3')" prop="funType">
+        <el-select v-model="queryParams.funType" :placeholder="$t('device.device-functionlog.399522-4')" clearable size="small">
           <el-option v-for="dict in dict.type.iot_function_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="标识符" prop="identify">
-        <el-input v-model="queryParams.identify" placeholder="请输入标识符" clearable size="small" @keyup.enter.native="handleQuery" />
+      <el-form-item :label="$t('device.device-functionlog.399522-5')" prop="identify">
+        <el-input v-model="queryParams.identify" :placeholder="$t('device.device-functionlog.399522-6')" clearable size="small" @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="时间范围">
-        <el-date-picker v-model="daterangeTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+      <el-form-item :label="$t('device.device-functionlog.399522-7')">
+        <el-date-picker v-model="daterangeTime" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" :start-placeholder="$t('device.device-functionlog.399522-8')" :end-placeholder="$t('device.device-functionlog.399522-9')"></el-date-picker>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.device-functionlog.399522-10') }}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('device.device-functionlog.399522-11') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-table v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column :label="showName" align="center" prop="identify" />
-      <el-table-column label="指令类型" align="center" prop="funType" width="120px">
+      <el-table-column :label="$t('device.device-functionlog.399522-12')" align="center" prop="funType" width="120px">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.iot_function_type" :value="scope.row.funType" />
         </template>
       </el-table-column>
-      <el-table-column label="设置值" align="center" prop="funValue" />
-      <el-table-column label="设备编号" align="center" prop="serialNumber" />
-      <el-table-column label="下发时间" align="center" prop="createTime" />
-      <el-table-column label="下发结果描述" align="center" prop="resultMsg" />
-      <el-table-column label="操作" align="center" width="80">
+      <el-table-column :label="$t('device.device-functionlog.399522-13')" align="center" prop="funValue" />
+      <el-table-column :label="$t('device.device-edit.148398-7')" align="center" prop="serialNumber" />
+      <el-table-column :label="$t('device.device-functionlog.399522-15')" align="center" prop="createTime" />
+      <el-table-column :label="$t('device.device-functionlog.399522-16')" align="center" prop="resultMsg" />
+      <el-table-column :label="$t('device.index.105953-34')" align="center" width="80">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">{{ $t('device.device-functionlog.399522-18') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,7 +65,7 @@ export default {
       this.deviceInfo = newVal;
       if (this.deviceInfo && this.deviceInfo.deviceId != 0) {
         this.isSubDev = this.deviceInfo.subDeviceList && this.deviceInfo.subDeviceList.length > 0;
-        this.showName = this.isSubDev ? '寄存器地址' : '标识符';
+        this.showName = this.isSubDev ? this.$t('device.device-functionlog.399522-19') : this.$t('device.device-functionlog.399522-5');
         this.queryParams.deviceId = this.deviceInfo.deviceId;
         this.queryParams.slaveId = this.deviceInfo.slaveId;
         this.queryParams.serialNumber = this.deviceInfo.serialNumber;
@@ -122,10 +122,10 @@ export default {
       slaveList: [],
       // 表单校验
       rules: {
-        identify: [{ required: true, message: '标识符不能为空', trigger: 'blur' }],
-        funType: [{ required: true, message: '功能下发类型不能为空', trigger: 'change' }],
-        funValue: [{ required: true, message: '日志值不能为空', trigger: 'blur' }],
-        serialNumber: [{ required: true, message: '设备编号不能为空', trigger: 'blur' }],
+        identify: [{ required: true, message: this.$t('device.device-functionlog.399522-20'), trigger: 'blur' }],
+        funType: [{ required: true, message: this.$t('device.device-functionlog.399522-21'), trigger: 'change' }],
+        funValue: [{ required: true, message: this.$t('device.device-functionlog.399522-22'), trigger: 'blur' }],
+        serialNumber: [{ required: true, message: this.$t('device.device-functionlog.399522-23'), trigger: 'blur' }],
       },
     };
   },
@@ -195,13 +195,13 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除设备服务下发日志编号为"' + ids + '"的数据项？')
+        .confirm(this.$t('device.device-functionlog.399522-24', [ids]))
         .then(function () {
           return delLog(ids);
         })
         .then(() => {
           this.getList();
-          this.$modal.msgSuccess('删除成功');
+          this.$modal.msgSuccess(this.$t('device.device-functionlog.399522-26'));
         })
         .catch(() => {});
     },

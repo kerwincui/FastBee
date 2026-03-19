@@ -18,7 +18,7 @@
           label-width="100px"
         >
           <el-col :span="24">
-            <el-form-item label="生成类型" prop="type">
+            <el-form-item :label="$t('tool.codeType.670910-0')" prop="type">
               <el-radio-group v-model="formData.type">
                 <el-radio-button
                   v-for="(item, index) in typeOptions"
@@ -30,8 +30,8 @@
                 </el-radio-button>
               </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="showFileName" label="文件名" prop="fileName">
-              <el-input v-model="formData.fileName" placeholder="请输入文件名" clearable />
+            <el-form-item v-if="showFileName" :label="$t('tool.codeType.670910-1')" prop="fileName">
+              <el-input v-model="formData.fileName" :placeholder="$t('tool.codeType.670910-2')" clearable />
             </el-form-item>
           </el-col>
         </el-form>
@@ -39,10 +39,10 @@
 
       <div slot="footer">
         <el-button @click="close">
-          取消
+          {{ $t('cancel') }}
         </el-button>
         <el-button type="primary" @click="handleConfirm">
-          确定
+          {{ $t('confirm') }}
         </el-button>
       </div>
     </el-dialog>
@@ -61,20 +61,20 @@ export default {
       rules: {
         fileName: [{
           required: true,
-          message: '请输入文件名',
+          message: this.$t('tool.codeType.670910-2'),
           trigger: 'blur'
         }],
         type: [{
           required: true,
-          message: '生成类型不能为空',
+          message: this.$t('tool.codeType.670910-5'),
           trigger: 'change'
         }]
       },
       typeOptions: [{
-        label: '页面',
+        label: this.$t('tool.codeType.670910-3'),
         value: 'file'
       }, {
-        label: '弹窗',
+        label: this.$t('tool.codeType.670910-4'),
         value: 'dialog'
       }]
     }

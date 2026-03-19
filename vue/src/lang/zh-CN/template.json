@@ -165,5 +165,13 @@
   "template.paramter.038405-57": "关闭",
   "template.paramter.038405-58": "打开",
   "template.paramter.038405-59": "低",
-  "template.paramter.038405-60": "高"
+  "template.paramter.038405-60": "高",
+  "template.index.891112-125": "请重新输入取值范围,最大值不能比最小值小!",
+  "template.index.891112-126": "取值范围必须输入小数,请重新输入!",
+  "template.index.891112-127": "参数标识 {0} 重复",
+  "template.index.891112-128": "修改成功",
+  "template.index.891112-129": "新增成功",
+  "template.index.891112-130": "删除成功",
+  "template.index.891112-131": "编辑",
+  "template.index.891112-132": "最小值必须为小数"
 }

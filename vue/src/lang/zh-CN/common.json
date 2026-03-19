@@ -129,6 +129,8 @@
     "oldPassword": "旧密码",
     "newPassword": "新密码",
     "confirmPassword": "确认密码",
-    "batchCancelAuth": "批量取消授权",
-    "cancelAuth": "取消授权"
+  "batchCancelAuth": "批量取消授权",
+  "cancelAuth": "取消授权",
+  "clean": "清空",
+  "cleanSuccess": "清空成功"
 }

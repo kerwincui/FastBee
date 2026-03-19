@@ -9,12 +9,12 @@
       @close="onClose"
     >
       <div slot="title">
-        选择图标
+        {{ $t('tool.icons.670909-0') }}
         <el-input
           v-model="key"
           size="mini"
           :style="{width: '260px'}"
-          placeholder="请输入图标名称"
+          :placeholder="$t('tool.icons.670909-1')"
           prefix-icon="el-icon-search"
           clearable
         />

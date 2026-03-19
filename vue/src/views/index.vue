@@ -20,7 +20,7 @@
                                     <svg-icon icon-class="device" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">设备数量</div>
+                                    <div class="card-panel-text">{{ $t('home.deviceCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.deviceCount" :duration="3000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                     <svg-icon icon-class="monitor-a" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">监测数据</div>
+                                    <div class="card-panel-text">{{ $t('home.monitorCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.monitorCount" :duration="3000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     <svg-icon icon-class="model" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">产品数量</div>
+                                    <div class="card-panel-text">{{ $t('home.productCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.productCount" :duration="1000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                     <svg-icon icon-class="alert" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">告警数量</div>
+                                    <div class="card-panel-text">{{ $t('home.alertCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.alertCount" :duration="1000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                     <svg-icon icon-class="log-a" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">操作记录</div>
+                                    <div class="card-panel-text">{{ $t('home.functionCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.functionCount" :duration="2000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <svg-icon icon-class="event-a" class-name="card-panel-icon" />
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">上报事件</div>
+                                    <div class="card-panel-text">{{ $t('home.eventCount') }}</div>
                                     <count-to :start-val="0" :end-val="deviceStatistic.eventCount" :duration="2000" class="card-panel-num" />
                                 </div>
                             </div>
@@ -85,12 +85,12 @@
                 <el-card shadow="none" style="margin-top: 22px; height: 302px">
                     <h3 style="font-weight: bold; margin-bottom: 10px">
                         <i class="el-icon-s-order"></i>
-                        信息栏
+                        {{ $t('home.infoBoard') }}
                     </h3>
                     <div style="cursor: pointer; display: table; width: 100%; line-height: 36px" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
                         <div style="display: table-cell; padding-right: 10px">
-                            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">公告</el-tag>
-                            <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+                            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">{{ $t('home.notice') }}</el-tag>
+                            <el-tag size="mini" effect="dark" v-else>{{ $t('home.information') }}</el-tag>
                             {{ item.noticeTitle }}
                         </div>
                         <div style="display: table-cell; width: 90px; font-size: 14px">
@@ -126,53 +126,53 @@
             <el-row :gutter="40">
                 <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding: 40px">
                     <div style="padding: 30px; margin: 20px 0; font-size: 14px">
-                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px">FastBee物联网平台</div>
-                        <div style="display: table; font-size: 14px; margin-bottom: 10px">
-                            <div style="display: table-cell; line-height: 22px"><b style="color: #67c23a; margin-right: 10px">开源版本采用AGPL-3.0许可协议，商用需要获得授权</b></div>
-                        </div>
-                        <div style="display: table; margin-bottom: 10px">
-                            <div style="width: 70px; font-weight: bold; display: table-cell">开源版本：</div>
-                            <div style="display: table-cell; line-height: 22px">可用于个人学习和使用，非商业用途</div>
-                        </div>
-                        <div style="display: table">
-                            <div style="width: 70px; font-weight: bold; display: table-cell">商业版本：</div>
-                            <div style="display: table-cell; line-height: 22px">
-                                商业用途，并提供所有源码，功能优先开源版本发布。
-                                <br />
-                                <el-link target="_blank" href="https://fastbee.cn/doc/pages/sponsor">查看详情 >></el-link>
+                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px">{{ $t('home.platformName') }}</div>
+                            <div style="display: table; font-size: 14px; margin-bottom: 10px">
+                                <div style="display: table-cell; line-height: 22px"><b style="color: #67c23a; margin-right: 10px">{{ $t('home.licenseNotice') }}</b></div>
                             </div>
-                        </div>
+                            <div style="display: table; margin-bottom: 10px">
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.openSource') }}：</div>
+                                <div style="display: table-cell; line-height: 22px">{{ $t('home.openSourceDesc') }}</div>
+                            </div>
+                            <div style="display: table">
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.commercial') }}：</div>
+                                <div style="display: table-cell; line-height: 22px">
+                                    {{ $t('home.commercialDesc') }}
+                                    <br />
+                                    <el-link target="_blank" href="https://fastbee.cn/doc/pages/sponsor">{{ $t('home.viewDetails') }} >></el-link>
+                                </div>
+                            </div>
                     </div>
                     <div style="padding: 30px; font-size: 14px">
                         <div style="float: left; width: 230px">
                             <el-image style="width: 210px" :src="require('@/assets/images/code.jpg')"></el-image>
                         </div>
                         <div style="float: left">
-                            <div style="font-size: 18px; font-weight: bold; margin: 16px 0">微信扫一扫，查看小程序端</div>
-                            <div style="font-size: 14px; font-weight: bold; margin: 16px 0; color: #f56c6c">右侧是移动端H5版本演示</div>
+                            <div style="font-size: 18px; font-weight: bold; margin: 16px 0">{{ $t('home.wechatScan') }}</div>
+                            <div style="font-size: 14px; font-weight: bold; margin: 16px 0; color: #f56c6c">{{ $t('home.h5Demo') }}</div>
                             <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">官方网站</div>
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.officialWebsite') }}</div>
                                 <div style="display: table-cell">
                                     <el-link target="_blank" href="https://fastbee.cn/">www.fastbee.cn</el-link>
                                 </div>
                             </div>
                             <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">在线文档</div>
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.onlineDoc') }}</div>
                                 <div style="display: table-cell">
                                     <el-link target="_blank" href="https://fastbee.cn/doc">www.fastbee.cn/doc</el-link>
                                 </div>
                             </div>
                             <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">联系作者</div>
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.contactAuthor') }}</div>
                                 <div style="display: table-cell">
-                                    <span>QQ 164770707</span>
+                                    <span>{{ $t('home.qq') }} 164770707</span>
                                 </div>
                             </div>
                             <div style="display: table; margin-bottom: 15px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">系统源码</div>
+                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.sourceCode') }}</div>
                                 <div style="display: table-cell">
-                                    <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">Gitee源码</el-link>
-                                    <el-link target="_blank" href="https://github.com/kerwincui/fastbee" style="margin-left: 20px">Github源码</el-link>
+                                    <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">{{ $t('home.giteeSource') }}</el-link>
+                                    <el-link target="_blank" href="https://github.com/kerwincui/fastbee" style="margin-left: 20px">{{ $t('home.githubSource') }}</el-link>
                                 </div>
                             </div>
                         </div>
@@ -189,15 +189,15 @@
         <!--通知公告详情 -->
         <el-dialog :title="notice.noticeTitle" :visible.sync="open" width="800px" append-to-body>
             <div style="margin-top: -20px; margin-bottom: 10px">
-                <el-tag size="mini" effect="dark" type="warning" v-if="notice.noticeType == 2">公告</el-tag>
-                <el-tag size="mini" effect="dark" v-else>信息</el-tag>
+                <el-tag size="mini" effect="dark" type="warning" v-if="notice.noticeType == 2">{{ $t('home.notice') }}</el-tag>
+                <el-tag size="mini" effect="dark" v-else>{{ $t('home.information') }}</el-tag>
                 <span style="margin-left: 20px">{{ notice.createTime }}</span>
             </div>
             <div v-loading="loading" class="content">
                 <div v-html="notice.noticeContent"></div>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="closeDetail">关 闭</el-button>
+                <el-button type="primary" @click="closeDetail">{{ $t('close') }}</el-button>
             </div>
         </el-dialog>
 
@@ -351,39 +351,39 @@ export default {
                 this.server = response.data;
                 this.tableData = [
                     {
-                        server: '服务器名',
+                        server: this.$t('home.serverName'),
                         serverContent: this.server.sys.computerName,
-                        java: 'Java名称',
+                        java: this.$t('home.javaName'),
                         javaContent: this.server.jvm.name,
                     },
                     {
-                        server: '服务器IP',
+                        server: this.$t('home.serverIp'),
                         serverContent: this.server.sys.computerIp,
-                        java: '启动时间',
+                        java: this.$t('home.startTime'),
                         javaContent: this.server.jvm.startTime,
                     },
                     {
-                        server: '操作系统',
+                        server: this.$t('home.os'),
                         serverContent: this.server.sys.osName,
-                        java: 'Java版本',
+                        java: this.$t('home.javaVersion'),
                         javaContent: this.server.jvm.version,
                     },
                     {
-                        server: '系统架构',
+                        server: this.$t('home.osArch'),
                         serverContent: this.server.sys.osArch,
-                        java: '运行时长',
+                        java: this.$t('home.runTime'),
                         javaContent: this.server.jvm.runTime,
                     },
                     {
-                        server: 'CPU核心',
+                        server: this.$t('home.cpuCore'),
                         serverContent: this.server.cpu.cpuNum,
-                        java: '占用内存',
+                        java: this.$t('home.usedMemory'),
                         javaContent: this.server.jvm.used,
                     },
                     {
-                        server: '内存大小',
+                        server: this.$t('home.memSize'),
                         serverContent: this.server.mem.total,
-                        java: 'JVM总内存',
+                        java: this.$t('home.jvmTotalMemory'),
                         javaContent: this.server.jvm.total,
                     },
                 ];
@@ -439,7 +439,7 @@ export default {
             };
             option = {
                 title: {
-                    text: '设备分布（在线数 ' + this.deviceList.filter((x) => x.status == 3).length + '）',
+                    text: this.$t('home.deviceDistribution') + '（' + this.$t('home.onlineCount') + ' ' + this.deviceList.filter((x) => x.status == 3).length + '）',
                     subtext: 'fastbee open source iot platform',
                     sublink: 'https://iot.fastbee.cn',
                     target: '_blank',
@@ -455,40 +455,40 @@ export default {
                     trigger: 'item',
                     formatter: function (params) {
                         var htmlStr = '<div style="padding:5px;line-height:28px;">';
-                        htmlStr += "设备名称： <span style='color:#409EFF'>" + params.data.name + '</span><br />';
-                        htmlStr += '设备编号： ' + params.data.serialNumber + '<br />';
-                        htmlStr += '设备状态： ';
+                        htmlStr += this.$t('home.deviceName') + ': <span style="color:#409EFF">' + params.data.name + '</span><br />';
+                        htmlStr += this.$t('home.deviceSerial') + ': ' + params.data.serialNumber + '<br />';
+                        htmlStr += this.$t('home.deviceStatus') + ': ';
                         if (params.data.status == 1) {
-                            htmlStr += "<span style='color:#E6A23C'>未激活</span>" + '<br />';
+                            htmlStr += "<span style='color:#E6A23C'>" + this.$t('home.notActive') + "</span>" + '<br />';
                         } else if (params.data.status == 2) {
-                            htmlStr += "<span style='color:#F56C6C'>禁用</span>" + '<br />';
+                            htmlStr += "<span style='color:#F56C6C'>" + this.$t('home.disabled') + "</span>" + '<br />';
                         } else if (params.data.status == 3) {
-                            htmlStr += "<span style='color:#67C23A'>在线</span>" + '<br />';
+                            htmlStr += "<span style='color:#67C23A'>" + this.$t('home.online') + "</span>" + '<br />';
                         } else if (params.data.status == 4) {
-                            htmlStr += "<span style='color:#909399'>离线</span>" + '<br />';
+                            htmlStr += "<span style='color:#909399'>" + this.$t('home.offline') + "</span>" + '<br />';
                         }
                         if (params.data.isShadow == 1) {
-                            htmlStr += '设备影子： ' + "<span style='color:#67C23A'>启用</span>" + '<br />';
+                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#67C23A'>" + this.$t('home.enabled') + "</span>" + '<br />';
                         } else {
-                            htmlStr += '设备影子： ' + "<span style='color:#909399'>未启用</span>" + '<br />';
+                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#909399'>" + this.$t('home.notEnabled') + "</span>" + '<br />';
                         }
-                        htmlStr += '产品名称： ' + params.data.productName + '<br />';
-                        htmlStr += '固件版本： Version ' + params.data.firmwareVersion + '<br />';
-                        htmlStr += '激活时间： ' + params.data.activeTime + '<br />';
-                        htmlStr += '定位方式： ';
+                        htmlStr += this.$t('home.productName') + ': ' + params.data.productName + '<br />';
+                        htmlStr += this.$t('home.firmwareVersion') + ': Version ' + params.data.firmwareVersion + '<br />';
+                        htmlStr += this.$t('home.activeTime') + ': ' + params.data.activeTime + '<br />';
+                        htmlStr += this.$t('home.locationWay') + ': ';
                         if (params.data.locationWay == 1) {
-                            htmlStr += '自动定位' + '<br />';
+                            htmlStr += this.$t('home.autoLocation') + '<br />';
                         } else if (params.data.locationWay == 2) {
-                            htmlStr += '设备定位' + '<br />';
+                            htmlStr += this.$t('home.deviceLocation') + '<br />';
                         } else if (params.data.locationWay == 3) {
-                            htmlStr += '自定义位置' + '<br />';
+                            htmlStr += this.$t('home.customLocation') + '<br />';
                         } else {
-                            htmlStr += '未知' + '<br />';
+                            htmlStr += this.$t('home.unknown') + '<br />';
                         }
-                        htmlStr += '所在地址： ' + params.data.networkAddress + '<br />';
+                        htmlStr += this.$t('home.address') + ': ' + params.data.networkAddress + '<br />';
                         htmlStr += '</div>';
                         return htmlStr;
-                    },
+                    }.bind(this),
                 },
                 bmap: {
                     center: [133, 38],
@@ -673,7 +673,7 @@ export default {
             var option;
             option = {
                 title: {
-                    text: 'CPU使用率',
+                    text: this.$t('home.cpuUsage'),
                     left: 'left',
                     textStyle: {
                         fontSize: 16,
@@ -689,7 +689,7 @@ export default {
                 color: ['#E6A23C', '#F56C6C', '#DDD'],
                 series: [
                     {
-                        name: 'CPU使用率 %',
+                        name: this.$t('home.cpuUsage') + ' %',
                         type: 'pie',
                         radius: '55%',
                         label: {
@@ -704,15 +704,15 @@ export default {
                         data: [
                             {
                                 value: this.server.cpu.used,
-                                name: '用户',
+                                name: this.$t('home.user'),
                             },
                             {
                                 value: this.server.cpu.sys,
-                                name: '系统',
+                                name: this.$t('home.system'),
                             },
                             {
                                 value: this.server.cpu.free,
-                                name: '空闲',
+                                name: this.$t('home.idle'),
                             },
                         ],
                     },
@@ -726,7 +726,7 @@ export default {
             var option;
             option = {
                 title: {
-                    text: '内存使用率',
+                    text: this.$t('home.memUsage'),
                     left: 'left',
                     textStyle: {
                         fontSize: 16,
@@ -742,7 +742,7 @@ export default {
                 color: ['#F56C6C', '#DDD'],
                 series: [
                     {
-                        name: '内存使用率 G',
+                        name: this.$t('home.memUsage') + ' G',
                         type: 'pie',
                         radius: '55%',
                         label: {
@@ -757,11 +757,11 @@ export default {
                         data: [
                             {
                                 value: this.server.mem.used,
-                                name: '已用',
+                                name: this.$t('home.used'),
                             },
                             {
                                 value: this.server.mem.free,
-                                name: '剩余',
+                                name: this.$t('home.free'),
                             },
                         ],
                     },
@@ -777,7 +777,7 @@ export default {
             let two = this.server.sysFiles[0].free.replace('GB', '');
             option = {
                 title: {
-                    text: '系统盘使用率',
+                    text: this.$t('home.diskUsage'),
                     left: 'left',
                     textStyle: {
                         fontSize: 16,
@@ -793,7 +793,7 @@ export default {
                 color: ['#F56C6C', '#DDD'],
                 series: [
                     {
-                        name: '磁盘状态 G',
+                        name: this.$t('home.diskStatus') + ' G',
                         type: 'pie',
                         radius: '55%',
                         label: {
@@ -808,11 +808,11 @@ export default {
                         data: [
                             {
                                 value: one,
-                                name: '已用',
+                                name: this.$t('home.used'),
                             },
                             {
                                 value: two,
-                                name: '可用',
+                                name: this.$t('home.available'),
                             },
                         ],
                     },

@@ -6,44 +6,44 @@
             </div>
             <div class="setting_inner">
                 <div class="setting_header">
-                    设置
+                    {{ $t('bigScreen.setting.settings') }}
                 </div>
                 <div class="setting_body">
                     <!-- <div class="left_shu"> 实时监测</div> -->
-                    <div class="left_shu"> 全局设置</div> 
+                    <div class="left_shu"> {{ $t('bigScreen.setting.globalSettings') }}</div>
                       <div class="setting_item">
                         <span class="setting_label">
-                            是否进行自动适配<span class="setting_label_tip">(默认分辨率1920*1080)</span>: 
+                            {{ $t('bigScreen.setting.autoAdapt') }}<span class="setting_label_tip">({{ $t('bigScreen.setting.defaultResolution') }}1920*1080)</span>:
                         </span>
                         <div class="setting_content">
                             <el-radio-group v-model="isScaleradio" @change="(val) => radiochange(val, 'isScale')">
-                                <el-radio :label="true">是</el-radio>
-                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">{{ $t('bigScreen.setting.yes') }}</el-radio>
+                                <el-radio :label="false">{{ $t('bigScreen.setting.no') }}</el-radio>
                             </el-radio-group>
 
                         </div>
                     </div>
-                    <div class="left_shu"> 实时监测</div>
+                    <div class="left_shu"> {{ $t('bigScreen.setting.realTimeMonitor') }}</div>
                     <div class="setting_item">
                         <span class="setting_label">
-                            设备提醒自动轮询: <span class="setting_label_tip"></span>
+                            {{ $t('bigScreen.setting.deviceAlertAutoPoll') }}: <span class="setting_label_tip"></span>
                         </span>
                         <div class="setting_content">
                             <el-radio-group v-model="sbtxradio" @change="(val) => radiochange(val, 'sbtxSwiper')">
-                                <el-radio :label="true">是</el-radio>
-                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">{{ $t('bigScreen.setting.yes') }}</el-radio>
+                                <el-radio :label="false">{{ $t('bigScreen.setting.no') }}</el-radio>
                             </el-radio-group>
 
                         </div>
                     </div>
                     <div class="setting_item">
                         <span class="setting_label">
-                            实时预警轮播:
+                            {{ $t('bigScreen.setting.realTimeWarning') }}:
                         </span>
                         <div class="setting_content">
                             <el-radio-group v-model="ssyjradio" @change="(val) => radiochange(val, 'ssyjSwiper')">
-                                <el-radio :label="true">是</el-radio>
-                                <el-radio :label="false">否</el-radio>
+                                <el-radio :label="true">{{ $t('bigScreen.setting.yes') }}</el-radio>
+                                <el-radio :label="false">{{ $t('bigScreen.setting.no') }}</el-radio>
                             </el-radio-group>
                         </div>
                     </div>

@@ -1,62 +1,62 @@
 <template>
 <div style="padding-left:20px;">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-        <el-form-item label="设备编号" prop="serialNumber">
-            <el-input v-model="queryParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" />
+        <el-form-item :label="$t('product.product-authorize.314975-0')" prop="serialNumber">
+            <el-input v-model="queryParams.serialNumber" :placeholder="$t('product.product-authorize.314975-1')" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="授权码" prop="authorizeCode">
-            <el-input v-model="queryParams.authorizeCode" placeholder="请输入授权码" clearable size="small" @keyup.enter.native="handleQuery" />
+        <el-form-item :label="$t('product.product-authorize.314975-2')" prop="authorizeCode">
+            <el-input v-model="queryParams.authorizeCode" :placeholder="$t('product.product-authorize.314975-3')" clearable size="small" @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-            <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+        <el-form-item :label="$t('product.product-authorize.314975-4')" prop="status">
+            <el-select v-model="queryParams.status" :placeholder="$t('product.product-authorize.314975-5')" clearable size="small">
                 <el-option v-for="dict in dict.type.iot_auth_status" :key="dict.value" :label="dict.label" :value="dict.value" />
             </el-select>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
         </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">生成授权码</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:authorize:add']">{{ $t('product.product-authorize.314975-8') }}</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">批量删除</el-button>
+            <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['iot:authorize:remove']">{{ $t('product.product-authorize.314975-9') }}</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:authorize:export']">导出</el-button>
+            <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['iot:authorize:export']">{{ $t('product.product-authorize.314975-10') }}</el-button>
         </el-col>
         <el-col :span="1.5">
-            <el-link type="info" style="padding-top:5px" :underline="false">Tips：双击可以复制授权码。</el-link>
+            <el-link type="info" style="padding-top:5px" :underline="false">{{ $t('product.product-authorize.314975-11') }}</el-link>
         </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="authorizeList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="small">
         <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
-        <el-table-column label="授权码" width="320" align="center" prop="authorizeCode" />
-        <el-table-column label="状态" align="center" prop="active" width="100">
+        <el-table-column :label="$t('product.product-authorize.314975-2')" width="320" align="center" prop="authorizeCode" />
+        <el-table-column :label="$t('product.product-authorize.314975-4')" align="center" prop="active" width="100">
             <template slot-scope="scope">
                 <dict-tag :options="dict.type.iot_auth_status" :value="scope.row.status" />
             </template>
         </el-table-column>
-        <el-table-column label="设备编号" width="150" align="center" prop="serialNumber">
+        <el-table-column :label="$t('product.product-authorize.314975-0')" width="150" align="center" prop="serialNumber">
             <template slot-scope="scope">
                 <el-link type="primary" @click="getDeviceBySerialNumber(scope.row.serialNumber)" :underline="false">{{scope.row.serialNumber}}</el-link>
             </template>
         </el-table-column>
-        <el-table-column label="授权时间" align="center" prop="updateTime" width="180">
+        <el-table-column :label="$t('product.product-authorize.314975-12')" align="center" prop="updateTime" width="180">
             <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d} {h}:{m}:{s}') }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="备注" align="center" prop="remark" />
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <el-table-column :label="$t('product.product-authorize.314975-13')" align="center" prop="remark" />
+        <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-                <el-button size="mini" type="text" icon="el-icon-s-check" @click="handleUpdate(scope.row,'auth')" v-hasPermi="['iot:authorize:edit']" v-if="scope.row.status==1 && !scope.row.deviceId">设备授权</el-button>
-                <el-button size="mini" type="text" icon="el-icon-notebook-1" @click="handleUpdate(scope.row,'remark')" v-hasPermi="['iot:authorize:edit']">备注</el-button>
-                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:authorize:remove']" v-if="!scope.row.deviceId">删除</el-button>
+                <el-button size="mini" type="text" icon="el-icon-s-check" @click="handleUpdate(scope.row,'auth')" v-hasPermi="['iot:authorize:edit']" v-if="scope.row.status==1 && !scope.row.deviceId">{{ $t('product.product-authorize.314975-69') }}</el-button>
+                <el-button size="mini" type="text" icon="el-icon-notebook-1" @click="handleUpdate(scope.row,'remark')" v-hasPermi="['iot:authorize:edit']">{{ $t('product.product-authorize.314975-13') }}</el-button>
+                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:authorize:remove']" v-if="!scope.row.deviceId">{{ $t('del') }}</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -68,28 +68,28 @@
         <div v-if="editType=='auth'">
             <div class="el-divider el-divider--horizontal" style="margin-top: -25px;"></div>
             <el-form :model="deviceParams" ref="queryDeviceForm" :inline="true" label-width="68px">
-                <el-form-item label="设备名称" prop="deviceName">
-                    <el-input v-model="deviceParams.deviceName" placeholder="请输入设备名称" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
+                <el-form-item :label="$t('product.product-authorize.314975-17')" prop="deviceName">
+                    <el-input v-model="deviceParams.deviceName" :placeholder="$t('product.product-authorize.314975-18')" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
                 </el-form-item>
-                <el-form-item label="设备编号" prop="serialNumber" style="margin:0 30px;">
-                    <el-input v-model="deviceParams.serialNumber" placeholder="请输入设备编号" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
+                <el-form-item :label="$t('product.product-authorize.314975-0')" prop="serialNumber" style="margin:0 30px;">
+                    <el-input v-model="deviceParams.serialNumber" :placeholder="$t('product.product-authorize.314975-1')" clearable size="small" @keyup.enter.native="handleQuery" style="width:150px;" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleDeviceQuery">搜索</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetDeviceQuery">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleDeviceQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetDeviceQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
             </el-form>
             <el-table v-loading="deviceLoading" :data="deviceList" ref="singleTable" size="mini" @row-click="rowClick" highlight-current-row>
-                <el-table-column label="选择" width="50" align="center">
+                <el-table-column :label="$t('product.product-authorize.314975-19')" width="50" align="center">
                     <template slot-scope="scope">
                         <input type="radio" :checked="scope.row.isSelect" name="device" />
                     </template>
                 </el-table-column>
-                <el-table-column label="设备名称" align="center" prop="deviceName" />
-                <el-table-column label="设备ID" align="center" prop="deviceId" />
-                <el-table-column label="设备编号" align="center" prop="serialNumber" />
-                <el-table-column label="用户名称" align="center" prop="userName" />
-                <el-table-column label="设备状态" align="center" prop="status">
+                <el-table-column :label="$t('product.product-authorize.314975-17')" align="center" prop="deviceName" />
+                <el-table-column :label="$t('product.product-authorize.314975-20')" align="center" prop="deviceId" />
+                <el-table-column :label="$t('product.product-authorize.314975-0')" align="center" prop="serialNumber" />
+                <el-table-column :label="$t('product.product-authorize.314975-21')" align="center" prop="userName" />
+                <el-table-column :label="$t('product.product-authorize.314975-22')" align="center" prop="status">
                     <template slot-scope="scope">
                         <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" />
                     </template>
@@ -98,53 +98,53 @@
             <pagination v-show="deviceTotal>0" :total="deviceTotal" :page.sync="deviceParams.pageNum" :limit.sync="deviceParams.pageSize" @pagination="getDeviceList" />
         </div>
         <div v-if="editType=='remark'">
-            <el-input v-model="form.remark" type="textarea" rows="4" placeholder="请输入内容" />
+            <el-input v-model="form.remark" type="textarea" rows="4" :placeholder="$t('plzInput')" />
         </div>
         <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-            <el-button @click="cancel">取 消</el-button>
+            <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
+            <el-button @click="cancel">{{ $t('cancel') }}</el-button>
         </div>
     </el-dialog>
 
     <!-- 设备详情对话框 -->
-    <el-dialog title="设备详情" :visible.sync="openDevice" width="600px" append-to-body>
-        <div v-if="device==null" style="text-align:center;"><i class="el-icon-warning" style="color:#E6A23C;"></i> 提示：查找不到设备，可能已经被删除</div>
+    <el-dialog :title="$t('product.product-authorize.314975-26')" :visible.sync="openDevice" width="600px" append-to-body>
+        <div v-if="device==null" style="text-align:center;"><i class="el-icon-warning" style="color:#E6A23C;"></i> {{ $t('product.product-authorize.314975-27') }}</div>
         <el-descriptions border :column="2" size="medium" v-if="device!=null">
-            <el-descriptions-item label="设备ID">{{device.deviceId}}</el-descriptions-item>
-            <el-descriptions-item label="设备名称">{{device.deviceName}}</el-descriptions-item>
-            <el-descriptions-item label="设备编号">{{device.serialNumber}}</el-descriptions-item>
-            <el-descriptions-item label="设备状态">
+            <el-descriptions-item :label="$t('product.product-authorize.314975-20')">{{device.deviceId}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-17')">{{device.deviceName}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-0')">{{device.serialNumber}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-22')">
                 <!-- （1-未激活，2-禁用，3-在线，4-离线） -->
-                <el-tag v-if="device.status==1" type="warning">未激活</el-tag>
-                <el-tag v-else-if="device.status==2" type="danger">禁用</el-tag>
-                <el-tag v-else-if="device.status==3" type="success">在线</el-tag>
-                <el-tag v-else-if="device.status==4" type="info">离线</el-tag>
+                <el-tag v-if="device.status==1" type="warning">{{ $t('product.product-authorize.314975-28') }}</el-tag>
+                <el-tag v-else-if="device.status==2" type="danger">{{ $t('product.product-authorize.314975-29') }}</el-tag>
+                <el-tag v-else-if="device.status==3" type="success">{{ $t('product.product-authorize.314975-30') }}</el-tag>
+                <el-tag v-else-if="device.status==4" type="info">{{ $t('product.product-authorize.314975-31') }}</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="设备影子">
-                <el-tag v-if="device.isShadow==1" type="success">启用</el-tag>
-                <el-tag v-else type="info">未启用</el-tag>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-32')">
+                <el-tag v-if="device.isShadow==1" type="success">{{ $t('product.product-authorize.314975-33') }}</el-tag>
+                <el-tag v-else type="info">{{ $t('product.index.091251-21') }}</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="定位方式">
+            <el-descriptions-item :label="$t('product.product-authorize.314975-35')">
                 <!-- (1=ip自动定位，2=设备定位，3=自定义) -->
-                <el-tag v-if="device.locationWay==1" type="success">自动定位</el-tag>
-                <el-tag v-else-if="device.locationWay==2" type="warning">设备定位</el-tag>
-                <el-tag v-else-if="device.locationWay==3" type="primary">自定义位置</el-tag>
+                <el-tag v-if="device.locationWay==1" type="success">{{ $t('product.product-authorize.314975-36') }}</el-tag>
+                <el-tag v-else-if="device.locationWay==2" type="warning">{{ $t('product.product-authorize.314975-37') }}</el-tag>
+                <el-tag v-else-if="device.locationWay==3" type="primary">{{ $t('product.product-authorize.314975-38') }}</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="产品名称">{{device.productName}}</el-descriptions-item>
-            <el-descriptions-item label="租户名称">{{device.userName}}</el-descriptions-item>
-            <el-descriptions-item label="固件版本">Version {{device.firmwareVersion}}</el-descriptions-item>
-            <el-descriptions-item label="所在地址">{{device.networkAddress}}</el-descriptions-item>
-            <el-descriptions-item label="设备经度">{{device.longitude}}</el-descriptions-item>
-            <el-descriptions-item label="设备纬度">{{device.latitude}}</el-descriptions-item>
-            <el-descriptions-item label="入网IP">{{device.networkIp}}</el-descriptions-item>
-            <el-descriptions-item label="设备信号">{{device.rssi}}</el-descriptions-item>
-            <el-descriptions-item label="创建时间">{{device.createTime}}</el-descriptions-item>
-            <el-descriptions-item label="激活时间">{{device.activeTime}}</el-descriptions-item>
-            <el-descriptions-item label="备注信息">{{device.remark}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.index.091251-0')">{{device.productName}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-40')">{{device.userName}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-41')">{{ $t('product.product-authorize.314975-41') }} {{device.firmwareVersion}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-42')">{{device.networkAddress}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-43')">{{device.longitude}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-44')">{{device.latitude}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-45')">{{device.networkIp}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-46')">{{device.rssi}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-47')">{{device.createTime}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-48')">{{device.activeTime}}</el-descriptions-item>
+            <el-descriptions-item :label="$t('product.product-authorize.314975-49')">{{device.remark}}</el-descriptions-item>
         </el-descriptions>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="goToEditDevice(device.deviceId)" type="primary">查看设备</el-button>
-            <el-button @click="closeDevice">关 闭</el-button>
+            <el-button @click="goToEditDevice(device.deviceId)" type="primary">{{ $t('product.product-authorize.314975-50') }}</el-button>
+            <el-button @click="closeDevice">{{ $t('product.product-authorize.314975-51') }}</el-button>
         </div>
     </el-dialog>
 </div>
@@ -388,12 +388,12 @@ export default {
         },
         /** 批量新增按钮操作 */
         handleAdd() {
-            this.$prompt('', '输入授权码数量', {
+            this.$prompt('', this.$t('product.product-authorize.314975-52'), {
                 customClass: 'createNum',
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+                confirmButtonText: this.$t('product.product-authorize.314975-53'),
+                cancelButtonText: this.$t('product.product-authorize.314975-54'),
                 inputPattern: /[0-9\-]/,
-                inputErrorMessage: '数量内容不正确',
+                inputErrorMessage: this.$t('product.product-authorize.314975-55'),
                 inputType: 'number',
                 inputValue: this.createNum
             }).then(({
@@ -406,7 +406,7 @@ export default {
                         createNum: this.createNum
                     }
                     addProductAuthorizeByNum(_addData).then(response => {
-                        this.$modal.msgSuccess("新增授权码成功");
+                        this.$modal.msgSuccess(this.$t('product.product-authorize.314975-56'));
                         this.getList();
                         this.createNum = 10;
                     });
@@ -414,7 +414,7 @@ export default {
             }).catch(() => {
                 this.$message({
                     type: 'info',
-                    message: '取消新增'
+                    message: this.$t('product.product-authorize.314975-57')
                 });
             });
         },
@@ -427,10 +427,10 @@ export default {
                 this.form = response.data;
                 this.open = true;
                 if (this.editType == 'auth') {
-                    this.title = "选择设备";
+                    this.title = this.$t('product.product-authorize.314975-58');
                     this.editWidth = "800px";
                 } else {
-                    this.title = "备注信息";
+                    this.title = this.$t('product.product-authorize.314975-13');
                     this.editWidth = "500px";
                 }
                 // 取消选中
@@ -449,16 +449,16 @@ export default {
             if (this.editType == 'auth') {
                 if (this.form.deviceId != null && this.form.deviceId != 0) {
                     updateAuthorize(this.form).then(response => {
-                        this.$modal.msgSuccess("设备授权成功");
+                        this.$modal.msgSuccess(this.$t('product.product-authorize.314975-59'));
                         this.open = false;
                         this.getList();
                     });
                 } else {
-                    this.$modal.msg("请选择要授权的设备");
+                    this.$modal.msg(this.$t('product.product-authorize.314975-60'));
                 }
             } else if (this.form.authorizeId != null) {
                 updateAuthorize(this.form).then(response => {
-                    this.$modal.msgSuccess("备注成功");
+                    this.$modal.msgSuccess(this.$t('product.product-authorize.314975-61'));
                     this.open = false;
                     this.getList();
                 });
@@ -467,11 +467,11 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const authorizeIds = row.authorizeId || this.ids;
-            this.$modal.confirm('是否确认删除产品授权码编号为"' + authorizeIds + '"的数据项？').then(function () {
+            this.$modal.confirm(this.$i18n.t('product.product-authorize.314975-62', [authorizeIds])).then(function () {
                 return delAuthorize(authorizeIds);
             }).then(() => {
                 this.getList();
-                this.$modal.msgSuccess("删除成功");
+                this.$modal.msgSuccess(this.$t('product.product-authorize.314975-63'));
             }).catch(() => {});
         },
         /** 导出按钮操作 */
@@ -494,8 +494,8 @@ export default {
         },
         onCopy() {
             this.$notify({
-                title: '成功',
-                message: '复制成功！',
+                title: this.$t('product.product-authorize.314975-64'),
+                message: this.$t('product.product-authorize.314975-66'),
                 type: 'success',
                 offset: 50,
                 duration: 2000
@@ -503,8 +503,8 @@ export default {
         },
         onError() {
             this.$notify({
-                title: '失败',
-                message: '复制失败！',
+                title: this.$t('product.product-authorize.314975-67'),
+                message: this.$t('product.product-authorize.314975-68'),
                 type: 'error',
                 offset: 50,
                 duration: 2000

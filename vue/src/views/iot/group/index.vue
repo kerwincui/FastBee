@@ -2,45 +2,45 @@
   <div style="padding: 6px">
     <el-card v-show="showSearch" style="margin-bottom: 6px">
       <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px" style="margin-bottom: -20px">
-        <el-form-item label="分组名称" prop="groupName">
-          <el-input v-model="queryParams.groupName" placeholder="请输入分组名称" clearable size="small"
+        <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
+          <el-input v-model="queryParams.groupName" :placeholder="$t('iot.group.index.637432-1')" clearable size="small"
             @keyup.enter.native="handleQuery" />
         </el-form-item>
-        <el-form-item v-if="isAdmin" label="我的分组" style="margin: 0 20px">
+        <el-form-item v-if="isAdmin" :label="$t('iot.group.index.637432-2')" style="margin: 0 20px">
           <el-switch v-model="myGroup" @change="myGroupChange"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('iot.group.index.637432-3') }}</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('iot.group.index.637432-4') }}</el-button>
         </el-form-item>
         <el-form-item style="float: right">
           <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="mini"
-            @click="handleAdd">新增</el-button>
+            @click="handleAdd">{{ $t('iot.group.index.637432-5') }}</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
     <el-card style="padding-bottom: 100px">
       <el-table v-loading="loading" :data="groupList" border @selection-change="handleSelectionChange">
-        <el-table-column label="分组名称" align="center" prop="groupName" width="200" />
-        <el-table-column label="分组排序" align="center" prop="groupOrder" width="100" />
-        <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <el-table-column :label="$t('iot.group.index.637432-0')" align="center" prop="groupName" width="200" />
+        <el-table-column :label="$t('iot.group.index.637432-6')" align="center" prop="groupOrder" width="100" />
+        <el-table-column :label="$t('iot.group.index.637432-7')" align="center" prop="createTime" width="180">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="isAdmin" label="所属用户" align="center" prop="userName" width="100" />
-        <el-table-column label="备注" align="left" header-align="center" prop="remark" />
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="320">
+        <el-table-column v-if="isAdmin" :label="$t('iot.group.index.637432-8')" align="center" prop="userName" width="100" />
+        <el-table-column :label="$t('iot.group.index.637432-9')" align="left" header-align="center" prop="remark" />
+        <el-table-column :label="$t('iot.group.index.637432-10')" align="center" class-name="small-padding fixed-width" width="320">
           <template slot-scope="scope">
             <el-button v-hasPermi="['iot:device:query']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)">查看设备</el-button>
+              icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)">{{ $t('iot.group.index.637432-11') }}</el-button>
             <el-button v-hasPermi="['iot:group:add']" size="small" type="text" style="padding: 5px" icon="el-icon-folder-add"
-              @click="selectDevice(scope.row)">添加设备</el-button>
+              @click="selectDevice(scope.row)">{{ $t('iot.group.index.637432-12') }}</el-button>
             <el-button v-hasPermi="['iot:group:edit']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+              icon="el-icon-edit" @click="handleUpdate(scope.row)">{{ $t('iot.group.index.637432-17') }}</el-button>
             <el-button v-hasPermi="['iot:group:remove']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+              icon="el-icon-delete" @click="handleDelete(scope.row)">{{ $t('iot.group.index.637432-14') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,19 +53,19 @@
       <!-- 添加或修改设备分组对话框 -->
       <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-          <el-form-item label="分组名称" prop="groupName">
-            <el-input v-model="form.groupName" placeholder="请输入分组名称" />
+          <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
+            <el-input v-model="form.groupName" :placeholder="$t('iot.group.index.637432-1')" />
           </el-form-item>
-          <el-form-item label="分组排序" prop="groupOrder">
-            <el-input v-model="form.groupOrder" type="number" placeholder="请输入分组排序" />
+          <el-form-item :label="$t('iot.group.index.637432-6')" prop="groupOrder">
+            <el-input v-model="form.groupOrder" type="number" :placeholder="$t('iot.group.index.637432-15')" />
           </el-form-item>
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+          <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
+            <el-input v-model="form.remark" type="textarea" :placeholder="$t('iot.group.index.637432-16')" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ form.groupId ? $t('iot.group.index.637432-17') : $t('iot.group.index.637432-18') }}</el-button>
+          <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
         </div>
       </el-dialog>
     </el-card>
@@ -122,24 +122,14 @@ export default {
         groupName: [
           {
             required: true,
-            message: '分组名称不能为空',
+            message: this.$t('iot.group.index.637432-20'),
             trigger: 'blur',
-          },
-          {
-            min: 1,
-            max: 64,
-            message: '分组名称不能少于1个字符和超过64字符',
           },
         ],
         groupOrder: [
           {
             required: true,
-            message: '分组排序不能为空,最大值为99',
-            trigger: 'blur',
-          },
-          {
-            max: 128,
-            message: '分组排序不能少于1个位和超过10位',
+            message: this.$t('iot.group.index.637432-21'),
             trigger: 'blur',
           },
         ],
@@ -222,7 +212,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.title = '添加设备分组'
+      this.title = this.$t('iot.group.index.637432-22')
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -231,7 +221,7 @@ export default {
       getGroup(groupId).then((response) => {
         this.form = response.data
         this.open = true
-        this.title = '修改设备分组'
+        this.title = this.$t('iot.group.index.637432-23')
       })
     },
     /** 选择设备 */
@@ -246,13 +236,13 @@ export default {
         if (valid) {
           if (this.form.groupId != null) {
             updateGroup(this.form).then((response) => {
-              this.$modal.msgSuccess('修改成功')
+              this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'))
               this.open = false
               this.getList()
             })
           } else {
             addGroup(this.form).then((response) => {
-              this.$modal.msgSuccess('新增成功')
+              this.$modal.msgSuccess(this.$t('iot.group.index.637432-25'))
               this.open = false
               this.getList()
             })
@@ -264,13 +254,13 @@ export default {
     handleDelete(row) {
       const groupIds = row.groupId || this.ids
       this.$modal
-        .confirm('是否确认删除设备分组编号为"' + groupIds + '"的数据项？')
+        .confirm(this.$t('iot.group.index.637432-26', [groupIds]))
         .then(function () {
           return delGroup(groupIds)
         })
         .then(() => {
           this.getList()
-          this.$modal.msgSuccess('删除成功')
+          this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'))
         })
         .catch(() => { })
     },

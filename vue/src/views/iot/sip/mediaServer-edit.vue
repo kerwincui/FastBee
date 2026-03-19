@@ -1,41 +1,36 @@
 <template>
   <div id="mediaServerEdit" v-loading="isLoging">
-    <el-dialog title="流媒体服务器节点" :width="dialogWidth" top="2rem" :close-on-click-modal="false" :visible.sync="showDialog" :destroy-on-close="true" @close="close()">
+    <el-dialog :title="$t('sip.mediaServerEdit.998534-0')" :width="dialogWidth" top="2rem" :close-on-click-modal="false" :visible.sync="showDialog" :destroy-on-close="true" @close="close()">
       <div id="formStep" style="margin-top: 1rem; margin-right: 20px">
         <el-form v-if="currentStep == 1" ref="mediaServerForm" :rules="rules" :model="mediaServerForm" label-width="280px" style="width: 70%">
-<!--          <el-form-item label="所属租户" prop="productName">-->
-<!--            <el-input readonly v-model="mediaServerForm.tenantName" placeholder="请选择所属租户">-->
-<!--              <el-button slot="append" @click="selectUser()">选择</el-button>-->
-<!--            </el-input>-->
-<!--          </el-form-item>-->
-          <el-form-item label="服务器IP" prop="ip">
-            <el-input v-model="mediaServerForm.ip" placeholder="媒体服务IP" clearable></el-input>
+          <el-form-item :label="$t('sip.mediaServerEdit.998534-1')" prop="ip">
+            <el-input v-model="mediaServerForm.ip" :placeholder="$t('sip.mediaServerEdit.998534-2')" clearable></el-input>
           </el-form-item>
-          <el-form-item label="Http端口" prop="portHttp">
-            <el-input v-model="mediaServerForm.portHttp" placeholder="媒体服务HTTP端口" clearable></el-input>
+          <el-form-item :label="$t('sip.mediaServerEdit.998534-3')" prop="portHttp">
+            <el-input v-model="mediaServerForm.portHttp" :placeholder="$t('sip.mediaServerEdit.998534-4')" clearable></el-input>
           </el-form-item>
-          <el-form-item label="服务密钥" prop="secret">
-            <el-input v-model="mediaServerForm.secret" placeholder="媒体服务SECRET" clearable></el-input>
+          <el-form-item :label="$t('sip.mediaServerEdit.998534-5')" prop="secret">
+            <el-input v-model="mediaServerForm.secret" :placeholder="$t('sip.mediaServerEdit.998534-6')" clearable></el-input>
           </el-form-item>
           <el-form-item>
             <div style="float: right; font-size: 28px">
-              <el-button @click="close">取消</el-button>
-              <el-button type="success" @click="checkServer" :loading="btnLoading">测试</el-button>
-              <el-button type="primary" v-if="currentStep === 1 && serverCheck === 1" @click="next">下一步</el-button>
+              <el-button @click="close">{{ $t('cancel') }}</el-button>
+              <el-button type="success" @click="checkServer" :loading="btnLoading">{{ $t('test') }}</el-button>
+              <el-button type="primary" v-if="currentStep === 1 && serverCheck === 1" @click="next">{{ $t('next') }}</el-button>
             </div>
           </el-form-item>
         </el-form>
         <el-row :gutter="24">
           <el-col :span="12">
             <el-form v-if="currentStep === 2 || currentStep === 3" ref="mediaServerForm1" :rules="rules" :model="mediaServerForm" label-width="140px" :disabled="!editFlag">
-              <el-form-item label="配置名称" prop="serverId">
-                <el-input v-model="mediaServerForm.serverId" placeholder="配置名称" clearable></el-input>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-7')" prop="serverId">
+                <el-input v-model="mediaServerForm.serverId" :placeholder="$t('sip.mediaServerEdit.998534-8')" clearable></el-input>
               </el-form-item>
-              <el-form-item label="服务器IP" prop="ip">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-9')" prop="ip">
                 <el-input v-if="currentStep === 2" v-model="mediaServerForm.ip" disabled></el-input>
                 <el-input v-if="currentStep === 3" v-model="mediaServerForm.ip"></el-input>
               </el-form-item>
-              <el-form-item label="播放协议" prop="protocol">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-10')" prop="protocol">
                 <el-select v-model="mediaServerForm.protocol" style="width: 100%">
                   <el-option key="http" label="http" value="http"></el-option>
                   <el-option key="https" label="https" value="https"></el-option>
@@ -44,44 +39,44 @@
               <el-form-item label="HookUrl" prop="hookurl">
                 <el-input v-model="mediaServerForm.hookurl" placeholder="HookUrl" clearable></el-input>
               </el-form-item>
-              <el-form-item label="Http端口" prop="portHttp">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-11')" prop="portHttp">
                 <el-input v-if="currentStep === 2" v-model="mediaServerForm.portHttp" disabled></el-input>
                 <el-input v-if="currentStep === 3" v-model="mediaServerForm.portHttp"></el-input>
               </el-form-item>
-              <el-form-item label="Https端口" prop="portHttps">
-                <el-input v-model="mediaServerForm.portHttps" placeholder="Https端口" clearable></el-input>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-12')" prop="portHttps">
+                <el-input v-model="mediaServerForm.portHttps" :placeholder="$t('sip.mediaServerEdit.998534-13')" clearable></el-input>
               </el-form-item>
-              <el-form-item label="Rtsp端口" prop="portRtsp">
-                <el-input v-model="mediaServerForm.portRtsp" placeholder="Rtsp端口" clearable></el-input>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-14')" prop="portRtsp">
+                <el-input v-model="mediaServerForm.portRtsp" :placeholder="$t('sip.mediaServerEdit.998534-15')" clearable></el-input>
               </el-form-item>
             </el-form>
           </el-col>
           <el-col :span="12">
             <el-form v-if="currentStep === 2 || currentStep === 3" ref="mediaServerForm2" :rules="rules" :model="mediaServerForm" label-width="180px" :disabled="!editFlag">
-              <el-form-item label="流媒体密钥" prop="secret">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-16')" prop="secret">
                 <el-input v-if="currentStep === 2" v-model="mediaServerForm.secret" disabled></el-input>
                 <el-input v-if="currentStep === 3" v-model="mediaServerForm.secret"></el-input>
               </el-form-item>
-              <el-form-item label="服务器域名" prop="domain">
-                <el-input v-model="mediaServerForm.domain" placeholder="服务器域名" clearable></el-input>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-17')" prop="domain">
+                <el-input v-model="mediaServerForm.domain" :placeholder="$t('sip.mediaServerEdit.998534-18')" clearable></el-input>
               </el-form-item>
-              <el-form-item label="自动配置">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-19')">
                 <el-switch v-model="mediaServerForm.autoConfig"></el-switch>
               </el-form-item>
-              <el-form-item label="收流模式">
-                <el-switch active-text="多端口" inactive-text="单端口" @change="portRangeChange" v-model="mediaServerForm.rtpEnable"></el-switch>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-20')">
+                <el-switch :active-text="$t('sip.mediaServerEdit.998534-21')" :inactive-text="$t('sip.mediaServerEdit.998534-22')" @change="portRangeChange" v-model="mediaServerForm.rtpEnable"></el-switch>
               </el-form-item>
-              <el-form-item v-if="!mediaServerForm.rtpEnable" label="收流端口" prop="rtpProxyPort">
+              <el-form-item v-if="!mediaServerForm.rtpEnable" :label="$t('sip.mediaServerEdit.998534-23')" prop="rtpProxyPort">
                 <el-input v-model.number="mediaServerForm.rtpProxyPort" clearable></el-input>
               </el-form-item>
-              <el-form-item v-if="mediaServerForm.rtpEnable" label="收流端口">
-                <el-input v-model="rtpPortRange1" placeholder="起始" @change="portRangeChange" clearable style="width: 100px" prop="rtpPortRange1"></el-input>
-                <el-input v-model="rtpPortRange2" placeholder="终止" @change="portRangeChange" clearable style="width: 100px" prop="rtpPortRange2" ></el-input>
+              <el-form-item v-if="mediaServerForm.rtpEnable" :label="$t('sip.mediaServerEdit.998534-23')">
+                <el-input v-model="rtpPortRange1" :placeholder="$t('sip.mediaServerEdit.998534-24')" @change="portRangeChange" clearable style="width: 100px" prop="rtpPortRange1"></el-input>
+                <el-input v-model="rtpPortRange2" :placeholder="$t('sip.mediaServerEdit.998534-25')" @change="portRangeChange" clearable style="width: 100px" prop="rtpPortRange2" ></el-input>
               </el-form-item>
-              <el-form-item label="Rtmp端口" prop="portRtmp">
-                <el-input v-model="mediaServerForm.portRtmp" placeholder="Rtmp端口" clearable></el-input>
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-26')" prop="portRtmp">
+                <el-input v-model="mediaServerForm.portRtmp" :placeholder="$t('sip.mediaServerEdit.998534-27')" clearable></el-input>
               </el-form-item>
-              <el-form-item label="录像管理端口" prop="recordPort">
+              <el-form-item :label="$t('sip.mediaServerEdit.998534-28')" prop="recordPort">
                 <el-input v-model.number="mediaServerForm.recordPort" :disabled="!editFlag">
                   <el-button v-if="mediaServerForm.recordPort > 0" class="el-icon-check" slot="append" type="primary" @click="checkRecordServer"></el-button>
                 </el-input>
@@ -91,8 +86,8 @@
               </el-form-item>
               <el-form-item>
                 <div style="float: right">
-                  <el-button type="primary" @click="onSubmit"  v-if="editFlag">提交</el-button>
-                  <el-button @click="close"  v-if="editFlag">关闭</el-button>
+                  <el-button type="primary" @click="onSubmit"  v-if="editFlag">{{ $t('submit') }}</el-button>
+                  <el-button @click="close"  v-if="editFlag">{{ $t('close') }}</el-button>
                 </div>
               </el-form-item>
             </el-form>
@@ -177,16 +172,16 @@ export default {
       rtpPortRange1: 30000,
       rtpPortRange2: 30100,
       rules: {
-        ip: [{ required: true, validator: isValidIp, message: '请输入有效的IP地址', trigger: 'blur' }],
-        portHttp: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        portHttps: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        recordPort: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        portRtmp: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        portRtsp: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        rtpPortRange1: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        rtpPortRange2: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        rtpProxyPort: [{ required: true, validator: isValidPort, message: '请输入有效的端口号', trigger: 'blur' }],
-        secret: [{ required: true, message: '请输入secret', trigger: 'blur' }],
+        ip: [{ required: true, validator: isValidIp, message: this.$t('sip.mediaServerEdit.998534-24'), trigger: 'blur' }],
+        portHttp: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        portHttps: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        recordPort: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        portRtmp: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        portRtsp: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        rtpPortRange1: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        rtpPortRange2: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        rtpProxyPort: [{ required: true, validator: isValidPort, message: this.$t('sip.mediaServerEdit.998534-25'), trigger: 'blur' }],
+        secret: [{ required: true, message: this.$t('sip.mediaServerEdit.998534-31'), trigger: 'blur' }],
       },
     };
   },
@@ -262,10 +257,10 @@ export default {
                 this.rtpPortRange1 = 30000;
                 this.rtpPortRange2 = 30100;
                 this.serverCheck = 1;
-                this.$modal.alertSuccess('配置地址连接成功');
+                this.$modal.alertSuccess(this.$t('sip.mediaServerEdit.998534-26'));
               } else {
                 this.serverCheck = -1;
-                this.$modal.alertError('配置地址无法连接');
+                this.$modal.alertError(this.$t('sip.mediaServerEdit.998534-27'));
               }
             })
             .catch((error) => {
@@ -291,7 +286,7 @@ export default {
         that.recordServerCheck = -1;
         that.$message({
           showClose: true,
-          message: '端口号应该在-65535之间',
+          message: this.$t('sip.mediaServerEdit.998534-28'),
           type: 'error',
         });
         return;
@@ -303,13 +298,13 @@ export default {
       this.mediaServerForm.autoConfig = this.mediaServerForm.autoConfig ? 1 : 0;
       if (this.mediaServerForm.id != null) {
         updatemediaServer(this.mediaServerForm).then((response) => {
-          this.$modal.msgSuccess('修改成功');
+          this.$modal.msgSuccess(this.$t('updateSuccess'));
           this.showDialog = false;
         });
       } else {
         this.portRangeChange();
         addmediaServer(this.mediaServerForm).then((response) => {
-          this.$modal.msgSuccess('新增成功');
+          this.$modal.msgSuccess(this.$t('addSuccess'));
           this.showDialog = false;
         });
       }
