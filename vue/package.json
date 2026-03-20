@@ -54,6 +54,7 @@
         "jsencrypt": "3.0.0-rc.1",
         "jshint": "^2.13.4",
         "jsonlint": "^1.6.3",
+        "jszip": "^3.10.1",
         "moment": "^2.29.4",
         "mqtt": "^4.3.3",
         "nprogress": "0.2.0",
@@ -76,7 +77,8 @@
         "vue-seamless-scroll": "^1.1.23",
         "vue2-ace-editor": "^0.0.15",
         "vuedraggable": "2.24.3",
-        "vuex": "3.6.0"
+        "vuex": "3.6.0",
+        "xlsx": "^0.18.5"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "4.4.6",
