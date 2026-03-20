@@ -1,6 +1,6 @@
 <template>
     <div class="navbar">
-        <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" />
+        <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
         <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!topNav" />
         <top-nav id="topmenu-container" class="topmenu-container" v-if="topNav" />
@@ -94,9 +94,9 @@ export default {
             this.$store.dispatch('app/toggleSideBar');
         },
         async logout() {
-            this.$confirm('确定注销并退出系统吗？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+            this.$confirm(this.$t('login.989807-31'), this.$t('login.989807-32'), {
+                confirmButtonText: this.$t('confirm'),
+                cancelButtonText: this.$t('cancel'),
                 type: 'warning',
             })
                 .then(() => {
