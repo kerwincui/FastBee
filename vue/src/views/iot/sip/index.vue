@@ -195,84 +195,84 @@ export default {
                 protocol: [
                     {
                         required: true,
-                        message: '默认播放协议不能为空',
+                        message: this.$t('sip.index.998533-26'),
                         trigger: 'blur',
                     },
                 ],
                 ip: [
                     {
                         required: true,
-                        message: '服务器ip不能为空',
+                        message: this.$t('sip.index.998533-27'),
                         trigger: 'blur',
                     },
                 ],
                 domain: [
                     {
                         required: true,
-                        message: '服务器域名不能为空',
+                        message: this.$t('sip.index.998533-28'),
                         trigger: 'blur',
                     },
                 ],
                 secret: [
                     {
                         required: true,
-                        message: '流媒体密钥不能为空',
+                        message: this.$t('sip.index.998533-29'),
                         trigger: 'blur',
                     },
                 ],
                 portHttp: [
                     {
                         required: true,
-                        message: 'http端口不能为空',
+                        message: this.$t('sip.index.998533-30'),
                         trigger: 'blur',
                     },
                 ],
                 portHttps: [
                     {
                         required: true,
-                        message: 'https端口不能为空',
+                        message: this.$t('sip.index.998533-31'),
                         trigger: 'blur',
                     },
                 ],
                 portRtmp: [
                     {
                         required: true,
-                        message: 'rtmp端口不能为空',
+                        message: this.$t('sip.index.998533-32'),
                         trigger: 'blur',
                     },
                 ],
                 portRtsp: [
                     {
                         required: true,
-                        message: 'rtsp端口不能为空',
+                        message: this.$t('sip.index.998533-33'),
                         trigger: 'blur',
                     },
                 ],
                 rtpPortRange: [
                     {
                         required: true,
-                        message: 'rtp端口范围不能为空',
+                        message: this.$t('sip.index.998533-34'),
                         trigger: 'blur',
                     },
                 ],
                 delFlag: [
                     {
                         required: true,
-                        message: '删除标志不能为空',
+                        message: this.$t('sip.index.998533-35'),
                         trigger: 'blur',
                     },
                 ],
                 createBy: [
                     {
                         required: true,
-                        message: '创建者不能为空',
+                        message: this.$t('sip.index.998533-36'),
                         trigger: 'blur',
                     },
                 ],
                 createTime: [
                     {
                         required: true,
-                        message: '创建时间不能为空',
+                        message: this.$t('sip.index.998533-37'),
                         trigger: 'blur',
                     },
                 ],

@@ -7,13 +7,13 @@
                     <el-input v-model="queryParams.productName" :placeholder="$t('productList.index.470902-2')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('common.search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
             </el-form>
 
             <el-table v-loading="loading" ref="singleTable" :data="productList" @row-click="rowClick" highlight-current-row size="mini">
-                <el-table-column :label="$t('common.select')" width="50" align="center">
+                <el-table-column :label="$t('select')" width="50" align="center">
                     <template slot-scope="scope">
                         <input type="radio" :checked="scope.row.isSelect" name="product" />
                     </template>

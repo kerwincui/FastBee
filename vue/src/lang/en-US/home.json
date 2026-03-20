@@ -67,5 +67,7 @@
   "home.free": "Free",
   "home.diskUsage": "Disk Usage",
   "home.diskStatus": "Disk Status",
-  "home.available": "Available"
+  "home.available": "Available",
+  "home.fengxinIoT": "Fengxin IoT",
+  "home.projectDocs": "Project Documentation"
 }

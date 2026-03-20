@@ -2,12 +2,12 @@
     <div>
         <el-row :gutter="20" style="margin-bottom: 16px">
             <el-col :span="1.5">
-                <el-select v-model="channelId" placeholder="请选择通道" @change="changeChannel()">
+                <el-select v-model="channelId" :placeholder="$t('views.components.player.deviceLiveStream.48750-1')" @change="changeChannel()">
                     <el-option v-for="option in channelList" :key="option.value" :label="option.label" :value="option.value"></el-option>
                 </el-select>
             </el-col>
             <el-col :span="1.5" style="line-height: 36px">
-                <span style="font-size: 14px">开启拉流：</span>
+                <span style="font-size: 14px">{{ $t('views.components.player.deviceLiveStream.48750-2') }}</span>
                 <el-switch v-model="pushStream" :disabled="channelId === ''" @change="startPushStream"></el-switch>
             </el-col>
         </el-row>
@@ -127,14 +127,14 @@ export default {
             this.$refs.player.registercallback('loadingTimeout', this.TimeoutCallback);
             this.$refs.player.registercallback('delayTimeout', this.TimeoutCallback);
             startPlay(this.deviceId, this.channelId).then((response) => {
-                    console.log('开始推流: [' + this.channelId + ']');
-                    const res = response.data;
-                    this.streamId = res.streamId;
-                    this.playurl = res.playurl;
-                    this.$refs.player.play(this.playurl);
-                    this.playing = true;
-                    this.pushStream = true;
-                });
+                console.log('开始推流: [' + this.channelId + ']');
+                const res = response.data;
+                this.streamId = res.streamId;
+                this.playurl = res.playurl;
+                this.$refs.player.play(this.playurl);
+                this.playing = true;
+                this.pushStream = true;
+            });
         },
         closeStream(force) {
             if (force) {

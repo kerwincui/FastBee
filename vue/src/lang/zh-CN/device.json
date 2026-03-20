@@ -652,6 +652,7 @@
   "device.running-status.866086-49": "请输入下发值",
   "device.running-status.866086-50": "只能输入整数",
   "device.running-status.866086-51": "请输入有效的整数",
+  "device.running-status.866086-52": "指令发送",
   "device.sub.083943-0": "添加子设备",
   "device.sub.083943-1": "移除子设备",
   "device.sub.083943-2": "设置子设备地址",

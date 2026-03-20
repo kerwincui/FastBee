@@ -469,7 +469,7 @@
           </el-form-item>
 
           <template v-if="activeData.layoutTree">
-            <el-divider>布局结构树</el-divider>
+            <el-divider>{{ $t('tool.rightPanel.670907-123') }}</el-divider>
             <el-tree
               :data="[activeData]"
               :props="layoutTreeProps"
@@ -487,7 +487,7 @@
           </template>
 
           <template v-if="activeData.layout === 'colFormItem' && activeData.tag !== 'el-button'">
-            <el-divider>正则校验</el-divider>
+            <el-divider>{{ $t('tool.rightPanel.670907-124') }}</el-divider>
             <div
               v-for="(item, index) in activeData.regList"
               :key="index"
@@ -496,77 +496,77 @@
               <span class="close-btn" @click="activeData.regList.splice(index, 1)">
                 <i class="el-icon-close" />
               </span>
-              <el-form-item label="表达式">
-                <el-input v-model="item.pattern" placeholder="请输入正则" />
+              <el-form-item :label="$t('tool.rightPanel.670907-125')">
+                <el-input v-model="item.pattern" :placeholder="$t('tool.rightPanel.670907-126')" />
               </el-form-item>
-              <el-form-item label="错误提示" style="margin-bottom:0">
-                <el-input v-model="item.message" placeholder="请输入错误提示" />
+              <el-form-item :label="$t('tool.rightPanel.670907-127')" style="margin-bottom:0">
+                <el-input v-model="item.message" :placeholder="$t('tool.rightPanel.670907-128')" />
               </el-form-item>
             </div>
             <div style="margin-left: 20px">
               <el-button icon="el-icon-circle-plus-outline" type="text" @click="addReg">
-                添加规则
+                {{ $t('tool.rightPanel.670907-129') }}
               </el-button>
             </div>
           </template>
         </el-form>
         <!-- 表单属性 -->
         <el-form v-show="currentTab === 'form'" size="small" label-width="90px">
-          <el-form-item label="表单名">
-            <el-input v-model="formConf.formRef" placeholder="请输入表单名（ref）" />
+          <el-form-item :label="$t('tool.rightPanel.670907-130')">
+            <el-input v-model="formConf.formRef" :placeholder="$t('tool.rightPanel.670907-131')" />
           </el-form-item>
-          <el-form-item label="表单模型">
-            <el-input v-model="formConf.formModel" placeholder="请输入数据模型" />
+          <el-form-item :label="$t('tool.rightPanel.670907-132')">
+            <el-input v-model="formConf.formModel" :placeholder="$t('tool.rightPanel.670907-133')" />
           </el-form-item>
-          <el-form-item label="校验模型">
-            <el-input v-model="formConf.formRules" placeholder="请输入校验模型" />
+          <el-form-item :label="$t('tool.rightPanel.670907-134')">
+            <el-input v-model="formConf.formRules" :placeholder="$t('tool.rightPanel.670907-135')" />
           </el-form-item>
-          <el-form-item label="表单尺寸">
+          <el-form-item :label="$t('tool.rightPanel.670907-136')">
             <el-radio-group v-model="formConf.size">
               <el-radio-button label="medium">
-                中等
+                {{ $t('tool.rightPanel.670907-107') }}
               </el-radio-button>
               <el-radio-button label="small">
-                较小
+                {{ $t('tool.rightPanel.670907-108') }}
               </el-radio-button>
               <el-radio-button label="mini">
-                迷你
+                {{ $t('tool.rightPanel.670907-109') }}
               </el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="标签对齐">
+          <el-form-item :label="$t('tool.rightPanel.670907-137')">
             <el-radio-group v-model="formConf.labelPosition">
               <el-radio-button label="left">
-                左对齐
+                {{ $t('tool.rightPanel.670907-138') }}
               </el-radio-button>
               <el-radio-button label="right">
-                右对齐
+                {{ $t('tool.rightPanel.670907-139') }}
               </el-radio-button>
               <el-radio-button label="top">
-                顶部对齐
+                {{ $t('tool.rightPanel.670907-140') }}
               </el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="标签宽度">
-            <el-input-number v-model="formConf.labelWidth" placeholder="标签宽度" />
+          <el-form-item :label="$t('tool.rightPanel.670907-20')">
+            <el-input-number v-model="formConf.labelWidth" :placeholder="$t('tool.rightPanel.670907-21')" />
           </el-form-item>
-          <el-form-item label="栅格间隔">
-            <el-input-number v-model="formConf.gutter" :min="0" placeholder="栅格间隔" />
+          <el-form-item :label="$t('tool.rightPanel.670907-15')">
+            <el-input-number v-model="formConf.gutter" :min="0" :placeholder="$t('tool.rightPanel.670907-15')" />
           </el-form-item>
-          <el-form-item label="禁用表单">
+          <el-form-item :label="$t('tool.rightPanel.670907-141')">
             <el-switch v-model="formConf.disabled" />
           </el-form-item>
-          <el-form-item label="表单按钮">
+          <el-form-item :label="$t('tool.rightPanel.670907-142')">
             <el-switch v-model="formConf.formBtns" />
           </el-form-item>
-          <el-form-item label="显示未选中组件边框">
+          <el-form-item :label="$t('tool.rightPanel.670907-143')">
             <el-switch v-model="formConf.unFocusedComponentBorder" />
           </el-form-item>
         </el-form>
       </el-scrollbar>
     </div>
 
-    <treeNode-dialog :visible.sync="dialogVisible" title="添加选项" @commit="addNode" />
+    <treeNode-dialog :visible.sync="dialogVisible" :title="$t('tool.rightPanel.670907-144')" @commit="addNode" />
     <icons-dialog :visible.sync="iconsVisible" :current="activeData[currentIconModel]" @select="setIcon" />
   </div>
 </template>

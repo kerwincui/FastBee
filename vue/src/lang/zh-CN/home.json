@@ -67,5 +67,7 @@
   "home.free": "剩余",
   "home.diskUsage": "系统盘使用率",
   "home.diskStatus": "磁盘状态",
-  "home.available": "可用"
+  "home.available": "可用",
+  "home.fengxinIoT": "蜂信物联",
+  "home.projectDocs": "项目文档"
 }

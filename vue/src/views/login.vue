@@ -1,17 +1,21 @@
 <template>
-    <div class="login">
-        <el-row>
-            <el-col :xs="24">
-                <div style="color: #fff; background-color: #0f73ee; width: 100%; height: 200px; text-align: center; padding: 15px; font-family: '微软雅黑'">
-                    <div style="font-size: 42px; padding-top: 40px; width: 300px; margin: 0 auto">
-                        <img :src="logo" alt="logo" style="width: 100px; height: 100px; float: left" />
-                        <div style="float: left; margin-top: 13px; width: 200px; text-align: left">
-                            <div>FastBee</div>
-                            <div style="letter-spacing: 1.5px; font-size: 20px; font-weight: 600; margin-top: -8px; margin-left: 3px">{{ $t('login.989807-0') }}</div>
-                        </div>
-                    </div>
+    <div class="login-wrap">
+        <div class="logo-wrap">
+            <img class="icon" src="@/assets/images/logo_blue.png" />
+            <span class="text">{{ $t('login.989807-37') }}</span>
+        </div>
+        <pre class="introduce-text">{{ $t('login.989807-38') }}</pre>
+        <div class="img-wrap">
+            <img style="width: 100%; height: 100%" src="@/assets/images/cover.png" />
+        </div>
+        <div class="box-wrap">
+            <div class="form-box">
+                <div class="title-wrap">
+                    <div v-if="!bindId" class="name">{{ $t('login.989807-1') }}</div>
+                    <div v-else class="name">{{ $t('login.989807-36') }}</div>
+                    <langSelect class="lang"></langSelect>
                 </div>
-
+                <pre class="demo-account">{{ $t('login.989807-33') }}</pre>
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
                     <el-form-item>
                         <div class="alert-box-wrap" v-if="loginForm.bindId != null">
@@ -54,15 +58,9 @@
                     </el-form-item>
                     <div style="display: flex; justify-content: space-between">
                         <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px; color: #000">{{ $t('login.989807-7') }}</el-checkbox>
-                        <langSelect class="lang"></langSelect>
                     </div>
                     <el-form-item style="width: 100%">
                         <div style="margin-bottom: 10px">
-                            <!-- <el-button v-if="!bindAccount" :loading="loading" type="primary" style="width: 100%"
-                @click.native.prevent="handleLogin">
-                <span v-if="!loading">登 录</span>
-                <span v-else>登 录 中...</span>
-              </el-button> -->
                             <div v-if="!bindId">
                                 <el-button class="btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">
                                     <span v-if="!loading">{{ $t('login.989807-3') }}</span>
@@ -78,13 +76,13 @@
                                     <span>{{ $t('login.989807-44') }}</span>
                                 </el-button>
                             </div>
-                            <el-row>
-                                <div>
-                                    <el-link href="https://fastbee.cn/" :underline="false" target="_blank" style="float: left">{{ $t('login.989807-41') }}</el-link>
-                                    <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank" style="float: left; margin-left: 20px">{{ $t('login.989807-40') }}</el-link>
-                                    <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }" style="float: left; margin-left: 20px">{{ $t('login.989807-18') }}</router-link>
-                                </div>
-                            </el-row>
+                            <div class="other-link">
+                                <el-link href="https://fastbee.cn/" :underline="false" target="_blank">{{ $t('login.989807-41') }}</el-link>
+                                <el-divider direction="vertical"></el-divider>
+                                <el-link href="https://fastbee.cn/doc" :underline="false" target="_blank">{{ $t('login.989807-40') }}</el-link>
+                                <el-divider direction="vertical"></el-divider>
+                                <router-link v-if="!bindAccount" :to="{ path: '/register', query: this.$route.query }">{{ $t('login.989807-18') }}</router-link>
+                            </div>
                             <div class="other-login">
                                 <span class="text">{{ $t('login.989807-42') }}</span>
                                 <svg-icon class="icon" icon-class="wechat" style="color: #07c160" @click="handleGotoWeChatLogin" />
@@ -92,15 +90,16 @@
                         </div>
                     </el-form-item>
                 </el-form>
-            </el-col>
-        </el-row>
-        <!--  底部  -->
-        <div class="el-login-footer">
-            <span>
-                Copyright © 2021-2025
-                <a target="_blank" href="http://fastbee.cn">FastBee</a>
-                All Rights Reserved.
-            </span>
+            </div>
+
+            <!--  底部  -->
+            <div class="el-login-footer">
+                <span>
+                    Copyright © 2021-2026
+                    <a target="_blank" href="http://fastbee.cn">FastBee</a>
+                    All Rights Reserved.
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -469,22 +468,157 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.login {
-    height: 100%;
-    overflow: auto;
+<style lang="scss" scoped>
+.login-wrap {
+    user-select: none;
+    height: 100vh;
+    max-width: 100%;
+    width: 100vw;
+    display: flex;
+
+    .logo-wrap {
+        position: absolute;
+        top: 80px;
+        left: 80px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .icon {
+            width: 42px;
+            height: 46px;
+        }
+
+        .text {
+            font-size: 36px;
+            font-weight: 500;
+            margin-left: 12px;
+            color: #486ff2;
+        }
+    }
+
+    .introduce-text {
+        position: absolute;
+        font-weight: 400;
+        font-size: 14px;
+        color: #909399;
+        line-height: 20px;
+        text-align: left;
+        font-style: normal;
+        top: 146px;
+        left: 80px;
+        width: 500px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    .img-wrap {
+        flex: 1;
+        background: #0f73ee;
+    }
+
+    .box-wrap {
+        position: relative;
+        width: 608px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        justify-content: center;
+
+        .form-box {
+            margin-top: -8%; // 上移35下面留宽一点
+            width: 300px;
+
+            .title-wrap {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .name {
+                    font-weight: 600;
+                    font-size: 24px;
+                    color: #303133;
+                }
+
+                .lang {
+                    cursor: pointer;
+
+                    ::v-deep .el-dropdown {
+                        font-weight: 400;
+                        font-size: 14px;
+                        color: #909399;
+                    }
+                }
+            }
+
+            .demo-account {
+                font-weight: 400;
+                font-size: 14px;
+                color: #909399;
+                margin: 40px 0 0;
+            }
+
+            .form-wrap {
+                ::v-deep .el-form-item {
+                    margin-bottom: 21px;
+
+                    .el-form-item__content {
+                        line-height: 14px;
+                    }
+                }
+
+                .text {
+                    color: #909399;
+                    font-size: 14px;
+                    text-align: left;
+                    white-space: nowrap;
+                    cursor: pointer;
+                }
+            }
+
+            .btn {
+                margin-top: 26px;
+                width: 100%;
+                height: 40px;
+            }
+        }
+    }
+}
+.other-link {
+    margin-top: 17px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.login-image {
+    // width: 100%;
+    // height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.bindAccountTitle {
-    margin: 0px auto 30px auto;
-    text-align: center;
-    color: #333;
-    font-size: 24px;
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-right {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.login-header {
+    flex-shrink: 0;
 }
 
 .login-form {
-    margin: 30px auto 0 auto;
-    padding: 15px;
+    flex: 1;
+    padding: 0px;
     z-index: 1000;
     max-width: 350px;
 
@@ -514,16 +648,12 @@ export default {
 }
 
 .el-login-footer {
-    height: 40px;
-    line-height: 40px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    color: #333;
-    font-family: Arial;
+    position: absolute;
+    bottom: 24px;
+    font-weight: 400;
     font-size: 12px;
-    letter-spacing: 1px;
+    color: #909399;
+    line-height: 20px;
 }
 
 .alert-box-wrap {
@@ -542,6 +672,7 @@ export default {
     width: 100%;
     height: 40px;
 }
+
 .other-login {
     margin-top: 40px;
     display: flex;
@@ -553,6 +684,68 @@ export default {
         height: 16px;
         margin: 0 12px 0 8px;
         cursor: pointer;
+    }
+}
+
+// 响应式设计：当屏幕小于768px时，只显示右侧登录表单
+@media (max-width: 767.98px) {
+    .login-right {
+        width: 100% !important;
+    }
+}
+@media screen and (min-width: 1920px) {
+    .login-wrap .box-wrap {
+        width: 811px;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .login-wrap .box-wrap {
+        width: 498px;
+
+        .form-box {
+            width: 246px;
+        }
+    }
+
+    .login-wrap .logo-wrap {
+        top: 66px;
+        left: 66px;
+
+        .icon {
+            width: 34px;
+            height: 38px;
+        }
+
+        .text {
+            font-size: 29px;
+            margin-left: 10px;
+            color: #486ff2;
+        }
+    }
+
+    .login-wrap .introduce-text {
+        font-size: 11px;
+        top: 120px;
+        left: 66px;
+    }
+}
+
+@media screen and (max-width: 968px) {
+    .login-wrap .img-wrap {
+        display: none;
+    }
+
+    .login-wrap .logo-wrap {
+        display: none;
+    }
+
+    .login-wrap .introduce-text {
+        display: none;
+    }
+
+    .login-wrap .box-wrap {
+        width: 100%;
     }
 }
 </style>

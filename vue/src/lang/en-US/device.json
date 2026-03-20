@@ -652,6 +652,7 @@
   "device.running-status.866086-49": "please enter decimals",
   "device.running-status.866086-50": "please enter an integer",
   "device.running-status.866086-51": "please enter a valid integer",
+  "device.running-status.866086-52": "Send Command",
   "device.sub.083943-0": "Add sub devices",
   "device.sub.083943-1": "Remove sub devices",
   "device.sub.083943-2": "Set sub device address",

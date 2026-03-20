@@ -45,8 +45,8 @@
                     <span>{{ scope.row.createTime }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="标识符" align="center" prop="identify" />
-            <el-table-column label="动作" align="left" header-align="center" prop="logValue">
+            <el-table-column :label="$t('device.device-log.798283-2')" align="center" prop="identify" />
+            <el-table-column :label="$t('device.device-log.798283-15')" align="left" header-align="center" prop="logValue">
                 <template slot-scope="scope">
                     <div v-html="formatValueDisplay(scope.row)"></div>
                 </template>
@@ -54,7 +54,7 @@
 
             <el-table-column :label="$t('device.device-log.798283-16')" header-align="center" align="left" prop="remark">
                 <template slot-scope="scope">
-                    {{ scope.row.remark == null ? '无' : scope.row.remark }}
+                    {{ scope.row.remark == null ? $t('device.device-log.798283-17') : scope.row.remark }}
                 </template>
             </el-table-column>
         </el-table>

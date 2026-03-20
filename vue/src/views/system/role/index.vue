@@ -79,7 +79,7 @@
                 </el-form-item>
                 <el-form-item prop="roleKey">
                     <span slot="label">
-                        <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`)" placement="top">
+                        <el-tooltip :content="$t('role.index.094567-14')" placement="top">
                             <i class="el-icon-question"></i>
                         </el-tooltip>
                         {{ $t('role.index.094567-0') }}

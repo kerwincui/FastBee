@@ -206,12 +206,12 @@
                 Copyright © 2021-2022
                 <a href="https://fastbee.cn/" target="_blank">FastBee</a>
                 |
-                <a href="https://fastbee.cn/" target="_blank">蜂信物联</a>
+                <a href="https://fastbee.cn/" target="_blank">{{ $t('home.fengxinIoT') }}</a>
                 | Apache License
             </span>
             <br />
             <span>
-                项目文档
+                {{ $t('home.projectDocs') }}
                 <a href="https://fastbee.cn/doc/" target="_blank">https://fastbee.cn/doc/</a>
             </span>
         </div>

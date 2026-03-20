@@ -197,7 +197,7 @@ export default {
     },
 };
 </script>
-<styule lang="scss">
+<style lang="scss">
 // 自定义二维码样式
 .impowerBox .title {
     display: none;
@@ -214,4 +214,4 @@ export default {
 .impowerBox .status {
     display: none;
 }
-</styule>
+</style>

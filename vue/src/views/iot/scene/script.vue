@@ -1,23 +1,19 @@
 <template>
     <div style="padding: 6px">
         <el-card v-show="showSearch" style="margin-bottom: 6px">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch"
-                label-width="68px" style="margin-bottom: -20px">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('script.349087-0')" prop="scriptId">
-                    <el-input v-model="queryParams.scriptId" :placeholder="$t('script.349087-1')" clearable
-                        @keyup.enter.native="handleQuery" />
+                    <el-input v-model="queryParams.scriptId" :placeholder="$t('script.349087-1')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item :label="$t('script.349087-2')" prop="scriptName">
-                    <el-input v-model="queryParams.scriptName" :placeholder="$t('script.349087-3')" clearable
-                        @keyup.enter.native="handleQuery" />
+                    <el-input v-model="queryParams.scriptName" :placeholder="$t('script.349087-3')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('common.search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('common.reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                        v-hasPermi="['iot:script:add']">{{ $t('common.add') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:script:add']">{{ $t('add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -34,8 +30,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('script.index.470901-5')" align="center" prop="status">
                     <template slot-scope="scope">
-                        <dict-tag :options="dict.type.rule_script_action" :value="scope.row.scriptAction"
-                            size="small" />
+                        <dict-tag :options="dict.type.rule_script_action" :value="scope.row.scriptAction" size="small" />
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('script.index.470901-7')" align="center" prop="scriptLanguage" />
@@ -46,23 +41,19 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('script.index.470901-9')" align="center" prop="scriptOrder" />
-                <el-table-column :label="$t('common.opation')" align="center" class-name="small-padding fixed-width" width="200">
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width" width="200">
                     <template slot-scope="scope">
                         <el-button size="small" type="text" icon="el-icon-date" @click="handleLog(scope.row.scriptId)" v-hasPermi="['iot:script:query']">{{ $t('script.index.470901-23') }}</el-button>
-                        <el-button size="mini" type="text" icon="el-icon-view" @click="handleUpdate(scope.row)"
-                            v-hasPermi="['iot:script:query']">{{ $t('script.index.470901-24') }}</el-button>
-                        <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-                            v-hasPermi="['iot:script:remove']">{{ $t('common.del') }}</el-button>
+                        <el-button size="mini" type="text" icon="el-icon-view" @click="handleUpdate(scope.row)" v-hasPermi="['iot:script:query']">{{ $t('script.index.470901-24') }}</el-button>
+                        <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:script:remove']">{{ $t('del') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>
 
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
-                :limit.sync="queryParams.pageSize" @pagination="getList" />
+            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
             <!-- 添加或修改规则引擎脚本对话框 -->
-            <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body :close-on-click-modal="false"
-                :close-on-press-escape="false">
+            <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body :close-on-click-modal="false" :close-on-press-escape="false">
                 <el-form ref="form" :model="form" :rules="rules" label-width="90px">
                     <el-row :gutter="50">
                         <el-col :span="12">
@@ -72,16 +63,19 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item :label="$t('script.index.470901-9')" prop="scriptOrder">
-                                <el-input-number v-model="form.scriptOrder" :placeholder="$t('script.index.470901-10')" type="number"
-                                    controls-position="right" style="width: 100%" />
+                                <el-input-number v-model="form.scriptOrder" :placeholder="$t('script.index.470901-10')" type="number" controls-position="right" style="width: 100%" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item :label="$t('script.349087-6')" prop="scriptEvent">
                                 <el-select v-model="form.scriptEvent" :placeholder="$t('script.349087-11')" style="width: 100%">
-                                    <el-option v-for="dict in dict.type.rule_script_event" :key="dict.label"
-                                        :label="dict.label" :value="Number(dict.value)"
-                                        :disabled="dict.value !== '1' && dict.value !== '2'"></el-option>
+                                    <el-option
+                                        v-for="dict in dict.type.rule_script_event"
+                                        :key="dict.label"
+                                        :label="dict.label"
+                                        :value="Number(dict.value)"
+                                        :disabled="dict.value !== '1' && dict.value !== '2'"
+                                    ></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -89,9 +83,7 @@
                         <el-col :span="12">
                             <el-form-item :label="$t('script.index.470901-5')" prop="scriptAction">
                                 <el-select v-model="form.scriptAction" :placeholder="$t('script.index.470901-6')" style="width: 100%">
-                                    <el-option v-for="dict in dict.type.rule_script_action" :key="dict.label"
-                                        :label="dict.label" :value="Number(dict.value)"
-                                        :disabled="dict.value !== '1'"></el-option>
+                                    <el-option v-for="dict in dict.type.rule_script_action" :key="dict.label" :label="dict.label" :value="Number(dict.value)" :disabled="dict.value !== '1'"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -102,10 +94,8 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item :label="$t('script.index.470901-2')" prop="productName">
-                                <el-input readonly v-model="form.productName" size="small" :placeholder="$t('script.index.470901-3')"
-                                    style="margin-top: 3px">
-                                    <el-button slot="append" @click="handleSelectProduct()"
-                                        size="small">{{ $t('script.index.470901-4') }}</el-button>
+                                <el-input readonly v-model="form.productName" size="small" :placeholder="$t('script.index.470901-3')" style="margin-top: 3px">
+                                    <el-button slot="append" @click="handleSelectProduct()" size="small">{{ $t('script.index.470901-4') }}</el-button>
                                 </el-input>
                             </el-form-item>
                         </el-col>
@@ -113,28 +103,21 @@
                     </el-row>
                 </el-form>
                 <div style="padding: 0px 10px" @click="editClick">
-                    <AceEditor ref="codeEditor" :content.sync="form.scriptData" lang="groovy" codeStyle="chrome"
-                        :read-only="false" width="100%" height="450px"></AceEditor>
+                    <AceEditor ref="codeEditor" :content.sync="form.scriptData" lang="groovy" codeStyle="chrome" :read-only="false" width="100%" height="450px"></AceEditor>
                 </div>
                 <div style="padding: 0 10px; margin: 10px 0">
-                    <el-alert :title="validateMsg" type="success" show-icon v-if="isValidate && validateMsg"
-                        :closable="false"></el-alert>
-                    <el-alert :title="validateMsg" type="error" show-icon v-if="!isValidate && validateMsg"
-                        :closable="false"></el-alert>
+                    <el-alert :title="validateMsg" type="success" show-icon v-if="isValidate && validateMsg" :closable="false"></el-alert>
+                    <el-alert :title="validateMsg" type="error" show-icon v-if="!isValidate && validateMsg" :closable="false"></el-alert>
                 </div>
                 <div slot="footer" class="dialog-footer">
                     <span style="float: left">
-                        <el-link style="line-height: 40px; padding-left: 20px" icon="el-icon-question"
-                            :underline="false" type="primary" href="https://fastbee.cn/doc/pages/rule_engine/"
-                            target="_blank">
+                        <el-link style="line-height: 40px; padding-left: 20px" icon="el-icon-question" :underline="false" type="primary" href="https://fastbee.cn/doc/pages/rule_engine/" target="_blank">
                             {{ $t('script.index.470901-17') }}
                         </el-link>
                     </span>
                     <el-button type="success" @click="handleValidate">{{ $t('script.index.470901-18') }}</el-button>
-                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:edit']"
-                        v-show="form.scriptId" :disabled="!isValidate">{{ $t('script.index.470901-19') }}</el-button>
-                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:add']"
-                        v-show="!form.scriptId" :disabled="!isValidate">{{ $t('common.add') }}</el-button>
+                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:edit']" v-show="form.scriptId" :disabled="!isValidate">{{ $t('script.index.470901-19') }}</el-button>
+                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:script:add']" v-show="!form.scriptId" :disabled="!isValidate">{{ $t('add') }}</el-button>
                     <el-button @click="cancel">{{ $t('script.index.470901-20') }}</el-button>
                 </div>
             </el-dialog>
@@ -406,7 +389,7 @@ msgContext.setPayload(NewPayload);`,
                     this.getList();
                     this.$modal.msgSuccess(this.$i18n.t('script.index.470901-27'));
                 })
-                .catch(() => { });
+                .catch(() => {});
         },
         /** 验证按钮操作 */
         handleValidate() {
