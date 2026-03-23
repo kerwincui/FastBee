@@ -1,45 +1,49 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
-            <el-form-item :label="$t('online.093480-0')" prop="ipaddr">
-                <el-input v-model="queryParams.ipaddr" :placeholder="$t('online.093480-1')" clearable @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('online.093480-5')" prop="userName">
-                <el-input v-model="queryParams.userName" :placeholder="$t('online.093480-2')" clearable @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
-            </el-form-item>
-        </el-form>
-        <el-table v-loading="loading" :data="list.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%" :border="false">
-            <el-table-column :label="$t('online.093480-3')" type="index" align="center">
-                <template slot-scope="scope">
-                    <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('online.093480-4')" align="center" prop="tokenId" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('online.093480-5')" align="center" prop="userName" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('online.093480-6')" align="center" prop="deptName" />
-            <el-table-column :label="$t('online.093480-7')" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('online.093480-8')" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('online.093480-9')" align="center" prop="browser" />
-            <el-table-column :label="$t('online.093480-10')" align="center" prop="os" />
-            <el-table-column :label="$t('online.093480-11')" align="center" prop="loginTime" width="180">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.loginTime) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
-                <template slot-scope="scope">
-                    <el-button size="small" type="text" icon="el-icon-delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">{{ $t('online.093480-12') }}</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+        <el-card shadow="never" class="search-card">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
+                <el-form-item :label="$t('online.093480-0')" prop="ipaddr">
+                    <el-input v-model="queryParams.ipaddr" :placeholder="$t('online.093480-1')" clearable @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item :label="$t('online.093480-5')" prop="userName">
+                    <el-input v-model="queryParams.userName" :placeholder="$t('online.093480-2')" clearable @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
+        <el-card shadow="never" class="search-card">
+            <el-table v-loading="loading" :data="list.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%" :border="false">
+                <el-table-column :label="$t('online.093480-3')" type="index" align="center">
+                    <template slot-scope="scope">
+                        <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('online.093480-4')" align="center" prop="tokenId" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('online.093480-5')" align="center" prop="userName" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('online.093480-6')" align="center" prop="deptName" />
+                <el-table-column :label="$t('online.093480-7')" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('online.093480-8')" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('online.093480-9')" align="center" prop="browser" />
+                <el-table-column :label="$t('online.093480-10')" align="center" prop="os" />
+                <el-table-column :label="$t('online.093480-11')" align="center" prop="loginTime" width="180">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.loginTime) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
+                    <template slot-scope="scope">
+                        <el-button size="small" type="text" icon="el-icon-delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">{{ $t('online.093480-12') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
 
-        <div class="pagination-container">
-            <pagination v-show="total > 0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
-        </div>
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
+            </div>
+        </el-card>
     </div>
 </template>
 
@@ -106,11 +110,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-header {
-    background-color: #f5f7fa !important;
-    color: #606266;
-    font-weight: 600;
-    text-align: center;
+.app-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 
 ::v-deep .el-table {
@@ -140,5 +143,13 @@ export default {
 ::v-deep .el-pagination {
     padding: 0;
     text-align: right;
+}
+.search-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px 18px 0 18px;
+    }
 }
 </style>

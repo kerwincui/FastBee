@@ -15,8 +15,8 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom:100px;">
-            <el-table v-loading="loading" :data="clientList">
+        <el-card style="padding-bottom: 100px">
+            <el-table v-loading="loading" :data="clientList" :border="false">
                 <el-table-column :label="$t('netty.clients.654908-4')" align="left" header-align="center" prop="clientId">
                     <template slot-scope="scope">
                         <el-link :underline="false" type="primary" @click.native="handleOpen(scope.row)">{{ scope.row.clientId }}</el-link>

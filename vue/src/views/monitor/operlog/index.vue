@@ -1,136 +1,148 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-            <el-form-item :label="$t('operlog.874509-10')" prop="operIp">
-                <el-input v-model="queryParams.operIp" :placeholder="$t('operlog.874509-10')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('operlog.874509-0')" prop="title">
-                <el-input v-model="queryParams.title" :placeholder="$t('operlog.874509-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('operlog.874509-2')" prop="operName">
-                <el-input v-model="queryParams.operName" :placeholder="$t('operlog.874509-3')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('system.notice.670989-4')" prop="businessType">
-                <el-select v-model="queryParams.businessType" :placeholder="$t('operlog.874509-4')" clearable style="width: 240px">
-                    <el-option v-for="dict in dict.type.sys_oper_type" :key="dict.value" :label="dict.label" :value="dict.value" />
-                </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('status')" prop="status">
-                <el-select v-model="queryParams.status" :placeholder="$t('operlog.874509-5')" clearable style="width: 240px">
-                    <el-option v-for="dict in dict.type.sys_common_status" :key="dict.value" :label="dict.label" :value="dict.value" />
-                </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('operlog.874509-6')">
-                <el-date-picker
-                    v-model="dateRange"
-                    style="width: 240px"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    type="daterange"
-                    range-separator="-"
-                    :start-placeholder="$t('system.dict.index.880996-3')"
-                    :end-placeholder="$t('system.dict.index.880996-4')"
-                    :default-time="['00:00:00', '23:59:59']"
-                ></el-date-picker>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
-            </el-form-item>
-        </el-form>
-
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">{{ $t('del') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="small" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">{{ $t('operlog.874509-7') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['monitor:operlog:export']">{{ $t('export') }}</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
-        <el-table ref="tables" v-loading="loading" :data="list" :border="false" header-cell-class-name="table-header" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
-            <el-table-column type="selection" width="50" align="center" />
-            <el-table-column :label="$t('operlog.874509-8')" align="center" prop="operId" />
-            <el-table-column :label="$t('operlog.874509-0')" align="center" prop="title" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('operlog.874509-4')" align="center" prop="businessType">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.sys_oper_type" :value="scope.row.businessType" />
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('operlog.874509-2')" align="center" prop="operName" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
-            <el-table-column :label="$t('operlog.874509-10')" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('operlog.874509-11')" align="center" prop="operLocation" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('operlog.874509-30')" align="center" prop="status">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status" />
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('operlog.874509-12')" align="center" prop="operTime" width="160" sortable="custom" :sort-orders="['descending', 'ascending']">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.operTime) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('operlog.874509-31')" align="center" prop="costTime" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.costTime }}ms</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
-                <template slot-scope="scope">
-                    <el-button size="small" type="text" icon="el-icon-view" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']">{{ $t('operlog.874509-13') }}</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-
-        <div class="pagination-container">
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-        </div>
-
-        <!-- 操作日志详细 -->
-        <el-dialog :title="$t('operlog.874509-14')" :visible.sync="open" width="800px" append-to-body>
-            <el-form ref="form" :model="form" label-width="100px" size="small">
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('operlog.874509-15')">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
-                        <el-form-item :label="$t('operlog.874509-16')">{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('operlog.874509-17')">{{ form.operUrl }}</el-form-item>
-                        <el-form-item :label="$t('operlog.874509-18')">{{ form.requestMethod }}</el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item :label="$t('operlog.874509-19')">{{ form.method }}</el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item :label="$t('operlog.874509-20')">{{ form.operParam }}</el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item :label="$t('operlog.874509-21')">{{ form.jsonResult }}</el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item :label="$t('operlog.874509-22')">
-                            <div v-if="form.status === 0">{{ $t('operlog.874509-23') }}</div>
-                            <div v-else-if="form.status === 1">{{ $t('operlog.874509-24') }}</div>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item :label="$t('operlog.874509-31')">{{ form.costTime }}ms</el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item :label="$t('operlog.874509-25')">{{ parseTime(form.operTime) }}</el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item :label="$t('operlog.874509-26')" v-if="form.status === 1">{{ form.errorMsg }}</el-form-item>
-                    </el-col>
-                </el-row>
+        <el-card shadow="never" class="search-card">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+                <el-form-item :label="$t('operlog.874509-10')" prop="operIp">
+                    <el-input v-model="queryParams.operIp" :placeholder="$t('operlog.874509-10')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item :label="$t('operlog.874509-0')" prop="title">
+                    <el-input v-model="queryParams.title" :placeholder="$t('operlog.874509-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item :label="$t('operlog.874509-2')" prop="operName">
+                    <el-input v-model="queryParams.operName" :placeholder="$t('operlog.874509-3')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item :label="$t('system.notice.670989-4')" prop="businessType">
+                    <el-select v-model="queryParams.businessType" :placeholder="$t('operlog.874509-4')" clearable style="width: 240px">
+                        <el-option v-for="dict in dict.type.sys_oper_type" :key="dict.value" :label="dict.label" :value="dict.value" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('status')" prop="status">
+                    <el-select v-model="queryParams.status" :placeholder="$t('operlog.874509-5')" clearable style="width: 240px">
+                        <el-option v-for="dict in dict.type.sys_common_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('operlog.874509-6')">
+                    <el-date-picker
+                        v-model="dateRange"
+                        style="width: 240px"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        type="daterange"
+                        range-separator="-"
+                        :start-placeholder="$t('system.dict.index.880996-3')"
+                        :end-placeholder="$t('system.dict.index.880996-4')"
+                        :default-time="['00:00:00', '23:59:59']"
+                    ></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="open = false">{{ $t('close') }}</el-button>
+        </el-card>
+        <el-card shadow="never" class="search-card">
+            <el-row :gutter="10" class="mb8">
+                <el-col :span="1.5">
+                    <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">{{ $t('del') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="danger" plain icon="el-icon-delete" size="small" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">{{ $t('operlog.874509-7') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['monitor:operlog:export']">{{ $t('export') }}</el-button>
+                </el-col>
+                <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+            </el-row>
+
+            <el-table
+                ref="tables"
+                v-loading="loading"
+                :data="list"
+                :border="false"
+                header-cell-class-name="table-header"
+                @selection-change="handleSelectionChange"
+                :default-sort="defaultSort"
+                @sort-change="handleSortChange"
+            >
+                <el-table-column type="selection" width="50" align="center" />
+                <el-table-column :label="$t('operlog.874509-8')" align="center" prop="operId" />
+                <el-table-column :label="$t('operlog.874509-0')" align="center" prop="title" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('operlog.874509-4')" align="center" prop="businessType">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.sys_oper_type" :value="scope.row.businessType" />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('operlog.874509-2')" align="center" prop="operName" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+                <el-table-column :label="$t('operlog.874509-10')" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('operlog.874509-11')" align="center" prop="operLocation" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('operlog.874509-30')" align="center" prop="status">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status" />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('operlog.874509-12')" align="center" prop="operTime" width="160" sortable="custom" :sort-orders="['descending', 'ascending']">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.operTime) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('operlog.874509-31')" align="center" prop="costTime" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.costTime }}ms</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
+                    <template slot-scope="scope">
+                        <el-button size="small" type="text" icon="el-icon-view" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']">{{ $t('operlog.874509-13') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
             </div>
-        </el-dialog>
+
+            <!-- 操作日志详细 -->
+            <el-dialog :title="$t('operlog.874509-14')" :visible.sync="open" width="800px" append-to-body>
+                <el-form ref="form" :model="form" label-width="100px" size="small">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('operlog.874509-15')">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
+                            <el-form-item :label="$t('operlog.874509-16')">{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('operlog.874509-17')">{{ form.operUrl }}</el-form-item>
+                            <el-form-item :label="$t('operlog.874509-18')">{{ form.requestMethod }}</el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item :label="$t('operlog.874509-19')">{{ form.method }}</el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item :label="$t('operlog.874509-20')">{{ form.operParam }}</el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item :label="$t('operlog.874509-21')">{{ form.jsonResult }}</el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item :label="$t('operlog.874509-22')">
+                                <div v-if="form.status === 0">{{ $t('operlog.874509-23') }}</div>
+                                <div v-else-if="form.status === 1">{{ $t('operlog.874509-24') }}</div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item :label="$t('operlog.874509-31')">{{ form.costTime }}ms</el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item :label="$t('operlog.874509-25')">{{ parseTime(form.operTime) }}</el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item :label="$t('operlog.874509-26')" v-if="form.status === 1">{{ form.errorMsg }}</el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="open = false">{{ $t('close') }}</el-button>
+                </div>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 
@@ -260,31 +272,29 @@ export default {
 };
 </script>
 
-</script>
-
 <style lang="scss" scoped>
 .table-header {
-  background-color: #f5f7fa !important;
-  color: #606266;
-  font-weight: 600;
-  text-align: center;
-}
-
-::v-deep .el-table {
-  th {
-    background-color: #f5f7fa;
+    background-color: #f5f7fa !important;
     color: #606266;
     font-weight: 600;
     text-align: center;
-  }
-  
-  td {
-    padding: 12px 0;
-  }
-  
-  .el-table__body tr:hover > td {
-    background-color: #f5f7fa !important;
-  }
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
 }
 
 .pagination-container {
@@ -295,7 +305,15 @@ export default {
 }
 
 ::v-deep .el-pagination {
-  padding: 0;
-  text-align: right;
+    padding: 0;
+    text-align: right;
+}
+.search-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px 18px 0 18px;
+    }
 }
 </style>
