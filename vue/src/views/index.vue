@@ -122,65 +122,82 @@
             </el-row>
         </el-card>
 
-        <el-card shadow="none" style="margin: 10px 10px 60px 10px">
+        <!-- h5手机显示页面 -->
+        <el-card shadow="hover" style="margin: 20px 10px 0px 10px" class="phone-card">
             <el-row :gutter="40">
-                <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" style="padding: 40px">
+                <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="padding: 10px">
                     <div style="padding: 30px; margin: 20px 0; font-size: 14px">
-                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 20px">{{ $t('home.platformName') }}</div>
-                            <div style="display: table; font-size: 14px; margin-bottom: 10px">
-                                <div style="display: table-cell; line-height: 22px"><b style="color: #67c23a; margin-right: 10px">{{ $t('home.licenseNotice') }}</b></div>
+                        <div style="margin-bottom: 20px; font-family: PingFangSC, PingFang SC; font-weight: 600; font-size: 35px; color: #303133; line-height: 49px; text-align: left; font-style: normal">
+                            {{ $t('views.index.394840-0') }}
+                        </div>
+                        <div style="display: table; font-size: 14px; margin-bottom: 10px">
+                            <div style="display: table-cell; line-height: 22px">
+                                <b style="margin-right: 10px; font-family: PingFangSC, PingFang SC; font-weight: 500; font-size: 13px; color: #67c23a; line-height: 18px; text-align: left; font-style: normal">
+                                    {{ $t('views.index.394840-1') }}
+                                </b>
                             </div>
-                            <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.openSource') }}：</div>
-                                <div style="display: table-cell; line-height: 22px">{{ $t('home.openSourceDesc') }}</div>
+                        </div>
+                        <div style="margin-bottom: 10px">
+                            <div style="width: 70px; font-weight: bold; display: table-cell; padding: 5px 0">
+                                {{ $t('views.index.394840-2') }}
                             </div>
-                            <div style="display: table">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.commercial') }}：</div>
-                                <div style="display: table-cell; line-height: 22px">
-                                    {{ $t('home.commercialDesc') }}
-                                    <br />
-                                    <el-link target="_blank" href="https://fastbee.cn/doc/pages/sponsor">{{ $t('home.viewDetails') }} >></el-link>
-                                </div>
+                            <div style="line-height: 22px">{{ $t('views.index.394840-3') }}</div>
+                        </div>
+                        <div style="margin: 10px 0">
+                            <div style="width: 70px; font-weight: bold; display: table-cell; padding: 5px 0">
+                                {{ $t('views.index.394840-4') }}
                             </div>
+                            <div style="line-height: 22px">
+                                {{ $t('views.index.394840-5') }}
+                                <br />
+                                <el-link target="_blank" href="https://fastbee.cn/doc/pages/sponsor">
+                                    {{ $t('views.index.394840-6') }}
+                                </el-link>
+                            </div>
+                        </div>
                     </div>
-                    <div style="padding: 30px; font-size: 14px">
-                        <div style="float: left; width: 230px">
-                            <el-image style="width: 210px" :src="require('@/assets/images/code.jpg')"></el-image>
+                    <div style="padding: 70px 30px 0 20px; font-size: 14px">
+                        <div style="float: left; width: 200px">
+                            <el-image style="width: 180px" :src="require('@/assets/images/code.jpg')"></el-image>
                         </div>
                         <div style="float: left">
-                            <div style="font-size: 18px; font-weight: bold; margin: 16px 0">{{ $t('home.wechatScan') }}</div>
-                            <div style="font-size: 14px; font-weight: bold; margin: 16px 0; color: #f56c6c">{{ $t('home.h5Demo') }}</div>
-                            <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.officialWebsite') }}</div>
-                                <div style="display: table-cell">
+                            <div class="mini-program">{{ $t('views.index.394840-7') }}</div>
+                            <div style="display: table; margin-bottom: 5px">
+                                <div class="web-site">{{ $t('views.index.394840-9') }}</div>
+                                <div class="other-site">
                                     <el-link target="_blank" href="https://fastbee.cn/">www.fastbee.cn</el-link>
                                 </div>
                             </div>
-                            <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.onlineDoc') }}</div>
-                                <div style="display: table-cell">
+                            <div style="display: table; margin-bottom: 5px">
+                                <div class="web-site">{{ $t('views.index.394840-10') }}</div>
+                                <div class="other-site">
                                     <el-link target="_blank" href="https://fastbee.cn/doc">www.fastbee.cn/doc</el-link>
                                 </div>
                             </div>
-                            <div style="display: table; margin-bottom: 10px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.contactAuthor') }}</div>
-                                <div style="display: table-cell">
-                                    <span>{{ $t('home.qq') }} 164770707</span>
+                            <div style="display: table; margin: 5px 0">
+                                <div class="web-site">{{ $t('views.index.394840-11') }}</div>
+                                <div class="other-site">
+                                    <span>164770707@qq.com</span>
                                 </div>
                             </div>
-                            <div style="display: table; margin-bottom: 15px">
-                                <div style="width: 70px; font-weight: bold; display: table-cell">{{ $t('home.sourceCode') }}</div>
-                                <div style="display: table-cell">
-                                    <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" type="danger">{{ $t('home.giteeSource') }}</el-link>
-                                    <el-link target="_blank" href="https://github.com/kerwincui/fastbee" style="margin-left: 20px">{{ $t('home.githubSource') }}</el-link>
+                            <div style="display: table; margin-bottom: 10px">
+                                <div class="web-site">{{ $t('views.index.394840-12') }}</div>
+                                <div class="other-site">
+                                    <el-link target="_blank" href="https://gitee.com/kerwincui/wumei-smart" style="font-size: 12px">
+                                        {{ $t('views.index.394840-13') }}
+                                    </el-link>
+                                    <el-link target="_blank" href="https://github.com/kerwincui/fastbee" style="margin-left: 20px; font-size: 12px">
+                                        {{ $t('views.index.394840-14') }}
+                                    </el-link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="padding: 40px">
+                <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="padding: 30px">
                     <div class="phone">
-                        <iframe src="https://fastbee.cn/h5" id="iframe" frameborder="0" scrolling="auto" height="100%" width="100%" class="phone-container"></iframe>
+                        <iframe class="phone-container" src="https://iot.fastbee.cn/h5" id="iframe" frameborder="0" scrolling="auto"></iframe>
+                        <div class="frame-remark">{{ $t('views.index.394840-8') }}</div>
                     </div>
                 </el-col>
             </el-row>
@@ -201,7 +218,7 @@
             </div>
         </el-dialog>
 
-        <div style="width: 100%; text-align: center; font-size: 14px; color: #666; line-height: 32px; margin-top: 150px">
+        <div style="width: 100%; text-align: center; font-size: 14px; color: #666; line-height: 32px; margin-top: 50px">
             <span>
                 Copyright © 2021-2022
                 <a href="https://fastbee.cn/" target="_blank">FastBee</a>
@@ -459,18 +476,18 @@ export default {
                         htmlStr += this.$t('home.deviceSerial') + ': ' + params.data.serialNumber + '<br />';
                         htmlStr += this.$t('home.deviceStatus') + ': ';
                         if (params.data.status == 1) {
-                            htmlStr += "<span style='color:#E6A23C'>" + this.$t('home.notActive') + "</span>" + '<br />';
+                            htmlStr += "<span style='color:#E6A23C'>" + this.$t('home.notActive') + '</span>' + '<br />';
                         } else if (params.data.status == 2) {
-                            htmlStr += "<span style='color:#F56C6C'>" + this.$t('home.disabled') + "</span>" + '<br />';
+                            htmlStr += "<span style='color:#F56C6C'>" + this.$t('home.disabled') + '</span>' + '<br />';
                         } else if (params.data.status == 3) {
-                            htmlStr += "<span style='color:#67C23A'>" + this.$t('home.online') + "</span>" + '<br />';
+                            htmlStr += "<span style='color:#67C23A'>" + this.$t('home.online') + '</span>' + '<br />';
                         } else if (params.data.status == 4) {
-                            htmlStr += "<span style='color:#909399'>" + this.$t('home.offline') + "</span>" + '<br />';
+                            htmlStr += "<span style='color:#909399'>" + this.$t('home.offline') + '</span>' + '<br />';
                         }
                         if (params.data.isShadow == 1) {
-                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#67C23A'>" + this.$t('home.enabled') + "</span>" + '<br />';
+                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#67C23A'>" + this.$t('home.enabled') + '</span>' + '<br />';
                         } else {
-                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#909399'>" + this.$t('home.notEnabled') + "</span>" + '<br />';
+                            htmlStr += this.$t('home.deviceShadow') + ': ' + "<span style='color:#909399'>" + this.$t('home.notEnabled') + '</span>' + '<br />';
                         }
                         htmlStr += this.$t('home.productName') + ': ' + params.data.productName + '<br />';
                         htmlStr += this.$t('home.firmwareVersion') + ': Version ' + params.data.firmwareVersion + '<br />';
@@ -825,21 +842,93 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+//小程序，h5
+.phone-card {
+    border-radius: 5px;
+    // box-shadow: 0 4px 20px $shadow-color;
+    // transition: transform 0.3s, box-shadow 0.3s;
+
+    .mini-program {
+        margin: 8px 0px 35px;
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 600;
+        font-size: 14px;
+        color: #303133;
+        line-height: 20px;
+        text-align: left;
+        font-style: normal;
+    }
+    .web-site {
+        width: 70px;
+        font-weight: bold;
+        display: table-cell;
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 500;
+        font-size: 12px;
+        color: #606266;
+        line-height: 24px;
+        text-align: left;
+        font-style: normal;
+    }
+    .other-site {
+        display: table-cell;
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 400;
+        font-size: 12px;
+        color: #606266;
+        line-height: 24px;
+        text-align: left;
+        font-style: normal;
+    }
+}
 .phone {
-    height: 729px;
-    width: 370px;
+    height: 650px;
+    width: 320px;
+    margin-left: 100px;
     background-image: url('../assets/images/phone.png');
     background-size: cover;
-    margin: 0 auto;
+
+    .frame-remark {
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 400;
+        font-size: 12px;
+        color: #909399;
+        line-height: 17px;
+        text-align: center;
+        font-style: normal;
+        margin: 20px auto;
+    }
+    @media screen and (max-width: 968px) {
+        height: 530px;
+        width: 260px;
+        background-image: url('../assets/images/phone.png');
+        background-size: cover;
+    }
 }
 
 .phone-container {
-    height: 618px;
-    width: 343px;
+    height: 635px;
+    width: 291px;
     position: relative;
-    top: 46px;
-    left: 12px;
+    border-radius: 35px;
+    top: 8px;
+    left: 15px;
     background-color: #fff;
+    padding-bottom: 0%;
+
+    @media screen and (max-width: 968px) {
+        height: 519px;
+        width: 240px;
+        position: relative;
+        border-radius: 30px;
+        top: 5px;
+        bottom: 10px;
+        left: 10px;
+        background-color: #fff;
+        padding-bottom: 0%;
+    }
 }
 
 .content {

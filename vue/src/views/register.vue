@@ -595,4 +595,65 @@ export default {
         }
     }
 }
+// 响应式设计：当屏幕小于768px时，只显示右侧登录表单
+@media (max-width: 767.98px) {
+    .login-right {
+        width: 100% !important;
+    }
+}
+@media screen and (min-width: 1920px) {
+    .register-wrap .box-wrap {
+        width: 811px;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .register-wrap .box-wrap {
+        width: 498px;
+
+        .form-box {
+            width: 246px;
+        }
+    }
+
+    .register-wrap .logo-wrap {
+        top: 66px;
+        left: 66px;
+
+        .icon {
+            width: 34px;
+            height: 38px;
+        }
+
+        .text {
+            font-size: 29px;
+            margin-left: 10px;
+            color: #486ff2;
+        }
+    }
+
+    .register-wrap .introduce-text {
+        font-size: 11px;
+        top: 120px;
+        left: 66px;
+    }
+}
+
+@media screen and (max-width: 968px) {
+    .register-wrap .img-wrap {
+        display: none;
+    }
+
+    .register-wrap .logo-wrap {
+        display: none;
+    }
+
+    .register-wrap .introduce-text {
+        display: none;
+    }
+
+    .register-wrap .box-wrap {
+        width: 100%;
+    }
+}
 </style>
