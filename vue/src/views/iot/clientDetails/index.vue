@@ -11,18 +11,18 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 <el-tag type="danger" style="margin-left:15px;">{{ $t('system.clientDetails.293742-0') }}</el-tag>
             </el-form-item>
             <el-form-item style="float:right;">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">{{ $t('add') }}</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">{{ $t('add') }}</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom: 100px">
-        <el-table v-loading="loading" :data="clientDetailsList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="clientDetailsList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange">
             <el-table-column :label="$t('speaker.clientDetails.index.893021-0')" align="center" prop="clientId" />
             <el-table-column :label="$t('system.clientDetails.293742-1')" align="center" prop="resourceIds" />
             <el-table-column :label="$t('speaker.clientDetails.index.893021-12')" align="center" prop="scope" />
@@ -49,13 +49,15 @@
 
             <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:clientDetails:edit']">{{ $t('update') }}</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:clientDetails:remove']" disabled>{{ $t('del') }}</el-button>
+                    <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:clientDetails:edit']">{{ $t('update') }}</el-button>
+                    <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:clientDetails:remove']" disabled>{{ $t('del') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
+        <div class="pagination-container">
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        </div>
 
         <!-- 添加或修改对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
@@ -290,3 +292,43 @@ export default {
     },
 };
 </script>
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

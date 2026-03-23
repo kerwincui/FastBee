@@ -8,11 +8,11 @@
                 <el-input v-model="queryParams.userName" :placeholder="$t('online.093480-2')" clearable @keyup.enter.native="handleQuery" />
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
         </el-form>
-        <el-table v-loading="loading" :data="list.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%">
+        <el-table v-loading="loading" :data="list.slice((pageNum - 1) * pageSize, pageNum * pageSize)" style="width: 100%" :border="false">
             <el-table-column :label="$t('online.093480-3')" type="index" align="center">
                 <template slot-scope="scope">
                     <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
@@ -32,12 +32,14 @@
             </el-table-column>
             <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">{{ $t('online.093480-12') }}</el-button>
+                    <el-button size="small" type="text" icon="el-icon-delete" @click="handleForceLogout(scope.row)" v-hasPermi="['monitor:online:forceLogout']">{{ $t('online.093480-12') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
-        <pagination v-show="total > 0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
+        <div class="pagination-container">
+            <pagination v-show="total > 0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
+        </div>
     </div>
 </template>
 
@@ -102,3 +104,41 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+</style>

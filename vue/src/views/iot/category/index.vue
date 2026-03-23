@@ -1,24 +1,22 @@
 <template>
-    <div style="padding:6px;">
-        <el-card v-show="showSearch" style="margin-bottom:5px;">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom:-20px;">
+    <div style="padding: 6px">
+        <el-card v-show="showSearch" style="margin-bottom: 5px">
+            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('product.category.142342-0')" prop="categoryName">
-                    <el-input v-model="queryParams.categoryName" :placeholder="$t('product.index.091251-3')" clearable size="small"
-                        @keyup.enter.native="handleQuery" />
+                    <el-input v-model="queryParams.categoryName" :placeholder="$t('product.index.091251-3')" clearable size="small" @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
-                <el-form-item style="float:right;">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                        v-hasPermi="['iot:category:add']">{{ $t('add') }}</el-button>
+                <el-form-item style="float: right">
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:category:add']">{{ $t('add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom:100px;">
-            <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange" border>
+        <el-card style="padding-bottom: 100px">
+            <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange" :border="false" header-cell-class-name="table-header">
                 <el-table-column :label="$t('product.category.142342-0')" align="center" prop="categoryName" />
                 <el-table-column :label="$t('remark')" align="left" header-align="center" prop="remark" min-width="150" />
                 <el-table-column :label="$t('template.index.891112-12')" align="center" prop="isSys">
@@ -34,19 +32,28 @@
                 </el-table-column>
                 <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width" width="150">
                     <template slot-scope="scope">
-                        <el-button size="small" type="text" style="padding:5px;" icon="el-icon-edit"
-                            @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:query']"
-                            v-if="scope.row.isSys == '0' ? true : !isTenant">{{ $t('update') }}</el-button>
-                        <el-button size="small" type="text" style="padding:5px;" icon="el-icon-delete"
-                            @click="handleDelete(scope.row)" v-hasPermi="['iot:category:remove']"
-                            v-if="scope.row.isSys == '0' ? true : !isTenant">{{ $t('del') }}</el-button>
-                        <span style="font-size:10px;color:#999;" v-if="scope.row.isSys == '1' && isTenant">{{ $t('template.index.891112-21') }}</span>
+                        <el-button size="small" type="text" style="padding: 5px" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['iot:category:query']" v-if="scope.row.isSys == '0' ? true : !isTenant">
+                            {{ $t('update') }}
+                        </el-button>
+                        <el-button
+                            size="small"
+                            type="text"
+                            style="padding: 5px"
+                            icon="el-icon-delete"
+                            @click="handleDelete(scope.row)"
+                            v-hasPermi="['iot:category:remove']"
+                            v-if="scope.row.isSys == '0' ? true : !isTenant"
+                        >
+                            {{ $t('del') }}
+                        </el-button>
+                        <span style="font-size: 10px; color: #999" v-if="scope.row.isSys == '1' && isTenant">{{ $t('template.index.891112-21') }}</span>
                     </template>
                 </el-table-column>
             </el-table>
 
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
-                :limit.sync="queryParams.pageSize" @pagination="getList" />
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            </div>
 
             <!-- 添加或修改产品分类对话框 -->
             <el-dialog :title="$t('product.product-edit.473153-3')" :visible.sync="open" width="500px" append-to-body>
@@ -55,38 +62,28 @@
                         <el-input v-model="form.categoryName" :placeholder="$t('product.index.091251-3')" />
                     </el-form-item>
                     <el-form-item :label="$t('product.category.142342-1')" prop="orderNum">
-                        <el-input-number controls-position="right" v-model="form.orderNum" 
-                            :placeholder="$t('product.category.142342-2')" style="width:100%" />
+                        <el-input-number controls-position="right" v-model="form.orderNum" :placeholder="$t('product.category.142342-2')" style="width: 100%" />
                     </el-form-item>
                     <el-form-item :label="$t('remark')" prop="remark">
                         <el-input v-model="form.remark" type="textarea" :placeholder="$t('product.category.142342-3')" />
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:category:edit']"
-                        v-show="form.categoryId">{{ $t('update') }}</el-button>
-                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:category:add']"
-                        v-show="!form.categoryId">{{ $t('add') }}</el-button>
+                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:category:edit']" v-show="form.categoryId">{{ $t('update') }}</el-button>
+                    <el-button type="primary" @click="submitForm" v-hasPermi="['iot:category:add']" v-show="!form.categoryId">{{ $t('add') }}</el-button>
                     <el-button @click="cancel">{{ $t('cancel') }}</el-button>
                 </div>
             </el-dialog>
-
         </el-card>
     </div>
 </template>
 
 <script>
-import {
-    listCategory,
-    getCategory,
-    delCategory,
-    addCategory,
-    updateCategory
-} from "@/api/iot/category";
+import { listCategory, getCategory, delCategory, addCategory, updateCategory } from '@/api/iot/category';
 
 export default {
-    name: "Category",
-    dicts: ["iot_yes_no"],
+    name: 'Category',
+    dicts: ['iot_yes_no'],
     data() {
         return {
             // 是否为租户
@@ -106,7 +103,7 @@ export default {
             // 产品分类表格数据
             categoryList: [],
             // 弹出层标题
-            title: "",
+            title: '',
             // 是否显示弹出层
             open: false,
             // 查询参数
@@ -120,40 +117,49 @@ export default {
             form: {},
             // 表单校验
             rules: {
-                categoryName: [{
-                    required: true,
-                    message: this.$t('product.category.142342-4'),
-                    trigger: "blur"
-                }, {
-                    min: 1,
-                    max: 64,
-                    message: this.$t('product.category.142342-12'),
-                },
+                categoryName: [
+                    {
+                        required: true,
+                        message: this.$t('product.category.142342-4'),
+                        trigger: 'blur',
+                    },
+                    {
+                        min: 1,
+                        max: 64,
+                        message: this.$t('product.category.142342-12'),
+                    },
                 ],
-                orderNum: [{
-                    required: true,
-                    message: this.$t('product.category.142342-13'),
-                    trigger: 'blur',
-                }, {
-                    type: 'number',
-                    min: -2147483648,
-                    max: 2147483647,
-                    message: this.$t('product.category.142342-14'),
-                    trigger: 'blur',
-                }],
-                remark: [{
-                    required: false,
-                    min: 0,
-                    max: 500,
-                    message: this.$t('product.category.142342-15'),
-                    trigger: 'blur',
-                }],
-                isSys: [{
-                    required: true,
-                    message: this.$t('product.category.142342-5'),
-                    trigger: "blur"
-                }],
-            }
+                orderNum: [
+                    {
+                        required: true,
+                        message: this.$t('product.category.142342-13'),
+                        trigger: 'blur',
+                    },
+                    {
+                        type: 'number',
+                        min: -2147483648,
+                        max: 2147483647,
+                        message: this.$t('product.category.142342-14'),
+                        trigger: 'blur',
+                    },
+                ],
+                remark: [
+                    {
+                        required: false,
+                        min: 0,
+                        max: 500,
+                        message: this.$t('product.category.142342-15'),
+                        trigger: 'blur',
+                    },
+                ],
+                isSys: [
+                    {
+                        required: true,
+                        message: this.$t('product.category.142342-5'),
+                        trigger: 'blur',
+                    },
+                ],
+            },
         };
     },
     created() {
@@ -162,14 +168,14 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user.roles.indexOf("tenant") !== -1) {
-                this.isTenant = true
+            if (this.$store.state.user.roles.indexOf('tenant') !== -1) {
+                this.isTenant = true;
             }
         },
         /** 查询产品分类列表 */
         getList() {
             this.loading = true;
-            listCategory(this.queryParams).then(response => {
+            listCategory(this.queryParams).then((response) => {
                 this.categoryList = response.rows;
                 this.total = response.total;
                 this.loading = false;
@@ -195,9 +201,9 @@ export default {
                 createTime: null,
                 updateBy: null,
                 updateTime: null,
-                remark: null
+                remark: null,
             };
-            this.resetForm("form");
+            this.resetForm('form');
         },
         /** 搜索按钮操作 */
         handleQuery() {
@@ -206,14 +212,14 @@ export default {
         },
         /** 重置按钮操作 */
         resetQuery() {
-            this.resetForm("queryForm");
+            this.resetForm('queryForm');
             this.handleQuery();
         },
         // 多选框选中数据
         handleSelectionChange(selection) {
-            this.ids = selection.map(item => item.categoryId)
-            this.single = selection.length !== 1
-            this.multiple = !selection.length
+            this.ids = selection.map((item) => item.categoryId);
+            this.single = selection.length !== 1;
+            this.multiple = !selection.length;
         },
         /** 新增按钮操作 */
         handleAdd() {
@@ -224,8 +230,8 @@ export default {
         /** 修改按钮操作 */
         handleUpdate(row) {
             this.reset();
-            const categoryId = row.categoryId || this.ids
-            getCategory(categoryId).then(response => {
+            const categoryId = row.categoryId || this.ids;
+            getCategory(categoryId).then((response) => {
                 this.form = response.data;
                 this.open = true;
                 this.title = this.$t('product.category.142342-7');
@@ -233,16 +239,16 @@ export default {
         },
         /** 提交按钮 */
         submitForm() {
-            this.$refs["form"].validate(valid => {
+            this.$refs['form'].validate((valid) => {
                 if (valid) {
                     if (this.form.categoryId != null) {
-                        updateCategory(this.form).then(response => {
+                        updateCategory(this.form).then((response) => {
                             this.$modal.msgSuccess(this.$t('updateSuccess'));
                             this.open = false;
                             this.getList();
                         });
                     } else {
-                        addCategory(this.form).then(response => {
+                        addCategory(this.form).then((response) => {
                             this.$modal.msgSuccess(this.$t('addSuccess'));
                             this.open = false;
                             this.getList();
@@ -254,22 +260,68 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const categoryIds = row.categoryId || this.ids;
-            let msg = "";
-            this.$modal.confirm(this.$t('product.category.142342-8', [categoryIds])).then(function () {
-                return delCategory(categoryIds).then(response => {
-                    msg = response.msg;
-                });
-            }).then(() => {
-                this.getList();
-                this.$modal.msgSuccess(msg);
-            }).catch(() => { });
+            let msg = '';
+            this.$modal
+                .confirm(this.$t('product.category.142342-8', [categoryIds]))
+                .then(function () {
+                    return delCategory(categoryIds).then((response) => {
+                        msg = response.msg;
+                    });
+                })
+                .then(() => {
+                    this.getList();
+                    this.$modal.msgSuccess(msg);
+                })
+                .catch(() => {});
         },
         /** 导出按钮操作 */
         handleExport() {
-            this.download('iot/category/export', {
-                ...this.queryParams
-            }, `category_${new Date().getTime()}.xlsx`)
-        }
-    }
+            this.download(
+                'iot/category/export',
+                {
+                    ...this.queryParams,
+                },
+                `category_${new Date().getTime()}.xlsx`
+            );
+        },
+    },
 };
 </script>
+
+<style lang="scss" scoped>
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+</style>

@@ -11,17 +11,17 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:template:add']">{{ $t('add') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:template:add']">{{ $t('add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
-            <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" border>
+            <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" :border="false">
                 <el-table-column :label="$t('template.index.891112-22')" align="center" prop="templateName" />
                 <el-table-column :label="$t('template.index.891112-7')" align="center" prop="identifier" />
                 <el-table-column :label="$t('template.index.891112-8')" align="center" prop="isMonitor" width="75">
@@ -81,7 +81,9 @@
                 </el-table-column>
             </el-table>
 
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            </div>
 
             <!-- 添加或修改通用物模型对话框 -->
             <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body :close-on-click-modal="false">
@@ -271,9 +273,9 @@
                                 <el-row style="padding: 0 10px 5px" v-for="(item, index) in form.specs.params" :key="index">
                                     <div style="margin-top: 5px" v-if="index == 0"></div>
                                     <el-col :span="18">
-                                        <el-input readonly v-model="item.name" size="mini" :placeholder="$t('template.index.891112-76')" style="margin-top: 3px">
+                                        <el-input readonly v-model="item.name" size="small" :placeholder="$t('template.index.891112-76')" style="margin-top: 3px">
                                             <template slot="prepend">
-                                                <el-tag size="mini" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{ item.order }}</el-tag>
+                                                <el-tag size="small" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{ item.order }}</el-tag>
                                                 {{ form.identifier + '_' + item.id }}
                                             </template>
                                             <el-button slot="append" @click="editParameter(item, index)" size="small">{{ $t('edit') }}</el-button>
@@ -296,9 +298,9 @@
                                 <el-row style="padding: 0 10px 5px" v-for="(item, index) in form.specs.params" :key="index">
                                     <div style="margin-top: 5px" v-if="index == 0"></div>
                                     <el-col :span="18">
-                                        <el-input readonly v-model="item.name" size="mini" :placeholder="$t('template.index.891112-76')" style="margin-top: 3px">
+                                        <el-input readonly v-model="item.name" size="small" :placeholder="$t('template.index.891112-76')" style="margin-top: 3px">
                                             <template slot="prepend">
-                                                <el-tag size="mini" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{ item.order }}</el-tag>
+                                                <el-tag size="small" effect="dark" style="margin-left: -21px; height: 26px; line-height: 26px">{{ item.order }}</el-tag>
                                                 {{ form.identifier + '_' + item.id }}
                                             </template>
                                             <el-button slot="append" @click="editParameter(item, index)">{{ $t('edit') }}</el-button>
@@ -899,3 +901,41 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+</style>

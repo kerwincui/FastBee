@@ -14,11 +14,11 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
             <el-form-item style="float:right;">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditProduct(0)" v-hasPermi="['iot:product:add']">{{ $t('add') }}</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleEditProduct(0)" v-hasPermi="['iot:product:add']">{{ $t('add') }}</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -30,15 +30,15 @@
                         <el-col :span="20" style="text-align:left;">
                             <el-link type="" :underline="false" @click="handleEditProduct(item)" style="font-weight:bold;font-size:16px;line-height:32px;white-space:nowrap;">
                                 <svg-icon icon-class="product" /> {{item.productName}}
-                                <el-tag type="info" size="mini" style="margin-left:5px;font-weight:200" v-if="item.isSys==1">{{ $t('product.index.091251-47') }}</el-tag>
+                                <el-tag type="info" size="small" style="margin-left:5px;font-weight:200" v-if="item.isSys==1">{{ $t('product.index.091251-47') }}</el-tag>
                             </el-link>
                         </el-col>
                         <el-col :span="4">
                             <el-tooltip class="item" effect="dark" :content="$t('product.index.091251-12')" placement="top-start" v-if="item.status==2">
-                                <el-button type="success" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,1,item.deviceType)">{{ $t('product.index.091251-13') }}</el-button>
+                                <el-button type="success" size="small" style="padding:5px;" @click="changeProductStatus(item.productId,1,item.deviceType)">{{ $t('product.index.091251-13') }}</el-button>
                             </el-tooltip>
                             <el-tooltip class="item" effect="dark" :content="$t('product.index.091251-14')" placement="top-start" v-if="item.status==1">
-                                <el-button type="info" size="mini" style="padding:5px;" @click="changeProductStatus(item.productId,2,item.deviceType)">{{ $t('product.index.091251-15') }}</el-button>
+                                <el-button type="info" size="small" style="padding:5px;" @click="changeProductStatus(item.productId,2,item.deviceType)">{{ $t('product.index.091251-15') }}</el-button>
                             </el-tooltip>
                         </el-col>
                     </el-row>
@@ -55,8 +55,8 @@
                                     <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" />
                                 </el-descriptions-item>
                                 <el-descriptions-item :label="$t('product.index.091251-19')">
-                                    <el-tag type="success" size="mini" v-if="item.isAuthorize==1">{{ $t('product.index.091251-20') }}</el-tag>
-                                    <el-tag type="info" size="mini" v-else>{{ $t('product.index.091251-21') }}</el-tag>
+                                    <el-tag type="success" size="small" v-if="item.isAuthorize==1">{{ $t('product.index.091251-20') }}</el-tag>
+                                    <el-tag type="info" size="small" v-else>{{ $t('product.index.091251-21') }}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                         </el-col>
@@ -70,17 +70,19 @@
                         </el-col>
                     </el-row>
                     <el-button-group style="margin-top:15px;height:28px;">
-                        <el-button size="mini" type="primary" icon="el-icon-view" @click="handleEditProduct(item)" v-hasPermi="['iot:product:query']">{{ $t('product.index.091251-48') }}</el-button>
-                        <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">{{ $t('product.index.091251-23') }}</el-button>
-                        <el-button size="mini" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">{{ $t('product.index.091251-19') }}</el-button>
-                        <el-button size="mini" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">{{ $t('product.index.091251-24') }}</el-button>
+                        <el-button size="small" type="primary" icon="el-icon-view" @click="handleEditProduct(item)" v-hasPermi="['iot:product:query']">{{ $t('product.index.091251-48') }}</el-button>
+                        <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:product:remove']" v-if="item.status==1">{{ $t('product.index.091251-23') }}</el-button>
+                        <el-button size="small" type="success" icon="el-icon-s-check" @click="handleDeviceAuthorize(item)" v-hasPermi="['iot:product:edit']" v-if="item.status==2" :disabled="item.isAuthorize!=1">{{ $t('product.index.091251-19') }}</el-button>
+                        <el-button size="small" type="warning" icon="el-icon-search" @click="handleViewDevice(item.productId)" v-hasPermi="['iot:device:query']">{{ $t('product.index.091251-24') }}</el-button>
                     </el-button-group>
                 </el-card>
             </el-col>
         </el-row>
 
         <el-empty :description="$t('product.index.091251-25')" v-if="total==0"></el-empty>
+        <div class="pagination-container">
         <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+        </div>
 
         <!-- 下载SDK -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>

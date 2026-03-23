@@ -1,106 +1,121 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
-            <el-form-item :label="$t('system.dept.780956-0')" prop="deptName">
-                <el-input v-model="queryParams.deptName" :placeholder="$t('system.dept.780956-1')" clearable @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('system.dept.780956-2')" prop="status">
-                <el-select v-model="queryParams.status" :placeholder="$t('system.dept.780956-2')" clearable>
-                    <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
-                </el-select>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
-            </el-form-item>
-        </el-form>
-
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:dept:add']">{{ $t('add') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="info" plain icon="el-icon-sort" size="mini" @click="toggleExpandAll">{{ $t('expand') }}/{{ $t('collapse') }}</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
-        <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId" :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-            <el-table-column prop="deptName" :label="$t('system.dept.780956-0')" width="260"></el-table-column>
-            <el-table-column prop="orderNum" :label="$t('system.dept.780956-2')" width="200"></el-table-column>
-            <el-table-column prop="status" :label="$t('system.dept.780956-2')" width="100">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="200">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.createTime) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
-                <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']">{{ $t('update') }}</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']">{{ $t('add') }}</el-button>
-                    <el-button v-if="scope.row.parentId != 0" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']">{{ $t('del') }}</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-
-        <!-- 添加或修改部门对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-                <el-row>
-                    <el-col :span="24" v-if="form.parentId !== 0">
-                        <el-form-item :label="$t('system.dept.780956-10')" prop="parentId">
-                            <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" :placeholder="$t('system.dept.780956-11')" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('system.dept.780956-0')" prop="deptName">
-                            <el-input v-model="form.deptName" :placeholder="$t('system.dept.780956-1')" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('system.dept.780956-2')" prop="orderNum">
-                            <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('system.dept.780956-4')" prop="leader">
-                            <el-input v-model="form.leader" :placeholder="$t('system.dept.780956-13')" maxlength="20" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('system.dept.780956-21')" prop="phone">
-                            <el-input v-model="form.phone" :placeholder="$t('system.dept.780956-22')" maxlength="11" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('user.index.098976-19')" prop="email">
-                            <el-input v-model="form.email" :placeholder="$t('user.index.098976-20')" maxlength="50" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item :label="$t('system.dept.780956-2')">
-                            <el-radio-group v-model="form.status">
-                                <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+        <!-- 搜索栏 -->
+        <el-card shadow="never" class="search-card">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+                <el-form-item :label="$t('system.dept.780956-0')" prop="deptName">
+                    <el-input v-model="queryParams.deptName" :placeholder="$t('system.dept.780956-1')" clearable @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item :label="$t('system.dept.780956-2')" prop="status">
+                    <el-select v-model="queryParams.status" :placeholder="$t('system.dept.780956-2')" clearable>
+                        <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
-                <el-button @click="cancel">{{ $t('cancel') }}</el-button>
-            </div>
-        </el-dialog>
+        </el-card>
+
+        <!-- 操作按钮和数据表格 -->
+        <el-card shadow="never" class="table-card">
+            <el-row :gutter="10" style="margin-bottom: 15px">
+                <el-col :span="1.5">
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['system:dept:add']">{{ $t('add') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="info" plain icon="el-icon-sort" size="small" @click="toggleExpandAll">{{ $t('expand') }}/{{ $t('collapse') }}</el-button>
+                </el-col>
+                <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+            </el-row>
+
+            <el-table
+                v-if="refreshTable"
+                v-loading="loading"
+                :data="deptList"
+                row-key="deptId"
+                :default-expand-all="isExpandAll"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                header-cell-class-name="table-header"
+                :border="false"
+            >
+                <el-table-column prop="deptName" :label="$t('system.dept.780956-0')" width="260"></el-table-column>
+                <el-table-column prop="orderNum" :label="$t('system.dept.780956-2')" width="200"></el-table-column>
+                <el-table-column prop="status" :label="$t('system.dept.780956-2')" width="100">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="200">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.createTime) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']">{{ $t('update') }}</el-button>
+                        <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']">{{ $t('add') }}</el-button>
+                        <el-button v-if="scope.row.parentId != 0" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']">{{ $t('del') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <!-- 添加或修改部门对话框 -->
+            <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+                <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                    <el-row>
+                        <el-col :span="24" v-if="form.parentId !== 0">
+                            <el-form-item :label="$t('system.dept.780956-10')" prop="parentId">
+                                <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" :placeholder="$t('system.dept.780956-11')" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('system.dept.780956-0')" prop="deptName">
+                                <el-input v-model="form.deptName" :placeholder="$t('system.dept.780956-1')" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('system.dept.780956-2')" prop="orderNum">
+                                <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('system.dept.780956-4')" prop="leader">
+                                <el-input v-model="form.leader" :placeholder="$t('system.dept.780956-13')" maxlength="20" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('system.dept.780956-21')" prop="phone">
+                                <el-input v-model="form.phone" :placeholder="$t('system.dept.780956-22')" maxlength="11" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('user.index.098976-19')" prop="email">
+                                <el-input v-model="form.email" :placeholder="$t('user.index.098976-20')" maxlength="50" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item :label="$t('system.dept.780956-2')">
+                                <el-radio-group v-model="form.status">
+                                    <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
+                    <el-button @click="cancel">{{ $t('cancel') }}</el-button>
+                </div>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 
@@ -283,3 +298,103 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.search-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px 18px 0 18px;
+    }
+}
+
+.table-card {
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px;
+    }
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+
+::v-deep .el-pagination {
+    padding: 20px 0 0 0;
+    text-align: right;
+}
+
+::v-deep .el-button--mini {
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+::v-deep .el-input__inner,
+::v-deep .el-select__input {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+}
+
+::v-deep .el-form-item {
+    margin-bottom: 18px;
+}
+</style>

@@ -3,106 +3,116 @@
         <el-row :gutter="20">
             <!--部门数据-->
             <el-col :span="4" :xs="24">
-                <div class="head-container">
-                    <el-input v-model="deptName" :placeholder="$t('user.index.098976-0')" clearable size="small" prefix-icon="el-icon-search" style="margin-bottom: 20px" />
-                </div>
-                <div class="head-container">
-                    <el-tree
-                        :data="deptOptions"
-                        :props="defaultProps"
-                        :expand-on-click-node="false"
-                        :filter-node-method="filterNode"
-                        ref="tree"
-                        node-key="id"
-                        default-expand-all
-                        highlight-current
-                        @node-click="handleNodeClick"
-                    />
-                </div>
+                <el-card shadow="never" class="dept-card">
+                    <div class="head-container">
+                        <el-input v-model="deptName" :placeholder="$t('user.index.098976-0')" clearable size="small" prefix-icon="el-icon-search" style="margin-bottom: 20px" />
+                    </div>
+                    <div class="head-container">
+                        <el-tree
+                            :data="deptOptions"
+                            :props="defaultProps"
+                            :expand-on-click-node="false"
+                            :filter-node-method="filterNode"
+                            ref="tree"
+                            node-key="id"
+                            default-expand-all
+                            highlight-current
+                            @node-click="handleNodeClick"
+                        />
+                    </div>
+                </el-card>
             </el-col>
             <!--用户数据-->
             <el-col :span="20" :xs="24">
-                <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-                    <el-form-item :label="$t('user.index.098976-1')" prop="userName">
-                        <el-input v-model="queryParams.userName" :placeholder="$t('user.index.098976-2')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-                    </el-form-item>
-                    <el-form-item :label="$t('user.index.098976-3')" prop="phonenumber">
-                        <el-input v-model="queryParams.phonenumber" :placeholder="$t('user.index.098976-4')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-                    </el-form-item>
-                    <el-form-item :label="$t('user.index.098976-5')" prop="status">
-                        <el-select v-model="queryParams.status" :placeholder="$t('user.index.098976-6')" clearable style="width: 240px">
-                            <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item :label="$t('creatTime')">
-                        <el-date-picker
-                            v-model="dateRange"
-                            style="width: 240px"
-                            value-format="yyyy-MM-dd"
-                            type="daterange"
-                            range-separator="-"
-                            :start-placeholder="$t('system.dict.index.880996-3')"
-                            :end-placeholder="$t('system.dict.index.880996-4')"
-                        ></el-date-picker>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
-                    </el-form-item>
-                </el-form>
+                <!-- 搜索栏 -->
+                <el-card shadow="never" class="search-card">
+                    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+                        <el-form-item :label="$t('user.index.098976-1')" prop="userName">
+                            <el-input v-model="queryParams.userName" :placeholder="$t('user.index.098976-2')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
+                        </el-form-item>
+                        <el-form-item :label="$t('user.index.098976-3')" prop="phonenumber">
+                            <el-input v-model="queryParams.phonenumber" :placeholder="$t('user.index.098976-4')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
+                        </el-form-item>
+                        <el-form-item :label="$t('user.index.098976-5')" prop="status">
+                            <el-select v-model="queryParams.status" :placeholder="$t('user.index.098976-6')" clearable style="width: 240px">
+                                <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item :label="$t('creatTime')">
+                            <el-date-picker
+                                v-model="dateRange"
+                                style="width: 240px"
+                                value-format="yyyy-MM-dd"
+                                type="daterange"
+                                range-separator="-"
+                                :start-placeholder="$t('system.dict.index.880996-3')"
+                                :end-placeholder="$t('system.dict.index.880996-4')"
+                            ></el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                            <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-card>
 
-                <el-row :gutter="10" class="mb8">
-                    <el-col :span="1.5">
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:user:add']">{{ $t('add') }}</el-button>
-                    </el-col>
-                    <el-col :span="1.5">
-                        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">{{ $t('update') }}</el-button>
-                    </el-col>
-                    <el-col :span="1.5">
-                        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">{{ $t('del') }}</el-button>
-                    </el-col>
-                    <el-col :span="1.5">
-                        <el-button type="info" plain icon="el-icon-upload2" size="mini" @click="handleImport" v-hasPermi="['system:user:import']">{{ $t('import') }}</el-button>
-                    </el-col>
-                    <el-col :span="1.5">
-                        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:user:export']">{{ $t('export') }}</el-button>
-                    </el-col>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
-                </el-row>
+                <!-- 操作按钮和数据表格 -->
+                <el-card shadow="never" class="table-card">
+                    <el-row :gutter="10" style="margin-bottom: 15px">
+                        <el-col :span="1.5">
+                            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['system:user:add']">{{ $t('add') }}</el-button>
+                        </el-col>
+                        <el-col :span="1.5">
+                            <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['system:user:edit']">{{ $t('update') }}</el-button>
+                        </el-col>
+                        <el-col :span="1.5">
+                            <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:user:remove']">{{ $t('del') }}</el-button>
+                        </el-col>
+                        <el-col :span="1.5">
+                            <el-button type="info" plain icon="el-icon-upload2" size="small" @click="handleImport" v-hasPermi="['system:user:import']">{{ $t('import') }}</el-button>
+                        </el-col>
+                        <el-col :span="1.5">
+                            <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['system:user:export']">{{ $t('export') }}</el-button>
+                        </el-col>
+                        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+                    </el-row>
 
-                <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="50" align="center" />
-                    <el-table-column :label="$t('user.index.098976-30')" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
-                    <el-table-column :label="$t('user.index.098976-1')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-                    <el-table-column :label="$t('user.index.098976-11')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-                    <el-table-column :label="$t('user.index.098976-29')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-                    <el-table-column :label="$t('user.index.098976-13')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
-                    <el-table-column :label="$t('user.index.098976-5')" align="center" key="status" v-if="columns[5].visible">
-                        <template slot-scope="scope">
-                            <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :label="$t('creatTime')" align="center" prop="createTime" v-if="columns[6].visible" width="160">
-                        <template slot-scope="scope">
-                            <span>{{ parseTime(scope.row.createTime) }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :label="$t('opation')" align="center" width="160" class-name="small-padding fixed-width">
-                        <template slot-scope="scope" v-if="scope.row.userId !== 1">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']">{{ $t('update') }}</el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']">{{ $t('del') }}</el-button>
-                            <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)" v-hasPermi="['system:user:resetPwd', 'system:user:edit']">
-                                <el-button size="mini" type="text" icon="el-icon-d-arrow-right">{{ $t('user.index.098976-14') }}</el-button>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item command="handleResetPwd" icon="el-icon-key" v-hasPermi="['system:user:resetPwd']">{{ $t('user.index.098976-15') }}</el-dropdown-item>
-                                    <el-dropdown-item command="handleAuthRole" icon="el-icon-circle-check" v-hasPermi="['system:user:edit']">{{ $t('user.index.098976-23') }}</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                    <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange" header-cell-class-name="table-header" :border="false">
+                        <el-table-column type="selection" width="50" align="center" />
+                        <el-table-column :label="$t('user.index.098976-30')" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+                        <el-table-column :label="$t('user.index.098976-1')" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+                        <el-table-column :label="$t('user.index.098976-11')" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+                        <el-table-column :label="$t('user.index.098976-29')" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+                        <el-table-column :label="$t('user.index.098976-13')" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+                        <el-table-column :label="$t('user.index.098976-5')" align="center" key="status" v-if="columns[5].visible">
+                            <template slot-scope="scope">
+                                <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('creatTime')" align="center" prop="createTime" v-if="columns[6].visible" width="160">
+                            <template slot-scope="scope">
+                                <span>{{ parseTime(scope.row.createTime) }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('opation')" align="center" width="160" class-name="small-padding fixed-width">
+                            <template slot-scope="scope" v-if="scope.row.userId !== 1">
+                                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']">{{ $t('update') }}</el-button>
+                                <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']">{{ $t('del') }}</el-button>
+                                <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)" v-hasPermi="['system:user:resetPwd', 'system:user:edit']">
+                                    <el-button size="mini" type="text" icon="el-icon-d-arrow-right">{{ $t('user.index.098976-14') }}</el-button>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item command="handleResetPwd" icon="el-icon-key" v-hasPermi="['system:user:resetPwd']">{{ $t('user.index.098976-15') }}</el-dropdown-item>
+                                        <el-dropdown-item command="handleAuthRole" icon="el-icon-circle-check" v-hasPermi="['system:user:edit']">{{ $t('user.index.098976-23') }}</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </template>
+                        </el-table-column>
+                    </el-table>
 
-                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+                    <div class="pagination-container">
+                        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+                    </div>
+                </el-card>
             </el-col>
         </el-row>
 
@@ -565,3 +575,118 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.dept-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    height: 810px;
+
+    ::v-deep .el-card__body {
+        padding: 18px;
+    }
+}
+
+.search-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px 18px 0 18px;
+    }
+}
+
+.table-card {
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px;
+    }
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 20px 0 0 0;
+    text-align: right;
+}
+
+::v-deep .el-button--mini {
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+::v-deep .el-input__inner,
+::v-deep .el-select__input {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+}
+
+::v-deep .el-form-item {
+    margin-bottom: 18px;
+}
+
+::v-deep .el-tree {
+    background-color: transparent;
+}
+</style>

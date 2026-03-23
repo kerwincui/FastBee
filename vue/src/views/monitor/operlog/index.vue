@@ -33,25 +33,25 @@
                 ></el-date-picker>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
         </el-form>
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">{{ $t('del') }}</el-button>
+                <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:operlog:remove']">{{ $t('del') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">{{ $t('operlog.874509-7') }}</el-button>
+                <el-button type="danger" plain icon="el-icon-delete" size="small" @click="handleClean" v-hasPermi="['monitor:operlog:remove']">{{ $t('operlog.874509-7') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['monitor:operlog:export']">{{ $t('export') }}</el-button>
+                <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['monitor:operlog:export']">{{ $t('export') }}</el-button>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
-        <el-table ref="tables" v-loading="loading" :data="list" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
+        <el-table ref="tables" v-loading="loading" :data="list" :border="false" header-cell-class-name="table-header" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
             <el-table-column type="selection" width="50" align="center" />
             <el-table-column :label="$t('operlog.874509-8')" align="center" prop="operId" />
             <el-table-column :label="$t('operlog.874509-0')" align="center" prop="title" :show-overflow-tooltip="true" />
@@ -80,16 +80,18 @@
             </el-table-column>
             <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-view" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']">{{ $t('operlog.874509-13') }}</el-button>
+                    <el-button size="small" type="text" icon="el-icon-view" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']">{{ $t('operlog.874509-13') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
+        <div class="pagination-container">
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        </div>
 
         <!-- 操作日志详细 -->
         <el-dialog :title="$t('operlog.874509-14')" :visible.sync="open" width="800px" append-to-body>
-            <el-form ref="form" :model="form" label-width="100px" size="mini">
+            <el-form ref="form" :model="form" label-width="100px" size="small">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item :label="$t('operlog.874509-15')">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
@@ -257,3 +259,43 @@ export default {
     },
 };
 </script>
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

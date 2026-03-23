@@ -46,8 +46,8 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -57,7 +57,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['monitor:logininfor:remove']"
@@ -68,7 +68,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           @click="handleClean"
           v-hasPermi="['monitor:logininfor:remove']"
         >{{ $t('clean') }}</el-button>
@@ -78,7 +78,7 @@
           type="primary"
           plain
           icon="el-icon-unlock"
-          size="mini"
+          size="small"
           :disabled="single"
           @click="handleUnlock"
           v-hasPermi="['monitor:logininfor:unlock']"
@@ -89,7 +89,7 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
+          size="small"
           @click="handleExport"
           v-hasPermi="['monitor:logininfor:export']"
         >{{ $t('export') }}</el-button>
@@ -97,7 +97,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table ref="tables" v-loading="loading" :data="list" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
+    <el-table ref="tables" v-loading="loading" :data="list" :border="false" header-cell-class-name="table-header" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column :label="$t('monitor.logininfor.670912-10')" align="center" prop="infoId" />
       <el-table-column :label="$t('monitor.logininfor.670912-2')" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
@@ -243,3 +243,43 @@ export default {
 };
 </script>
 
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

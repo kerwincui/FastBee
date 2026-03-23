@@ -19,18 +19,18 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEditDevice(0)" v-hasPermi="['iot:device:add']">{{ $t('add') }}</el-button>
-                    <el-button type="primary" plain icon="el-icon-s-grid" size="mini" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-17') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleEditDevice(0)" v-hasPermi="['iot:device:add']">{{ $t('add') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-s-grid" size="small" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-17') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px" v-if="showType == 'list'">
-            <el-table v-loading="loading" :data="deviceList" border>
+            <el-table v-loading="loading" :data="deviceList" :border="false" header-cell-class-name="table-header">
                 <el-table-column :label="$t('device.index.105953-20')" align="center" header-align="center" prop="deviceId" width="50" />
                 <el-table-column :label="$t('device.index.105953-0')" align="center" header-align="center" prop="deviceName" min-width="120" />
                 <el-table-column :label="$t('device.index.105953-2')" align="center" prop="serialNumber" min-width="130" />
@@ -69,7 +69,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('device.index.105953-31')" align="center" prop="firmwareVersion">
                     <template slot-scope="scope">
-                        <el-tag size="mini" type="info">Ver {{ scope.row.firmwareVersion }}</el-tag>
+                        <el-tag size="small" type="info">Ver {{ scope.row.firmwareVersion }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('device.index.105953-32')" align="center" prop="activeTime">
@@ -91,7 +91,9 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+            <div class="pagination-container">
+        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+        </div>
         </el-card>
 
         <el-card style="padding-bottom: 100px" v-if="showType == 'card'">
@@ -106,8 +108,8 @@
                                     </el-tooltip>
                                     <svg-icon icon-class="device" v-if="item.isOwner == 1" />
                                     <span style="margin: 0 5px">{{ item.deviceName }}</span>
-                                    <!-- <el-tag size="mini" type="info">Ver {{item.firmwareVersion}}</el-tag>-->
-                                    <!-- <el-text v-if="item.protocolCode" type="info" size="mini" style="font-size: 14px; color: #ccc">{{ item.protocolCode }}</el-text> -->
+                                    <!-- <el-tag size="small" type="info">Ver {{item.firmwareVersion}}</el-tag>-->
+                                    <!-- <el-text v-if="item.protocolCode" type="info" size="small" style="font-size: 14px; color: #ccc">{{ item.protocolCode }}</el-text> -->
                                 </el-link>
                             </el-col>
                             <el-col :span="1.5" style="font-size: 20px; padding-top: 5px; cursor: pointer">
@@ -136,7 +138,7 @@
                                     <!-- <dict-tag :options="dict.type.iot_location_way" :value="item.locationWay" size="small" style="display:inline-block;" /> -->
                                     <!-- <dict-tag :options="dict.type.iot_transport_type" :value="item.transport" size="small" style="display: inline-block" /> -->
                                 </div>
-                                <el-descriptions :column="1" size="mini" style="white-space: nowrap">
+                                <el-descriptions :column="1" size="small" style="white-space: nowrap">
                                     <el-descriptions-item :label="$t('device.index.105953-20')">
                                         {{ item.serialNumber }}
                                     </el-descriptions-item>
@@ -183,15 +185,19 @@
                             </el-col>
                         </el-row>
                         <el-button-group style="margin-top: 15px">
-                            <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
-                            <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="handleEditDevice(item, 'basic')" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
-                            <el-button type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-40') }}</el-button>
+                            <el-button type="danger" size="small" style="padding: 5px 10px" icon="el-icon-delete" @click="handleDelete(item)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
+                            <el-button type="primary" size="small" style="padding: 5px 15px" icon="el-icon-view" @click="handleEditDevice(item, 'basic')" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
+                            <el-button type="success" size="small" style="padding: 5px 15px" icon="el-icon-odometer" @click="handleRunDevice(item)" v-hasPermi="['iot:device:add']">
+                                {{ $t('device.index.105953-40') }}
+                            </el-button>
                         </el-button-group>
                     </el-card>
                 </el-col>
             </el-row>
             <el-empty :description="$t('device.index.105953-41')" v-if="total == 0"></el-empty>
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+            <div class="pagination-container">
+        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+        </div>
         </el-card>
         <!-- 二维码 -->
         <el-dialog :visible.sync="openSummary" width="300px" append-to-body>
@@ -502,5 +508,41 @@ export default {
 <style scoped>
 .card-item {
     border-radius: 15px;
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
 }
 </style>

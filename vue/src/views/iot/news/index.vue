@@ -29,32 +29,32 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
             </el-form-item>
         </el-form>
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+                <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd"
                     v-hasPermi="['iot:news:add']">{{ $t('system.sysclient.652154-4') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+                <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate"
                     v-hasPermi="['iot:news:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+                <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete"
                     v-hasPermi="['iot:news:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+                <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport"
                     v-hasPermi="['iot:news:export']">{{ $t('system.sysclient.652154-7') }}</el-button>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="newsList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="newsList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column :label="$t('system.news.893410-10')" align="center" prop="imgUrl" width="140px;">
                 <template slot-scope="scope">
@@ -94,18 +94,20 @@
             <el-table-column :label="$t('iot.group.index.637432-9')" align="center" prop="remark" />
             <el-table-column :label="$t('device.index.105953-34')" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-view"
+                    <el-button size="small" type="text" icon="el-icon-view"
                         @click="openDetailDialog(scope.row.newsId)">{{ $t('system.news.893410-25') }}</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+                    <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
                         v-hasPermi="['iot:news:edit']">{{ $t('system.sysclient.652154-5') }}</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+                    <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
                         v-hasPermi="['iot:news:remove']">{{ $t('system.sysclient.652154-6') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
+        <div class="pagination-container">
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
             @pagination="getList" />
+        </div>
 
         <!-- 添加或修改新闻资讯对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
@@ -169,7 +171,7 @@
         <!--通知公告详情 -->
         <el-dialog :title="form.title" :visible.sync="openDetail" width="800px" append-to-body>
             <div style="margin-top:-20px;margin-bottom:10px;">
-                <el-tag size="mini" effect="dark" type="success">{{ form.categoryName }}</el-tag>
+                <el-tag size="small" effect="dark" type="success">{{ form.categoryName }}</el-tag>
                 <span style="margin-left:20px;">{{ form.createTime }}</span>
             </div>
             <div v-loading="loadingDetail" class="content">
@@ -430,3 +432,43 @@ export default {
     border: 1px solid #eee;
     border-radius: 10px;
 }</style>
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

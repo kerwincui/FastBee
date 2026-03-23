@@ -36,7 +36,7 @@
                 <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             </el-row>
 
-            <el-table v-loading="loading" :data="platformList" :border="false" @selection-change="handleSelectionChange" ref="multipleTable" :row-key="getRowKeys">
+            <el-table v-loading="loading" :data="platformList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange" ref="multipleTable" :row-key="getRowKeys">
                 <el-table-column :reserve-selection="true" type="selection" width="55" align="center" />
                 <el-table-column align="left" :label="$t('system.platform.675309-3')" prop="platform" min-width="200">
                     <template slot-scope="scope">
@@ -50,7 +50,14 @@
                 </el-table-column>
                 <el-table-column :label="$t('system.platform.675309-4')" align="center" prop="clientId" min-width="180" />
                 <el-table-column :label="$t('system.platform.675309-5')" align="left" prop="redirectUri" min-width="250" :show-overflow-tooltip="true" />
-                <el-table-column align="left" :label="$t('system.platform.675309-6')" prop="bindUri" :show-tooltip-when-overflow="true" :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.bindId)" min-width="250" />
+                <el-table-column
+                    align="left"
+                    :label="$t('system.platform.675309-6')"
+                    prop="bindUri"
+                    :show-tooltip-when-overflow="true"
+                    :render-header="(h, column) => renderHeaderMethods(h, column, columnTips.bindId)"
+                    min-width="250"
+                />
                 <el-table-column
                     align="left"
                     :label="$t('system.platform.675309-7')"
@@ -80,49 +87,51 @@
                 </el-table-column>
             </el-table>
 
-            <pagination style="margin-bottom: 20px" v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-        </el-card>
-
-        <!-- 添加或修改第三方登录平台控制对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="630px" append-to-body>
-            <el-form ref="form" :model="form" :rules="rules" label-width="130px">
-                <el-form-item :label="$t('system.platform.675309-9')" prop="platform">
-                    <el-select v-model="form.platform" :placeholder="$t('system.platform.675309-10')" style="width: 400px">
-                        <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-11')" prop="status">
-                    <el-select v-model="form.status" :placeholder="$t('system.platform.675309-2')" style="width: 400px">
-                        <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="Number(dict.value)"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-12')" prop="clientId">
-                    <el-input v-model="form.clientId" :placeholder="$t('system.platform.675309-13')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-14')" prop="secretKey">
-                    <el-input v-model="form.secretKey" :placeholder="$t('system.platform.675309-15')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-16')" prop="redirectUri">
-                    <el-input v-model="form.redirectUri" :placeholder="$t('system.platform.675309-17')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-18')" prop="bindUri">
-                    <el-input v-model="form.bindUri" :placeholder="$t('system.platform.675309-19')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-20')" prop="redirectLoginUri">
-                    <el-input v-model="form.redirectLoginUri" :placeholder="$t('system.platform.675309-21')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('system.platform.675309-22')" prop="errorMsgUri">
-                    <el-input v-model="form.errorMsgUri" :placeholder="$t('system.platform.675309-23')" style="width: 400px" />
-                </el-form-item>
-                <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
-                    <el-input v-model="form.remark" :placeholder="$t('iot.group.index.637432-16')" type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" style="width: 400px" />
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">{{ $t('device.index.105953-56') }}</el-button>
-                <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
+            <div class="pagination-container">
+            <pagination style="margin-bottom: 0" v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
             </div>
-        </el-dialog>
+
+            <!-- 添加或修改第三方登录平台控制对话框 -->
+            <el-dialog :title="title" :visible.sync="open" width="630px" append-to-body>
+                <el-form ref="form" :model="form" :rules="rules" label-width="130px">
+                    <el-form-item :label="$t('system.platform.675309-9')" prop="platform">
+                        <el-select v-model="form.platform" :placeholder="$t('system.platform.675309-10')" style="width: 400px">
+                            <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-11')" prop="status">
+                        <el-select v-model="form.status" :placeholder="$t('system.platform.675309-2')" style="width: 400px">
+                            <el-option v-for="dict in dict.type.iot_social_platform_status" :key="dict.value" :label="dict.label" :value="Number(dict.value)"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-12')" prop="clientId">
+                        <el-input v-model="form.clientId" :placeholder="$t('system.platform.675309-13')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-14')" prop="secretKey">
+                        <el-input v-model="form.secretKey" :placeholder="$t('system.platform.675309-15')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-16')" prop="redirectUri">
+                        <el-input v-model="form.redirectUri" :placeholder="$t('system.platform.675309-17')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-18')" prop="bindUri">
+                        <el-input v-model="form.bindUri" :placeholder="$t('system.platform.675309-19')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-20')" prop="redirectLoginUri">
+                        <el-input v-model="form.redirectLoginUri" :placeholder="$t('system.platform.675309-21')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.platform.675309-22')" prop="errorMsgUri">
+                        <el-input v-model="form.errorMsgUri" :placeholder="$t('system.platform.675309-23')" style="width: 400px" />
+                    </el-form-item>
+                    <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
+                        <el-input v-model="form.remark" :placeholder="$t('iot.group.index.637432-16')" type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" style="width: 400px" />
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">{{ $t('device.index.105953-56') }}</el-button>
+                    <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
+                </div>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 

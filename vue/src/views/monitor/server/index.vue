@@ -205,3 +205,43 @@ export default {
   }
 };
 </script>
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

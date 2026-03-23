@@ -1,279 +1,313 @@
 <template>
-  <div style="padding: 6px">
-    <el-card v-show="showSearch" style="margin-bottom: 6px">
-      <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px" style="margin-bottom: -20px">
-        <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
-          <el-input v-model="queryParams.groupName" :placeholder="$t('iot.group.index.637432-1')" clearable size="small"
-            @keyup.enter.native="handleQuery" />
-        </el-form-item>
-        <el-form-item v-if="isAdmin" :label="$t('iot.group.index.637432-2')" style="margin: 0 20px">
-          <el-switch v-model="myGroup" @change="myGroupChange"></el-switch>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('iot.group.index.637432-3') }}</el-button>
-          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('iot.group.index.637432-4') }}</el-button>
-        </el-form-item>
-        <el-form-item style="float: right">
-          <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="mini"
-            @click="handleAdd">{{ $t('iot.group.index.637432-5') }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+    <div style="padding: 6px">
+        <el-card v-show="showSearch" style="margin-bottom: 6px">
+            <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px" style="margin-bottom: -20px">
+                <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
+                    <el-input v-model="queryParams.groupName" :placeholder="$t('iot.group.index.637432-1')" clearable size="small" @keyup.enter.native="handleQuery" />
+                </el-form-item>
+                <el-form-item v-if="isAdmin" :label="$t('iot.group.index.637432-2')" style="margin: 0 20px">
+                    <el-switch v-model="myGroup" @change="myGroupChange"></el-switch>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('iot.group.index.637432-3') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('iot.group.index.637432-4') }}</el-button>
+                </el-form-item>
+                <el-form-item style="float: right">
+                    <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd">{{ $t('iot.group.index.637432-5') }}</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
 
-    <el-card style="padding-bottom: 100px">
-      <el-table v-loading="loading" :data="groupList" border @selection-change="handleSelectionChange">
-        <el-table-column :label="$t('iot.group.index.637432-0')" align="center" prop="groupName" width="200" />
-        <el-table-column :label="$t('iot.group.index.637432-6')" align="center" prop="groupOrder" width="100" />
-        <el-table-column :label="$t('iot.group.index.637432-7')" align="center" prop="createTime" width="180">
-          <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="isAdmin" :label="$t('iot.group.index.637432-8')" align="center" prop="userName" width="100" />
-        <el-table-column :label="$t('iot.group.index.637432-9')" align="left" header-align="center" prop="remark" />
-        <el-table-column :label="$t('iot.group.index.637432-10')" align="center" class-name="small-padding fixed-width" width="320">
-          <template slot-scope="scope">
-            <el-button v-hasPermi="['iot:device:query']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)">{{ $t('iot.group.index.637432-11') }}</el-button>
-            <el-button v-hasPermi="['iot:group:add']" size="small" type="text" style="padding: 5px" icon="el-icon-folder-add"
-              @click="selectDevice(scope.row)">{{ $t('iot.group.index.637432-12') }}</el-button>
-            <el-button v-hasPermi="['iot:group:edit']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-edit" @click="handleUpdate(scope.row)">{{ $t('iot.group.index.637432-17') }}</el-button>
-            <el-button v-hasPermi="['iot:group:remove']" size="small" type="text" style="padding: 5px"
-              icon="el-icon-delete" @click="handleDelete(scope.row)">{{ $t('iot.group.index.637432-14') }}</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-        @pagination="getList" />
+        <el-card style="padding-bottom: 100px">
+            <el-table v-loading="loading" :data="groupList" :border="false" @selection-change="handleSelectionChange">
+                <el-table-column :label="$t('iot.group.index.637432-0')" align="center" prop="groupName" width="200" />
+                <el-table-column :label="$t('iot.group.index.637432-6')" align="center" prop="groupOrder" width="100" />
+                <el-table-column :label="$t('iot.group.index.637432-7')" align="center" prop="createTime" width="180">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column v-if="isAdmin" :label="$t('iot.group.index.637432-8')" align="center" prop="userName" width="100" />
+                <el-table-column :label="$t('iot.group.index.637432-9')" align="left" header-align="center" prop="remark" />
+                <el-table-column :label="$t('iot.group.index.637432-10')" align="center" class-name="small-padding fixed-width" width="320">
+                    <template slot-scope="scope">
+                        <el-button v-hasPermi="['iot:device:query']" size="small" type="text" style="padding: 5px" icon="el-icon-search" @click="handleViewDevice(scope.row.groupId)">
+                            {{ $t('iot.group.index.637432-11') }}
+                        </el-button>
+                        <el-button v-hasPermi="['iot:group:add']" size="small" type="text" style="padding: 5px" icon="el-icon-folder-add" @click="selectDevice(scope.row)">{{ $t('iot.group.index.637432-12') }}</el-button>
+                        <el-button v-hasPermi="['iot:group:edit']" size="small" type="text" style="padding: 5px" icon="el-icon-edit" @click="handleUpdate(scope.row)">{{ $t('iot.group.index.637432-17') }}</el-button>
+                        <el-button v-hasPermi="['iot:group:remove']" size="small" type="text" style="padding: 5px" icon="el-icon-delete" @click="handleDelete(scope.row)">{{ $t('iot.group.index.637432-14') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            </div>
 
-      <!-- 分组设备列表 -->
-      <deviceList ref="groupDeviceList" :group="group"></deviceList>
+            <!-- 分组设备列表 -->
+            <deviceList ref="groupDeviceList" :group="group"></deviceList>
 
-      <!-- 添加或修改设备分组对话框 -->
-      <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-          <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
-            <el-input v-model="form.groupName" :placeholder="$t('iot.group.index.637432-1')" />
-          </el-form-item>
-          <el-form-item :label="$t('iot.group.index.637432-6')" prop="groupOrder">
-            <el-input v-model="form.groupOrder" type="number" :placeholder="$t('iot.group.index.637432-15')" />
-          </el-form-item>
-          <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
-            <el-input v-model="form.remark" type="textarea" :placeholder="$t('iot.group.index.637432-16')" />
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitForm">{{ form.groupId ? $t('iot.group.index.637432-17') : $t('iot.group.index.637432-18') }}</el-button>
-          <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
-        </div>
-      </el-dialog>
-    </el-card>
-  </div>
+            <!-- 添加或修改设备分组对话框 -->
+            <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+                <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                    <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
+                        <el-input v-model="form.groupName" :placeholder="$t('iot.group.index.637432-1')" />
+                    </el-form-item>
+                    <el-form-item :label="$t('iot.group.index.637432-6')" prop="groupOrder">
+                        <el-input v-model="form.groupOrder" type="number" :placeholder="$t('iot.group.index.637432-15')" />
+                    </el-form-item>
+                    <el-form-item :label="$t('iot.group.index.637432-9')" prop="remark">
+                        <el-input v-model="form.remark" type="textarea" :placeholder="$t('iot.group.index.637432-16')" />
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">{{ form.groupId ? $t('iot.group.index.637432-17') : $t('iot.group.index.637432-18') }}</el-button>
+                    <el-button @click="cancel">{{ $t('iot.group.index.637432-19') }}</el-button>
+                </div>
+            </el-dialog>
+        </el-card>
+    </div>
 </template>
 
 <script>
-import deviceList from './device-list'
-import { listGroup, getGroup, delGroup, addGroup, updateGroup } from '@/api/iot/group'
-import {getUserId} from "@/utils/auth";
+import deviceList from './device-list';
+import { listGroup, getGroup, delGroup, addGroup, updateGroup } from '@/api/iot/group';
+import { getUserId } from '@/utils/auth';
 
 export default {
-  name: 'Group',
-  components: {
-    deviceList,
-  },
-  data() {
-    return {
-      // 是否管理员
-      isAdmin: false,
-      // 我的分组
-      myGroup: false,
-      // 遮罩层
-      loading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
-      total: 0,
-      // 设备分组表格数据
-      groupList: [],
-      // 弹出层标题
-      title: '',
-      // 是否显示弹出层
-      open: false,
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        groupName: null,
-        userId: null,
-      },
-      // 设备分组
-      group: {},
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules: {
-        groupName: [
-          {
-            required: true,
-            message: this.$t('iot.group.index.637432-20'),
-            trigger: 'blur',
-          },
-        ],
-        groupOrder: [
-          {
-            required: true,
-            message: this.$t('iot.group.index.637432-21'),
-            trigger: 'blur',
-          },
-        ],
-      },
-    }
-  },
-  created() {
-    this.getList()
-    this.init()
-  },
-  methods: {
-    init() {
-      if (this.$store.state.user.roles.indexOf('tenant') === -1 && this.$store.state.user.roles.indexOf('general') === -1) {
-        this.isAdmin = true
-      }
+    name: 'Group',
+    components: {
+        deviceList,
     },
-    // 我的分组改变事件
-    myGroupChange() {
-      this.queryParams.userId = this.myGroup ? getUserId() : null;
-      this.handleQuery();
+    data() {
+        return {
+            // 是否管理员
+            isAdmin: false,
+            // 我的分组
+            myGroup: false,
+            // 遮罩层
+            loading: true,
+            // 选中数组
+            ids: [],
+            // 非单个禁用
+            single: true,
+            // 非多个禁用
+            multiple: true,
+            // 显示搜索条件
+            showSearch: true,
+            // 总条数
+            total: 0,
+            // 设备分组表格数据
+            groupList: [],
+            // 弹出层标题
+            title: '',
+            // 是否显示弹出层
+            open: false,
+            // 查询参数
+            queryParams: {
+                pageNum: 1,
+                pageSize: 10,
+                groupName: null,
+                userId: null,
+            },
+            // 设备分组
+            group: {},
+            // 表单参数
+            form: {},
+            // 表单校验
+            rules: {
+                groupName: [
+                    {
+                        required: true,
+                        message: this.$t('iot.group.index.637432-20'),
+                        trigger: 'blur',
+                    },
+                ],
+                groupOrder: [
+                    {
+                        required: true,
+                        message: this.$t('iot.group.index.637432-21'),
+                        trigger: 'blur',
+                    },
+                ],
+            },
+        };
     },
-    /** 查看设备按钮操作 */
-    handleViewDevice(groupId) {
-      this.$router.push({
-        path: '/iot/device',
-        query: {
-          t: Date.now(),
-          groupId: groupId,
+    created() {
+        this.getList();
+        this.init();
+    },
+    methods: {
+        init() {
+            if (this.$store.state.user.roles.indexOf('tenant') === -1 && this.$store.state.user.roles.indexOf('general') === -1) {
+                this.isAdmin = true;
+            }
         },
-      })
-    },
-    /** 查询设备分组列表 */
-    getList() {
-      this.loading = true
-      listGroup(this.queryParams).then((response) => {
-        this.groupList = response.rows
-        this.total = response.total
-        this.loading = false
-      })
-    },
-    // 取消按钮
-    cancel() {
-      this.open = false
-      this.reset()
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        groupId: null,
-        groupName: null,
-        groupOrder: null,
-        userId: null,
-        userName: null,
-        delFlag: null,
-        createBy: null,
-        createTime: null,
-        updateBy: null,
-        updateTime: null,
-        remark: null,
-      }
-      this.resetForm('form')
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1
-      this.getList()
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm('queryForm')
-      this.handleQuery()
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map((item) => item.groupId)
-      this.single = selection.length !== 1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset()
-      this.open = true
-      this.title = this.$t('iot.group.index.637432-22')
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset()
-      const groupId = row.groupId || this.ids
-      getGroup(groupId).then((response) => {
-        this.form = response.data
-        this.open = true
-        this.title = this.$t('iot.group.index.637432-23')
-      })
-    },
-    /** 选择设备 */
-    selectDevice(row) {
-      this.group = row
-      // 刷新子组件
-      this.$refs.groupDeviceList.openDeviceList = true
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          if (this.form.groupId != null) {
-            updateGroup(this.form).then((response) => {
-              this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'))
-              this.open = false
-              this.getList()
-            })
-          } else {
-            addGroup(this.form).then((response) => {
-              this.$modal.msgSuccess(this.$t('iot.group.index.637432-25'))
-              this.open = false
-              this.getList()
-            })
-          }
-        }
-      })
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const groupIds = row.groupId || this.ids
-      this.$modal
-        .confirm(this.$t('iot.group.index.637432-26', [groupIds]))
-        .then(function () {
-          return delGroup(groupIds)
-        })
-        .then(() => {
-          this.getList()
-          this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'))
-        })
-        .catch(() => { })
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download(
-        'iot/group/export',
-        {
-          ...this.queryParams,
+        // 我的分组改变事件
+        myGroupChange() {
+            this.queryParams.userId = this.myGroup ? getUserId() : null;
+            this.handleQuery();
         },
-        `group_${new Date().getTime()}.xlsx`
-      )
+        /** 查看设备按钮操作 */
+        handleViewDevice(groupId) {
+            this.$router.push({
+                path: '/iot/device',
+                query: {
+                    t: Date.now(),
+                    groupId: groupId,
+                },
+            });
+        },
+        /** 查询设备分组列表 */
+        getList() {
+            this.loading = true;
+            listGroup(this.queryParams).then((response) => {
+                this.groupList = response.rows;
+                this.total = response.total;
+                this.loading = false;
+            });
+        },
+        // 取消按钮
+        cancel() {
+            this.open = false;
+            this.reset();
+        },
+        // 表单重置
+        reset() {
+            this.form = {
+                groupId: null,
+                groupName: null,
+                groupOrder: null,
+                userId: null,
+                userName: null,
+                delFlag: null,
+                createBy: null,
+                createTime: null,
+                updateBy: null,
+                updateTime: null,
+                remark: null,
+            };
+            this.resetForm('form');
+        },
+        /** 搜索按钮操作 */
+        handleQuery() {
+            this.queryParams.pageNum = 1;
+            this.getList();
+        },
+        /** 重置按钮操作 */
+        resetQuery() {
+            this.resetForm('queryForm');
+            this.handleQuery();
+        },
+        // 多选框选中数据
+        handleSelectionChange(selection) {
+            this.ids = selection.map((item) => item.groupId);
+            this.single = selection.length !== 1;
+            this.multiple = !selection.length;
+        },
+        /** 新增按钮操作 */
+        handleAdd() {
+            this.reset();
+            this.open = true;
+            this.title = this.$t('iot.group.index.637432-22');
+        },
+        /** 修改按钮操作 */
+        handleUpdate(row) {
+            this.reset();
+            const groupId = row.groupId || this.ids;
+            getGroup(groupId).then((response) => {
+                this.form = response.data;
+                this.open = true;
+                this.title = this.$t('iot.group.index.637432-23');
+            });
+        },
+        /** 选择设备 */
+        selectDevice(row) {
+            this.group = row;
+            // 刷新子组件
+            this.$refs.groupDeviceList.openDeviceList = true;
+        },
+        /** 提交按钮 */
+        submitForm() {
+            this.$refs['form'].validate((valid) => {
+                if (valid) {
+                    if (this.form.groupId != null) {
+                        updateGroup(this.form).then((response) => {
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'));
+                            this.open = false;
+                            this.getList();
+                        });
+                    } else {
+                        addGroup(this.form).then((response) => {
+                            this.$modal.msgSuccess(this.$t('iot.group.index.637432-25'));
+                            this.open = false;
+                            this.getList();
+                        });
+                    }
+                }
+            });
+        },
+        /** 删除按钮操作 */
+        handleDelete(row) {
+            const groupIds = row.groupId || this.ids;
+            this.$modal
+                .confirm(this.$t('iot.group.index.637432-26', [groupIds]))
+                .then(function () {
+                    return delGroup(groupIds);
+                })
+                .then(() => {
+                    this.getList();
+                    this.$modal.msgSuccess(this.$t('iot.group.index.637432-27'));
+                })
+                .catch(() => {});
+        },
+        /** 导出按钮操作 */
+        handleExport() {
+            this.download(
+                'iot/group/export',
+                {
+                    ...this.queryParams,
+                },
+                `group_${new Date().getTime()}.xlsx`
+            );
+        },
     },
-  },
-}
+};
 </script>
+
+<style lang="scss" scoped>
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+</style>

@@ -1,108 +1,115 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-            <el-form-item :label="$t('system.dict.index.880996-0')" prop="dictName">
-                <el-input v-model="queryParams.dictName" :placeholder="$t('system.dict.index.880996-0')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('system.dict.index.880996-1')" prop="dictType">
-                <el-input v-model="queryParams.dictType" :placeholder="$t('system.dict.index.880996-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item :label="$t('system.dict.index.880996-2')" prop="status">
-                <el-select v-model="queryParams.status" :placeholder="$t('system.dict.index.880996-2')" clearable style="width: 240px">
-                    <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
-                </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('system.dict.index.880996-3')" prop="createTimeTime">
-                <el-date-picker
-                    v-model="dateRange"
-                    style="width: 240px"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="-"
-                    start-placeholder="$t('system.dict.index.880996-3')"
-                    end-placeholder="$t('system.dict.index.880996-4')"
-                ></el-date-picker>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
-            </el-form-item>
-        </el-form>
-
-        <el-row :gutter="10" class="mb8">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:dict:add']">{{ $t('add') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['system:dict:edit']">{{ $t('edit') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:dict:remove']">{{ $t('delete') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['system:dict:export']">{{ $t('export') }}</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-refresh" size="mini" @click="handleRefreshCache" v-hasPermi="['system:dict:remove']">{{ $t('system.dict.index.880996-5') }}</el-button>
-            </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-        </el-row>
-
-        <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center" />
-            <el-table-column :label="$t('system.dict.index.880996-6')" align="center" prop="dictId" />
-            <el-table-column :label="$t('system.dict.index.880996-0')" align="center" prop="dictName" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('system.dict.index.880996-1')" align="center" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                    <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
-                        <span>{{ scope.row.dictType }}</span>
-                    </router-link>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('status')" align="center" prop="status">
-                <template slot-scope="scope">
-                    <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('remark')" align="center" prop="remark" :show-overflow-tooltip="true" />
-            <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="180">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.createTime) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
-                <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']">{{ $t('edit') }}</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dict:remove']">{{ $t('del') }}</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-
-        <!-- 添加或修改参数配置对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <!-- 搜索栏 -->
+        <el-card shadow="never" class="search-card">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
                 <el-form-item :label="$t('system.dict.index.880996-0')" prop="dictName">
-                    <el-input v-model="form.dictName" :placeholder="$t('system.dict.index.880996-0')" />
+                    <el-input v-model="queryParams.dictName" :placeholder="$t('system.dict.index.880996-0')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item :label="$t('system.dict.index.880996-1')" prop="dictType">
-                    <el-input v-model="form.dictType" :placeholder="$t('system.dict.index.880996-1')" />
+                    <el-input v-model="queryParams.dictType" :placeholder="$t('system.dict.index.880996-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item :label="$t('status')" prop="status">
-                    <el-radio-group v-model="form.status">
-                        <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
-                    </el-radio-group>
+                <el-form-item :label="$t('system.dict.index.880996-2')" prop="status">
+                    <el-select v-model="queryParams.status" :placeholder="$t('system.dict.index.880996-2')" clearable style="width: 240px">
+                        <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
+                    </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('remark')" prop="remark">
-                    <el-input v-model="form.remark" type="textarea" :placeholder="$t('plzInput')"></el-input>
+                <el-form-item :label="$t('system.dict.index.880996-3')" prop="createTimeTime">
+                    <el-date-picker
+                        v-model="dateRange"
+                        style="width: 240px"
+                        value-format="yyyy-MM-dd"
+                        type="daterange"
+                        range-separator="-"
+                        :start-placeholder="$t('system.dict.index.880996-3')"
+                        :end-placeholder="$t('system.dict.index.880996-4')"
+                    ></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
-                <el-button @click="cancel">{{ $t('cancel') }}</el-button>
+        </el-card>
+
+        <!-- 操作按钮和数据表格 -->
+        <el-card shadow="never" class="table-card">
+            <el-row :gutter="10" style="margin-bottom: 15px">
+                <el-col :span="1.5">
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['system:dict:add']">{{ $t('add') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['system:dict:edit']">{{ $t('edit') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:dict:remove']">{{ $t('del') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['system:dict:export']">{{ $t('export') }}</el-button>
+                </el-col>
+                <el-col :span="1.5">
+                    <el-button type="danger" plain icon="el-icon-refresh" size="small" @click="handleRefreshCache" v-hasPermi="['system:dict:remove']">{{ $t('system.dict.index.880996-5') }}</el-button>
+                </el-col>
+                <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+            </el-row>
+
+            <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange" header-cell-class-name="table-header" :border="false">
+                <el-table-column type="selection" width="55" align="center" />
+                <el-table-column :label="$t('system.dict.index.880996-6')" align="center" prop="dictId" />
+                <el-table-column :label="$t('system.dict.index.880996-0')" align="center" prop="dictName" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('system.dict.index.880996-1')" align="center" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                        <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
+                            <span>{{ scope.row.dictType }}</span>
+                        </router-link>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('status')" align="center" prop="status">
+                    <template slot-scope="scope">
+                        <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('remark')" align="center" prop="remark" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('creatTime')" align="center" prop="createTime" width="180">
+                    <template slot-scope="scope">
+                        <span>{{ parseTime(scope.row.createTime) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']">{{ $t('edit') }}</el-button>
+                        <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dict:remove']">{{ $t('del') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
             </div>
-        </el-dialog>
+            <!-- 添加或修改参数配置对话框 -->
+            <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+                <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                    <el-form-item :label="$t('system.dict.index.880996-0')" prop="dictName">
+                        <el-input v-model="form.dictName" :placeholder="$t('system.dict.index.880996-0')" />
+                    </el-form-item>
+                    <el-form-item :label="$t('system.dict.index.880996-1')" prop="dictType">
+                        <el-input v-model="form.dictType" :placeholder="$t('system.dict.index.880996-1')" />
+                    </el-form-item>
+                    <el-form-item :label="$t('status')" prop="status">
+                        <el-radio-group v-model="form.status">
+                            <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item :label="$t('remark')" prop="remark">
+                        <el-input v-model="form.remark" type="textarea" :placeholder="$t('plzInput')"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">{{ $t('confirm') }}</el-button>
+                    <el-button @click="cancel">{{ $t('cancel') }}</el-button>
+                </div>
+            </el-dialog>
+        </el-card>
     </div>
 </template>
 
@@ -267,3 +274,103 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.search-card {
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px 18px 0 18px;
+    }
+}
+
+.table-card {
+    border-radius: 8px;
+
+    ::v-deep .el-card__body {
+        padding: 18px;
+    }
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+}
+
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+
+::v-deep .el-pagination {
+    padding: 20px 0 0 0;
+    text-align: right;
+}
+
+::v-deep .el-button--mini {
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+::v-deep .el-input__inner,
+::v-deep .el-select__input {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+}
+
+::v-deep .el-form-item {
+    margin-bottom: 18px;
+}
+</style>

@@ -19,31 +19,31 @@
                 ></el-date-picker>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
             </el-form-item>
         </el-form>
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-download" size="mini" :disabled="multiple" @click="handleGenTable" v-hasPermi="['tool:gen:code']">{{ $t('build.index.2090840-3') }}</el-button>
+                <el-button type="primary" plain icon="el-icon-download" size="small" :disabled="multiple" @click="handleGenTable" v-hasPermi="['tool:gen:code']">{{ $t('build.index.2090840-3') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="openCreateTable" v-hasRole="['admin']">{{ $t('add') }}</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="small" @click="openCreateTable" v-hasRole="['admin']">{{ $t('add') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="info" plain icon="el-icon-upload" size="mini" @click="openImportTable" v-hasPermi="['tool:gen:import']">{{ $t('import') }}</el-button>
+                <el-button type="info" plain icon="el-icon-upload" size="small" @click="openImportTable" v-hasPermi="['tool:gen:import']">{{ $t('import') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">{{ $t('update') }}</el-button>
+                <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">{{ $t('update') }}</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['tool:gen:remove']">{{ $t('del') }}</el-button>
+                <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['tool:gen:remove']">{{ $t('del') }}</el-button>
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange" :border="false">
             <el-table-column type="selection" align="center" width="55"></el-table-column>
             <el-table-column :label="$t('system.cache.list.093478-1')" type="index" width="50" align="center">
                 <template slot-scope="scope">
@@ -65,7 +65,9 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div class="pagination-container">
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+        </div>
         <!-- Preview -->
         <el-dialog :title="preview.title" :visible.sync="preview.open" width="80%" top="5vh" append-to-body class="scrollbar">
             <el-tabs v-model="preview.activeName">
@@ -252,3 +254,43 @@ export default {
     },
 };
 </script>
+
+</script>
+
+<style lang="scss" scoped>
+.table-header {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+  text-align: center;
+}
+
+::v-deep .el-table {
+  th {
+    background-color: #f5f7fa;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  td {
+    padding: 12px 0;
+  }
+  
+  .el-table__body tr:hover > td {
+    background-color: #f5f7fa !important;
+  }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+  padding: 0;
+  text-align: right;
+}
+</style>

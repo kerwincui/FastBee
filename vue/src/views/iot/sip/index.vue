@@ -14,18 +14,18 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser">{{ $t('sip.index.998533-6') }}</el-button>
-                    <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']">{{ $t('del') }}</el-button>
+                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser">{{ $t('sip.index.998533-6') }}</el-button>
+                    <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']">{{ $t('del') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="margin-bottom: 5px">
-            <el-table v-loading="loading" :data="sipidList" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="">
+            <el-table v-loading="loading" :data="sipidList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="">
                 <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
                 <el-table-column :label="$t('sip.index.998533-0')" align="center" prop="deviceSipId">
                     <template slot-scope="scope">
@@ -35,7 +35,7 @@
                 <el-table-column :label="$t('sip.index.998533-2')" align="center" prop="channelSipId" />
                 <el-table-column :label="$t('sip.index.998533-4')" align="center" prop="status" width="80">
                     <template slot-scope="scope">
-                        <dict-tag :options="dict.type.sip_gen_status" :value="scope.row.status" size="mini" />
+                        <dict-tag :options="dict.type.sip_gen_status" :value="scope.row.status" size="small" />
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('sip.index.998533-8')" align="center" prop="productName" />
@@ -57,14 +57,16 @@
                 </el-table-column>
                 <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row,'remark')" v-hasPermi="['iot:video:edit']">修改
+                    <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row,'remark')" v-hasPermi="['iot:video:edit']">修改
                     </el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:video:remove']" v-if="!scope.row.deviceSipId">删除
+                    <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:video:remove']" v-if="!scope.row.deviceSipId">删除
                     </el-button>
                 </template>
             </el-table-column> -->
             </el-table>
-            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            <div class="pagination-container">
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+            </div>
         </el-card>
 
         <el-dialog :title="title" :visible.sync="open" width="450px" append-to-body :close-on-click-modal="false">
@@ -456,3 +458,41 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.table-header {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+    text-align: center;
+}
+
+::v-deep .el-table {
+    th {
+        background-color: #f5f7fa;
+        color: #606266;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    td {
+        padding: 12px 0;
+    }
+
+    .el-table__body tr:hover > td {
+        background-color: #f5f7fa !important;
+    }
+}
+
+.pagination-container {
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+}
+
+::v-deep .el-pagination {
+    padding: 0;
+    text-align: right;
+}
+</style>
