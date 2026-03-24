@@ -1,3 +1,9 @@
+## Translations
+
+[English](./README.en.md) | 简体中文
+
+---
+
 #### 免责声明和提醒：本项目仅用于个人学习和使用，请遵循网络安全法规，及时更新源码修复漏洞，加强服务器防护，杜绝网络安全事件发生。[垂直越权漏洞修复可参考>>](https://fastbee.cn/doc/relate/bug.html)
 
 <br /><br />
