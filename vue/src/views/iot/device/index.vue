@@ -92,8 +92,8 @@
                 </el-table-column>
             </el-table>
             <div class="pagination-container">
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
-        </div>
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+            </div>
         </el-card>
 
         <el-card style="padding-bottom: 100px" v-if="showType == 'card'">
@@ -196,8 +196,8 @@
             </el-row>
             <el-empty :description="$t('device.index.105953-41')" v-if="total == 0"></el-empty>
             <div class="pagination-container">
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
-        </div>
+                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+            </div>
         </el-card>
         <!-- 二维码 -->
         <el-dialog :visible.sync="openSummary" width="300px" append-to-body>
@@ -505,7 +505,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card-item {
     border-radius: 15px;
 }
