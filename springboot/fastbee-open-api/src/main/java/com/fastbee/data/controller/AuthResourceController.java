@@ -1,6 +1,7 @@
 package com.fastbee.data.controller;
 
 import com.fastbee.common.core.controller.BaseController;
+import com.fastbee.common.utils.MessageUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,7 +19,7 @@ public class AuthResourceController extends BaseController
      */
     @GetMapping("/product")
     public String findAll() {
-        return "查询产品列表成功！";
+        return MessageUtils.message("auth.resource.product.query.success");
     }
 
 

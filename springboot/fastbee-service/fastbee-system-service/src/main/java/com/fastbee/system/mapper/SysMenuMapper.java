@@ -55,7 +55,7 @@ public interface SysMenuMapper
      *
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeAll();
+    public List<SysMenu> selectMenuTreeAll(@Param("language") String language);
 
     /**
      * 根据用户ID查询菜单
@@ -63,7 +63,7 @@ public interface SysMenuMapper
      * @param userId 用户ID
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeByUserId(Long userId);
+    public List<SysMenu> selectMenuTreeByUserId(@Param("userId") Long userId, @Param("language") String language);
 
     /**
      * 根据角色ID查询菜单树信息
@@ -80,7 +80,7 @@ public interface SysMenuMapper
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    public SysMenu selectMenuById(Long menuId);
+    public SysMenu selectMenuById(@Param("menuId") Long menuId, @Param("language") String language);
 
     /**
      * 是否存在菜单子节点

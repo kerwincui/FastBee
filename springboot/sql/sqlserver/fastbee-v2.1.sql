@@ -14,6 +14,225 @@
  Date: 21/04/2025 14:32:13
 */
 
+-- ----------------------------
+-- Table structure for app_language
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[app_language]') AND type IN ('U'))
+DROP TABLE [dbo].[app_language]
+    GO
+
+CREATE TABLE [dbo].[app_language] (
+    [id] bigint IDENTITY(5,1) NOT NULL,
+    [language] nvarchar(20) NULL,
+    [country] nvarchar(20) NULL,
+    [time_zone] nvarchar(20) NULL,
+    [create_by] nvarchar(64) NULL,
+    [create_time] datetime2 NULL,
+    [lang_name] nvarchar(20) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'主键ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'语言',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'language'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'国家',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'country'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'时区',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'time_zone'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'create_by'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'create_time'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'语言名称',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language',
+    'COLUMN', N'lang_name'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'app语言',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_language'
+    GO
+
+
+-- ----------------------------
+-- Records of app_language
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+INSERT INTO [dbo].[app_language] ([id], [language], [country], [time_zone], [create_by], [create_time], [lang_name]) VALUES (N'2', N'zh-CN', N'中国', N'UTF+8', N'admin', N'2024-05-31 14:25:30', N'简体中文'), (N'3', N'en-US', N'欧美', N'UTC', N'admin', N'2024-05-31 14:25:30', N'English'), (N'4', N'jp', N'日本', N'utf-9', N'admin', N'2024-05-31 14:25:30', N'日语')
+GO
+
+COMMIT
+GO
+
+-- ----------------------------
+-- Primary Key structure for table app_language
+-- ----------------------------
+ALTER TABLE [dbo].[app_language] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+GO
+
+    -- ----------------------------
+-- Table structure for app_preferences
+-- ----------------------------
+    IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[app_preferences]') AND type IN ('U'))
+DROP TABLE [dbo].[app_preferences]
+    GO
+
+CREATE TABLE [dbo].[app_preferences] (
+    [id] bigint IDENTITY(2,1) NOT NULL,
+    [user_id] bigint NULL,
+    [language] nvarchar(20) NULL,
+    [time_zone] nvarchar(20) NULL,
+    [create_by] nvarchar(64) NULL,
+    [create_time] datetime2 NULL,
+    [update_by] nvarchar(64) NULL,
+    [update_time] datetime2 NULL,
+    [remark] nvarchar(500) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'主键id',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'用户',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'user_id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'语言',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'language'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'时区',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'time_zone'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'create_by'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'create_time'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'update_by'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'update_time'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'备注',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences',
+    'COLUMN', N'remark'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'APP用户偏好设置',
+    'SCHEMA', N'dbo',
+    'TABLE', N'app_preferences'
+    GO
+
+
+-- ----------------------------
+-- Records of app_preferences
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+INSERT INTO [dbo].[app_preferences] ([id], [user_id], [language], [time_zone], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'1', N'1', N'zh-CN', NULL, N'admin', N'2024-05-31 14:25:30', NULL, NULL, NULL)
+GO
+
+COMMIT
+GO
+
+-- ----------------------------
+-- Indexes structure for table app_preferences
+-- ----------------------------
+CREATE UNIQUE NONCLUSTERED INDEX [PRIAMRK_USER_LANG]
+ON [dbo].[app_preferences] (
+  [user_id] ASC,
+  [language] ASC
+)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'用户语言唯一',
+'SCHEMA', N'dbo',
+'TABLE', N'app_preferences',
+'INDEX', N'PRIAMRK_USER_LANG'
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table app_preferences
+-- ----------------------------
+ALTER TABLE [dbo].[app_preferences] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -3730,6 +3949,65 @@ GO
 COMMIT
 GO
 
+-- ----------------------------
+-- Table structure for iot_things_model_translate
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[iot_things_model_translate]') AND type IN ('U'))
+DROP TABLE [dbo].[iot_things_model_translate]
+    GO
+
+CREATE TABLE [dbo].[iot_things_model_translate] (
+    [id] bigint NOT NULL,
+    [zh_cn] nvarchar(200) NULL,
+    [en_us] nvarchar(200) NULL,
+    [product_id] bigint NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_translate',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'zh_CN',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_translate',
+    'COLUMN', N'zh_cn'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'en_US',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_translate',
+    'COLUMN', N'en_us'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'产品ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_translate',
+    'COLUMN', N'product_id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'物模型翻译表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_translate'
+    GO
+
+
+-- ----------------------------
+-- Records of iot_things_model_translate
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+COMMIT
+GO
+
 
 -- ----------------------------
 -- Table structure for iot_things_model_template
@@ -4025,6 +4303,56 @@ GO
 COMMIT
 GO
 
+-- ----------------------------
+-- Table structure for iot_things_model_template_translate
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[iot_things_model_template_translate]') AND type IN ('U'))
+DROP TABLE [dbo].[iot_things_model_template_translate]
+    GO
+
+CREATE TABLE [dbo].[iot_things_model_template_translate] (
+    [id] bigint NOT NULL,
+    [zh_cn] nvarchar(200) NULL,
+    [en_us] nvarchar(200) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_template_translate',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'zh_CN',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_template_translate',
+    'COLUMN', N'zh_cn'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'en_US',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_template_translate',
+    'COLUMN', N'en_us'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'物模型模板翻译表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'iot_things_model_template_translate'
+    GO
+
+
+-- ----------------------------
+-- Records of iot_things_model_template_translate
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+COMMIT
+GO
 
 -- ----------------------------
 -- Table structure for media_server
@@ -6841,130 +7169,130 @@ GO
 -- Table structure for sys_dict_data
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_dict_data]') AND type IN ('U'))
-	DROP TABLE [dbo].[sys_dict_data]
-GO
+DROP TABLE [dbo].[sys_dict_data]
+    GO
 
 CREATE TABLE [dbo].[sys_dict_data] (
-  [dict_code] bigint NOT NULL,
-  [dict_sort] int NULL,
-  [dict_label] nvarchar(100) NULL,
-  [dict_value] nvarchar(100) NULL,
-  [dict_type] nvarchar(100) NULL,
-  [css_class] nvarchar(100) NULL,
-  [list_class] nvarchar(100) NULL,
-  [is_default] nchar(1) NULL,
-  [status] nchar(1) NULL,
-  [create_by] nvarchar(64) NULL,
-  [create_time] datetime2 NULL,
-  [update_by] nvarchar(64) NULL,
-  [update_time] datetime2 NULL,
-  [remark] nvarchar(500) NULL
-)
-GO
+    [dict_code] bigint NOT NULL,
+    [dict_sort] int NULL,
+    [dict_label] nvarchar(100) NULL,
+    [dict_value] nvarchar(100) NULL,
+    [dict_type] nvarchar(100) NULL,
+    [css_class] nvarchar(100) NULL,
+    [list_class] nvarchar(100) NULL,
+    [is_default] nchar(1) NULL,
+    [status] nchar(1) NULL,
+    [create_by] nvarchar(64) NULL,
+    [create_time] datetime2 NULL,
+    [update_by] nvarchar(64) NULL,
+    [update_time] datetime2 NULL,
+    [remark] nvarchar(500) NULL
+    )
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典编码',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'dict_code'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典编码',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'dict_code'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典排序',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'dict_sort'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典排序',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'dict_sort'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典标签',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'dict_label'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典标签',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'dict_label'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典键值',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'dict_value'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典键值',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'dict_value'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典类型',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'dict_type'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典类型',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'dict_type'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'样式属性（其他样式扩展）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'css_class'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'样式属性（其他样式扩展）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'css_class'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'表格回显样式',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'list_class'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'表格回显样式',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'list_class'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'是否默认（Y是 N否）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'is_default'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'是否默认（Y是 N否）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'is_default'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'状态（0正常 1停用）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'status'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'状态（0正常 1停用）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'status'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'create_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'create_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'create_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'create_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'update_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'update_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'update_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'update_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data',
-'COLUMN', N'remark'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'备注',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data',
+    'COLUMN', N'remark'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典数据表',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_data'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典数据表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data'
+    GO
 
 
 -- ----------------------------
@@ -6976,13 +7304,65 @@ GO
 INSERT INTO [dbo].[sys_dict_data] ([dict_code], [dict_sort], [dict_label], [dict_value], [dict_type], [css_class], [list_class], [is_default], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'1', N'1', N'男', N'0', N'sys_user_sex', N'', N'', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'性别男'), (N'2', N'2', N'女', N'1', N'sys_user_sex', N'', N'', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'性别女'), (N'3', N'3', N'未知', N'2', N'sys_user_sex', N'', N'', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'性别未知'), (N'4', N'1', N'显示', N'0', N'sys_show_hide', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'显示菜单'), (N'5', N'2', N'隐藏', N'1', N'sys_show_hide', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'隐藏菜单'), (N'6', N'1', N'正常', N'0', N'sys_normal_disable', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'正常状态'), (N'7', N'2', N'停用', N'1', N'sys_normal_disable', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'停用状态'), (N'8', N'1', N'正常', N'0', N'sys_job_status', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'正常状态'), (N'9', N'2', N'暂停', N'1', N'sys_job_status', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'停用状态'), (N'10', N'1', N'默认', N'DEFAULT', N'sys_job_group', N'', N'', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'默认分组'), (N'11', N'2', N'系统', N'SYSTEM', N'sys_job_group', N'', N'', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统分组'), (N'12', N'1', N'是', N'Y', N'sys_yes_no', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统默认是'), (N'13', N'2', N'否', N'N', N'sys_yes_no', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统默认否'), (N'14', N'1', N'通知', N'1', N'sys_notice_type', N'', N'warning', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知'), (N'15', N'2', N'公告', N'2', N'sys_notice_type', N'', N'success', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'公告'), (N'16', N'1', N'正常', N'0', N'sys_notice_status', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'正常状态'), (N'17', N'2', N'关闭', N'1', N'sys_notice_status', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'关闭状态'), (N'18', N'1', N'新增', N'1', N'sys_oper_type', N'', N'info', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'新增操作'), (N'19', N'2', N'修改', N'2', N'sys_oper_type', N'', N'info', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'修改操作'), (N'20', N'3', N'删除', N'3', N'sys_oper_type', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'删除操作'), (N'21', N'4', N'授权', N'4', N'sys_oper_type', N'', N'primary', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'授权操作'), (N'22', N'5', N'导出', N'5', N'sys_oper_type', N'', N'warning', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'导出操作'), (N'23', N'6', N'导入', N'6', N'sys_oper_type', N'', N'warning', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'导入操作'), (N'24', N'7', N'强退', N'7', N'sys_oper_type', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'强退操作'), (N'25', N'8', N'生成代码', N'8', N'sys_oper_type', N'', N'warning', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'生成操作'), (N'26', N'9', N'清空数据', N'9', N'sys_oper_type', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'清空操作'), (N'27', N'1', N'成功', N'0', N'sys_common_status', N'', N'primary', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'正常状态'), (N'28', N'2', N'失败', N'1', N'sys_common_status', N'', N'danger', N'N', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'停用状态'), (N'100', N'1', N'属性', N'1', N'iot_things_type', N'', N'primary', N'Y', N'0', N'admin', N'2021-12-12 16:41:15', N'admin', N'2021-12-15 22:49:37', N''), (N'101', N'2', N'功能', N'2', N'iot_things_type', N'', N'success', N'Y', N'0', N'admin', N'2021-12-12 16:43:33', N'admin', N'2021-12-14 16:33:11', N''), (N'102', N'3', N'事件', N'3', N'iot_things_type', NULL, N'warning', N'Y', N'0', N'admin', N'2021-12-12 16:46:04', N'', NULL, NULL), (N'103', N'1', N'整数', N'integer', N'iot_data_type', N'', N'', N'Y', N'0', N'admin', N'2021-12-12 20:20:46', N'admin', N'2021-12-14 16:09:56', N''), (N'104', N'2', N'小数', N'decimal', N'iot_data_type', NULL, N'default', N'Y', N'0', N'admin', N'2021-12-12 20:21:21', N'admin', N'2021-12-15 22:51:07', NULL), (N'105', N'3', N'布尔', N'bool', N'iot_data_type', NULL, N'default', N'Y', N'0', N'admin', N'2021-12-12 20:22:12', N'admin', N'2021-12-15 22:51:02', NULL), (N'106', N'4', N'枚举', N'enum', N'iot_data_type', NULL, N'default', N'Y', N'0', N'admin', N'2021-12-12 20:22:37', N'admin', N'2021-12-15 22:50:57', NULL), (N'107', N'5', N'字符串', N'string', N'iot_data_type', NULL, N'default', N'Y', N'0', N'admin', N'2021-12-12 20:22:54', N'admin', N'2021-12-15 22:50:52', NULL), (N'108', N'1', N'是', N'1', N'iot_yes_no', N'', N'default', N'Y', N'0', N'admin', N'2021-12-12 20:25:14', N'admin', N'2022-01-02 13:39:09', N''), (N'109', N'2', N'否', N'0', N'iot_yes_no', N'', N'default', N'Y', N'0', N'admin', N'2021-12-12 20:25:25', N'admin', N'2022-01-02 13:39:15', N''), (N'110', N'6', N'数组', N'array', N'iot_data_type', NULL, N'default', N'Y', N'0', N'admin', N'2021-12-13 18:18:04', N'admin', N'2021-12-15 22:50:42', NULL), (N'111', N'1', N'未发布', N'1', N'iot_product_status', NULL, N'info', N'N', N'0', N'admin', N'2021-12-19 15:01:18', N'admin', N'2021-12-19 15:01:55', NULL), (N'112', N'2', N'已发布', N'2', N'iot_product_status', NULL, N'success', N'N', N'0', N'admin', N'2021-12-19 15:01:43', N'', NULL, NULL), (N'113', N'1', N'直连设备', N'1', N'iot_device_type', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:03:49', N'admin', N'2021-12-19 15:10:13', NULL), (N'114', N'2', N'网关设备', N'2', N'iot_device_type', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:04:28', N'admin', N'2023-02-09 16:25:46', NULL), (N'116', N'1', N'WIFI', N'1', N'iot_network_method', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:07:35', N'admin', N'2021-12-22 00:11:19', NULL), (N'117', N'2', N'蜂窝(2G/3G/4G/5G)', N'2', N'iot_network_method', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:08:30', N'admin', N'2022-01-14 02:12:27', NULL), (N'118', N'3', N'以太网', N'3', N'iot_network_method', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:09:08', N'admin', N'2022-01-14 02:12:39', NULL), (N'119', N'1', N'简单认证', N'1', N'iot_vertificate_method', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:13:16', N'admin', N'2022-06-05 00:14:48', NULL), (N'120', N'2', N'加密认证', N'2', N'iot_vertificate_method', NULL, N'default', N'N', N'0', N'admin', N'2021-12-19 15:13:26', N'admin', N'2022-06-05 00:14:57', NULL), (N'122', N'1', N'ESP8266/Arduino', N'1', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2021-12-24 15:54:52', N'admin', N'2021-12-24 16:07:31', NULL), (N'123', N'3', N'ESP32/Arduino', N'2', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2021-12-24 15:55:04', N'admin', N'2021-12-24 16:07:26', NULL), (N'124', N'2', N'ESP8266/RTOS', N'3', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2021-12-24 15:56:08', N'admin', N'2021-12-24 16:07:17', NULL), (N'127', N'4', N'ESP32/ESP-IDF', N'4', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2021-12-24 16:07:54', N'', NULL, NULL), (N'128', N'5', N'树莓派/Python', N'5', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2021-12-24 16:08:31', N'', NULL, NULL), (N'129', N'0', N'未激活', N'1', N'iot_device_status', NULL, N'warning', N'N', N'0', N'admin', N'2021-12-27 22:21:04', N'admin', N'2021-12-27 22:22:09', NULL), (N'130', N'0', N'禁用', N'2', N'iot_device_status', NULL, N'danger', N'N', N'0', N'admin', N'2021-12-27 22:21:22', N'', NULL, NULL), (N'131', N'0', N'在线', N'3', N'iot_device_status', NULL, N'success', N'N', N'0', N'admin', N'2021-12-27 22:21:42', N'', NULL, NULL), (N'132', N'0', N'离线', N'4', N'iot_device_status', NULL, N'info', N'N', N'0', N'admin', N'2021-12-27 22:22:01', N'', NULL, NULL), (N'133', N'0', N'启用', N'1', N'iot_is_enable', NULL, N'success', N'N', N'0', N'admin', N'2022-01-12 23:25:08', N'admin', N'2022-01-12 23:25:30', NULL), (N'134', N'0', N'禁用', N'0', N'iot_is_enable', NULL, N'info', N'N', N'0', N'admin', N'2022-01-12 23:25:19', N'admin', N'2022-01-12 23:25:38', NULL), (N'135', N'0', N'提醒通知', N'1', N'iot_alert_level', NULL, N'success', N'N', N'0', N'admin', N'2022-01-13 14:58:10', N'admin', N'2022-01-13 14:58:31', NULL), (N'136', N'0', N'轻微问题', N'2', N'iot_alert_level', NULL, N'warning', N'N', N'0', N'admin', N'2022-01-13 14:59:00', N'', NULL, NULL), (N'137', N'0', N'严重警告', N'3', N'iot_alert_level', NULL, N'danger', N'N', N'0', N'admin', N'2022-01-13 14:59:16', N'', NULL, NULL), (N'138', N'0', N'不需要处理', N'1', N'iot_process_status', NULL, N'default', N'N', N'0', N'admin', N'2022-01-13 15:06:03', N'', NULL, NULL), (N'139', N'0', N'未处理', N'2', N'iot_process_status', NULL, N'default', N'N', N'0', N'admin', N'2022-01-13 15:06:14', N'', NULL, NULL), (N'140', N'0', N'已处理', N'3', N'iot_process_status', NULL, N'default', N'N', N'0', N'admin', N'2022-01-13 15:06:24', N'', NULL, NULL), (N'141', N'1', N'属性上报', N'1', N'iot_device_log_type', NULL, N'primary', N'N', N'0', N'admin', N'2022-01-13 15:10:32', N'admin', N'2022-03-13 00:20:25', NULL), (N'142', N'3', N'事件上报', N'3', N'iot_device_log_type', NULL, N'danger', N'N', N'0', N'admin', N'2022-01-13 15:10:43', N'admin', N'2022-03-13 00:21:00', NULL), (N'143', N'2', N'功能调用', N'2', N'iot_device_log_type', NULL, N'warning', N'N', N'0', N'admin', N'2022-01-13 15:10:55', N'admin', N'2022-03-13 00:20:32', NULL), (N'144', N'4', N'设备升级', N'4', N'iot_device_log_type', NULL, N'success', N'N', N'0', N'admin', N'2022-01-13 15:11:08', N'admin', N'2022-03-13 00:21:06', NULL), (N'145', N'5', N'设备上线', N'5', N'iot_device_log_type', NULL, N'success', N'N', N'0', N'admin', N'2022-01-13 15:11:23', N'admin', N'2022-03-13 00:21:26', NULL), (N'146', N'6', N'设备离线', N'6', N'iot_device_log_type', NULL, N'info', N'N', N'0', N'admin', N'2022-01-13 15:11:32', N'admin', N'2022-03-13 00:21:13', NULL), (N'147', N'4', N'其他', N'4', N'iot_network_method', NULL, N'default', N'N', N'0', N'admin', N'2022-01-14 02:12:49', N'admin', N'2022-01-14 02:13:03', NULL), (N'148', N'6', N'安卓/Android', N'6', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2022-01-16 12:39:27', N'', NULL, NULL), (N'149', N'7', N'其他', N'7', N'iot_device_chip', NULL, N'default', N'N', N'0', N'admin', N'2022-01-16 12:39:55', N'admin', N'2022-01-16 12:40:13', NULL), (N'150', N'1', N'小度平台', N'1', N'oauth_platform', NULL, N'primary', N'N', N'0', N'admin', N'2022-02-07 20:29:23', N'admin', N'2022-02-07 22:24:28', NULL), (N'151', N'2', N'天猫精灵', N'2', N'oauth_platform', NULL, N'danger', N'N', N'0', N'admin', N'2022-02-07 20:29:41', N'admin', N'2022-02-07 22:23:14', NULL), (N'152', N'3', N'小米小爱', N'3', N'oauth_platform', NULL, N'success', N'N', N'0', N'admin', N'2022-02-07 20:30:07', N'admin', N'2022-02-07 22:23:24', NULL), (N'153', N'4', N'其他平台', N'4', N'oauth_platform', NULL, N'warning', N'N', N'0', N'admin', N'2022-02-07 22:23:52', N'admin', N'2022-02-07 22:24:02', NULL), (N'154', N'1', N'微信登录', N'WECHAT', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2022-04-20 16:41:33', N'admin', N'2023-09-22 10:27:54', NULL), (N'155', N'2', N'QQ登录', N'QQ', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2022-04-20 16:42:46', N'admin', N'2023-09-22 10:28:03', NULL), (N'156', N'0', N'启用', N'0', N'iot_social_platform_status', NULL, N'success', N'N', N'0', N'admin', N'2022-04-20 17:02:48', N'admin', N'2022-05-12 17:39:40', N'启用'), (N'157', N'1', N'未启用', N'1', N'iot_social_platform_status', NULL, N'info', N'N', N'0', N'admin', N'2022-04-20 17:03:15', N'admin', N'2022-05-21 13:44:13', N'禁用'), (N'158', N'3', N'支付宝', N'ALIPAY', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2022-05-12 17:49:24', N'admin', N'2022-05-12 17:50:21', NULL), (N'159', N'1', N'自动定位', N'1', N'iot_location_way', NULL, N'success', N'N', N'0', N'admin', N'2022-05-21 13:46:51', N'admin', N'2022-05-21 13:53:23', N'IP定位，精确到城市'), (N'160', N'2', N'设备定位', N'2', N'iot_location_way', NULL, N'warning', N'N', N'0', N'admin', N'2022-05-21 13:46:51', N'admin', N'2022-05-21 13:49:21', N'最精确定位'), (N'161', N'3', N'自定义位置', N'3', N'iot_location_way', NULL, N'primary', N'N', N'0', N'admin', N'2022-05-21 13:48:50', N'admin', N'2022-05-21 13:55:45', N'位置自定义'), (N'162', N'3', N'简单+加密', N'3', N'iot_vertificate_method', NULL, N'default', N'N', N'0', N'admin', N'2022-06-05 00:15:46', N'', NULL, NULL), (N'163', N'1', N'未使用', N'1', N'iot_auth_status', NULL, N'info', N'N', N'0', N'admin', N'2022-06-07 17:39:22', N'admin', N'2022-06-07 17:40:10', NULL), (N'164', N'2', N'已使用', N'2', N'iot_auth_status', NULL, N'success', N'N', N'0', N'admin', N'2022-06-07 17:40:01', N'admin', N'2022-06-07 23:21:49', NULL), (N'165', N'7', N'对象', N'object', N'iot_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-09 16:20:57', N'admin', N'2023-02-09 16:21:08', NULL), (N'166', N'3', N'监控设备', N'3', N'iot_device_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-09 16:26:00', N'', NULL, NULL), (N'169', N'0', N'DVR', N'111', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:07:06', N'', NULL, NULL), (N'170', N'1', N'NVR', N'118', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:07:59', N'', NULL, NULL), (N'171', N'2', N'报警控制器', N'117', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:08:13', N'admin', N'2023-02-22 01:08:35', NULL), (N'172', N'4', N'摄像机', N'131', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:08:52', N'', NULL, NULL), (N'173', N'5', N'IPC', N'132', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:09:11', N'', NULL, NULL), (N'174', N'6', N'显示器', N'133', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:09:30', N'', NULL, NULL), (N'175', N'7', N'报警输入设备', N'134', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:09:49', N'', NULL, NULL), (N'176', N'8', N'报警输出设备', N'135', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:10:08', N'', NULL, NULL), (N'177', N'9', N'语音输入设备', N'136', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:10:29', N'', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[sys_dict_data] ([dict_code], [dict_sort], [dict_label], [dict_value], [dict_type], [css_class], [list_class], [is_default], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'178', N'10', N'语音输出设备', N'137', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:10:46', N'admin', N'2023-02-22 01:10:51', NULL), (N'179', N'11', N'移动传输设备', N'138', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:11:09', N'', NULL, NULL), (N'180', N'0', N'报警控制器', N'117', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:09', N'', NULL, NULL), (N'181', N'1', N'摄像机', N'131', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:24', N'', NULL, NULL), (N'182', N'2', N'IPC', N'132', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:39', N'', NULL, NULL), (N'183', N'3', N'显示器', N'133', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:57', N'', NULL, NULL), (N'184', N'5', N'报警输入设备', N'134', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:13:14', N'', NULL, NULL), (N'185', N'6', N'报警输出设备', N'135', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:13:29', N'admin', N'2023-02-22 01:13:49', NULL), (N'186', N'7', N'语音输入设备', N'136', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:14:14', N'admin', N'2023-02-22 01:14:24', NULL), (N'187', N'8', N'语音输出设备', N'137', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:14:50', N'', NULL, NULL), (N'188', N'9', N'移动传输设备', N'138', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:15:11', N'', NULL, NULL), (N'198', N'0', N'MQTT', N'MQTT', N'iot_transport_type', NULL, N'primary', N'N', N'0', N'admin', N'2023-02-28 16:35:40', N'admin', N'2025-03-19 16:23:48', NULL), (N'230', N'99', N'其他', N'0', N'sys_oper_type', N'', N'info', N'N', N'0', N'admin', N'2023-03-10 23:28:32', N'', NULL, N'其他操作'), (N'231', N'0', N'事件上报', N'3', N'iot_event_type', NULL, N'danger', N'N', N'0', N'admin', N'2023-03-29 00:25:28', N'', NULL, NULL), (N'232', N'0', N'设备上线', N'5', N'iot_event_type', NULL, N'success', N'N', N'0', N'admin', N'2023-03-29 00:25:52', N'', NULL, NULL), (N'233', N'0', N'设备离线', N'6', N'iot_event_type', NULL, N'info', N'N', N'0', N'admin', N'2023-03-29 00:26:09', N'', NULL, NULL), (N'234', N'0', N'服务下发', N'1', N'iot_function_type', NULL, N'primary', N'N', N'0', N'admin', N'2023-03-29 00:38:26', N'', NULL, NULL), (N'235', N'0', N'属性获取', N'2', N'iot_function_type', NULL, N'success', N'N', N'0', N'admin', N'2023-03-29 00:38:44', N'', NULL, NULL), (N'237', N'0', N'读写', N'0', N'iot_data_read_write', NULL, N'primary', N'N', N'0', N'admin', N'2023-04-09 02:12:05', N'', NULL, NULL), (N'238', N'0', N'只读', N'1', N'iot_data_read_write', NULL, N'info', N'N', N'0', N'admin', N'2023-04-09 02:12:19', N'', NULL, NULL), (N'239', N'0', N'全部设备', N'1', N'oat_update_limit', NULL, N'default', N'N', N'0', N'admin', N'2023-04-09 23:57:06', N'admin', N'2023-04-11 11:53:57', NULL), (N'240', N'1', N'指定设备', N'2', N'oat_update_limit', NULL, N'default', N'N', N'0', N'admin', N'2023-04-11 11:53:28', N'admin', N'2023-04-11 11:53:52', NULL), (N'241', N'4', N'GB28181', N'GB28181', N'iot_transport_type', NULL, N'success', N'N', N'0', N'admin', N'2023-05-12 14:25:39', N'admin', N'2025-03-19 16:24:12', NULL), (N'242', N'1', N'02(读离散量输入)', N'2', N'iot_modbus_status_code', NULL, N'default', N'N', N'0', N'admin', N'2023-07-03 10:16:48', N'admin', N'2023-07-03 10:17:35', NULL), (N'243', N'3', N'04(读输入寄存器)', N'4', N'iot_modbus_status_code', NULL, N'default', N'N', N'0', N'admin', N'2023-07-03 10:17:18', N'admin', N'2023-07-03 10:17:58', NULL), (N'247', N'4', N'微信开放平台网站应用', N'wechat_open_web', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'248', N'5', N'微信开放平台移动应用', N'wechat_open_mobile', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:29:14', N'', NULL, NULL), (N'249', N'6', N'微信开放平台小程序', N'wechat_open_mini_program', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:38:12', N'', NULL, NULL), (N'250', N'0', N'16位 无符号', N'ushort', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:11:54', N'', NULL, NULL), (N'251', N'1', N'16位 有符号', N'short', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:12:26', N'', NULL, NULL), (N'252', N'2', N'32位 有符号(ABCD)', N'long-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:12:53', N'', NULL, NULL), (N'253', N'3', N'32位 有符号(CDAB)', N'long-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:13:21', N'', NULL, NULL), (N'254', N'4', N'32位 无符号(ABCD)', N'ulong-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:13:42', N'', NULL, NULL), (N'255', N'5', N'32位 无符号(CDAB)', N'ulong-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:06', N'', NULL, NULL), (N'256', N'6', N'32位 浮点数(ABCD)', N'float-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:28', N'', NULL, NULL), (N'257', N'7', N'32位 浮点数(CDAB)', N'float-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:50', N'', NULL, NULL), (N'258', N'8', N'位', N'bit', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:15:13', N'', NULL, NULL), (N'259', N'0', N'电灯', N'LIGHT', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'260', N'0', N'空调', N'AIR_CONDITION', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'261', N'0', N'窗帘', N'CURTAIN', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'262', N'0', N'窗纱', N'CURT_SIMP', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'263', N'0', N'插座', N'SOCKET', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'264', N'0', N'开关', N'SWITCH', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'265', N'0', N'冰箱', N'FRIDGE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'266', N'0', N'净水器', N'WATER_PURIFIER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'267', N'0', N'加湿器', N'HUMIDIFIER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'268', N'0', N'除湿器', N'DEHUMIDIFIER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'269', N'0', N'电磁炉', N'INDUCTION_COOKER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'270', N'0', N'空气净化器', N'AIR_PURIFIER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'271', N'0', N'洗衣机', N'WASHING_MACHINE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'272', N'0', N'热水器', N'WATER_HEATER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'273', N'0', N'燃气灶', N'GAS_STOVE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'274', N'0', N'电视机', N'TV_SET', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'275', N'0', N'网络盒子', N'OTT_BOX', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'276', N'0', N'油烟机', N'RANGE_HOOD', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'277', N'0', N'电风扇', N'FAN', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'278', N'0', N'投影仪', N'PROJECTOR', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'279', N'0', N'扫地机器人', N'SWEEPING_ROBOT', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'280', N'0', N'热水壶', N'KETTLE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'281', N'0', N'微波炉', N'MICROWAVE_OVEN', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'282', N'0', N'压力锅', N'PRESSURE_COOKER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'283', N'0', N'电饭煲', N'RICE_COOKER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'284', N'0', N'破壁机', N'HIGH_SPEED_BLENDER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'285', N'0', N'新风机', N'AIR_FRESHER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'286', N'0', N'晾衣架', N'CLOTHES_RACK', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'287', N'0', N'烤箱设备', N'OVEN', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'288', N'0', N'蒸烤箱', N'STEAM_OVEN', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'289', N'0', N'蒸箱', N'STEAM_BOX', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'290', N'0', N'电暖器', N'HEATER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'291', N'0', N'开窗器', N'WINDOW_OPENER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'292', N'0', N'摄像头', N'WEBCAM', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'293', N'0', N'相机', N'CAMERA', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'294', N'0', N'机器人', N'ROBOT', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'295', N'0', N'打印机', N'PRINTER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'296', N'0', N'饮水机', N'WATER_COOLER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'297', N'0', N'鱼缸', N'FISH_TANK', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'298', N'0', N'浇花器', N'WATERING_DEVICE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'299', N'0', N'机顶盒', N'SET_TOP_BOX', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'300', N'0', N'香薰机', N'AROMATHERAPY_MACHINE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'301', N'0', N'DVD', N'DVD', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'302', N'0', N'鞋柜', N'SHOE_CABINET', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'303', N'0', N'走步机', N'WALKING_MACHINE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'304', N'0', N'跑步机', N'TREADMILL', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'305', N'0', N'床', N'BED', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'306', N'0', N'浴霸', N'YUBA', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'307', N'0', N'花洒', N'SHOWER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'308', N'0', N'浴缸', N'BATHTUB', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'309', N'0', N'消毒柜', N'DISINFECTION_CABINET', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'310', N'0', N'洗碗机', N'DISHWASHER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'311', N'0', N'沙发品类', N'SOFA', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'312', N'0', N'门铃', N'DOOR_BELL', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'313', N'0', N'电梯', N'ELEVATOR', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'314', N'0', N'体重秤', N'WEIGHT_SCALE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'315', N'0', N'体脂秤', N'BODY_FAT_SCALE', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'316', N'0', N'壁挂炉', N'WALL_HUNG_GAS_BOILER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'317', N'0', N'特定设备的组合场景', N'SCENE_TRIGGER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, N'描述特定设备的组合场景，设备之间没有相互关联，无特定操作顺序。 例如“打开睡眠模式”包括关灯和锁上房门，但是关灯和锁上房门之间没有必然联系，可以先关灯然后锁上房门，也可以先锁上房门后关灯'), (N'318', N'0', N'特定设备的组合场景', N'ACTIVITY_TRIGGER', N'dueros_related_device', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, N'描述特定设备的组合场景。场景中的设备必须以指定顺序操作。如“观看优酷视频”场景中必须先打开电视机，然后打开HDMI1'), (N'319', N'0', N'打开', N'turnOn', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'320', N'0', N'关闭', N'turnOff', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'321', N'0', N'定时打开', N'timingTurnOn', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL)
+INSERT INTO [dbo].[sys_dict_data] ([dict_code], [dict_sort], [dict_label], [dict_value], [dict_type], [css_class], [list_class], [is_default], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'178', N'10', N'语音输出设备', N'137', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:10:46', N'admin', N'2023-02-22 01:10:51', NULL), (N'179', N'11', N'移动传输设备', N'138', N'video_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:11:09', N'', NULL, NULL), (N'180', N'0', N'报警控制器', N'117', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:09', N'', NULL, NULL), (N'181', N'1', N'摄像机', N'131', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:24', N'', NULL, NULL), (N'182', N'2', N'IPC', N'132', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:39', N'', NULL, NULL), (N'183', N'3', N'显示器', N'133', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:12:57', N'', NULL, NULL), (N'184', N'5', N'报警输入设备', N'134', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:13:14', N'', NULL, NULL), (N'185', N'6', N'报警输出设备', N'135', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:13:29', N'admin', N'2023-02-22 01:13:49', NULL), (N'186', N'7', N'语音输入设备', N'136', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:14:14', N'admin', N'2023-02-22 01:14:24', NULL), (N'187', N'8', N'语音输出设备', N'137', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:14:50', N'', NULL, NULL), (N'188', N'9', N'移动传输设备', N'138', N'channel_type', NULL, N'default', N'N', N'0', N'admin', N'2023-02-22 01:15:11', N'', NULL, NULL), (N'198', N'0', N'MQTT', N'MQTT', N'iot_transport_type', NULL, N'primary', N'N', N'0', N'admin', N'2023-02-28 16:35:40', N'admin', N'2025-03-19 16:23:48', NULL), (N'230', N'99', N'其他', N'0', N'sys_oper_type', N'', N'info', N'N', N'0', N'admin', N'2023-03-10 23:28:32', N'', NULL, N'其他操作'), (N'231', N'0', N'事件上报', N'3', N'iot_event_type', NULL, N'danger', N'N', N'0', N'admin', N'2023-03-29 00:25:28', N'', NULL, NULL), (N'232', N'0', N'设备上线', N'5', N'iot_event_type', NULL, N'success', N'N', N'0', N'admin', N'2023-03-29 00:25:52', N'', NULL, NULL), (N'233', N'0', N'设备离线', N'6', N'iot_event_type', NULL, N'info', N'N', N'0', N'admin', N'2023-03-29 00:26:09', N'', NULL, NULL), (N'234', N'0', N'服务下发', N'1', N'iot_function_type', NULL, N'primary', N'N', N'0', N'admin', N'2023-03-29 00:38:26', N'', NULL, NULL), (N'235', N'0', N'属性获取', N'2', N'iot_function_type', NULL, N'success', N'N', N'0', N'admin', N'2023-03-29 00:38:44', N'', NULL, NULL), (N'237', N'0', N'读写', N'0', N'iot_data_read_write', NULL, N'primary', N'N', N'0', N'admin', N'2023-04-09 02:12:05', N'', NULL, NULL), (N'238', N'0', N'只读', N'1', N'iot_data_read_write', NULL, N'info', N'N', N'0', N'admin', N'2023-04-09 02:12:19', N'', NULL, NULL), (N'239', N'0', N'全部设备', N'1', N'oat_update_limit', NULL, N'default', N'N', N'0', N'admin', N'2023-04-09 23:57:06', N'admin', N'2023-04-11 11:53:57', NULL), (N'240', N'1', N'指定设备', N'2', N'oat_update_limit', NULL, N'default', N'N', N'0', N'admin', N'2023-04-11 11:53:28', N'admin', N'2023-04-11 11:53:52', NULL), (N'241', N'4', N'GB28181', N'GB28181', N'iot_transport_type', NULL, N'success', N'N', N'0', N'admin', N'2023-05-12 14:25:39', N'admin', N'2025-03-19 16:24:12', NULL), (N'242', N'1', N'02(读离散量输入)', N'2', N'iot_modbus_status_code', NULL, N'default', N'N', N'0', N'admin', N'2023-07-03 10:16:48', N'admin', N'2023-07-03 10:17:35', NULL), (N'243', N'3', N'04(读输入寄存器)', N'4', N'iot_modbus_status_code', NULL, N'default', N'N', N'0', N'admin', N'2023-07-03 10:17:18', N'admin', N'2023-07-03 10:17:58', NULL), (N'244', N'4', N'微信开放平台网站应用', N'wechat_open_web', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:28:15', N'', NULL, NULL), (N'245', N'5', N'微信开放平台移动应用', N'wechat_open_mobile', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:29:14', N'', NULL, NULL), (N'246', N'6', N'微信开放平台小程序', N'wechat_open_mini_program', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-08-23 11:38:12', N'', NULL, NULL), (N'247', N'7', N'微信开放平台网站应用个人中心绑定', N'wechat_open_web_bind', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-10-09 11:28:15', N'', NULL, NULL), (N'248', N'0', N'16位 无符号', N'ushort', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:11:54', N'', NULL, NULL), (N'249', N'1', N'16位 有符号', N'short', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:12:26', N'', NULL, NULL), (N'250', N'2', N'32位 有符号(ABCD)', N'long-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:12:53', N'', NULL, NULL), (N'251', N'3', N'32位 有符号(CDAB)', N'long-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:13:21', N'', NULL, NULL), (N'252', N'4', N'32位 无符号(ABCD)', N'ulong-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:13:42', N'', NULL, NULL), (N'253', N'5', N'32位 无符号(CDAB)', N'ulong-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:06', N'', NULL, NULL), (N'254', N'6', N'32位 浮点数(ABCD)', N'float-ABCD', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:28', N'', NULL, NULL), (N'255', N'7', N'32位 浮点数(CDAB)', N'float-CDAB', N'iot_modbus_data_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-04 14:14:50', N'', NULL, NULL), (N'257', N'1', N'Java脚本引擎', N'java', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:51:09', N'admin', N'2023-11-04 01:51:42', NULL), (N'258', N'2', N'JavaScript脚本引擎', N'js', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:51:36', N'admin', N'2023-11-05 10:28:30', NULL), (N'259', N'1', N'普通脚本节点', N'script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:11', N'', NULL, NULL), (N'260', N'2', N'选择脚本节点 (switch)', N'switch_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:32', N'admin', N'2023-11-04 01:56:44', NULL), (N'261', N'3', N'条件脚本节点 (if)', N'if_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:48', N'admin', N'2023-11-04 01:56:55', NULL), (N'262', N'4', N'数量循环节点 (for)', N'for_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:11', N'admin', N'2023-11-04 01:57:07', NULL), (N'263', N'5', N'条件循环节点 (while)', N'while_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:30', N'admin', N'2023-11-04 01:57:16', NULL), (N'264', N'6', N'退出循环节点 (break)', N'break_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:50', N'admin', N'2023-11-04 01:57:29', NULL), (N'265', N'3', N'groovy脚本引擎', N'groovy', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-05 10:29:14', N'', NULL, NULL), (N'560', N'1', N'设备上报', N'1', N'rule_script_event', NULL, N'primary', N'N', N'0', N'admin', N'2023-12-19 11:40:34', N'admin', N'2023-12-20 02:23:43', NULL), (N'561', N'2', N'平台下发', N'2', N'rule_script_event', NULL, N'warning', N'N', N'0', N'admin', N'2023-12-19 11:40:46', N'admin', N'2023-12-20 02:23:51', NULL), (N'562', N'3', N'设备上线', N'3', N'rule_script_event', NULL, N'success', N'N', N'0', N'admin', N'2023-12-19 11:40:58', N'admin', N'2023-12-20 02:24:00', NULL), (N'563', N'4', N'设备离线', N'4', N'rule_script_event', NULL, N'info', N'N', N'0', N'admin', N'2023-12-19 11:41:09', N'admin', N'2023-12-20 02:24:08', NULL), (N'564', N'1', N'数据流', N'1', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:39', N'', NULL, NULL), (N'565', N'2', N'触发器', N'2', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:48', N'', NULL, NULL), (N'566', N'3', N'执行动作', N'3', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:59', N'', NULL, NULL), (N'567', N'1', N'消息重发', N'1', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:42:26', N'', NULL, NULL), (N'568', N'2', N'消息通知', N'2', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:18', N'admin', N'2023-12-19 11:43:38', NULL), (N'569', N'3', N'Http推送', N'3', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:33', N'', NULL, NULL), (N'570', N'4', N'Mqtt桥接', N'4', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:54', N'', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[sys_dict_data] ([dict_code], [dict_sort], [dict_label], [dict_value], [dict_type], [css_class], [list_class], [is_default], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'322', N'0', N'定时关闭', N'timingTurnOff', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'323', N'0', N'暂停', N'pause', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'324', N'0', N'继续', N'continue', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'325', N'0', N'设置颜色', N'setColor', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'326', N'0', N'设置灯光色温', N'setColorTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'327', N'0', N'增高灯光色温', N'incrementColorTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'328', N'0', N'降低灯光色温', N'decrementColorTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'329', N'0', N'设置灯光亮度', N'setBrightnessPercentage', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'330', N'0', N'调亮灯光', N'incrementBrightnessPercentage', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'331', N'0', N'调暗灯光', N'decrementBrightnessPercentage', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'332', N'0', N'设置功率', N'setPower', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'333', N'0', N'增大功率', N'incrementPower', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'334', N'0', N'减小功率', N'decrementPower', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'335', N'0', N'升高温度', N'incrementTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'336', N'0', N'降低温度', N'decrementTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'337', N'0', N'设置温度', N'setTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'338', N'0', N'增加风速', N'incrementFanSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'339', N'0', N'减小风速', N'decrementFanSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'340', N'0', N'设置风速', N'setFanSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'341', N'0', N'设置档位', N'setGear', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'342', N'0', N'设置模式', N'setMode', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'343', N'0', N'取消设置的模式', N'unSetMode', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'344', N'0', N'定时设置模式', N'timingSetMode', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'345', N'0', N'定时取消设置的模式', N'timingUnsetMode', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'346', N'0', N'调高音量', N'incrementVolume', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'347', N'0', N'调低音量', N'decrementVolume', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'348', N'0', N'设置音量', N'setVolume', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'349', N'0', N'设置静音状态', N'setVolumeMute', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'350', N'0', N'上一个频道', N'decrementTVChannel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'351', N'0', N'下一个频道', N'incrementTVChannel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'352', N'0', N'设置频道', N'setTVChannel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'353', N'0', N'返回上个频道', N'returnTVChannel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'354', N'0', N'开始充电', N'chargeTurnOn', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'355', N'0', N'停止充电', N'chargeTurnOff', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'356', N'0', N'查询开关状态', N'getTurnOnState', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'357', N'0', N'查询油量', N'getOilCapacity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'358', N'0', N'查询电量', N'getElectricityCapacity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'359', N'0', N'上锁/解锁', N'setLockState', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'360', N'0', N'查询锁状态', N'getLockState', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'361', N'0', N'设置吸力', N'setSuction', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'362', N'0', N'设置水量', N'setWaterLevel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'363', N'0', N'设置清扫位置', N'setCleaningLocation', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'364', N'0', N'执行自定义复杂动作', N'setComplexActions', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'365', N'0', N'设置移动方向', N'setDirection', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'366', N'0', N'打印', N'submitPrint', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'367', N'0', N'查询PM2.5', N'getAirPM25', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'368', N'0', N'查询PM10', N'getAirPM10', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'369', N'0', N'查询二氧化碳含量', N'getCO2Quantity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'370', N'0', N'查询空气质量', N'getAirQualityIndex', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'371', N'0', N'查询温度（当前温度和目标温度）', N'getTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'372', N'0', N'查询当前温度', N'getTemperatureReading', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'373', N'0', N'查询目标温度', N'getTargetTemperature', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'374', N'0', N'查询湿度', N'getHumidity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'375', N'0', N'查询目标湿度', N'getTargetHumidity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'376', N'0', N'查询水质', N'getWaterQuality', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'377', N'0', N'查询设备所有状态', N'getState', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'378', N'0', N'查询剩余时间', N'getTimeLeft', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'379', N'0', N'查询运行状态', N'getRunningStatus', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'380', N'0', N'查询运行时间', N'getRunningTime', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'381', N'0', N'查询设备所在位置', N'getLocation', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'382', N'0', N'设备定时', N'setTimer', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'383', N'0', N'取消设备定时', N'timingCancel', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'384', N'0', N'设备复位', N'reset', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'385', N'0', N'升高高度', N'incrementHeight', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'386', N'0', N'降低高度', N'decrementHeight', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'387', N'0', N'设置摆风角度', N'setSwingAngle', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'388', N'0', N'查询风速', N'getFanSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'389', N'0', N'设置湿度模式', N'setHumidity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'390', N'0', N'增大湿度', N'incrementHumidity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'391', N'0', N'降低湿度', N'decrementHumidity', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'392', N'0', N'增大雾量', N'incrementMist', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'393', N'0', N'见效雾量', N'decrementMist', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'394', N'0', N'设置雾量', N'setMist', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'395', N'0', N'设备启动', N'startUp', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'396', N'0', N'设置电梯楼层', N'setFloor', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'397', N'0', N'电梯按下', N'decrementFloor', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'398', N'0', N'电梯按上', N'incrementFloor', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'399', N'0', N'增加速度', N'incrementSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'400', N'0', N'降低速度', N'decrementSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'401', N'0', N'设置速度', N'setSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'402', N'0', N'获取速度', N'getSpeed', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'403', N'0', N'获取跑步信息', N'getMotionInfo', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'404', N'0', N'打开灶眼', N'turnOnBurner', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'405', N'0', N'关闭灶眼', N'turnOffBurner', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'406', N'0', N'定时打开灶眼', N'timingTurnOnBurner', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'407', N'0', N'定时关闭灶眼', N'timingTurnOffBurner', N'dueros_operate_type', NULL, N'default', N'N', N'0', N'admin', N'2023-09-22 10:35:15', N'', NULL, NULL), (N'408', N'7', N'微信开放平台网站应用个人中心绑定', N'wechat_open_web_bind', N'iot_social_platform', NULL, N'default', N'N', N'0', N'admin', N'2023-10-09 11:28:15', N'', NULL, NULL), (N'749', N'1', N'Java脚本引擎', N'java', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:51:09', N'admin', N'2023-11-04 01:51:42', NULL), (N'750', N'2', N'JavaScript脚本引擎', N'js', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:51:36', N'admin', N'2023-11-05 10:28:30', NULL), (N'751', N'1', N'普通脚本节点', N'script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:11', N'', NULL, NULL), (N'752', N'2', N'选择脚本节点 (switch)', N'switch_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:32', N'admin', N'2023-11-04 01:56:44', NULL), (N'753', N'3', N'条件脚本节点 (if)', N'if_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:53:48', N'admin', N'2023-11-04 01:56:55', NULL), (N'754', N'4', N'数量循环节点 (for)', N'for_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:11', N'admin', N'2023-11-04 01:57:07', NULL), (N'755', N'5', N'条件循环节点 (while)', N'while_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:30', N'admin', N'2023-11-04 01:57:16', NULL), (N'756', N'6', N'退出循环节点 (break)', N'break_script', N'rule_script_type', NULL, N'default', N'N', N'0', N'admin', N'2023-11-04 01:54:50', N'admin', N'2023-11-04 01:57:29', NULL), (N'757', N'3', N'groovy脚本引擎', N'groovy', N'rule_script_language', NULL, N'default', N'N', N'0', N'admin', N'2023-11-05 10:29:14', N'', NULL, NULL), (N'767', N'1', N'设备上报', N'1', N'rule_script_event', NULL, N'primary', N'N', N'0', N'admin', N'2023-12-19 11:40:34', N'admin', N'2023-12-20 02:23:43', NULL), (N'768', N'2', N'平台下发', N'2', N'rule_script_event', NULL, N'warning', N'N', N'0', N'admin', N'2023-12-19 11:40:46', N'admin', N'2023-12-20 02:23:51', NULL), (N'769', N'3', N'设备上线', N'3', N'rule_script_event', NULL, N'success', N'N', N'0', N'admin', N'2023-12-19 11:40:58', N'admin', N'2023-12-20 02:24:00', NULL), (N'770', N'4', N'设备离线', N'4', N'rule_script_event', NULL, N'info', N'N', N'0', N'admin', N'2023-12-19 11:41:09', N'admin', N'2023-12-20 02:24:08', NULL)
+COMMIT
 GO
 
-INSERT INTO [dbo].[sys_dict_data] ([dict_code], [dict_sort], [dict_label], [dict_value], [dict_type], [css_class], [list_class], [is_default], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'771', N'1', N'数据流', N'1', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:39', N'', NULL, NULL), (N'772', N'2', N'触发器', N'2', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:48', N'', NULL, NULL), (N'773', N'3', N'执行动作', N'3', N'rule_script_purpose', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:41:59', N'', NULL, NULL), (N'774', N'1', N'消息重发', N'1', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:42:26', N'', NULL, NULL), (N'775', N'2', N'消息通知', N'2', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:18', N'admin', N'2023-12-19 11:43:38', NULL), (N'776', N'3', N'Http推送', N'3', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:33', N'', NULL, NULL), (N'777', N'4', N'Mqtt桥接', N'4', N'rule_script_action', NULL, N'default', N'N', N'0', N'admin', N'2023-12-19 11:43:54', N'', NULL, NULL)
+
+-- ----------------------------
+-- Table structure for sys_dict_data_translate
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_dict_data_translate]') AND type IN ('U'))
+DROP TABLE [dbo].[sys_dict_data_translate]
+    GO
+
+CREATE TABLE [dbo].[sys_dict_data_translate] (
+    [id] bigint NOT NULL,
+    [zh_cn] nvarchar(200) NULL,
+    [en_us] nvarchar(200) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data_translate',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'zh_CN',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data_translate',
+    'COLUMN', N'zh_cn'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'en_US',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data_translate',
+    'COLUMN', N'en_us'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典数据翻译表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_data_translate'
+    GO
+
+
+-- ----------------------------
+-- Records of sys_dict_data_translate
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+INSERT INTO [dbo].[sys_dict_data_translate] ([id], [zh_cn], [en_us]) VALUES (N'1', N'男', N'man'), (N'2', N'女', N'woman'), (N'3', N'未知', N'Unknown'), (N'4', N'显示', N'display'), (N'5', N'隐藏', N'hide'), (N'6', N'正常', N'normal'), (N'7', N'停用', N'Deactivated'), (N'8', N'正常', N'normal'), (N'9', N'暂停', N'Time out'), (N'10', N'默认', N'default'), (N'11', N'系统', N'system'), (N'12', N'是', N'be'), (N'13', N'否', N'not'), (N'14', N'通知', N'notice'), (N'15', N'公告', N'announcement'), (N'16', N'正常', N'normal'), (N'17', N'关闭', N'Shut down'), (N'18', N'新增', N'New'), (N'19', N'修改', N'revise'), (N'20', N'删除', N'Delete'), (N'21', N'授权', N'authorization'), (N'22', N'导出', N'Export'), (N'23', N'导入', N'Import'), (N'24', N'强退', N'Forced retreat'), (N'25', N'生成代码', N'Generate code'), (N'26', N'清空数据', N'Clear the data'), (N'27', N'成功', N'succeed'), (N'28', N'失败', N'fail'), (N'100', N'属性', N'attribute'), (N'101', N'功能', N'function'), (N'102', N'事件', N'event'), (N'103', N'整数', N'integer'), (N'104', N'小数', N'decimal fraction'), (N'105', N'布尔', N'Boolean'), (N'106', N'枚举', N'enumerate'), (N'107', N'字符串', N'string'), (N'108', N'是', N'be'), (N'109', N'否', N'not'), (N'110', N'数组', N'array'), (N'111', N'未发布', N'Unpublished'), (N'112', N'已发布', N'Published'), (N'113', N'直连设备', N'Directly connected devices'), (N'114', N'网关设备', N'Gateway devices'), (N'116', N'WIFI', N'WIFI'), (N'117', N'蜂窝(2G/3G/4G/5G)', N'Cellular (2G/3G/4G/5G)'), (N'118', N'以太网', N'Ethernet'), (N'119', N'简单认证', N'Simple authentication'), (N'120', N'加密认证', N'Cryptographic authentication'), (N'122', N'ESP8266/Arduino', N'ESP8266/Arduino'), (N'123', N'ESP32/Arduino', N'ESP32/Arduino'), (N'124', N'ESP8266/RTOS', N'ESP8266/RTOS'), (N'127', N'ESP32/ESP-IDF', N'ESP32/ESP-IDF'), (N'128', N'树莓派/Python', N'Raspberry Pi/Python'), (N'129', N'未激活', N'Not activated'), (N'130', N'禁用', N'disable'), (N'131', N'在线', N'online'), (N'132', N'离线', N'offline'), (N'133', N'启用', N'enable'), (N'134', N'禁用', N'disable'), (N'135', N'提醒通知', N'Reminder notifications'), (N'136', N'轻微问题', N'Minor issues'), (N'137', N'严重警告', N'Serious warning'), (N'138', N'不需要处理', N'No processing is required'), (N'139', N'未处理', N'Not processed'), (N'140', N'已处理', N'Processed'), (N'141', N'属性上报', N'Attribute escalation'), (N'142', N'事件上报', N'Event escalation'), (N'143', N'功能调用', N'Function calls'), (N'144', N'设备升级', N'Equipment upgrades'), (N'145', N'设备上线', N'The device goes online'), (N'146', N'设备离线', N'The device is offline'), (N'147', N'其他', N'other'), (N'148', N'安卓/Android', N'Android/Android'), (N'149', N'其他', N'other'), (N'150', N'小度平台', N'Small platform'), (N'151', N'天猫精灵', N'Tmall Genie'), (N'152', N'小米小爱', N'Xiaomi Xiaoai'), (N'153', N'其他平台', N'Other platforms'), (N'154', N'微信登录', N'WeChat login'), (N'155', N'QQ登录', N'QQ login'), (N'156', N'启用', N'enable'), (N'157', N'未启用', N'Not enabled'), (N'158', N'支付宝', N'Alipay'), (N'159', N'自动定位', N'Auto-target'), (N'160', N'设备定位', N'Device positioning'), (N'161', N'自定义位置', N'Custom location'), (N'162', N'简单+加密', N'Simple + Encrypted'), (N'163', N'未使用', N'Unused'), (N'164', N'已使用', N'Used'), (N'165', N'对象', N'object'), (N'166', N'监控设备', N'Monitor the device'), (N'167', N'未使用', N'Unused'), (N'168', N'在线', N'online'), (N'169', N'DVR', N'DVR'), (N'170', N'NVR', N'NVR'), (N'171', N'报警控制器', N'Alarm controller'), (N'172', N'摄像机', N'camera'), (N'173', N'IPC', N'IPC'), (N'174', N'显示器', N'display'), (N'175', N'报警输入设备', N'Alarm input device')
+GO
+
+INSERT INTO [dbo].[sys_dict_data_translate] ([id], [zh_cn], [en_us]) VALUES (N'176', N'报警输出设备', N'Alarm output device'), (N'177', N'语音输入设备', N'Voice input devices'), (N'178', N'语音输出设备', N'Voice output devices'), (N'179', N'移动传输设备', N'Mobile Transmission Devices'), (N'180', N'报警控制器', N'Alarm controller'), (N'181', N'摄像机', N'camera'), (N'182', N'IPC', N'IPC'), (N'183', N'显示器', N'display'), (N'184', N'报警输入设备', N'Alarm input device'), (N'185', N'报警输出设备', N'Alarm output device'), (N'186', N'语音输入设备', N'Voice input devices'), (N'187', N'语音输出设备', N'Voice output devices'), (N'188', N'移动传输设备', N'Mobile Transmission Devices'), (N'189', N'离线', N'offline'), (N'190', N'禁用', N'disable'), (N'191', N'云端轮询', N'Cloud polling'), (N'192', N'边缘采集', N'Edge acquisition'), (N'193', N'1分钟', N'1 minute'), (N'194', N'2分钟', N'2 minutes'), (N'195', N'5分钟', N'5 minutes'), (N'196', N'03(读保持寄存器)', N'03 (Read Hold Register)'), (N'197', N'01(读线圈)', N'01 (Reading coil)'), (N'198', N'MQTT', N'MQTT'), (N'199', N'TCP', N'TCP'), (N'200', N'COAP', N'COAP'), (N'201', N'UDP', N'UDP'), (N'230', N'其他', N'other'), (N'231', N'事件上报', N'Event escalation'), (N'232', N'设备上线', N'The device goes online'), (N'233', N'设备离线', N'The device is offline'), (N'234', N'服务下发', N'Service delivery'), (N'235', N'属性获取', N'Attribute acquisition'), (N'236', N'OTA升级', N'OTA upgrades'), (N'237', N'读写', N'Read and write'), (N'238', N'只读', N'read only'), (N'239', N'全部设备', N'All equipment'), (N'240', N'指定设备', N'Specify the device'), (N'241', N'GB28181', N'GB28181'), (N'242', N'02(读离散量输入)', N'02 (Read Discrete Input)'), (N'243', N'04(读输入寄存器)', N'04 (Read Input Register)'), (N'244', N'微信开放平台网站应用', N'WeChat open platform website application'), (N'245', N'微信开放平台移动应用', N'WeChat open platform mobile application'), (N'246', N'微信开放平台小程序', N'WeChat Open Platform Mini Program'), (N'247', N'微信开放平台网站应用个人中心绑定', N'WeChat open platform website application personal center binding'), (N'248', N'16位 无符号', N'16-bit unsigned'), (N'249', N'16位 有符号', N'16-bit signed'), (N'250', N'32位 有符号(ABCD)', N'32-bit Signed (ABCD)'), (N'251', N'32位 有符号(CDAB)', N'32-bit Signed (CDAB)'), (N'252', N'32位 无符号(ABCD)', N'32-bit Unsigned (ABCD)'), (N'253', N'32位 无符号(CDAB)', N'32-bit Unsigned (CDAB)'), (N'254', N'32位 浮点数(ABCD)', N'32-bit floating-point (ABCD)'), (N'255', N'32位 浮点数(CDAB)', N'32-bit Floating-Point (CDAB)'), (N'257', N'Java脚本引擎', N'Java Scripting Engine'), (N'258', N'JavaScript脚本引擎', N'JavaScript scripting engine'), (N'259', N'普通脚本节点', N'Normal script nodes'), (N'260', N'选择脚本节点 (switch)', N'Selecting a Script Node (switch)'), (N'261', N'条件脚本节点 (if)', N'Conditional Script Node (if)'), (N'262', N'数量循环节点 (for)', N'Quantity Cycle Node (for)'), (N'263', N'条件循环节点 (while)', N'Conditional Loop Node (while)'), (N'264', N'退出循环节点 (break)', N'Exit Loop Node (Break)'), (N'265', N'groovy脚本引擎', N'Groovy scripting engine'), (N'560', N'设备上报', N'The device is escalated'), (N'561', N'平台下发', N'Distributed by the platform'), (N'562', N'设备上线', N'The device goes online'), (N'563', N'设备离线', N'The device is offline'), (N'564', N'数据流', N'data stream'), (N'565', N'触发器', N'trigger'), (N'566', N'执行动作', N'Perform the action'), (N'567', N'消息重发', N'The message is retransmitted'), (N'568', N'消息通知', N'Message notifications'), (N'569', N'Http推送', N'HTTP push'), (N'570', N'Mqtt桥接', N'MQTT bridging')
 GO
 
 COMMIT
@@ -6993,90 +7373,90 @@ GO
 -- Table structure for sys_dict_type
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_dict_type]') AND type IN ('U'))
-	DROP TABLE [dbo].[sys_dict_type]
-GO
+DROP TABLE [dbo].[sys_dict_type]
+    GO
 
 CREATE TABLE [dbo].[sys_dict_type] (
-  [dict_id] bigint NOT NULL,
-  [dict_name] nvarchar(100) NULL,
-  [dict_type] nvarchar(100) NULL,
-  [status] nchar(1) NULL,
-  [create_by] nvarchar(64) NULL,
-  [create_time] datetime2 NULL,
-  [update_by] nvarchar(64) NULL,
-  [update_time] datetime2 NULL,
-  [remark] nvarchar(500) NULL
-)
-GO
+    [dict_id] bigint NOT NULL,
+    [dict_name] nvarchar(100) NULL,
+    [dict_type] nvarchar(100) NULL,
+    [status] nchar(1) NULL,
+    [create_by] nvarchar(64) NULL,
+    [create_time] datetime2 NULL,
+    [update_by] nvarchar(64) NULL,
+    [update_time] datetime2 NULL,
+    [remark] nvarchar(500) NULL
+    )
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典主键',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'dict_id'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典主键',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'dict_id'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典名称',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'dict_name'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典名称',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'dict_name'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典类型',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'dict_type'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典类型',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'dict_type'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'状态（0正常 1停用）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'status'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'状态（0正常 1停用）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'status'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'create_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'create_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'create_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'create_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'update_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'update_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'update_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'update_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type',
-'COLUMN', N'remark'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'备注',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type',
+    'COLUMN', N'remark'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'字典类型表',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_dict_type'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典类型表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type'
+    GO
 
 
 -- ----------------------------
@@ -7085,11 +7465,67 @@ GO
 BEGIN TRANSACTION
 GO
 
-INSERT INTO [dbo].[sys_dict_type] ([dict_id], [dict_name], [dict_type], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'1', N'用户性别', N'sys_user_sex', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'用户性别列表'), (N'2', N'菜单状态', N'sys_show_hide', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'菜单状态列表'), (N'3', N'系统开关', N'sys_normal_disable', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统开关列表'), (N'4', N'任务状态', N'sys_job_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'任务状态列表'), (N'5', N'任务分组', N'sys_job_group', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'任务分组列表'), (N'6', N'系统是否', N'sys_yes_no', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统是否列表'), (N'7', N'通知类型', N'sys_notice_type', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知类型列表'), (N'8', N'通知状态', N'sys_notice_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知状态列表'), (N'9', N'操作类型', N'sys_oper_type', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'操作类型列表'), (N'10', N'系统状态', N'sys_common_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'登录状态列表'), (N'100', N'物模型类别', N'iot_things_type', N'0', N'admin', N'2021-12-12 16:39:47', N'admin', N'2021-12-15 22:49:19', N'属性、动作、事件'), (N'101', N'数据类型', N'iot_data_type', N'0', N'admin', N'2021-12-12 20:16:48', N'admin', N'2021-12-12 20:17:54', N'integer、decimal、bool、string、enum'), (N'102', N'是否', N'iot_yes_no', N'0', N'admin', N'2021-12-12 20:24:51', N'admin', N'2021-12-19 15:12:35', N'是、否'), (N'103', N'产品状态', N'iot_product_status', N'0', N'admin', N'2021-12-19 15:00:13', N'', NULL, N'未发布、已发布（不能修改）'), (N'104', N'设备类型', N'iot_device_type', N'0', N'admin', N'2021-12-19 15:03:06', N'', NULL, N'直连设备、网关子设备、网关设备'), (N'105', N'联网方式', N'iot_network_method', N'0', N'admin', N'2021-12-19 15:07:12', N'admin', N'2022-01-14 02:11:58', N'wifi、蜂窝(2G/3G/4G/5G)、以太网、其他'), (N'106', N'认证方式', N'iot_vertificate_method', N'0', N'admin', N'2021-12-19 15:11:48', N'admin', N'2022-06-05 12:57:02', N'1=简单认证、2=加密认证、3=简单+加密'), (N'107', N'设备芯片', N'iot_device_chip', N'0', N'admin', N'2021-12-24 15:53:27', N'admin', N'2022-01-22 00:14:23', N'ESP8266、ESP32、树莓派'), (N'109', N'设备状态', N'iot_device_status', N'0', N'admin', N'2021-12-27 22:19:55', N'admin', N'2021-12-27 22:20:13', N'未激活、禁用、在线、离线'), (N'110', N'是否启用', N'iot_is_enable', N'0', N'admin', N'2022-01-12 23:24:01', N'admin', N'2022-01-12 23:24:15', N'启用、禁用'), (N'111', N'告警类型', N'iot_alert_level', N'0', N'admin', N'2022-01-13 14:56:44', N'admin', N'2022-01-13 15:04:46', N'1=提醒通知，2=轻微问题，3=严重警告'), (N'112', N'处理状态', N'iot_process_status', N'0', N'admin', N'2022-01-13 15:04:06', N'admin', N'2022-01-13 15:06:39', N'1=不需要处理,2=未处理,3=已处理'), (N'113', N'设备日志类型', N'iot_device_log_type', N'0', N'admin', N'2022-01-13 15:09:49', N'admin', N'2022-03-13 00:22:43', N'1=属性上报，2=调用功能,3=事件上报，4=设备升级，5=设备上线，6=设备离线'), (N'114', N'Oauth开放平台', N'oauth_platform', N'0', N'admin', N'2022-02-07 20:27:48', N'admin', N'2022-05-21 13:44:50', N'1=小度，2=天猫精灵，3=小爱，4=其他'), (N'115', N'第三方登录平台', N'iot_social_platform', N'0', N'admin', N'2022-04-12 15:28:13', N'admin', N'2022-04-12 15:37:48', N'Wechat、QQ、'), (N'116', N'第三方登录平台状态', N'iot_social_platform_status', N'0', N'admin', N'2022-04-20 17:02:13', N'admin', N'2022-04-20 17:02:23', N'第三方登录平台状态'), (N'117', N'设备定位方式', N'iot_location_way', N'0', N'admin', N'2022-05-21 13:45:16', N'admin', N'2022-05-21 13:46:06', N'1=IP自动定位，2=设备定位，3=自定义'), (N'118', N'授权码状态', N'iot_auth_status', N'0', N'admin', N'2022-06-07 17:38:56', N'', NULL, N'1=未分配，2=使用中'), (N'119', N'SipID状态', N'sip_gen_status', N'0', N'admin', N'2023-02-19 15:43:36', N'admin', N'2023-02-19 15:45:54', N'1=未使用，2=使用中'), (N'120', N'监控设备类型', N'video_type', N'0', N'admin', N'2023-02-22 01:06:38', N'', NULL, NULL), (N'121', N'通道类型', N'channel_type', N'0', N'admin', N'2023-02-22 01:11:51', N'', NULL, NULL), (N'122', N'轮询方式', N'data_collect_type', N'0', N'admin', N'2023-02-28 13:55:45', N'', NULL, NULL), (N'123', N'批量采集时间', N'iot_modbus_poll_time', N'0', N'admin', N'2023-02-28 14:38:21', N'', NULL, NULL), (N'124', N'寄存器功能码', N'iot_modbus_status_code', N'0', N'admin', N'2023-02-28 15:19:02', N'', NULL, NULL), (N'125', N'传输协议类型', N'iot_transport_type', N'0', N'admin', N'2023-02-28 16:35:20', N'', NULL, NULL), (N'126', N'设备事件类型', N'iot_event_type', N'0', N'admin', N'2023-03-29 00:24:51', N'', NULL, NULL), (N'127', N'指令下发类型', N'iot_function_type', N'0', N'admin', N'2023-03-29 00:37:51', N'', NULL, NULL), (N'128', N'读写类型', N'iot_data_read_write', N'0', N'admin', N'2023-04-09 02:11:14', N'', NULL, NULL), (N'129', N'升级范围', N'oat_update_limit', N'0', N'admin', N'2023-04-09 23:51:45', N'', NULL, NULL), (N'130', N'云存储平台类型', N'oss_platform_type', N'0', N'admin', N'2023-04-12 00:26:09', N'', NULL, NULL), (N'131', N'modbus数据类型', N'iot_modbus_data_type', N'0', N'admin', N'2023-09-04 13:54:17', N'', NULL, NULL), (N'132', N'小度音箱关联设备', N'dueros_related_device', N'0', N'admin', N'2023-09-22 09:45:15', N'admin', N'2023-09-22 09:45:15', N'小度音箱支持的设备、场景类型，在设备下配置关联'), (N'133', N'小度音箱操作类型', N'dueros_operate_type', N'0', N'admin', N'2023-09-22 09:45:15', N'admin', N'2023-09-22 09:45:15', N'小度音箱智能家居设备操作类型，在产品物模型下配置'), (N'198', N'规则脚本类型', N'rule_script_type', N'0', N'admin', N'2023-11-04 01:48:50', N'admin', N'2023-11-04 01:50:16', NULL), (N'199', N'规则脚本语言', N'rule_script_language', N'0', N'admin', N'2023-11-04 01:50:06', N'', NULL, NULL), (N'204', N'规则脚本事件', N'rule_script_event', N'0', N'admin', N'2023-12-19 11:33:48', N'', NULL, N'1=设备上报，2=平台下发，3=设备上线，4=设备离线'), (N'205', N'规则脚本用途', N'rule_script_purpose', N'0', N'admin', N'2023-12-19 11:38:18', N'', NULL, N'1=数据流，2=触发器，3=执行动作'), (N'206', N'规则脚本动作', N'rule_script_action', N'0', N'admin', N'2023-12-19 11:39:58', N'', NULL, N'1=消息重发，2=消息通知，3=Http推送，4=Mqtt桥接，5=数据库存储')
+INSERT INTO [dbo].[sys_dict_type] ([dict_id], [dict_name], [dict_type], [status], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'1', N'用户性别', N'sys_user_sex', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'用户性别列表'), (N'2', N'菜单状态', N'sys_show_hide', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'菜单状态列表'), (N'3', N'系统开关', N'sys_normal_disable', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统开关列表'), (N'4', N'任务状态', N'sys_job_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'任务状态列表'), (N'5', N'任务分组', N'sys_job_group', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'任务分组列表'), (N'6', N'系统是否', N'sys_yes_no', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统是否列表'), (N'7', N'通知类型', N'sys_notice_type', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知类型列表'), (N'8', N'通知状态', N'sys_notice_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知状态列表'), (N'9', N'操作类型', N'sys_oper_type', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'操作类型列表'), (N'10', N'系统状态', N'sys_common_status', N'0', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'登录状态列表'), (N'100', N'物模型类别', N'iot_things_type', N'0', N'admin', N'2021-12-12 16:39:47', N'admin', N'2021-12-15 22:49:19', N'属性、动作、事件'), (N'101', N'数据类型', N'iot_data_type', N'0', N'admin', N'2021-12-12 20:16:48', N'admin', N'2021-12-12 20:17:54', N'integer、decimal、bool、string、enum'), (N'102', N'是否', N'iot_yes_no', N'0', N'admin', N'2021-12-12 20:24:51', N'admin', N'2021-12-19 15:12:35', N'是、否'), (N'103', N'产品状态', N'iot_product_status', N'0', N'admin', N'2021-12-19 15:00:13', N'', NULL, N'未发布、已发布（不能修改）'), (N'104', N'设备类型', N'iot_device_type', N'0', N'admin', N'2021-12-19 15:03:06', N'', NULL, N'直连设备、网关子设备、网关设备'), (N'105', N'联网方式', N'iot_network_method', N'0', N'admin', N'2021-12-19 15:07:12', N'admin', N'2022-01-14 02:11:58', N'wifi、蜂窝(2G/3G/4G/5G)、以太网、其他'), (N'106', N'认证方式', N'iot_vertificate_method', N'0', N'admin', N'2021-12-19 15:11:48', N'admin', N'2022-06-05 12:57:02', N'1=简单认证、2=加密认证、3=简单+加密'), (N'107', N'设备芯片', N'iot_device_chip', N'0', N'admin', N'2021-12-24 15:53:27', N'admin', N'2022-01-22 00:14:23', N'ESP8266、ESP32、树莓派'), (N'109', N'设备状态', N'iot_device_status', N'0', N'admin', N'2021-12-27 22:19:55', N'admin', N'2021-12-27 22:20:13', N'未激活、禁用、在线、离线'), (N'110', N'是否启用', N'iot_is_enable', N'0', N'admin', N'2022-01-12 23:24:01', N'admin', N'2022-01-12 23:24:15', N'启用、禁用'), (N'111', N'告警类型', N'iot_alert_level', N'0', N'admin', N'2022-01-13 14:56:44', N'admin', N'2022-01-13 15:04:46', N'1=提醒通知，2=轻微问题，3=严重警告'), (N'112', N'处理状态', N'iot_process_status', N'0', N'admin', N'2022-01-13 15:04:06', N'admin', N'2022-01-13 15:06:39', N'1=不需要处理,2=未处理,3=已处理'), (N'113', N'设备日志类型', N'iot_device_log_type', N'0', N'admin', N'2022-01-13 15:09:49', N'admin', N'2022-03-13 00:22:43', N'1=属性上报，2=调用功能,3=事件上报，4=设备升级，5=设备上线，6=设备离线'), (N'114', N'Oauth开放平台', N'oauth_platform', N'0', N'admin', N'2022-02-07 20:27:48', N'admin', N'2022-05-21 13:44:50', N'1=小度，2=天猫精灵，3=小爱，4=其他'), (N'115', N'第三方登录平台', N'iot_social_platform', N'0', N'admin', N'2022-04-12 15:28:13', N'admin', N'2022-04-12 15:37:48', N'Wechat、QQ、'), (N'116', N'第三方登录平台状态', N'iot_social_platform_status', N'0', N'admin', N'2022-04-20 17:02:13', N'admin', N'2022-04-20 17:02:23', N'第三方登录平台状态'), (N'117', N'设备定位方式', N'iot_location_way', N'0', N'admin', N'2022-05-21 13:45:16', N'admin', N'2022-05-21 13:46:06', N'1=IP自动定位，2=设备定位，3=自定义'), (N'118', N'授权码状态', N'iot_auth_status', N'0', N'admin', N'2022-06-07 17:38:56', N'', NULL, N'1=未分配，2=使用中'), (N'119', N'SipID状态', N'sip_gen_status', N'0', N'admin', N'2023-02-19 15:43:36', N'admin', N'2023-02-19 15:45:54', N'1=未使用，2=使用中'), (N'120', N'监控设备类型', N'video_type', N'0', N'admin', N'2023-02-22 01:06:38', N'', NULL, NULL), (N'121', N'通道类型', N'channel_type', N'0', N'admin', N'2023-02-22 01:11:51', N'', NULL, NULL), (N'122', N'轮询方式', N'data_collect_type', N'0', N'admin', N'2023-02-28 13:55:45', N'', NULL, NULL), (N'123', N'批量采集时间', N'iot_modbus_poll_time', N'0', N'admin', N'2023-02-28 14:38:21', N'', NULL, NULL), (N'124', N'寄存器功能码', N'iot_modbus_status_code', N'0', N'admin', N'2023-02-28 15:19:02', N'', NULL, NULL), (N'125', N'传输协议类型', N'iot_transport_type', N'0', N'admin', N'2023-02-28 16:35:20', N'', NULL, NULL), (N'126', N'设备事件类型', N'iot_event_type', N'0', N'admin', N'2023-03-29 00:24:51', N'', NULL, NULL), (N'127', N'指令下发类型', N'iot_function_type', N'0', N'admin', N'2023-03-29 00:37:51', N'', NULL, NULL), (N'128', N'读写类型', N'iot_data_read_write', N'0', N'admin', N'2023-04-09 02:11:14', N'', NULL, NULL), (N'129', N'升级范围', N'oat_update_limit', N'0', N'admin', N'2023-04-09 23:51:45', N'', NULL, NULL), (N'130', N'云存储平台类型', N'oss_platform_type', N'0', N'admin', N'2023-04-12 00:26:09', N'', NULL, NULL), (N'131', N'modbus数据类型', N'iot_modbus_data_type', N'0', N'admin', N'2023-09-04 13:54:17', N'', NULL, NULL), (N'140', N'规则脚本类型', N'rule_script_type', N'0', N'admin', N'2023-11-04 01:48:50', N'admin', N'2023-11-04 01:50:16', NULL), (N'141', N'规则脚本语言', N'rule_script_language', N'0', N'admin', N'2023-11-04 01:50:06', N'', NULL, NULL), (N'149', N'规则脚本事件', N'rule_script_event', N'0', N'admin', N'2023-12-19 11:33:48', N'', NULL, N'1=设备上报，2=平台下发，3=设备上线，4=设备离线'), (N'150', N'规则脚本用途', N'rule_script_purpose', N'0', N'admin', N'2023-12-19 11:38:18', N'', NULL, N'1=数据流，2=触发器，3=执行动作'), (N'151', N'规则脚本动作', N'rule_script_action', N'0', N'admin', N'2023-12-19 11:39:58', N'', NULL, N'1=消息重发，2=消息通知，3=Http推送，4=Mqtt桥接，5=数据库存储')
 GO
 
 COMMIT
 GO
+
+
+-- ----------------------------
+-- Table structure for sys_dict_type_translate
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_dict_type_translate]') AND type IN ('U'))
+DROP TABLE [dbo].[sys_dict_type_translate]
+    GO
+
+CREATE TABLE [dbo].[sys_dict_type_translate] (
+    [id] bigint NOT NULL,
+    [zh_cn] nvarchar(200) NULL,
+    [en_us] nvarchar(200) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type_translate',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'zh_CN',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type_translate',
+    'COLUMN', N'zh_cn'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'en_US',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type_translate',
+    'COLUMN', N'en_us'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'字典类型翻译表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_dict_type_translate'
+    GO
+
+
+-- ----------------------------
+-- Records of sys_dict_type_translate
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+INSERT INTO [dbo].[sys_dict_type_translate] ([id], [zh_cn], [en_us]) VALUES (N'1', N'用户性别', N'User gender'), (N'2', N'菜单状态', N'Menu status'), (N'3', N'系统开关', N'System switches'), (N'4', N'任务状态', N'Task status'), (N'5', N'任务分组', N'Task grouping'), (N'6', N'系统是否', N'Whether the system is'), (N'7', N'通知类型', N'Notification type'), (N'8', N'通知状态', N'Notification status'), (N'9', N'操作类型', N'The type of operation'), (N'10', N'系统状态', N'System status'), (N'100', N'物模型类别', N'TSL model category'), (N'101', N'数据类型', N'data type'), (N'102', N'是否', N'Whether'), (N'103', N'产品状态', N'Product status'), (N'104', N'设备类型', N'Device type'), (N'105', N'联网方式', N'Networking'), (N'106', N'认证方式', N'Authentication method'), (N'107', N'设备芯片', N'Device chips'), (N'109', N'设备状态', N'Device status'), (N'110', N'是否启用', N'Whether it is enabled'), (N'111', N'告警类型', N'Alarm type'), (N'112', N'处理状态', N'Processing status'), (N'113', N'设备日志类型', N'Device log type'), (N'114', N'Oauth开放平台', N'OAuth Open Platform'), (N'115', N'第三方登录平台', N'Third-party login platform'), (N'116', N'第三方登录平台状态', N'Third-party login platform status'), (N'117', N'设备定位方式', N'How the device is located'), (N'118', N'授权码状态', N'Authorization code status'), (N'119', N'SipID状态', N'SipID status'), (N'120', N'监控设备类型', N'Monitor device types'), (N'121', N'通道类型', N'Channel type'), (N'122', N'轮询方式', N'Polling method'), (N'123', N'批量采集时间', N'Batch collection time'), (N'124', N'寄存器功能码', N'Register function code'), (N'125', N'传输协议类型', N'The type of transport protocol'), (N'126', N'设备事件类型', N'Device event type'), (N'127', N'指令下发类型', N'The type of command delivery'), (N'128', N'读写类型', N'Read and write type'), (N'129', N'升级范围', N'Scope of upgrade'), (N'130', N'云存储平台类型', N'The type of cloud storage platform'), (N'131', N'modbus数据类型', N'Modbus data type'), (N'132', N'小度音箱关联设备', N'Small speakers are associated with devices'), (N'135', N'组态图表类型', N'Configure the chart type'), (N'136', N'组态图库类型', N'Configure the library type'), (N'140', N'规则脚本类型', N'The type of rule script'), (N'141', N'规则脚本语言', N'Rule scripting language'), (N'149', N'规则脚本事件', N'Rule script events'), (N'150', N'规则脚本用途', N'Rule script usage'), (N'151', N'规则脚本动作', N'Rule script actions')
+GO
+
+COMMIT
+GO
+
 
 
 -- ----------------------------
@@ -7434,170 +7870,170 @@ GO
 -- Table structure for sys_menu
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_menu]') AND type IN ('U'))
-	DROP TABLE [dbo].[sys_menu]
-GO
+DROP TABLE [dbo].[sys_menu]
+    GO
 
 CREATE TABLE [dbo].[sys_menu] (
-  [menu_id] bigint NOT NULL,
-  [menu_name] nvarchar(50) NOT NULL,
-  [parent_id] bigint NULL,
-  [order_num] int NULL,
-  [path] nvarchar(200) NULL,
-  [component] nvarchar(255) NULL,
-  [query] nvarchar(255) NULL,
-  [is_frame] int NULL,
-  [is_cache] int NULL,
-  [menu_type] nchar(1) NULL,
-  [visible] nchar(1) NULL,
-  [status] nchar(1) NULL,
-  [perms] nvarchar(100) NULL,
-  [icon] nvarchar(100) NULL,
-  [create_by] nvarchar(64) NULL,
-  [create_time] datetime2 NULL,
-  [update_by] nvarchar(64) NULL,
-  [update_time] datetime2 NULL,
-  [remark] nvarchar(500) NULL
-)
-GO
+    [menu_id] bigint NOT NULL,
+    [menu_name] nvarchar(50) NOT NULL,
+    [parent_id] bigint NULL,
+    [order_num] int NULL,
+    [path] nvarchar(200) NULL,
+    [component] nvarchar(255) NULL,
+    [query] nvarchar(255) NULL,
+    [is_frame] int NULL,
+    [is_cache] int NULL,
+    [menu_type] nchar(1) NULL,
+    [visible] nchar(1) NULL,
+    [status] nchar(1) NULL,
+    [perms] nvarchar(100) NULL,
+    [icon] nvarchar(100) NULL,
+    [create_by] nvarchar(64) NULL,
+    [create_time] datetime2 NULL,
+    [update_by] nvarchar(64) NULL,
+    [update_time] datetime2 NULL,
+    [remark] nvarchar(500) NULL
+    )
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单ID',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'menu_id'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'menu_id'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单名称',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'menu_name'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单名称',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'menu_name'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'父菜单ID',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'parent_id'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'父菜单ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'parent_id'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'显示顺序',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'order_num'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'显示顺序',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'order_num'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'路由地址',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'path'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'路由地址',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'path'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'组件路径',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'component'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'组件路径',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'component'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'路由参数',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'query'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'路由参数',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'query'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'是否为外链（0是 1否）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'is_frame'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'是否为外链（0是 1否）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'is_frame'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'是否缓存（0缓存 1不缓存）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'is_cache'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'是否缓存（0缓存 1不缓存）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'is_cache'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单类型（M目录 C菜单 F按钮）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'menu_type'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单类型（M目录 C菜单 F按钮）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'menu_type'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单状态（0显示 1隐藏）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'visible'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单状态（0显示 1隐藏）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'visible'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单状态（0正常 1停用）',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'status'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单状态（0正常 1停用）',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'status'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'权限标识',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'perms'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'权限标识',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'perms'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单图标',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'icon'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单图标',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'icon'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'create_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'create_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'create_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'创建时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'create_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新者',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'update_by'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新者',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'update_by'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'update_time'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'更新时间',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'update_time'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'备注',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu',
-'COLUMN', N'remark'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'备注',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu',
+    'COLUMN', N'remark'
+    GO
 
-EXEC sp_addextendedproperty
-'MS_Description', N'菜单权限表',
-'SCHEMA', N'dbo',
-'TABLE', N'sys_menu'
-GO
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单权限表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu'
+    GO
 
 
 -- ----------------------------
@@ -7609,7 +8045,65 @@ GO
 INSERT INTO [dbo].[sys_menu] ([menu_id], [menu_name], [parent_id], [order_num], [path], [component], [query], [is_frame], [is_cache], [menu_type], [visible], [status], [perms], [icon], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'1', N'系统管理', N'0', N'4', N'system', NULL, N'', N'1', N'0', N'M', N'0', N'0', N'', N'system', N'admin', N'2021-12-15 21:36:18', N'admin', N'2023-09-16 16:42:52', N'系统管理目录'), (N'2', N'系统监控', N'0', N'5', N'monitor', NULL, N'', N'1', N'0', N'M', N'0', N'0', N'', N'monitor', N'admin', N'2021-12-15 21:36:18', N'admin', N'2023-08-24 17:21:20', N'系统监控目录'), (N'3', N'系统工具', N'0', N'6', N'tool', NULL, N'', N'1', N'0', N'M', N'0', N'0', N'', N'tool', N'admin', N'2021-12-15 21:36:18', N'admin', N'2023-08-24 17:21:28', N'系统工具目录'), (N'4', N'蜂信物联', N'0', N'10', N'http://fastbee.cn', NULL, N'', N'0', N'0', N'M', N'0', N'0', N'', N'guide', N'admin', N'2021-12-15 21:36:18', N'admin', N'2025-03-19 15:14:02', N'若依官网地址'), (N'100', N'用户管理', N'1', N'1', N'user', N'system/user/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:user:list', N'user', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'用户管理菜单'), (N'101', N'角色管理', N'1', N'2', N'role', N'system/role/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:role:list', N'peoples', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'角色管理菜单'), (N'102', N'菜单管理', N'1', N'3', N'menu', N'system/menu/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:menu:list', N'tree-table', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'菜单管理菜单'), (N'103', N'部门管理', N'1', N'4', N'dept', N'system/dept/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:dept:list', N'tree', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'部门管理菜单'), (N'104', N'岗位管理', N'1', N'5', N'post', N'system/post/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:post:list', N'post', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'岗位管理菜单'), (N'105', N'字典管理', N'1', N'6', N'dict', N'system/dict/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:dict:list', N'dict', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'字典管理菜单'), (N'106', N'参数设置', N'1', N'7', N'config', N'system/config/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:config:list', N'edit', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'参数设置菜单'), (N'107', N'通知公告', N'1', N'8', N'notice', N'system/notice/index', N'', N'1', N'0', N'C', N'0', N'0', N'system:notice:list', N'message', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'通知公告菜单'), (N'108', N'日志管理', N'1', N'9', N'log', N'', N'', N'1', N'0', N'M', N'0', N'0', N'', N'log', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'日志管理菜单'), (N'109', N'在线用户', N'2', N'1', N'online', N'monitor/online/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:online:list', N'online', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'在线用户菜单'), (N'110', N'定时任务', N'2', N'2', N'job', N'monitor/job/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:job:list', N'job', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'定时任务菜单'), (N'111', N'数据监控', N'2', N'3', N'druid', N'monitor/druid/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:druid:list', N'druid', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'数据监控菜单'), (N'112', N'服务监控', N'2', N'4', N'server', N'monitor/server/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:server:list', N'server', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'服务监控菜单'), (N'113', N'缓存监控', N'2', N'5', N'cache', N'monitor/cache/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:cache:list', N'redis', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'缓存监控菜单'), (N'114', N'表单构建', N'3', N'1', N'build', N'tool/build/index', N'', N'1', N'0', N'C', N'0', N'0', N'tool:build:list', N'build', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'表单构建菜单'), (N'115', N'代码生成', N'3', N'2', N'gen', N'tool/gen/index', N'', N'1', N'0', N'C', N'0', N'0', N'tool:gen:list', N'code', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'代码生成菜单'), (N'116', N'系统接口', N'3', N'3', N'swagger', N'tool/swagger/index', N'', N'1', N'0', N'C', N'0', N'0', N'tool:swagger:list', N'swagger', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'系统接口菜单'), (N'124', N'缓存列表', N'2', N'6', N'cacheList', N'monitor/cache/list', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:cache:list', N'redis-list', N'admin', N'2023-03-10 23:22:42', N'', NULL, N'缓存列表菜单'), (N'500', N'操作日志', N'108', N'1', N'operlog', N'monitor/operlog/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:operlog:list', N'form', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'操作日志菜单'), (N'501', N'登录日志', N'108', N'2', N'logininfor', N'monitor/logininfor/index', N'', N'1', N'0', N'C', N'0', N'0', N'monitor:logininfor:list', N'logininfor', N'admin', N'2021-12-15 21:36:18', N'', NULL, N'登录日志菜单'), (N'1001', N'用户查询', N'100', N'1', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1002', N'用户新增', N'100', N'2', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1003', N'用户修改', N'100', N'3', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1004', N'用户删除', N'100', N'4', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1005', N'用户导出', N'100', N'5', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1006', N'用户导入', N'100', N'6', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:import', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1007', N'重置密码', N'100', N'7', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:user:resetPwd', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1008', N'角色查询', N'101', N'1', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:role:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1009', N'角色新增', N'101', N'2', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:role:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1010', N'角色修改', N'101', N'3', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:role:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1011', N'角色删除', N'101', N'4', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:role:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1012', N'角色导出', N'101', N'5', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:role:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1013', N'菜单查询', N'102', N'1', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:menu:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1014', N'菜单新增', N'102', N'2', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:menu:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1015', N'菜单修改', N'102', N'3', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:menu:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1016', N'菜单删除', N'102', N'4', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:menu:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1017', N'部门查询', N'103', N'1', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dept:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1018', N'部门新增', N'103', N'2', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dept:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1019', N'部门修改', N'103', N'3', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dept:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1020', N'部门删除', N'103', N'4', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dept:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1021', N'岗位查询', N'104', N'1', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:post:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1022', N'岗位新增', N'104', N'2', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:post:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1023', N'岗位修改', N'104', N'3', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:post:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1024', N'岗位删除', N'104', N'4', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:post:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1025', N'岗位导出', N'104', N'5', N'', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:post:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1026', N'字典查询', N'105', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dict:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1027', N'字典新增', N'105', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dict:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1028', N'字典修改', N'105', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dict:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1029', N'字典删除', N'105', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dict:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1030', N'字典导出', N'105', N'5', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:dict:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1031', N'参数查询', N'106', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:config:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1032', N'参数新增', N'106', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:config:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1033', N'参数修改', N'106', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:config:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1034', N'参数删除', N'106', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:config:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1035', N'参数导出', N'106', N'5', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:config:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1036', N'公告查询', N'107', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:notice:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1037', N'公告新增', N'107', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:notice:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1038', N'公告修改', N'107', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:notice:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1039', N'公告删除', N'107', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'system:notice:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1040', N'操作查询', N'500', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:operlog:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1041', N'操作删除', N'500', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:operlog:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1042', N'日志导出', N'500', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:operlog:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1043', N'登录查询', N'501', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:logininfor:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1044', N'登录删除', N'501', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:logininfor:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1045', N'日志导出', N'501', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:logininfor:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1046', N'在线查询', N'109', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:online:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1047', N'批量强退', N'109', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:online:batchLogout', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1048', N'单条强退', N'109', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:online:forceLogout', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1049', N'任务查询', N'110', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1050', N'任务新增', N'110', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:add', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1051', N'任务修改', N'110', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1052', N'任务删除', N'110', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1053', N'状态修改', N'110', N'5', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:changeStatus', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1054', N'任务导出', N'110', N'7', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:job:export', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1055', N'生成查询', N'115', N'1', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:query', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1056', N'生成修改', N'115', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:edit', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1057', N'生成删除', N'115', N'3', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:remove', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1058', N'导入代码', N'115', N'2', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:import', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1059', N'预览代码', N'115', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:preview', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1060', N'生成代码', N'115', N'5', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'tool:gen:code', N'#', N'admin', N'2021-12-15 21:36:18', N'', NULL, N''), (N'1065', N'账户解锁', N'501', N'4', N'#', N'', N'', N'1', N'0', N'F', N'0', N'0', N'monitor:logininfor:unlock', N'#', N'admin', N'2023-03-10 23:23:04', N'', NULL, N''), (N'2000', N'设备管理', N'0', N'0', N'iot', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'iot', N'admin', N'2021-12-15 23:57:06', N'admin', N'2021-12-26 23:55:54', N''), (N'2001', N'产品分类', N'2000', N'2', N'category', N'iot/category/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:category:list', N'category', N'admin', N'2021-12-16 00:40:02', N'admin', N'2021-12-26 23:56:20', N'产品分类菜单'), (N'2002', N'产品分类查询', N'2001', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:category:query', N'#', N'admin', N'2021-12-16 00:40:02', N'', NULL, N''), (N'2003', N'产品分类新增', N'2001', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:category:add', N'#', N'admin', N'2021-12-16 00:40:02', N'', NULL, N''), (N'2004', N'产品分类修改', N'2001', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:category:edit', N'#', N'admin', N'2021-12-16 00:40:02', N'', NULL, N''), (N'2005', N'产品分类删除', N'2001', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:category:remove', N'#', N'admin', N'2021-12-16 00:40:02', N'', NULL, N''), (N'2006', N'产品分类导出', N'2001', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:category:export', N'#', N'admin', N'2021-12-16 00:40:02', N'', NULL, N''), (N'2007', N'设备管理', N'2000', N'5', N'device', N'iot/device/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:device:list', N'device', N'admin', N'2021-12-16 00:40:12', N'admin', N'2022-01-08 15:47:14', N'设备菜单'), (N'2008', N'设备查询', N'2007', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:query', N'#', N'admin', N'2021-12-16 00:40:12', N'', NULL, N''), (N'2009', N'设备新增', N'2007', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:add', N'#', N'admin', N'2021-12-16 00:40:12', N'', NULL, N''), (N'2010', N'设备修改', N'2007', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:edit', N'#', N'admin', N'2021-12-16 00:40:12', N'', NULL, N''), (N'2011', N'设备删除', N'2007', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:remove', N'#', N'admin', N'2021-12-16 00:40:12', N'', NULL, N''), (N'2012', N'设备导出', N'2007', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:export', N'#', N'admin', N'2021-12-16 00:40:12', N'', NULL, N''), (N'2019', N'设备分组', N'2000', N'4', N'group', N'iot/group/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:group:list', N'group', N'admin', N'2021-12-16 00:40:31', N'admin', N'2021-12-26 23:56:54', N'设备分组菜单'), (N'2020', N'设备分组查询', N'2019', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:query', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N'')
 GO
 
-INSERT INTO [dbo].[sys_menu] ([menu_id], [menu_name], [parent_id], [order_num], [path], [component], [query], [is_frame], [is_cache], [menu_type], [visible], [status], [perms], [icon], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'2021', N'设备分组新增', N'2019', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:add', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2022', N'设备分组修改', N'2019', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:edit', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2023', N'设备分组删除', N'2019', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:remove', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2024', N'设备分组导出', N'2019', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:export', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2043', N'产品管理', N'2000', N'3', N'product', N'iot/product/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:product:list', N'product', N'admin', N'2021-12-16 00:41:18', N'admin', N'2021-12-26 23:58:44', N'产品菜单'), (N'2044', N'产品查询', N'2043', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:query', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2045', N'产品新增', N'2043', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:add', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2046', N'产品修改', N'2043', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:edit', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2047', N'产品删除', N'2043', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:remove', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2048', N'产品导出', N'2043', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:export', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2049', N'通用物模型', N'2000', N'1', N'template', N'iot/template/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:template:list', N'model', N'admin', N'2021-12-16 00:41:28', N'admin', N'2021-12-26 23:56:09', N'通用物模型菜单'), (N'2050', N'通用物模型查询', N'2049', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:query', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2051', N'通用物模型新增', N'2049', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:add', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2052', N'通用物模型修改', N'2049', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:edit', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2053', N'通用物模型删除', N'2049', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:remove', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2054', N'通用物模型导出', N'2049', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:export', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2123', N'新闻分类', N'1', N'10', N'newsCategory', N'iot/newsCategory/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:newsCategory:list', N'category', N'admin', N'2022-04-11 16:47:27', N'admin', N'2022-05-12 17:20:51', N'新闻分类菜单'), (N'2124', N'新闻分类查询', N'2123', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:query', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2125', N'新闻分类新增', N'2123', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:add', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2126', N'新闻分类修改', N'2123', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:edit', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2127', N'新闻分类删除', N'2123', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:remove', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2128', N'新闻分类导出', N'2123', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:export', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2129', N'新闻资讯', N'1', N'11', N'news', N'iot/news/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:news:list', N'documentation', N'admin', N'2022-04-11 16:47:46', N'admin', N'2022-05-12 17:20:58', N'新闻资讯菜单'), (N'2130', N'新闻资讯查询', N'2129', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:query', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2131', N'新闻资讯新增', N'2129', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:add', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2132', N'新闻资讯修改', N'2129', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:edit', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2133', N'新闻资讯删除', N'2129', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:remove', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2134', N'新闻资讯导出', N'2129', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:export', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2136', N'产品授权码查询', N'2043', N'6', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:query', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:21:40', N''), (N'2137', N'产品授权码新增', N'2043', N'7', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:add', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:21:59', N''), (N'2138', N'产品授权码修改', N'2043', N'8', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:edit', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:22:08', N''), (N'2139', N'产品授权码删除', N'2043', N'9', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:remove', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:22:26', N''), (N'2140', N'产品授权码导出', N'2043', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:export', N'#', N'admin', N'2022-04-11 17:17:53', N'', NULL, N''), (N'2142', N'平台查询', N'2142', N'1', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:platform:query', N'#', N'admin', N'2022-04-11 19:10:28', N'', NULL, N''), (N'2147', N'设备分享', N'2007', N'6', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:share', N'#', N'admin', N'2022-06-10 01:08:40', N'admin', N'2022-06-10 01:10:46', N''), (N'2148', N'设备定时', N'2007', N'7', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:timer', N'#', N'admin', N'2022-06-10 01:10:30', N'', NULL, N''), (N'3031', N'Netty管理', N'0', N'3', N'netty', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'mq', N'admin', N'2022-02-26 00:42:12', N'admin', N'2023-09-26 00:11:57', N''), (N'3032', N'客户端', N'3031', N'1', N'client', N'iot/netty/clients', NULL, N'1', N'0', N'C', N'0', N'0', N'monitor:server:list', N'client', N'admin', N'2022-02-26 00:45:39', N'admin', N'2023-08-23 23:38:08', N''), (N'3033', N'事件日志', N'2000', N'1', N'log', N'iot/log/index', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:list', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N'事件日志菜单'), (N'3034', N'事件日志查询', N'3033', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:query', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3035', N'事件日志新增', N'3033', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:add', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3036', N'事件日志修改', N'3033', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:edit', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3037', N'事件日志删除', N'3033', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:remove', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3038', N'事件日志导出', N'3033', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:export', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3048', N'Mqtt统计', N'3031', N'2', N'mqtt', N'iot/netty/mqtt', NULL, N'1', N'0', N'C', N'0', N'0', N'monitor:server:list', N'monitor', N'admin', N'2023-08-23 23:40:28', N'admin', N'2023-08-23 23:40:38', N''), (N'3050', N'规则引擎', N'0', N'2', N'ruleengine', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'channel', N'admin', N'2024-04-22 16:28:15', N'admin', N'2025-03-19 15:13:50', N''), (N'3051', N'规则脚本', N'3050', N'2', N'script', N'iot/scene/script', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:script:list', N'code', N'admin', N'2024-04-22 16:30:00', N'', NULL, N''), (N'3052', N'规则脚本查询', N'3051', N'1', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:query', N'#', N'admin', N'2024-04-22 16:30:53', N'', NULL, N''), (N'3053', N'规则脚本新增', N'3051', N'2', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:add', N'#', N'admin', N'2024-04-22 16:31:28', N'', NULL, N''), (N'3054', N'规则脚本修改', N'3051', N'3', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:edit', N'#', N'admin', N'2024-04-22 16:32:04', N'', NULL, N''), (N'3056', N'规则脚本导出', N'3051', N'5', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:export', N'#', N'admin', N'2024-04-22 16:33:25', N'admin', N'2024-04-22 16:33:49', N''), (N'3057', N'规则脚本删除', N'3051', N'4', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:remove', N'#', N'admin', N'2024-04-22 16:35:01', N'', NULL, N''), (N'3058', N'视频中心', N'0', N'1', N'video', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'live', N'admin', N'2024-07-15 14:42:13', N'admin', N'2025-03-19 15:13:43', N''), (N'3059', N'通道管理', N'3058', N'1', N'sip', N'iot/sip/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:video:list', N'swagger', N'admin', N'2024-07-15 14:43:22', N'', NULL, N''), (N'3060', N'视频配置', N'3058', N'2', N'mediaServer', N'iot/sip/mediaServer', NULL, N'1', N'0', N'C', N'0', N'0', NULL, N'edit', N'admin', N'2024-07-15 14:48:52', N'', NULL, N''), (N'3062', N'大屏展示', N'2000', N'6', N'http://localhost/bigScreen', NULL, NULL, N'0', N'0', N'M', N'0', N'0', N'', N'monitor-a', N'admin', N'2025-03-19 15:07:39', N'admin', N'2025-03-20 22:18:42', N''), (N'3343', N'数据中心', N'0', N'5', N'dataCenter', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'bar_chart', N'admin', N'2024-05-24 14:42:04', N'admin', N'2025-01-11 09:33:52', N''), (N'3344', N'数据分析', N'3343', N'2', N'analysis', N'dataCenter/analysis', NULL, N'1', N'0', N'C', N'0', N'0', N'dataCenter:analysis:list', N'custom', N'admin', N'2024-06-11 15:46:19', N'', NULL, N''), (N'3345', N'历史记录', N'3343', N'1', N'history', N'dataCenter/history', NULL, N'1', N'0', N'C', N'0', N'0', N'dataCenter:history:list', N'excel', N'admin', N'2024-05-24 14:44:58', N'admin', N'2024-05-24 14:46:07', N''), (N'2141', N'三方登录', N'1', N'12', N'platform', N'iot/platform/index', NULL, N'1', N'1', N'C', N'0', N'0', N'iot:platform:list', N'cloud', N'admin', N'2022-04-11 18:55:34', N'admin', N'2023-08-31 11:10:47', N'')
+INSERT INTO [dbo].[sys_menu] ([menu_id], [menu_name], [parent_id], [order_num], [path], [component], [query], [is_frame], [is_cache], [menu_type], [visible], [status], [perms], [icon], [create_by], [create_time], [update_by], [update_time], [remark]) VALUES (N'2021', N'设备分组新增', N'2019', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:add', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2022', N'设备分组修改', N'2019', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:edit', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2023', N'设备分组删除', N'2019', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:remove', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2024', N'设备分组导出', N'2019', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:group:export', N'#', N'admin', N'2021-12-16 00:40:31', N'', NULL, N''), (N'2043', N'产品管理', N'2000', N'3', N'product', N'iot/product/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:product:list', N'product', N'admin', N'2021-12-16 00:41:18', N'admin', N'2021-12-26 23:58:44', N'产品菜单'), (N'2044', N'产品查询', N'2043', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:query', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2045', N'产品新增', N'2043', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:add', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2046', N'产品修改', N'2043', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:edit', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2047', N'产品删除', N'2043', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:remove', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2048', N'产品导出', N'2043', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:product:export', N'#', N'admin', N'2021-12-16 00:41:18', N'', NULL, N''), (N'2049', N'通用物模型', N'2000', N'1', N'template', N'iot/template/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:template:list', N'model', N'admin', N'2021-12-16 00:41:28', N'admin', N'2021-12-26 23:56:09', N'通用物模型菜单'), (N'2050', N'通用物模型查询', N'2049', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:query', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2051', N'通用物模型新增', N'2049', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:add', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2052', N'通用物模型修改', N'2049', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:edit', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2053', N'通用物模型删除', N'2049', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:remove', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2054', N'通用物模型导出', N'2049', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:template:export', N'#', N'admin', N'2021-12-16 00:41:28', N'', NULL, N''), (N'2123', N'新闻分类', N'1', N'10', N'newsCategory', N'iot/newsCategory/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:newsCategory:list', N'category', N'admin', N'2022-04-11 16:47:27', N'admin', N'2022-05-12 17:20:51', N'新闻分类菜单'), (N'2124', N'新闻分类查询', N'2123', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:query', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2125', N'新闻分类新增', N'2123', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:add', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2126', N'新闻分类修改', N'2123', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:edit', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2127', N'新闻分类删除', N'2123', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:remove', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2128', N'新闻分类导出', N'2123', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:newsCategory:export', N'#', N'admin', N'2022-04-11 16:47:27', N'', NULL, N''), (N'2129', N'新闻资讯', N'1', N'11', N'news', N'iot/news/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:news:list', N'documentation', N'admin', N'2022-04-11 16:47:46', N'admin', N'2022-05-12 17:20:58', N'新闻资讯菜单'), (N'2130', N'新闻资讯查询', N'2129', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:query', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2131', N'新闻资讯新增', N'2129', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:add', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2132', N'新闻资讯修改', N'2129', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:edit', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2133', N'新闻资讯删除', N'2129', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:remove', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2134', N'新闻资讯导出', N'2129', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:news:export', N'#', N'admin', N'2022-04-11 16:47:46', N'', NULL, N''), (N'2136', N'产品授权码查询', N'2043', N'6', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:query', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:21:40', N''), (N'2137', N'产品授权码新增', N'2043', N'7', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:add', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:21:59', N''), (N'2138', N'产品授权码修改', N'2043', N'8', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:edit', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:22:08', N''), (N'2139', N'产品授权码删除', N'2043', N'9', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:remove', N'#', N'admin', N'2022-04-11 17:17:53', N'admin', N'2022-06-04 21:22:26', N''), (N'2140', N'产品授权码导出', N'2043', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:authorize:export', N'#', N'admin', N'2022-04-11 17:17:53', N'', NULL, N''), (N'2141', N'三方登录', N'1', N'12', N'platform', N'iot/platform/index', NULL, N'1', N'1', N'C', N'0', N'0', N'iot:platform:list', N'cloud', N'admin', N'2022-04-11 18:55:34', N'admin', N'2023-08-31 11:10:47', N''), (N'2142', N'平台查询', N'2142', N'1', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:platform:query', N'#', N'admin', N'2022-04-11 19:10:28', N'', NULL, N''), (N'2147', N'设备分享', N'2007', N'6', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:share', N'#', N'admin', N'2022-06-10 01:08:40', N'admin', N'2022-06-10 01:10:46', N''), (N'2148', N'设备定时', N'2007', N'7', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:device:timer', N'#', N'admin', N'2022-06-10 01:10:30', N'', NULL, N''), (N'2168', N'通道管理', N'3058', N'1', N'sip', N'iot/sip/index', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:video:list', N'swagger', N'admin', N'2024-07-15 14:43:22', N'', NULL, N''), (N'3031', N'Netty管理', N'0', N'3', N'netty', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'mq', N'admin', N'2022-02-26 00:42:12', N'admin', N'2023-09-26 00:11:57', N''), (N'3032', N'客户端', N'3031', N'1', N'client', N'iot/netty/clients', NULL, N'1', N'0', N'C', N'0', N'0', N'monitor:server:list', N'client', N'admin', N'2022-02-26 00:45:39', N'admin', N'2023-08-23 23:38:08', N''), (N'3033', N'事件日志', N'2000', N'1', N'log', N'iot/log/index', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:list', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N'事件日志菜单'), (N'3034', N'事件日志查询', N'3033', N'1', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:query', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3035', N'事件日志新增', N'3033', N'2', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:add', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3036', N'事件日志修改', N'3033', N'3', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:edit', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3037', N'事件日志删除', N'3033', N'4', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:remove', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3038', N'事件日志导出', N'3033', N'5', N'#', N'', NULL, N'1', N'0', N'F', N'0', N'0', N'iot:event:export', N'#', N'admin', N'2023-03-28 14:23:52', N'', NULL, N''), (N'3046', N'视频中心', N'0', N'1', N'video', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'live', N'admin', N'2024-07-15 14:42:13', N'admin', N'2025-03-19 15:13:43', N''), (N'3048', N'视频配置', N'3046', N'2', N'mediaServer', N'iot/sip/mediaServer', NULL, N'1', N'0', N'C', N'0', N'0', NULL, N'edit', N'admin', N'2024-07-15 14:48:52', N'', NULL, N''), (N'3051', N'规则引擎', N'0', N'2', N'ruleengine', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'channel', N'admin', N'2024-04-22 16:28:15', N'admin', N'2025-03-19 15:13:50', N''), (N'3055', N'规则脚本', N'3051', N'2', N'script', N'iot/scene/script', NULL, N'1', N'0', N'C', N'0', N'0', N'iot:script:list', N'code', N'admin', N'2024-04-22 16:30:00', N'', NULL, N''), (N'3100', N'Mqtt统计', N'3031', N'2', N'mqtt', N'iot/netty/mqtt', NULL, N'1', N'0', N'C', N'0', N'0', N'monitor:server:list', N'monitor', N'admin', N'2023-08-23 23:40:28', N'admin', N'2023-08-23 23:40:38', N''), (N'3148', N'规则脚本导出', N'3051', N'5', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:export', N'#', N'admin', N'2024-04-22 16:33:25', N'admin', N'2024-04-22 16:33:49', N''), (N'3149', N'规则脚本查询', N'3051', N'1', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:query', N'#', N'admin', N'2024-04-22 16:30:53', N'', NULL, N''), (N'3150', N'规则脚本新增', N'3051', N'2', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:add', N'#', N'admin', N'2024-04-22 16:31:28', N'', NULL, N''), (N'3151', N'规则脚本修改', N'3051', N'3', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:edit', N'#', N'admin', N'2024-04-22 16:32:04', N'', NULL, N''), (N'3152', N'规则脚本删除', N'3051', N'4', N'', NULL, NULL, N'1', N'0', N'F', N'0', N'0', N'iot:script:remove', N'#', N'admin', N'2024-04-22 16:35:01', N'', NULL, N''), (N'3343', N'数据中心', N'0', N'5', N'dataCenter', NULL, NULL, N'1', N'0', N'M', N'0', N'0', N'', N'bar_chart', N'admin', N'2024-05-24 14:42:04', N'admin', N'2025-01-11 09:33:52', N''), (N'3344', N'数据分析', N'3343', N'2', N'analysis', N'dataCenter/analysis', NULL, N'1', N'0', N'C', N'0', N'0', N'dataCenter:analysis:list', N'custom', N'admin', N'2024-06-11 15:46:19', N'', NULL, N''), (N'3345', N'历史记录', N'3343', N'1', N'history', N'dataCenter/history', NULL, N'1', N'0', N'C', N'0', N'0', N'dataCenter:history:list', N'excel', N'admin', N'2024-05-24 14:44:58', N'admin', N'2024-05-24 14:46:07', N'')
+GO
+
+COMMIT
+GO
+
+
+-- ----------------------------
+-- Table structure for sys_menu_translate
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sys_menu_translate]') AND type IN ('U'))
+DROP TABLE [dbo].[sys_menu_translate]
+    GO
+
+CREATE TABLE [dbo].[sys_menu_translate] (
+    [id] bigint NOT NULL,
+    [zh_cn] nvarchar(200) NULL,
+    [en_us] nvarchar(200) NULL
+    )
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单ID',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu_translate',
+    'COLUMN', N'id'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'zh_CN菜单名称',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu_translate',
+    'COLUMN', N'zh_cn'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'en菜单名称',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu_translate',
+    'COLUMN', N'en_us'
+    GO
+
+    EXEC sp_addextendedproperty
+    'MS_Description', N'菜单名称翻译表',
+    'SCHEMA', N'dbo',
+    'TABLE', N'sys_menu_translate'
+    GO
+
+
+-- ----------------------------
+-- Records of sys_menu_translate
+-- ----------------------------
+BEGIN TRANSACTION
+GO
+
+INSERT INTO [dbo].[sys_menu_translate] ([id], [zh_cn], [en_us]) VALUES (N'1', N'系统管理', N'system management'), (N'2', N'系统监控', N'System monitoring'), (N'3', N'系统工具', N'System Tools'), (N'4', N'蜂信物联', N'Bee Trust IoT'), (N'5', N'企业管理', N'business management'), (N'100', N'用户管理', N'user management '), (N'101', N'角色管理', N'Role management'), (N'102', N'菜单管理', N'Menu management'), (N'103', N'机构管理', N'organizational management'), (N'104', N'岗位管理', N'Job management'), (N'105', N'字典管理', N'Dictionary management'), (N'106', N'参数设置', N'Parameter settings'), (N'107', N'通知公告', N'Notice Announcement'), (N'108', N'日志管理', N'Log management'), (N'109', N'在线用户', N'Online users'), (N'110', N'定时任务', N'Scheduled tasks'), (N'111', N'数据监控', N'Data monitoring'), (N'112', N'服务监控', N'Service monitoring'), (N'113', N'缓存监控', N'Cache monitoring'), (N'114', N'表单构建', N'Form construction'), (N'115', N'代码生成', N'code generation'), (N'116', N'系统接口', N'system interface '), (N'124', N'缓存列表', N'Cache List'), (N'500', N'操作日志', N'Operation log'), (N'501', N'登录日志', N'Login log'), (N'1001', N'用户查询', N'User query'), (N'1002', N'用户新增', N'User addition'), (N'1003', N'用户修改', N'User modification'), (N'1004', N'用户删除', N'User deletion'), (N'1005', N'用户导出', N'User export'), (N'1006', N'用户导入', N'User import'), (N'1007', N'重置密码', N'reset password '), (N'1008', N'角色查询', N'Role query'), (N'1009', N'角色新增', N'New role addition'), (N'1010', N'角色修改', N'Role modification'), (N'1011', N'角色删除', N'Role deletion'), (N'1012', N'角色导出', N'Character export'), (N'1013', N'菜单查询', N'Menu query'), (N'1014', N'菜单新增', N'Menu addition'), (N'1015', N'菜单修改', N'Menu modification'), (N'1016', N'菜单删除', N'Menu deletion'), (N'1017', N'部门查询', N'Departmental inquiry'), (N'1018', N'部门新增', N'Department addition'), (N'1019', N'部门修改', N'Department modification'), (N'1020', N'部门删除', N'Department deletion'), (N'1021', N'岗位查询', N'Job Search'), (N'1022', N'岗位新增', N'Job addition'), (N'1023', N'岗位修改', N'Position modification'), (N'1024', N'岗位删除', N'Position deletion'), (N'1025', N'岗位导出', N'Job export'), (N'1026', N'字典查询', N'Dictionary query'), (N'1027', N'字典新增', N'Dictionary addition'), (N'1028', N'字典修改', N'Dictionary modification'), (N'1029', N'字典删除', N'Dictionary deletion'), (N'1030', N'字典导出', N'Dictionary export'), (N'1031', N'参数查询', N'Parameter query'), (N'1032', N'参数新增', N'Parameter addition'), (N'1033', N'参数修改', N'Parameter modification'), (N'1034', N'参数删除', N'Parameter deletion'), (N'1035', N'参数导出', N'Parameter export'), (N'1036', N'公告查询', N'Announcement inquiry'), (N'1037', N'公告新增', N'Announcement added'), (N'1038', N'公告修改', N'Announcement modification'), (N'1039', N'公告删除', N'Announcement deletion'), (N'1040', N'操作查询', N'Operation query'), (N'1041', N'操作删除', N'Operation deletion'), (N'1042', N'日志导出', N'Log export'), (N'1043', N'登录查询', N'Login query'), (N'1044', N'登录删除', N'Login Delete'), (N'1045', N'日志导出', N'Log export'), (N'1046', N'在线查询', N'Online inquiry'), (N'1047', N'批量强退', N'Batch forced refunds'), (N'1048', N'单条强退', N'Single strong refund'), (N'1049', N'任务查询', N'Task query'), (N'1050', N'任务新增', N'Task addition'), (N'1051', N'任务修改', N'Task modification'), (N'1052', N'任务删除', N'Task deletion'), (N'1053', N'状态修改', N'Status modification'), (N'1054', N'任务导出', N'Task export'), (N'1055', N'生成查询', N'Generate query'), (N'1056', N'生成修改', N'Generate modifications'), (N'1057', N'生成删除', N'Generate Delete'), (N'1058', N'导入代码', N'Import code'), (N'1059', N'预览代码', N'Preview code'), (N'1060', N'生成代码', N'Generate code'), (N'1065', N'账户解锁', N'Account unlocking'), (N'2000', N'设备管理', N'device management'), (N'2001', N'产品分类', N'Product classification'), (N'2002', N'产品分类查询', N'Product classification query'), (N'2003', N'产品分类新增', N'Product classification added'), (N'2004', N'产品分类修改', N'Product classification modification'), (N'2005', N'产品分类删除', N'Delete product category'), (N'2006', N'产品分类导出', N'Product classification export'), (N'2007', N'设备管理', N'device management'), (N'2008', N'设备查询', N'Equipment inquiry'), (N'2009', N'设备新增', N'Equipment addition'), (N'2010', N'设备修改', N'Equipment modification'), (N'2011', N'设备删除', N'Device deletion'), (N'2012', N'设备导出', N'Device export'), (N'2019', N'设备分组', N'Equipment grouping')
+GO
+
+INSERT INTO [dbo].[sys_menu_translate] ([id], [zh_cn], [en_us]) VALUES (N'2020', N'设备分组查询', N'Equipment grouping query'), (N'2021', N'设备分组新增', N'New equipment grouping'), (N'2022', N'设备分组修改', N'Equipment grouping modification'), (N'2023', N'设备分组删除', N'Device group deletion'), (N'2024', N'设备分组导出', N'Equipment group export'), (N'2043', N'产品管理', N'product management '), (N'2044', N'产品查询', N'Product inquiry'), (N'2045', N'产品新增', N'Product addition'), (N'2046', N'产品修改', N'Product modification'), (N'2047', N'产品删除', N'Product deletion'), (N'2048', N'产品导出', N'Product export'), (N'2049', N'通用物模型', N'Universal object model'), (N'2050', N'通用物模型查询', N'General object model query'), (N'2051', N'通用物模型新增', N'Addition of Universal Object Model'), (N'2052', N'通用物模型修改', N'Modification of Universal Object Model'), (N'2053', N'通用物模型删除', N'Universal object model deletion'), (N'2054', N'通用物模型导出', N'Export of Universal Object Model'), (N'2123', N'新闻分类', N'News classification'), (N'2124', N'新闻分类查询', N'News classification query'), (N'2125', N'新闻分类新增', N'New news category added'), (N'2126', N'新闻分类修改', N'News classification modification'), (N'2127', N'新闻分类删除', N'Delete news category'), (N'2128', N'新闻分类导出', N'Export news categories'), (N'2129', N'新闻资讯', N'News and Information'), (N'2130', N'新闻资讯查询', N'News and Information Inquiry'), (N'2131', N'新闻资讯新增', N'New news and information added'), (N'2132', N'新闻资讯修改', N'News and Information Modification'), (N'2133', N'新闻资讯删除', N'Delete news and information'), (N'2134', N'新闻资讯导出', N'Export news and information'), (N'2136', N'产品授权码查询', N'Product authorization code query'), (N'2137', N'产品授权码新增', N'Product authorization code added'), (N'2138', N'产品授权码修改', N'Product authorization code modification'), (N'2139', N'产品授权码删除', N'Product authorization code deletion'), (N'2140', N'产品授权码导出', N'Export of Product Authorization Code'), (N'2141', N'三方登录', N'Three party login'), (N'2142', N'平台查询', N'Platform query'), (N'2147', N'设备用户列表', N'List of device users'), (N'2148', N'设备定时', N'Equipment timing'), (N'2168', N'通道管理', N'Channel management'), (N'3031', N'Netty管理', N'Netty Management'), (N'3032', N'客户端', N'client'), (N'3033', N'事件日志', N'Event log'), (N'3034', N'事件日志查询', N'Event log query'), (N'3035', N'事件日志新增', N'Event log addition'), (N'3036', N'事件日志修改', N'Event log modification'), (N'3037', N'事件日志删除', N'Event log deletion'), (N'3038', N'事件日志导出', N'Event log export'), (N'3046', N'视频中心', N'Video Center'), (N'3048', N'视频配置', N'Video configuration'), (N'3051', N'规则引擎', N'Rule engine'), (N'3055', N'规则脚本', N'Rule Script'), (N'3100', N'Mqtt统计', N'Mqtt statistics'), (N'3148', N'规则脚本导出', N'Rule script export'), (N'3149', N'规则脚本查询', N'Rule script query'), (N'3150', N'规则脚本新增', N'New rule script added'), (N'3151', N'规则脚本修改', N'Rule script modification'), (N'3152', N'规则脚本删除', N'Rule script deletion'), (N'3343', N'数据中心', N'Data Center'), (N'3344', N'数据分析', N'Data analysis'), (N'3345', N'历史记录', N'Historical records')
 GO
 
 COMMIT
@@ -8986,6 +9480,41 @@ ALTER TABLE [dbo].[iot_things_model_template] ADD PRIMARY KEY CLUSTERED ([templa
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 GO
 
+-- ----------------------------
+-- Primary Key structure for table iot_things_model_template_translate
+-- ----------------------------
+ALTER TABLE [dbo].[iot_things_model_template_translate] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
+
+
+-- ----------------------------
+-- Primary Key structure for table iot_things_model_translate
+-- ----------------------------
+ALTER TABLE [dbo].[iot_things_model_translate] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
+
+-- ----------------------------
+-- Primary Key structure for table sys_dict_data_translate
+-- ----------------------------
+ALTER TABLE [dbo].[sys_dict_data_translate] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
+
+-- ----------------------------
+-- Primary Key structure for table sys_dict_type_translate
+-- ----------------------------
+ALTER TABLE [dbo].[sys_dict_type_translate] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
+
+-- ----------------------------
+-- Primary Key structure for table sys_menu_translate
+-- ----------------------------
+ALTER TABLE [dbo].[sys_menu_translate] ADD PRIMARY KEY CLUSTERED ([id])
+    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+    GO
 
 -- ----------------------------
 -- Primary Key structure for table media_server

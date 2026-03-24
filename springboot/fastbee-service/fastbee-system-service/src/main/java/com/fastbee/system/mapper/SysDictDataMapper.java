@@ -42,7 +42,15 @@ public interface SysDictDataMapper
      * @param dictCode 字典数据ID
      * @return 字典数据
      */
-    public SysDictData selectDictDataById(Long dictCode);
+    public SysDictData selectDictDataById(@Param("dictCode") Long dictCode, @Param("language") String language);
+
+    /**
+     * 根据条件分页查询字典数据--返回所有语言
+     *
+     * @param dictData 字典数据信息
+     * @return 字典数据集合信息
+     */
+    public List<SysDictData> selectDictDataListAll(SysDictData dictData);
 
     /**
      * 查询字典数据

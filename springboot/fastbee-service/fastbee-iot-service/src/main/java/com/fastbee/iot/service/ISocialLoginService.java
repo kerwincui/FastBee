@@ -59,7 +59,7 @@ public interface ISocialLoginService {
      * @param loginId 登录id
      * @return
      */
-    AjaxResult socialLogin(String loginId);
+    AjaxResult socialLogin(String loginId, String language);
 
     /**
      * 绑定登录api
@@ -67,7 +67,7 @@ public interface ISocialLoginService {
      * @param bindLoginBody 绑定账户参数
      * @return
      */
-    AjaxResult bindLogin(BindLoginBody bindLoginBody);
+    AjaxResult bindLogin(BindLoginBody bindLoginBody, String language);
 
     /**
      * 注册绑定api
@@ -75,7 +75,7 @@ public interface ISocialLoginService {
      * @param bindRegisterBody
      * @return
      */
-    AjaxResult bindRegister(BindRegisterBody bindRegisterBody);
+    AjaxResult bindRegister(BindRegisterBody bindRegisterBody, String language);
 
     String genBindId(AuthUser authUser);
 

@@ -2,6 +2,7 @@ package com.fastbee.data.controller.wechat;
 
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.wechat.WeChatLoginBody;
 import com.fastbee.common.wechat.WeChatLoginResult;
@@ -20,6 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.fastbee.common.constant.Constants.LANGUAGE;
 
 /**
  * 微信相关控制器
@@ -41,8 +44,8 @@ public class WeChatController {
      */
     @ApiOperation("移动应用微信登录")
     @PostMapping("/mobileLogin")
-    public AjaxResult mobileLogin(@RequestBody WeChatLoginBody weChatLoginBody) {
-        return AjaxResult.success(weChatService.mobileLogin(weChatLoginBody));
+    public AjaxResult mobileLogin(HttpServletRequest request, @RequestBody WeChatLoginBody weChatLoginBody) {
+        return AjaxResult.success(weChatService.mobileLogin(weChatLoginBody, request.getHeader(LANGUAGE)));
     }
 
     /**
@@ -52,8 +55,8 @@ public class WeChatController {
      */
     @ApiOperation("小程序微信登录")
     @PostMapping("/miniLogin")
-    public AjaxResult miniLogin(@RequestBody WeChatLoginBody weChatLoginBody) {
-        WeChatLoginResult weChatLoginResult = weChatService.miniLogin(weChatLoginBody);
+    public AjaxResult miniLogin(HttpServletRequest request, @RequestBody WeChatLoginBody weChatLoginBody) {
+        WeChatLoginResult weChatLoginResult = weChatService.miniLogin(weChatLoginBody, request.getHeader(LANGUAGE));
         return AjaxResult.success(weChatLoginResult);
     }
 
@@ -66,7 +69,7 @@ public class WeChatController {
     @PostMapping("/bind")
     public AjaxResult bind(@RequestBody WxBindReqVO wxBindReqVO) {
         if (StringUtils.isEmpty(wxBindReqVO.getSourceClient())) {
-            throw new ServiceException("请传入验证方式");
+            throw new ServiceException(MessageUtils.message("wechat.verify.type.null"));
         }
         return weChatService.bind(wxBindReqVO);
     }
@@ -80,7 +83,7 @@ public class WeChatController {
     @PostMapping("/cancelBind")
     public AjaxResult cancelBind(@RequestBody WxCancelBindReqVO wxCancelBindReqVO) {
         if (wxCancelBindReqVO.getVerifyType() == null) {
-            throw new ServiceException("请传入验证方式");
+            throw new ServiceException(MessageUtils.message("wechat.verify.type.null"));
         }
         return weChatService.cancelBind(wxCancelBindReqVO);
     }
@@ -119,7 +122,7 @@ public class WeChatController {
     @GetMapping("/getWxBindMsg")
     public AjaxResult getWxBindMsg(String wxBindMsgId) {
         if (StringUtils.isEmpty(wxBindMsgId)) {
-            return AjaxResult.error("请传入wxBindMsgId");
+            return AjaxResult.error(MessageUtils.message("wechat.bind.message.id.null"));
         }
         // 返回二维码信息
         return weChatService.getWxBindMsg(wxBindMsgId);

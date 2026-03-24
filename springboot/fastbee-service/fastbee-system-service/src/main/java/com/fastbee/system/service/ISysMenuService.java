@@ -50,9 +50,10 @@ public interface ISysMenuService
      * 根据用户ID查询菜单树信息
      *
      * @param userId 用户ID
+     * @param language 语言
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeByUserId(Long userId);
+    public List<SysMenu> selectMenuTreeByUserId(Long userId, String language);
 
     /**
      * 根据角色ID查询菜单树信息

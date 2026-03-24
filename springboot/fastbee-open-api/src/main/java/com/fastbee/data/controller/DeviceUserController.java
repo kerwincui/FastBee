@@ -2,6 +2,7 @@ package com.fastbee.data.controller;
 
 import java.util.List;
 
+import com.fastbee.common.utils.MessageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -128,7 +129,7 @@ public class DeviceUserController extends BaseController
     {
         int count=deviceUserService.deleteDeviceUser(deviceUser);
         if(count==0){
-            return AjaxResult.error("设备所有者不能删除");
+            return AjaxResult.error(MessageUtils.message("device.user.delete.failed.user.not.valid"));
         }else{
             return AjaxResult.success();
         }

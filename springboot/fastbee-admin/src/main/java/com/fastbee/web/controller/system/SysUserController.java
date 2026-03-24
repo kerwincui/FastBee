@@ -10,6 +10,7 @@ import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
@@ -160,15 +161,15 @@ public class SysUserController extends BaseController
         roleService.checkRoleDataScope(user.getRoleIds());
         if (!userService.checkUserNameUnique(user))
         {
-            return error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+            return error(StringUtils.format(MessageUtils.message("user.add.failed.name.exists"), user.getUserName()));
         }
         else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user))
         {
-            return error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error(StringUtils.format(MessageUtils.message("user.add.failed.phone.exists"), user.getUserName()));
         }
         else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user))
         {
-            return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return error(StringUtils.format(MessageUtils.message("user.add.failed.email.exists"), user.getUserName()));
         }
         user.setCreateBy(getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
@@ -189,15 +190,15 @@ public class SysUserController extends BaseController
         roleService.checkRoleDataScope(user.getRoleIds());
         if (!userService.checkUserNameUnique(user))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
+            return error(StringUtils.format(MessageUtils.message("user.update.failed.name.exists"), user.getUserName()));
         }
         else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error(StringUtils.format(MessageUtils.message("user.update.failed.phone.exists"), user.getUserName()));
         }
         else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return error(StringUtils.format(MessageUtils.message("user.update.failed.email.exists"), user.getUserName()));
         }
         user.setUpdateBy(getUsername());
         return toAjax(userService.updateUser(user));
@@ -213,7 +214,7 @@ public class SysUserController extends BaseController
     {
         if (ArrayUtils.contains(userIds, getUserId()))
         {
-            return error("当前用户不能删除");
+            return error(MessageUtils.message("user.delete.failed"));
         }
         return toAjax(userService.deleteUserByIds(userIds));
     }

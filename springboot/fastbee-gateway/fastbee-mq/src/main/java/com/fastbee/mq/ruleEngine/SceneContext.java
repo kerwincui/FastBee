@@ -355,7 +355,7 @@ public class SceneContext {
         for (SceneThingsModelItem sceneThingsModelItem : sceneThingsModelItems) {
             // 查询设备信息
             Device device = deviceService.selectDeviceBySerialNumber(sceneThingsModelItem.getDeviceNumber());
-            Optional.ofNullable(device).orElseThrow(() -> new ServiceException("告警推送，设备不存在" + "[{" + sceneThingsModelItem.getDeviceNumber() + "}]"));
+            Optional.ofNullable(device).orElseThrow(() -> new ServiceException(MessageUtils.message("alert.push.fail.device.not.exist", sceneThingsModelItem.getDeviceNumber())));
             // 获取场景相关的告警参数，告警必须要是启动状态
             List<AlertSceneSendVO> sceneSendVOList = alertService.listByAlertIds(sceneId);
             if (CollectionUtils.isEmpty(sceneSendVOList)) {

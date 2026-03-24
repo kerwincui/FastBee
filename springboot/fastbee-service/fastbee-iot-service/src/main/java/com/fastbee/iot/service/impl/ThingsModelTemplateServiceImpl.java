@@ -10,6 +10,7 @@ import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.iot.domain.ThingsModel;
 import com.fastbee.iot.model.varTemp.EnumClass;
@@ -107,7 +108,7 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
             return thingsModelTemplateMapper.insertThingsModelTemplate(template);
         }catch (Exception e){
             if (e.getMessage().contains("iot_things_modes_slaveId_reg")){
-                throw new ServiceException("同一个采集点模板下,寄存器地址重复,请检查导入变量寄存器地址");
+                throw new ServiceException(MessageUtils.message("things.model.register.address.repeat"));
             }else {
                 throw new ServiceException(e.getMessage());
             }
@@ -196,7 +197,7 @@ public class ThingsModelTemplateServiceImpl implements IThingsModelTemplateServi
      */
     public String importData(List<ThingsModelTemplate> lists, String tempSlaveId) {
         if (null == tempSlaveId || CollectionUtils.isEmpty(lists)) {
-            throw new ServiceException("导入数据异常");
+            throw new ServiceException(MessageUtils.message("things.model.import.data.exception"));
         }
         int success = 0;
         int failure = 0;

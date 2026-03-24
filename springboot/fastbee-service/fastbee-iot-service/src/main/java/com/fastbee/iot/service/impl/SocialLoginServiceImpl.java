@@ -10,6 +10,7 @@ import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.sign.Md5Utils;
@@ -220,13 +221,13 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
     }
 
     @Override
-    public AjaxResult socialLogin(String loginId) {
+    public AjaxResult socialLogin(String loginId, String language) {
         AjaxResult ajax = AjaxResult.success();
         String loginKey = LOGIN_SOCIAL_REDIS_KEY + loginId;
         LoginIdValue loginIdValue = redisCache.getCacheObject(loginKey);
         if (loginIdValue != null) {
             //login
-            String token = sysLoginService.redirectLogin(loginIdValue.getUsername(), loginIdValue.getPassword());
+            String token = sysLoginService.redirectLogin(loginIdValue.getUsername(), loginIdValue.getPassword(), language);
             ajax.put(Constants.TOKEN, token);
         } else {
             log.info("loginId:{} ", loginId);
@@ -236,7 +237,7 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
     }
 
     @Override
-    public AjaxResult bindLogin(BindLoginBody bindLoginBody) {
+    public AjaxResult bindLogin(BindLoginBody bindLoginBody, String language) {
         BindIdValue bindValue = redisCache.getCacheObject(BIND_REDIS_KEY + bindLoginBody.getBindId());
         SocialUser socialUser = findSocialUser(bindValue.getUuid(), bindValue.getSource());
         AjaxResult checkAjax = checkSocialUser(socialUser, bindLoginBody.getBindId());
@@ -248,19 +249,19 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
         SysUser sysUser = iSysUserService.selectUserByUserName(bindLoginBody.getUsername());
         if (sysUser == null) {
             // 单独返回code用户不存在,给前端处理
-            return AjaxResult.error(HttpStatus.USER_NO_EXIST, "用户不存在");
+            return AjaxResult.error(HttpStatus.USER_NO_EXIST, MessageUtils.message("socialLogin.user.not.exist"));
         }
         // 自定义一下密码错误的提示
         if(!SecurityUtils.matchesPassword(bindLoginBody.getPassword(), sysUser.getPassword())){
-            throw new ServiceException("密码错误");
+            throw new ServiceException(MessageUtils.message("password.fail"));
         }
         List<SocialUser> socialUserList = iSocialUserService.selectBySysUserId(sysUser.getUserId());
         if (CollectionUtils.isNotEmpty(socialUserList)) {
-            throw new ServiceException("该账号已经绑定其他微信，请先解绑后重试！");
+            throw new ServiceException(MessageUtils.message("socialLogin.account.already.bind.other.wechat.please.unbind"));
         }
         // 生成令牌
         String token = sysLoginService.login(bindLoginBody.getUsername(), bindLoginBody.getPassword(), bindLoginBody.getCode(),
-                bindLoginBody.getUuid());
+                bindLoginBody.getUuid(), language);
         LoginUser loginUser = tokenService.getLoginUserByToken(token);
         //绑定和更新
         SocialUser updateSocialUser = new SocialUser();
@@ -274,7 +275,7 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
     }
 
     @Override
-    public AjaxResult bindRegister(BindRegisterBody bindRegisterBody) {
+    public AjaxResult bindRegister(BindRegisterBody bindRegisterBody, String language) {
         if (!("true".equals(iSysConfigService.selectConfigByKey("sys.account.registerUser")))) {
             return error("当前系统没有开启注册功能！");
         }
@@ -301,7 +302,7 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
         iSocialUserService.updateSocialUser(updateSocialUser);
         redisCache.deleteObject(BIND_REDIS_KEY + bindRegisterBody.getBindId());
         // 生成令牌
-        String token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword());
+        String token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword(), language);
         ajax.put(Constants.TOKEN, token);
         return ajax;
     }
@@ -410,7 +411,7 @@ public class SocialLoginServiceImpl implements ISocialLoginService {
     public AjaxResult checkSocialUser(SocialUser socialUser, String bindId) {
         if (socialUser == null) {
             log.info("bindId不存在, bindId: {}", bindId);
-            return error("绑定账户不存在");
+            return error(MessageUtils.message("bind.account.not.exist"));
         } else {
             return null;
         }

@@ -1,6 +1,8 @@
 package com.fastbee.system.service.impl;
 
 import java.util.List;
+
+import com.fastbee.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fastbee.common.core.domain.entity.SysDictData;
@@ -28,6 +30,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     @Override
     public List<SysDictData> selectDictDataList(SysDictData dictData)
     {
+        dictData.setLanguage(SecurityUtils.getLanguage());
         return dictDataMapper.selectDictDataList(dictData);
     }
 
@@ -53,7 +56,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     @Override
     public SysDictData selectDictDataById(Long dictCode)
     {
-        return dictDataMapper.selectDictDataById(dictCode);
+        return dictDataMapper.selectDictDataById(dictCode, SecurityUtils.getLanguage());
     }
 
     /**

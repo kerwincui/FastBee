@@ -65,6 +65,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId)
     {
+        menu.setLanguage(SecurityUtils.getLanguage());
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
         if (SysUser.isAdmin(userId))
@@ -128,16 +129,16 @@ public class SysMenuServiceImpl implements ISysMenuService
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> selectMenuTreeByUserId(Long userId)
+    public List<SysMenu> selectMenuTreeByUserId(Long userId, String language)
     {
         List<SysMenu> menus = null;
         if (SecurityUtils.isAdmin(userId))
         {
-            menus = menuMapper.selectMenuTreeAll();
+            menus = menuMapper.selectMenuTreeAll(language);
         }
         else
         {
-            menus = menuMapper.selectMenuTreeByUserId(userId);
+            menus = menuMapper.selectMenuTreeByUserId(userId, language);
         }
         return getChildPerms(menus, 0);
     }
@@ -263,7 +264,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public SysMenu selectMenuById(Long menuId)
     {
-        return menuMapper.selectMenuById(menuId);
+        return menuMapper.selectMenuById(menuId, SecurityUtils.getLanguage());
     }
 
     /**

@@ -5,6 +5,7 @@ import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.mapper.DeviceMapper;
 import com.fastbee.sip.domain.MediaServer;
@@ -143,7 +144,7 @@ public class MediaServerServiceImpl implements IMediaServerService {
 //            }
 //        }
         if (null == user.getDeptId()) {
-            throw new ServiceException("只允许租户配置");
+            throw new ServiceException(MessageUtils.message("only.allow.tenant.config"));
         }
         if (!isAdmin(user.getUserId())) {
             mediaServer.setIsSys(0);

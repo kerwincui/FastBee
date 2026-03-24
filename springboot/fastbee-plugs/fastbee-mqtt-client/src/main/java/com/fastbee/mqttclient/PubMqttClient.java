@@ -3,6 +3,7 @@ package com.fastbee.mqttclient;
 import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
@@ -120,7 +121,7 @@ public class PubMqttClient {
                 token.waitForCompletion();
             } catch (MqttException e) {
                 log.error("=>断开mqtt连接发生错误 message={}", e.getMessage());
-                throw new ServiceException("断开mqtt连接发生错误" + e.getMessage());
+                throw new ServiceException(MessageUtils.message("mqtt.disconnect.occur.fail", e.getMessage()));
             }
         }
         client = null;

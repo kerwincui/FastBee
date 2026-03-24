@@ -21,7 +21,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
 	<select id="selectDictTypeList" parameterType="SysDictType" resultMap="SysDictTypeResult">
-	    <include refid="selectDictTypeVo"/>
+		select d.dict_id,
+		case
+		when #{language} = 'zh-CN' then d.dict_name
+		when #{language} = 'en-US' then t.en_us
+		else d.dict_name
+		end as dict_name,
+		d.dict_type, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_type d
+		left join sys_dict_type_translate t on d.dict_id = t.id
 		<where>
 		    <if test="dictName != null and dictName != ''">
 				AND dict_name like concat('%', #{dictName}, '%')
@@ -42,22 +50,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectDictTypeAll" resultMap="SysDictTypeResult">
-		<include refid="selectDictTypeVo"/>
+		select d.dict_id,
+			   case
+				   when #{language} = 'zh-CN' then d.dict_name
+				   when #{language} = 'en-US' then t.en_us
+				   else d.dict_name
+				   end as dict_name,
+			   d.dict_type, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_type d
+				 left join sys_dict_type_translate t on d.dict_id = t.id
 	</select>
 	
 	<select id="selectDictTypeById" parameterType="Long" resultMap="SysDictTypeResult">
-		<include refid="selectDictTypeVo"/>
-		where dict_id = #{dictId}
+		select d.dict_id,
+			   case
+				   when #{language} = 'zh-CN' then d.dict_name
+				   when #{language} = 'en-US' then t.en_us
+				   else d.dict_name
+				   end as dict_name,
+			   d.dict_type, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_type d
+				 left join sys_dict_type_translate t on d.dict_id = t.id
+		where d.dict_id = #{dictId}
 	</select>
 	
 	<select id="selectDictTypeByType" parameterType="String" resultMap="SysDictTypeResult">
-		<include refid="selectDictTypeVo"/>
-		where dict_type = #{dictType}
+		select d.dict_id,
+			   case
+				   when #{language} = 'zh-CN' then d.dict_name
+				   when #{language} = 'en-US' then t.en_us
+				   else d.dict_name
+				   end as dict_name,
+			   d.dict_type, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_type d
+				 left join sys_dict_type_translate t on d.dict_id = t.id
+		where d.dict_type = #{dictType}
 	</select>
-	
+
 	<select id="checkDictTypeUnique" parameterType="String" resultMap="SysDictTypeResult">
-		<include refid="selectDictTypeVo"/>
-		where dict_type = #{dictType} limit 1
+		select d.dict_id,
+			   case
+				   when #{language} = 'zh-CN' then d.dict_name
+				   when #{language} = 'en-US' then t.en_us
+				   else d.dict_name
+				   end as dict_name,
+			   d.dict_type, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_type d
+				 left join sys_dict_type_translate t on d.dict_id = t.id
+		where d.dict_type = #{dictType}
 	</select>
 	
 	<delete id="deleteDictTypeById" parameterType="Long">

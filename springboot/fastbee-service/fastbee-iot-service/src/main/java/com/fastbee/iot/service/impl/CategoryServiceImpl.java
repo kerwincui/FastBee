@@ -4,6 +4,7 @@ import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.domain.Category;
 import com.fastbee.iot.mapper.CategoryMapper;
 import com.fastbee.iot.model.IdAndName;
@@ -124,12 +125,12 @@ public class CategoryServiceImpl implements ICategoryService
     {
         int productCount=categoryMapper.productCountInCategorys(categoryIds);
         if(productCount>0){
-            return AjaxResult.error("删除失败，请先删除对应分类下的产品");
+            return AjaxResult.error(MessageUtils.message("delete.fail.please.delete.category.product"));
         }
         if(categoryMapper.deleteCategoryByCategoryIds(categoryIds)>0){
-            return AjaxResult.success("删除成功");
+            return AjaxResult.success(MessageUtils.message("delete.success"));
         }
-        return AjaxResult.error("删除失败");
+        return AjaxResult.error(MessageUtils.message("delete.fail"));
     }
 
     /**

@@ -10,6 +10,7 @@ import com.fastbee.common.enums.SocialPlatformType;
 import com.fastbee.common.enums.VerifyTypeEnum;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.bean.BeanUtils;
 import com.fastbee.common.utils.http.HttpUtils;
@@ -107,19 +108,19 @@ public class WeChatServiceImpl implements WeChatService {
      * @param weChatLoginBody 微信登录参数
      * @return String
      */
-    public WeChatLoginResult mobileLogin(WeChatLoginBody weChatLoginBody) {
+    public WeChatLoginResult mobileLogin(WeChatLoginBody weChatLoginBody, String language) {
         WeChatLoginResult weChatLoginResult = new WeChatLoginResult();
         SocialPlatformType socialPlatformType = SocialPlatformType.WECHAT_OPEN_MOBILE;
         // 查询微信平台信息
         SocialPlatform socialPlatform = socialPlatformService.selectSocialPlatformByPlatform(socialPlatformType.getSourceClient());
         if (socialPlatform == null) {
-            throw new ServiceException("请先配置微信开放平台移动应用信息");
+            throw new ServiceException(MessageUtils.message("wechat.please.config.open.platform"));
         }
         // 用户凭证code只能消费一次，前端调的uni.login有时会消费，然后直接就把获取到的信息传过来，不会消费的话就这里通过code拿
         if (StringUtils.isEmpty(weChatLoginBody.getAccessToken()) || StringUtils.isEmpty(weChatLoginBody.getOpenId()) || StringUtils.isEmpty(weChatLoginBody.getUnionId())) {
             WeChatAppResult weChatResult = this.getAccessTokenOpenId(weChatLoginBody.getCode(), socialPlatform);
             if (weChatResult == null || weChatResult.getErrCode() != null) {
-                throw new ServiceException("用户凭证获取失败，请重新登录！");
+                throw new ServiceException(MessageUtils.message("wechat.user.certificate.gain.fail"));
             }
             weChatLoginBody.setAccessToken(weChatResult.getAccessToken()).setRefreshToken(weChatResult.getRefreshToken()).setExpiresIn(weChatResult.getExpiresIn()).setOpenId(weChatResult.getOpenId()).setUnionId(weChatResult.getUnionId()).setScope(weChatResult.getScope());
         }
@@ -165,9 +166,9 @@ public class WeChatServiceImpl implements WeChatService {
         } else {
             SysUser sysUser = sysUserService.selectUserById(bindSysUserId);
             if (sysUser == null) {
-                throw new ServiceException("用户不存在");
+                throw new ServiceException(MessageUtils.message("user.not.exist"));
             }
-            String token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword());
+            String token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword(), language);
             weChatLoginResult.setToken(token);
         }
         return weChatLoginResult;
@@ -179,26 +180,26 @@ public class WeChatServiceImpl implements WeChatService {
      * @return 登录结果
      */
     @Override
-    public WeChatLoginResult miniLogin(WeChatLoginBody weChatLoginBody) {
+    public WeChatLoginResult miniLogin(WeChatLoginBody weChatLoginBody, String language) {
         // 使用微信手机号去登录不绑定微信，没有用户则用手机号自动注册一个登录，密码是手机号
         SocialPlatformType socialPlatformType = SocialPlatformType.WECHAT_OPEN_MINI_PROGRAM;
         // 查询微信平台信息
         SocialPlatform socialPlatform = socialPlatformService.selectSocialPlatformByPlatform(socialPlatformType.getSourceClient());
         if (socialPlatform == null) {
-            throw new ServiceException("请先配置微信公众平台小程序信息！");
+            throw new ServiceException(MessageUtils.message("wechat.please.config.open.platform.mini"));
         }
         if (StringUtils.isEmpty(weChatLoginBody.getPhoneCode())) {
-            throw new ServiceException("用户手机号凭证获取失败，请重新登录！");
+            throw new ServiceException(MessageUtils.message("wechat.user.phone.certificate.gain.fail"));
         }
         // 先获取token
         WeChatAppResult result = getAccessToken(socialPlatform);
         if (result == null || StringUtils.isEmpty(result.getAccessToken())) {
-            throw new ServiceException("获取用户调用凭据失败，请重新登录！");
+            throw new ServiceException(MessageUtils.message("wechat.user.certificate.gain.fail"));
         }
         // 根据phoneCode获取用户手机号
         WeChatPhoneInfo userPhoneInfo = getWechatUserPhoneInfo(weChatLoginBody.getPhoneCode(), result.getAccessToken());
         if (userPhoneInfo == null || !userPhoneInfo.getErrCode().equals("0")) {
-            throw new ServiceException("获取用户手机号失败，请重新登录！");
+            throw new ServiceException(MessageUtils.message("wechat.user.phone.certificate.gain.fail"));
         }
         String phoneNumber = userPhoneInfo.getPhoneInfo().getPhoneNumber();
         SysUser sysUser = sysUserService.selectUserByPhoneNumber(phoneNumber);
@@ -214,9 +215,9 @@ public class WeChatServiceImpl implements WeChatService {
             if (StringUtils.isNotEmpty(registerUserOutput.getMsg())) {
                 throw new ServiceException(registerUserOutput.getMsg());
             }
-            token = sysLoginService.redirectLogin(phoneNumber, phoneNumber);
+            token = sysLoginService.redirectLogin(phoneNumber, phoneNumber, language);
         } else {
-            token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword());
+            token = sysLoginService.redirectLogin(sysUser.getUserName(), sysUser.getPassword(), language);
         }
         weChatLoginResult.setToken(token);
         return weChatLoginResult;
@@ -252,21 +253,21 @@ public class WeChatServiceImpl implements WeChatService {
     public AjaxResult cancelBind(WxCancelBindReqVO wxCancelBindReqVO) {
         LoginUser loginUser = getLoginUser();
         if (loginUser == null || loginUser.getUserId() == null) {
-            throw new ServiceException("请先登录后重试");
+            throw new ServiceException(MessageUtils.message("wechat.please.login"));
         }
         // 密码验证
         if (VerifyTypeEnum.PASSWORD.getVerifyType().equals(wxCancelBindReqVO.getVerifyType())) {
             if (StringUtils.isEmpty(wxCancelBindReqVO.getPassword())) {
-                throw new ServiceException("请传入用户密码");
+                throw new ServiceException(MessageUtils.message("wechat.please.enter.user.password"));
             }
             Boolean validateResult = sysUserService.validatePassword(loginUser.getUser().getPassword(), wxCancelBindReqVO.getPassword());
             if (Boolean.FALSE.equals(validateResult)) {
-                throw new ServiceException("密码错误，请重新输入");
+                throw new ServiceException(MessageUtils.message("wechat.cancelBind.password.fail"));
             }
         }
         // 解绑所有微信应用
         int cancelBind = socialUserService.cancelBind(loginUser.getUserId(), SocialPlatformType.listWechatPlatform);
-        return cancelBind >= 1 ? success("解绑成功") : AjaxResult.error("解绑失败");
+        return cancelBind >= 1 ? success(MessageUtils.message("unbind.success")) : AjaxResult.error(MessageUtils.message("unbind.fail"));
     }
 
     /**
@@ -278,30 +279,30 @@ public class WeChatServiceImpl implements WeChatService {
     public AjaxResult bind(WxBindReqVO wxBindReqVO) {
         Long sysUserId = getUserId();
         if (sysUserId == null) {
-            throw new ServiceException("请登录后重试");
+            throw new ServiceException(MessageUtils.message("wechat.please.login"));
         }
         String openId = "";
         String unionId = "";
         // 区分小程序绑定还是移动应用绑定
         if (SocialPlatformType.WECHAT_OPEN_MOBILE.sourceClient.equals(wxBindReqVO.getSourceClient())) {
             if (StringUtils.isEmpty(wxBindReqVO.getOpenId()) || StringUtils.isEmpty(wxBindReqVO.getUnionId())) {
-                throw new ServiceException("请传入微信用户信息");
+                throw new ServiceException(MessageUtils.message("wechat.please.enter.wechat.user.info"));
             }
             openId = wxBindReqVO.getOpenId();
             unionId = wxBindReqVO.getUnionId();
         } else if (SocialPlatformType.WECHAT_OPEN_MINI_PROGRAM.sourceClient.equals(wxBindReqVO.getSourceClient())) {
             if (StringUtils.isEmpty(wxBindReqVO.getCode())) {
-                throw new ServiceException("请传入用户凭证");
+                throw new ServiceException(MessageUtils.message("wechat.please.enter.user.certificate"));
             }
             // 查询微信平台信息
             SocialPlatform socialPlatform = socialPlatformService.selectSocialPlatformByPlatform(SocialPlatformType.WECHAT_OPEN_MINI_PROGRAM.sourceClient);
             if (socialPlatform == null) {
-                throw new ServiceException("请先配置微信开放平台小程序信息！");
+                throw new ServiceException(MessageUtils.message("wechat.please.config.open.platform.mini"));
             }
             WeChatMiniProgramResult weChatMiniProgramResult = this.codeToSession(wxBindReqVO.getCode(), socialPlatform);
             if (weChatMiniProgramResult == null
                     || (StringUtils.isEmpty(weChatMiniProgramResult.getOpenId()) && StringUtils.isEmpty(weChatMiniProgramResult.getUnionId()))) {
-                throw new ServiceException("获取微信信息失败，请重试！");
+                throw new ServiceException(MessageUtils.message("wechat.gain.wechat.info.fail"));
             }
             openId = weChatMiniProgramResult.getOpenId();
             unionId = weChatMiniProgramResult.getUnionId();
@@ -311,11 +312,11 @@ public class WeChatServiceImpl implements WeChatService {
         int bindResult;
         List<SocialUser> socialUserList = socialUserService.selectBySysUserId(sysUserId);
         if (CollectionUtils.isNotEmpty(socialUserList)) {
-            return success("绑定成功！");
+            return success(MessageUtils.message("bind.success"));
         }
         if (socialUser != null) {
             if (socialUser.getSysUserId() != null && !sysUserId.equals(socialUser.getSysUserId())) {
-                throw new ServiceException("该微信已绑定其他账号，请先使用微信登录解绑后重试！");
+                throw new ServiceException(MessageUtils.message("wechat.this.wechat.already.bind.other.account"));
             }
             SocialUser updateSocialUser = new SocialUser();
             updateSocialUser.setSocialUserId(socialUser.getSocialUserId());
@@ -334,19 +335,19 @@ public class WeChatServiceImpl implements WeChatService {
             bindResult = socialUserService.insertSocialUser(insertSocialUser);
         }
         // 绑定
-        return bindResult >= 1 ? success("绑定成功！") : AjaxResult.error("绑定失败");
+        return bindResult >= 1 ? success(MessageUtils.message("bind.success")) : AjaxResult.error(MessageUtils.message("bind.fail"));
     }
 
     @Override
     public AjaxResult getWxBindQr(HttpServletRequest httpServletRequest) {
         Long sysUserId = getUserId();
         if (sysUserId == null) {
-            throw new ServiceException("请先登录后重试！");
+            throw new ServiceException(MessageUtils.message("wechat.please.login"));
         }
         WeChatLoginQrRes weChatLoginQrRes = new WeChatLoginQrRes();
         SocialPlatform socialPlatform = socialPlatformService.selectSocialPlatformByPlatform(SocialPlatformType.WECHAT_OPEN_WEB_BIND.sourceClient);
         if (socialPlatform == null) {
-            throw new ServiceException("请先配置微信开放平台网站应用个人中心绑定信息");
+            throw new ServiceException(MessageUtils.message("wechat.please.config.open.platform.web.application.personal.bind.info"));
         }
         weChatLoginQrRes.setAppid(socialPlatform.getClientId());
         weChatLoginQrRes.setScope("snsapi_login");
@@ -362,36 +363,36 @@ public class WeChatServiceImpl implements WeChatService {
         SocialPlatform socialPlatform = socialPlatformService.selectSocialPlatformByPlatform(SocialPlatformType.WECHAT_OPEN_WEB_BIND.sourceClient);
         if (socialPlatform == null) {
             String serverName = httpServletRequest.getServerName();
-            String msgId = socialLoginService.genErrorId("请先配置微信开放平台网站应用个人中心绑定信息");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.please.config.open.platform.web.application.personal.bind.info"));
             return "https://" + serverName + "/user/profile?wxBindMsgId=" + msgId;
         }
         String url = socialPlatform.getRedirectLoginUri();
         //获取临时票据 code
         log.info("code:{}", code);
         if (StringUtils.isEmpty(code)) {
-            String msgId = socialLoginService.genErrorId("您已取消授权或未获取到授权信息");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.you.cancel.or.not.gain.authorization.info"));
             return url + msgId;
         }
         Long sysUserId = redisCache.getCacheObject(WX_BIND_REDIS_KEY + wxBindId);
         if (sysUserId == null) {
-            String msgId = socialLoginService.genErrorId("二维码已失效，请重新点击绑定");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.the.qr.code.has.expired"));
             return url + msgId;
         }
         List<SocialUser> socialUserList = socialUserService.selectBySysUserId(sysUserId);
         if (CollectionUtils.isNotEmpty(socialUserList)) {
-            String msgId = socialLoginService.genErrorId("您的账号已绑定微信，请先解绑");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.your.account.already.bind.wechat"));
             return url + msgId;
         }
         // 组装获取accessToken的url
         WeChatAppResult weChatAppResult = this.getAccessTokenOpenId(code, socialPlatform);
         if (weChatAppResult == null || StringUtils.isEmpty(weChatAppResult.getAccessToken())
                 || StringUtils.isEmpty(weChatAppResult.getOpenId()) || StringUtils.isEmpty(weChatAppResult.getUnionId())) {
-            String msgId = socialLoginService.genErrorId("获取微信信息失败，请重试");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.gain.wechat.info.fail"));
             return url + msgId;
         }
         Long bindUserId = socialUserService.selectSysUserIdByUnionId(weChatAppResult.getUnionId());
         if (bindUserId != null && !bindUserId.equals(sysUserId)) {
-            String msgId = socialLoginService.genErrorId("您的微信已绑定其他账号，请先使用微信登录解绑后重试！");
+            String msgId = socialLoginService.genErrorId(MessageUtils.message("wechat.your.wechat.already.bind.other.account"));
             return url + msgId;
         }
         SocialUser socialUser = socialUserService.selectOneByOpenIdAndUnionId(weChatAppResult.getOpenId(), weChatAppResult.getUnionId());

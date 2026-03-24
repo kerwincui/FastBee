@@ -16,6 +16,86 @@
 
 
 -- ----------------------------
+-- Table structure for app_language
+-- ----------------------------
+DROP TABLE "app_language";
+CREATE TABLE "app_language" (
+                                "id" NUMBER(20) NOT NULL,
+                                "language" NVARCHAR2(20),
+                                "country" NVARCHAR2(20),
+                                "time_zone" NVARCHAR2(20),
+                                "create_by" NVARCHAR2(64),
+                                "create_time" DATE,
+                                "lang_name" NVARCHAR2(20)
+)
+;
+COMMENT ON COLUMN "app_language"."id" IS '主键ID';
+COMMENT ON COLUMN "app_language"."language" IS '语言';
+COMMENT ON COLUMN "app_language"."country" IS '国家';
+COMMENT ON COLUMN "app_language"."time_zone" IS '时区';
+COMMENT ON COLUMN "app_language"."create_by" IS '创建者';
+COMMENT ON COLUMN "app_language"."create_time" IS '创建时间';
+COMMENT ON COLUMN "app_language"."lang_name" IS '语言名称';
+COMMENT ON TABLE "app_language" IS 'app语言';
+
+-- ----------------------------
+-- Records of app_language
+-- ----------------------------
+INSERT INTO "app_language" ("id", "language", "country", "time_zone", "create_by", "create_time", "lang_name") VALUES ('2', 'zh-CN', '中国', 'UTF+8', 'admin', TO_DATE('2024-05-31 14:25:30', 'SYYYY-MM-DD HH24:MI:SS'), '简体中文');
+INSERT INTO "app_language" ("id", "language", "country", "time_zone", "create_by", "create_time", "lang_name") VALUES ('3', 'en-US', '欧美', 'UTC', 'admin', TO_DATE('2024-05-31 14:25:30', 'SYYYY-MM-DD HH24:MI:SS'), 'English');
+INSERT INTO "app_language" ("id", "language", "country", "time_zone", "create_by", "create_time", "lang_name") VALUES ('4', 'jp', '日本', 'utf-9', 'admin', TO_DATE('2024-05-31 14:25:30', 'SYYYY-MM-DD HH24:MI:SS'), '日语');
+COMMIT;
+
+-- ----------------------------
+-- Primary Key structure for table app_language
+-- ----------------------------
+ALTER TABLE "app_language" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Table structure for app_preferences
+-- ----------------------------
+DROP TABLE "app_preferences";
+CREATE TABLE "app_preferences" (
+                                   "id" NUMBER(20) NOT NULL,
+                                   "user_id" NUMBER(20),
+                                   "language" NVARCHAR2(20),
+                                   "time_zone" NVARCHAR2(20),
+                                   "create_by" NVARCHAR2(64),
+                                   "create_time" DATE,
+                                   "update_by" NVARCHAR2(64),
+                                   "update_time" DATE,
+                                   "remark" NVARCHAR2(500)
+)
+;
+COMMENT ON COLUMN "app_preferences"."id" IS '主键id';
+COMMENT ON COLUMN "app_preferences"."user_id" IS '用户';
+COMMENT ON COLUMN "app_preferences"."language" IS '语言';
+COMMENT ON COLUMN "app_preferences"."time_zone" IS '时区';
+COMMENT ON COLUMN "app_preferences"."create_by" IS '创建者';
+COMMENT ON COLUMN "app_preferences"."create_time" IS '创建时间';
+COMMENT ON COLUMN "app_preferences"."update_by" IS '更新者';
+COMMENT ON COLUMN "app_preferences"."update_time" IS '更新时间';
+COMMENT ON COLUMN "app_preferences"."remark" IS '备注';
+COMMENT ON TABLE "app_preferences" IS 'APP用户偏好设置';
+
+-- ----------------------------
+-- Records of app_preferences
+-- ----------------------------
+INSERT INTO "app_preferences" ("id", "user_id", "language", "time_zone", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('1', '1', 'zh-CN', NULL, 'admin', TO_DATE('2024-05-31 14:25:30', 'SYYYY-MM-DD HH24:MI:SS'), NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Primary Key structure for table app_preferences
+-- ----------------------------
+ALTER TABLE "app_preferences" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Indexes structure for table app_preferences
+-- ----------------------------
+CREATE UNIQUE INDEX "PRIAMRK_USER_LANG"
+    ON "app_preferences" ("user_id" ASC, "language" ASC);
+
+-- ----------------------------
 -- Table structure for gen_table
 -- ----------------------------
 DROP TABLE "gen_table";
@@ -1563,6 +1643,47 @@ INSERT INTO "iot_things_model_template" ("template_id", "template_name", "tenant
 INSERT INTO "iot_things_model_template" ("template_id", "template_name", "tenant_id", "tenant_name", "identifier", "type", "datatype", "specs", "is_sys", "is_chart", "is_monitor", "is_history", "is_readonly", "is_share_perm", "model_order", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark", "temp_slave_id", "formula", "reverse_formula", "reg_addr", "bit_option", "value_type", "is_params", "quantity", "code", "old_identifier", "old_temp_slave_id", "parse_type") VALUES ('342', '图片', '1', 'admin', 'image', '1', 'string', '{"type": "string", "maxLength": 1024}', '1', '0', '0', '1', '1', '0', '0', '0', '', TO_DATE('2023-08-30 23:21:48', 'SYYYY-MM-DD HH24:MI:SS'), '', TO_DATE('2023-08-30 23:25:22', 'SYYYY-MM-DD HH24:MI:SS'), NULL, '2#2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO "iot_things_model_template" ("template_id", "template_name", "tenant_id", "tenant_name", "identifier", "type", "datatype", "specs", "is_sys", "is_chart", "is_monitor", "is_history", "is_readonly", "is_share_perm", "model_order", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark", "temp_slave_id", "formula", "reverse_formula", "reg_addr", "bit_option", "value_type", "is_params", "quantity", "code", "old_identifier", "old_temp_slave_id", "parse_type") VALUES ('343', '状态', '1', 'admin', 'status', '1', 'integer', '{"max": 100, "min": 0, "step": 1, "type": "integer", "unit": ""}', '1', '0', '0', '1', '1', '0', '0', '0', '', TO_DATE('2023-08-30 23:28:00', 'SYYYY-MM-DD HH24:MI:SS'), '', TO_DATE('2023-08-30 23:28:17', 'SYYYY-MM-DD HH24:MI:SS'), NULL, '2#1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 COMMIT;
+
+-- ----------------------------
+-- Table structure for iot_things_model_template_translate
+-- ----------------------------
+DROP TABLE "iot_things_model_template_translate";
+CREATE TABLE "iot_things_model_template_translate" (
+                                                       "id" NUMBER(20) NOT NULL,
+                                                       "zh_cn" NVARCHAR2(200),
+                                                       "en_us" NVARCHAR2(200)
+)
+;
+COMMENT ON COLUMN "iot_things_model_template_translate"."id" IS 'ID';
+COMMENT ON COLUMN "iot_things_model_template_translate"."zh_cn" IS 'zh_CN';
+COMMENT ON COLUMN "iot_things_model_template_translate"."en_us" IS 'en_US';
+COMMENT ON TABLE "iot_things_model_template_translate" IS '物模型模板翻译表';
+
+-- ----------------------------
+-- Records of iot_things_model_template_translate
+-- ----------------------------
+COMMIT;
+
+-- ----------------------------
+-- Table structure for iot_things_model_translate
+-- ----------------------------
+DROP TABLE "iot_things_model_translate";
+CREATE TABLE "iot_things_model_translate" (
+                                              "id" NUMBER(20) NOT NULL,
+                                              "zh_cn" NVARCHAR2(200),
+                                              "en_us" NVARCHAR2(200),
+                                              "product_id" NUMBER(20)
+)
+;
+COMMENT ON COLUMN "iot_things_model_translate"."id" IS 'ID';
+COMMENT ON COLUMN "iot_things_model_translate"."zh_cn" IS 'zh_CN';
+COMMENT ON COLUMN "iot_things_model_translate"."en_us" IS 'en_US';
+COMMENT ON COLUMN "iot_things_model_translate"."product_id" IS '产品ID';
+COMMENT ON TABLE "iot_things_model_translate" IS '物模型翻译表';
+
+-- ----------------------------
+-- Records of iot_things_model_translate
+-- ----------------------------
 COMMIT;
 
 -- ----------------------------
@@ -2558,20 +2679,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE "sys_dict_data";
 CREATE TABLE "sys_dict_data" (
-  "dict_code" NUMBER(20) NOT NULL,
-  "dict_sort" NUMBER(11),
-  "dict_label" NVARCHAR2(100),
-  "dict_value" NVARCHAR2(100),
-  "dict_type" NVARCHAR2(100),
-  "css_class" NVARCHAR2(100),
-  "list_class" NVARCHAR2(100),
-  "is_default" NCHAR(1),
-  "status" NCHAR(1),
-  "create_by" NVARCHAR2(64),
-  "create_time" DATE,
-  "update_by" NVARCHAR2(64),
-  "update_time" DATE,
-  "remark" NVARCHAR2(500)
+                                 "dict_code" NUMBER(20) NOT NULL,
+                                 "dict_sort" NUMBER(11),
+                                 "dict_label" NVARCHAR2(100),
+                                 "dict_value" NVARCHAR2(100),
+                                 "dict_type" NVARCHAR2(100),
+                                 "css_class" NVARCHAR2(100),
+                                 "list_class" NVARCHAR2(100),
+                                 "is_default" NCHAR(1),
+                                 "status" NCHAR(1),
+                                 "create_by" NVARCHAR2(64),
+                                 "create_time" DATE,
+                                 "update_by" NVARCHAR2(64),
+                                 "update_time" DATE,
+                                 "remark" NVARCHAR2(500)
 )
 ;
 COMMENT ON COLUMN "sys_dict_data"."dict_code" IS '字典编码';
@@ -2718,189 +2839,230 @@ INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value
 INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('241', '4', 'GB28181', 'GB28181', 'iot_transport_type', NULL, 'success', 'N', '0', 'admin', TO_DATE('2023-05-12 14:25:39', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 16:24:12', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
 INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('242', '1', '02(读离散量输入)', '2', 'iot_modbus_status_code', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-07-03 10:16:48', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-07-03 10:17:35', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
 INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('243', '3', '04(读输入寄存器)', '4', 'iot_modbus_status_code', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-07-03 10:17:18', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-07-03 10:17:58', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('247', '4', '微信开放平台网站应用', 'wechat_open_web', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('248', '5', '微信开放平台移动应用', 'wechat_open_mobile', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:29:14', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('249', '6', '微信开放平台小程序', 'wechat_open_mini_program', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:38:12', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('250', '0', '16位 无符号', 'ushort', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:11:54', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('251', '1', '16位 有符号', 'short', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:12:26', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('252', '2', '32位 有符号(ABCD)', 'long-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:12:53', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('253', '3', '32位 有符号(CDAB)', 'long-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:13:21', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('254', '4', '32位 无符号(ABCD)', 'ulong-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:13:42', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('255', '5', '32位 无符号(CDAB)', 'ulong-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:06', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('256', '6', '32位 浮点数(ABCD)', 'float-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:28', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('257', '7', '32位 浮点数(CDAB)', 'float-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:50', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('258', '8', '位', 'bit', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:15:13', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('259', '0', '电灯', 'LIGHT', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('260', '0', '空调', 'AIR_CONDITION', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('261', '0', '窗帘', 'CURTAIN', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('262', '0', '窗纱', 'CURT_SIMP', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('263', '0', '插座', 'SOCKET', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('264', '0', '开关', 'SWITCH', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('265', '0', '冰箱', 'FRIDGE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('266', '0', '净水器', 'WATER_PURIFIER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('267', '0', '加湿器', 'HUMIDIFIER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('268', '0', '除湿器', 'DEHUMIDIFIER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('269', '0', '电磁炉', 'INDUCTION_COOKER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('270', '0', '空气净化器', 'AIR_PURIFIER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('271', '0', '洗衣机', 'WASHING_MACHINE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('272', '0', '热水器', 'WATER_HEATER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('273', '0', '燃气灶', 'GAS_STOVE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('274', '0', '电视机', 'TV_SET', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('275', '0', '网络盒子', 'OTT_BOX', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('276', '0', '油烟机', 'RANGE_HOOD', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('277', '0', '电风扇', 'FAN', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('278', '0', '投影仪', 'PROJECTOR', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('279', '0', '扫地机器人', 'SWEEPING_ROBOT', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('280', '0', '热水壶', 'KETTLE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('281', '0', '微波炉', 'MICROWAVE_OVEN', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('282', '0', '压力锅', 'PRESSURE_COOKER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('283', '0', '电饭煲', 'RICE_COOKER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('284', '0', '破壁机', 'HIGH_SPEED_BLENDER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('285', '0', '新风机', 'AIR_FRESHER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('286', '0', '晾衣架', 'CLOTHES_RACK', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('287', '0', '烤箱设备', 'OVEN', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('288', '0', '蒸烤箱', 'STEAM_OVEN', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('289', '0', '蒸箱', 'STEAM_BOX', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('290', '0', '电暖器', 'HEATER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('291', '0', '开窗器', 'WINDOW_OPENER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('292', '0', '摄像头', 'WEBCAM', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('293', '0', '相机', 'CAMERA', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('294', '0', '机器人', 'ROBOT', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('295', '0', '打印机', 'PRINTER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('296', '0', '饮水机', 'WATER_COOLER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('297', '0', '鱼缸', 'FISH_TANK', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('298', '0', '浇花器', 'WATERING_DEVICE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('299', '0', '机顶盒', 'SET_TOP_BOX', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('300', '0', '香薰机', 'AROMATHERAPY_MACHINE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('301', '0', 'DVD', 'DVD', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('302', '0', '鞋柜', 'SHOE_CABINET', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('303', '0', '走步机', 'WALKING_MACHINE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('304', '0', '跑步机', 'TREADMILL', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('305', '0', '床', 'BED', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('306', '0', '浴霸', 'YUBA', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('307', '0', '花洒', 'SHOWER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('308', '0', '浴缸', 'BATHTUB', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('309', '0', '消毒柜', 'DISINFECTION_CABINET', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('310', '0', '洗碗机', 'DISHWASHER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('311', '0', '沙发品类', 'SOFA', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('312', '0', '门铃', 'DOOR_BELL', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('313', '0', '电梯', 'ELEVATOR', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('314', '0', '体重秤', 'WEIGHT_SCALE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('315', '0', '体脂秤', 'BODY_FAT_SCALE', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('316', '0', '壁挂炉', 'WALL_HUNG_GAS_BOILER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('317', '0', '特定设备的组合场景', 'SCENE_TRIGGER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '描述特定设备的组合场景，设备之间没有相互关联，无特定操作顺序。 例如“打开睡眠模式”包括关灯和锁上房门，但是关灯和锁上房门之间没有必然联系，可以先关灯然后锁上房门，也可以先锁上房门后关灯');
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('318', '0', '特定设备的组合场景', 'ACTIVITY_TRIGGER', 'dueros_related_device', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '描述特定设备的组合场景。场景中的设备必须以指定顺序操作。如“观看优酷视频”场景中必须先打开电视机，然后打开HDMI1');
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('319', '0', '打开', 'turnOn', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('320', '0', '关闭', 'turnOff', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('321', '0', '定时打开', 'timingTurnOn', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('322', '0', '定时关闭', 'timingTurnOff', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('323', '0', '暂停', 'pause', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('324', '0', '继续', 'continue', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('325', '0', '设置颜色', 'setColor', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('326', '0', '设置灯光色温', 'setColorTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('327', '0', '增高灯光色温', 'incrementColorTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('328', '0', '降低灯光色温', 'decrementColorTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('329', '0', '设置灯光亮度', 'setBrightnessPercentage', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('330', '0', '调亮灯光', 'incrementBrightnessPercentage', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('331', '0', '调暗灯光', 'decrementBrightnessPercentage', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('332', '0', '设置功率', 'setPower', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('333', '0', '增大功率', 'incrementPower', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('334', '0', '减小功率', 'decrementPower', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('335', '0', '升高温度', 'incrementTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('336', '0', '降低温度', 'decrementTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('337', '0', '设置温度', 'setTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('338', '0', '增加风速', 'incrementFanSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('339', '0', '减小风速', 'decrementFanSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('340', '0', '设置风速', 'setFanSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('341', '0', '设置档位', 'setGear', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('342', '0', '设置模式', 'setMode', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('343', '0', '取消设置的模式', 'unSetMode', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('344', '0', '定时设置模式', 'timingSetMode', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('345', '0', '定时取消设置的模式', 'timingUnsetMode', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('346', '0', '调高音量', 'incrementVolume', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('347', '0', '调低音量', 'decrementVolume', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('348', '0', '设置音量', 'setVolume', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('349', '0', '设置静音状态', 'setVolumeMute', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('350', '0', '上一个频道', 'decrementTVChannel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('351', '0', '下一个频道', 'incrementTVChannel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('352', '0', '设置频道', 'setTVChannel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('353', '0', '返回上个频道', 'returnTVChannel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('354', '0', '开始充电', 'chargeTurnOn', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('355', '0', '停止充电', 'chargeTurnOff', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('356', '0', '查询开关状态', 'getTurnOnState', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('357', '0', '查询油量', 'getOilCapacity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('358', '0', '查询电量', 'getElectricityCapacity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('359', '0', '上锁/解锁', 'setLockState', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('360', '0', '查询锁状态', 'getLockState', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('361', '0', '设置吸力', 'setSuction', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('362', '0', '设置水量', 'setWaterLevel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('363', '0', '设置清扫位置', 'setCleaningLocation', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('364', '0', '执行自定义复杂动作', 'setComplexActions', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('365', '0', '设置移动方向', 'setDirection', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('366', '0', '打印', 'submitPrint', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('367', '0', '查询PM2.5', 'getAirPM25', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('368', '0', '查询PM10', 'getAirPM10', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('369', '0', '查询二氧化碳含量', 'getCO2Quantity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('370', '0', '查询空气质量', 'getAirQualityIndex', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('371', '0', '查询温度（当前温度和目标温度）', 'getTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('372', '0', '查询当前温度', 'getTemperatureReading', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('373', '0', '查询目标温度', 'getTargetTemperature', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('374', '0', '查询湿度', 'getHumidity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('375', '0', '查询目标湿度', 'getTargetHumidity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('376', '0', '查询水质', 'getWaterQuality', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('377', '0', '查询设备所有状态', 'getState', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('378', '0', '查询剩余时间', 'getTimeLeft', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('379', '0', '查询运行状态', 'getRunningStatus', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('380', '0', '查询运行时间', 'getRunningTime', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('381', '0', '查询设备所在位置', 'getLocation', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('382', '0', '设备定时', 'setTimer', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('383', '0', '取消设备定时', 'timingCancel', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('384', '0', '设备复位', 'reset', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('385', '0', '升高高度', 'incrementHeight', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('386', '0', '降低高度', 'decrementHeight', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('387', '0', '设置摆风角度', 'setSwingAngle', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('388', '0', '查询风速', 'getFanSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('389', '0', '设置湿度模式', 'setHumidity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('390', '0', '增大湿度', 'incrementHumidity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('391', '0', '降低湿度', 'decrementHumidity', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('392', '0', '增大雾量', 'incrementMist', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('393', '0', '见效雾量', 'decrementMist', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('394', '0', '设置雾量', 'setMist', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('395', '0', '设备启动', 'startUp', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('396', '0', '设置电梯楼层', 'setFloor', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('397', '0', '电梯按下', 'decrementFloor', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('398', '0', '电梯按上', 'incrementFloor', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('399', '0', '增加速度', 'incrementSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('400', '0', '降低速度', 'decrementSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('401', '0', '设置速度', 'setSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('402', '0', '获取速度', 'getSpeed', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('403', '0', '获取跑步信息', 'getMotionInfo', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('404', '0', '打开灶眼', 'turnOnBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('405', '0', '关闭灶眼', 'turnOffBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('406', '0', '定时打开灶眼', 'timingTurnOnBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('407', '0', '定时关闭灶眼', 'timingTurnOffBurner', 'dueros_operate_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-22 10:35:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('408', '7', '微信开放平台网站应用个人中心绑定', 'wechat_open_web_bind', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-10-09 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('749', '1', 'Java脚本引擎', 'java', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:51:09', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:51:42', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('750', '2', 'JavaScript脚本引擎', 'js', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:51:36', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-05 10:28:30', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('751', '1', '普通脚本节点', 'script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:11', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('752', '2', '选择脚本节点 (switch)', 'switch_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:32', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:56:44', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('753', '3', '条件脚本节点 (if)', 'if_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:48', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:56:55', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('754', '4', '数量循环节点 (for)', 'for_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:11', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:07', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('755', '5', '条件循环节点 (while)', 'while_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:30', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:16', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('756', '6', '退出循环节点 (break)', 'break_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:50', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:29', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('757', '3', 'groovy脚本引擎', 'groovy', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-05 10:29:14', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('767', '1', '设备上报', '1', 'rule_script_event', NULL, 'primary', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:34', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:23:43', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('768', '2', '平台下发', '2', 'rule_script_event', NULL, 'warning', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:46', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:23:51', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('769', '3', '设备上线', '3', 'rule_script_event', NULL, 'success', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:58', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:24:00', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('770', '4', '设备离线', '4', 'rule_script_event', NULL, 'info', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:09', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:24:08', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('771', '1', '数据流', '1', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:39', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('772', '2', '触发器', '2', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:48', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('773', '3', '执行动作', '3', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:59', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('774', '1', '消息重发', '1', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:42:26', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('775', '2', '消息通知', '2', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:18', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-19 11:43:38', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('776', '3', 'Http推送', '3', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:33', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('777', '4', 'Mqtt桥接', '4', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:54', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('244', '4', '微信开放平台网站应用', 'wechat_open_web', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('245', '5', '微信开放平台移动应用', 'wechat_open_mobile', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:29:14', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('246', '6', '微信开放平台小程序', 'wechat_open_mini_program', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-08-23 11:38:12', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('247', '7', '微信开放平台网站应用个人中心绑定', 'wechat_open_web_bind', 'iot_social_platform', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-10-09 11:28:15', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('248', '0', '16位 无符号', 'ushort', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:11:54', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('249', '1', '16位 有符号', 'short', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:12:26', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('250', '2', '32位 有符号(ABCD)', 'long-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:12:53', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('251', '3', '32位 有符号(CDAB)', 'long-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:13:21', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('252', '4', '32位 无符号(ABCD)', 'ulong-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:13:42', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('253', '5', '32位 无符号(CDAB)', 'ulong-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:06', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('254', '6', '32位 浮点数(ABCD)', 'float-ABCD', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:28', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('255', '7', '32位 浮点数(CDAB)', 'float-CDAB', 'iot_modbus_data_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-09-04 14:14:50', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('257', '1', 'Java脚本引擎', 'java', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:51:09', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:51:42', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('258', '2', 'JavaScript脚本引擎', 'js', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:51:36', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-05 10:28:30', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('259', '1', '普通脚本节点', 'script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:11', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('260', '2', '选择脚本节点 (switch)', 'switch_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:32', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:56:44', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('261', '3', '条件脚本节点 (if)', 'if_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:53:48', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:56:55', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('262', '4', '数量循环节点 (for)', 'for_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:11', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:07', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('263', '5', '条件循环节点 (while)', 'while_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:30', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:16', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('264', '6', '退出循环节点 (break)', 'break_script', 'rule_script_type', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-04 01:54:50', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:57:29', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('265', '3', 'groovy脚本引擎', 'groovy', 'rule_script_language', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-11-05 10:29:14', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('560', '1', '设备上报', '1', 'rule_script_event', NULL, 'primary', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:34', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:23:43', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('561', '2', '平台下发', '2', 'rule_script_event', NULL, 'warning', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:46', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:23:51', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('562', '3', '设备上线', '3', 'rule_script_event', NULL, 'success', 'N', '0', 'admin', TO_DATE('2023-12-19 11:40:58', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:24:00', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('563', '4', '设备离线', '4', 'rule_script_event', NULL, 'info', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:09', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-20 02:24:08', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('564', '1', '数据流', '1', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:39', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('565', '2', '触发器', '2', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:48', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('566', '3', '执行动作', '3', 'rule_script_purpose', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:41:59', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('567', '1', '消息重发', '1', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:42:26', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('568', '2', '消息通知', '2', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:18', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-12-19 11:43:38', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('569', '3', 'Http推送', '3', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:33', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('570', '4', 'Mqtt桥接', '4', 'rule_script_action', NULL, 'default', 'N', '0', 'admin', TO_DATE('2023-12-19 11:43:54', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_dict_data_translate
+-- ----------------------------
+DROP TABLE "sys_dict_data_translate";
+CREATE TABLE "sys_dict_data_translate" (
+                                           "id" NUMBER(20) NOT NULL,
+                                           "zh_cn" NVARCHAR2(200),
+                                           "en_us" NVARCHAR2(200)
+)
+;
+COMMENT ON COLUMN "sys_dict_data_translate"."id" IS 'ID';
+COMMENT ON COLUMN "sys_dict_data_translate"."zh_cn" IS 'zh_CN';
+COMMENT ON COLUMN "sys_dict_data_translate"."en_us" IS 'en_US';
+COMMENT ON TABLE "sys_dict_data_translate" IS '字典数据翻译表';
+
+-- ----------------------------
+-- Records of sys_dict_data_translate
+-- ----------------------------
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('1', '男', 'man');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('2', '女', 'woman');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('3', '未知', 'Unknown');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('4', '显示', 'display');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('5', '隐藏', 'hide');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('6', '正常', 'normal');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('7', '停用', 'Deactivated');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('8', '正常', 'normal');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('9', '暂停', 'Time out');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('10', '默认', 'default');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('11', '系统', 'system');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('12', '是', 'be');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('13', '否', 'not');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('14', '通知', 'notice');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('15', '公告', 'announcement');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('16', '正常', 'normal');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('17', '关闭', 'Shut down');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('18', '新增', 'New');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('19', '修改', 'revise');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('20', '删除', 'Delete');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('21', '授权', 'authorization');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('22', '导出', 'Export');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('23', '导入', 'Import');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('24', '强退', 'Forced retreat');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('25', '生成代码', 'Generate code');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('26', '清空数据', 'Clear the data');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('27', '成功', 'succeed');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('28', '失败', 'fail');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('100', '属性', 'attribute');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('101', '功能', 'function');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('102', '事件', 'event');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('103', '整数', 'integer');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('104', '小数', 'decimal fraction');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('105', '布尔', 'Boolean');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('106', '枚举', 'enumerate');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('107', '字符串', 'string');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('108', '是', 'be');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('109', '否', 'not');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('110', '数组', 'array');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('111', '未发布', 'Unpublished');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('112', '已发布', 'Published');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('113', '直连设备', 'Directly connected devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('114', '网关设备', 'Gateway devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('116', 'WIFI', 'WIFI');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('117', '蜂窝(2G/3G/4G/5G)', 'Cellular (2G/3G/4G/5G)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('118', '以太网', 'Ethernet');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('119', '简单认证', 'Simple authentication');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('120', '加密认证', 'Cryptographic authentication');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('122', 'ESP8266/Arduino', 'ESP8266/Arduino');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('123', 'ESP32/Arduino', 'ESP32/Arduino');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('124', 'ESP8266/RTOS', 'ESP8266/RTOS');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('127', 'ESP32/ESP-IDF', 'ESP32/ESP-IDF');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('128', '树莓派/Python', 'Raspberry Pi/Python');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('129', '未激活', 'Not activated');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('130', '禁用', 'disable');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('131', '在线', 'online');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('132', '离线', 'offline');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('133', '启用', 'enable');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('134', '禁用', 'disable');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('135', '提醒通知', 'Reminder notifications');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('136', '轻微问题', 'Minor issues');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('137', '严重警告', 'Serious warning');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('138', '不需要处理', 'No processing is required');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('139', '未处理', 'Not processed');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('140', '已处理', 'Processed');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('141', '属性上报', 'Attribute escalation');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('142', '事件上报', 'Event escalation');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('143', '功能调用', 'Function calls');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('144', '设备升级', 'Equipment upgrades');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('145', '设备上线', 'The device goes online');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('146', '设备离线', 'The device is offline');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('147', '其他', 'other');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('148', '安卓/Android', 'Android/Android');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('149', '其他', 'other');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('150', '小度平台', 'Small platform');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('151', '天猫精灵', 'Tmall Genie');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('152', '小米小爱', 'Xiaomi Xiaoai');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('153', '其他平台', 'Other platforms');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('154', '微信登录', 'WeChat login');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('155', 'QQ登录', 'QQ login');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('156', '启用', 'enable');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('157', '未启用', 'Not enabled');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('158', '支付宝', 'Alipay');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('159', '自动定位', 'Auto-target');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('160', '设备定位', 'Device positioning');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('161', '自定义位置', 'Custom location');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('162', '简单+加密', 'Simple + Encrypted');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('163', '未使用', 'Unused');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('164', '已使用', 'Used');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('165', '对象', 'object');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('166', '监控设备', 'Monitor the device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('167', '未使用', 'Unused');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('168', '在线', 'online');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('169', 'DVR', 'DVR');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('170', 'NVR', 'NVR');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('171', '报警控制器', 'Alarm controller');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('172', '摄像机', 'camera');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('173', 'IPC', 'IPC');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('174', '显示器', 'display');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('175', '报警输入设备', 'Alarm input device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('176', '报警输出设备', 'Alarm output device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('177', '语音输入设备', 'Voice input devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('178', '语音输出设备', 'Voice output devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('179', '移动传输设备', 'Mobile Transmission Devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('180', '报警控制器', 'Alarm controller');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('181', '摄像机', 'camera');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('182', 'IPC', 'IPC');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('183', '显示器', 'display');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('184', '报警输入设备', 'Alarm input device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('185', '报警输出设备', 'Alarm output device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('186', '语音输入设备', 'Voice input devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('187', '语音输出设备', 'Voice output devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('188', '移动传输设备', 'Mobile Transmission Devices');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('189', '离线', 'offline');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('190', '禁用', 'disable');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('191', '云端轮询', 'Cloud polling');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('192', '边缘采集', 'Edge acquisition');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('193', '1分钟', '1 minute');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('194', '2分钟', '2 minutes');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('195', '5分钟', '5 minutes');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('196', '03(读保持寄存器)', '03 (Read Hold Register)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('197', '01(读线圈)', '01 (Reading coil)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('198', 'MQTT', 'MQTT');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('199', 'TCP', 'TCP');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('200', 'COAP', 'COAP');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('201', 'UDP', 'UDP');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('230', '其他', 'other');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('231', '事件上报', 'Event escalation');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('232', '设备上线', 'The device goes online');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('233', '设备离线', 'The device is offline');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('234', '服务下发', 'Service delivery');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('235', '属性获取', 'Attribute acquisition');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('236', 'OTA升级', 'OTA upgrades');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('237', '读写', 'Read and write');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('238', '只读', 'read only');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('239', '全部设备', 'All equipment');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('240', '指定设备', 'Specify the device');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('241', 'GB28181', 'GB28181');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('242', '02(读离散量输入)', '02 (Read Discrete Input)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('243', '04(读输入寄存器)', '04 (Read Input Register)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('244', '微信开放平台网站应用', 'WeChat open platform website application');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('245', '微信开放平台移动应用', 'WeChat open platform mobile application');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('246', '微信开放平台小程序', 'WeChat Open Platform Mini Program');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('247', '微信开放平台网站应用个人中心绑定', 'WeChat open platform website application personal center binding');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('248', '16位 无符号', '16-bit unsigned');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('249', '16位 有符号', '16-bit signed');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('250', '32位 有符号(ABCD)', '32-bit Signed (ABCD)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('251', '32位 有符号(CDAB)', '32-bit Signed (CDAB)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('252', '32位 无符号(ABCD)', '32-bit Unsigned (ABCD)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('253', '32位 无符号(CDAB)', '32-bit Unsigned (CDAB)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('254', '32位 浮点数(ABCD)', '32-bit floating-point (ABCD)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('255', '32位 浮点数(CDAB)', '32-bit Floating-Point (CDAB)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('257', 'Java脚本引擎', 'Java Scripting Engine');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('258', 'JavaScript脚本引擎', 'JavaScript scripting engine');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('259', '普通脚本节点', 'Normal script nodes');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('260', '选择脚本节点 (switch)', 'Selecting a Script Node (switch)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('261', '条件脚本节点 (if)', 'Conditional Script Node (if)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('262', '数量循环节点 (for)', 'Quantity Cycle Node (for)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('263', '条件循环节点 (while)', 'Conditional Loop Node (while)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('264', '退出循环节点 (break)', 'Exit Loop Node (Break)');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('265', 'groovy脚本引擎', 'Groovy scripting engine');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('560', '设备上报', 'The device is escalated');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('561', '平台下发', 'Distributed by the platform');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('562', '设备上线', 'The device goes online');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('563', '设备离线', 'The device is offline');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('564', '数据流', 'data stream');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('565', '触发器', 'trigger');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('566', '执行动作', 'Perform the action');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('567', '消息重发', 'The message is retransmitted');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('568', '消息通知', 'Message notifications');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('569', 'Http推送', 'HTTP push');
+INSERT INTO "sys_dict_data_translate" ("id", "zh_cn", "en_us") VALUES ('570', 'Mqtt桥接', 'MQTT bridging');
 COMMIT;
 
 -- ----------------------------
@@ -2908,15 +3070,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE "sys_dict_type";
 CREATE TABLE "sys_dict_type" (
-  "dict_id" NUMBER(20) NOT NULL,
-  "dict_name" NVARCHAR2(100),
-  "dict_type" NVARCHAR2(100),
-  "status" NCHAR(1),
-  "create_by" NVARCHAR2(64),
-  "create_time" DATE,
-  "update_by" NVARCHAR2(64),
-  "update_time" DATE,
-  "remark" NVARCHAR2(500)
+                                 "dict_id" NUMBER(20) NOT NULL,
+                                 "dict_name" NVARCHAR2(100),
+                                 "dict_type" NVARCHAR2(100),
+                                 "status" NCHAR(1),
+                                 "create_by" NVARCHAR2(64),
+                                 "create_time" DATE,
+                                 "update_by" NVARCHAR2(64),
+                                 "update_time" DATE,
+                                 "remark" NVARCHAR2(500)
 )
 ;
 COMMENT ON COLUMN "sys_dict_type"."dict_id" IS '字典主键';
@@ -2974,14 +3136,80 @@ INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "cre
 INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('129', '升级范围', 'oat_update_limit', '0', 'admin', TO_DATE('2023-04-09 23:51:45', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
 INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('130', '云存储平台类型', 'oss_platform_type', '0', 'admin', TO_DATE('2023-04-12 00:26:09', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
 INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('131', 'modbus数据类型', 'iot_modbus_data_type', '0', 'admin', TO_DATE('2023-09-04 13:54:17', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('132', '小度音箱关联设备', 'dueros_related_device', '0', 'admin', TO_DATE('2023-09-22 09:45:15', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-09-22 09:45:15', 'SYYYY-MM-DD HH24:MI:SS'), '小度音箱支持的设备、场景类型，在设备下配置关联');
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('133', '小度音箱操作类型', 'dueros_operate_type', '0', 'admin', TO_DATE('2023-09-22 09:45:15', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-09-22 09:45:15', 'SYYYY-MM-DD HH24:MI:SS'), '小度音箱智能家居设备操作类型，在产品物模型下配置');
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('198', '规则脚本类型', 'rule_script_type', '0', 'admin', TO_DATE('2023-11-04 01:48:50', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:50:16', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('199', '规则脚本语言', 'rule_script_language', '0', 'admin', TO_DATE('2023-11-04 01:50:06', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('204', '规则脚本事件', 'rule_script_event', '0', 'admin', TO_DATE('2023-12-19 11:33:48', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=设备上报，2=平台下发，3=设备上线，4=设备离线');
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('205', '规则脚本用途', 'rule_script_purpose', '0', 'admin', TO_DATE('2023-12-19 11:38:18', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=数据流，2=触发器，3=执行动作');
-INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('206', '规则脚本动作', 'rule_script_action', '0', 'admin', TO_DATE('2023-12-19 11:39:58', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=消息重发，2=消息通知，3=Http推送，4=Mqtt桥接，5=数据库存储');
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('140', '规则脚本类型', 'rule_script_type', '0', 'admin', TO_DATE('2023-11-04 01:48:50', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-11-04 01:50:16', 'SYYYY-MM-DD HH24:MI:SS'), NULL);
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('141', '规则脚本语言', 'rule_script_language', '0', 'admin', TO_DATE('2023-11-04 01:50:06', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, NULL);
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('149', '规则脚本事件', 'rule_script_event', '0', 'admin', TO_DATE('2023-12-19 11:33:48', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=设备上报，2=平台下发，3=设备上线，4=设备离线');
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('150', '规则脚本用途', 'rule_script_purpose', '0', 'admin', TO_DATE('2023-12-19 11:38:18', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=数据流，2=触发器，3=执行动作');
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('151', '规则脚本动作', 'rule_script_action', '0', 'admin', TO_DATE('2023-12-19 11:39:58', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '1=消息重发，2=消息通知，3=Http推送，4=Mqtt桥接，5=数据库存储');
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_dict_type_translate
+-- ----------------------------
+DROP TABLE "sys_dict_type_translate";
+CREATE TABLE "sys_dict_type_translate" (
+                                           "id" NUMBER(20) NOT NULL,
+                                           "zh_cn" NVARCHAR2(200),
+                                           "en_us" NVARCHAR2(200)
+)
+;
+COMMENT ON COLUMN "sys_dict_type_translate"."id" IS 'ID';
+COMMENT ON COLUMN "sys_dict_type_translate"."zh_cn" IS 'zh_CN';
+COMMENT ON COLUMN "sys_dict_type_translate"."en_us" IS 'en_US';
+COMMENT ON TABLE "sys_dict_type_translate" IS '字典类型翻译表';
+
+-- ----------------------------
+-- Records of sys_dict_type_translate
+-- ----------------------------
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('1', '用户性别', 'User gender');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('2', '菜单状态', 'Menu status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('3', '系统开关', 'System switches');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('4', '任务状态', 'Task status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('5', '任务分组', 'Task grouping');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('6', '系统是否', 'Whether the system is');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('7', '通知类型', 'Notification type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('8', '通知状态', 'Notification status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('9', '操作类型', 'The type of operation');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('10', '系统状态', 'System status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('100', '物模型类别', 'TSL model category');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('101', '数据类型', 'data type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('102', '是否', 'Whether');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('103', '产品状态', 'Product status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('104', '设备类型', 'Device type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('105', '联网方式', 'Networking');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('106', '认证方式', 'Authentication method');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('107', '设备芯片', 'Device chips');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('109', '设备状态', 'Device status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('110', '是否启用', 'Whether it is enabled');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('111', '告警类型', 'Alarm type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('112', '处理状态', 'Processing status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('113', '设备日志类型', 'Device log type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('114', 'Oauth开放平台', 'OAuth Open Platform');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('115', '第三方登录平台', 'Third-party login platform');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('116', '第三方登录平台状态', 'Third-party login platform status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('117', '设备定位方式', 'How the device is located');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('118', '授权码状态', 'Authorization code status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('119', 'SipID状态', 'SipID status');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('120', '监控设备类型', 'Monitor device types');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('121', '通道类型', 'Channel type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('122', '轮询方式', 'Polling method');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('123', '批量采集时间', 'Batch collection time');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('124', '寄存器功能码', 'Register function code');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('125', '传输协议类型', 'The type of transport protocol');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('126', '设备事件类型', 'Device event type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('127', '指令下发类型', 'The type of command delivery');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('128', '读写类型', 'Read and write type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('129', '升级范围', 'Scope of upgrade');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('130', '云存储平台类型', 'The type of cloud storage platform');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('131', 'modbus数据类型', 'Modbus data type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('132', '小度音箱关联设备', 'Small speakers are associated with devices');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('135', '组态图表类型', 'Configure the chart type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('136', '组态图库类型', 'Configure the library type');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('140', '规则脚本类型', 'The type of rule script');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('141', '规则脚本语言', 'Rule scripting language');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('149', '规则脚本事件', 'Rule script events');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('150', '规则脚本用途', 'Rule script usage');
+INSERT INTO "sys_dict_type_translate" ("id", "zh_cn", "en_us") VALUES ('151', '规则脚本动作', 'Rule script actions');
 COMMIT;
 
 -- ----------------------------
@@ -3107,25 +3335,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE "sys_menu";
 CREATE TABLE "sys_menu" (
-  "menu_id" NUMBER(20) NOT NULL,
-  "menu_name" NVARCHAR2(50) NOT NULL,
-  "parent_id" NUMBER(20),
-  "order_num" NUMBER(11),
-  "path" NVARCHAR2(200),
-  "component" NVARCHAR2(255),
-  "query" NVARCHAR2(255),
-  "is_frame" NUMBER(11),
-  "is_cache" NUMBER(11),
-  "menu_type" NCHAR(1),
-  "visible" NCHAR(1),
-  "status" NCHAR(1),
-  "perms" NVARCHAR2(100),
-  "icon" NVARCHAR2(100),
-  "create_by" NVARCHAR2(64),
-  "create_time" DATE,
-  "update_by" NVARCHAR2(64),
-  "update_time" DATE,
-  "remark" NVARCHAR2(500)
+                            "menu_id" NUMBER(20) NOT NULL,
+                            "menu_name" NVARCHAR2(50) NOT NULL,
+                            "parent_id" NUMBER(20),
+                            "order_num" NUMBER(11),
+                            "path" NVARCHAR2(200),
+                            "component" NVARCHAR2(255),
+                            "query" NVARCHAR2(255),
+                            "is_frame" NUMBER(11),
+                            "is_cache" NUMBER(11),
+                            "menu_type" NCHAR(1),
+                            "visible" NCHAR(1),
+                            "status" NCHAR(1),
+                            "perms" NVARCHAR2(100),
+                            "icon" NVARCHAR2(100),
+                            "create_by" NVARCHAR2(64),
+                            "create_time" DATE,
+                            "update_by" NVARCHAR2(64),
+                            "update_time" DATE,
+                            "remark" NVARCHAR2(500)
 )
 ;
 COMMENT ON COLUMN "sys_menu"."menu_id" IS '菜单ID';
@@ -3289,6 +3517,7 @@ INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path"
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('2142', '平台查询', '2142', '1', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:platform:query', '#', 'admin', TO_DATE('2022-04-11 19:10:28', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('2147', '设备分享', '2007', '6', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:device:share', '#', 'admin', TO_DATE('2022-06-10 01:08:40', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2022-06-10 01:10:46', 'SYYYY-MM-DD HH24:MI:SS'), '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('2148', '设备定时', '2007', '7', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:device:timer', '#', 'admin', TO_DATE('2022-06-10 01:10:30', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('2168', '通道管理', '3058', '1', 'sip', 'iot/sip/index', NULL, '1', '0', 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', TO_DATE('2024-07-15 14:43:22', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3031', 'Netty管理', '0', '3', 'netty', NULL, NULL, '1', '0', 'M', '0', '0', '', 'mq', 'admin', TO_DATE('2022-02-26 00:42:12', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-09-26 00:11:57', 'SYYYY-MM-DD HH24:MI:SS'), '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3032', '客户端', '3031', '1', 'client', 'iot/netty/clients', NULL, '1', '0', 'C', '0', '0', 'monitor:server:list', 'client', 'admin', TO_DATE('2022-02-26 00:45:39', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-08-23 23:38:08', 'SYYYY-MM-DD HH24:MI:SS'), '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3033', '事件日志', '2000', '1', 'log', 'iot/log/index', NULL, '1', '0', 'F', '0', '0', 'iot:event:list', '#', 'admin', TO_DATE('2023-03-28 14:23:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '事件日志菜单');
@@ -3297,22 +3526,199 @@ INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path"
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3036', '事件日志修改', '3033', '3', '#', '', NULL, '1', '0', 'F', '0', '0', 'iot:event:edit', '#', 'admin', TO_DATE('2023-03-28 14:23:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3037', '事件日志删除', '3033', '4', '#', '', NULL, '1', '0', 'F', '0', '0', 'iot:event:remove', '#', 'admin', TO_DATE('2023-03-28 14:23:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
 INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3038', '事件日志导出', '3033', '5', '#', '', NULL, '1', '0', 'F', '0', '0', 'iot:event:export', '#', 'admin', TO_DATE('2023-03-28 14:23:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3048', 'Mqtt统计', '3031', '2', 'mqtt', 'iot/netty/mqtt', NULL, '1', '0', 'C', '0', '0', 'monitor:server:list', 'monitor', 'admin', TO_DATE('2023-08-23 23:40:28', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-08-23 23:40:38', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3050', '规则引擎', '0', '2', 'ruleengine', NULL, NULL, '1', '0', 'M', '0', '0', '', 'channel', 'admin', TO_DATE('2024-04-22 16:28:15', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:13:50', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3051', '规则脚本', '3050', '2', 'script', 'iot/scene/script', NULL, '1', '0', 'C', '0', '0', 'iot:script:list', 'code', 'admin', TO_DATE('2024-04-22 16:30:00', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3052', '规则脚本查询', '3051', '1', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:query', '#', 'admin', TO_DATE('2024-04-22 16:30:53', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3053', '规则脚本新增', '3051', '2', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:add', '#', 'admin', TO_DATE('2024-04-22 16:31:28', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3054', '规则脚本修改', '3051', '3', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:edit', '#', 'admin', TO_DATE('2024-04-22 16:32:04', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3056', '规则脚本导出', '3051', '5', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:export', '#', 'admin', TO_DATE('2024-04-22 16:33:25', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2024-04-22 16:33:49', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3057', '规则脚本删除', '3051', '4', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:remove', '#', 'admin', TO_DATE('2024-04-22 16:35:01', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3058', '视频中心', '0', '1', 'video', NULL, NULL, '1', '0', 'M', '0', '0', '', 'live', 'admin', TO_DATE('2024-07-15 14:42:13', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:13:43', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3059', '通道管理', '3058', '1', 'sip', 'iot/sip/index', NULL, '1', '0', 'C', '0', '0', 'iot:video:list', 'swagger', 'admin', TO_DATE('2024-07-15 14:43:22', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3060', '视频配置', '3058', '2', 'mediaServer', 'iot/sip/mediaServer', NULL, '1', '0', 'C', '0', '0', NULL, 'edit', 'admin', TO_DATE('2024-07-15 14:48:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3062', '大屏展示', '2000', '6', 'http://localhost/bigScreen', NULL, NULL, '0', '0', 'M', '0', '0', '', 'monitor-a', 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-20 22:18:42', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3343', '数据中心', '0', '5', 'dataCenter', NULL, NULL, '1', '0', 'M', '0', '0', '', 'bar_chart', 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3344', '数据分析', '3343', '2', 'analysis', 'dataCenter/analysis', NULL, '1', '0', 'C', '0', '0', 'dataCenter:analysis:list', 'custom', 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
-INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3345', '历史记录', '3343', '1', 'history', 'dataCenter/history', NULL, '1', '0', 'C', '0', '0', 'dataCenter:history:list', 'excel', 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:07:39', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3046', '视频中心', '0', '1', 'video', NULL, NULL, '1', '0', 'M', '0', '0', '', 'live', 'admin', TO_DATE('2024-07-15 14:42:13', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:13:43', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3048', '视频配置', '3046', '2', 'mediaServer', 'iot/sip/mediaServer', NULL, '1', '0', 'C', '0', '0', NULL, 'edit', 'admin', TO_DATE('2024-07-15 14:48:52', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3051', '规则引擎', '0', '2', 'ruleengine', NULL, NULL, '1', '0', 'M', '0', '0', '', 'channel', 'admin', TO_DATE('2024-04-22 16:28:15', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-03-19 15:13:50', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3055', '规则脚本', '3051', '2', 'script', 'iot/scene/script', NULL, '1', '0', 'C', '0', '0', 'iot:script:list', 'code', 'admin', TO_DATE('2024-04-22 16:30:00', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3100', 'Mqtt统计', '3031', '2', 'mqtt', 'iot/netty/mqtt', NULL, '1', '0', 'C', '0', '0', 'monitor:server:list', 'monitor', 'admin', TO_DATE('2023-08-23 23:40:28', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2023-08-23 23:40:38', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3148', '规则脚本导出', '3051', '5', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:export', '#', 'admin', TO_DATE('2024-04-22 16:33:25', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2024-04-22 16:33:49', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3149', '规则脚本查询', '3051', '1', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:query', '#', 'admin', TO_DATE('2024-04-22 16:30:53', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3150', '规则脚本新增', '3051', '2', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:add', '#', 'admin', TO_DATE('2024-04-22 16:31:28', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3151', '规则脚本修改', '3051', '3', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:edit', '#', 'admin', TO_DATE('2024-04-22 16:32:04', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3152', '规则脚本删除', '3051', '4', '', NULL, NULL, '1', '0', 'F', '0', '0', 'iot:script:remove', '#', 'admin', TO_DATE('2024-04-22 16:35:01', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3343', '数据中心', '0', '5', 'dataCenter', NULL, NULL, '1', '0', 'M', '0', '0', '', 'bar_chart', 'admin', TO_DATE('2024-05-24 14:42:04', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2025-01-11 09:33:52', 'SYYYY-MM-DD HH24:MI:SS'), '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3344', '数据分析', '3343', '2', 'analysis', 'dataCenter/analysis', NULL, '1', '0', 'C', '0', '0', 'dataCenter:analysis:list', 'custom', 'admin', TO_DATE('2024-06-11 15:46:19', 'SYYYY-MM-DD HH24:MI:SS'), '', NULL, '');
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark") VALUES ('3345', '历史记录', '3343', '1', 'history', 'dataCenter/history', NULL, '1', '0', 'C', '0', '0', 'dataCenter:history:list', 'excel', 'admin', TO_DATE('2024-05-24 14:44:58', 'SYYYY-MM-DD HH24:MI:SS'), 'admin', TO_DATE('2024-05-24 14:46:07', 'SYYYY-MM-DD HH24:MI:SS'), '');
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_menu_translate
+-- ----------------------------
+DROP TABLE "sys_menu_translate";
+CREATE TABLE "sys_menu_translate" (
+                                      "id" NUMBER(20) NOT NULL,
+                                      "zh_cn" NVARCHAR2(200),
+                                      "en_us" NVARCHAR2(200)
+)
+;
+COMMENT ON COLUMN "sys_menu_translate"."id" IS '菜单ID';
+COMMENT ON COLUMN "sys_menu_translate"."zh_cn" IS 'zh_CN菜单名称';
+COMMENT ON COLUMN "sys_menu_translate"."en_us" IS 'en菜单名称';
+COMMENT ON TABLE "sys_menu_translate" IS '菜单名称翻译表';
+
+-- ----------------------------
+-- Records of sys_menu_translate
+-- ----------------------------
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1', '系统管理', 'system management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2', '系统监控', 'System monitoring');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3', '系统工具', 'System Tools');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('4', '蜂信物联', 'Bee Trust IoT');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('5', '企业管理', 'business management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('100', '用户管理', 'user management ');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('101', '角色管理', 'Role management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('102', '菜单管理', 'Menu management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('103', '机构管理', 'organizational management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('104', '岗位管理', 'Job management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('105', '字典管理', 'Dictionary management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('106', '参数设置', 'Parameter settings');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('107', '通知公告', 'Notice Announcement');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('108', '日志管理', 'Log management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('109', '在线用户', 'Online users');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('110', '定时任务', 'Scheduled tasks');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('111', '数据监控', 'Data monitoring');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('112', '服务监控', 'Service monitoring');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('113', '缓存监控', 'Cache monitoring');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('114', '表单构建', 'Form construction');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('115', '代码生成', 'code generation');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('116', '系统接口', 'system interface ');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('124', '缓存列表', 'Cache List');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('500', '操作日志', 'Operation log');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('501', '登录日志', 'Login log');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1001', '用户查询', 'User query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1002', '用户新增', 'User addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1003', '用户修改', 'User modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1004', '用户删除', 'User deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1005', '用户导出', 'User export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1006', '用户导入', 'User import');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1007', '重置密码', 'reset password ');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1008', '角色查询', 'Role query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1009', '角色新增', 'New role addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1010', '角色修改', 'Role modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1011', '角色删除', 'Role deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1012', '角色导出', 'Character export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1013', '菜单查询', 'Menu query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1014', '菜单新增', 'Menu addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1015', '菜单修改', 'Menu modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1016', '菜单删除', 'Menu deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1017', '部门查询', 'Departmental inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1018', '部门新增', 'Department addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1019', '部门修改', 'Department modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1020', '部门删除', 'Department deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1021', '岗位查询', 'Job Search');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1022', '岗位新增', 'Job addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1023', '岗位修改', 'Position modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1024', '岗位删除', 'Position deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1025', '岗位导出', 'Job export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1026', '字典查询', 'Dictionary query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1027', '字典新增', 'Dictionary addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1028', '字典修改', 'Dictionary modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1029', '字典删除', 'Dictionary deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1030', '字典导出', 'Dictionary export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1031', '参数查询', 'Parameter query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1032', '参数新增', 'Parameter addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1033', '参数修改', 'Parameter modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1034', '参数删除', 'Parameter deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1035', '参数导出', 'Parameter export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1036', '公告查询', 'Announcement inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1037', '公告新增', 'Announcement added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1038', '公告修改', 'Announcement modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1039', '公告删除', 'Announcement deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1040', '操作查询', 'Operation query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1041', '操作删除', 'Operation deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1042', '日志导出', 'Log export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1043', '登录查询', 'Login query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1044', '登录删除', 'Login Delete');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1045', '日志导出', 'Log export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1046', '在线查询', 'Online inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1047', '批量强退', 'Batch forced refunds');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1048', '单条强退', 'Single strong refund');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1049', '任务查询', 'Task query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1050', '任务新增', 'Task addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1051', '任务修改', 'Task modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1052', '任务删除', 'Task deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1053', '状态修改', 'Status modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1054', '任务导出', 'Task export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1055', '生成查询', 'Generate query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1056', '生成修改', 'Generate modifications');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1057', '生成删除', 'Generate Delete');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1058', '导入代码', 'Import code');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1059', '预览代码', 'Preview code');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1060', '生成代码', 'Generate code');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('1065', '账户解锁', 'Account unlocking');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2000', '设备管理', 'device management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2001', '产品分类', 'Product classification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2002', '产品分类查询', 'Product classification query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2003', '产品分类新增', 'Product classification added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2004', '产品分类修改', 'Product classification modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2005', '产品分类删除', 'Delete product category');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2006', '产品分类导出', 'Product classification export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2007', '设备管理', 'device management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2008', '设备查询', 'Equipment inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2009', '设备新增', 'Equipment addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2010', '设备修改', 'Equipment modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2011', '设备删除', 'Device deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2012', '设备导出', 'Device export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2019', '设备分组', 'Equipment grouping');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2020', '设备分组查询', 'Equipment grouping query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2021', '设备分组新增', 'New equipment grouping');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2022', '设备分组修改', 'Equipment grouping modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2023', '设备分组删除', 'Device group deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2024', '设备分组导出', 'Equipment group export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2043', '产品管理', 'product management ');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2044', '产品查询', 'Product inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2045', '产品新增', 'Product addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2046', '产品修改', 'Product modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2047', '产品删除', 'Product deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2048', '产品导出', 'Product export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2049', '通用物模型', 'Universal object model');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2050', '通用物模型查询', 'General object model query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2051', '通用物模型新增', 'Addition of Universal Object Model');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2052', '通用物模型修改', 'Modification of Universal Object Model');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2053', '通用物模型删除', 'Universal object model deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2054', '通用物模型导出', 'Export of Universal Object Model');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2123', '新闻分类', 'News classification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2124', '新闻分类查询', 'News classification query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2125', '新闻分类新增', 'New news category added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2126', '新闻分类修改', 'News classification modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2127', '新闻分类删除', 'Delete news category');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2128', '新闻分类导出', 'Export news categories');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2129', '新闻资讯', 'News and Information');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2130', '新闻资讯查询', 'News and Information Inquiry');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2131', '新闻资讯新增', 'New news and information added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2132', '新闻资讯修改', 'News and Information Modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2133', '新闻资讯删除', 'Delete news and information');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2134', '新闻资讯导出', 'Export news and information');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2136', '产品授权码查询', 'Product authorization code query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2137', '产品授权码新增', 'Product authorization code added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2138', '产品授权码修改', 'Product authorization code modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2139', '产品授权码删除', 'Product authorization code deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2140', '产品授权码导出', 'Export of Product Authorization Code');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2141', '三方登录', 'Three party login');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2142', '平台查询', 'Platform query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2147', '设备用户列表', 'List of device users');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2148', '设备定时', 'Equipment timing');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('2168', '通道管理', 'Channel management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3031', 'Netty管理', 'Netty Management');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3032', '客户端', 'client');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3033', '事件日志', 'Event log');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3034', '事件日志查询', 'Event log query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3035', '事件日志新增', 'Event log addition');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3036', '事件日志修改', 'Event log modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3037', '事件日志删除', 'Event log deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3038', '事件日志导出', 'Event log export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3046', '视频中心', 'Video Center');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3048', '视频配置', 'Video configuration');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3051', '规则引擎', 'Rule engine');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3055', '规则脚本', 'Rule Script');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3100', 'Mqtt统计', 'Mqtt statistics');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3148', '规则脚本导出', 'Rule script export');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3149', '规则脚本查询', 'Rule script query');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3150', '规则脚本新增', 'New rule script added');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3151', '规则脚本修改', 'Rule script modification');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3152', '规则脚本删除', 'Rule script deletion');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3343', '数据中心', 'Data Center');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3344', '数据分析', 'Data analysis');
+INSERT INTO "sys_menu_translate" ("id", "zh_cn", "en_us") VALUES ('3345', '历史记录', 'Historical records');
 COMMIT;
 
 -- ----------------------------
@@ -4392,3 +4798,28 @@ ALTER TABLE "qrtz_simprop_triggers" ADD CONSTRAINT "QRTZ_SIMPROP_TRIGGERS_ibfk_1
 -- ----------------------------
 -- Foreign Keys structure for table qrtz_triggers
 -- ----------------------------
+
+-- ----------------------------
+-- Primary Key structure for table iot_things_model_template_translate
+-- ----------------------------
+ALTER TABLE "iot_things_model_template_translate" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table iot_things_model_translate
+-- ----------------------------
+ALTER TABLE "iot_things_model_translate" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table sys_dict_data_translate
+-- ----------------------------
+ALTER TABLE "sys_dict_data_translate" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table sys_dict_type_translate
+-- ----------------------------
+ALTER TABLE "sys_dict_type_translate" ADD PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table sys_menu_translate
+-- ----------------------------
+ALTER TABLE "sys_menu_translate" ADD PRIMARY KEY ("id");

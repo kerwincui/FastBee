@@ -2,6 +2,7 @@ package com.fastbee.web.controller.system;
 
 import java.util.List;
 
+import com.fastbee.common.utils.MessageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +97,11 @@ public class SysMenuController extends BaseController
     {
         if (!menuService.checkMenuNameUnique(menu))
         {
-            return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return error(StringUtils.format(MessageUtils.message("menu.add.failed.name.exists"), menu.getMenuName()));
         }
         else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
-            return error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+            return error(StringUtils.format(MessageUtils.message("menu.add.failed.path.not.valid"), menu.getMenuName()));
         }
         menu.setCreateBy(getUsername());
         return toAjax(menuService.insertMenu(menu));
@@ -117,15 +118,15 @@ public class SysMenuController extends BaseController
     {
         if (!menuService.checkMenuNameUnique(menu))
         {
-            return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return error(StringUtils.format(MessageUtils.message("menu.update.failed.name.exists"), menu.getMenuName()));
         }
         else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
-            return error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
+            return error(StringUtils.format(MessageUtils.message("menu.update.failed.path.not.valid"), menu.getMenuName()));
         }
         else if (menu.getMenuId().equals(menu.getParentId()))
         {
-            return error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
+            return error(StringUtils.format(MessageUtils.message("menu.update.failed.parent.not.valid"), menu.getMenuName()));
         }
         menu.setUpdateBy(getUsername());
         return toAjax(menuService.updateMenu(menu));
@@ -142,11 +143,11 @@ public class SysMenuController extends BaseController
     {
         if (menuService.hasChildByMenuId(menuId))
         {
-            return warn("存在子菜单,不允许删除");
+            return warn(MessageUtils.message("menu.delete.failed.child.exists"));
         }
         if (menuService.checkMenuExistRole(menuId))
         {
-            return warn("菜单已分配,不允许删除");
+            return warn(MessageUtils.message("menu.delete.failed.role.exists"));
         }
         return toAjax(menuService.deleteMenuById(menuId));
     }

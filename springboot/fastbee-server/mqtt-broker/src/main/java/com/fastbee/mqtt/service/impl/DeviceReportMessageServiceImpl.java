@@ -7,6 +7,7 @@ import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.enums.TopicType;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.gateway.mq.TopicsUtils;
 import com.fastbee.iot.domain.Device;
 import com.fastbee.iot.service.IDeviceService;
@@ -81,7 +82,7 @@ public class DeviceReportMessageServiceImpl implements IDeviceReportMessageServi
     public Device buildReport(DeviceReportBo bo) {
         String serialNumber = topicsUtils.parseSerialNumber(bo.getTopicName());
         Device device = deviceService.selectDeviceBySerialNumber(serialNumber);
-        Optional.ofNullable(device).orElseThrow(() -> new ServiceException("设备不存在"));
+        Optional.ofNullable(device).orElseThrow(() -> new ServiceException(MessageUtils.message("device.not.exist")));
         //设置物模型
         String thingsModel = topicsUtils.getThingsModel(bo.getTopicName());
         ThingsModelType thingsModelType = ThingsModelType.getType(thingsModel);

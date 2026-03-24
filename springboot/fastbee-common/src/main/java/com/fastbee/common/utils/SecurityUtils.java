@@ -176,4 +176,23 @@ public class SecurityUtils
                 .anyMatch(x -> Constants.SUPER_ADMIN.equals(x) || PatternMatchUtils.simpleMatch(x, role));
     }
 
+    /**
+     * 获取语言
+     * @return
+     */
+    public static String getLanguage(){
+        try
+        {
+            String language = getLoginUser().getLanguage();
+            if (StringUtils.isEmpty(language)){
+                return "en-US";
+            }
+            return language;
+        }
+        catch (Exception e)
+        {
+            return "en-US";
+        }
+    }
+
 }

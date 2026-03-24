@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.model.IdAndName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,12 +96,12 @@ public class NewsCategoryServiceImpl implements INewsCategoryService
     {
         int productCount=newsCategoryMapper.newsCountInCategorys(categoryIds);
         if(productCount>0){
-            return AjaxResult.error("删除失败，请先删除对应分类下的新闻资讯");
+            return AjaxResult.error(MessageUtils.message("newsCategory.delete.fail.please.delete.category.info"));
         }
         if(newsCategoryMapper.deleteNewsCategoryByCategoryIds(categoryIds)>0){
-            return AjaxResult.success("删除成功");
+            return AjaxResult.success(MessageUtils.message("delete.success"));
         }
-        return AjaxResult.error("删除失败");
+        return AjaxResult.error(MessageUtils.message("delete.fail"));
     }
 
     /**

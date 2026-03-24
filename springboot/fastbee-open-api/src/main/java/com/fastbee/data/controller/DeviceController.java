@@ -6,6 +6,7 @@ import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.Device;
@@ -199,10 +200,10 @@ public class DeviceController extends BaseController
     public AjaxResult relateUser(@RequestBody DeviceRelateUserInput deviceRelateUserInput)
     {
         if(deviceRelateUserInput.getUserId()==0 || deviceRelateUserInput.getUserId()==null){
-            return AjaxResult.error("用户ID不能为空");
+            return AjaxResult.error(MessageUtils.message("device.user.id.null"));
         }
         if(deviceRelateUserInput.getDeviceNumberAndProductIds()==null || deviceRelateUserInput.getDeviceNumberAndProductIds().size()==0){
-            return AjaxResult.error("设备编号和产品ID不能为空");
+            return AjaxResult.error(MessageUtils.message("device.product.id.null"));
         }
         return deviceService.deviceRelateUser(deviceRelateUserInput);
     }

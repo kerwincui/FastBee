@@ -1,6 +1,8 @@
 package com.fastbee.framework.config;
 
 import java.util.concurrent.TimeUnit;
+
+import com.fastbee.framework.interceptor.LanguageInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,8 @@ import com.fastbee.common.config.RuoYiConfig;
 import com.fastbee.common.constant.Constants;
 import com.fastbee.framework.interceptor.RepeatSubmitInterceptor;
 
+import javax.annotation.Resource;
+
 /**
  * 通用配置
  *
@@ -25,6 +29,8 @@ public class ResourcesConfig implements WebMvcConfigurer
 {
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
+    @Resource
+    private LanguageInterceptor languageInterceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
@@ -46,6 +52,9 @@ public class ResourcesConfig implements WebMvcConfigurer
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
+        //这里配置国际化拦截器的白名单
+        registry.addInterceptor(languageInterceptor).addPathPatterns("/**").excludePathPatterns("/v2/api-docs",
+                "/tool/gen/**");
     }
 
     /**

@@ -1,7 +1,10 @@
 package com.fastbee.system.mapper;
 
 import java.util.List;
+
+import com.fastbee.common.core.domain.entity.SysDictData;
 import com.fastbee.common.core.domain.entity.SysDictType;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 字典表 数据层
@@ -23,7 +26,7 @@ public interface SysDictTypeMapper
      * 
      * @return 字典类型集合信息
      */
-    public List<SysDictType> selectDictTypeAll();
+    public List<SysDictType> selectDictTypeAll(@Param("language") String language);
 
     /**
      * 根据字典类型ID查询信息
@@ -31,7 +34,7 @@ public interface SysDictTypeMapper
      * @param dictId 字典类型ID
      * @return 字典类型
      */
-    public SysDictType selectDictTypeById(Long dictId);
+    public SysDictType selectDictTypeById(@Param("dictId") Long dictId, @Param("language") String language);
 
     /**
      * 根据字典类型查询信息
@@ -39,7 +42,7 @@ public interface SysDictTypeMapper
      * @param dictType 字典类型
      * @return 字典类型
      */
-    public SysDictType selectDictTypeByType(String dictType);
+    public SysDictType selectDictTypeByType(@Param("dictType") String dictType, @Param("language") String language);
 
     /**
      * 通过字典ID删除字典信息
@@ -79,5 +82,5 @@ public interface SysDictTypeMapper
      * @param dictType 字典类型
      * @return 结果
      */
-    public SysDictType checkDictTypeUnique(String dictType);
+    public List<SysDictType> checkDictTypeUnique(@Param("dictType") String dictType, @Param("language") String language);
 }

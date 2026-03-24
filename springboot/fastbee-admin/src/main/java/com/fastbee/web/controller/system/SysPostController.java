@@ -3,6 +3,8 @@ package com.fastbee.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fastbee.common.utils.MessageUtils;
+import com.fastbee.common.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +87,11 @@ public class SysPostController extends BaseController
     {
         if (!postService.checkPostNameUnique(post))
         {
-            return error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+            return error(StringUtils.format(MessageUtils.message("post.add.failed.name.exists"), post.getPostName()));
         }
         else if (!postService.checkPostCodeUnique(post))
         {
-            return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+            return error(StringUtils.format(MessageUtils.message("post.add.failed.code.exists"), post.getPostName()));
         }
         post.setCreateBy(getUsername());
         return toAjax(postService.insertPost(post));
@@ -106,11 +108,11 @@ public class SysPostController extends BaseController
     {
         if (!postService.checkPostNameUnique(post))
         {
-            return error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+            return error(StringUtils.format(MessageUtils.message("post.update.failed.name.exists"), post.getPostName()));
         }
         else if (!postService.checkPostCodeUnique(post))
         {
-            return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+            return error(StringUtils.format(MessageUtils.message("post.update.failed.code.exists"), post.getPostName()));
         }
         post.setUpdateBy(getUsername());
         return toAjax(postService.updatePost(post));

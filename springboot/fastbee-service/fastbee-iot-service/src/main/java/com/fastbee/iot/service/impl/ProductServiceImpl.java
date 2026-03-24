@@ -6,6 +6,7 @@ import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.core.redis.RedisKeyBuilder;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.domain.Product;
 import com.fastbee.iot.domain.ThingsModelTemplate;
 import com.fastbee.iot.mapper.DeviceMapper;
@@ -196,7 +197,7 @@ public class ProductServiceImpl implements IProductService
     public AjaxResult changeProductStatus(ChangeProductStatusModel model)
     {
         if(model.getStatus()!=1 && model.getStatus()!=2){
-            return AjaxResult.error("状态更新失败,状态值有误");
+            return AjaxResult.error(MessageUtils.message("product.status.update.fail.value.fail"));
         }
         if(model.getStatus()==2){
             // 产品下必须包含物模型
@@ -214,9 +215,9 @@ public class ProductServiceImpl implements IProductService
             //}
         }
         if(productMapper.changeProductStatus(model)>0){
-            return AjaxResult.success("操作成功");
+            return AjaxResult.success(MessageUtils.message("operate.success"));
         }
-        return AjaxResult.error("状态更新失败");
+        return AjaxResult.error(MessageUtils.message("product.status.update.fail"));
     }
 
     /***
@@ -250,7 +251,7 @@ public class ProductServiceImpl implements IProductService
         // 产品下不能有设备
         int deviceCount=productMapper.deviceCountInProducts(productIds);
         if(deviceCount>0){
-            return AjaxResult.error("删除失败，请先删除对应产品下的设备");
+            return AjaxResult.error(MessageUtils.message("delete.fail.please.delete.product.device"));
         }
         // 删除产品物模型
         productMapper.deleteProductThingsModelByProductIds(productIds);
@@ -258,9 +259,9 @@ public class ProductServiceImpl implements IProductService
         productAuthorizeMapper.deleteProductAuthorizeByProductIds(productIds);
         // 删除产品
         if(productMapper.deleteProductByProductIds(productIds)>0){
-            return AjaxResult.success("删除成功");
+            return AjaxResult.success(MessageUtils.message("delete.success"));
         }
-        return AjaxResult.error("删除失败");
+        return AjaxResult.error(MessageUtils.message("delete.fail"));
     }
 
 

@@ -10,6 +10,7 @@ import com.fastbee.common.core.thingsModel.ThingsModelSimpleItem;
 import com.fastbee.common.core.thingsModel.ThingsModelValuesInput;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.model.ThingsModels.ValueItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,7 @@ public class JsonProtocolService   {
             reportMessage.setSerialNumber(clientId);
             return reportMessage;
         }catch (Exception e){
-            throw new ServiceException("数据解析异常"+e.getMessage());
+            throw new ServiceException(MessageUtils.message("protocol.data.parse.exception", e));
         }
     }
 

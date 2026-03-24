@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.system.mapper.SysTranslateMapper">
+
+    <resultMap type="com.fastbee.system.domain.SysTranslate" id="SysTranslateResult">
+        <result property="id"    column="id"    />
+        <result property="zh_CN"    column="zh_cn"    />
+        <result property="en_US"    column="en_us"    />
+    </resultMap>
+
+    <insert id="insertSysTranslate" parameterType="com.fastbee.system.domain.SysTranslate">
+        insert into ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="zh_CN != null">zh_cn,</if>
+            <if test="en_US != null">en_us</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="zh_CN != null">#{zh_CN},</if>
+            <if test="en_US != null">#{en_US}</if>
+        </trim>
+        on duplicate key update
+        <if test="productId != null">product_id = #{productId},</if>
+        <if test="zh_CN != null">zh_cn = #{zh_CN},</if>
+        <if test="en_US != null">en_us = #{en_US}</if>
+    </insert>
+
+    <select id="selectSysTranslateList" parameterType="com.fastbee.system.domain.SysTranslate" resultMap="SysTranslateResult">
+        select id, zh_cn, en_us from ${tableName}
+        <where>
+            <if test="zh_CN != null  and zh_CN != ''"> and zh_cn = #{zh_CN}</if>
+            <if test="en_US != null  and en_US != ''"> and en_us = #{en_US}</if>
+            <if test="productId != null and productId != ''"> and product_id = #{productId}</if>
+        </where>
+    </select>
+
+    <select id="selectSourceList" resultType="com.fastbee.system.domain.SysTranslate"  resultMap="SysTranslateResult">
+        select ${idColumn} as id, ${nameColumn} as zh_cn from ${tableName}
+        <where>
+            <if test="productId != null">product_id = #{productId}</if>
+        </where>
+    </select>
+
+</mapper>

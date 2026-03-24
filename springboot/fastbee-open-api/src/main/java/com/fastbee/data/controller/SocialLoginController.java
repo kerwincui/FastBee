@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.fastbee.common.constant.Constants.LANGUAGE;
+
 /**
  * 第三方登录接口Controller
  *
@@ -69,9 +71,9 @@ public class SocialLoginController {
     @GetMapping("/login/{loginId}")
     @ApiOperation("跳转登录api")
     @ApiImplicitParam(name = "loginId", value = "登录Id", required = true, dataType = "String", paramType = "path", dataTypeClass = String.class)
-    public AjaxResult socialLogin(@PathVariable String loginId) {
+    public AjaxResult socialLogin(HttpServletRequest request, @PathVariable String loginId) {
         // 生成授权页面
-        return iSocialLoginService.socialLogin(loginId);
+        return iSocialLoginService.socialLogin(loginId, request.getHeader(LANGUAGE));
     }
 
     /**
@@ -82,8 +84,8 @@ public class SocialLoginController {
      */
     @ApiOperation("绑定登录方法")
     @PostMapping("/bind/login")
-    public AjaxResult bindLogin(@RequestBody BindLoginBody bindLoginBody) {
-        return iSocialLoginService.bindLogin(bindLoginBody);
+    public AjaxResult bindLogin(HttpServletRequest request, @RequestBody BindLoginBody bindLoginBody) {
+        return iSocialLoginService.bindLogin(bindLoginBody, request.getHeader(LANGUAGE));
     }
 
     /**
@@ -94,8 +96,8 @@ public class SocialLoginController {
      */
     @ApiOperation("注册绑定")
     @PostMapping("/bind/register")
-    public AjaxResult bindRegister(@RequestBody BindRegisterBody bindRegisterBody) {
-        return iSocialLoginService.bindRegister(bindRegisterBody);
+    public AjaxResult bindRegister(HttpServletRequest request, @RequestBody BindRegisterBody bindRegisterBody) {
+        return iSocialLoginService.bindRegister(bindRegisterBody, request.getHeader(LANGUAGE));
     }
 
 }

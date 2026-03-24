@@ -392,7 +392,7 @@ public class GenTableServiceImpl implements IGenTableService
                 }
                 catch (IOException e)
                 {
-                    throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
+                    throw new ServiceException(MessageUtils.message("genTable.template.rendering.fail", table.getTableName()));
                 }
             }
         }
@@ -414,7 +414,7 @@ public class GenTableServiceImpl implements IGenTableService
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
         if (StringUtils.isEmpty(dbTableColumns))
         {
-            throw new ServiceException("同步数据失败，原表结构不存在");
+            throw new ServiceException(MessageUtils.message("genTable.data.sync.fail.original.table.not.exist"));
         }
         List<String> dbTableColumnNames = dbTableColumns.stream().map(GenTableColumn::getColumnName).collect(Collectors.toList());
 
@@ -526,25 +526,25 @@ public class GenTableServiceImpl implements IGenTableService
             JSONObject paramsObj = JSON.parseObject(options);
             if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_CODE)))
             {
-                throw new ServiceException("树编码字段不能为空");
+                throw new ServiceException(MessageUtils.message("genTable.tree.code.field.cannot.empty"));
             }
             else if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_PARENT_CODE)))
             {
-                throw new ServiceException("树父编码字段不能为空");
+                throw new ServiceException(MessageUtils.message("genTable.tree.parent.code.field.cannot.empty"));
             }
             else if (StringUtils.isEmpty(paramsObj.getString(GenConstants.TREE_NAME)))
             {
-                throw new ServiceException("树名称字段不能为空");
+                throw new ServiceException(MessageUtils.message("genTable.tree.name.field.cannot.empty"));
             }
             else if (GenConstants.TPL_SUB.equals(genTable.getTplCategory()))
             {
                 if (StringUtils.isEmpty(genTable.getSubTableName()))
                 {
-                    throw new ServiceException("关联子表的表名不能为空");
+                    throw new ServiceException(MessageUtils.message("genTable.relate.child.table.name.cannot.empty"));
                 }
                 else if (StringUtils.isEmpty(genTable.getSubTableFkName()))
                 {
-                    throw new ServiceException("子表关联的外键名不能为空");
+                    throw new ServiceException(MessageUtils.message("genTable.child.table.relate.foreign.key.name.cannot.empty"));
                 }
             }
         }

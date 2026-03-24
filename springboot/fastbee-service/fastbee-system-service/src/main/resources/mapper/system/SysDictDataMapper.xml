@@ -52,8 +52,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectDictDataById" parameterType="Long" resultMap="SysDictDataResult">
-		<include refid="selectDictDataVo"/>
-		where dict_code = #{dictCode}
+		select d.dict_code, d.dict_sort,
+			   case
+				   when #{language} = 'zh-CN' then d.dict_label
+				   when #{language} = 'en-US' then t.en_us
+				   else d.dict_label
+				   end as dict_label,
+			   d.dict_value, d.dict_type, d.css_class, d.list_class, d.is_default, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_data d
+				 left join sys_dict_data_translate t on d.dict_code = t.id
+		where d.dict_code = #{dictCode}
+	</select>
+
+	<select id="selectDictDataListAll" parameterType="com.fastbee.common.core.domain.entity.SysDictData" resultMap="SysDictDataResult">
+		select d.dict_code, d.dict_sort, d.dict_label, t.zh_cn as dict_label_zh_cn, t.en_us as dict_label_en_us,
+		d.dict_value, d.dict_type, d.css_class, d.list_class, d.is_default, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_data d
+		left join sys_dict_data_translate t on d.dict_code = t.id
+		<where>
+			<if test="dictType != null and dictType != ''">
+				AND d.dict_type = #{dictType}
+			</if>
+			<if test="dictLabel != null and dictLabel != ''">
+				AND d.dict_label like concat('%', #{dictLabel}, '%')
+			</if>
+			<if test="status != null">
+				AND d.status = #{status}
+			</if>
+		</where>
+		order by d.dict_sort asc
 	</select>
 	
 	<select id="countDictDataByType" resultType="Integer">

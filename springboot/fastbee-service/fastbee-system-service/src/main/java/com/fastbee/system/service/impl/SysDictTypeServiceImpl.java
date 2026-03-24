@@ -12,12 +12,15 @@ import com.fastbee.system.service.ISysDictTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.fastbee.common.utils.SecurityUtils;
 import javax.annotation.PostConstruct;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.fastbee.common.constant.Constants.EN_US;
+import static com.fastbee.common.constant.Constants.ZH_CN;
 
 /**
  * 字典 业务层处理
@@ -51,6 +54,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Override
     public List<SysDictType> selectDictTypeList(SysDictType dictType)
     {
+        dictType.setLanguage(SecurityUtils.getLanguage());
         return dictTypeMapper.selectDictTypeList(dictType);
     }
 
@@ -62,7 +66,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Override
     public List<SysDictType> selectDictTypeAll()
     {
-        return dictTypeMapper.selectDictTypeAll();
+        return dictTypeMapper.selectDictTypeAll(SecurityUtils.getLanguage());
     }
 
     /**
@@ -77,12 +81,14 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
         List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
         if (StringUtils.isNotEmpty(dictDatas))
         {
+            convertDictLabel(dictDatas, SecurityUtils.getLanguage());
             return dictDatas;
         }
         dictDatas = dictDataMapper.selectDictDataByType(dictType);
         if (StringUtils.isNotEmpty(dictDatas))
         {
             DictUtils.setDictCache(dictType, dictDatas);
+            convertDictLabel(dictDatas, SecurityUtils.getLanguage());
             return dictDatas;
         }
         return null;
@@ -97,7 +103,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Override
     public SysDictType selectDictTypeById(Long dictId)
     {
-        return dictTypeMapper.selectDictTypeById(dictId);
+        return dictTypeMapper.selectDictTypeById(dictId, SecurityUtils.getLanguage());
     }
 
     /**
@@ -109,7 +115,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Override
     public SysDictType selectDictTypeByType(String dictType)
     {
-        return dictTypeMapper.selectDictTypeByType(dictType);
+        return dictTypeMapper.selectDictTypeByType(dictType, SecurityUtils.getLanguage());
     }
 
     /**
@@ -140,7 +146,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     {
         SysDictData dictData = new SysDictData();
         dictData.setStatus("0");
-        Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectDictDataList(dictData).stream().collect(Collectors.groupingBy(SysDictData::getDictType));
+        Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectDictDataListAll(dictData).stream().collect(Collectors.groupingBy(SysDictData::getDictType));
         for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet())
         {
             DictUtils.setDictCache(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(SysDictData::getDictSort)).collect(Collectors.toList()));
@@ -193,7 +199,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Transactional
     public int updateDictType(SysDictType dict)
     {
-        SysDictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId());
+        SysDictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId(), SecurityUtils.getLanguage());
         dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
         int row = dictTypeMapper.updateDictType(dict);
         if (row > 0)
@@ -214,11 +220,32 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     public boolean checkDictTypeUnique(SysDictType dict)
     {
         Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
-        SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (StringUtils.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue())
+        List<SysDictType> dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType(), SecurityUtils.getLanguage());
+        if (!dictType.isEmpty() && dictType.get(0).getDictId().longValue() != dictId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
+    }
+
+    /**
+     * 多语言转换
+     * @param list
+     * @param language
+     * @return
+     */
+    public static void convertDictLabel(List<SysDictData> list, String language) {
+        switch (language) {
+            case EN_US:
+                for (SysDictData data : list) {
+                    data.setDictLabel(data.getDictLabel_en_US());
+                }
+                break;
+            case ZH_CN:
+                for (SysDictData data : list) {
+                    data.setDictLabel(data.getDictLabel_zh_CN());
+                }
+                break;
+        }
     }
 }

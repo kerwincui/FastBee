@@ -21,14 +21,14 @@ public interface WeChatService {
      * @param weChatLoginBody 微信登录参数
      * @return String
      */
-    WeChatLoginResult mobileLogin(WeChatLoginBody weChatLoginBody);
+    WeChatLoginResult mobileLogin(WeChatLoginBody weChatLoginBody, String language);
 
     /**
      * 小程序微信登录
      * @param weChatLoginBody 微信登录参数
      * @return 登录结果
      */
-    WeChatLoginResult miniLogin(WeChatLoginBody weChatLoginBody);
+    WeChatLoginResult miniLogin(WeChatLoginBody weChatLoginBody, String language);
 
     /**
      * 取消所有相关微信绑定

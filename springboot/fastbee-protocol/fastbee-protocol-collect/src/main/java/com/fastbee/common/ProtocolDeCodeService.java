@@ -2,6 +2,7 @@ package com.fastbee.common;
 
 import com.fastbee.common.core.iot.response.DeCodeBo;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.gateway.CRC16Utils;
 import io.netty.buffer.ByteBufUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class ProtocolDeCodeService {
 
     public String protocolDeCode(DeCodeBo bo) {
         if (null == bo) {
-            throw new ServiceException("输入内容为空");
+            throw new ServiceException(MessageUtils.message("protocol.input.content.is.empty"));
         }
         String payload = bo.getPayload();
         /*1-解析 2-读指令 3-写指令 4-CRC生成 5-CRC校验*/

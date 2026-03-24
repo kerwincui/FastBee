@@ -3,6 +3,7 @@ package com.fastbee.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fastbee.common.utils.MessageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,11 +105,11 @@ public class SysRoleController extends BaseController
     {
         if (!roleService.checkRoleNameUnique(role))
         {
-            return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return error(StringUtils.format(MessageUtils.message("role.add.failed.name.exists"), role.getRoleName()));
         }
         else if (!roleService.checkRoleKeyUnique(role))
         {
-            return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return error(StringUtils.format(MessageUtils.message("role.add.failed.key.exists"), role.getRoleName()));
         }
         role.setCreateBy(getUsername());
         return toAjax(roleService.insertRole(role));
@@ -128,11 +129,11 @@ public class SysRoleController extends BaseController
         roleService.checkRoleDataScope(role.getRoleId());
         if (!roleService.checkRoleNameUnique(role))
         {
-            return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return error(StringUtils.format(MessageUtils.message("role.update.failed.name.exists"), role.getRoleName()));
         }
         else if (!roleService.checkRoleKeyUnique(role))
         {
-            return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return error(StringUtils.format(MessageUtils.message("role.update.failed.key.exists"), role.getRoleName()));
         }
         role.setUpdateBy(getUsername());
 
@@ -148,7 +149,7 @@ public class SysRoleController extends BaseController
             }
             return success();
         }
-        return error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
+        return error(StringUtils.format(MessageUtils.message("role.update.failed"), role.getRoleName()));
     }
 
     /**

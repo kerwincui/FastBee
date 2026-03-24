@@ -5,6 +5,7 @@ import com.fastbee.common.core.controller.BaseController;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.ThingsModel;
@@ -86,7 +87,7 @@ public class ThingsModelController extends BaseController
         if(result==1){
             return AjaxResult.success();
         }else if(result==2){
-            return AjaxResult.error("产品下的标识符不能重复");
+            return AjaxResult.error(MessageUtils.message("things.model.identifier.repeat"));
         }else{
             return AjaxResult.error();
         }
@@ -98,9 +99,9 @@ public class ThingsModelController extends BaseController
     public AjaxResult ImportByTemplateIds(@RequestBody ImportThingsModelInput input){
         int repeatCount=thingsModelService.importByTemplateIds(input);
         if(repeatCount==0){
-            return AjaxResult.success("数据导入成功");
+            return AjaxResult.success(MessageUtils.message("import.success"));
         }else{
-            return AjaxResult.success(repeatCount+"条数据未导入，标识符重复");
+            return AjaxResult.success(StringUtils.format(MessageUtils.message("things.model.import.failed.identifier.repeat"), repeatCount));
         }
     }
 
@@ -117,7 +118,7 @@ public class ThingsModelController extends BaseController
         if(result==1){
             return AjaxResult.success();
         }else if(result==2){
-            return AjaxResult.error("产品下的标识符不能重复");
+            return AjaxResult.error(MessageUtils.message("things.model.identifier.repeat"));
         }else{
             return AjaxResult.error();
         }
@@ -143,7 +144,7 @@ public class ThingsModelController extends BaseController
     @ApiOperation("获取缓存的JSON物模型")
     public AjaxResult getCacheThingsModelByProductId(@PathVariable("productId") Long productId)
     {
-        return AjaxResult.success("操作成功",thingsModelService.getCacheThingsModelByProductId(productId));
+        return AjaxResult.success(MessageUtils.message("operate.success"),thingsModelService.getCacheThingsModelByProductId(productId));
     }
 
     @ApiOperation(value = "物模型导入模板")

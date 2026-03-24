@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.exception.ServiceException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,8 @@ import com.fastbee.common.core.domain.entity.SysDept;
 import com.fastbee.common.enums.BusinessType;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.system.service.ISysDeptService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 部门信息
@@ -98,11 +101,11 @@ public class SysDeptController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dept:add')")
     @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDept dept)
+    public AjaxResult add(HttpServletRequest request, @Validated @RequestBody SysDept dept)
     {
         if (!deptService.checkDeptNameUnique(dept))
         {
-            return error("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+            return error(StringUtils.format(MessageUtils.message("dept.add.failed.name.exists"), dept.getDeptName()));
         }
         dept.setCreateBy(getUsername());
         return toAjax(deptService.insertDept(dept));
@@ -121,15 +124,15 @@ public class SysDeptController extends BaseController
         deptService.checkDeptDataScope(deptId);
         if (!deptService.checkDeptNameUnique(dept))
         {
-            return error("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
+            return error(StringUtils.format(MessageUtils.message("dept.update.failed.name.exists"), dept.getDeptName()));
         }
         else if (dept.getParentId().equals(deptId))
         {
-            return error("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
+            return error(StringUtils.format(MessageUtils.message("dept.update.failed.parent.not.valid"), dept.getDeptName()));
         }
         else if (StringUtils.equals(UserConstants.DEPT_DISABLE, dept.getStatus()) && deptService.selectNormalChildrenDeptById(deptId) > 0)
         {
-            return error("该部门包含未停用的子部门！");
+            return error(MessageUtils.message("dept.update.failed.child.not.valid"));
         }
         dept.setUpdateBy(getUsername());
         return toAjax(deptService.updateDept(dept));
@@ -146,11 +149,11 @@ public class SysDeptController extends BaseController
     {
         if (deptService.hasChildByDeptId(deptId))
         {
-            return warn("存在下级部门,不允许删除");
+            return warn(MessageUtils.message("dept.delete.failed.child.exists"));
         }
         if (deptService.checkDeptExistUser(deptId))
         {
-            return warn("部门存在用户,不允许删除");
+            return warn(MessageUtils.message("dept.delete.failed.user.exists"));
         }
         deptService.checkDeptDataScope(deptId);
         return toAjax(deptService.deleteDeptById(deptId));

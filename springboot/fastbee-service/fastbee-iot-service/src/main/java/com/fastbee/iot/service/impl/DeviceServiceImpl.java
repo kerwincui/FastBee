@@ -18,6 +18,7 @@ import com.fastbee.common.enums.DeviceStatus;
 import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.http.HttpUtils;
 import com.fastbee.common.utils.ip.IpUtils;
@@ -678,8 +679,7 @@ public class DeviceServiceImpl implements IDeviceService {
         // 设备编号唯一检查
         Device existDevice = deviceMapper.selectDeviceBySerialNumber(device.getSerialNumber());
         if (existDevice != null) {
-            log.error("设备编号：" + device.getSerialNumber() + "已经存在了，新增设备失败");
-            throw new ServiceException("设备编号：" + device.getSerialNumber() + " 已经存在，新增失败");
+            throw new ServiceException(MessageUtils.message("device.insert.fail.device.number.already.exist", device.getSerialNumber()));
         }
         SysUser sysUser = getLoginUser().getUser();
         //添加设备
@@ -747,7 +747,7 @@ public class DeviceServiceImpl implements IDeviceService {
             Device existDevice = deviceMapper.selectDeviceBySerialNumber(deviceRelateUserInput.getDeviceNumberAndProductIds().get(i).getDeviceNumber());
             if (existDevice != null) {
                 if (existDevice.getUserId().longValue() == deviceRelateUserInput.getUserId().longValue()) {
-                    return AjaxResult.error("用户已经拥有设备：" + existDevice.getDeviceName() + ", 设备编号：" + existDevice.getSerialNumber());
+                    return AjaxResult.error(MessageUtils.message("now.user.belong.device.can.not.repeat.share", existDevice.getSerialNumber()));
                 }
                 // 先删除设备的所有用户
                 deviceUserMapper.deleteDeviceUserByDeviceId(new UserIdDeviceIdModel(null, existDevice.getDeviceId()));
@@ -774,11 +774,11 @@ public class DeviceServiceImpl implements IDeviceService {
                         deviceRelateUserInput.getUserId(),
                         deviceRelateUserInput.getDeviceNumberAndProductIds().get(i).getProductId());
                 if (result == 0) {
-                    return AjaxResult.error("设备不存在，自动添加设备时失败，请检查产品编号是否正确");
+                    return AjaxResult.error(MessageUtils.message("device.not.exist.add.fail.please.check.product.id.is.correct"));
                 }
             }
         }
-        return AjaxResult.success("添加设备成功");
+        return AjaxResult.success(MessageUtils.message("device.add.success"));
     }
 
     /**
@@ -1240,7 +1240,7 @@ public class DeviceServiceImpl implements IDeviceService {
         DeviceMqttConnectVO connectVO = new DeviceMqttConnectVO();
         DeviceMqttVO deviceMqttVO = deviceMapper.selectMqttConnectData(deviceId);
         if (deviceMqttVO == null) {
-            throw new ServiceException("获取设备MQTT连接参数失败");
+            throw new ServiceException(MessageUtils.message("device.get.mqtt.connection.param.fail"));
         }
         // 不管认证方式，目前就只返回简单认证方式
         String password;
@@ -1248,7 +1248,7 @@ public class DeviceServiceImpl implements IDeviceService {
             // 查询产品授权码
             List<ProductAuthorize> productAuthorizeList = productAuthorizeService.listByProductId(deviceMqttVO.getProductId());
             if (CollectionUtils.isEmpty(productAuthorizeList)) {
-                throw new ServiceException("产品已启用授权，获取设备授权码失败，请先配置授权码");
+                throw new ServiceException(MessageUtils.message("device.get.authorization.fail.please.config"));
             }
             List<ProductAuthorize> collect = productAuthorizeList.stream().filter(p -> p.getProductId().equals(deviceMqttVO.getDeviceId())).collect(Collectors.toList());
             ProductAuthorize productAuthorize = CollectionUtils.isEmpty(collect) ? productAuthorizeList.get(0) : collect.get(0);

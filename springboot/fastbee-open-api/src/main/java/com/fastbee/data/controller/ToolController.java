@@ -12,6 +12,7 @@ import com.fastbee.common.core.iot.response.DeCodeBo;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
 import com.fastbee.common.exception.file.FileNameLengthLimitExceededException;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.file.FileUploadUtils;
 import com.fastbee.common.utils.file.FileUtils;
@@ -71,13 +72,13 @@ import static com.fastbee.common.utils.file.FileUploadUtils.getExtension;
 public class ToolController extends BaseController {
     private static final Logger log = LoggerFactory.getLogger(ToolController.class);
 
-    @Autowired
+    @Resource
     private IDeviceService deviceService;
-    @Autowired
+    @Resource
     private IMqttMessagePublish messagePublish;
-    @Autowired
+    @Resource
     private MqttClientConfig mqttConfig;
-    @Autowired
+    @Resource
     private IToolService toolService;
     // 令牌秘钥
     @Value("${token.secret}")
@@ -119,7 +120,7 @@ public class ToolController extends BaseController {
                 log.info("-----------服务端mqtt认证成功,clientId:" + clientid + "---------------");
                 return ResponseEntity.ok().body("ok");
             } else {
-                return toolService.returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), "mqtt账号和密码与认证服务器配置不匹配");
+                return toolService.returnUnauthorized(new MqttAuthenticationModel(clientid, username, password), MessageUtils.message("mqtt.unauthorized"));
             }
         } else if (clientid.startsWith("web") || clientid.startsWith("phone")) {
             // web端和移动端认证：token认证

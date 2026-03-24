@@ -1,5 +1,6 @@
 package com.fastbee.web.controller.system;
 
+import com.fastbee.common.utils.MessageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.fastbee.common.utils.StringUtils;
 import com.fastbee.framework.web.service.SysRegisterService;
 import com.fastbee.system.service.ISysConfigService;
 
+import javax.annotation.Resource;
+
 /**
  * 注册验证
  * 
@@ -22,10 +25,10 @@ import com.fastbee.system.service.ISysConfigService;
 @RestController
 public class SysRegisterController extends BaseController
 {
-    @Autowired
+    @Resource
     private SysRegisterService registerService;
 
-    @Autowired
+    @Resource
     private ISysConfigService configService;
 
     @ApiOperation("注册账号")
@@ -34,7 +37,7 @@ public class SysRegisterController extends BaseController
     {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
         {
-            return error("当前系统没有开启注册功能！");
+            return error(MessageUtils.message("sysRegister.fail.not.enable.register"));
         }
         String msg = registerService.register(user);
         return StringUtils.isEmpty(msg) ? success() : error(msg);

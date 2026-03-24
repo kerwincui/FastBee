@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
+
+import static com.fastbee.common.constant.Constants.LANGUAGE;
 
 /**
  * 登录验证
@@ -47,12 +50,12 @@ public class SysLoginController
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBody loginBody)
+    public AjaxResult login(HttpServletRequest request, @RequestBody LoginBody loginBody)
     {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
-                loginBody.getUuid());
+                loginBody.getUuid(), request.getHeader(LANGUAGE));
         ajax.put(Constants.TOKEN, token);
         return ajax;
     }
@@ -89,10 +92,10 @@ public class SysLoginController
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters()
+    public AjaxResult getRouters(HttpServletRequest request)
     {
         Long userId = SecurityUtils.getUserId();
-        List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
+        List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId, request.getHeader(LANGUAGE));
         return AjaxResult.success(menuService.buildMenus(menus));
     }
 }

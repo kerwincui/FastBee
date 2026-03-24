@@ -119,6 +119,7 @@ public class SecurityConfig
                             "/wechat/mobileLogin", "/wechat/miniLogin", "/wechat/wxBind/callback").permitAll()
                     .antMatchers("/zlmhook/**").permitAll()
                     .antMatchers("/goview/sys/login","/goview/project/getData").permitAll()
+                    .antMatchers("/app/language/list").permitAll()
                     // 静态资源，可匿名访问
                     .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/druid/**").permitAll()

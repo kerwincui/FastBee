@@ -8,10 +8,7 @@ import com.fastbee.common.core.page.PageDomain;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.core.page.TableSupport;
 import com.fastbee.common.core.redis.RedisCache;
-import com.fastbee.common.utils.DateUtils;
-import com.fastbee.common.utils.PageUtils;
-import com.fastbee.common.utils.SecurityUtils;
-import com.fastbee.common.utils.StringUtils;
+import com.fastbee.common.utils.*;
 import com.fastbee.common.utils.sql.SqlUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -91,9 +88,19 @@ public class BaseController
     {
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
-        rspData.setMsg("查询成功");
+        rspData.setMsg(MessageUtils.message("query.success"));
         rspData.setRows(list);
         rspData.setTotal(new PageInfo(list).getTotal());
+        return rspData;
+    }
+
+    protected TableDataInfo getDataTable(List<?> list, Long total)
+    {
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setMsg(MessageUtils.message("query.success"));
+        rspData.setRows(list);
+        rspData.setTotal(total);
         return rspData;
     }
 

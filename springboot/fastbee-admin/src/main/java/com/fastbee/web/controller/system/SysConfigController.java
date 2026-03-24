@@ -1,8 +1,11 @@
 package com.fastbee.web.controller.system;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fastbee.common.utils.MessageUtils;
+import com.fastbee.common.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,7 @@ import com.fastbee.system.service.ISysConfigService;
 @RequestMapping("/system/config")
 public class SysConfigController extends BaseController
 {
-    @Autowired
+    @Resource
     private ISysConfigService configService;
 
     /**
@@ -95,7 +98,7 @@ public class SysConfigController extends BaseController
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return error(StringUtils.format(MessageUtils.message("sysConfig.add.param.fail.name.exist"), config.getConfigName()));
         }
         config.setCreateBy(getUsername());
         return toAjax(configService.insertConfig(config));
@@ -112,7 +115,7 @@ public class SysConfigController extends BaseController
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return error(StringUtils.format(MessageUtils.message("sysConfig.update.param.fail.name.exist"), config.getConfigName()));
         }
         config.setUpdateBy(getUsername());
         return toAjax(configService.updateConfig(config));

@@ -33,7 +33,15 @@
     </sql>
     
     <select id="selectMenuList" parameterType="SysMenu" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
+		select distinct m.menu_id,
+		case
+		when #{language} = 'zh-CN' then m.menu_name
+		when #{language} = 'en-US' then t.en_us
+		else m.menu_name
+		end as menu_name,
+		m.parent_id, m.order_num, m.path, m.component, m.query, m.is_frame, m.is_cache, m.menu_type, m.visible, m.status, ifnull(m.perms,'') as perms, m.icon, m.create_time
+		from sys_menu m
+		left join sys_menu_translate t on m.menu_id = t.id
 		<where>
 			<if test="menuName != null and menuName != ''">
 				AND menu_name like concat('%', #{menuName}, '%')
@@ -49,17 +57,33 @@
 	</select>
 	
 	<select id="selectMenuTreeAll" resultMap="SysMenuResult">
-		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
-		from sys_menu m where m.menu_type in ('M', 'C') and m.status = 0
+		select distinct m.menu_id, m.parent_id,
+						case
+							when #{language} = 'zh-CN' then m.menu_name
+							when #{language} = 'en-US' then t.en_us
+							else m.menu_name
+							end as menu_name,
+						m.menu_name as zn_ch,t.en_us,
+						m.path, m.component, m.query, m.visible, m.status, COALESCE(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+		from sys_menu m
+				 left join sys_menu_translate t on m.menu_id = t.id
+		where m.menu_type in ('M', 'C') and m.status = 0
 		order by m.parent_id, m.order_num
 	</select>
 	
 	<select id="selectMenuListByUserId" parameterType="SysMenu" resultMap="SysMenuResult">
-		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+		select distinct m.menu_id, m.parent_id,
+		case
+		when #{language} = 'zh-CN' then m.menu_name
+		when #{language} = 'en-US' then t.en_us
+		else m.menu_name
+		end as menu_name,
+		m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
 		from sys_menu m
 		left join sys_role_menu rm on m.menu_id = rm.menu_id
 		left join sys_user_role ur on rm.role_id = ur.role_id
 		left join sys_role ro on ur.role_id = ro.role_id
+		left join sys_menu_translate t on m.menu_id = t.id
 		where ur.user_id = #{params.userId}
 		<if test="menuName != null and menuName != ''">
             AND m.menu_name like concat('%', #{menuName}, '%')
@@ -74,12 +98,20 @@
 	</select>
     
     <select id="selectMenuTreeByUserId" parameterType="Long" resultMap="SysMenuResult">
-		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+		select distinct m.menu_id, m.parent_id,
+						case
+							when #{language} = 'zh-CN' then m.menu_name
+							when #{language} = 'en-US' then t.en_us
+							else m.menu_name
+							end as menu_name,
+						m.menu_name as zn_ch,t.en_us,
+						m.path, m.component, m.query, m.visible, m.status, COALESCE(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
 		from sys_menu m
-			 left join sys_role_menu rm on m.menu_id = rm.menu_id
-			 left join sys_user_role ur on rm.role_id = ur.role_id
-			 left join sys_role ro on ur.role_id = ro.role_id
-			 left join sys_user u on ur.user_id = u.user_id
+				 left join sys_role_menu rm on m.menu_id = rm.menu_id
+				 left join sys_user_role ur on rm.role_id = ur.role_id
+				 left join sys_role ro on ur.role_id = ro.role_id
+				 left join sys_user u on ur.user_id = u.user_id
+				 left join sys_menu_translate t on m.menu_id = t.id
 		where u.user_id = #{userId} and m.menu_type in ('M', 'C') and m.status = 0  AND ro.status = 0
 		order by m.parent_id, m.order_num
 	</select>
@@ -119,8 +151,17 @@
 	</select>
 	
 	<select id="selectMenuById" parameterType="Long" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
-		where menu_id = #{menuId}
+		select distinct m.menu_id,
+						case
+							when #{language} = 'zh-CN' then m.menu_name
+							when #{language} = 'en-US' then t.en_us
+							else m.menu_name
+							end as menu_name,
+						m.menu_name as zn_ch,t.en_us,
+						m.parent_id, m.order_num, m.path, m.component, m.query, m.is_frame, m.is_cache, m.menu_type, m.visible, m.status, COALESCE(m.perms, '') as perms, m.icon, m.create_time
+		from sys_menu m
+				 left join sys_menu_translate t on m.menu_id = t.id
+		where m.menu_id = #{menuId}
 	</select>
 	
 	<select id="hasChildByMenuId" resultType="Integer">
@@ -128,7 +169,8 @@
 	</select>
 	
 	<select id="checkMenuNameUnique" parameterType="SysMenu" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
+		select distinct menu_id, menu_name, parent_id, order_num, path, component, query, is_frame, is_cache, menu_type, visible, status, ifnull(perms,'') as perms, icon, create_time
+		from sys_menu
 		where menu_name=#{menuName} and parent_id = #{parentId} limit 1
 	</select>
 	

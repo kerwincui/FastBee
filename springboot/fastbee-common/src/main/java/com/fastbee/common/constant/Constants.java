@@ -171,4 +171,20 @@ public class Constants
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.ruoyi.common.utils.file", "com.ruoyi.common.config", "com.ruoyi.generator" };
+
+    /**
+     * 语言类型
+     */
+    public static final String LANGUAGE = "language";
+    public static final String ZH_CN = "zh-CN";
+    public static final String EN_US = "en-US";
+
+    /**
+     * 翻译数据类型
+     */
+    public static final String MENU = "menu";
+    public static final String DICT_DATA = "dict_data";
+    public static final String DICT_TYPE = "dict_type";
+    public static final String THINGS_MODEL = "things_model";
+    public static final String THINGS_MODEL_TEMPLATE = "things_model_template";
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fastbee.system.mapper.AppLanguageMapper">
+
+    <resultMap type="com.fastbee.system.domain.AppLanguage" id="AppLanguageResult">
+        <result property="id"    column="id"    />
+        <result property="language"    column="language"    />
+        <result property="country"    column="country"    />
+        <result property="timeZone"    column="time_zone"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="langName"    column="lang_name"    />
+    </resultMap>
+
+    <sql id="selectAppLanguageVo">
+        select id, language, country, time_zone, create_by, create_time, lang_name from app_language
+    </sql>
+
+</mapper>

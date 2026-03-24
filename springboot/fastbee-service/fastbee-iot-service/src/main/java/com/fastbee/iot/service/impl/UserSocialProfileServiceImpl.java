@@ -4,6 +4,7 @@ import com.fastbee.common.constant.HttpStatus;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.redis.RedisCache;
 import com.fastbee.common.enums.SocialPlatformType;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.iot.domain.SocialUser;
 import com.fastbee.iot.domain.UserSocialProfile;
 import com.fastbee.iot.model.login.BindIdValue;
@@ -65,7 +66,7 @@ public class UserSocialProfileServiceImpl implements IUserSocialProfileService {
         updateSocialUser.setSysUserId(sysUserId);
         iSocialUserService.updateSocialUser(updateSocialUser);
         redisCache.deleteObject(BIND_REDIS_KEY + bindId);
-        return AjaxResult.success("绑定成功！");
+        return AjaxResult.success(MessageUtils.message("bind.success"));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class UserSocialProfileServiceImpl implements IUserSocialProfileService {
         try {
             SocialPlatformType.valueOf(platform);
         } catch (Exception e) {
-            return AjaxResult.error("错误平台类型");
+            return AjaxResult.error(MessageUtils.message("socialLogin.platform.type.fail"));
         }
         return AjaxResult.success();
     }
@@ -82,15 +83,15 @@ public class UserSocialProfileServiceImpl implements IUserSocialProfileService {
     public AjaxResult unbindSocialAccount(Long socialUserId, Long sysUserId) {
         SocialUser socialUser = iSocialUserService.selectSocialUserBySocialUserId(socialUserId);
         if (socialUser == null) {
-            return AjaxResult.error("绑定账户不存在！");
+            return AjaxResult.error(MessageUtils.message("bind.account.not.exist"));
         } else if (!socialUser.getSysUserId().equals(socialUserId)) {
-            return AjaxResult.error("用户账户和绑定账户不匹配！");
+            return AjaxResult.error(MessageUtils.message("user.account.and.bind.account.not.match"));
         } else {
             SocialUser updateSocialUser = new SocialUser();
             updateSocialUser.setSocialUserId(socialUserId);
             updateSocialUser.setSysUserId(-1L);
             iSocialUserService.updateSocialUser(updateSocialUser);
-            return AjaxResult.success("解除绑定成功！");
+            return AjaxResult.success(MessageUtils.message("unbind.success"));
         }
     }
 

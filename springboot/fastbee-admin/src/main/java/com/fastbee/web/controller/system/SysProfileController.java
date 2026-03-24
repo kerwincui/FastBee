@@ -9,6 +9,7 @@ import com.fastbee.common.core.domain.entity.SysUser;
 import com.fastbee.common.core.domain.model.LoginUser;
 import com.fastbee.common.enums.BusinessType;
 import com.fastbee.common.enums.SocialPlatformType;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.SecurityUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.file.FileUploadUtils;
@@ -86,11 +87,11 @@ public class SysProfileController extends BaseController
         currentUser.setSex(user.getSex());
         if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(currentUser))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error(StringUtils.format(MessageUtils.message("user.update.failed.phone.exists"), user.getUserName()));
         }
         if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(currentUser))
         {
-            return error("修改用户'" + loginUser.getUsername() + "'失败，邮箱账号已存在");
+            return error(StringUtils.format(MessageUtils.message("user.update.failed.email.exists"), user.getUserName()));
         }
         if (userService.updateUserProfile(currentUser) > 0)
         {
@@ -98,7 +99,7 @@ public class SysProfileController extends BaseController
             tokenService.setLoginUser(loginUser);
             return success();
         }
-        return error("修改个人信息异常，请联系管理员");
+        return error(MessageUtils.message("user.update.failed"));
     }
 
     /**
@@ -116,11 +117,11 @@ public class SysProfileController extends BaseController
         String password = loginUser.getPassword();
         if (!SecurityUtils.matchesPassword(oldPassword, password))
         {
-            return error("修改密码失败，旧密码错误");
+            return error(MessageUtils.message("user.update.failed.password.wrong"));
         }
         if (SecurityUtils.matchesPassword(newPassword, password))
         {
-            return error("新密码不能与旧密码相同");
+            return error(MessageUtils.message("user.update.failed.password.same"));
         }
         newPassword = SecurityUtils.encryptPassword(newPassword);
         if (userService.resetUserPwd(userName, newPassword) > 0)
@@ -130,7 +131,7 @@ public class SysProfileController extends BaseController
             tokenService.setLoginUser(loginUser);
             return success();
         }
-        return error("修改密码异常，请联系管理员");
+        return error(MessageUtils.message("user.update.password.failed"));
     }
 
     /**
@@ -155,6 +156,6 @@ public class SysProfileController extends BaseController
                 return ajax;
             }
         }
-        return error("上传图片异常，请联系管理员");
+        return error(MessageUtils.message("user.upload.avatar.failed"));
     }
 }

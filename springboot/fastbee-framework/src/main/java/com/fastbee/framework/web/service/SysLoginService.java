@@ -66,7 +66,7 @@ public class SysLoginService
      * @param uuid 唯一标识
      * @return 结果
      */
-    public String login(String username, String password, String code, String uuid)
+    public String login(String username, String password, String code, String uuid, String language)
     {
         // 验证码校验
         validateCaptcha(username, code, uuid);
@@ -100,6 +100,7 @@ public class SysLoginService
         }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        loginUser.setLanguage(language);
         recordLoginInfo(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
@@ -111,7 +112,7 @@ public class SysLoginService
      * @param password 密码
      * @return token
      */
-    public String socialLogin(String username, String password){
+    public String socialLogin(String username, String password, String language){
         // 用户验证
         Authentication authentication = null;
         try
@@ -136,6 +137,7 @@ public class SysLoginService
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
+        loginUser.setLanguage(language);
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -146,7 +148,7 @@ public class SysLoginService
      * @param encodePwd 系统用户密码
      * @return
      */
-    public String redirectLogin(String username,String encodePwd){
+    public String redirectLogin(String username,String encodePwd,String language){
 //        UserDetails userDetails=userDetailsServiceImpl.loadUserByUsername(username);
         SysUser user = userService.selectUserByUserName(username);
         if (StringUtils.isNull(user))
@@ -167,6 +169,8 @@ public class SysLoginService
         UserDetails userDetails = userDetailsServiceImpl.createLoginUser(user);
         LoginUser loginUser = (LoginUser) userDetails;
         recordLoginInfo(loginUser.getUserId());
+        loginUser.setLanguage(language);
+
         // 生成token
         return tokenService.createToken(loginUser);
 

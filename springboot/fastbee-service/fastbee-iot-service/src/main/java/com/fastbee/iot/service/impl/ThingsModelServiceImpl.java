@@ -10,6 +10,7 @@ import com.fastbee.common.core.redis.RedisKeyBuilder;
 import com.fastbee.common.enums.ThingsModelType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.MessageUtils;
 import com.fastbee.common.utils.StringUtils;
 import com.fastbee.iot.domain.Product;
 import com.fastbee.iot.domain.ThingsModel;
@@ -427,7 +428,7 @@ public class ThingsModelServiceImpl implements IThingsModelService {
      */
     public String importData(List<ThingsModel> lists, Integer tempSlaveId) {
         if (null == tempSlaveId || CollectionUtils.isEmpty(lists)) {
-            throw new ServiceException("导入数据异常");
+            throw new ServiceException(MessageUtils.message("things.model.import.data.exception"));
         }
         int success = 0;
         int failure = 0;

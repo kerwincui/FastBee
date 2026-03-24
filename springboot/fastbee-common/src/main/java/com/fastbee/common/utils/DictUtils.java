@@ -9,6 +9,9 @@ import com.fastbee.common.utils.spring.SpringUtils;
 import java.util.Collection;
 import java.util.List;
 
+import static com.fastbee.common.constant.Constants.EN_US;
+import static com.fastbee.common.constant.Constants.ZH_CN;
+
 /**
  * 字典工具类
  *
@@ -53,15 +56,16 @@ public class DictUtils
      *
      * @param dictType 字典类型
      * @param dictValue 字典值
+     * @param language 语言
      * @return 字典标签
      */
-    public static String getDictLabel(String dictType, String dictValue)
+    public static String getDictLabel(String dictType, String dictValue, String language)
     {
         if (StringUtils.isEmpty(dictValue))
         {
             return StringUtils.EMPTY;
         }
-        return getDictLabel(dictType, dictValue, SEPARATOR);
+        return getDictLabel(dictType, dictValue, SEPARATOR, language);
     }
 
     /**
@@ -86,9 +90,10 @@ public class DictUtils
      * @param dictType 字典类型
      * @param dictValue 字典值
      * @param separator 分隔符
+     * @param language 语言
      * @return 字典标签
      */
-    public static String getDictLabel(String dictType, String dictValue, String separator)
+    public static String getDictLabel(String dictType, String dictValue, String separator, String language)
     {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
@@ -116,7 +121,13 @@ public class DictUtils
             {
                 if (dictValue.equals(dict.getDictValue()))
                 {
-                    return dict.getDictLabel();
+                    if (ZH_CN.equals(language)) {
+                        return dict.getDictLabel_zh_CN();
+                    } else if (EN_US.equals(language)) {
+                        return dict.getDictLabel_en_US();
+                    } else {
+                        return dict.getDictLabel();
+                    }
                 }
             }
         }

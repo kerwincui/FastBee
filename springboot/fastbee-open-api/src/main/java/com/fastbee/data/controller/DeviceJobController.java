@@ -6,6 +6,8 @@ import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.page.TableDataInfo;
 import com.fastbee.common.enums.BusinessType;
 import com.fastbee.common.exception.job.TaskException;
+import com.fastbee.common.utils.MessageUtils;
+import com.fastbee.common.utils.StringUtils;
 import com.fastbee.common.utils.poi.ExcelUtil;
 import com.fastbee.iot.domain.DeviceJob;
 import com.fastbee.iot.service.IDeviceJobService;
@@ -82,7 +84,7 @@ public class DeviceJobController extends BaseController
     {
         if (!CronUtils.isValid(job.getCronExpression()))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，Cron表达式不正确");
+            return error(StringUtils.format(MessageUtils.message("job.add.failed.cron.not.valid"), job.getJobName()));
         }
         job.setCreateBy(getUsername());
         return toAjax(jobService.insertJob(job));
@@ -99,7 +101,7 @@ public class DeviceJobController extends BaseController
     {
         if (!CronUtils.isValid(job.getCronExpression()))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，Cron表达式不正确");
+            return error(StringUtils.format(MessageUtils.message("job.add.failed.product.not.modbus.config"), job.getJobName()));
         }
         job.setUpdateBy(getUsername());
         return toAjax(jobService.updateJob(job));
