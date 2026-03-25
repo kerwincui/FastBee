@@ -189,7 +189,7 @@
             <if test="activeTime != null">active_time = #{activeTime},</if>
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
-            <if test="hostAddress != null">hostaddress = #{hostAddress},</if>
+            <if test="hostAddress != null">host_address = #{hostAddress},</if>
         </trim>
         where device_sip_id = #{deviceSipId}
     </update>
