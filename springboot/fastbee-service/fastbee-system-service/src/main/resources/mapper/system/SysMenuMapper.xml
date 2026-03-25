@@ -97,7 +97,7 @@
 		order by m.parent_id, m.order_num
 	</select>
     
-    <select id="selectMenuTreeByUserId" parameterType="Long" resultMap="SysMenuResult">
+    <select id="selectMenuTreeByUserId" resultMap="SysMenuResult">
 		select distinct m.menu_id, m.parent_id,
 						case
 							when #{language} = 'zh-CN' then m.menu_name
