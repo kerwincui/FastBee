@@ -48,10 +48,12 @@
                                     <dict-tag :options="dict.type.iot_device_type" :value="item.deviceType" size="mini" />
                                 </span>
                             </div>
-                            <div class="info-row">
+                            <div class="info-row" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
                                 <span class="info-value" style="display: flex">
                                     {{ $t('product.index.091251-18') }}：
-                                    <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" size="mini" />
+                                    <el-tooltip :content="item.networkMethod" placement="top">
+                                        <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" size="mini" />
+                                    </el-tooltip>
                                 </span>
                             </div>
                             <div class="info-row">

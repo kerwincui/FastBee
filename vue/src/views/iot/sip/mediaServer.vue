@@ -30,14 +30,19 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-button-group style="margin-top: 10px">
-                            <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" v-hasPermi="['iot:video:remove']" @click="del(item)">{{ $t('del') }}</el-button>
-                            <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="view(item)" v-hasPermi="['iot:video:query']">{{ $t('look') }}</el-button>
-                            <el-button v-if="!istrue" type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">
-                                {{ $t('edit') }}
-                            </el-button>
-                            <el-button v-else type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" :loading="true" disabled>{{ $t('sip.mediaServer.998535-5') }}</el-button>
-                        </el-button-group>
+                        <div class="card-footer">
+                            <div class="footer-left"></div>
+                            <div class="footer-actions">
+                                <el-button-group style="float: right; margin-top: 10px">
+                                    <el-button type="text" size="mini" style="padding: 5px 10px" icon="el-icon-delete" v-hasPermi="['iot:video:remove']" @click="del(item)">{{ $t('del') }}</el-button>
+                                    <el-button type="text" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="view(item)" v-hasPermi="['iot:video:query']">{{ $t('look') }}</el-button>
+                                    <el-button v-if="!istrue" type="text" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">
+                                        {{ $t('edit') }}
+                                    </el-button>
+                                    <el-button v-else type="text" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" :loading="true" disabled>{{ $t('sip.mediaServer.998535-5') }}</el-button>
+                                </el-button-group>
+                            </div>
+                        </div>
                     </el-card>
                 </el-col>
             </el-row>
@@ -165,7 +170,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .card-item {
     border-radius: 10px;
     padding: 15px 0px;
@@ -178,5 +183,32 @@ export default {
 }
 ::v-deep .pagination-container[data-v-72233bcd] {
     background: none;
+}
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 10px;
+    .footer-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        i {
+            font-size: 18px;
+            color: #606266;
+            cursor: pointer;
+            transition: all 0.3s;
+
+            &:hover {
+                color: #409eff;
+            }
+
+            &.el-icon-delete:hover {
+                color: #f56c6c;
+            }
+        }
+    }
 }
 </style>

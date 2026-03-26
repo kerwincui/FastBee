@@ -26,7 +26,7 @@
                         <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column v-if="isAdmin" :label="$t('iot.group.index.637432-8')" align="center" prop="userName" width="100" />
+                <el-table-column v-if="isAdmin" :label="$t('iot.group.index.637432-8')" align="center" prop="userName" width="150" />
                 <el-table-column :label="$t('iot.group.index.637432-9')" align="left" header-align="center" prop="remark" />
                 <el-table-column :label="$t('iot.group.index.637432-10')" align="center" class-name="small-padding fixed-width" width="320">
                     <template slot-scope="scope">
