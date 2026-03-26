@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id     property="dictCode"   column="dict_code"   />
 		<result property="dictSort"   column="dict_sort"   />
 		<result property="dictLabel"  column="dict_label"  />
+		<result property="dictLabel_zh_CN"  column="dict_label_zh_cn"  />
+		<result property="dictLabel_en_US"  column="dict_label_en_us"  />
 		<result property="dictValue"  column="dict_value"  />
 		<result property="dictType"   column="dict_type"   />
 		<result property="cssClass"   column="css_class"   />
@@ -42,8 +44,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectDictDataByType" parameterType="SysDictData" resultMap="SysDictDataResult">
-		<include refid="selectDictDataVo"/>
-		where status = '0' and dict_type = #{dictType} order by dict_sort asc
+		select d.dict_code, d.dict_sort, d.dict_label, t.zh_cn as dict_label_zh_cn, t.en_us as dict_label_en_us,
+			   d.dict_value, d.dict_type, d.css_class, d.list_class, d.is_default, d.status, d.create_by, d.create_time, d.remark
+		from sys_dict_data d
+				 left join sys_dict_data_translate t on d.dict_code = t.id
+		where d.status = 0 and d.dict_type = #{dictType} order by d.dict_sort asc
 	</select>
 	
 	<select id="selectDictLabel" resultType="String">
@@ -51,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where dict_type = #{dictType} and dict_value = #{dictValue}
 	</select>
 	
-	<select id="selectDictDataById" parameterType="Long" resultMap="SysDictDataResult">
+	<select id="selectDictDataById" resultMap="SysDictDataResult">
 		select d.dict_code, d.dict_sort,
 			   case
 				   when #{language} = 'zh-CN' then d.dict_label

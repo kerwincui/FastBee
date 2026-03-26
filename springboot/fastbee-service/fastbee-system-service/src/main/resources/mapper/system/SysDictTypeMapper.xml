@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				 left join sys_dict_type_translate t on d.dict_id = t.id
 	</select>
 	
-	<select id="selectDictTypeById" parameterType="Long" resultMap="SysDictTypeResult">
+	<select id="selectDictTypeById" resultMap="SysDictTypeResult">
 		select d.dict_id,
 			   case
 				   when #{language} = 'zh-CN' then d.dict_name
