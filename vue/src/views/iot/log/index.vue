@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 6px">
-        <el-card v-show="showSearch" style="margin-bottom: 6px">
+    <div class="log_wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('iot.log.index.902341-0')" prop="logName">
                     <el-input v-model="queryParams.logName" :placeholder="$t('iot.log.index.902341-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -33,7 +33,7 @@
                         <el-option v-for="dict in dict.type.iot_yes_no" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
                 </el-form-item>
@@ -445,5 +445,11 @@ export default {
 ::v-deep .el-pagination {
     padding: 0;
     text-align: right;
+}
+
+.log_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 </style>

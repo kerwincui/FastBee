@@ -1,7 +1,7 @@
 <template>
-    <div class="iot-platform">
-        <el-card v-show="showSearch" class="search-card">
-            <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="85px" class="search-form">
+    <div class="platform_wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
+            <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="85px" style="margin-bottom: -20px">
                 <el-form-item prop="platform">
                     <el-select v-model="queryParams.platform" clearable :placeholder="$t('system.platform.675309-1')">
                         <el-option v-for="dict in dict.type.iot_social_platform" :key="dict.value" :label="dict.label" :value="dict.value" />
@@ -87,9 +87,7 @@
                 </el-table-column>
             </el-table>
 
-            <div class="pagination-container">
-            <pagination style="margin-bottom: 0" v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-            </div>
+            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
             <!-- 添加或修改第三方登录平台控制对话框 -->
             <el-dialog :title="title" :visible.sync="open" width="630px" append-to-body>
@@ -380,7 +378,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.iot-platform {
+.platform_wrap {
     padding: 20px;
 
     .search-card {

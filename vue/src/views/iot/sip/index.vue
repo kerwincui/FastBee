@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 6px">
-        <el-card style="margin-bottom: 6px">
+    <div class="sip_wrap">
+        <el-card style="margin-bottom: 10px" v-show="showSearch">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="60px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('sip.index.998533-0')" prop="deviceSipId">
                     <el-input v-model="queryParams.deviceSipId" :placeholder="$t('sip.index.998533-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -13,18 +13,21 @@
                         <el-option v-for="dict in dict.type.sip_gen_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
-                </el-form-item>
-                <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser">{{ $t('sip.index.998533-6') }}</el-button>
-                    <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']">{{ $t('del') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
-        <el-card style="margin-bottom: 5px">
+        <el-card style="padding-bottom: 100px">
+            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser" style="margin-bottom: 10px">
+                {{ $t('sip.index.998533-6') }}
+            </el-button>
+            <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple || isGeneralUser" @click="handleDelete" v-hasPermi="['iot:video:remove']" style="margin-bottom: 10px">
+                {{ $t('del') }}
+            </el-button>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="sipidList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange" @cell-dblclick="celldblclick" size="">
                 <el-table-column type="selection" :selectable="selectable" width="55" align="center" />
                 <el-table-column :label="$t('sip.index.998533-0')" align="center" prop="deviceSipId">
@@ -181,6 +184,8 @@ export default {
             form: {},
             // 产品
             productInfo: {},
+            // 显示搜索条件
+            showSearch: true,
             // 城市
             cityOptions: regionData,
             city: '',
@@ -494,5 +499,11 @@ export default {
 ::v-deep .el-pagination {
     padding: 0;
     text-align: right;
+}
+
+.sip_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 </style>

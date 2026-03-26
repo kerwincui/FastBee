@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <!-- 搜索栏 -->
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
                 <el-form-item :label="$t('system.menu.034890-0')" prop="menuName">
                     <el-input v-model="queryParams.menuName" :placeholder="$t('system.menu.034890-1')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -11,7 +11,7 @@
                         <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>

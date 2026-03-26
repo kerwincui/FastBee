@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 6px">
-        <el-card v-show="showSearch" style="margin-bottom: 6px">
+    <div class="clients_wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
             <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('netty.clients.654908-0')" prop="clientId">
                     <el-input v-model="queryParams.clientId" :placeholder="$t('netty.clients.654908-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -8,14 +8,15 @@
                 <el-form-item prop="isClient">
                     <el-checkbox v-model="queryParams.isClient" true-label="1" false-label="0">{{ $t('netty.clients.654908-2') }}</el-checkbox>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
-                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
+                <el-form-item style="float: right">
+                    <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('device.index.105953-8') }}</el-button>
+                    <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('device.index.105953-9') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="clientList" :border="false">
                 <el-table-column :label="$t('netty.clients.654908-4')" align="left" header-align="center" prop="clientId">
                     <template slot-scope="scope">
@@ -276,3 +277,11 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.clients_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+</style>

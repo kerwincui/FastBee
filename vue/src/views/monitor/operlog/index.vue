@@ -1,7 +1,7 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <div class="table-header">
+        <el-card class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('operlog.874509-10')" prop="operIp">
                     <el-input v-model="queryParams.operIp" :placeholder="$t('operlog.874509-10')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -11,17 +11,17 @@
                 <el-form-item :label="$t('operlog.874509-2')" prop="operName">
                     <el-input v-model="queryParams.operName" :placeholder="$t('operlog.874509-3')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item :label="$t('system.notice.670989-4')" prop="businessType">
+                <el-form-item :label="$t('system.notice.670989-4')" prop="businessType" v-if="searchShow">
                     <el-select v-model="queryParams.businessType" :placeholder="$t('operlog.874509-4')" clearable style="width: 240px">
                         <el-option v-for="dict in dict.type.sys_oper_type" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('status')" prop="status">
+                <el-form-item :label="$t('status')" prop="status" v-if="searchShow">
                     <el-select v-model="queryParams.status" :placeholder="$t('operlog.874509-5')" clearable style="width: 240px">
                         <el-option v-for="dict in dict.type.sys_common_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('operlog.874509-6')">
+                <el-form-item :label="$t('operlog.874509-6')" v-if="searchShow">
                     <el-date-picker
                         v-model="dateRange"
                         style="width: 240px"
@@ -33,9 +33,15 @@
                         :default-time="['00:00:00', '23:59:59']"
                     ></el-date-picker>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="text" @click="searchChange">
+                        <span style="color: #486ff2; margin-left: 14px">
+                            {{ searchShow ? $t('template.index.891112-113') : $t('template.index.891112-112') }}
+                        </span>
+                        <i style="color: #486ff2; margin-left: 10px" :class="{ 'el-icon-arrow-down': !searchShow, 'el-icon-arrow-up': searchShow }"></i>
+                    </el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -53,16 +59,7 @@
                 <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             </el-row>
 
-            <el-table
-                ref="tables"
-                v-loading="loading"
-                :data="list"
-                :border="false"
-                header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
-                :default-sort="defaultSort"
-                @sort-change="handleSortChange"
-            >
+            <el-table ref="tables" v-loading="loading" :data="list" :border="false" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
                 <el-table-column type="selection" width="50" align="center" />
                 <el-table-column :label="$t('operlog.874509-8')" align="center" prop="operId" />
                 <el-table-column :label="$t('operlog.874509-0')" align="center" prop="title" :show-overflow-tooltip="true" />
@@ -174,6 +171,7 @@ export default {
             defaultSort: { prop: 'operTime', order: 'descending' },
             // 表单参数
             form: {},
+            searchShow: false,
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -207,6 +205,10 @@ export default {
         handleQuery() {
             this.queryParams.pageNum = 1;
             this.getList();
+        },
+        // 搜索展开隐藏
+        searchChange() {
+            this.searchShow = !this.searchShow;
         },
         /** 重置按钮操作 */
         resetQuery() {
@@ -275,9 +277,7 @@ export default {
 <style lang="scss" scoped>
 .table-header {
     background-color: #f5f7fa !important;
-    color: #606266;
-    font-weight: 600;
-    text-align: center;
+    padding: 15px;
 }
 
 ::v-deep .el-table {

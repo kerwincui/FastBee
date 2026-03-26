@@ -1,13 +1,13 @@
 <template>
   <div class="system-app-lang">
-    <el-card v-show="showSearch" class="search-card">
+    <el-card v-show="showSearch" style="margin-bottom: 10px">
       <el-form
         @submit.native.prevent
         :model="queryParams"
         ref="queryForm"
         :inline="true"
         label-width="46px"
-        class="search-form"
+        style="margin-bottom: -20px"
       >
         <el-form-item prop="langName">
           <el-input
