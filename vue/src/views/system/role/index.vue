@@ -512,7 +512,7 @@ export default {
 }
 
 .search-card {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
 
     ::v-deep .el-card__body {
@@ -534,7 +534,7 @@ export default {
 
 ::v-deep .el-table {
     th {
-        background-color: #f5f7fa;
+        // background-color: #f5f7fa;
         color: #606266;
         font-weight: 600;
     }
@@ -553,7 +553,7 @@ export default {
 
 ::v-deep .el-table {
     th {
-        background-color: #f5f7fa;
+        // background-color: #f5f7fa;
         color: #606266;
         font-weight: 600;
         text-align: center;

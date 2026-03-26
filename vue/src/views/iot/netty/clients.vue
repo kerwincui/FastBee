@@ -1,6 +1,6 @@
 <template>
     <div class="clients_wrap">
-        <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-card shadow="never" v-show="showSearch" style="margin-bottom: 10px">
             <el-form @submit.native.prevent :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('netty.clients.654908-0')" prop="clientId">
                     <el-input v-model="queryParams.clientId" :placeholder="$t('netty.clients.654908-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -15,7 +15,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="clientList" :border="false">
                 <el-table-column :label="$t('netty.clients.654908-4')" align="left" header-align="center" prop="clientId">

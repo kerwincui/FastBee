@@ -1,6 +1,6 @@
 <template>
     <div class="script_wrap">
-        <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-card shadow="never" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('script.349087-0')" prop="scriptId">
                     <el-input v-model="queryParams.scriptId" :placeholder="$t('script.349087-1')" clearable @keyup.enter.native="handleQuery" />
@@ -15,7 +15,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:script:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="scriptList" @selection-change="handleSelectionChange" :border="false">

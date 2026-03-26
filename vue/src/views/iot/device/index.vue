@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 20px">
-        <el-card style="margin-bottom: 15px">
+    <div class="device_wrap">
+        <el-card shadow="never" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('device.index.105953-0')" prop="deviceName">
                     <el-input v-model="queryParams.deviceName" :placeholder="$t('device.index.105953-1')" clearable size="small" @keyup.enter.native="handleQuery" style="width: 150px" />
@@ -18,7 +18,7 @@
                         <el-option v-for="group in myGroupList" :key="group.groupId" :label="group.groupName" :value="group.groupId" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                     <el-button type="text" @click="searchChange">
@@ -28,164 +28,165 @@
                         <i style="color: #486ff2; margin-left: 10px" :class="{ 'el-icon-arrow-down': !searchShow, 'el-icon-arrow-up': searchShow }"></i>
                     </el-button>
                 </el-form-item>
-                <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleEditDevice(0)" v-hasPermi="['iot:device:add']">{{ $t('add') }}</el-button>
-                    <el-button type="primary" plain icon="el-icon-s-grid" size="small" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-17') }}</el-button>
-                </el-form-item>
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px" v-if="showType == 'list'">
-            <el-table v-loading="loading" :data="deviceList" :border="false" header-cell-class-name="table-header">
-                <el-table-column :label="$t('device.index.105953-20')" align="center" header-align="center" prop="deviceId" width="50" />
-                <el-table-column :label="$t('device.index.105953-0')" align="center" header-align="center" prop="deviceName" min-width="120" />
-                <el-table-column :label="$t('device.index.105953-2')" align="center" prop="serialNumber" min-width="130" />
-                <el-table-column :label="$t('device.index.105953-21')" align="center" prop="productName" min-width="120" />
-                <el-table-column :label="$t('device.index.105953-22')" align="center" prop="transport" min-width="50" />
-                <el-table-column :label="$t('device.index.105953-23')" align="center" prop="protocolCode" min-width="100" />
-                <el-table-column :label="$t('device.index.105953-24')" align="center" prop="subDeviceCount" width="80">
-                    <template slot-scope="scope">
-                        {{ scope.row.subDeviceCount }}
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('device.device-edit.148398-15')" align="center" prop="isShadow" width="80">
-                    <template slot-scope="scope">
-                        <el-tag type="success" size="small" v-if="scope.row.isShadow == 1">{{ $t('device.index.105953-26') }}</el-tag>
-                        <el-tag type="info" size="small" v-else>{{ $t('device.index.105953-27') }}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('status')" align="center" prop="status" width="80">
-                    <template slot-scope="scope">
-                        <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" size="small" />
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('device.index.105953-29')" align="center" prop="rssi" width="60">
-                    <template slot-scope="scope">
-                        <svg-icon v-if="scope.row.status == 3 && scope.row.rssi >= '-55'" icon-class="wifi_4" />
-                        <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-70' && scope.row.rssi < '-55'" icon-class="wifi_3" />
-                        <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-85' && scope.row.rssi < '-70'" icon-class="wifi_2" />
-                        <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-100' && scope.row.rssi < '-85'" icon-class="wifi_1" />
-                        <svg-icon v-else icon-class="wifi_0" />
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('device.index.105953-30')" align="center" prop="locationWay">
-                    <template slot-scope="scope">
-                        <dict-tag :options="dict.type.iot_location_way" :value="scope.row.locationWay" size="small" />
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('device.index.105953-31')" align="center" prop="firmwareVersion">
-                    <template slot-scope="scope">
-                        <el-tag size="small" type="info">Ver {{ scope.row.firmwareVersion }}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('device.index.105953-32')" align="center" prop="activeTime">
-                    <template slot-scope="scope">
-                        <span>{{ parseTime(scope.row.activeTime, '{y}-{m}-{d}') }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('creatTime')" align="center" prop="createTime">
-                    <template slot-scope="scope">
-                        <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-                    </template>
-                </el-table-column>
+        <el-card shadow="never" style="padding-bottom: 100px">
+            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleEditDevice(0)" style="margin-bottom: 10px" v-hasPermi="['iot:device:add']">{{ $t('add') }}</el-button>
+            <el-button type="primary" plain icon="el-icon-s-grid" size="small" @click="handleChangeShowType" v-hasPermi="['iot:device:add']">{{ $t('device.index.105953-17') }}</el-button>
+            <div v-if="showType == 'list'">
+                <el-table v-loading="loading" :data="deviceList" :border="false" header-cell-class-name="table-header">
+                    <el-table-column :label="$t('device.index.105953-20')" align="center" header-align="center" prop="deviceId" width="50" />
+                    <el-table-column :label="$t('device.index.105953-0')" align="center" header-align="center" prop="deviceName" min-width="120" />
+                    <el-table-column :label="$t('device.index.105953-2')" align="center" prop="serialNumber" min-width="130" />
+                    <el-table-column :label="$t('device.index.105953-21')" align="center" prop="productName" min-width="120" />
+                    <el-table-column :label="$t('device.index.105953-22')" align="center" prop="transport" min-width="50" />
+                    <el-table-column :label="$t('device.index.105953-23')" align="center" prop="protocolCode" min-width="100" />
+                    <el-table-column :label="$t('device.index.105953-24')" align="center" prop="subDeviceCount" width="80">
+                        <template slot-scope="scope">
+                            {{ scope.row.subDeviceCount }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('device.device-edit.148398-15')" align="center" prop="isShadow" width="80">
+                        <template slot-scope="scope">
+                            <el-tag type="success" size="small" v-if="scope.row.isShadow == 1">{{ $t('device.index.105953-26') }}</el-tag>
+                            <el-tag type="info" size="small" v-else>{{ $t('device.index.105953-27') }}</el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('status')" align="center" prop="status" width="80">
+                        <template slot-scope="scope">
+                            <dict-tag :options="dict.type.iot_device_status" :value="scope.row.status" size="small" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('device.index.105953-29')" align="center" prop="rssi" width="60">
+                        <template slot-scope="scope">
+                            <svg-icon v-if="scope.row.status == 3 && scope.row.rssi >= '-55'" icon-class="wifi_4" />
+                            <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-70' && scope.row.rssi < '-55'" icon-class="wifi_3" />
+                            <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-85' && scope.row.rssi < '-70'" icon-class="wifi_2" />
+                            <svg-icon v-else-if="scope.row.status == 3 && scope.row.rssi >= '-100' && scope.row.rssi < '-85'" icon-class="wifi_1" />
+                            <svg-icon v-else icon-class="wifi_0" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('device.index.105953-30')" align="center" prop="locationWay">
+                        <template slot-scope="scope">
+                            <dict-tag :options="dict.type.iot_location_way" :value="scope.row.locationWay" size="small" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('device.index.105953-31')" align="center" prop="firmwareVersion">
+                        <template slot-scope="scope">
+                            <el-tag size="small" type="info">Ver {{ scope.row.firmwareVersion }}</el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('device.index.105953-32')" align="center" prop="activeTime">
+                        <template slot-scope="scope">
+                            <span>{{ parseTime(scope.row.activeTime, '{y}-{m}-{d}') }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('creatTime')" align="center" prop="createTime">
+                        <template slot-scope="scope">
+                            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                        </template>
+                    </el-table-column>
 
-                <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width" width="200">
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" style="padding: 5px" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
-                        <el-button type="text" size="small" style="padding: 5px" icon="el-icon-view" @click="handleEditDevice(scope.row)" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
-                        <el-button type="text" size="small" style="padding: 5px" @click="openSummaryDialog(scope.row)" v-if="form.deviceId != 0">{{ $t('device.index.105953-37') }}</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="pagination-container">
-                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+                    <el-table-column :label="$t('opation')" align="center" class-name="small-padding fixed-width" width="200">
+                        <template slot-scope="scope">
+                            <el-button type="text" size="small" style="padding: 5px" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['iot:device:remove']">{{ $t('del') }}</el-button>
+                            <el-button type="text" size="small" style="padding: 5px" icon="el-icon-view" @click="handleEditDevice(scope.row)" v-hasPermi="['iot:device:add']">{{ $t('look') }}</el-button>
+                            <el-button type="text" size="small" style="padding: 5px" @click="openSummaryDialog(scope.row)" v-if="form.deviceId != 0">{{ $t('device.index.105953-37') }}</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="pagination-container">
+                    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+                </div>
+            </div>
+
+            <div style="padding-bottom: 100px" v-if="showType == 'card'">
+                <el-row :gutter="20" v-loading="loading">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item, index) in deviceList" :key="index" style="margin-bottom: 20px">
+                        <el-card shadow="hover" class="device-card">
+                            <div class="card-header">
+                                <div class="device-name" @click="handleEditDevice(item)">
+                                    <span>{{ item.deviceName }}</span>
+                                </div>
+                                <div class="header-status">
+                                    <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="mini" />
+                                </div>
+                            </div>
+
+                            <div class="card-time">
+                                {{ parseTime(item.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}
+                            </div>
+
+                            <div class="card-info">
+                                <div class="info-row">
+                                    <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                        {{ $t('device.device-edit.148398-4') }}：
+                                        <el-tooltip :content="item.productName || '---'" placement="top">
+                                            <span>{{ item.productName || '---' }}</span>
+                                        </el-tooltip>
+                                    </span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                        {{ $t('device.device-edit.148398-7') }}：
+                                        <el-tooltip :content="item.serialNumber || '---'" placement="top">
+                                            <span>{{ item.serialNumber || '---' }}</span>
+                                        </el-tooltip>
+                                    </span>
+                                </div>
+                                <div class="info-row" v-if="item.transport">
+                                    <span class="info-value">{{ $t('product.product-edit.473153-14') }}：{{ item.transport }}</span>
+                                </div>
+
+                                <div class="info-row">
+                                    <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                        {{ $t('device.index.105953-23') }}：
+                                        <el-tooltip :content="item.protocolCode || '--'" placement="top">
+                                            <span>{{ item.protocolCode || '--' }}</span>
+                                        </el-tooltip>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="footer-left">
+                                    <el-tooltip :content="$t('device.device-edit.148398-56')" placement="top">
+                                        <svg-icon icon-class="qrcode" @click="openSummaryDialog(item)" />
+                                    </el-tooltip>
+                                    <div class="wifi-signal">
+                                        <svg-icon v-if="item.status == 3 && item.rssi >= '-55'" icon-class="wifi_4" />
+                                        <svg-icon v-else-if="item.status == 3 && item.rssi >= '-70' && item.rssi < '-55'" icon-class="wifi_3" />
+                                        <svg-icon v-else-if="item.status == 3 && item.rssi >= '-85' && item.rssi < '-70'" icon-class="wifi_2" />
+                                        <svg-icon v-else-if="item.status == 3 && item.rssi >= '-100' && item.rssi < '-85'" icon-class="wifi_1" />
+                                        <svg-icon v-else icon-class="wifi_0" />
+                                    </div>
+                                </div>
+                                <div class="footer-actions">
+                                    <el-tooltip :content="$t('edit')" placement="top">
+                                        <i class="el-icon-edit-outline" @click="handleEditDevice(item)"></i>
+                                    </el-tooltip>
+                                    <el-tooltip :content="$t('look')" placement="top">
+                                        <i class="el-icon-view" @click="handleEditDevice(item, 'basic')"></i>
+                                    </el-tooltip>
+                                    <el-tooltip :content="$t('del')" placement="top">
+                                        <i class="el-icon-delete" @click="handleDelete(item)"></i>
+                                    </el-tooltip>
+                                    <el-tooltip :content="$t('device.index.105953-40')" placement="top">
+                                        <i class="el-icon-odometer" @click="handleRunDevice(item)"></i>
+                                    </el-tooltip>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
+                <el-empty :description="$t('device.index.105953-41')" v-if="total == 0"></el-empty>
+                <div class="pagination-container">
+                    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
+                </div>
             </div>
         </el-card>
 
-        <div style="padding-bottom: 100px" v-if="showType == 'card'">
-            <el-row :gutter="20" v-loading="loading">
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item, index) in deviceList" :key="index" style="margin-bottom: 20px">
-                    <el-card shadow="hover" class="device-card">
-                        <div class="card-header">
-                            <div class="device-name" @click="handleEditDevice(item)">
-                                <span>{{ item.deviceName }}</span>
-                            </div>
-                            <div class="header-status">
-                                <dict-tag :options="dict.type.iot_device_status" :value="item.status" size="mini" />
-                            </div>
-                        </div>
-
-                        <div class="card-time">
-                            {{ parseTime(item.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}
-                        </div>
-
-                        <div class="card-info">
-                            <div class="info-row">
-                                <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-                                    {{ $t('device.device-edit.148398-4') }}：
-                                    <el-tooltip :content="item.productName || '---'" placement="top">
-                                        <span>{{ item.productName || '---' }}</span>
-                                    </el-tooltip>
-                                </span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-                                    {{ $t('device.device-edit.148398-7') }}：
-                                    <el-tooltip :content="item.serialNumber || '---'" placement="top">
-                                        <span>{{ item.serialNumber || '---' }}</span>
-                                    </el-tooltip>
-                                </span>
-                            </div>
-                            <div class="info-row" v-if="item.transport">
-                                <span class="info-value">{{ $t('product.product-edit.473153-14') }}：{{ item.transport }}</span>
-                            </div>
-
-                            <div class="info-row">
-                                <span class="info-value" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-                                    {{ $t('device.index.105953-23') }}：
-                                    <el-tooltip :content="item.protocolCode || '--'" placement="top">
-                                        <span>{{ item.protocolCode || '--' }}</span>
-                                    </el-tooltip>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="footer-left">
-                                <el-tooltip :content="$t('device.device-edit.148398-56')" placement="top">
-                                    <svg-icon icon-class="qrcode" @click="openSummaryDialog(item)" />
-                                </el-tooltip>
-                                <div class="wifi-signal">
-                                    <svg-icon v-if="item.status == 3 && item.rssi >= '-55'" icon-class="wifi_4" />
-                                    <svg-icon v-else-if="item.status == 3 && item.rssi >= '-70' && item.rssi < '-55'" icon-class="wifi_3" />
-                                    <svg-icon v-else-if="item.status == 3 && item.rssi >= '-85' && item.rssi < '-70'" icon-class="wifi_2" />
-                                    <svg-icon v-else-if="item.status == 3 && item.rssi >= '-100' && item.rssi < '-85'" icon-class="wifi_1" />
-                                    <svg-icon v-else icon-class="wifi_0" />
-                                </div>
-                            </div>
-                            <div class="footer-actions">
-                                <el-tooltip :content="$t('edit')" placement="top">
-                                    <i class="el-icon-edit-outline" @click="handleEditDevice(item)"></i>
-                                </el-tooltip>
-                                <el-tooltip :content="$t('look')" placement="top">
-                                    <i class="el-icon-view" @click="handleEditDevice(item, 'basic')"></i>
-                                </el-tooltip>
-                                <el-tooltip :content="$t('del')" placement="top">
-                                    <i class="el-icon-delete" @click="handleDelete(item)"></i>
-                                </el-tooltip>
-                                <el-tooltip :content="$t('device.index.105953-40')" placement="top">
-                                    <i class="el-icon-odometer" @click="handleRunDevice(item)"></i>
-                                </el-tooltip>
-                            </div>
-                        </div>
-                    </el-card>
-                </el-col>
-            </el-row>
-            <el-empty :description="$t('device.index.105953-41')" v-if="total == 0"></el-empty>
-            <div class="pagination-container">
-                <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getList" />
-            </div>
-        </div>
         <!-- 二维码 -->
         <el-dialog :visible.sync="openSummary" width="300px" append-to-body>
             <div style="border: 1px solid #ccc; width: 220px; text-align: center; margin: 0 auto; margin-top: -15px">
@@ -498,8 +499,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-item {
-    border-radius: 15px;
+.device_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 
 .table-header {
@@ -511,7 +514,6 @@ export default {
 
 ::v-deep .el-table {
     th {
-        background-color: #f5f7fa;
         color: #606266;
         font-weight: 600;
         text-align: center;
@@ -636,17 +638,5 @@ export default {
             }
         }
     }
-}
-
-.pagination-container {
-    line-height: 40px;
-    margin-bottom: 30px;
-    margin-top: 0;
-    padding: 0;
-}
-
-::v-deep .el-pagination {
-    padding: 0;
-    text-align: right;
 }
 </style>

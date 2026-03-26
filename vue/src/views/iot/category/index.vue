@@ -1,6 +1,6 @@
 <template>
     <div class="category_wrap">
-        <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-card shadow="never" v-show="showSearch" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('product.category.142342-0')" prop="categoryName">
                     <el-input v-model="queryParams.categoryName" :placeholder="$t('product.index.091251-3')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -12,7 +12,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:category:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange" :border="false" header-cell-class-name="table-header">

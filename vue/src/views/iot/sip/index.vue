@@ -1,6 +1,6 @@
 <template>
     <div class="sip_wrap">
-        <el-card style="margin-bottom: 10px" v-show="showSearch">
+        <el-card shadow="never" style="margin-bottom: 10px" v-show="showSearch">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="60px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('sip.index.998533-0')" prop="deviceSipId">
                     <el-input v-model="queryParams.deviceSipId" :placeholder="$t('sip.index.998533-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -20,7 +20,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:video:add']" :disabled="isGeneralUser" style="margin-bottom: 10px">
                 {{ $t('sip.index.998533-6') }}
             </el-button>

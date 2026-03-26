@@ -1,6 +1,6 @@
 <template>
     <div class="group_wrap">
-        <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-card shadow="never" v-show="showSearch" style="margin-bottom: 10px">
             <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
                     <el-input v-model="queryParams.groupName" :placeholder="$t('iot.group.index.637432-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -15,7 +15,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" style="margin-bottom: 10px">{{ $t('iot.group.index.637432-5') }}</el-button>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="groupList" :border="false" @selection-change="handleSelectionChange">

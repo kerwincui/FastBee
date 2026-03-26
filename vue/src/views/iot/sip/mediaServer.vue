@@ -1,53 +1,49 @@
 <template>
     <div class="mediaServer_wrap">
-        <el-card style="margin-bottom: 10px">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="75px" style="margin-bottom: -20px">
-                <el-form-item>
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="add" v-hasPermi="['iot:video:add']" style="margin-right: 10px">{{ $t('sip.mediaServer.998535-0') }}</el-button>
-                    <el-button type="warning" plain icon="el-icon-refresh" size="small" @click="getServerList">{{ $t('refresh') }}</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
+        <el-card shadow="never">
+            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="add" v-hasPermi="['iot:video:add']" style="margin-right: 10px; margin-bottom: 10px">{{ $t('sip.mediaServer.998535-0') }}</el-button>
+            <el-button type="warning" plain icon="el-icon-refresh" size="small" @click="getServerList">{{ $t('refresh') }}</el-button>
 
-        <el-row :gutter="30" v-loading="loading">
-            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item, index) in mediaServerList" :key="index" style="margin-bottom: 30px; text-align: center">
-                <el-card shadow="always" class="card-item">
-                    <el-row :gutter="10">
-                        <el-col :span="15">
-                            <el-descriptions :column="1" size="mini" style="white-space: nowrap">
-                                <el-descriptions-item :label="$t('sip.mediaServer.998535-1')">
-                                    {{ item.serverId }}
-                                </el-descriptions-item>
-                                <el-descriptions-item :label="$t('sip.mediaServer.998535-2')">
-                                    {{ item.ip }}
-                                </el-descriptions-item>
-                                <el-descriptions-item :label="$t('sip.mediaServer.998535-3')">
-                                    {{ item.protocol }}
-                                </el-descriptions-item>
-                                <el-descriptions-item :label="$t('sip.mediaServer.998535-4')">
-                                    {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
-                                </el-descriptions-item>
-                            </el-descriptions>
-                        </el-col>
-                        <el-col :span="8">
-                            <div style="margin-top: 10px">
-                                <el-image :src="require('@/assets/images/zlm-logo.png')" fit="fit"></el-image>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-button-group style="margin-top: 10px">
-                        <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" v-hasPermi="['iot:video:remove']" @click="del(item)">{{ $t('del') }}</el-button>
-                        <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="view(item)" v-hasPermi="['iot:video:query']">{{ $t('look') }}</el-button>
-                        <el-button v-if="!istrue" type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">
-                            {{ $t('edit') }}
-                        </el-button>
-                        <el-button v-else type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" :loading="true" disabled>{{ $t('sip.mediaServer.998535-5') }}</el-button>
-                    </el-button-group>
-                </el-card>
-            </el-col>
-        </el-row>
-        <el-empty :description="$t('sip.mediaServer.998535-6')" v-if="total == 0"></el-empty>
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getServerList" />
+            <el-row :gutter="30" v-loading="loading">
+                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-for="(item, index) in mediaServerList" :key="index" style="margin-bottom: 30px; text-align: center">
+                    <el-card shadow="always" class="card-item">
+                        <el-row :gutter="10">
+                            <el-col :span="15">
+                                <el-descriptions :column="1" size="mini" style="white-space: nowrap">
+                                    <el-descriptions-item :label="$t('sip.mediaServer.998535-1')">
+                                        {{ item.serverId }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item :label="$t('sip.mediaServer.998535-2')">
+                                        {{ item.ip }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item :label="$t('sip.mediaServer.998535-3')">
+                                        {{ item.protocol }}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item :label="$t('sip.mediaServer.998535-4')">
+                                        {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
+                                    </el-descriptions-item>
+                                </el-descriptions>
+                            </el-col>
+                            <el-col :span="8">
+                                <div style="margin-top: 10px">
+                                    <el-image :src="require('@/assets/images/zlm-logo.png')" fit="fit"></el-image>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-button-group style="margin-top: 10px">
+                            <el-button type="danger" size="mini" style="padding: 5px 10px" icon="el-icon-delete" v-hasPermi="['iot:video:remove']" @click="del(item)">{{ $t('del') }}</el-button>
+                            <el-button type="primary" size="mini" style="padding: 5px 15px" icon="el-icon-view" @click="view(item)" v-hasPermi="['iot:video:query']">{{ $t('look') }}</el-button>
+                            <el-button v-if="!istrue" type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" @click.native.prevent="edit(item)" v-hasPermi="['iot:video:edit']">
+                                {{ $t('edit') }}
+                            </el-button>
+                            <el-button v-else type="success" size="mini" style="padding: 5px 15px" icon="el-icon-odometer" :loading="true" disabled>{{ $t('sip.mediaServer.998535-5') }}</el-button>
+                        </el-button-group>
+                    </el-card>
+                </el-col>
+            </el-row>
+            <el-empty :description="$t('sip.mediaServer.998535-6')" v-if="total == 0"></el-empty>
+            <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" :pageSizes="[12, 24, 36, 60]" @pagination="getServerList" />
+        </el-card>
 
         <mediaServerEdit ref="mediaServerEdit" :edit-flag="editFlag"></mediaServerEdit>
     </div>
@@ -178,7 +174,7 @@ export default {
 .mediaServer_wrap {
     padding: 15px;
     min-height: 100vh;
-    /* background-color: #f5f7fa; */
+    background-color: #f5f7fa;
 }
 ::v-deep .pagination-container[data-v-72233bcd] {
     background: none;

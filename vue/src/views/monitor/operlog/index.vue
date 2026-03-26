@@ -1,6 +1,6 @@
 <template>
     <div class="table-header">
-        <el-card class="search-card" v-show="showSearch">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
             <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('operlog.874509-10')" prop="operIp">
                     <el-input v-model="queryParams.operIp" :placeholder="$t('operlog.874509-10')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
@@ -309,7 +309,7 @@ export default {
     text-align: right;
 }
 .search-card {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
 
     ::v-deep .el-card__body {

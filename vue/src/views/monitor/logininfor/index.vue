@@ -252,7 +252,7 @@ export default {
     text-align: right;
 }
 .search-card {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
 
     ::v-deep .el-card__body {

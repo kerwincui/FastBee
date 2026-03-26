@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="online-wrap">
         <el-card shadow="never" class="search-card">
             <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('online.093480-0')" prop="ipaddr">
@@ -110,8 +110,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-container {
-    padding: 20px;
+.online-wrap {
+    padding: 15px;
     min-height: 100vh;
     background-color: #f5f7fa;
 }
@@ -145,7 +145,7 @@ export default {
     text-align: right;
 }
 .search-card {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
 
     ::v-deep .el-card__body {

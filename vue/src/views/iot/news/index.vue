@@ -36,7 +36,7 @@
                 </el-form-item>
             </el-form>
         </el-card>
-        <el-card>
+        <el-card shadow="never">
             <el-row :gutter="10" class="mb8" style="margin-bottom: 10px">
                 <el-col :span="1.5">
                     <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:news:add']">{{ $t('system.sysclient.652154-4') }}</el-button>

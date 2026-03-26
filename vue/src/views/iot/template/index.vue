@@ -1,6 +1,6 @@
 <template>
     <div class="templete-wrap">
-        <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-card shadow="never" v-show="showSearch" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('template.index.891112-22')" prop="templateName">
                     <el-input v-model="queryParams.templateName" :placeholder="$t('template.index.891112-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -17,7 +17,7 @@
             </el-form>
         </el-card>
 
-        <el-card style="padding-bottom: 100px">
+        <el-card shadow="never" style="padding-bottom: 100px">
             <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:template:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" :border="false">

@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="gen-wrap">
         <!-- 搜索栏 - 上栏 -->
         <el-card shadow="never" class="search-card" v-show="showSearch">
             <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
@@ -262,14 +262,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-container {
-    padding: 20px;
+.gen-wrap {
+    padding: 15px;
     min-height: 100vh;
     background-color: #f5f7fa;
 }
 
 .search-card {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
 
     ::v-deep .el-card__body {
