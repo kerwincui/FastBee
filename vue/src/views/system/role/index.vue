@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <!-- 搜索栏 -->
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
                 <el-form-item :label="$t('role.index.094567-0')" prop="roleName">
                     <el-input v-model="queryParams.roleName" :placeholder="$t('role.index.094567-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -17,7 +17,7 @@
                 <el-form-item :label="$t('creatTime')">
                     <el-date-picker v-model="dateRange" style="width: 240px" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
@@ -26,21 +26,11 @@
 
         <!-- 操作按钮和数据表格 -->
         <el-card shadow="never" class="table-card">
-            <el-row :gutter="10" style="margin-bottom: 20px">
-                <el-col :span="1.5">
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['system:role:add']">{{ $t('add') }}</el-button>
-                </el-col>
-                <el-col :span="1.5">
-                    <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['system:role:edit']">{{ $t('update') }}</el-button>
-                </el-col>
-                <el-col :span="1.5">
-                    <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:role:remove']">{{ $t('del') }}</el-button>
-                </el-col>
-                <el-col :span="1.5">
-                    <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['system:role:export']">{{ $t('export') }}</el-button>
-                </el-col>
-                <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-            </el-row>
+            <el-button type="primary" plain icon="el-icon-plus" style="margin-bottom: 20px" size="small" @click="handleAdd" v-hasPermi="['system:role:add']">{{ $t('add') }}</el-button>
+            <el-button type="success" plain icon="el-icon-edit" size="small" :disabled="single" @click="handleUpdate" v-hasPermi="['system:role:edit']">{{ $t('update') }}</el-button>
+            <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:role:remove']">{{ $t('del') }}</el-button>
+            <el-button type="warning" plain icon="el-icon-download" size="small" @click="handleExport" v-hasPermi="['system:role:export']">{{ $t('export') }}</el-button>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
 
             <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange" header-cell-class-name="table-header" :border="false">
                 <el-table-column type="selection" width="55" align="center" />

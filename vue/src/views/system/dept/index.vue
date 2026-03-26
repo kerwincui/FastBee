@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <!-- 搜索栏 -->
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
                 <el-form-item :label="$t('system.dept.780956-0')" prop="deptName">
                     <el-input v-model="queryParams.deptName" :placeholder="$t('system.dept.780956-1')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -11,7 +11,7 @@
                         <el-option v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
@@ -20,7 +20,7 @@
 
         <!-- 操作按钮和数据表格 -->
         <el-card shadow="never" class="table-card">
-            <el-row :gutter="10" style="margin-bottom: 15px">
+            <el-row :gutter="10" style="margin-bottom: 16px">
                 <el-col :span="1.5">
                     <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['system:dept:add']">{{ $t('add') }}</el-button>
                 </el-col>
@@ -301,7 +301,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-container {
-    padding: 20px;
+    padding: 15px;
     min-height: 100vh;
     background-color: #f5f7fa;
 }

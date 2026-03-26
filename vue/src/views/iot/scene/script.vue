@@ -1,25 +1,24 @@
 <template>
-    <div style="padding: 6px">
-        <el-card v-show="showSearch" style="margin-bottom: 6px">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px" style="margin-bottom: -20px">
+    <div class="script_wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
+            <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('script.349087-0')" prop="scriptId">
                     <el-input v-model="queryParams.scriptId" :placeholder="$t('script.349087-1')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
                 <el-form-item :label="$t('script.349087-2')" prop="scriptName">
                     <el-input v-model="queryParams.scriptName" :placeholder="$t('script.349087-3')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{ $t('reset') }}</el-button>
-                </el-form-item>
-                <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['iot:script:add']">{{ $t('add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
-            <el-table v-loading="loading" :data="scriptList" @selection-change="handleSelectionChange">
+            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:script:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+            <el-table v-loading="loading" :data="scriptList" @selection-change="handleSelectionChange" :border="false">
                 <el-table-column :label="$t('script.index.470901-0')" align="center" prop="scriptName" />
                 <el-table-column :label="$t('script.index.470901-2')" align="center" prop="productName" />
                 <el-table-column :label="$t('script.349087-0')" align="center" prop="scriptId" width="180" />
@@ -418,3 +417,11 @@ msgContext.setPayload(NewPayload);`,
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.script_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+</style>

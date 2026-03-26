@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 6px">
-        <el-card v-show="showSearch" style="margin-bottom: 6px">
+    <div class="group_wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
             <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('iot.group.index.637432-0')" prop="groupName">
                     <el-input v-model="queryParams.groupName" :placeholder="$t('iot.group.index.637432-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -8,17 +8,16 @@
                 <el-form-item v-if="isAdmin" :label="$t('iot.group.index.637432-2')" style="margin: 0 20px">
                     <el-switch v-model="myGroup" @change="myGroupChange"></el-switch>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('iot.group.index.637432-3') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('iot.group.index.637432-4') }}</el-button>
-                </el-form-item>
-                <el-form-item style="float: right">
-                    <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd">{{ $t('iot.group.index.637432-5') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
+            <el-button v-hasPermi="['iot:group:add']" type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" style="margin-bottom: 10px">{{ $t('iot.group.index.637432-5') }}</el-button>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="groupList" :border="false" @selection-change="handleSelectionChange">
                 <el-table-column :label="$t('iot.group.index.637432-0')" align="center" prop="groupName" width="200" />
                 <el-table-column :label="$t('iot.group.index.637432-6')" align="center" prop="groupOrder" width="100" />
@@ -309,5 +308,11 @@ export default {
 ::v-deep .el-pagination {
     padding: 0;
     text-align: right;
+}
+
+.group_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 </style>

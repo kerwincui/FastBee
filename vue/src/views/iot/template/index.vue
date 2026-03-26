@@ -1,6 +1,6 @@
 <template>
-    <div style="padding: 6px">
-        <el-card v-show="showSearch" style="margin-bottom: 5px">
+    <div class="templete-wrap">
+        <el-card v-show="showSearch" style="margin-bottom: 10px">
             <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
                 <el-form-item :label="$t('template.index.891112-22')" prop="templateName">
                     <el-input v-model="queryParams.templateName" :placeholder="$t('template.index.891112-1')" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -10,17 +10,16 @@
                         <el-option v-for="dict in dict.type.iot_things_type" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
-                </el-form-item>
-                <el-form-item style="float: right">
-                    <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:template:add']">{{ $t('add') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
 
         <el-card style="padding-bottom: 100px">
+            <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:template:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             <el-table v-loading="loading" :data="templateList" @selection-change="handleSelectionChange" :border="false">
                 <el-table-column :label="$t('template.index.891112-22')" align="center" prop="templateName" />
                 <el-table-column :label="$t('template.index.891112-7')" align="center" prop="identifier" />
@@ -903,11 +902,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-header {
-    background-color: #f5f7fa !important;
-    color: #606266;
-    font-weight: 600;
-    text-align: center;
+.templete-wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 
 ::v-deep .el-table {

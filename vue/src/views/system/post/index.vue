@@ -1,8 +1,8 @@
 <template>
-    <div class="app-container">
+    <div class="post-wrap">
         <!-- 搜索栏 -->
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('system.post.236590-0')" prop="postCode">
                     <el-input v-model="queryParams.postCode" :placeholder="$t('system.post.236590-1')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -252,8 +252,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-container {
-    padding: 20px;
+.post-wrap {
+    padding: 15px;
     min-height: 100vh;
     background-color: #f5f7fa;
 }

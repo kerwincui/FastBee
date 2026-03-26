@@ -1,7 +1,7 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <div class="logininfor-wrap">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('monitor.logininfor.670912-0')" prop="ipaddr">
                     <el-input v-model="queryParams.ipaddr" :placeholder="$t('monitor.logininfor.670912-1')" clearable style="width: 240px" @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -13,7 +13,7 @@
                         <el-option v-for="dict in dict.type.sys_common_status" :key="dict.value" :label="dict.label" :value="dict.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('monitor.logininfor.670912-6')">
+                <el-form-item :label="$t('monitor.logininfor.670912-6')" v-if="searchShow">
                     <el-date-picker
                         v-model="dateRange"
                         style="width: 240px"
@@ -24,12 +24,19 @@
                         :end-placeholder="$t('monitor.logininfor.670912-8')"
                     ></el-date-picker>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
+                    <el-button type="text" @click="searchChange">
+                        <span style="color: #486ff2; margin-left: 14px">
+                            {{ searchShow ? $t('template.index.891112-113') : $t('template.index.891112-112') }}
+                        </span>
+                        <i style="color: #486ff2; margin-left: 10px" :class="{ 'el-icon-arrow-down': !searchShow, 'el-icon-arrow-up': searchShow }"></i>
+                    </el-button>
                 </el-form-item>
             </el-form>
-
+        </el-card>
+        <el-card shadow="never" class="search-card">
             <el-row :gutter="10" class="mb8">
                 <el-col :span="1.5">
                     <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:logininfor:remove']">{{ $t('del') }}</el-button>
@@ -48,16 +55,7 @@
                 <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             </el-row>
 
-            <el-table
-                ref="tables"
-                v-loading="loading"
-                :data="list"
-                :border="false"
-                header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
-                :default-sort="defaultSort"
-                @sort-change="handleSortChange"
-            >
+            <el-table ref="tables" v-loading="loading" :data="list" :border="false" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
                 <el-table-column type="selection" width="55" align="center" />
                 <el-table-column :label="$t('monitor.logininfor.670912-10')" align="center" prop="infoId" />
                 <el-table-column :label="$t('monitor.logininfor.670912-2')" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
@@ -103,6 +101,7 @@ export default {
             selectName: '',
             // 显示搜索条件
             showSearch: true,
+            searchShow: false,
             // 总条数
             total: 0,
             // 表格数据
@@ -145,6 +144,10 @@ export default {
             this.resetForm('queryForm');
             this.queryParams.pageNum = 1;
             this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order);
+        },
+        // 搜索展开隐藏
+        searchChange() {
+            this.searchShow = !this.searchShow;
         },
         /** 多选框选中数据 */
         handleSelectionChange(selection) {
@@ -214,11 +217,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-header {
+.logininfor-wrap {
     background-color: #f5f7fa !important;
-    color: #606266;
-    font-weight: 600;
-    text-align: center;
+    padding: 15px;
+    min-height: 100vh;
 }
 
 ::v-deep .el-table {

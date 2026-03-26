@@ -1,7 +1,7 @@
 <template>
-<div style="padding: 6px">
-    <el-card v-show="showSearch" style="margin-bottom: 6px">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px" style="margin-bottom:-20px;">
+<div class="clientDetails_wrap">
+    <el-card v-show="showSearch" style="margin-bottom: 10px">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" style="margin-bottom: -20px">
             <el-form-item :label="$t('speaker.clientDetails.index.893021-0')" prop="clientId">
                 <el-input v-model="queryParams.clientId" :placeholder="$t('speaker.clientDetails.index.893021-1')" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
@@ -10,18 +10,17 @@
                     <el-option v-for="dict in dict.type.oauth_platform" :key="dict.value" :label="dict.label" :value="dict.value" />
                 </el-select>
             </el-form-item>
-            <el-form-item>
+            <el-form-item style="float: right">
                 <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                 <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 <el-tag type="danger" style="margin-left:15px;">{{ $t('system.clientDetails.293742-0') }}</el-tag>
-            </el-form-item>
-            <el-form-item style="float:right;">
-                <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']">{{ $t('add') }}</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 
     <el-card style="padding-bottom: 100px">
+        <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['iot:clientDetails:add']" style="margin-bottom: 10px">{{ $t('add') }}</el-button>
+        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         <el-table v-loading="loading" :data="clientDetailsList" header-cell-class-name="table-header" :border="false" @selection-change="handleSelectionChange">
             <el-table-column :label="$t('speaker.clientDetails.index.893021-0')" align="center" prop="clientId" />
             <el-table-column :label="$t('system.clientDetails.293742-1')" align="center" prop="resourceIds" />
@@ -330,5 +329,11 @@ export default {
 ::v-deep .el-pagination {
   padding: 0;
   text-align: right;
+}
+
+.clientDetails_wrap {
+    padding: 15px;
+    min-height: 100vh;
+    background-color: #f5f7fa;
 }
 </style>

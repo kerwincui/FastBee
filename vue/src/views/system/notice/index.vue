@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div class="notice-wrap">
         <!-- 搜索栏 -->
         <el-card shadow="never" class="search-card">
             <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
@@ -248,8 +248,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-container {
-    padding: 20px;
+.notice-wrap {
+    padding: 15px;
     min-height: 100vh;
     background-color: #f5f7fa;
 }

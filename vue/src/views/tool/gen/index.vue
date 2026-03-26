@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <!-- 搜索栏 - 上栏 -->
-        <el-card shadow="never" class="search-card">
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+        <el-card shadow="never" class="search-card" v-show="showSearch">
+            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
                 <el-form-item :label="$t('gen.import.832346-1')" prop="tableName">
                     <el-input v-model="queryParams.tableName" :placeholder="$t('gen.import.832346-2')" clearable @keyup.enter.native="handleQuery" />
                 </el-form-item>
@@ -20,7 +20,7 @@
                         :end-placeholder="$t('system.job.log.085689-6')"
                     ></el-date-picker>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="float: right">
                     <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">{{ $t('search') }}</el-button>
                     <el-button icon="el-icon-refresh" size="small" @click="resetQuery">{{ $t('reset') }}</el-button>
                 </el-form-item>
