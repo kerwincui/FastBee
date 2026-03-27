@@ -51,7 +51,7 @@
                             <div class="info-row" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
                                 <span class="info-value" style="display: flex">
                                     {{ $t('product.index.091251-18') }}：
-                                    <el-tooltip :content="item.networkMethod" placement="top">
+                                    <el-tooltip :content="getDictLabel(item.networkMethod)" placement="top">
                                         <dict-tag :options="dict.type.iot_network_method" :value="item.networkMethod" size="mini" />
                                     </el-tooltip>
                                 </span>
@@ -285,6 +285,21 @@ export default {
                     pageNum: this.queryParams.pageNum,
                 },
             });
+        },
+        getDictLabel(value) {
+            if (value === null || value === undefined || value === '') return '';
+
+            const dictList = (this.dict && this.dict.type && this.dict.type.iot_network_method) || [];
+            const values = Array.isArray(value) ? value : String(value).split(',').map((v) => v.trim()).filter(Boolean);
+
+            const labels = values
+                .map((val) => {
+                    const dictItem = dictList.find((item) => String(item.value) === String(val));
+                    return dictItem ? dictItem.label : val;
+                })
+                .filter(Boolean);
+
+            return labels.join('、');
         },
         /** 设备授权操作 */
         handleDeviceAuthorize(row) {

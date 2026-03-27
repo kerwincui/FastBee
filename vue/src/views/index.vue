@@ -1,20 +1,18 @@
 <template>
-    <div style="padding: 10px; background-color: #f8f8f8">
-        <el-row :gutter="20" style="margin: 10px 0px 20px 0px">
+    <div class="dashboard-container">
+        <el-row :gutter="20" class="main-row">
             <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
-                <div style="overflow: hidden; border: 1px solid #ccc">
-                    <div ref="map" style="height: 650px"></div>
-                </div>
+                <div ref="map" style="height: 650px; width: 100%"></div>
             </el-col>
 
             <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
-                <el-card shadow="none" style="">
-                    <h3 style="font-weight: bold">
+                <el-card shadow="hover" class="stat-card">
+                    <div class="card-header">
                         <i class="el-icon-s-data"></i>
-                        {{ $t('home.equip') }}
-                    </h3>
-                    <el-row :gutter="40" class="panel-group">
-                        <el-col :span="12" class="card-panel-col">
+                        <span>{{ $t('home.equip') }}</span>
+                    </div>
+                    <el-row :gutter="10" class="panel-group">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-blue">
                                     <svg-icon icon-class="device" class-name="card-panel-icon" />
@@ -25,7 +23,7 @@
                                 </div>
                             </div>
                         </el-col>
-                        <el-col :span="12" class="card-panel-col">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-red">
                                     <svg-icon icon-class="monitor-a" class-name="card-panel-icon" />
@@ -36,7 +34,7 @@
                                 </div>
                             </div>
                         </el-col>
-                        <el-col :span="12" class="card-panel-col">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-blue">
                                     <svg-icon icon-class="model" class-name="card-panel-icon" />
@@ -47,7 +45,7 @@
                                 </div>
                             </div>
                         </el-col>
-                        <el-col :span="12" class="card-panel-col">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-red">
                                     <svg-icon icon-class="alert" class-name="card-panel-icon" />
@@ -58,7 +56,7 @@
                                 </div>
                             </div>
                         </el-col>
-                        <el-col :span="12" class="card-panel-col">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-blue">
                                     <svg-icon icon-class="log-a" class-name="card-panel-icon" />
@@ -69,7 +67,7 @@
                                 </div>
                             </div>
                         </el-col>
-                        <el-col :span="12" class="card-panel-col">
+                        <el-col :xs="12" :sm="12" :md="12" :lg="12" class="card-panel-col">
                             <div class="card-panel">
                                 <div class="card-panel-icon-wrapper icon-red">
                                     <svg-icon icon-class="event-a" class-name="card-panel-icon" />
@@ -82,40 +80,42 @@
                         </el-col>
                     </el-row>
                 </el-card>
-                <el-card shadow="none" style="margin-top: 22px; height: 302px">
-                    <h3 style="font-weight: bold; margin-bottom: 10px">
+                <el-card shadow="hover" class="notice-card" style="height: 250px">
+                    <div class="card-header">
                         <i class="el-icon-s-order"></i>
-                        {{ $t('home.infoBoard') }}
-                    </h3>
-                    <div style="cursor: pointer; display: table; width: 100%; line-height: 36px" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
-                        <div style="display: table-cell; padding-right: 10px">
-                            <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">{{ $t('home.notice') }}</el-tag>
-                            <el-tag size="mini" effect="dark" v-else>{{ $t('home.information') }}</el-tag>
-                            {{ item.noticeTitle }}
-                        </div>
-                        <div style="display: table-cell; width: 90px; font-size: 14px">
-                            <i class="el-icon-time"></i>
-                            {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
+                        <span>{{ $t('home.infoBoard') }}</span>
+                    </div>
+                    <div class="notice-list">
+                        <div class="notice-item" @click="openDetail(item.noticeId)" v-for="item in noticeList" :key="item.noticeId">
+                            <div class="notice-title">
+                                <el-tag size="mini" effect="dark" type="warning" v-if="item.noticeType == 2">{{ $t('home.notice') }}</el-tag>
+                                <el-tag size="mini" effect="dark" v-else>{{ $t('home.information') }}</el-tag>
+                                <span>{{ item.noticeTitle }}</span>
+                            </div>
+                            <div class="notice-time">
+                                <i class="el-icon-time"></i>
+                                {{ parseTime(item.createTime, '{y}-{m}-{d}') }}
+                            </div>
                         </div>
                     </div>
                 </el-card>
             </el-col>
         </el-row>
 
-        <el-card shadow="none" style="margin: 10px 10px 20px 10px">
-            <el-row :gutter="120" v-if="isAdmin">
-                <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
-                    <div style="padding: 20px">
+        <el-card shadow="hover" class="server-card" v-if="isAdmin">
+            <el-row :gutter="120">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                    <div class="pie-chart">
                         <div ref="pieCpu" style="height: 161px"></div>
                     </div>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
-                    <div style="padding: 20px">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                    <div class="pie-chart">
                         <div ref="pieMemery" style="height: 161px"></div>
                     </div>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
-                    <div style="padding: 20px">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                    <div class="pie-chart">
                         <div ref="pieDisk" style="height: 161px"></div>
                     </div>
                 </el-col>
@@ -123,7 +123,7 @@
         </el-card>
 
         <!-- h5手机显示页面 -->
-        <el-card shadow="hover" style="margin: 20px 10px 0px 10px" class="phone-card">
+        <el-card shadow="hover" style="margin: 20px 0px 0px" class="phone-card">
             <el-row :gutter="40">
                 <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" style="padding: 10px">
                     <div style="padding: 30px; margin: 20px 0; font-size: 14px">
@@ -842,6 +842,119 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dashboard-container {
+    padding: 20px;
+    background-color: #f5f7fa;
+    min-height: calc(100vh - 84px);
+
+    .main-row {
+        margin-bottom: 0;
+    }
+
+    .map-card,
+    .stat-card,
+    .notice-card,
+    .server-card {
+        border-radius: 8px;
+        border: none;
+        height: 100%;
+    }
+
+    .stat-card {
+        margin-bottom: 20px;
+
+        .card-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #303133;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ebeef5;
+
+            i {
+                margin-right: 8px;
+                color: #409eff;
+            }
+        }
+    }
+
+    .notice-card {
+        .card-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #303133;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ebeef5;
+
+            i {
+                margin-right: 8px;
+                color: #409eff;
+            }
+        }
+
+        .notice-list {
+            .notice-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 0;
+                border-bottom: 1px solid #f5f7fa;
+                cursor: pointer;
+                transition: all 0.3s;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    background-color: #f5f7fa;
+                    padding-left: 10px;
+                }
+
+                .notice-title {
+                    display: flex;
+                    align-items: center;
+                    flex: 1;
+
+                    .el-tag {
+                        margin-right: 10px;
+                        color: #fff !important;
+
+                        &.el-tag--mini {
+                            padding: 0 8px;
+                        }
+                    }
+
+                    span {
+                        color: #606266;
+                        font-size: 14px;
+                    }
+                }
+
+                .notice-time {
+                    color: #909399;
+                    font-size: 13px;
+
+                    i {
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .server-card {
+        margin-top: 20px;
+        border-radius: 8px;
+        border: none;
+
+        .pie-chart {
+            padding: 20px;
+        }
+    }
+}
+
 $shadow-color: rgba(0, 0, 0, 0.1);
 
 //小程序，h5
@@ -948,21 +1061,25 @@ $shadow-color: rgba(0, 0, 0, 0.1);
 
 .panel-group {
     .card-panel-col {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .card-panel {
-        height: 68px;
+        height: 80px;
         cursor: pointer;
         position: relative;
         overflow: hidden;
         color: #666;
-        border: 1px solid #eee;
-        border-radius: 5px;
-        //box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
-        background-color: #fff;
+        border: none;
+        border-radius: 8px;
+        background-color: #f9fafc;
+        transition: all 0.3s;
 
         &:hover {
+            background-color: #f5f7fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
             .card-panel-icon-wrapper {
                 color: #fff;
             }
@@ -1002,33 +1119,71 @@ $shadow-color: rgba(0, 0, 0, 0.1);
 
         .card-panel-icon-wrapper {
             float: left;
-            margin: 10px;
+            margin: 12px;
             padding: 10px;
             transition: all 0.38s ease-out;
-            border-radius: 6px;
+            border-radius: 8px;
+            background-color: #fff;
         }
 
         .card-panel-icon {
             float: left;
-            font-size: 30px;
+            font-size: 28px;
         }
 
         .card-panel-description {
             float: right;
             font-weight: bold;
-            margin: 15px;
+            margin: 12px;
             margin-left: 0px;
 
             .card-panel-text {
                 line-height: 14px;
-                color: rgba(0, 0, 0, 0.45);
-                font-size: 14px;
-                margin-bottom: 12px;
+                color: #909399;
+                font-size: 13px;
+                margin-bottom: 10px;
                 text-align: right;
             }
 
             .card-panel-num {
-                font-size: 18px;
+                font-size: 24px;
+                font-weight: 600;
+                color: #303133;
+            }
+        }
+    }
+}
+
+// 响应式布局
+@media screen and (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px;
+
+        .map-card {
+            height: 400px;
+        }
+
+        .card-panel {
+            height: 70px;
+
+            .card-panel-num {
+                font-size: 20px !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .dashboard-container {
+        .map-card {
+            height: 300px;
+        }
+
+        .panel-group {
+            .card-panel-col {
+                :xs {
+                    span: 24;
+                }
             }
         }
     }
