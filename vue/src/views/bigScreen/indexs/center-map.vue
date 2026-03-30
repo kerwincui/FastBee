@@ -17,9 +17,6 @@
 import {
     loadBMap
 } from '@/utils/map.js'
-//安装的是echarts完整包，里面包含百度地图扩展，路径为 echarts/extension/bmap/bmap.js，将其引入
-//ECharts的百度地图扩展，可以在百度地图上展现点图，线图，热力图等可视化
-require('echarts/extension/bmap/bmap')
 import {
     listAllDeviceShort,
 } from "@/api/iot/device";
@@ -66,7 +63,9 @@ export default {
         /**加载地图*/
         loadMap() {
             loadBMap().then(() => {
-                this.getmap();
+                import('echarts/extension/bmap/bmap').then(() => {
+                    this.getmap();
+                });
             });
         },
 

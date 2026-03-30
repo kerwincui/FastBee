@@ -240,9 +240,6 @@ import { getDeviceStatistic } from '@/api/iot/device';
 import { listNotice, getNotice } from '@/api/system/notice';
 import CountTo from 'vue-count-to';
 import { loadBMap } from '@/utils/map.js';
-//安装的是echarts完整包，里面包含百度地图扩展，路径为 echarts/extension/bmap/bmap.js，将其引入
-//ECharts的百度地图扩展，可以在百度地图上展现点图，线图，热力图等可视化
-require('echarts/extension/bmap/bmap');
 import { getServer } from '@/api/monitor/server';
 import { listAllDeviceShort } from '@/api/iot/device';
 
@@ -303,6 +300,12 @@ export default {
         this.getNoticeList();
         this.getDeviceStatistic();
     },
+    mounted() {
+        this.$nextTick(() => {
+            this.draawPieCpu();
+            window.addEventListener('resize', this.handleResize); // 监听窗口大小变化以重新渲染饼图
+        });
+    },
     methods: {
         init() {
             if (this.$store.state.user.roles.indexOf('tenant') === -1 && this.$store.state.user.roles.indexOf('general') === -1) {
@@ -357,10 +360,25 @@ export default {
         /**加载地图*/
         loadMap() {
             loadBMap().then(() => {
-                setTimeout(() => {
-                    this.getmap(); // 里面有 setOption
-                }, 500);
+                import('echarts/extension/bmap/bmap').then(() => {
+                    setTimeout(() => {
+                        this.getmap();
+                    }, 500);
+                });
             });
+        },
+        handleResize() {
+            // 在大小变化时重新渲染图表
+            if (this.bMapChart) {
+                this.bMapChart.resize();
+            }
+            if (this.gMapChart) {
+                this.gMapChart.resize();
+            }
+            if (this.pieCpuChart) {
+                this.pieCpuChart.resize();
+                this.updateRadius();
+            }
         },
         /** 查询服务器信息 */
         getServer() {
