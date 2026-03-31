@@ -268,6 +268,11 @@ export default {
             deviceCount: 0,
             // 版本号
             version: '3.8.0',
+            bMapChart: null,
+            pieCpuChart: null,
+            pieMemeryChart: null,
+            pieDiskChart: null,
+
             // 服务器信息
             server: {
                 jvm: {
@@ -302,9 +307,11 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            this.draawPieCpu();
-            window.addEventListener('resize', this.handleResize); // 监听窗口大小变化以重新渲染饼图
+            window.addEventListener('resize', this.handleResize);
         });
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize);
     },
     methods: {
         init() {
@@ -372,12 +379,14 @@ export default {
             if (this.bMapChart) {
                 this.bMapChart.resize();
             }
-            if (this.gMapChart) {
-                this.gMapChart.resize();
-            }
             if (this.pieCpuChart) {
                 this.pieCpuChart.resize();
-                this.updateRadius();
+            }
+            if (this.pieMemeryChart) {
+                this.pieMemeryChart.resize();
+            }
+            if (this.pieDiskChart) {
+                this.pieDiskChart.resize();
             }
         },
         /** 查询服务器信息 */
@@ -432,11 +441,11 @@ export default {
 
         /** 地图 */
         getmap() {
-            var myChart = this.$echarts.init(this.$refs.map);
+            this.bMapChart = this.$echarts.init(this.$refs.map);
             var option;
 
             // 单击事件
-            myChart.on('click', (params) => {
+            this.bMapChart.on('click', (params) => {
                 if (params.data.deviceId) {
                     this.$router.push({
                         path: '/iot/device-edit',
@@ -699,12 +708,12 @@ export default {
                 ],
             };
 
-            option && myChart.setOption(option);
+            option && this.bMapChart.setOption(option);
         },
 
         drawPieCpu() {
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(this.$refs.pieCpu);
+            this.pieCpuChart = this.$echarts.init(this.$refs.pieCpu);
             var option;
             option = {
                 title: {
@@ -753,11 +762,11 @@ export default {
                     },
                 ],
             };
-            option && myChart.setOption(option);
+            option && this.pieCpuChart.setOption(option);
         },
         drawPieMemery() {
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(this.$refs.pieMemery);
+            this.pieMemeryChart = this.$echarts.init(this.$refs.pieMemery);
             var option;
             option = {
                 title: {
@@ -802,11 +811,11 @@ export default {
                     },
                 ],
             };
-            option && myChart.setOption(option);
+            option && this.pieMemeryChart.setOption(option);
         },
         drawPieDisk() {
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(this.$refs.pieDisk);
+            this.pieDiskChart = this.$echarts.init(this.$refs.pieDisk);
             var option;
             let one = this.server.sysFiles[0].used.replace('GB', '');
             let two = this.server.sysFiles[0].free.replace('GB', '');
@@ -853,7 +862,7 @@ export default {
                     },
                 ],
             };
-            option && myChart.setOption(option);
+            option && this.pieDiskChart.setOption(option);
         },
     },
 };
