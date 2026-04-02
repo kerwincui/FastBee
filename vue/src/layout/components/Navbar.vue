@@ -20,9 +20,9 @@
                 <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
                 <el-tooltip :content="$t('navbar.layoutSize')" effect="dark" placement="bottom">
-                    <langSelect id="lang-select" class="right-menu-item hover-effect" />
                     <size-select id="size-select" class="right-menu-item hover-effect" />
                 </el-tooltip>
+                <langSelect id="lang-select" class="right-menu-item hover-effect" style="font-size: 26px" />
             </template>
 
             <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">

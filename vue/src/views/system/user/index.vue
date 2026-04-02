@@ -109,9 +109,9 @@
                         </el-table-column>
                     </el-table>
 
-                    <div class="pagination-container">
-                        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
-                    </div>
+                    <!-- <div class="pagination-container"> -->
+                    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
+                    <!-- </div> -->
                 </el-card>
             </el-col>
         </el-row>
@@ -586,7 +586,7 @@ export default {
 .dept-card {
     margin-bottom: 15px;
     border-radius: 8px;
-    height: 810px;
+    height: 700px;
 
     ::v-deep .el-card__body {
         padding: 18px;
@@ -604,6 +604,7 @@ export default {
 
 .table-card {
     border-radius: 8px;
+    height: 620px;
 
     ::v-deep .el-card__body {
         padding: 18px;
@@ -637,8 +638,6 @@ export default {
 .pagination-container {
     line-height: 40px;
     margin-bottom: 30px;
-    margin-top: 0;
-    padding: 0;
 }
 
 ::v-deep .el-pagination {
@@ -656,13 +655,6 @@ export default {
     td {
         padding: 12px 0;
     }
-}
-
-.pagination-container {
-    line-height: 40px;
-    margin-bottom: 30px;
-    margin-top: 0;
-    padding: 0;
 }
 
 ::v-deep .el-pagination {

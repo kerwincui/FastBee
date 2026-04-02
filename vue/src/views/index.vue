@@ -220,7 +220,7 @@
 
         <div style="width: 100%; text-align: center; font-size: 14px; color: #666; line-height: 32px; margin-top: 50px">
             <span>
-                Copyright © 2021-2022
+                Copyright © 2021-2026
                 <a href="https://fastbee.cn/" target="_blank">FastBee</a>
                 |
                 <a href="https://fastbee.cn/" target="_blank">{{ $t('home.fengxinIoT') }}</a>
