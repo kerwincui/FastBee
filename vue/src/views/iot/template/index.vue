@@ -766,7 +766,18 @@ export default {
         },
         /** 数据类型改变 */
         dataTypeChange(val) {
-            this.form.specs = {};
+            this.form.specs = {
+                enumList: [
+                        {
+                            value: '',
+                            text: '',
+                        },
+                    ],
+                    arrayType: 'integer',
+                    arrayCount: 5,
+                    showWay: 'select',
+                    params: [],
+            };
         },
         /** 添加枚举项 */
         addEnumItem() {

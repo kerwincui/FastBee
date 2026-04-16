@@ -34,7 +34,7 @@
                             </el-form-item>
                             <el-form-item :label="$t('product.product-edit.473153-16')" prop="networkMethod">
                                 <el-select v-model="form.networkMethod" :placeholder="$t('product.product-edit.473153-17')" style="width: 100%" :disabled="form.status == 2">
-                                    <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+                                    <el-option v-for="dict in dict.type.iot_network_method" :key="dict.value" :label="dict.label" :value="Number(dict.value)"></el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -48,7 +48,7 @@
                             </el-form-item>
                             <el-form-item :label="$t('product.product-edit.473153-21')" prop="vertificateMethod">
                                 <el-select v-model="form.vertificateMethod" :placeholder="$t('product.product-edit.473153-22')" style="width: 100%" :disabled="form.status == 2 || form.deviceType == 3">
-                                    <el-option v-for="dict in dict.type.iot_vertificate_method" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+                                    <el-option v-for="dict in dict.type.iot_vertificate_method" :key="dict.value" :label="dict.label" :value="Number(dict.value)"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item :label="$t('product.product-edit.473153-25')" prop="productId">
