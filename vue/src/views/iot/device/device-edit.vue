@@ -1,6 +1,7 @@
 <template>
     <el-card style="margin: 6px; padding-bottom: 100px">
-        <el-tabs v-model="activeName" tab-position="left" @tab-click="tabChange" style="padding: 10px; min-height: 400px">
+        <el-tabs v-model="activeName" tab-position="left" @tab-click="tabChange"
+            style="padding: 10px; min-height: 400px">
             <el-tab-pane name="basic">
                 <span slot="label">* {{ $t('device.device-edit.148398-0') }}</span>
                 <el-form ref="form" :model="form" :rules="rules" label-width="100px">
@@ -8,7 +9,8 @@
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                             <el-form-item :label="$t('device.device-edit.148398-1')" prop="deviceName">
                                 <el-input v-model="form.deviceName" :placeholder="$t('device.device-edit.148398-2')">
-                                    <el-button slot="append" @click="openSummaryDialog" v-if="form.deviceId != 0">{{ $t('device.device-edit.148398-3') }}</el-button>
+                                    <el-button slot="append" @click="openSummaryDialog" v-if="form.deviceId != 0">{{
+                                        $t('device.device-edit.148398-3') }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="" prop="productName">
@@ -16,8 +18,11 @@
                                     <span style="color: red">*</span>
                                     {{ $t('device.device-edit.148398-4') }}
                                 </template>
-                                <el-input readonly v-model="form.productName" :placeholder="$t('device.device-edit.148398-95')" :disabled="form.status != 1">
-                                    <el-button slot="append" @click="selectProduct()" :disabled="form.status != 1">{{ $t('device.device-edit.148398-6') }}</el-button>
+                                <el-input readonly v-model="form.productName"
+                                    :placeholder="$t('device.device-edit.148398-95')" :disabled="form.status != 1">
+                                    <el-button slot="append" @click="selectProduct()" :disabled="form.status != 1">{{
+                                        $t('device.device-edit.148398-6')
+                                        }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="" prop="serialNumber">
@@ -25,81 +30,109 @@
                                     <span style="color: red">*</span>
                                     {{ $t('device.device-edit.148398-7') }}
                                 </template>
-                                <el-input v-model="form.serialNumber" :placeholder="$t('device.device-edit.148398-8')" :disabled="form.status !== 1" maxlength="32">
-                                    <el-button v-if="form.deviceType !== 3" slot="append" @click="generateNum" :loading="genDisabled" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">{{ $t('device.device-edit.148398-9') }}</el-button>
-                                    <el-button v-if="form.deviceType === 3" slot="append" @click="genSipID()" :disabled="form.status != 1" v-hasPermi="['iot:device:add']">{{ $t('device.device-edit.148398-9') }}</el-button>
+                                <el-input v-model="form.serialNumber" :placeholder="$t('device.device-edit.148398-8')"
+                                    :disabled="form.status !== 1" maxlength="32">
+                                    <el-button v-if="form.deviceType !== 3" slot="append" @click="generateNum"
+                                        :loading="genDisabled" :disabled="form.status != 1"
+                                        v-hasPermi="['iot:device:add']">{{ $t('device.device-edit.148398-9')
+                                        }}</el-button>
+                                    <el-button v-if="form.deviceType === 3" slot="append" @click="genSipID()"
+                                        :disabled="form.status != 1" v-hasPermi="['iot:device:add']">{{
+                                            $t('device.device-edit.148398-9') }}</el-button>
                                 </el-input>
                             </el-form-item>
                             <el-form-item v-if="openServerTip">
                                 <template>
-                                    <el-alert type="info" show-icon :description="$t('device.device-edit.148398-10')"></el-alert>
+                                    <el-alert type="info" show-icon
+                                        :description="$t('device.device-edit.148398-10')"></el-alert>
                                 </template>
                             </el-form-item>
                             <el-form-item v-if="openTip">
                                 <template>
-                                    <el-alert type="success" show-icon :description="$t('device.device-edit.148398-11')"></el-alert>
+                                    <el-alert type="success" show-icon
+                                        :description="$t('device.device-edit.148398-11')"></el-alert>
                                 </template>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-12')" prop="firmwareVersion">
-                                <el-input v-model="form.firmwareVersion" :placeholder="$t('device.device-edit.148398-12')" type="number" step="0.1" :disabled="form.status != 1 || form.deviceType === 3">
+                                <el-input v-model="form.firmwareVersion"
+                                    :placeholder="$t('device.device-edit.148398-12')" type="number" step="0.1"
+                                    :disabled="form.status != 1 || form.deviceType === 3">
                                     <template slot="prepend">Version</template>
                                 </el-input>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-15')" prop="isShadow">
-                                <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1" :inactive-value="0" :disabled="form.deviceType === 3"></el-switch>
+                                <el-switch v-model="form.isShadow" active-text="" inactive-text="" :active-value="1"
+                                    :inactive-value="0" :disabled="form.deviceType === 3"></el-switch>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-16')" prop="deviceStatus">
-                                <el-switch
-                                    v-model="deviceStatus"
-                                    active-text=""
-                                    inactive-text=""
-                                    :disabled="form.status === 1 || form.deviceType === 3"
-                                    :active-value="1"
-                                    :inactive-value="0"
-                                    active-color="#F56C6C"
-                                ></el-switch>
+                                <el-switch v-model="deviceStatus" active-text="" inactive-text=""
+                                    :disabled="form.status === 1 || form.deviceType === 3" :active-value="1"
+                                    :inactive-value="0" active-color="#F56C6C"></el-switch>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-17')" prop="remark">
-                                <el-input v-model="form.remark" type="textarea" :placeholder="$t('device.device-edit.148398-18')" rows="3" />
+                                <el-input v-model="form.remark" type="textarea"
+                                    :placeholder="$t('device.device-edit.148398-18')" rows="3" />
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                             <el-form-item :label="$t('device.device-edit.148398-19')" prop="locationWay">
-                                <el-select v-model="form.locationWay" :placeholder="$t('device.device-edit.148398-20')" clearable size="small" style="width: 100%" :disabled="form.deviceType === 3">
-                                    <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
+                                <el-select v-model="form.locationWay" :placeholder="$t('device.device-edit.148398-20')"
+                                    clearable size="small" style="width: 100%" :disabled="form.deviceType === 3">
+                                    <el-option v-for="dict in dict.type.iot_location_way" :key="dict.value"
+                                        :label="dict.label" :value="Number(dict.value)" />
                                 </el-select>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-21')" prop="longitude">
-                                <el-input v-model="form.longitude" :placeholder="$t('device.device-edit.148398-22')" type="number" :disabled="form.locationWay != 3">
-                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23') }}</el-link>
+                                <el-input v-model="form.longitude" :placeholder="$t('device.device-edit.148398-22')"
+                                    type="number" :disabled="form.locationWay != 3">
+                                    <el-link slot="append" :underline="false"
+                                        href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank"
+                                        :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23')
+                                        }}</el-link>
                                 </el-input>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-24')" prop="latitude">
-                                <el-input v-model="form.latitude" :placeholder="$t('device.device-edit.148398-25')" type="number" :disabled="form.locationWay != 3">
-                                    <el-link slot="append" :underline="false" href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23') }}</el-link>
+                                <el-input v-model="form.latitude" :placeholder="$t('device.device-edit.148398-25')"
+                                    type="number" :disabled="form.locationWay != 3">
+                                    <el-link slot="append" :underline="false"
+                                        href="https://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank"
+                                        :disabled="form.locationWay != 3">{{ $t('device.device-edit.148398-23')
+                                        }}</el-link>
                                 </el-input>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-26')" prop="networkAddress">
-                                <el-input v-model="form.networkAddress" :placeholder="$t('device.device-edit.148398-27')" :disabled="form.locationWay != 3" />
+                                <el-input v-model="form.networkAddress"
+                                    :placeholder="$t('device.device-edit.148398-27')"
+                                    :disabled="form.locationWay != 3" />
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-28')" prop="networkIp">
-                                <el-input v-model="form.networkIp" :placeholder="$t('device.device-edit.148398-29')" disabled />
+                                <el-input v-model="form.networkIp" :placeholder="$t('device.device-edit.148398-29')"
+                                    disabled />
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-30')" prop="activeTime">
-                                <el-date-picker clearable v-model="form.activeTime" type="date" value-format="yyyy-MM-dd" :placeholder="$t('device.device-edit.148398-31')" disabled style="width: 100%"></el-date-picker>
+                                <el-date-picker clearable v-model="form.activeTime" type="date"
+                                    value-format="yyyy-MM-dd" :placeholder="$t('device.device-edit.148398-31')" disabled
+                                    style="width: 100%"></el-date-picker>
                             </el-form-item>
                             <el-form-item :label="$t('device.device-edit.148398-32')" prop="rssi">
-                                <el-input v-model="form.rssi" :placeholder="$t('device.device-edit.148398-33')" disabled />
+                                <el-input v-model="form.rssi" :placeholder="$t('device.device-edit.148398-33')"
+                                    disabled />
                             </el-form-item>
-                            <el-form-item :label="$t('device.device-edit.148398-34')" prop="remark" v-if="form.deviceId != 0">
-                                <dict-tag :options="dict.type.iot_device_status" :value="form.status" style="display: inline-block; margin-right: 8px" />
-                                <el-button size="small" @click="handleViewMqtt()">{{ $t('device.device-edit.148398-35') }}</el-button>
-                                <el-button size="small" @click="openCodeDialog()">{{ $t('device.device-edit.148398-36') }}</el-button>
+                            <el-form-item :label="$t('device.device-edit.148398-34')" prop="remark"
+                                v-if="form.deviceId != 0">
+                                <dict-tag :options="dict.type.iot_device_status" :value="form.status"
+                                    style="display: inline-block; margin-right: 8px" />
+                                <el-button size="small" @click="handleViewMqtt()">{{ $t('device.device-edit.148398-35')
+                                    }}</el-button>
+                                <el-button size="small" @click="openCodeDialog()">{{ $t('device.device-edit.148398-36')
+                                    }}</el-button>
                             </el-form-item>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8" v-if="form.deviceId != 0">
-                            <div style="border: 1px solid #dfe4ed; border-radius: 5px; padding: 5px; text-align: center; line-height: 400px">
-                                <div id="map" style="height: 435px; width: 100%">{{ $t('device.device-edit.148398-37') }}</div>
+                            <div
+                                style="border: 1px solid #dfe4ed; border-radius: 5px; padding: 5px; text-align: center; line-height: 400px">
+                                <div id="map" style="height: 435px; width: 100%">{{ $t('device.device-edit.148398-37')
+                                    }}</div>
                             </div>
                         </el-col>
                     </el-row>
@@ -107,8 +140,12 @@
 
                 <el-form label-width="100px" style="margin-top: 50px">
                     <el-form-item style="text-align: center; margin-left: -100px; margin-top: 10px">
-                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:edit']" v-show="form.deviceId != 0">{{ $t('device.device-timer.433369-33') }}</el-button>
-                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:add']" v-show="form.deviceId == 0">{{ $t('device.device-timer.433369-32') }}</el-button>
+                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:edit']"
+                            v-show="form.deviceId != 0">{{
+                                $t('device.device-timer.433369-33') }}</el-button>
+                        <el-button type="primary" @click="submitForm" v-hasPermi="['iot:device:add']"
+                            v-show="form.deviceId == 0">{{
+                                $t('device.device-timer.433369-32') }}</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -118,31 +155,34 @@
                 <sipid ref="sipidGen" :product="form" @addGenEvent="getSipIDData($event)" />
             </el-tab-pane>
 
-            <el-tab-pane name="runningStatus" key="1" v-if="form.deviceType !== 3 && form.deviceId !=0  && !isSubDev">
+            <el-tab-pane name="runningStatus" key="1" v-if="form.deviceType !== 3 && form.deviceId != 0 && !isSubDev">
                 <span slot="label">{{ $t('device.device-edit.148398-42') }}</span>
-                <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)"/>
-              </el-tab-pane>
-            <el-tab-pane name="videoLive" key="2" v-if="form.deviceType === 3 && form.deviceId !=0 ">
+                <running-status ref="runningStatus" :device="form" @statusEvent="getDeviceStatusData($event)" />
+            </el-tab-pane>
+            <el-tab-pane name="videoLive" key="2" v-if="form.deviceType === 3 && form.deviceId != 0">
                 <span slot="label">{{ $t('device.device-edit.148398-45') }}</span>
                 <device-live-stream ref="deviceLiveStream" :device="form" />
             </el-tab-pane>
 
-            <el-tab-pane name="deviceTimer" key="3" v-if="form.deviceType !== 3 && form.deviceId !=0  && hasShrarePerm('timer')">
+            <el-tab-pane name="deviceTimer" key="3"
+                v-if="form.deviceType !== 3 && form.deviceId != 0 && hasShrarePerm('timer')">
                 <span slot="label">{{ $t('device.device-edit.148398-47') }}</span>
                 <device-timer ref="deviceTimer" :device="form" />
             </el-tab-pane>
 
-            <el-tab-pane name="deviceUser" key="4"  v-if="form.deviceId !=0">
+            <el-tab-pane name="deviceUser" key="4" v-if="form.deviceId != 0">
                 <span slot="label">{{ $t('device.device-user.037521-12') }}</span>
                 <device-user ref="deviceUser" :device="form" @userEvent="getUserData($event)" />
             </el-tab-pane>
 
-            <el-tab-pane name="deviceLog" key="5"  v-if="form.deviceType !== 3 && form.deviceId !=0 && hasShrarePerm('log')" lazy>
+            <el-tab-pane name="deviceLog" key="5"
+                v-if="form.deviceType !== 3 && form.deviceId != 0 && hasShrarePerm('log')" lazy>
                 <span slot="label">{{ $t('device.device-edit.148398-49') }}</span>
                 <device-log ref="deviceLog" :device="form" />
             </el-tab-pane>
 
-            <el-tab-pane name="deviceFuncLog" key="6" v-if="form.deviceType !== 3 && form.deviceId !=0 && hasShrarePerm('log')" lazy>
+            <el-tab-pane name="deviceFuncLog" key="6"
+                v-if="form.deviceType !== 3 && form.deviceId != 0 && hasShrarePerm('log')" lazy>
                 <span slot="label">{{ $t('device.device-edit.148398-50') }}</span>
                 <device-func ref="deviceFuncLog" :device="form" />
             </el-tab-pane>
@@ -156,7 +196,8 @@
 
             <el-tab-pane name="deviceReturn" disabled>
                 <span slot="label">
-                    <el-button type="info" size="mini" @click="goBack()">{{ $t('device.device-edit.148398-53') }}</el-button>
+                    <el-button type="info" size="mini" @click="goBack()">{{ $t('device.device-edit.148398-53')
+                        }}</el-button>
                 </span>
             </el-tab-pane>
         </el-tabs>
@@ -165,14 +206,16 @@
         <el-dialog :title="$t('device.device-edit.148398-54')" :visible.sync="openSummary" width="700px" append-to-body>
             <el-row :gutter="20">
                 <el-col :span="14">
-                    <div style="border: 1px solid #ccc; margin-top: -15px; height: 350px; width: 360px; overflow: scroll">
+                    <div
+                        style="border: 1px solid #ccc; margin-top: -15px; height: 350px; width: 360px; overflow: scroll">
                         <json-viewer :value="summary" :expand-depth="10" copyable>
                             <template v-slot:copy>{{ $t('device.device-edit.148398-55') }}</template>
                         </json-viewer>
                     </div>
                 </el-col>
                 <el-col :span="10">
-                    <div style="border: 1px solid #ccc; width: 200px; text-align: center; margin-left: 20px; margin-top: -10px">
+                    <div
+                        style="border: 1px solid #ccc; width: 200px; text-align: center; margin-left: 20px; margin-top: -10px">
                         <vue-qr :text="qrText" :size="200"></vue-qr>
                         <div style="padding-bottom: 10px">{{ $t('device.device-edit.148398-56') }}</div>
                     </div>
@@ -189,29 +232,82 @@
                 <div style="padding-bottom: 10px">{{ $t('device.device-edit.148398-56') }}</div>
             </div>
         </el-dialog>
-        <el-dialog :title="$t('device.device-edit.148398-58')" :visible.sync="openViewMqtt" width="600px" :show-close="true" append-to-body :close-on-click-modal="false">
-            <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="150px">
-                <el-form-item :label="$t('device.device-edit.148398-88')" prop="clientId">
-                    <el-input v-model="listQuery.clientId" readonly style="width: 80%" />
+
+        <el-dialog :title="$t('device.device-edit.148398-58')" :visible.sync="openViewMqtt" width="600px"
+            :show-close="true" append-to-body :close-on-click-modal="false">
+            <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="120px"
+                v-if="this.form.transport == 'MQTT' || this.form.transport == 'COAP'">
+                <el-form-item label="clientId" prop="clientId">
+                    <el-input v-model="listQuery.clientId" readonly style="width: 400px" />
                 </el-form-item>
-                <el-form-item :label="$t('device.device-edit.148398-92')" prop="username">
-                    <el-input v-model="listQuery.username" readonly style="width: 80%" />
+                <el-form-item label="username" prop="username">
+                    <el-input v-model="listQuery.username" readonly style="width: 400px" />
                 </el-form-item>
-                <el-form-item :label="$t('device.device-edit.148398-93')" prop="passwd">
-                    <el-input clearable v-model="listQuery.passwd" readonly style="width: 80%"></el-input>
+                <el-form-item label="passwd" prop="passwd">
+                    <el-input clearable v-model="listQuery.passwd" readonly style="width: 400px"></el-input>
                 </el-form-item>
-                <el-form-item :label="$t('device.device-edit.148398-87')" prop="subscribeTopic">
-                    <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 80%"></el-input>
+                <el-form-item label="subscribeTopic" prop="subscribeTopic">
+                    <el-input clearable v-model="listQuery.subscribeTopic" readonly style="width: 400px"></el-input>
                 </el-form-item>
-                <el-form-item :label="$t('device.device-edit.148398-106')" prop="reportTopic">
-                    <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 80%"></el-input>
+                <el-form-item label="reportTopic" prop="reportTopic">
+                    <el-input clearable v-model="listQuery.reportTopic" readonly style="width: 400px"></el-input>
                 </el-form-item>
-                <el-form-item :label="$t('device.device-edit.148398-90')" prop="port">
-                    <el-input clearable v-model="listQuery.port" readonly style="width: 80%"></el-input>
+                <el-form-item label="port" prop="port">
+                    <el-input clearable v-model="listQuery.port" readonly style="width: 400px"></el-input>
                 </el-form-item>
             </el-form>
+            <el-form ref="listQuery" :model="listQuery" :rules="rules" label-width="120px"
+                v-if="this.form.transport == 'TCP'">
+                <!-- 注册包 -->
+                <el-form-item label="enrollPackage" prop="enrollPackage">
+                    <el-input clearable v-model="listQuery.enrollPackage" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item label="port" prop="port">
+                    <el-input clearable v-model="listQuery.port" readonly style="width: 400px"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form ref="httpForm" :model="httpForm" :rules="rules" label-width="120px"
+                v-if="this.form.transport == 'HTTP'">
+                <!-- 认证类型 -->
+                <el-form-item label="clientId" prop="clientId">
+                    <el-input v-model="httpForm.clientId" readonly style="width: 400px" />
+                </el-form-item>
+                <el-form-item :label="$t('device.device-edit.148398-91')">
+                    <el-input clearable v-model="httpForm.type" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item :label="$t('product.product-edit.473153-93')">
+                    <el-input clearable v-model="httpForm.username" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item :label="$t('product.product-edit.473153-94')">
+                    <el-input clearable v-model="httpForm.password" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <el-form-item label="port">
+                    <el-input clearable v-model="httpForm.port" readonly style="width: 400px"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form ref="GBform" :model="GBform" :rules="rules" label-width="120px"
+                v-if="this.form.transport == 'GB28181'">
+                <!-- 服务器域 -->
+                <el-form-item :label="$t('device.device-edit.148398-87')">
+                    <el-input clearable v-model="GBform.domainAlias" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <!-- 服务器sipid" -->
+                <el-form-item :label="$t('device.device-edit.148398-88')">
+                    <el-input clearable v-model="GBform.serverSipid" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <!--  认证密码-->
+                <el-form-item :label="$t('device.device-edit.148398-89')">
+                    <el-input clearable v-model="GBform.password" readonly style="width: 400px"></el-input>
+                </el-form-item>
+                <!--  接入端口号  -->
+                <el-form-item :label="$t('device.device-edit.148398-90')">
+                    <el-input clearable v-model="GBform.port" readonly style="width: 400px"></el-input>
+                </el-form-item>
+            </el-form>
+
             <div slot="footer" class="dialog-footer">
-                <el-button class="btns" type="primary" @click="doCopy(2)">{{ $t('device.device-edit.148398-59') }}</el-button>
+                <el-button class="btns" type="primary" @click="doCopy">{{ $t('device.device-edit.148398-59')
+                    }}</el-button>
                 <el-button @click="closeSummaryDialog">{{ $t('device.device-edit.148398-57') }}</el-button>
             </div>
         </el-dialog>
@@ -230,7 +326,7 @@ import deviceTimer from './device-timer';
 import DeviceFunc from './device-functionlog';
 import vueQr from 'vue-qr';
 import { loadBMap } from '@/utils/map.js';
-import { deviceSynchronization, getDevice, addDevice, updateDevice, generatorDeviceNum, getMqttConnect } from '@/api/iot/device';
+import { deviceSynchronization, getDevice, addDevice, updateDevice, generatorDeviceNum, getMqttConnect, getSipConfig } from '@/api/iot/device';
 import { getDeviceRunningStatus } from '@/api/iot/device';
 import { cacheJsonThingsModel } from '@/api/iot/model';
 import deviceLiveStream from '@/views/components/player/deviceLiveStream';
@@ -320,8 +416,19 @@ export default {
                 clientId: 0,
                 username: '',
                 passwd: '',
-                subscribeTopic: '',
-                reportTopic: '',
+                port: '',
+            },
+            GBform: {
+                domainAlias: '',
+                serverSipid: '',
+                password: '',
+                port: '',
+            },
+            httpForm: {
+                type: '',
+                username: '',
+                password: '',
+                clientId: '',
                 port: '',
             },
             openTip: false,
@@ -486,7 +593,7 @@ export default {
 
         //获取子组件订阅的设备状态
         getDeviceStatusData(status) {
-          this.form.status = status;
+            this.form.status = status;
         },
         getPlayerData(data) {
             this.activeName = data.tabName;
@@ -881,7 +988,7 @@ export default {
             this.form.serialNumber = devsipid;
         },
         // 获取选中的用户
-        getUserData(user) {},
+        getUserData(user) { },
         /**关闭物模型 */
         openSummaryDialog() {
             let json = {
@@ -898,9 +1005,9 @@ export default {
             this.openSummary = false;
             this.openViewMqtt = false;
         },
-        doCopy(type) {
-            if (type == 2) {
-                const input = document.createElement('input');
+        doCopy() {
+            const input = document.createElement('input');
+            if (this.form.transport == 'MQTT' || this.form.transport == 'COAP') {
                 input.value =
                     '{"clientId":"' +
                     this.listQuery.clientId +
@@ -915,12 +1022,39 @@ export default {
                     '","port":"' +
                     this.listQuery.port +
                     '"}';
-                document.body.appendChild(input);
-                input.select(); //选中输入框
-                document.execCommand('Copy'); //复制当前选中文本到前切板
-                document.body.removeChild(input);
-                this.$message.success('复制成功');
+            } else if (this.form.transport == 'TCP') {
+                input.value = '{enrollPackage:' + this.listQuery.enrollPackage + ',port:' + this.listQuery.port + '}';
+            } else if (this.form.transport == 'HTTP') {
+                input.value =
+                    '{clientId:' +
+                    this.httpForm.clientId +
+                    ',type:' +
+                    this.httpForm.type +
+                    ',username:' +
+                    this.httpForm.username +
+                    ',password:' +
+                    this.httpForm.password +
+                    '","port":"' +
+                    this.httpForm.port +
+                    '"}';
             }
+            if (this.form.transport == 'GB28181') {
+                input.value =
+                    '{domainAlias:' +
+                    this.GBform.domainAlias +
+                    ',serverSipid:' +
+                    this.GBform.serverSipid +
+                    ',password:' +
+                    this.GBform.password +
+                    ',port:' +
+                    this.GBform.port +
+                    '}';
+            }
+            document.body.appendChild(input);
+            input.select(); //选中输入框
+            document.execCommand('Copy'); //复制当前选中文本到剪切板
+            document.body.removeChild(input);
+            this.$message.success(this.$t('device.device-edit.148398-71'));
         },
         openCodeDialog() {
             let json = {
@@ -967,15 +1101,35 @@ export default {
         handleViewMqtt() {
             this.openViewMqtt = true;
             this.loading = true;
-            const params = {
-                deviceId: this.form.deviceId,
-            };
-            getMqttConnect(params).then((response) => {
-                if (response.code == 200) {
-                    this.listQuery = response.data;
-                    this.loading = false;
-                }
-            });
+            if (this.form.transport === 'MQTT' || this.form.transport === 'TCP' || this.form.transport === 'COAP') {
+                const params = {
+                    deviceId: this.form.deviceId,
+                };
+                getMqttConnect(params).then((response) => {
+                    if (response.code == 200) {
+                        this.listQuery = response.data;
+                        this.loading = false;
+                    }
+                });
+            } else if (this.form.transport === 'GB28181') {
+                const deviceSipId = this.form.deviceId;
+                getSipConfig(deviceSipId).then((response) => {
+                    if (response.code == 200) {
+                        this.GBform = response.data;
+                        this.loading = false;
+                    }
+                });
+            } else if (this.form.transport === 'HTTP') {
+                const params = {
+                    deviceId: this.form.deviceId,
+                };
+                getHttpConfig(params).then((response) => {
+                    if (response.code == 200) {
+                        this.httpForm = response.data;
+                        this.loading = false;
+                    }
+                });
+            }
         },
     },
 };

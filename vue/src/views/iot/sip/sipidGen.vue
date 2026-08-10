@@ -1,21 +1,27 @@
 <template>
-    <el-dialog :title="$t('sip.sipidGen.998538-1')" :visible.sync="open" width="400px" append-to-body :close-on-click-modal="false">
-        <el-form ref="createForm" :model="createForm" label-width="100px" :rules="rules">
+    <el-dialog :title="$t('sip.sipidGen.998538-1')" :visible.sync="open" width="400px" append-to-body
+        :close-on-click-modal="false">
+        <el-form ref="createForm" :model="createForm" label-width="100px">
             <el-form-item :label="$t('sip.sipidGen.998538-0')" prop="city">
-                <el-cascader :options="cityOptions" v-model="createForm.city" @change="changeProvince" change-on-select :props="{ checkStrictly: false }"></el-cascader>
+                <el-cascader :options="cityOptions" v-model="createForm.city" @change="changeProvince" change-on-select
+                    :props="{ checkStrictly: false }"></el-cascader>
             </el-form-item>
-            <el-form-item :label="$t('sip.sipidGen.998538-4')" prop="deviceType">
-                <el-select v-model="createForm.deviceType" :placeholder="$t('sip.sipidGen.998538-4')">
-                    <el-option v-for="dict in dict.type.video_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+            <el-form-item :label="$t('sip.index.998533-9')" prop="deviceType">
+                <el-select v-model="createForm.deviceType" :placeholder="$t('sip.index.998533-9')">
+                    <el-option v-for="dict in dict.type.video_type" :key="dict.value" :label="dict.label"
+                        :value="dict.value" :disabled="dict.value === '600'"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="$t('sip.sipidGen.998538-5')" prop="channelType">
-                <el-select v-model="createForm.channelType" :placeholder="$t('sip.sipidGen.998538-4')">
-                    <el-option v-for="dict in dict.type.channel_type" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
+            <el-form-item :label="$t('sip.index.998533-15')" prop="channelType">
+                <el-select v-model="createForm.channelType" :placeholder="$t('sip.index.998533-16')"
+                    :disabled="createForm.deviceType == ''">
+                    <el-option v-for="dict in dict.type.channel_type" :key="dict.value" :label="dict.label"
+                        :value="dict.value" :disabled="dict.value === '600' || dict.value === '601'"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="$t('sip.sipidGen.998538-6')" prop="createNum">
-                <el-input-number controls-position="right" :min="1" :max="10" v-model="createForm.createNum" :placeholder="$t('sip.index.998533-19')" type="number" style="width: 220px" />
+            <el-form-item :label="$t('sip.index.998533-20')" prop="createNum">
+                <el-input-number controls-position="right" :min="1" :max="10" v-model="createForm.createNum"
+                    :placeholder="$t('sip.index.998533-19')" type="number" style="width: 220px" />
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -59,17 +65,9 @@ export default {
             cityOptions: regionData,
             city: '',
             cityCode: '',
-
-            // 表单校验
-            rules: {
-                city: [{ required: true, message: this.$t('sip.sipidGen.998538-7'), trigger: 'change' }],
-                deviceType: [{ required: true, message: this.$t('sip.sipidGen.998538-8'), trigger: 'change' }],
-                channelType: [{ required: true, message: this.$t('sip.sipidGen.998538-9'), trigger: 'change' }],
-                createNum: [{ required: true, message: this.$t('sip.index.998533-19'), trigger: 'change' }],
-            },
         };
     },
-    created() {},
+    created() { },
     methods: {
         /** 行政区划改变 **/
         changeProvince(data) {
@@ -80,21 +78,37 @@ export default {
         },
         /** 提交按钮 */
         submitForm() {
-            this.$refs.createForm.validate((valid) => {
-                if (valid) {
-                    this.createForm.productId = this.product.productId;
-                    this.createForm.productName = this.product.productName;
-                    this.createForm.tenantId = this.product.tenantId;
-                    this.createForm.tenantName = this.product.tenantName;
-                    this.createForm.deviceSipId = this.createForm.city[2] + '0000' + this.createForm.deviceType + '0';
-                    this.createForm.channelSipId = this.createForm.city[2] + '0000' + this.createForm.channelType + '0';
+            if (this.createForm.createNum < 1) {
+                this.$modal.alertError(this.$t('sip.index.998533-42'));
+                return;
+            }
+            if (!this.createForm.id) {
+                this.createForm.deviceSipId = this.createForm.city[2] + '0000' + this.createForm.deviceType + '0';
+                this.createForm.channelSipId = this.createForm.city[2] + '0000' + this.createForm.channelType + '0';
+
+                if (
+                    this.createForm.deviceType !== '' &&
+                    this.createForm.channelType !== '' &&
+                    this.createForm.city.length === 3
+                ) {
                     addChannel(this.createForm.createNum, this.createForm).then((response) => {
-                        this.$modal.msgSuccess(this.$t('sip.sipidGen.998538-2'));
-                        this.devsipid = response.data;
-                        this.confirmSelectProduct();
+                        this.$modal.msgSuccess(this.$t('addSuccess'));
+                        this.open = false;
+                        this.getList();
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: this.$t('sip.index.998533-44'),
                     });
                 }
-            });
+            } else {
+                updateChannel(this.createForm).then((response) => {
+                    this.$modal.msgSuccess(this.$t('updateSuccess'));
+                    this.open = false;
+                    this.getList();
+                });
+            }
         },
         confirmSelectProduct() {
             this.open = false;
