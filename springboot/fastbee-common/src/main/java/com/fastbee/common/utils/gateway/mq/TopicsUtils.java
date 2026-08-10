@@ -149,7 +149,11 @@ public class TopicsUtils {
     @SneakyThrows
     public String parseSerialNumber(String topic) {
         String[] values = topic.split("/");
-        return values[2];
+        // 从topic分段中按长度识别设备编号，设备编号通常长度>9
+        return Arrays.stream(values)
+                .filter(s -> s.length() > 9)
+                .findFirst()
+                .orElseGet(() -> values.length > 2 ? values[2] : values[0]);
     }
 
     /**

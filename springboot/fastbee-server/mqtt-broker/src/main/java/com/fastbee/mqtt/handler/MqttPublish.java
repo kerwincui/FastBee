@@ -118,7 +118,7 @@ public class MqttPublish implements MqttHandler {
             reportBo.setTopicName(context.getTopic());
             reportBo.setData(context.getPayload().getBytes(StandardCharsets.UTF_8));
         }
-        if (topicName.contains("property")) {
+        if (reportBo.getTopicName().contains("property")) {
             deviceReportMessageService.parseReportMsg(reportBo);
         }
 
