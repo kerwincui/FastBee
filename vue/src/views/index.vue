@@ -211,7 +211,7 @@
                 <span style="margin-left: 20px">{{ notice.createTime }}</span>
             </div>
             <div v-loading="loading" class="content">
-                <div v-html="notice.noticeContent"></div>
+                <safe-html :html="notice.noticeContent" mode="richText"></safe-html>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="closeDetail">{{ $t('close') }}</el-button>

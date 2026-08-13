@@ -1,4 +1,5 @@
 import { parseTime } from './ruoyi'
+import { sanitizeDisplayHtml } from './security'
 
 /**
  * 表格时间格式化
@@ -149,7 +150,7 @@ export function param2Obj(url) {
  */
 export function html2Text(val) {
   const div = document.createElement('div')
-  div.innerHTML = val
+  div.innerHTML = sanitizeDisplayHtml(val)
   return div.textContent || div.innerText
 }
 

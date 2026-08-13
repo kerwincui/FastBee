@@ -48,7 +48,7 @@
             <el-table-column :label="$t('device.device-log.798283-2')" align="center" prop="identify" />
             <el-table-column :label="$t('device.device-log.798283-15')" align="left" header-align="center" prop="logValue">
                 <template slot-scope="scope">
-                    <div v-html="formatValueDisplay(scope.row)"></div>
+                    <safe-html :html="formatValueDisplay(scope.row)"></safe-html>
                 </template>
             </el-table-column>
 

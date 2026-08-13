@@ -23,6 +23,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { getToken } from "@/utils/auth";
+import { escapeHtml, sanitizeRichText } from "@/utils/security";
 
 export default {
   name: "Editor",
@@ -66,6 +67,7 @@ export default {
       },
       Quill: null,
       currentValue: "",
+      sanitizing: false,
       options: {
         theme: "snow",
         bounds: document.body,
@@ -82,9 +84,26 @@ export default {
             [{ color: [] }, { background: [] }],             // 字体颜色、字体背景颜色
             [{ align: [] }],                                 // 对齐方式
             ["clean"],                                       // 清除文本格式
-            ["link", "image", "video"]                       // 链接、图片、视频
+            ["link", "image"]                                // 链接、图片
           ],
         },
+        formats: [
+          "align",
+          "background",
+          "blockquote",
+          "bold",
+          "code-block",
+          "color",
+          "header",
+          "image",
+          "indent",
+          "italic",
+          "link",
+          "list",
+          "size",
+          "strike",
+          "underline",
+        ],
         placeholder: "请输入内容",
         readOnly: this.readOnly,
       },
@@ -106,9 +125,9 @@ export default {
     value: {
       handler(val) {
         if (val !== this.currentValue) {
-          this.currentValue = val === null ? "" : val;
+          this.currentValue = sanitizeRichText(val === null ? "" : val);
           if (this.Quill) {
-            this.Quill.pasteHTML(this.currentValue);
+            this.setEditorHtml(this.currentValue);
           }
         }
       },
@@ -119,6 +138,9 @@ export default {
     this.init();
   },
   beforeDestroy() {
+    if (this.Quill && this.Quill.root) {
+      this.Quill.root.removeEventListener("paste", this.handlePaste, true);
+    }
     this.Quill = null;
   },
   methods: {
@@ -137,11 +159,16 @@ export default {
           }
         });
       }
-      this.Quill.pasteHTML(this.currentValue);
+      this.Quill.root.addEventListener("paste", this.handlePaste, true);
+      this.setEditorHtml(this.currentValue);
       this.Quill.on("text-change", (delta, oldDelta, source) => {
-        const html = this.$refs.editor.children[0].innerHTML;
+        const rawHtml = this.$refs.editor.children[0].innerHTML;
+        const html = sanitizeRichText(rawHtml);
         const text = this.Quill.getText();
         const quill = this.Quill;
+        if (rawHtml !== html && !this.sanitizing) {
+          this.setEditorHtml(html);
+        }
         this.currentValue = html;
         this.$emit("input", html);
         this.$emit("on-change", { html, text, quill });
@@ -155,6 +182,38 @@ export default {
       this.Quill.on("editor-change", (eventName, ...args) => {
         this.$emit("on-editor-change", eventName, ...args);
       });
+    },
+    setEditorHtml(value) {
+      if (!this.Quill) {
+        return;
+      }
+      this.sanitizing = true;
+      this.Quill.pasteHTML(sanitizeRichText(value));
+      this.$nextTick(() => {
+        this.sanitizing = false;
+      });
+    },
+    handlePaste(event) {
+      const clipboardData = event.clipboardData || window.clipboardData;
+      if (!clipboardData) {
+        return;
+      }
+      const html = clipboardData.getData("text/html");
+      if (!html) {
+        return;
+      }
+      event.preventDefault();
+      const text = clipboardData.getData("text/plain");
+      const safeHtml = sanitizeRichText(html) || escapeHtml(text);
+      const range = this.Quill.getSelection(true);
+      const index = range ? range.index : this.Quill.getLength();
+      if (range && range.length) {
+        this.Quill.deleteText(range.index, range.length, "user");
+      }
+      const beforeLength = this.Quill.getLength();
+      this.Quill.clipboard.dangerouslyPasteHTML(index, safeHtml, "user");
+      const pasteLength = Math.max(this.Quill.getLength() - beforeLength, 0);
+      this.Quill.setSelection(index + pasteLength, 0, "user");
     },
     // 上传前校检格式和大小
     handleBeforeUpload(file) {
@@ -205,10 +264,6 @@ export default {
   border-right: 0px;
   content: "保存";
   padding-right: 0px;
-}
-
-.ql-snow .ql-tooltip[data-mode="video"]::before {
-  content: "请输入视频地址:";
 }
 
 .ql-snow .ql-picker.ql-size .ql-picker-label::before,

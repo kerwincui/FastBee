@@ -55,7 +55,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('template.index.891112-15')" align="left" header-align="center" prop="specs" min-width="150" class-name="specsColor">
                     <template slot-scope="scope">
-                        <div v-html="formatSpecsDisplay(scope.row.specs)"></div>
+                        <safe-html :html="formatSpecsDisplay(scope.row.specs)"></safe-html>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('template.index.891112-16')" align="center" prop="modelOrder" width="80" />

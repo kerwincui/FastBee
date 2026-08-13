@@ -168,7 +168,7 @@
                     <span style="margin-left: 20px">{{ form.createTime }}</span>
                 </div>
                 <div v-loading="loadingDetail" class="content">
-                    <div v-html="form.content"></div>
+                    <safe-html :html="form.content" mode="richText"></safe-html>
                 </div>
                 <div slot="footer" class="dialog-footer">
                     <el-button type="primary" @click="closeDetail">{{ $t('device.device-edit.148398-57') }}</el-button>
@@ -182,6 +182,7 @@
 import { listNews, getNews, delNews, addNews, updateNews } from '@/api/iot/news';
 import { listShortNewsCategory } from '@/api/iot/newsCategory';
 import imageUpload from '../../../components/ImageUpload/index';
+import { sanitizeRichText } from '@/utils/security';
 
 export default {
     name: 'News',
@@ -363,6 +364,7 @@ export default {
             }
             this.$refs['form'].validate((valid) => {
                 if (valid) {
+                    this.form.content = sanitizeRichText(this.form.content);
                     if (this.form.newsId != null) {
                         updateNews(this.form).then((response) => {
                             this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'));

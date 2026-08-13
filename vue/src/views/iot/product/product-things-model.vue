@@ -53,7 +53,7 @@
             </el-table-column>
             <el-table-column :label="$t('product.product-things-model.142341-18')" align="left" header-align="center" prop="specs" min-width="150" class-name="specsColor">
                 <template slot-scope="scope">
-                    <div v-html="formatSpecsDisplay(scope.row.specs)"></div>
+                    <safe-html :html="formatSpecsDisplay(scope.row.specs)"></safe-html>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('product.product-things-model.142341-19')" align="center" prop="formula" />

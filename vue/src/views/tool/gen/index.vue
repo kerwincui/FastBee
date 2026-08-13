@@ -78,7 +78,7 @@
                 <el-tabs v-model="preview.activeName">
                     <el-tab-pane v-for="(value, key) in preview.data" :label="key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm'))" :name="key.substring(key.lastIndexOf('/') + 1, key.indexOf('.vm'))" :key="key">
                         <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="value" v-clipboard:success="clipboardSuccess" style="float: right">{{ $t('device.device-edit.148398-55') }}</el-link>
-                        <pre><code class="hljs" v-html="highlightedCode(value, key)"></code></pre>
+                        <pre><code class="hljs"><safe-html :html="highlightedCode(value, key)" inline></safe-html></code></pre>
                     </el-tab-pane>
                 </el-tabs>
             </el-dialog>

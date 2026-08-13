@@ -25,13 +25,13 @@
       <el-table-column :label="$t('device.device-timer.433369-7')" align="center" prop="jobName" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('device.device-timer.433369-8')" align="center" prop="cronText">
         <template slot-scope="scope">
-          <div v-html="formatCronDisplay(scope.row)"></div>
+          <safe-html :html="formatCronDisplay(scope.row)"></safe-html>
         </template>
       </el-table-column>
       <el-table-column :label="$t('device.device-timer.433369-9')" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('device.device-timer.433369-10')" align="left" prop="actions" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <div v-html="formatActionsDisplay(scope.row.actions)" style="overflow: hidden; white-space: nowrap"></div>
+          <safe-html :html="formatActionsDisplay(scope.row.actions)" style="overflow: hidden; white-space: nowrap"></safe-html>
         </template>
       </el-table-column>
 
@@ -222,8 +222,8 @@
 
           <el-col :span="24">
             <el-form-item :label="$t('device.device-timer.433369-52')">
-              <div v-html="formatActionsDisplay(form.actions)"
-                style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; width: 465px"></div>
+              <safe-html :html="formatActionsDisplay(form.actions)"
+                style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; width: 465px"></safe-html>
             </el-form-item>
           </el-col>
         </el-row>

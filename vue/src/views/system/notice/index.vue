@@ -107,6 +107,7 @@
 
 <script>
 import { listNotice, getNotice, delNotice, addNotice, updateNotice } from '@/api/system/notice';
+import { sanitizeRichText } from '@/utils/security';
 
 export default {
     name: 'Notice',
@@ -213,6 +214,7 @@ export default {
         submitForm: function () {
             this.$refs['form'].validate((valid) => {
                 if (valid) {
+                    this.form.noticeContent = sanitizeRichText(this.form.noticeContent);
                     if (this.form.noticeId != undefined) {
                         updateNotice(this.form).then((response) => {
                             this.$modal.msgSuccess(this.$t('updateSuccess'));

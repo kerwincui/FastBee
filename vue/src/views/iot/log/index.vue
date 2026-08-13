@@ -177,6 +177,24 @@
 
 <script>
 import { listLog, getLog, delLog, addLog, updateLog } from '@/api/iot/log';
+import { hasXssRisk } from '@/utils/security';
+
+const XSS_CHECK_FIELDS = [
+    'logName',
+    'logLevel',
+    'deviceId',
+    'deviceName',
+    'userId',
+    'userName',
+    'tenantId',
+    'tenantName',
+    'triggerSource',
+    'isAlert',
+    'remark',
+    'logValue',
+    'istop',
+    'ismonitor',
+];
 
 export default {
     name: 'Log',
@@ -367,6 +385,10 @@ export default {
         submitForm() {
             this.$refs['form'].validate((valid) => {
                 if (valid) {
+                    if (this.hasLogXssRisk()) {
+                        this.$modal.msgError('日志内容包含疑似XSS脚本特征，请修改后再提交');
+                        return;
+                    }
                     if (this.form.deviceLogId != null) {
                         updateLog(this.form).then((response) => {
                             this.$modal.msgSuccess(this.$t('iot.group.index.637432-24'));
@@ -382,6 +404,9 @@ export default {
                     }
                 }
             });
+        },
+        hasLogXssRisk() {
+            return XSS_CHECK_FIELDS.some((field) => hasXssRisk(this.form[field]));
         },
         /** 删除按钮操作 */
         handleDelete(row) {

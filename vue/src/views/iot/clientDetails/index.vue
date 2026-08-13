@@ -38,7 +38,7 @@
             </el-table-column>
             <el-table-column :label="$t('speaker.clientDetails.index.893021-14')" align="center" prop="authorizedGrantTypes">
                 <template slot-scope="scope">
-                    <div v-html="formatGrantTypesDisplay(scope.row.authorizedGrantTypes)"></div>
+                    <safe-html :html="formatGrantTypesDisplay(scope.row.authorizedGrantTypes)"></safe-html>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('speaker.clientDetails.index.893021-15')" align="center" prop="webServerRedirectUri" min-width="130" />
