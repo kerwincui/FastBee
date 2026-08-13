@@ -1,6 +1,7 @@
 package com.fastbee.system.service.impl;
 
 import java.util.List;
+import com.fastbee.common.utils.html.RichTextSanitizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fastbee.system.domain.SysNotice;
@@ -51,6 +52,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService
     @Override
     public int insertNotice(SysNotice notice)
     {
+        notice.setNoticeContent(RichTextSanitizer.sanitize(notice.getNoticeContent()));
         return noticeMapper.insertNotice(notice);
     }
 
@@ -63,6 +65,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService
     @Override
     public int updateNotice(SysNotice notice)
     {
+        notice.setNoticeContent(RichTextSanitizer.sanitize(notice.getNoticeContent()));
         return noticeMapper.updateNotice(notice);
     }
 

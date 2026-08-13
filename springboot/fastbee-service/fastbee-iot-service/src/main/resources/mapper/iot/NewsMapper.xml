@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update news
         <trim prefix="SET" suffixOverrides=",">
             <if test="title != null and title != ''">title = #{title},</if>
-            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="content != null">content = #{content},</if>
             <if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
             <if test="isTop != null">is_top = #{isTop},</if>
             <if test="isBanner != null">is_banner = #{isBanner},</if>

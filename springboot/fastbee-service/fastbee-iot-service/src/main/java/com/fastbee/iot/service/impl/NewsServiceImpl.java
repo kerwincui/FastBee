@@ -3,6 +3,7 @@ package com.fastbee.iot.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.html.RichTextSanitizer;
 import com.fastbee.iot.mapper.NewsCategoryMapper;
 import com.fastbee.iot.model.CategoryNews;
 import com.fastbee.iot.model.IdAndName;
@@ -88,6 +89,7 @@ public class NewsServiceImpl implements INewsService
     @Override
     public int insertNews(News news)
     {
+        news.setContent(RichTextSanitizer.sanitize(news.getContent()));
         news.setCreateTime(DateUtils.getNowDate());
         return newsMapper.insertNews(news);
     }
@@ -101,6 +103,7 @@ public class NewsServiceImpl implements INewsService
     @Override
     public int updateNews(News news)
     {
+        news.setContent(RichTextSanitizer.sanitize(news.getContent()));
         news.setUpdateTime(DateUtils.getNowDate());
         return newsMapper.updateNews(news);
     }
