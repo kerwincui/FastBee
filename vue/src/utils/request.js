@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Notification, MessageBox, Message, Loading } from 'element-ui';
 import store from '@/store';
+import router from '@/router';
+import { PASSWORD_CHANGE_ROUTE, allowedWhileChangingPassword, isPasswordChangeResponse } from '@/utils/passwordChange';
 import { getToken } from '@/utils/auth';
 import errorCode from '@/utils/errorCode';
 import { tansParams, blobValidate } from '@/utils/ruoyi';
@@ -10,6 +12,20 @@ import { saveAs } from 'file-saver';
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
+let passwordChangeNavigation;
+
+function requirePasswordChange(message) {
+    if (getToken()) {
+        store.commit('SET_NEED_CHANGE_PWD', true);
+        if (!passwordChangeNavigation && router.currentRoute.path !== PASSWORD_CHANGE_ROUTE) {
+            passwordChangeNavigation = Promise.resolve(router.replace({ path: PASSWORD_CHANGE_ROUTE }))
+                .catch(() => {}).finally(() => { passwordChangeNavigation = undefined; });
+        }
+    }
+    const error = new axios.Cancel(message || '请先修改出厂默认密码');
+    error.needChangePwd = true;
+    return Promise.reject(error);
+}
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // 创建axios实例
@@ -26,6 +42,10 @@ service.interceptors.request.use(
         config.headers.language = store.state.settings.language;
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false;
+        if (getToken() && !isToken && store.state.user.needChangePwd && !allowedWhileChangingPassword(config)) {
+            // Stop background work locally; never disguise a rejected request as success.
+            return requirePasswordChange();
+        }
         // 是否需要防止数据重复提交
         const isRepeatSubmit = (config.headers || {}).repeatSubmit === false;
         if (getToken() && !isToken) {
@@ -65,13 +85,14 @@ service.interceptors.request.use(
     },
     (error) => {
         console.log(error);
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 
 // 响应拦截器
 service.interceptors.response.use(
     (res) => {
+        if (isPasswordChangeResponse(res.data, res.status)) return requirePasswordChange(res.data.msg);
         // 未设置状态码则默认成功状态
         const code = res.data.code || 200;
         // 获取错误信息，优先使用服务端消息
@@ -111,6 +132,11 @@ service.interceptors.response.use(
         }
     },
     (error) => {
+        if (axios.isCancel(error)) return Promise.reject(error);
+        const response = error.response;
+        if (response && isPasswordChangeResponse(response.data, response.status)) {
+            return requirePasswordChange(response.data.msg);
+        }
         console.log('err' + error);
         let { message } = error;
         if (message == 'Network Error') {
@@ -153,6 +179,10 @@ export function download(url, params, filename, config) {
             downloadLoadingInstance.close();
         })
         .catch((r) => {
+            if (axios.isCancel(r)) {
+                downloadLoadingInstance.close();
+                return;
+            }
             console.error(r);
             Message.error('下载文件出现错误，请联系管理员！');
             downloadLoadingInstance.close();

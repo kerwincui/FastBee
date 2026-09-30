@@ -80,6 +80,11 @@ public class LoginUser implements UserDetails {
 
     private Boolean neverExpire = Boolean.FALSE;
 
+    // Nullable for sessions created before this upgrade. The server migrates them.
+    private Boolean needChangePwd;
+    public Boolean getNeedChangePwd() { return needChangePwd; }
+    public void setNeedChangePwd(Boolean value) { needChangePwd = value; }
+
     public LoginUser() {
     }
 

@@ -132,5 +132,8 @@
     "batchCancelAuth": "Batch Cancel Authorization",
     "cancelAuth": "Cancel Authorization",
     "clean": "Clear",
-    "cleanSuccess": "Clear Successful"
+    "cleanSuccess": "Clear Successful",
+    "forceChangePwdTitle": "Change the default password",
+    "forceChangePwdTip": "This account is still using the factory default password, which is public and trivially guessable. To keep the platform and its devices safe, set a new password now. You will need to sign in again afterwards.",
+    "forceChangePwdConfirm": "Change password and sign in again"
 }

@@ -3,6 +3,8 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { isHttp, isEmpty } from "@/utils/validate"
 import defAva from '@/assets/images/profile.jpg'
 
+const NEED_CHANGE_PWD_KEY = 'needChangePwd'
+
 const user = {
   state: {
     token: getToken(),
@@ -10,7 +12,9 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
-    permissions: []
+    permissions: [],
+    // 出厂默认口令未修改标记，登录接口下发，持久化以覆盖刷新场景
+    needChangePwd: localStorage.getItem(NEED_CHANGE_PWD_KEY) === 'true'
   },
 
   mutations: {
@@ -31,6 +35,14 @@ const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
+    },
+    SET_NEED_CHANGE_PWD: (state, needChangePwd) => {
+      state.needChangePwd = needChangePwd
+      if (needChangePwd) {
+        localStorage.setItem(NEED_CHANGE_PWD_KEY, 'true')
+      } else {
+        localStorage.removeItem(NEED_CHANGE_PWD_KEY)
+      }
     }
   },
 
@@ -45,6 +57,7 @@ const user = {
         login(username, password, code, uuid).then(res => {
           setToken(res.token)
           commit('SET_TOKEN', res.token)
+          commit('SET_NEED_CHANGE_PWD', res.needChangePwd === true)
           resolve()
         }).catch(error => {
           reject(error)
@@ -56,6 +69,7 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(res => {
+          commit('SET_NEED_CHANGE_PWD', res.needChangePwd === true)
           const user = res.user
           let avatar = user.avatar || ""
           if (!isHttp(avatar)) {
@@ -84,6 +98,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
+          commit('SET_NEED_CHANGE_PWD', false)
           removeToken()
           resolve()
         }).catch(error => {
@@ -96,6 +111,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_NEED_CHANGE_PWD', false)
         removeToken()
         resolve()
       })

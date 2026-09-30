@@ -11,6 +11,7 @@ import com.fastbee.iot.ruleEngine.RuleProcess;
 import com.fastbee.mq.redischannel.producer.MessageProducer;
 import com.fastbee.mq.service.IDeviceReportMessageService;
 import com.fastbee.mqtt.annotation.Process;
+import com.fastbee.mqtt.acl.MqttAccessControl;
 import com.fastbee.mqtt.handler.adapter.MqttHandler;
 import com.fastbee.mqtt.manager.ClientManager;
 import com.fastbee.mqtt.manager.ResponseManager;
@@ -52,20 +53,31 @@ public class MqttPublish implements MqttHandler {
     @Resource
     private RuleProcess ruleProcess;
 
+    @Resource
+    private MqttAccessControl mqttAccessControl;
+
     @Override
     public void handler(ChannelHandlerContext ctx, MqttMessage message) {
         MqttPublishMessage publishMessage = (MqttPublishMessage) message;
         /*获取客户端id*/
         String clientId = AttributeUtils.getClientId(ctx.channel());
         String topicName = publishMessage.variableHeader().topicName();
+        Session session = AttributeUtils.getSession(ctx.channel());
+        if (!mqttAccessControl.canPublish(session == null ? null : session.getPrincipal(), topicName,
+                publishMessage.content().toString(StandardCharsets.UTF_8))) {
+            // MQTT 3.1.1 has no negative PUBACK: terminate denied connections rather than silently hanging QoS1.
+            ctx.close();
+            return;
+        }
         log.debug("=>***客户端[{}],主题[{}],推送消息[{}]", clientId, topicName,
                 ByteBufUtil.hexDump(publishMessage.content()));
         // 以get结尾是模拟客户端数据,只转发消息
         if (topicName.endsWith(FastBeeConstant.MQTT.PROPERTY_GET_SIMULATE)) {
+            callBack(session, publishMessage, clientId);
             sendTestToMQ(publishMessage);
         } else {
             /*获取客户端session*/
-            Session session = AttributeUtils.getSession(ctx.channel());
+            /*发布权限校验：web端只能操作自己名下的设备*/
             /*推送保留信息*/
             pubRetain(publishMessage);
             /*响应客户端消息到达Broker*/

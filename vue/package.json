@@ -5,6 +5,7 @@
     "author": "kerwincui",
     "license": "AGPL3.0",
     "scripts": {
+        "test:security": "node tests/security-regression.cjs",
         "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open",
         "build:prod": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --report",
         "build:stage": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --mode staging",

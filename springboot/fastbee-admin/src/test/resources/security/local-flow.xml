@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow>
+    <nodes>
+        <node id="securityFixture" class="com.fastbee.security.SecurityRegressionTest$LocalFixtureNode"/>
+    </nodes>
+    <chain name="securityFixtureChain">THEN(securityFixture)</chain>
+</flow>

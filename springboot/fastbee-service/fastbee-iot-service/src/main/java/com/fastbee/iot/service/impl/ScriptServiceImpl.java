@@ -5,16 +5,27 @@ import cn.hutool.core.util.IdUtil;
 import com.fastbee.common.core.domain.AjaxResult;
 import com.fastbee.common.core.domain.entity.SysRole;
 import com.fastbee.common.core.domain.entity.SysUser;
+import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
+import com.fastbee.common.utils.StringUtils;
 import com.fastbee.iot.domain.Script;
 import com.fastbee.iot.mapper.ScriptMapper;
 import com.fastbee.iot.model.ScriptCondition;
+import com.fastbee.iot.ruleEngine.security.ScriptSecurityValidator;
 import com.fastbee.iot.service.IScriptService;
 import com.yomahub.liteflow.core.FlowExecutor;
+import com.yomahub.liteflow.builder.LiteFlowNodeBuilder;
+import com.yomahub.liteflow.enums.NodeTypeEnum;
+import com.yomahub.liteflow.flow.FlowBus;
+import com.yomahub.liteflow.flow.element.Node;
 import com.yomahub.liteflow.script.ScriptExecutorFactory;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import com.fastbee.ruleEngine.security.SecureGroovyScriptExecutor;
 import org.slf4j.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 import ch.qos.logback.classic.LoggerContext;
@@ -25,8 +36,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.fastbee.common.core.domain.AjaxResult.success;
 import static com.fastbee.common.utils.SecurityUtils.getLoginUser;
@@ -46,6 +55,9 @@ public class ScriptServiceImpl implements IScriptService
 
     @Resource
     private FlowExecutor flowExecutor;
+
+    @Resource
+    private ScriptSecurityValidator scriptSecurityValidator;
 
     /**
      * 查询规则引擎脚本
@@ -130,10 +142,15 @@ public class ScriptServiceImpl implements IScriptService
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int insertRuleScript(Script ruleScript)
     {
-        // 脚本中引用包替换为许可的包
+        // 保留原始源码；默认导入和安全限制由统一编译器处理
         ruleScript.setScriptData(replaceAllowPackage(ruleScript.getScriptData()));
+        // 统一受限编译校验，成功后才允许入库
+        assertScriptSafe(ruleScript);
+        if (ruleScript.getEnable() == null) ruleScript.setEnable(1);
+        Class<? extends groovy.lang.Script> compiled = SecureGroovyScriptExecutor.compileSource(ruleScript.getScriptData());
         // 设置脚本标识,D=数据流，A=执行动作，T=触发器,雪花算法生成唯一数
         Snowflake snowflake = IdUtil.createSnowflake(1,1);
         ruleScript.setScriptId("D"+snowflake.nextId());
@@ -144,24 +161,42 @@ public class ScriptServiceImpl implements IScriptService
         int result = ruleScriptMapper.insertRuleScript(ruleScript);
         // 动态刷新脚本
         if(result==1){
-            ScriptExecutorFactory.loadInstance().getScriptExecutor(ruleScript.getScriptLanguage()).load(ruleScript.getScriptId(), ruleScript.getScriptData());
+            publishAfterCommit(ruleScript, compiled);
         }
         return result;
+    }
+
+    /**
+     * 脚本安全校验，未通过时直接抛出业务异常，阻止脚本入库与热加载
+     */
+    private void assertScriptSafe(Script ruleScript) {
+        if (ruleScript.getScriptLanguage() != null) {
+            ruleScript.setScriptLanguage(ruleScript.getScriptLanguage().trim().toLowerCase(java.util.Locale.ROOT));
+        }
+        String error = scriptSecurityValidator.validateLanguage(ruleScript.getScriptLanguage());
+        if (error != null) {
+            throw new ServiceException(error);
+        }
+        if (StringUtils.isEmpty(ruleScript.getScriptType())) {
+            ruleScript.setScriptType(Integer.valueOf(2).equals(ruleScript.getScriptPurpose()) ? "boolean_script" : "script");
+        }
+        NodeTypeEnum nodeType = NodeTypeEnum.getEnumByCode(ruleScript.getScriptType());
+        if (nodeType == null || !nodeType.isScript()) {
+            throw new ServiceException("不支持的规则脚本类型：" + ruleScript.getScriptType());
+        }
+        error = scriptSecurityValidator.validateScriptData(ruleScript.getScriptData());
+        if (error != null) {
+            throw new ServiceException(error);
+        }
     }
 
     /**
      * 脚本中引用包替换为许可的包
      * @return
      */
-    private String replaceAllowPackage(String scriptData){
-        String header="import cn.hutool.json.JSONArray;\n" +
-                "import cn.hutool.json.JSONObject;\n" +
-                "import cn.hutool.json.JSONUtil;\n" +
-                "import cn.hutool.core.util.NumberUtil;\n";
-        // 正则替换import为许可的引用包
-        String pattern = "import.*[;\\n\\s]";
-        String data = scriptData.replaceAll(pattern, "");
-        return header + data;
+    private String replaceAllowPackage(String scriptData) {
+        // Preserve imports and multiline strings; the safe compiler supplies default imports.
+        return scriptData;
     }
 
     /**
@@ -171,15 +206,38 @@ public class ScriptServiceImpl implements IScriptService
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateRuleScript(Script ruleScript)
     {
+        SysUser sysUser = getLoginUser().getUser();
+        Script existing = ruleScriptMapper.selectRuleScriptById(ruleScript.getScriptId());
+        if (existing == null) {
+            throw new ServiceException("规则脚本不存在：" + ruleScript.getScriptId());
+        }
+        // 越权校验：非管理员只能修改自己创建的脚本
+        if (!sysUser.isAdmin() && !sysUser.getUserId().equals(existing.getUserId())) {
+            throw new ServiceException("无权修改他人创建的规则脚本");
+        }
         // 脚本中引用包替换为许可的包
+        if (ruleScript.getScriptData() == null) ruleScript.setScriptData(existing.getScriptData());
+        if (ruleScript.getScriptLanguage() == null) ruleScript.setScriptLanguage(existing.getScriptLanguage());
+        if (ruleScript.getEnable() == null) ruleScript.setEnable(existing.getEnable());
+        if (ruleScript.getScriptType() == null) ruleScript.setScriptType(existing.getScriptType());
+        if (ruleScript.getScriptPurpose() == null) ruleScript.setScriptPurpose(existing.getScriptPurpose());
+        if (ruleScript.getScriptName() == null) ruleScript.setScriptName(existing.getScriptName());
         ruleScript.setScriptData(replaceAllowPackage(ruleScript.getScriptData()));
+        // 统一受限编译校验，成功后才允许入库
+        assertScriptSafe(ruleScript);
+        Class<? extends groovy.lang.Script> compiled = SecureGroovyScriptExecutor.compileSource(ruleScript.getScriptData());
+        // 归属与主键不允许通过请求体改写，避免把脚本转移给他人或改写到别的组件标识上
+        ruleScript.setScriptId(existing.getScriptId());
+        ruleScript.setUserId(null);
+        ruleScript.setUserName(null);
         ruleScript.setUpdateTime(DateUtils.getNowDate());
         int result = ruleScriptMapper.updateRuleScript(ruleScript);
         // 动态刷新脚本
         if(result==1){
-            ScriptExecutorFactory.loadInstance().getScriptExecutor(ruleScript.getScriptLanguage()).load(ruleScript.getScriptId(), ruleScript.getScriptData());
+            publishAfterCommit(ruleScript, compiled);
         }
         return result;
     }
@@ -191,9 +249,20 @@ public class ScriptServiceImpl implements IScriptService
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteRuleScriptByIds(String[] ids)
     {
-        return ruleScriptMapper.deleteRuleScriptByIds(ids);
+        SysUser user = getLoginUser().getUser();
+        for (String id : ids) {
+            Script script = ruleScriptMapper.selectRuleScriptById(id);
+            if (script == null || !user.isAdmin() && !user.getUserId().equals(script.getUserId()))
+                throw new ServiceException("无权删除该规则脚本");
+        }
+        int result = ruleScriptMapper.deleteRuleScriptByIds(ids);
+        if (result > 0) afterCommit(() -> {
+            for (String id : ids) ScriptExecutorFactory.loadInstance().getScriptExecutor("groovy").unLoad(id);
+        });
+        return result;
     }
 
     /**
@@ -203,9 +272,46 @@ public class ScriptServiceImpl implements IScriptService
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteRuleScriptById(String id)
     {
-        return ruleScriptMapper.deleteRuleScriptById(id);
+        return deleteRuleScriptByIds(new String[]{id});
+    }
+
+    private void publishAfterCommit(Script script, Class<? extends groovy.lang.Script> compiled) {
+        SecureGroovyScriptExecutor executor = (SecureGroovyScriptExecutor) ScriptExecutorFactory.loadInstance().getScriptExecutor("groovy");
+        final String id = script.getScriptId();
+        final boolean enabled = Integer.valueOf(1).equals(script.getEnable());
+        final String source = script.getScriptData();
+        final String name = script.getScriptName();
+        final NodeTypeEnum type = NodeTypeEnum.getEnumByCode(script.getScriptType());
+        afterCommit(() -> {
+            if (!enabled) {
+                executor.unLoad(id);
+                return;
+            }
+            Node node = FlowBus.getNode(id);
+            if (node == null || node.getType() != type) {
+                // A compiled cache entry alone is not a LiteFlow node. Register new nodes
+                // only after commit, through the same restricted compiler/SPI.
+                LiteFlowNodeBuilder.createNode().setType(type).setId(id).setName(name)
+                        .setLanguage("groovy").setScript(source).build();
+            } else {
+                // Keep source metadata aligned so a later rule reload cannot restore old code.
+                node.setScript(source);
+                node.setLanguage("groovy");
+                if (name != null) node.setName(name);
+            }
+            executor.install(id, compiled);
+        });
+    }
+
+    private void afterCommit(Runnable action) {
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override public void afterCommit() { action.run(); }
+            });
+        } else action.run();
     }
 
     /**
@@ -215,19 +321,18 @@ public class ScriptServiceImpl implements IScriptService
      */
     @Override
     public AjaxResult validateScript(Script ruleScript){
-        // 检查安全性检查
-        String pattern  = ".*while|for\\s*\\(|InputStream|OutputStream|Reader|Writer|File|Socket.*";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(ruleScript.getScriptData());
-        if(m.find()){
-            return success("验证失败，错误信息：" + "不能包含关键词for、while、Reader、Write、File、Socket等",false);
+        // 与保存路径使用同一编译器；验证不执行脚本，也不发布到全局节点缓存
+        String scriptData = replaceAllowPackage(ruleScript.getScriptData());
+        String language = StringUtils.isEmpty(ruleScript.getScriptLanguage()) ? "groovy" : ruleScript.getScriptLanguage();
+        String error = scriptSecurityValidator.validateLanguage(language);
+        if (error == null) {
+            error = scriptSecurityValidator.validateScriptData(scriptData);
         }
-        // 热刷新脚本
-        try {
-            ScriptExecutorFactory.loadInstance().getScriptExecutor("groovy").load("validateScript", ruleScript.getScriptData());
-        }catch(Exception e){
-            return success("验证失败，错误信息：" + e.getMessage(),false);
+        if (error != null) {
+            return success("验证失败，错误信息：" + error, false);
         }
-        return success("验证成功，脚本的实际执行情况可以查看后端日志文件",true);
+        // 只做编译校验，不再 load 到执行器：load 会以固定节点名覆盖全局组件注册表，
+        // 使任意登录用户都能往内存里塞入未落库的脚本组件
+        return success("验证成功，脚本的实际执行情况可以查看后端日志文件", true);
     }
 }

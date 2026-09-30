@@ -9,6 +9,7 @@ import com.fastbee.iot.service.IProductService;
 import com.fastbee.iot.service.IScriptService;
 import com.fastbee.ruleEngine.context.MsgContext;
 import com.fastbee.ruleEngine.core.FlowLogExecutor;
+import com.fastbee.ruleEngine.security.ScriptSandbox;
 import com.yomahub.liteflow.builder.el.LiteFlowChainELBuilder;
 import com.yomahub.liteflow.flow.LiteflowResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,8 @@ public class RuleProcess {
     private RedisCache redisCache;
     @Resource
     private IProductService productService;
+    @Resource
+    private ScriptSandbox scriptSandbox;
 
     /**
      * 规则引擎脚本处理
@@ -55,6 +58,7 @@ public class RuleProcess {
         scriptCondition.setProductId(productCode.getProductId());
         scriptCondition.setScriptEvent(event);    // 事件 1=设备上报 2=平台下发 3=设备上线 4=设备下线
         scriptCondition.setScriptPurpose(1);  // 脚本用途：数据流=1
+        scriptCondition.setEnable(1);
         String[] scriptIds = scriptService.selectRuleScriptIdArray(scriptCondition);
         MsgContext context = MsgContext.builder()
                 .serialNumber(serialNumber)
@@ -73,8 +77,9 @@ public class RuleProcess {
             String requestId = "script/" + script;
             String el = "THEN(" + script + ")";
             LiteFlowChainELBuilder.createChain().setChainName(eChainName).setEL(el).build();
-            // 执行规则脚本
-            LiteflowResponse response = flowLogExecutor.execute2RespWithRid(eChainName, null, requestId, context);
+            // 执行规则脚本（脚本内容来自数据库，等同于不可信代码，必须在沙箱内执行）
+            LiteflowResponse response = scriptSandbox.call(() ->
+                    flowLogExecutor.execute2RespWithRid(eChainName, null, requestId, context));
             if (!response.isSuccess()) {
                 log.error("规则脚本执行发生错误：" + response.getMessage());
             }
@@ -93,11 +98,16 @@ public class RuleProcess {
         String cacheKey = RedisKeyBuilder.buildDeviceMsgCacheKey(serialNumber);
         if (redisCache.containsKey(cacheKey)) {
             Object cacheObject = redisCache.getCacheObject(cacheKey);
-            return JSON.parseObject(cacheObject.toString(), ProductCode.class);
+            productCode = cacheObject == null ? null : JSON.parseObject(cacheObject.toString(), ProductCode.class);
+            // Upgrade pre-ACL cache entries instead of denying legitimate device owners.
+            if (productCode != null && productCode.getUserId() != null) {
+                return productCode;
+            }
         }
         productCode = productService.getProtocolBySerialNumber(serialNumber);
-        String jsonString = JSON.toJSONString(productCode);
-        redisCache.setCacheObject(cacheKey, jsonString);
+        if (productCode != null) {
+            redisCache.setCacheObject(cacheKey, JSON.toJSONString(productCode));
+        }
         return productCode;
     }
 }

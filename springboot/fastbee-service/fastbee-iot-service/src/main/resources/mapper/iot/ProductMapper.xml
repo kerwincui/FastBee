@@ -209,7 +209,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getProtocolBySerialNumber" resultType="com.fastbee.iot.model.ProductCode">
         select p.protocol_code as protocolCode,
-               p.product_id as productId
+               p.product_id as productId,
+               d.user_id as userId,
+               d.tenant_id as tenantId
           from
            iot_product p
            inner join iot_device d on p.product_id = d.product_id

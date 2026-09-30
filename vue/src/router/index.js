@@ -54,6 +54,11 @@ export const constantRoutes = [
         hidden: true,
     },
     {
+        path: '/change-password',
+        component: () => import('@/components/ForceChangePwd'),
+        hidden: true,
+    },
+    {
         path: '/register',
         component: () => import('@/views/register'),
         hidden: true,

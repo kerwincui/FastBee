@@ -53,6 +53,12 @@ public class ResponseManager {
      */
     public static void publishClients(MqttPublishMessage msg, Session session) {
         try {
+            if (session.getPrincipal() == null || session.getPrincipal().isWeb()
+                    && !com.fastbee.common.utils.spring.SpringUtils.getBean(com.fastbee.mqtt.acl.MqttAccessControl.class)
+                    .canSubscribe(session.getPrincipal(), msg.variableHeader().topicName())) {
+                session.getHandlerContext().close();
+                return;
+            }
             final Channel channel = session.getHandlerContext().channel();
             MqttQoS qos = msg.fixedHeader().qosLevel();
             ByteBuf sendBuf = msg.content().retainedDuplicate();

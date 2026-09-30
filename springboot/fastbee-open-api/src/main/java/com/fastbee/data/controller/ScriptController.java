@@ -107,8 +107,9 @@ public class ScriptController extends BaseController
     }
 
     /**
-     * 删除规则引擎脚本
+     * 验证规则脚本
      */
+    @PreAuthorize("@ss.hasAnyPermi('iot:script:add,iot:script:edit')")
     @PostMapping("/validate")
     public AjaxResult validateScript(@RequestBody Script ruleScript)
     {

@@ -1,5 +1,6 @@
 package com.fastbee.ruleEngine.config;
 
+import com.fastbee.ruleEngine.security.SandboxThreadPoolExecutor;
 import com.yomahub.liteflow.thread.ExecutorBuilder;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
@@ -7,9 +8,10 @@ import java.util.concurrent.*;
 
 public class MainExecutorBuilder implements ExecutorBuilder {
     private ThreadFactory springThreadFactory = new CustomizableThreadFactory("liteflow-main-");
+
     @Override
     public ExecutorService buildExecutor() {
-        return new ThreadPoolExecutor(
+        return new SandboxThreadPoolExecutor(
                 10,
                 30,
                 5,

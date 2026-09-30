@@ -1,6 +1,7 @@
 package com.fastbee.base.session;
 
 import com.fastbee.common.core.protocol.Message;
+import com.fastbee.common.core.domain.model.MqttClientPrincipal;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.exception.ServiceException;
 import com.fastbee.common.utils.DateUtils;
@@ -79,6 +80,9 @@ public class Session {
     private String ip;
     /*服务协议类型 MQTT，TCP UDP COAP*/
     private ServerType serverType;
+
+    /*认证主体，记录这条连接代表哪个平台用户，供 PUBLISH 阶段做设备归属校验*/
+    private MqttClientPrincipal principal;
 
     public Session(){
 

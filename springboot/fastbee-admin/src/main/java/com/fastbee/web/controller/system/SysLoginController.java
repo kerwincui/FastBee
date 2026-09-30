@@ -57,6 +57,8 @@ public class SysLoginController
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid(), request.getHeader(LANGUAGE));
         ajax.put(Constants.TOKEN, token);
+        // Use the authenticated account and the same policy as GetInfo, HTTP and MQTT.
+        ajax.put("needChangePwd", com.fastbee.common.utils.PasswordPolicy.requiresChange(tokenService.getLoginUserByToken(token)));
         return ajax;
     }
 
@@ -81,6 +83,7 @@ public class SysLoginController
         }
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", user);
+        ajax.put("needChangePwd", com.fastbee.common.utils.PasswordPolicy.requiresChange(loginUser));
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
         return ajax;

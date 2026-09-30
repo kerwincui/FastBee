@@ -2,6 +2,7 @@ package com.fastbee.mqtt.handler;
 
 import com.fastbee.common.constant.FastBeeConstant;
 import com.fastbee.common.core.redis.RedisCache;
+import com.fastbee.common.core.domain.model.MqttClientPrincipal;
 import com.fastbee.common.enums.ServerType;
 import com.fastbee.common.utils.DateUtils;
 import com.fastbee.mqtt.annotation.Process;
@@ -126,11 +127,13 @@ public class MqttConnect implements MqttHandler {
         String username = message.payload().userName();
         String password = message.payload().passwordInBytes() == null ? null : new String(message.payload().passwordInBytes(), CharsetUtil.UTF_8);
         /*验证失败，应答客户端*/
-        if (!authService.auth(clientId, username, password)) {
+        MqttClientPrincipal principal = authService.authenticate(clientId, username, password);
+        if (principal == null) {
             MqttConnAckMessage connAckMessage = MqttMessageUtils.buildConntAckMessage(MqttConnectReturnCode.CONNECTION_REFUSED_BAD_USER_NAME_OR_PASSWORD, false);
             ResponseManager.responseMessage(session, connAckMessage, true);
             return false;
         }
+        session.setPrincipal(principal);
         return true;
     }
 

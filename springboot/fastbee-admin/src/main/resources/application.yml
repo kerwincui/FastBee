@@ -102,3 +102,9 @@ xss:
   enabled: true                                         # 过滤开关
   excludes: /system/notice                              # 排除链接（多个用逗号分隔）
   urlPatterns: /system/*,/monitor/*,/tool/*             # 匹配链接
+
+# 规则脚本统一使用受限编译器和业务能力白名单，禁止关闭安全边界。
+script:
+  sandbox:
+    enabled: true
+    allow-network: true # 保留既有 HTTP 集成；设为 false 禁止脚本主动 HTTP 调用

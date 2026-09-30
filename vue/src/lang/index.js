@@ -25,11 +25,24 @@ const i18n = new VueI18n({
 locale.use(Element, {
   i18n: (key, value) => i18n.t(key, value),
 });
-listLanguage({ pageNum: 1, pageSize: 1000 }).then((res) => {
-  res.rows.forEach((row) => {
-    if (langs[row.language]) langs[row.language].language = row.langName;
-  });
-});
+let languageNamesLoaded = false;
+let languageNamesRequest;
+function loadLanguageNames() {
+  if (languageNamesLoaded) return Promise.resolve();
+  if (!languageNamesRequest) {
+    languageNamesRequest = listLanguage({ pageNum: 1, pageSize: 1000 }).then((res) => {
+      res.rows.forEach((row) => {
+        if (langs[row.language]) langs[row.language].language = row.langName;
+      });
+      languageNamesLoaded = true;
+    }).catch(() => {
+      // Built-in translations remain available if optional display names cannot load.
+    }).finally(() => {
+      languageNamesRequest = undefined;
+    });
+  }
+  return languageNamesRequest;
+}
 
 function getJson(contexts) {
   let json = {};
@@ -40,4 +53,4 @@ function getJson(contexts) {
 }
 
 // 导出langs 给切换语言的时候用
-export { i18n, langs };
+export { i18n, langs, loadLanguageNames };

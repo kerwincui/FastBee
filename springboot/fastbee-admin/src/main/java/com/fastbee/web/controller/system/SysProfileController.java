@@ -112,9 +112,21 @@ public class SysProfileController extends BaseController
     {
         String oldPassword = params.get("oldPassword");
         String newPassword = params.get("newPassword");
-        LoginUser loginUser = getLoginUser();
+        if (newPassword == null || newPassword.length() < com.fastbee.common.constant.UserConstants.PASSWORD_MIN_LENGTH
+                || newPassword.length() > com.fastbee.common.constant.UserConstants.PASSWORD_MAX_LENGTH
+                || com.fastbee.common.utils.PasswordPolicy.isDefault(newPassword)) {
+            return error("请输入符合长度要求且不是出厂默认值的新密码");
+        }
+        // Update this authenticated session, not the last session stored under the shared user-id cache.
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         String userName = loginUser.getUsername();
-        String password = loginUser.getPassword();
+        SysUser currentUser = userService.selectUserById(loginUser.getUserId());
+        if (currentUser == null || !"0".equals(currentUser.getStatus()) || "2".equals(currentUser.getDelFlag())) {
+            return error("当前账号不可用，请重新登录");
+        }
+        // A restricted session issued before another session changed the password must not
+        // regain the account by checking the old, cached default-password hash.
+        String password = currentUser.getPassword();
         if (!SecurityUtils.matchesPassword(oldPassword, password))
         {
             return error(MessageUtils.message("user.update.failed.password.wrong"));
@@ -128,6 +140,7 @@ public class SysProfileController extends BaseController
         {
             // 更新缓存用户密码
             loginUser.getUser().setPassword(newPassword);
+            loginUser.setNeedChangePwd(false);
             tokenService.setLoginUser(loginUser);
             return success();
         }

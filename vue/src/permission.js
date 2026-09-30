@@ -5,6 +5,8 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
 import { isRelogin } from '@/utils/request'
+import { PASSWORD_CHANGE_ROUTE } from '@/utils/passwordChange'
+import { loadLanguageNames } from '@/lang'
 
 NProgress.configure({ showSpinner: false })
 
@@ -24,10 +26,18 @@ router.beforeEach((to, from, next) => {
         // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(() => {
           isRelogin.show = false
+          // Resolve the server-owned password state before mounting any business page.
+          if (store.state.user.needChangePwd) {
+            if (to.path === PASSWORD_CHANGE_ROUTE) next()
+            else next({ path: PASSWORD_CHANGE_ROUTE, replace: true })
+            return
+          }
           store.dispatch('GenerateRoutes').then(accessRoutes => {
             // 根据roles权限生成可访问的路由表
             router.addRoutes(accessRoutes) // 动态添加可访问路由表
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+            next(to.path === PASSWORD_CHANGE_ROUTE
+              ? { path: '/index', replace: true }
+              : { ...to, replace: true }) // hack方法 确保addRoutes已完成
           })
         }).catch(err => {
             store.dispatch('LogOut').then(() => {
@@ -35,6 +45,11 @@ router.beforeEach((to, from, next) => {
               next({ path: '/' })
             })
           })
+      } else if (store.state.user.needChangePwd) {
+        if (to.path === PASSWORD_CHANGE_ROUTE) next()
+        else next({ path: PASSWORD_CHANGE_ROUTE, replace: true })
+      } else if (to.path === PASSWORD_CHANGE_ROUTE) {
+        next({ path: '/index', replace: true })
       } else {
         next()
       }
@@ -53,4 +68,6 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(() => {
   NProgress.done()
+  // Avoid the eager language-list request before GetInfo has resolved the login state.
+  if (!getToken() || !store.state.user.needChangePwd) loadLanguageNames()
 })

@@ -152,6 +152,7 @@ public class TokenService {
      * @return 令牌
      */
     public String createToken(LoginUser loginUser) {
+        com.fastbee.common.utils.PasswordPolicy.requiresChange(loginUser);
         String token = IdUtils.fastUUID();
         loginUser.setToken(token);
         setUserAgent(loginUser);
@@ -198,6 +199,7 @@ public class TokenService {
     }
 
     public String createToken(LoginUser loginUser, String secret, int expireTime) {
+        com.fastbee.common.utils.PasswordPolicy.requiresChange(loginUser);
         String token = IdUtils.fastUUID();
         loginUser.setToken(token);
         setUserAgent(loginUser);

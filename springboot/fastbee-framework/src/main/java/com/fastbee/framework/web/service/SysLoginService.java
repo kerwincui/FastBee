@@ -18,6 +18,8 @@ import com.fastbee.framework.manager.factory.AsyncFactory;
 import com.fastbee.framework.security.context.AuthenticationContextHolder;
 import com.fastbee.system.service.ISysConfigService;
 import com.fastbee.system.service.ISysUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +29,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 登录校验方法
@@ -36,6 +42,17 @@ import javax.annotation.Resource;
 @Component
 public class SysLoginService
 {
+    private static final Logger log = LoggerFactory.getLogger(SysLoginService.class);
+
+    /**
+     * 出厂默认口令。命中的账号视为未改密。
+     *
+     * <p>默认口令是规则引擎脚本注入类漏洞的前置条件：脚本编辑权限只有管理员角色持有，
+     * 而 admin/admin123 是开源仓库公开的默认值，攻击者无需任何凭据即可拿到管理员会话。</p>
+     */
+    private static final Set<String> DEFAULT_PASSWORDS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList("admin123", "123456")));
+
     @Autowired
     private TokenService tokenService;
 
@@ -102,8 +119,26 @@ public class SysLoginService
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         loginUser.setLanguage(language);
         recordLoginInfo(loginUser.getUserId());
+        warnIfDefaultPassword(loginUser, password);
         // 生成token
         return tokenService.createToken(loginUser);
+    }
+
+    /**
+     * 判断登录使用的口令是否为出厂默认口令
+     */
+    public boolean isDefaultPassword(String rawPassword)
+    {
+        return rawPassword != null && DEFAULT_PASSWORDS.contains(rawPassword);
+    }
+
+    private void warnIfDefaultPassword(LoginUser loginUser, String rawPassword)
+    {
+        if (!isDefaultPassword(rawPassword) || com.fastbee.common.utils.PasswordPolicy.isDemoAccount(loginUser))
+        {
+            return;
+        }
+        log.warn("账号 {} 使用出厂默认口令，当前会话仅允许完成改密和退出，请立即更换。", loginUser.getUsername());
     }
 
     /**

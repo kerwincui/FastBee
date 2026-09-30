@@ -132,5 +132,8 @@
   "batchCancelAuth": "批量取消授权",
   "cancelAuth": "取消授权",
   "clean": "清空",
-  "cleanSuccess": "清空成功"
+  "cleanSuccess": "清空成功",
+  "forceChangePwdTitle": "请修改初始密码",
+  "forceChangePwdTip": "检测到当前账号仍在使用出厂默认口令，该口令已公开且极易被爆破。为保障平台与设备安全，请立即设置新密码，修改后需要重新登录。",
+  "forceChangePwdConfirm": "确认修改并重新登录"
 }

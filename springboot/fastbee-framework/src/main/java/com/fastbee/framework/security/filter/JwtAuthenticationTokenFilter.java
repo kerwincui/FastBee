@@ -32,6 +32,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
             throws ServletException, IOException
     {
         LoginUser loginUser = tokenService.getLoginUser(request);
+        if (loginUser != null) {
+            Boolean previousPasswordState = loginUser.getNeedChangePwd();
+            boolean required = com.fastbee.common.utils.PasswordPolicy.requiresChange(loginUser);
+            if (!java.util.Objects.equals(previousPasswordState, loginUser.getNeedChangePwd())) tokenService.setLoginUser(loginUser);
+            if (required && !com.fastbee.common.utils.PasswordPolicy.allowedWhileChanging(
+                    request.getMethod(), request.getServletPath())) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"code\":403,\"needChangePwd\":true,\"msg\":\"请先修改出厂默认密码\"}");
+                return;
+            }
+        }
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication()))
         {
             tokenService.verifyToken(loginUser);
