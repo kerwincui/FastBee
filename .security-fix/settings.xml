@@ -1,1 +1,0 @@
-<settings><mirrors><mirror><id>public</id><mirrorOf>*,!jenkins-releases</mirrorOf><url>https://repo.maven.apache.org/maven2</url></mirror></mirrors></settings>
