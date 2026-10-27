@@ -155,9 +155,9 @@ export function getMqttConnect(params) {
 }
 
 //获取国标配置信息
-export function getSipConfig(deviceSipId) {
+export function getSipConfig(deviceId) {
     return request({
-        url: '/sip/sipconfig/auth/' + deviceSipId,
+        url: '/sip/sipconfig/auth/' + deviceId,
         method: 'get',
     });
 }

@@ -285,8 +285,8 @@
                     <el-input clearable v-model="httpForm.port" readonly style="width: 400px"></el-input>
                 </el-form-item>
             </el-form>
-            <el-form ref="GBform" :model="GBform" :rules="rules" label-width="120px"
-                v-if="this.form.transport == 'GB28181'">
+                <el-form ref="GBform" :model="GBform" :rules="rules" label-width="120px"
+                v-if="isSipTransport || showSipConfig">
                 <!-- 服务器域 -->
                 <el-form-item :label="$t('device.device-edit.148398-87')">
                     <el-input clearable v-model="GBform.domainAlias" readonly style="width: 400px"></el-input>
@@ -361,6 +361,9 @@ export default {
         },
     },
     computed: {
+        isSipTransport() {
+            return String(this.form.transport || '').toUpperCase() === 'GB28181' || Number(this.form.deviceType) === 3;
+        },
         deviceStatus: {
             set(val) {
                 if (val == 1) {
@@ -389,6 +392,7 @@ export default {
             //二维码
             openCode: false,
             openViewMqtt: false,
+            showSipConfig: false,
             // 生成设备编码是否禁用
             genDisabled: false,
             // 选中选项卡
@@ -1038,7 +1042,7 @@ export default {
                     this.httpForm.port +
                     '"}';
             }
-            if (this.form.transport == 'GB28181') {
+            if (this.isSipTransport || this.showSipConfig) {
                 input.value =
                     '{domainAlias:' +
                     this.GBform.domainAlias +
@@ -1101,6 +1105,7 @@ export default {
         handleViewMqtt() {
             this.openViewMqtt = true;
             this.loading = true;
+            this.showSipConfig = false;
             if (this.form.transport === 'MQTT' || this.form.transport === 'TCP' || this.form.transport === 'COAP') {
                 const params = {
                     deviceId: this.form.deviceId,
@@ -1108,16 +1113,9 @@ export default {
                 getMqttConnect(params).then((response) => {
                     if (response.code == 200) {
                         this.listQuery = response.data;
-                        this.loading = false;
                     }
-                });
-            } else if (this.form.transport === 'GB28181') {
-                const deviceSipId = this.form.deviceId;
-                getSipConfig(deviceSipId).then((response) => {
-                    if (response.code == 200) {
-                        this.GBform = response.data;
-                        this.loading = false;
-                    }
+                }).finally(() => {
+                    this.loading = false;
                 });
             } else if (this.form.transport === 'HTTP') {
                 const params = {
@@ -1126,8 +1124,21 @@ export default {
                 getHttpConfig(params).then((response) => {
                     if (response.code == 200) {
                         this.httpForm = response.data;
-                        this.loading = false;
                     }
+                }).finally(() => {
+                    this.loading = false;
+                });
+            } else {
+                // Unknown or missing transport values fall back to SIP auth for this connection-info dialog.
+                this.showSipConfig = true;
+                getSipConfig(this.form.deviceId).then((response) => {
+                    if (response.code == 200) {
+                        this.GBform = response.data || {};
+                    }
+                }).catch(() => {
+                    this.$modal.msgError(this.$t('device.device-edit.148398-35'));
+                }).finally(() => {
+                    this.loading = false;
                 });
             }
         },
